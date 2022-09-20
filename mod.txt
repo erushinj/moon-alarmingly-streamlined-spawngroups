@@ -1,0 +1,16 @@
+{
+
+	"name" : "Alarmingly Streamlined Spawngroups",
+	"description" : "wuh",
+	"author" : "moon",
+	"contact" : "no",
+	"version" : "1",
+	"color" : "218 0 78",
+	"hooks" : [
+		{
+			"hook_id" : "lib/tweak_data/groupaitweakdata",
+			"script_path" : "hooks/groupaitweakdata.lua"
+		}
+	]
+
+}
