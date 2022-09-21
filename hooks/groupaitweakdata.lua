@@ -1,12 +1,17 @@
 if not ASS then
 
 	ASS = {
-		massive = true
+		massive = true,	-- does nothing. deliberate.
+		remove_bad_dw_preset_enemies = true,	-- removes dw preset shotgunners and akan mercs, and akan taser on deathwish. defaults to true.
+		american_enemies_everywhere = false	--	makes all factions spawn american enemies for max gameplay consistency. defaults to false.
 	}
 
 end
 
 
+--	i love if-else if-else
+--	im doing this to fix incorrect units (eg, city heavy shotgunners for murkywater, or city-tier akan mercs on ds) while allowing
+--	me to keep track of which units i use more easily than having to constantly crosscheck with vanilla groupaitweakdata
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
 	local diff_i = difficulty_index
@@ -180,7 +185,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city")
 		}
 		self.unit_categories.FBI_swat_R870.unit_types.america = {
-			-- Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 			Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 			Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
 		}
@@ -188,7 +192,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
 		}
 		self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-			-- Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 			Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 			Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
 		}
@@ -333,13 +336,20 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 			Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
 		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass")
 		}
 		self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
 			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
 			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2")
+		}
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
+			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+		}
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
 			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
@@ -350,36 +360,21 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 			Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
 		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
+		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
 		}
 		self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
 			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
 			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
 		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-		}
-	end
-
-	self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
-	}
-	self.unit_categories.FBI_suit_M4_MP5.unit_types.russia = self.unit_categories.FBI_suit_C45_M4.unit_types.russia
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-	}
-	if diff_i == 7 then
-		--	id use the cs swats for dw given the lack of better units, but they'd do triple-digit damage because obergill
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
+			Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
 		}
-		--	akan taser does 210 damage on dw and is difficult to see. so he can fuck off for dw.
-		self.unit_categories.CS_tazer.unit_types.russia = {
-			Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
 		}
 	end
 
@@ -387,28 +382,34 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
 	}
-	self.unit_categories.FBI_suit_M4_MP5.unit_types.murkywater = self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-	}
-	if diff_i == 7 then
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
-		}
-	end
-
 	self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
 		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
 	}
-	self.unit_categories.FBI_suit_M4_MP5.unit_types.federales = self.unit_categories.FBI_suit_C45_M4.unit_types.federales
+	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
+		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
+	}
 	self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
 		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
 	}
-	if diff_i == 7 then
+
+	if diff_i == 7 and ASS.remove_bad_dw_preset_enemies then
+		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
+		}
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
+			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
+		}
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
+			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
+		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
 			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
 		}
+		self.unit_categories.CS_tazer.unit_types.russia = {
+			Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+		}
 	end
+	self.unit_categories.FBI_suit_M4_MP5.unit_types = self.unit_categories.FBI_suit_C45_M4.unit_types
 
 	-- Skulldozers on Mayhem
 	if diff_i == 6 then
@@ -417,6 +418,37 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
 		table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
 		table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
+	end
+
+
+	--	this is one fucking mess and wont apply to any new factions if added automatically. but it works, i guess.
+	local category_tbl = {
+		"FBI_suit_C45_M4",
+		"FBI_suit_stealth_MP5",
+		"FBI_swat_M4",
+		"FBI_swat_R870",
+		"FBI_heavy_G36",
+		"FBI_heavy_R870",
+		"FBI_shield",
+		"CS_tazer",
+		"FBI_tank",
+		"spooc",
+		"medic_M4",
+		"medic_R870",
+		"marshal_marksman"
+	}
+	local faction_tbl = {
+		"russia",
+		"zombie",
+		"murkywater",
+		"federales"
+	}
+	if ASS.american_enemies_everywhere then
+		for _, category in pairs(category_tbl) do
+			for _, faction in pairs(faction_tbl) do
+				self.unit_categories[category].unit_types[faction] = self.unit_categories[category].unit_types.america
+			end
+		end
 	end
 
 	--	mayhem really should be closer to death wish than ovk
@@ -441,7 +473,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	local diff_i = difficulty_index
 
 	--	you may notice i dont use provide_coverfire and provide_support like vanilla or other mods tend to
-	--	they do literally nothing, never have since before release, and had been meant to be removed entirely
+	--	they do literally nothing, never have since before release, and had been meant to be removed entirely.
 	--	which obviously never happened.
 
 	self._tactics.swat_shotgun_rush = {
@@ -449,29 +481,24 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"smoke_grenade",
 		"deathguard"
 	}
-	self._tactics.swat_rifle_flank = {
-		"flank",
-		"ranged_fire",
-		"flash_grenade"
-	}
-	self._tactics.swat_rifle = {
-		"ranged_fire",
-		"smoke_grenade"
-	}
 	self._tactics.swat_shotgun_flank = {
 		"charge",
 		"flank",
 		"flash_grenade",
 		"deathguard"
 	}
-
-	self._tactics.spooc = {
-		"shield_cover",
-		"deathguard",
+	self._tactics.swat_rifle = {
+		"ranged_fire",
 		"smoke_grenade"
 	}
+	self._tactics.swat_rifle_flank = {
+		"flank",
+		"ranged_fire",
+		"flash_grenade"
+	}
 
-	--	vanilla shield tactics names are confusing.
+	--	vanilla shield tactics names are confusing for me.
+	--	im making my own for ease of understanding.
 	self._tactics.shield_phalanx = {
 		"smoke_grenade",
 		"charge",
@@ -497,7 +524,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	}
 
 	--	also used for marshals
-	self._tactics.tazer_flank = {
+	self._tactics.tazer_flanking = {
 		"shield_cover",
 		"flank",
 		"murder"
@@ -513,7 +540,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"murder"
 	}
 
-	self._tactics.tank = {
+	self._tactics.tank_rush = {
 		"shield",
 		"charge",
 		"murder"
@@ -522,6 +549,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"shield_cover",
 		"charge",
 		"murder"
+	}
+
+	self._tactics.spooc = {
+		"shield_cover",
+		"deathguard",
+		"smoke_grenade"
 	}
 
 	--	every group needs at least one baseline unit
@@ -535,11 +568,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = diff_i / 32
 	}
 
-	local heavy_limits = diff_i > 6 and 3 or 2
---	local light_limits = diff_i > 2 and 2 or 3
-	local light_limits = diff_i > 6 and 1 or 2
+	local heavy_limits = not StreamHeist and diff_i > 5 and 3 or 2
+--	local light_limits = not StreamHeist and diff_i > 2 and 2 or 3
+	local light_limits = not StreamHeist and diff_i > 5 and 1 or 2
 
-	local group_special_limits = diff_i > 5 and 2 or 1
+	local group_special_limits = not StreamHeist and diff_i > 5 and 2 or 1
 	local backup_special_limits = diff_i > 5 and 1 or 0
 
 	self.enemy_spawn_groups.tac_swat_shotgun_rush = {
@@ -810,7 +843,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			{
 				rank = 2,
 				unit = "CS_tazer",
-				tactics = self._tactics.tazer_flank,
+				tactics = self._tactics.tazer_flanking,
 				amount_min = 1,
 				amount_max = group_special_limits,
 				freq = self._freq.uncommon
@@ -870,7 +903,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			{
 				rank = 3,
 				unit = "FBI_tank",
-				tactics = self._tactics.tank,
+				tactics = self._tactics.tank_rush,
 				amount_min = 1,
 				amount_max = group_special_limits,
 				freq = self._freq.uncommon
@@ -949,7 +982,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			{
 				rank = 2,
 				unit = "marshal_marksman",
-				tactics = self._tactics.tazer_flank,
+				tactics = self._tactics.tazer_flanking,
 				amount_min = 1,
 				amount_max = group_special_limits,
 				freq = self._freq.uncommon
@@ -964,8 +997,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			}
 		},
 		spawn_point_chk_ref = {	--	youre treated enough like a special even in vanilla to warrant it
-			tac_tazer_flanking = true,
-			tac_tazer_charge = true
+			tac_tazer_flanking = true
 		}
 	}
 
