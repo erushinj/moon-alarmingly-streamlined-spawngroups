@@ -1,13 +1,12 @@
 if not ASS then
 
 	ASS = {
-		massive = true,	-- does nothing. deliberate.
-		remove_bad_dw_preset_enemies = true,	-- removes dw preset shotgunners and akan mercs, and akan taser on deathwish. defaults to true.
-		american_enemies_everywhere = false	--	makes all factions spawn american enemies for max gameplay consistency. defaults to false.
+		massive = true,
+		remove_bad_dw_preset_enemies = true,
+		american_enemies_everywhere = false
 	}
 
 end
-
 
 --	i love if-else if-else
 --	im doing this to fix incorrect units (eg, city heavy shotgunners for murkywater, or city-tier akan mercs on ds) while allowing
@@ -16,410 +15,428 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	local diff_i = difficulty_index
 
-	if diff_i < 4 then
-		self.unit_categories.FBI_swat_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_1/ene_swat_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
+	if not StreamHeist then
+		if diff_i < 4 then
+			self.unit_categories.FBI_swat_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_1/ene_swat_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_r870/ene_akan_cs_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_r870/ene_swat_heavy_policia_federale_r870")
+			}
+			self.unit_categories.FBI_shield.unit_types.america = {
+				Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+			}
+			self.unit_categories.FBI_shield.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45")
+			}
+			self.unit_categories.FBI_shield.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2")
+			}
+			self.unit_categories.FBI_shield.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
+			}
+		elseif diff_i < 6 then
+			self.unit_categories.FBI_swat_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_2/ene_fbi_swat_hvh_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_1/ene_fbi_heavy_hvh_1")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_r870/ene_akan_fbi_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_r870/ene_swat_heavy_policia_federale_fbi_r870")
+			}
+			self.unit_categories.FBI_shield.unit_types.america = {
+				Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
+			}
+			self.unit_categories.FBI_shield.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
+			}
+			self.unit_categories.FBI_shield.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
+			}
+			self.unit_categories.FBI_shield.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
+			}
+		elseif diff_i < 8 then
+			self.unit_categories.FBI_swat_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.zombie = {
+				Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city/ene_murkywater_light_city")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
+				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.zombie = {
+				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
+				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.america = {
+				Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
+				Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_g36/ene_murkywater_heavy_g36")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_g36/ene_swat_heavy_policia_federale_fbi_g36")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_r870/ene_akan_fbi_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_r870/ene_swat_heavy_policia_federale_fbi_r870")
+			}
+			self.unit_categories.FBI_shield.unit_types.america = {
+				Idstring("units/payday2/characters/ene_city_shield/ene_city_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
+			}
+			self.unit_categories.FBI_shield.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
+			}
+			self.unit_categories.FBI_shield.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
+			}
+		else
+			self.unit_categories.FBI_swat_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
+				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
+			}
+			self.unit_categories.FBI_swat_M4.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
+			}
+			self.unit_categories.FBI_swat_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.america = {
+				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/ene_zeal_swat_heavy")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
+			}
+			self.unit_categories.FBI_heavy_G36.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.america = {
+				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_r870/ene_akan_cs_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
+				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
+			}
+			self.unit_categories.FBI_heavy_R870.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_r870/ene_swat_heavy_policia_federale_r870")
+			}
+			self.unit_categories.FBI_shield.unit_types.america = {
+				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
+			}
+			self.unit_categories.FBI_shield.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
+			}
+			self.unit_categories.FBI_shield.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
+			}
+			self.unit_categories.FBI_shield.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
+			}
+		end
+
+		--	misc changes that dont fit in the scaling structure above
+		if diff_i < 5 then
+			self.unit_categories.FBI_tank.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870")
+			}
+		end
+
+		if diff_i < 4 then
+			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
+				Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
+				Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
+			}
+		else
+			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
+				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
+				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
+			}
+		end
+
+		--	overkill hates fbi agents
+		self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
 			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
 		}
-		self.unit_categories.FBI_swat_M4.unit_types.federales = {
+		self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
 			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_r870/ene_akan_cs_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_r870/ene_swat_heavy_policia_federale_r870")
-		}
-		self.unit_categories.FBI_shield.unit_types.america = {
-			Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
-		}
-		self.unit_categories.FBI_shield.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45")
-		}
-		self.unit_categories.FBI_shield.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2")
-		}
-		self.unit_categories.FBI_shield.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
-		}
-	elseif diff_i < 6 then
-		self.unit_categories.FBI_swat_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_2/ene_fbi_swat_hvh_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_1/ene_fbi_heavy_hvh_1")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_r870/ene_akan_fbi_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_r870/ene_swat_heavy_policia_federale_fbi_r870")
-		}
-		self.unit_categories.FBI_shield.unit_types.america = {
-			Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
-		}
-		self.unit_categories.FBI_shield.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-		}
-		self.unit_categories.FBI_shield.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-		}
-		self.unit_categories.FBI_shield.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
-		}
-	elseif diff_i < 8 then
-		self.unit_categories.FBI_swat_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.zombie = {
-			Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city/ene_murkywater_light_city")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-			Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-			Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-			Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.america = {
-			Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
-			Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_g36/ene_murkywater_heavy_g36")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_g36/ene_swat_heavy_policia_federale_fbi_g36")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_r870/ene_akan_fbi_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_r870/ene_swat_heavy_policia_federale_fbi_r870")
-		}
-		self.unit_categories.FBI_shield.unit_types.america = {
-			Idstring("units/payday2/characters/ene_city_shield/ene_city_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-		}
-		self.unit_categories.FBI_shield.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-		}
-		self.unit_categories.FBI_shield.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
-		}
-	else
-		self.unit_categories.FBI_swat_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.murkywater = {
-			Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-		}
-		self.unit_categories.FBI_swat_M4.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-		}
-		self.unit_categories.FBI_swat_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.america = {
-			Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/ene_zeal_swat_heavy")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
-		}
-		self.unit_categories.FBI_heavy_G36.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.america = {
-			Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_r870/ene_akan_cs_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-			Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
-		}
-		self.unit_categories.FBI_heavy_R870.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_r870/ene_swat_heavy_policia_federale_r870")
-		}
-		self.unit_categories.FBI_shield.unit_types.america = {
-			Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-		}
-		self.unit_categories.FBI_shield.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-		}
-		self.unit_categories.FBI_shield.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield")
-		}
-		self.unit_categories.FBI_shield.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9")
-		}
-	end
-
-	--	misc changes that dont fit in the scaling structure above
-	if diff_i < 5 then
-		self.unit_categories.FBI_tank.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870")
-		}
-	end
-
-	if diff_i < 4 then
-		self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-			Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
-		}
-	else
-		self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-			Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-			Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-		}
-	end
-
-	--	overkill hates fbi agents
-	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
-	}
-	self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
-		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
-	}
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-	}
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
-	}
-
-	if diff_i == 7 and ASS.remove_bad_dw_preset_enemies then
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
+			Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
+			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
 		}
-		self.unit_categories.CS_tazer.unit_types.russia = {
-			Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+
+		if diff_i == 7 and ASS.remove_bad_dw_preset_enemies then
+			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
+			}
+			self.unit_categories.CS_tazer.unit_types.russia = {
+				Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+			}
+		end
+
+		self.unit_categories.marshal_marksman.unit_types.zombie = {
+			Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
+		}
+
+		--	add m249 dozers to mayhem
+		if diff_i == 6 then
+			table.insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"))
+			table.insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"))
+			table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
+			table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
+			table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
+		end
+
+		--	mayhem really should be closer to death wish than ovk
+		local limits_shield = { 0, 2, 3, 4, 5, 6, 7, 8 }
+		local limits_medic = { 0, 0, 0, 0, 1, 2, 3, 4 }
+		local limits_taser = { 0, 0, 1, 1, 2, 3, 3, 4 }
+		local limits_tank = { 0, 0, 0, 1, 1, 2, 2, 3 }
+		local limits_spooc = { 0, 0, 0, 1, 2, 3, 4, 5 }
+		self.special_unit_spawn_limits = {
+			shield = limits_shield[diff_i],
+			medic = limits_medic[diff_i],
+			taser = limits_taser[diff_i],
+			tank = limits_tank[diff_i],
+			spooc = limits_spooc[diff_i]
 		}
 	end
-	self.unit_categories.FBI_suit_M4_MP5.unit_types = self.unit_categories.FBI_suit_C45_M4.unit_types
-
-	-- Skulldozers on Mayhem
-	if diff_i == 6 then
-		table.insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
-	end
-
 
 	--	this is one fucking mess and wont apply to any new factions if added automatically. but it works, i guess.
 	local category_tbl = {
@@ -451,30 +468,11 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		end
 	end
 
-	--	mayhem really should be closer to death wish than ovk
-	local limits_shield = { 0, 2, 3, 4, 5, 6, 7, 8 }
-	local limits_medic = { 0, 0, 0, 0, 1, 2, 3, 4 }
-	local limits_taser = { 0, 0, 1, 1, 2, 3, 3, 4 }
-	local limits_tank = { 0, 0, 0, 1, 1, 2, 2, 3 }
-	local limits_spooc = { 0, 0, 0, 1, 2, 3, 4, 5 }
-	self.special_unit_spawn_limits = {
-		shield = limits_shield[diff_i],
-		medic = limits_medic[diff_i],
-		taser = limits_taser[diff_i],
-		tank = limits_tank[diff_i],
-		spooc = limits_spooc[diff_i]
-	}
-
 end )
-
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
 
 	local diff_i = difficulty_index
-
-	--	you may notice i dont use provide_coverfire and provide_support like vanilla or other mods tend to
-	--	they do literally nothing, never have since before release, and had been meant to be removed entirely.
-	--	which obviously never happened.
 
 	self._tactics.swat_shotgun_rush = {
 		"charge",
@@ -497,8 +495,6 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"flash_grenade"
 	}
 
-	--	vanilla shield tactics names are confusing for me.
-	--	im making my own for ease of understanding.
 	self._tactics.shield_phalanx = {
 		"smoke_grenade",
 		"charge",
@@ -520,7 +516,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"deathguard"
 	}
 	self._tactics.shield_cover = {
-		"shield_cover"
+		"shield_cover",
+		"murder"
 	}
 
 	--	also used for marshals
@@ -547,12 +544,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	}
 	self._tactics.tank_cover = {
 		"shield_cover",
-		"charge",
 		"murder"
 	}
 
 	self._tactics.spooc = {
-		"shield_cover",
 		"deathguard",
 		"smoke_grenade"
 	}
@@ -568,30 +563,28 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = diff_i / 32
 	}
 
-	local heavy_limits = not StreamHeist and diff_i > 5 and 3 or 2
---	local light_limits = not StreamHeist and diff_i > 2 and 2 or 3
-	local light_limits = not StreamHeist and diff_i > 5 and 1 or 2
-
-	local group_special_limits = not StreamHeist and diff_i > 5 and 2 or 1
-	local backup_special_limits = diff_i > 5 and 1 or 0
+	local base_amount = { 3, 3 }
+	local swat_shotgun_amount = not StreamHeist and base_amount or { 2, 3 }
+	local swat_rifle_amount = not StreamHeist and base_amount or { 3, 4 }
+	local special_amount_max = not StreamHeist and diff_i > 5 and 2 or 1
 
 	self.enemy_spawn_groups.tac_swat_shotgun_rush = {
-		amount = { 3, 3 },
+		amount = swat_shotgun_amount,
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = heavy_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.common
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = light_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.baseline
 			},
 			{
@@ -610,37 +603,34 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				amount_max = 1,
 				freq = self._freq.uncommon
 			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
 		}
 	}
 
 	self.enemy_spawn_groups.tac_swat_shotgun_flank = {
-		amount = { 3, 3 },
+		amount = swat_shotgun_amount,
 		spawn = {
 			{
 				rank = 4,
 				unit = "CS_tazer",
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			},
 			{
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = heavy_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.common
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = light_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.baseline
 			},
 			{
@@ -651,29 +641,26 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				amount_max = 1,
 				freq = self._freq.rare
 			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
 		}
 	}
 
 	self.enemy_spawn_groups.tac_swat_rifle = {
-		amount = { 3, 3 },
+		amount = swat_rifle_amount,
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_G36",
 				tactics = self._tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = heavy_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.common
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = light_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.baseline
 			},
 			{
@@ -692,29 +679,26 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				amount_max = 1,
 				freq = self._freq.uncommon
 			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
 		}
 	}
 
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
-		amount = { 3, 3 },
+		amount = swat_rifle_amount,
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_G36",
 				tactics = self._tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = heavy_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.common
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = light_limits,
+				amount_min = 1,
+				amount_max = 2,
 				freq = self._freq.baseline
 			},
 			{
@@ -722,7 +706,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "spooc",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			},
 			{
@@ -744,7 +728,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_shield",
 				tactics = self._tactics.shield_ranged,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -782,7 +766,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_shield",
 				tactics = self._tactics.shield_charge,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -823,7 +807,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_shield",
 				tactics = self._tactics.shield_wall,
 				amount_min = 2,
-				amount_max = math.max(2, group_special_limits + 1),	--	ew
+				amount_max = 3,	--	ew
 				freq = self._freq.baseline
 			},
 			{
@@ -831,7 +815,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_tank",
 				tactics = self._tactics.shield_cover,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			}
 		}
@@ -845,7 +829,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "CS_tazer",
 				tactics = self._tactics.tazer_flanking,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -853,14 +837,14 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "spooc",
 				tactics = self._tactics.tazer_shield,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.tazer_shield,
-				amount_min = 0,
+				amount_min = 2,
 				amount_max = 3,
 				freq = self._freq.baseline
 			}
@@ -875,7 +859,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "CS_tazer",
 				tactics = self._tactics.tazer_charge,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -883,14 +867,14 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_shield",
 				tactics = self._tactics.tazer_shield,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.tazer_shield,
-				amount_min = 0,
+				amount_min = 2,
 				amount_max = 3,
 				freq = self._freq.baseline
 			}
@@ -905,7 +889,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_tank",
 				tactics = self._tactics.tank_rush,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -913,7 +897,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "CS_tazer",
 				tactics = self._tactics.tank_cover,
 				amount_min = 0,
-				amount_max = backup_special_limits,
+				amount_max = 1,
 				freq = self._freq.elite
 			},
 			{
@@ -959,7 +943,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "spooc",
 				tactics = self._tactics.spooc,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
@@ -984,14 +968,14 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "marshal_marksman",
 				tactics = self._tactics.tazer_flanking,
 				amount_min = 1,
-				amount_max = group_special_limits,
+				amount_max = special_amount_max,
 				freq = self._freq.uncommon
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = self._tactics.tazer_shield,
-				amount_min = 0,
+				amount_min = 2,
 				amount_max = 3,
 				freq = self._freq.baseline
 			}
@@ -1020,13 +1004,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				amount_max = 3,
 				freq = self._freq.baseline
 			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
 		}
 	}
 
 	--	winters is a mistake
+	--	i dont need to do this but whatever
 	self.enemy_spawn_groups.Phalanx = {
 		amount = {
 			self.phalanx.minions.amount + 1,
@@ -1052,6 +1034,31 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
+	if StreamHeist then
+		self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
+		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
+
+		self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank)
+		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
+
+		self.enemy_spawn_groups.tac_swat_rifle_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle)
+		table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
+
+		self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
+		table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
+
+		self.enemy_spawn_groups.FBI_spoocs = self.enemy_spawn_groups.single_spooc
+
+		self.enemy_spawn_groups.marshal_squad.spawn_cooldown = 60
+		self.enemy_spawn_groups.marshal_squad.max_nr_simultaneous_groups = 2
+		self.enemy_spawn_groups.marshal_squad.initial_spawn_delay = 60
+	else
+		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn_point_chk_ref = { tac_swat_rifle_flank = true }
+		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn_point_chk_ref = { tac_swat_rifle_flank = true }
+		self.enemy_spawn_groups.tac_swat_rifle.spawn_point_chk_ref = { tac_swat_rifle_flank = true }
+		self.enemy_spawn_groups.hostage_rescue.spawn_point_chk_ref = { tac_swat_rifle_flank = true }
+	end
+
 end )
 
 
@@ -1060,78 +1067,78 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	local diff_i = difficulty_index
 	local f = math.max(0, diff_i - 2) / 6
 
-	local function freq(num)
-		return { num, num, num }
+	if StreamHeist then
+		--	keep overall dozer group weight the same, with bias towards non-shield group
+		--	shield-dozer group is senseless shield spam that sometimes has a dozer
+		local bull_rush = deep_clone(self.besiege.assault.groups.tac_bull_rush)
+		self.besiege.assault.groups.tac_bull_rush = table.collect(bull_rush, function(val) return val * 0.67 end)
+		self.besiege.assault.groups.tac_shield_wall = table.collect(bull_rush, function(val) return val * 0.33 end)
+	else
+		--	grenade settings
+		self.smoke_and_flash_grenade_timeout = { math.lerp(20, 15, f), math.lerp(25, 20, f) }
+		self.smoke_grenade_lifetime = math.lerp(7.5, 12, f)
+		self.flash_grenade.timer = math.lerp(2, 1, f)
+
+		--	assault length, force, etc settings (most apply only below ds)
+		if diff_i < 8 then
+			self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
+			self.besiege.assault.hostage_hesitation_delay = { 20, 20, 20 }
+			self.besiege.assault.force = { 12, 14, 16 }
+			self.besiege.assault.force_pool = table.collect(self.besiege.assault.force, function(val) return val * 6 end)
+			self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
+			self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
+			self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
+		end
+		self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
+		self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
+
+		--	other assault stuff
+		self.besiege.recon.force = { 2, 4, 6 }
+		self.besiege.recon.interval_variation = 0
+
+		self.besiege.regroup.duration = { 30, 25, 20 }
+
+		self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
+
+		--	you punish players who dont bring ap for wanting to not bring ap like every other time
+		--	and are a complete pushover for those with ap. at least dont be this ridiculous.
+		self.phalanx.vip.damage_reduction.max = 0.35
+		self.phalanx.vip.damage_reduction.increase_intervall = 10
+		self.phalanx.vip.damage_reduction.increase = 0.035
+		self.phalanx.vip.damage_reduction.start = 0.035
+
+		--	spawngroup weights (based on sh, but no difficulty scaling since vanilla doesnt do that well)
+		local function freq(num)
+			return { num, num, num }
+		end
+		local special_weight = math.lerp(3, 5, f)
+		local annoying = special_weight / 1.5
+		self.besiege.assault.groups = {
+			tac_swat_shotgun_rush = freq(2),
+			tac_swat_shotgun_flank = freq(1),
+			tac_swat_rifle = freq(14),
+			tac_swat_rifle_flank = freq(10),
+			tac_shield_wall_ranged = freq(annoying),
+			tac_shield_wall_charge = freq(annoying),
+			tac_shield_wall = freq(annoying),
+			tac_tazer_flanking = freq(annoying),
+			tac_tazer_charge = freq(annoying),
+			marshal_squad = freq(annoying),
+			tac_bull_rush = freq(special_weight),
+			FBI_spoocs = freq(special_weight),
+			hostage_rescue = freq(0),
+			single_spooc = freq(0),
+			Phalanx = freq(0)
+		}
+		self.besiege.recon.groups = {
+			hostage_rescue = freq(1),
+			marshal_squad = freq(0),
+			single_spooc = freq(0),
+			Phalanx = freq(0)
+		}
 	end
-
-	self.smoke_and_flash_grenade_timeout = { math.lerp(20, 15, f), math.lerp(25, 20, f) }
-	self.smoke_grenade_lifetime = math.lerp(7.5, 12, f)
-	self.flash_grenade.timer = math.lerp(2, 1, f)
-
-	local special_weight = math.lerp(3, 5, f)
-	local annoying = 1.5	--	dont want too many shields or tasers/marshals, sh frequencies are pretty much perfect
-	self.besiege.assault.groups = {
-		tac_swat_shotgun_rush = freq(2),
-		tac_swat_shotgun_flank = freq(1),
-		tac_swat_rifle = freq(14),
-		tac_swat_rifle_flank = freq(10),
-		tac_shield_wall_ranged = freq(special_weight / annoying),
-		tac_shield_wall_charge = freq(special_weight / annoying),
-		tac_shield_wall = freq(special_weight / annoying),
-		tac_tazer_flanking = freq(special_weight / annoying),
-		tac_tazer_charge = freq(special_weight / annoying),
-		marshal_squad = freq(special_weight / annoying),
-		tac_bull_rush = freq(special_weight),
-		FBI_spoocs = freq(special_weight),
-		hostage_rescue = freq(1),
-		single_spooc = freq(0),
-		Phalanx = freq(0),
-	}
-	self.besiege.recon.groups = {
-		hostage_rescue = freq(1),
-		marshal_squad = freq(0),
-		single_spooc = freq(0),
-		Phalanx = freq(0)
-	}
-
-	-- Assault phases settings
-	if diff_i < 8 then
-		self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
-		self.besiege.assault.hostage_hesitation_delay = { 20, 20, 20 }
-		self.besiege.assault.force = { 12, 14, 16 }
-		self.besiege.assault.force_pool = table.collect(self.besiege.assault.force, function(val) return val * 6 end)
-		self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
-		self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
-		self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-	end
-	self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
-	self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-
-	--	unfortunately cant do reenforce without ai fixes, theyre constantly relocated to players
-	--	also the same reason tasers and cloakers are almost nonfunctional
-	--	i dont think i need to do this, but better safe than sorry
-	self.besiege.reenforce.groups = {
-		hostage_rescue = freq(0),
-		marshal_squad = freq(0),
-		single_spooc = freq(0),
-		Phalanx = freq(0)
-	}
-
-	self.besiege.recon.force = { 2, 4, 6 }
-	self.besiege.recon.interval_variation = 0
-
-	self.besiege.regroup.duration = { 30, 25, 20 }
-
-	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
-
-	--	you punish players who dont bring ap for wanting to not bring ap like every other time
-	--	and are a complete pushover for those with ap. at least dont be this ridiculous.
-	self.phalanx.vip.damage_reduction.max = 0.35
-	self.phalanx.vip.damage_reduction.increase_intervall = 10
-	self.phalanx.vip.damage_reduction.increase = 0.035
-	self.phalanx.vip.damage_reduction.start = 0.035
 
 end )
