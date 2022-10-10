@@ -1236,22 +1236,30 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 
 	if ASS.settings.intense_assault and not StreamHeist then
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.amount = self._amount.swat["intense"]
+		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[1].amount_max = 3
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[3])
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[5].tactics = self._tactics.swat_shotgun_rush
+		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.amount = self._amount.swat["intense"]
-		--self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[1].freq = self._freq.baseline
+		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[1].freq = self._freq.baseline
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[3])
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[5].tactics = self._tactics.swat_shotgun_flank
+		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_rifle.amount = self._amount.swat["intense"]
+		self.enemy_spawn_groups.tac_swat_rifle.spawn[1].amount_max = 3
 		self.enemy_spawn_groups.tac_swat_rifle.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[3])
 		self.enemy_spawn_groups.tac_swat_rifle.spawn[5].tactics = self._tactics.swat_rifle
+		self.enemy_spawn_groups.tac_swat_rifle.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_rifle_flank.amount = self._amount.swat["intense"]
-		--self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[1].freq = self._freq.baseline
+		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[1].freq = self._freq.baseline
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_rifle.spawn[3])
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[5].tactics = self._tactics.swat_rifle_flank
+		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_shield_wall_ranged.amount = self._amount.shield["intense"]
 		self.enemy_spawn_groups.tac_shield_wall_ranged.spawn[1].amount_min = 2
@@ -1410,7 +1418,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 				self.besiege.assault.force_pool = table.collect(pool_ref, function(val) return val * pool_mul end)
 			end
 			if ASS.settings.intense_assault then
-				local mul = 0.6
+				local mul = 0.75
 				local force_ref = clone(self.besiege.assault.force)
 				local pool_ref = clone(self.besiege.assault.force_pool)
 				self.besiege.assault.force = table.collect(force_ref, function(val) return val * mul end)
