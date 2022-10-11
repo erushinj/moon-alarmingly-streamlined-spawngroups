@@ -5,7 +5,8 @@ if not ASS then
 	ASS.massive = true
 
 	ASS.settings = {}
-	ASS.settings.remove_bad_dw_preset_enemies = false
+	ASS.settings.remove_dw_preset_shotgunners = false
+	ASS.settings.remove_dw_preset_akan_riflemen = true
 	ASS.settings.american_enemies_everywhere = false
 	ASS.settings.blue_swat_hrt = true
 	ASS.settings.map_force_overrides = true
@@ -464,21 +465,15 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
 		}
 
-		if ASS.settings.remove_bad_dw_preset_enemies and diff_i == 7 then
-			self.unit_categories.CS_tazer.unit_types.russia = {
-				Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
-			}
-			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
-			}
+		if ASS.settings.remove_dw_preset_shotgunners and diff_i == 7 then
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
 				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870")
+				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870")
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870")
 			}
 			if ASS.settings.blue_swat_hrt then
 				self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
@@ -492,6 +487,14 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 					Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1")
 				}
 			end
+		end
+		if ASS.settings.remove_dw_preset_akan_riflemen and diff_i == 7 then
+			self.unit_categories.CS_tazer.unit_types.russia = {
+				Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
+			}
 		end
 		if ASS.settings.intense_assault then
 			self.unit_categories.FBI_swat_M4 = self.unit_categories.FBI_heavy_G36
@@ -511,10 +514,12 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
 				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale")
 			}
-			if ASS.settings.remove_bad_dw_preset_enemies and diff_i == 7 then
+			if ASS.settings.remove_dw_preset_akan_riflemen and diff_i == 7 then
 				self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
 					Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1")
 				}
+			end
+			if ASS.settings.remove_dw_preset_shotgunners and diff_i == 7 then
 				self.unit_categories.FBI_suit_stealth_MP5 = self.unit_categories.FBI_suit_C45_M4
 			else
 				self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
@@ -803,7 +808,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_min = 0,
 				amount_max = 2,
-				freq = self._freq.baseline
+				freq = self._freq.common
 			},
 			{
 				rank = 2,
@@ -885,7 +890,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = self._tactics.swat_rifle_flank,
 				amount_min = 0,
 				amount_max = 2,
-				freq = self._freq.baseline
+				freq = self._freq.common
 			},
 			{
 				rank = 2,
@@ -1237,37 +1242,41 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	if ASS.settings.intense_assault and not StreamHeist then
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.amount = self._amount.swat["intense"]
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[2].amount_max = 0
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[3])
 		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[5].tactics = self._tactics.swat_shotgun_rush
-		self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.amount = self._amount.swat["intense"]
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[1].amount_max = 3
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[1].freq = self._freq.baseline
+		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[2].amount_max = 0
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush.spawn[3])
 		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[5].tactics = self._tactics.swat_shotgun_flank
-		self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_rifle.amount = self._amount.swat["intense"]
 		self.enemy_spawn_groups.tac_swat_rifle.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_swat_rifle.spawn[2].amount_max = 0
 		self.enemy_spawn_groups.tac_swat_rifle.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank.spawn[3])
 		self.enemy_spawn_groups.tac_swat_rifle.spawn[5].tactics = self._tactics.swat_rifle
-		self.enemy_spawn_groups.tac_swat_rifle.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_swat_rifle_flank.amount = self._amount.swat["intense"]
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[1].amount_max = 3
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[1].freq = self._freq.baseline
+		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[2].amount_max = 0
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[5] = deep_clone(self.enemy_spawn_groups.tac_swat_rifle.spawn[3])
 		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[5].tactics = self._tactics.swat_rifle_flank
-		self.enemy_spawn_groups.tac_swat_rifle_flank.spawn[2].amount_max = 0
 
 		self.enemy_spawn_groups.tac_shield_wall_ranged.amount = self._amount.shield["intense"]
 		self.enemy_spawn_groups.tac_shield_wall_ranged.spawn[1].amount_min = 2
 		self.enemy_spawn_groups.tac_shield_wall_ranged.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_shield_wall_ranged.spawn[3].freq = self._freq.uncommon
+		self.enemy_spawn_groups.tac_shield_wall_ranged.spawn[4].freq = self._freq.rare
 
 		self.enemy_spawn_groups.tac_shield_wall_charge.amount = self._amount.shield["intense"]
 		self.enemy_spawn_groups.tac_shield_wall_charge.spawn[1].amount_min = 2
 		self.enemy_spawn_groups.tac_shield_wall_charge.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_shield_wall_charge.spawn[3].freq = self._freq.uncommon
+		self.enemy_spawn_groups.tac_shield_wall_charge.spawn[4].freq = self._freq.rare
 
 		self.enemy_spawn_groups.tac_tazer_flanking.amount = self._amount.tazer["intense"]
 		self.enemy_spawn_groups.tac_tazer_flanking.spawn[1].amount_min = 2
@@ -1280,10 +1289,13 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		self.enemy_spawn_groups.tac_bull_rush.amount = self._amount.tank["intense"]
 		self.enemy_spawn_groups.tac_bull_rush.spawn[1].amount_min = 2
 		self.enemy_spawn_groups.tac_bull_rush.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.tac_bull_rush.spawn[1].freq = self._freq.common
 
 		self.enemy_spawn_groups.FBI_spoocs.amount = self._amount.spooc["intense"]
 		self.enemy_spawn_groups.FBI_spoocs.spawn[1].amount_min = 2
 		self.enemy_spawn_groups.FBI_spoocs.spawn[1].amount_max = 3
+		self.enemy_spawn_groups.FBI_spoocs.spawn[1].freq = self._freq.common
+		self.enemy_spawn_groups.single_spooc = self.enemy_spawn_groups.FBI_spoocs
 
 		self.enemy_spawn_groups.marshal_squad.amount = self._amount.marshal["intense"]
 		self.enemy_spawn_groups.marshal_squad.max_nr_simultaneous_groups = 3
@@ -1383,55 +1395,43 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 			self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
+			self.besiege.regroup.duration = { 30, 25, 20 }
 
 			if ASS.settings.map_force_overrides then
 				local job = Global.level_data and Global.level_data.level_id
-				local force_add = 0
-				local pool_mul = 1
+				local add = 0
 				for _, level_id in pairs(job_force_override.big) do
 					if job == level_id then
-						force_add = 2
-						pool_mul = 1.1
+						add = 2
 					end
 				end		
 				for _, level_id in pairs(job_force_override.small) do
 					if job == level_id then
-						force_add = -2
-						pool_mul = 0.9
+						add = -2
 					end
 				end	
 				for _, level_id in pairs(job_force_override.smaller) do
 					if job == level_id then
-						force_add = -4
-						pool_mul = 0.8
+						add = -4
 					end
 				end
 				for _, level_id in pairs(job_force_override.smallest) do
 					if job == level_id then
-						force_add = -6
-						pool_mul = 0.7
+						add = -6
 					end
 				end
 				local force_ref = clone(self.besiege.assault.force)
-				local pool_ref = clone(self.besiege.assault.force_pool)
-				self.besiege.assault.force = table.collect(force_ref, function(val) return math.max(val + force_add, 1) end)
-				self.besiege.assault.force_pool = table.collect(pool_ref, function(val) return val * pool_mul end)
+				self.besiege.assault.force = table.collect(force_ref, function(val) return val + add end)
 			end
 			if ASS.settings.intense_assault then
-				local mul = 0.75
+				local add = 0.75
 				local force_ref = clone(self.besiege.assault.force)
-				local pool_ref = clone(self.besiege.assault.force_pool)
 				self.besiege.assault.force = table.collect(force_ref, function(val) return val * mul end)
-				self.besiege.assault.force_pool = table.collect(pool_ref, function(val) return val * mul end)
-				log("self.besiege.assault.force is ", self.besiege.assault.force[1], self.besiege.assault.force[2], self.besiege.assault.force[3])
-				log("self.besiege.assault.force_pool is ", self.besiege.assault.force_pool[1], self.besiege.assault.force_pool[2], self.besiege.assault.force_pool[3])
 			end
 		end
 		--	other assault stuff
 		self.besiege.recon.force = { 2, 4, 6 }
 		self.besiege.recon.interval_variation = 0
-
-		self.besiege.regroup.duration = { 30, 25, 20 }
 
 		self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
 
@@ -1446,29 +1446,27 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		local function freq(num)
 			return { num, num, num }
 		end
+
 		local special_weight = math.lerp(3, 5, f)
-		self.besiege.assault.groups = {
-			tac_swat_shotgun_rush = freq(2),
-			tac_swat_shotgun_flank = freq(1),
-			tac_swat_rifle = freq(16),
-			tac_swat_rifle_flank = freq(8),
-			tac_shield_wall_ranged = freq(special_weight),
-			tac_shield_wall_charge = freq(special_weight),
-			tac_tazer_flanking = freq(special_weight),
-			tac_tazer_charge = freq(special_weight),
-			tac_bull_rush = freq(special_weight),
-			FBI_spoocs = freq(special_weight),
-			marshal_squad = freq(0),
-			hostage_rescue = freq(0),
-			single_spooc = freq(0),
-			Phalanx = freq(0)
-		}
-		self.besiege.recon.groups = {
-			hostage_rescue = freq(1),
-			marshal_squad = freq(0),
-			single_spooc = freq(0),
-			Phalanx = freq(0)
-		}
+
+		for group, _ in pairs(self.besiege.assault.groups) do
+			self.besiege.assault.groups[group] = freq(0)
+		end
+		self.besiege.assault.groups.tac_swat_shotgun_rush = freq(2)
+		self.besiege.assault.groups.tac_swat_shotgun_flank = freq(1)
+		self.besiege.assault.groups.tac_swat_rifle = freq(16)
+		self.besiege.assault.groups.tac_swat_rifle_flank = freq(8)
+		self.besiege.assault.groups.tac_shield_wall_ranged = freq(special_weight)
+		self.besiege.assault.groups.tac_shield_wall_charge = freq(special_weight)
+		self.besiege.assault.groups.tac_tazer_flanking = freq(special_weight)
+		self.besiege.assault.groups.tac_tazer_charge = freq(special_weight)
+		self.besiege.assault.groups.tac_bull_rush = freq(special_weight)
+		self.besiege.assault.groups.FBI_spoocs = freq(special_weight)
+
+		for group, _ in pairs(self.besiege.recon.groups) do
+			self.besiege.recon.groups[group] = freq(0)
+		end
+		self.besiege.recon.groups.hostage_rescue = freq(1)
 
 		self.street = deep_clone(self.besiege)
 		self.safehouse = deep_clone(self.besiege)
