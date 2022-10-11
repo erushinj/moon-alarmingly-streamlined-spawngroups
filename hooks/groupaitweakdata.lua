@@ -1424,7 +1424,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 				self.besiege.assault.force = table.collect(force_ref, function(val) return val + add end)
 			end
 			if ASS.settings.intense_assault then
-				local add = 0.75
+				local mul = 0.75
 				local force_ref = clone(self.besiege.assault.force)
 				self.besiege.assault.force = table.collect(force_ref, function(val) return val * mul end)
 			end
