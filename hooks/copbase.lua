@@ -180,7 +180,7 @@ if not StreamHeist then
 		fbi_heavy_swat = true
 	}
 
-	Hooks:PreHook(CopBase, "default_weapon_name", "ass_default_weapon_name", function(self, selection_name)
+	Hooks:PreHook(CopBase, "post_init", "ass_post_init", function(self)
 
 		local difficulty_index = tweak_data:difficulty_to_index(Global.game_settings and Global.game_settings.difficulty or "normal")
 		local unit_key = self._unit:name():key()
