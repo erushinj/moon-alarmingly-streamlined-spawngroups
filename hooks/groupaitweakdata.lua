@@ -161,15 +161,13 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
-				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
+				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
 				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
+				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
 			}
 		end
 
@@ -193,14 +191,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
 			table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
 			table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
-		end
-
-		if difficulty_index == 7 then
-			self.unit_categories.CS_tazer.unit_types.russia = self.unit_categories.CS_tazer.unit_types.america
-			-- self.unit_categories.FBI_suit_C45_M4.unit_types.russia = self.unit_categories.FBI_suit_C45_M4.unit_types.america
-			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
-			}
 		end
 
 		--	mayhem really should be closer to death wish than ovk
@@ -289,7 +279,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"deathguard"
 	}
 	tactics.shield_cover = {
-		"shield_cover"
+		"shield_cover",
+		"deathguard"
 	}
 
 	tactics.tazer_flanking = {
@@ -330,7 +321,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"deathguard"
 	}
 	tactics.marshal_shield = {
-		"shield"
+		"shield",
+		"flank",
+		"ranged_fire",
+		"deathguard"
 	}
 
 	--	every group needs at least one baseline unit
@@ -688,6 +682,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				rank = 1,
 				unit = "spooc",
 				tactics = tactics.spooc,
+				amount_min = 1,
+				amount_max = 1,
 				freq = freq.baseline
 			}
 		}
@@ -744,6 +740,48 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
+	local is_crimenet_offline = false	--	Global.game_settings and Global.game_settings.single_player
+	local is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
+	if is_crimenet_offline or is_trai then
+		self.enemy_spawn_groups.marshal_squad = {
+			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
+			spawn_cooldown = marshal_cooldown[difficulty_index],
+			initial_spawn_delay = marshal_cooldown[difficulty_index],
+			amount = { 2, 3 },
+			spawn = {
+				{
+					rank = 3,
+					unit = "marshal_shield",
+					tactics = tactics.marshal_shield,
+					amount_min = 1,
+					amount_max = 2,
+					freq = freq.elite
+				},
+				{
+					rank = 2,
+					unit = "marshal_marksman",
+					tactics = tactics.marshal_marksman,
+					amount_min = 1,
+					amount_max = 2,
+					freq = freq.elite
+				},
+				{
+					rank = 1,
+					unit = "FBI_suit_C45_M4",
+					tactics = tactics.marshal_marksman,
+					amount_min = 0,
+					amount_max = 1,
+					freq = freq.baseline
+				}
+			},
+			spawn_point_chk_ref = {
+				tac_shield_wall_ranged = true,
+				tac_shield_wall_charge = true,
+				tac_shield_wall = true
+			}
+		}
+	end
+
 	self.enemy_spawn_groups.hostage_rescue = {
 		amount = { 2, 3 },
 		spawn = {
@@ -777,7 +815,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	if StreamHeist then
+	-- if StreamHeist then
 		self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
 		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
 		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
@@ -793,23 +831,23 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
 		table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
 		table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	end
+	-- end
 
 end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
-	if not StreamHeist then
-		local f = math.max(0, difficulty_index - 2) / 6
+	if not StreamHeist and difficulty_index < 8 then
+		-- local f = math.max(0, difficulty_index - 2) / 6
+		local f = math.max(0, difficulty_index - 3) / 5
 
-		--	grenade settings
 		self.flash_grenade.timer = math.lerp(2, 1, f)
 
 		--	assault length, force, etc settings (most apply only below ds)
 		self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
 		self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-		if difficulty_index < 8 then
+		-- if difficulty_index < 8 then
 			self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
 			self.besiege.assault.hostage_hesitation_delay = { 20, 20, 20 }
 			self.besiege.assault.force = { 12, 14, 16 }
@@ -817,21 +855,21 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 			self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-			self.besiege.assault.fade_duration = 15
 			self.besiege.regroup.duration = { 30, 25, 20 }
-		end
+		-- end
 		--	other assault stuff
 		self.besiege.recon.force = { 2, 4, 6 }
+		self.besiege.recon.interval = { 0, 0, 0 }
 		self.besiege.recon.interval_variation = 0
 
 		self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
 
 		--	you punish players who dont bring ap for wanting to not bring ap like every other time
 		--	and are a complete pushover for those with ap. at least dont be this ridiculous.
-		self.phalanx.vip.damage_reduction.max = 0.35
+		--	this is just the sh winters setting
+		self.phalanx.vip.damage_reduction.start = 0.05
+		self.phalanx.vip.damage_reduction.increase = 0.05
 		self.phalanx.vip.damage_reduction.increase_intervall = 10
-		self.phalanx.vip.damage_reduction.increase = 0.035
-		self.phalanx.vip.damage_reduction.start = 0.035
 
 		--	spawngroup weights (based on sh, but no difficulty scaling since vanilla doesnt do that well)
 		local function freq(n)
@@ -843,16 +881,21 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		for group, _ in pairs(self.besiege.assault.groups) do
 			self.besiege.assault.groups[group] = freq(0)
 		end
-		self.besiege.assault.groups.tac_swat_shotgun_rush = freq(2)
-		self.besiege.assault.groups.tac_swat_shotgun_flank = freq(1)
-		self.besiege.assault.groups.tac_swat_rifle = freq(16)
-		self.besiege.assault.groups.tac_swat_rifle_flank = freq(8)
-		self.besiege.assault.groups.tac_shield_wall_ranged = freq(special_weight)
-		self.besiege.assault.groups.tac_shield_wall_charge = freq(special_weight)
-		self.besiege.assault.groups.tac_tazer_flanking = freq(special_weight)
-		self.besiege.assault.groups.tac_tazer_charge = freq(special_weight)
-		self.besiege.assault.groups.tac_bull_rush = freq(special_weight)
-		self.besiege.assault.groups.FBI_spoocs = freq(special_weight)
+		self.besiege.assault.groups.tac_swat_shotgun_rush = { 1, 1.5, 2 }
+		self.besiege.assault.groups.tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0 }
+		self.besiege.assault.groups.tac_swat_shotgun_flank = { 0.5, 0.75, 1 }
+		self.besiege.assault.groups.tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0 }
+		self.besiege.assault.groups.tac_swat_rifle = { 8, 12, 16 }
+		self.besiege.assault.groups.tac_swat_rifle_no_medic = { 8, 4, 0 }
+		self.besiege.assault.groups.tac_swat_rifle_flank = { 4, 6, 8 }
+		self.besiege.assault.groups.tac_swat_rifle_flank_no_medic = { 4, 2, 0 }
+		self.besiege.assault.groups.tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.tac_tazer_flanking = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.tac_tazer_charge = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.tac_bull_rush = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.FBI_spoocs = { 0, special_weight * 0.5, special_weight }
+		self.besiege.assault.groups.hostage_rescue = freq(0)
 
 		for group, _ in pairs(self.besiege.recon.groups) do
 			self.besiege.recon.groups[group] = freq(0)
