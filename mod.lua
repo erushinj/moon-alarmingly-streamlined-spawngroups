@@ -31,7 +31,7 @@ end
 local required = {}
 if RequiredScript and not required[RequiredScript] then
 
-	local fname = ASS.mod_path .. RequiredScript:gsub(".+/(.+)", "hooks/%1.lua")
+	local fname = ASS.mod_path .. RequiredScript:gsub(".+/(.+)", "lua/%1.lua")
 	if io.file_is_readable(fname) then
 		dofile(fname)
 	end
