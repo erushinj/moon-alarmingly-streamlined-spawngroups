@@ -1,40 +1,18 @@
-if not ASS then
-
-	--	this was originally going to have some settings, like optional ump guys or pistol fbis.
-	--	all they did was pollute the code and bloat the mod for no worthwhile benefit.
-	--	might as well use this table for something.
-	ASS = {
-		is_massive = true,
-		current_factions = {
-			"america",
-			"russia",
-			"zombie",
-			"murkywater",
-			"federales"
-		}
-	}
-
-end
-
 --	so many incorrect units (eg, city heavy shotgunners for murkywater, or city-tier akan mercs on ds)
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
-	--	this was used in an earlier iteration of the mod, in the dozer group
-	--	it combines two unit categories into a new one without the fuss of setting it up manually.
-	--	use this if you like in your own mods.
+	local faction_ref = clone(self.unit_categories.CS_swat_MP5.unit_types)
+
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(self.unit_categories[category_1])
 		for faction_k, _ in pairs(self.unit_categories[category_2].unit_types) do
-			local faction = faction_k	-- very well put together game, it crashes if this isnt done
+			local faction = faction_k	-- very well put together game
 			for _, unit in pairs(self.unit_categories[category_2].unit_types[faction]) do
 				table.insert(new_category.unit_types[faction], unit)
 			end
 		end
 		return new_category
 	end
-	--	example usage.
-	--	you should do this ///AFTER/// all your difficulty-specific or setting-specific tweaks, though.
-	--	self.unit_categories.FBI_heavy_G36_R870 = combined_category("FBI_heavy_G36", "FBI_heavy_R870")
 
 	if StreamHeist then
 		if StreamHeist.settings and StreamHeist.settings.faction_tweaks then
@@ -70,20 +48,17 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			self.unit_categories.FBI_swat_R870.unit_types.federales = {
 				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870")
 			}
-			self.unit_categories.FBI_heavy_G36.unit_types.murkywater = {
-				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy")
-			}
-			self.unit_categories.FBI_heavy_G36.unit_types.federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi")
-			}
 		elseif difficulty_index < 8 then
-			self.unit_categories.FBI_swat_M4.unit_types.zombie = self.unit_categories.FBI_swat_M4.unit_types.america
+			self.unit_categories.FBI_swat_M4.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
+			}
 			self.unit_categories.FBI_swat_R870.unit_types.america = {
 				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
 			}
-			self.unit_categories.FBI_swat_R870.unit_types.zombie = self.unit_categories.FBI_swat_R870.unit_types.america
-			self.unit_categories.FBI_heavy_G36.unit_types.zombie = self.unit_categories.FBI_heavy_G36.unit_types.america
+			self.unit_categories.FBI_swat_R870.unit_types.russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870")
+			}
 			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
 				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
 			}
@@ -91,37 +66,23 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
 			}
 		else
-			self.unit_categories.FBI_swat_M4.unit_types.russia = self.unit_categories.FBI_swat_M4.unit_types.america
-			self.unit_categories.FBI_swat_M4.unit_types.zombie = self.unit_categories.FBI_swat_M4.unit_types.america
+			self.unit_categories.FBI_swat_M4 = self.unit_categories.CS_swat_MP5
+			self.unit_categories.FBI_swat_R870 = self.unit_categories.CS_swat_R870
+			self.unit_categories.FBI_heavy_G36 = self.unit_categories.CS_heavy_M4
+			self.unit_categories.FBI_heavy_R870 = self.unit_categories.CS_heavy_R870
 			self.unit_categories.FBI_swat_R870.unit_types.america = {
 				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2")
 			}
 			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
 				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 			}
 			self.unit_categories.FBI_swat_R870.unit_types.federales = {
-				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
 			}
-			self.unit_categories.FBI_heavy_G36.unit_types.russia = self.unit_categories.FBI_heavy_G36.unit_types.america
-			self.unit_categories.FBI_heavy_G36.unit_types.zombie = self.unit_categories.FBI_heavy_G36.unit_types.america
 			self.unit_categories.FBI_heavy_R870.unit_types.america = {
 				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
 			}
-			self.unit_categories.FBI_heavy_R870.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_r870/ene_akan_cs_heavy_r870")
-			}
-			self.unit_categories.FBI_heavy_R870.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870")
-			}
-			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
-			}
+			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = self.unit_categories.FBI_heavy_R870.unit_types.america
 		end
 
 		if difficulty_index < 4 then
@@ -141,7 +102,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
 				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
@@ -214,7 +174,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		self.unit_categories.FBI_tank.unit_types.federales = {
 			Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870")
 		}
-	elseif difficulty_index == 8 then
+	elseif difficulty_index > 7 then
 		self.unit_categories.FBI_tank.unit_types.zombie = {
 			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1"),
 			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"),
@@ -226,9 +186,10 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	--	merc marshal makes no sense for basically-america enemies, including vanilla using regular medicdozers and minidozers, use us marshal instead
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
+	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
 	--	sets new factions to america if any are added
-	for faction, _ in pairs(self.unit_categories.CS_swat_MP5.unit_types) do
+	for faction, _ in pairs(faction_ref) do
 		if not table.contains(ASS.current_factions, faction) then
 			for category_k, category_v in pairs(self.unit_categories) do
 				if category_v.unit_types and category_v.unit_types.america then
@@ -555,7 +516,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				unit = "FBI_heavy_R870",
 				tactics = tactics.shield_cover,
 				amount_min = 0,
-				amount_max = 3,
+				amount_max = 4,
 				freq = freq.baseline
 			},
 			{
@@ -740,9 +701,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	local is_crimenet_offline = false	--	Global.game_settings and Global.game_settings.single_player
-	local is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
-	if is_crimenet_offline or is_trai then
+	if ASS.is_crimenet_offline or ASS.is_trai then
+		ASS:log(ASS.is_trai and "Game is on Lost In Transit level" or "Game is in offline mode" .. ", tweaking Marshal spawn group...")
 		self.enemy_spawn_groups.marshal_squad = {
 			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
 			spawn_cooldown = marshal_cooldown[difficulty_index],
@@ -750,7 +710,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			amount = { 2, 3 },
 			spawn = {
 				{
-					rank = 3,
+					rank = 2,
 					unit = "marshal_shield",
 					tactics = tactics.marshal_shield,
 					amount_min = 1,
@@ -791,7 +751,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.swat_shotgun_flank,
 				amount_min = 0,
 				amount_max = 3,
-				freq = freq.uncommon
+				freq = freq.common
 			},
 			{
 				rank = 1,
@@ -836,27 +796,36 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 end )
 
 
+if StreamHeist then
+	return
+end
+
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
-	if not StreamHeist and difficulty_index < 8 then
-		-- local f = math.max(0, difficulty_index - 2) / 6
-		local f = math.max(0, difficulty_index - 3) / 5
+	-- if difficulty_index < 8 then
+		local f = math.max(0, difficulty_index - 2) / 6
+		-- local f = math.max(0, difficulty_index - 3) / 5
 
 		self.flash_grenade.timer = math.lerp(2, 1, f)
 
+		self.flash_shields.default = deep_clone(self.flash_shields.marshal_shield)
+		self.flash_shields.marshal_shield.flash_charge_timer = math.lerp(2, 1, f)
+		self.flash_shields.marshal_shield.flash_charge_cooldown = math.lerp(12, 6, f)
+
 		--	assault length, force, etc settings (most apply only below ds)
-		self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
+		-- self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
+		self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 210, f), math.lerp(180, 300, f) }
 		self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-		-- if difficulty_index < 8 then
+		if difficulty_index < 8 then
 			self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
 			self.besiege.assault.hostage_hesitation_delay = { 20, 20, 20 }
 			self.besiege.assault.force = { 12, 14, 16 }
-			self.besiege.assault.force_pool = { 50, 65, 80 }
+			self.besiege.assault.force_pool = { 50, 60, 70 }
 			self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
 			self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
 			self.besiege.regroup.duration = { 30, 25, 20 }
-		-- end
+		end
 		--	other assault stuff
 		self.besiege.recon.force = { 2, 4, 6 }
 		self.besiege.recon.interval = { 0, 0, 0 }
@@ -904,6 +873,6 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 		self.street = deep_clone(self.besiege)
 		self.safehouse = deep_clone(self.besiege)
-	end
+	-- end
 
 end )
