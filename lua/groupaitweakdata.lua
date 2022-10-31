@@ -101,34 +101,14 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 				Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
 				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
-			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = self.unit_categories.CS_cop_C45_R870.unit_types.russia
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
 				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
 				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
 			}
 		else
-			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
-				Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-			}
-			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass")
-			}
-			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
-			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870")
-			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.russia = self.unit_categories.CS_swat_MP5.unit_types.russia
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = self.unit_categories.CS_swat_R870.unit_types.russia
 		end
 
 		self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
@@ -672,7 +652,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	}
 
 	local marshal_limits = { 0, 1, 1, 1, 2, 2, 2, 3 }
-	local marshal_cooldown = { 65, 60, 55, 50, 45, 40, 35, 30 }
+	local marshal_cooldown = { 100, 90, 80, 70, 60, 50, 40, 30 }
 	self.enemy_spawn_groups.marshal_squad = {
 		max_nr_simultaneous_groups = marshal_limits[difficulty_index],
 		spawn_cooldown = marshal_cooldown[difficulty_index],
@@ -701,8 +681,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	if ASS.is_crimenet_offline or ASS.is_trai then
-		ASS:log(ASS.is_trai and "Game is on Lost In Transit level" or "Game is in offline mode" .. ", tweaking Marshal spawn group...")
+	if ASS.job_chk("trai") or ASS.is_offline() then
+		ASS:log(ASS.job_chk("trai") and "Game is on Lost In Transit level" or "Game is in offline mode" .. ", tweaking Marshal spawn group...")
 		self.enemy_spawn_groups.marshal_squad = {
 			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
 			spawn_cooldown = marshal_cooldown[difficulty_index],
@@ -751,7 +731,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.swat_shotgun_flank,
 				amount_min = 0,
 				amount_max = 3,
-				freq = freq.common
+				freq = freq.baseline
 			},
 			{
 				rank = 1,
@@ -775,7 +755,6 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	-- if StreamHeist then
 		self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
 		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
 		table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
@@ -791,88 +770,82 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
 		table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
 		table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	-- end
+		self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
 
 end )
 
 
-if StreamHeist then
-	return
-end
-
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
-	-- if difficulty_index < 8 then
-		local f = math.max(0, difficulty_index - 2) / 6
-		-- local f = math.max(0, difficulty_index - 3) / 5
+	local f = math.max(0, difficulty_index - 2) / 6
 
-		self.flash_grenade.timer = math.lerp(2, 1, f)
+	--	spawngroup weights (based on sh)
+	local special_weight = math.lerp(3, 5, f)
+	for group, _ in pairs(self.besiege.assault.groups) do
+		self.besiege.assault.groups[group] = { 0, 0, 0 }
+	end
+	self.besiege.assault.groups.tac_swat_shotgun_rush = { 0, 1, 2 }
+	self.besiege.assault.groups.tac_swat_shotgun_rush_no_medic = { 2, 1, 0 }
+	self.besiege.assault.groups.tac_swat_shotgun_flank = { 0, 0.5, 1 }
+	self.besiege.assault.groups.tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 }
+	self.besiege.assault.groups.tac_swat_rifle = { 0, 8, 16 }
+	self.besiege.assault.groups.tac_swat_rifle_no_medic = { 16, 8, 0 }
+	self.besiege.assault.groups.tac_swat_rifle_flank = { 0, 4, 8 }
+	self.besiege.assault.groups.tac_swat_rifle_flank_no_medic = { 8, 4, 0 }
+	self.besiege.assault.groups.tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight }
+	self.besiege.assault.groups.tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight }
+	self.besiege.assault.groups.tac_tazer_flanking = { 0, special_weight * 0.5, special_weight }
+	self.besiege.assault.groups.tac_tazer_charge = { 0, special_weight * 0.5, special_weight }
+	self.besiege.assault.groups.tac_bull_rush = { 0, special_weight * 0.5, special_weight }
+	self.besiege.assault.groups.FBI_spoocs = { 0, special_weight * 0.5, special_weight }
 
-		self.flash_shields.default = deep_clone(self.flash_shields.marshal_shield)
-		self.flash_shields.marshal_shield.flash_charge_timer = math.lerp(2, 1, f)
-		self.flash_shields.marshal_shield.flash_charge_cooldown = math.lerp(12, 6, f)
+	for group, _ in pairs(self.besiege.recon.groups) do
+		self.besiege.recon.groups[group] = { 0, 0, 0 }
+	end
+	self.besiege.recon.groups.hostage_rescue = { 1, 1, 1 }
 
-		--	assault length, force, etc settings (most apply only below ds)
-		-- self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
-		self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 210, f), math.lerp(180, 300, f) }
-		self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-		if difficulty_index < 8 then
-			self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
-			self.besiege.assault.hostage_hesitation_delay = { 20, 20, 20 }
-			self.besiege.assault.force = { 12, 14, 16 }
-			self.besiege.assault.force_pool = { 50, 60, 70 }
-			self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
-			self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
-			self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-			self.besiege.regroup.duration = { 30, 25, 20 }
-		end
-		--	other assault stuff
-		self.besiege.recon.force = { 2, 4, 6 }
-		self.besiege.recon.interval = { 0, 0, 0 }
-		self.besiege.recon.interval_variation = 0
-
-		self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
-
-		--	you punish players who dont bring ap for wanting to not bring ap like every other time
-		--	and are a complete pushover for those with ap. at least dont be this ridiculous.
-		--	this is just the sh winters setting
-		self.phalanx.vip.damage_reduction.start = 0.05
-		self.phalanx.vip.damage_reduction.increase = 0.05
-		self.phalanx.vip.damage_reduction.increase_intervall = 10
-
-		--	spawngroup weights (based on sh, but no difficulty scaling since vanilla doesnt do that well)
-		local function freq(n)
-			return { n, n, n }
-		end
-
-		local special_weight = math.lerp(3, 5, f)
-
-		for group, _ in pairs(self.besiege.assault.groups) do
-			self.besiege.assault.groups[group] = freq(0)
-		end
-		self.besiege.assault.groups.tac_swat_shotgun_rush = { 1, 1.5, 2 }
-		self.besiege.assault.groups.tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0 }
-		self.besiege.assault.groups.tac_swat_shotgun_flank = { 0.5, 0.75, 1 }
-		self.besiege.assault.groups.tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0 }
-		self.besiege.assault.groups.tac_swat_rifle = { 8, 12, 16 }
-		self.besiege.assault.groups.tac_swat_rifle_no_medic = { 8, 4, 0 }
-		self.besiege.assault.groups.tac_swat_rifle_flank = { 4, 6, 8 }
-		self.besiege.assault.groups.tac_swat_rifle_flank_no_medic = { 4, 2, 0 }
-		self.besiege.assault.groups.tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.tac_tazer_flanking = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.tac_tazer_charge = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.tac_bull_rush = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.FBI_spoocs = { 0, special_weight * 0.5, special_weight }
-		self.besiege.assault.groups.hostage_rescue = freq(0)
-
-		for group, _ in pairs(self.besiege.recon.groups) do
-			self.besiege.recon.groups[group] = freq(0)
-		end
-		self.besiege.recon.groups.hostage_rescue = freq(1)
-
+	--	make no further task data changes with sh, sh settings are good
+	if StreamHeist then
 		self.street = deep_clone(self.besiege)
 		self.safehouse = deep_clone(self.besiege)
-	-- end
+		return
+	end
+
+	self.flash_grenade.timer = math.lerp(2, 1, f)
+
+	self.flash_shields.default = deep_clone(self.flash_shields.marshal_shield)
+	self.flash_shields.marshal_shield.flash_charge_timer = math.lerp(3, 1.5, f)
+	self.flash_shields.marshal_shield.flash_charge_cooldown = 10
+
+	--	assault length, force, etc settings (most apply only below ds)
+	-- self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
+	self.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 210, f), math.lerp(180, 300, f) }
+	self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
+	if difficulty_index < 8 then
+		self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
+		self.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
+		self.besiege.assault.force = { 12, 14, 16 }
+		self.besiege.assault.force_pool = { 40, 50, 60 }
+		self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
+		self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
+		self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
+		self.besiege.regroup.duration = { 30, 25, 20 }
+	end
+	--	other assault stuff
+	self.besiege.recon.force = { 2, 4, 6 }
+	self.besiege.recon.interval = { 0, 0, 0 }
+	self.besiege.recon.interval_variation = 0
+
+	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
+
+	--	this is just the sh winters settings
+	self.phalanx.vip.damage_reduction.start = 0.05
+	self.phalanx.vip.damage_reduction.increase = 0.05
+	self.phalanx.vip.damage_reduction.increase_intervall = 10
+
+	self.street = deep_clone(self.besiege)
+	self.safehouse = deep_clone(self.besiege)
 
 end )

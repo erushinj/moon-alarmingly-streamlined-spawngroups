@@ -4,8 +4,8 @@ local fbi = difficulty_index > 3
 local city = difficulty_index > 5
 local zeal = difficulty_index > 7
 
-local shot_smg = { "mp5", "r870" }
 local pis_rifle = { "c45", "m4" }
+local shot_smg = { "mp5", "r870" }
 
 local fbi_pis_rifle = zeal and "m4" or fbi and pis_rifle or "m4"
 
@@ -14,7 +14,7 @@ local city_shot = zeal and "r870" or city and "benelli" or "r870"	--	r870 does m
 local city_smg = city and "ump" or "mp5"
 local city_shot_smg = { city_smg, city_shot }
 
-local zeal_heavy_rifle = zeal and "g36" or "m4"
+local zeal_rifle = zeal and "g36" or "m4"
 
 return {
 	[Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = fbi and "raging_bull" or "m4",
@@ -63,18 +63,18 @@ return {
 	[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870"):key()] = city_shot_smg,
 	[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870"):key()] = city_shot_smg,
 
-	[Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"):key()] = zeal_heavy_rifle,
+	[Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"):key()] = zeal_rifle,
 	[Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"):key()] = city_rifle,
 	[Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36"):key()] = city_rifle,
-	[Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/ene_zeal_swat_heavy"):key()] = zeal_heavy_rifle,
-	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass"):key()] = zeal_heavy_rifle,
+	[Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/ene_zeal_swat_heavy"):key()] = zeal_rifle,
+	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass"):key()] = zeal_rifle,
 	[Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36"):key()] = city_rifle,
-	[Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1"):key()] = zeal_heavy_rifle,
+	[Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1"):key()] = zeal_rifle,
 	[Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_1/ene_fbi_heavy_hvh_1"):key()] = city_rifle,
-	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy"):key()] = zeal_heavy_rifle,
+	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy"):key()] = zeal_rifle,
 	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_g36/ene_murkywater_heavy_g36"):key()] = city_rifle,
-	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale"):key()] = zeal_heavy_rifle,
-	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36"):key()] = zeal_heavy_rifle,
+	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale/ene_swat_heavy_policia_federale"):key()] = zeal_rifle,
+	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36"):key()] = zeal_rifle,
 	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi"):key()] = city_rifle,
 	[Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_g36/ene_swat_heavy_policia_federale_fbi_g36"):key()] = city_rifle,
 

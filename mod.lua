@@ -4,14 +4,21 @@ if not ASS then
 		is_massive = true,
 		mod_path = ModPath,
 		logging = io.file_is_readable("mods/developer.txt"),
-		is_crimenet_offline = Global.game_settings and Global.game_settings.single_player,
-		is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai",
 		current_factions = {
 			"america",
 			"russia",
 			"zombie",
 			"murkywater",
 			"federales"
+		},
+		hvh_jobs = {
+			"help",
+			"nail",
+			"haunted"
+		},
+		murky_to_america_jobs = {
+			"pbr",
+			"des"
 		}
 	}
 
@@ -24,6 +31,15 @@ if not ASS then
 		if self.logging then
 			log("[AlarminglyStreamlinedSpawngroups] " .. table.concat({...}, " "))
 		end
+	end
+
+	ASS.job_chk = function(job)
+		local current_job = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+		return type(job) == "table" and table.contains(job, current_job) or job == current_job
+	end
+
+	ASS.is_offline = function()
+		return Global.game_settings and Global.game_settings.single_player
 	end
 
 end
