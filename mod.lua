@@ -4,6 +4,7 @@ if not ASS then
 		is_massive = true,
 		mod_path = ModPath,
 		logging = io.file_is_readable("mods/developer.txt"),
+		is_offline = Global.game_settings and Global.game_settings.single_player,
 		current_factions = {
 			"america",
 			"russia",
@@ -33,13 +34,9 @@ if not ASS then
 		end
 	end
 
-	ASS.job_chk = function(job)
+	function ASS.job_chk(job)
 		local current_job = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
 		return type(job) == "table" and table.contains(job, current_job) or job == current_job
-	end
-
-	ASS.is_offline = function()
-		return Global.game_settings and Global.game_settings.single_player
 	end
 
 end

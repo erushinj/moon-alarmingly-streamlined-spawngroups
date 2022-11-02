@@ -4,7 +4,7 @@ Hooks:PostHook( LevelsTweakData, "init", "ass_init", function(self)
 		self[job].ai_group_type = self.framing_frame_1.ai_group_type
 	end
 
-	if not ASS.is_offline() then
+	if not ASS.is_offline then
 		return
 	end
 

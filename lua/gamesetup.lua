@@ -1,4 +1,4 @@
-if not ASS.is_offline() then
+if not ASS.is_offline then
 	return
 end
 

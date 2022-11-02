@@ -78,6 +78,10 @@ function CharacterTweakData:_presets(tweak_data, ...)
 		}
 	}
 	presets.hurt_severities.base.explosion.zones = {
+		-- {	--	testing
+		-- 	health_limit = 0.2,
+		-- 	light = 1
+		-- },
 		{
 			health_limit = 0.2,
 			light = 0.5,
@@ -97,7 +101,7 @@ function CharacterTweakData:_presets(tweak_data, ...)
 			explode = 1
 		}
 	}
-	presets.hurt_severities.only_light_hurt.explosion = presets.hurt_severities.base.explosion
+	presets.hurt_severities.light_hurt_fire_poison.explosion = presets.hurt_severities.base.explosion
 
 	presets.hurt_severities.no_heavy_hurt = deep_clone(presets.hurt_severities.base)
 	presets.hurt_severities.no_heavy_hurt.bullet.zones = {
@@ -175,15 +179,11 @@ Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 	self.heavy_swat_sniper.surrender = self.presets.surrender.hard
 	self.heavy_swat_sniper.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
 
-	self.marshal_marksman.damage.hurt_severity = self.presets.hurt_severities.only_light_hurt
+	self.marshal_marksman.damage.hurt_severity = self.presets.hurt_severities.light_hurt_fire_poison
 	self.marshal_marksman.misses_first_player_shot = false
 
-	self.taser.damage.hurt_severity = self.presets.hurt_severities.only_light_hurt
+	self.taser.damage.hurt_severity = self.presets.hurt_severities.light_hurt_fire_poison
 
-	self.spooc.damage.hurt_severity = self.presets.hurt_severities.no_hurts
-	self.shadow_spooc.damage.hurt_severity = self.presets.hurt_severities.no_hurts
-
-	self.medic.damage.hurt_severity = self.presets.hurt_severities.only_light_hurt
 	self.medic.suppression = nil
 
 end )
