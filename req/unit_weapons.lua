@@ -5,7 +5,7 @@ local city = difficulty_index > 5
 local zeal = difficulty_index > 7
 
 local pis_rifle = { "c45", "m4" }
-local shot_smg = { "mp5", "r870" }
+local shot_smg = difficulty_index == 7 and "mp5" or { "mp5", "r870" }
 
 local fbi_pis_rifle = zeal and "m4" or fbi and pis_rifle or "m4"
 

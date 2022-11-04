@@ -101,6 +101,7 @@ function CharacterTweakData:_presets(tweak_data, ...)
 			explode = 1
 		}
 	}
+
 	presets.hurt_severities.light_hurt_fire_poison.explosion = presets.hurt_severities.base.explosion
 
 	presets.hurt_severities.no_heavy_hurt = deep_clone(presets.hurt_severities.base)
@@ -173,10 +174,11 @@ Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 	self.city_swat.surrender = self.presets.surrender.normal
 
 	self.heavy_swat.surrender = self.presets.surrender.hard
-	self.heavy_swat.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
 	self.fbi_heavy_swat.surrender = self.presets.surrender.hard
-	self.fbi_heavy_swat.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
 	self.heavy_swat_sniper.surrender = self.presets.surrender.hard
+
+	self.heavy_swat.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
+	self.fbi_heavy_swat.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
 	self.heavy_swat_sniper.damage.hurt_severity = self.presets.hurt_severities.no_heavy_hurt
 
 	self.marshal_marksman.damage.hurt_severity = self.presets.hurt_severities.light_hurt_fire_poison

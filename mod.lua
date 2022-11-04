@@ -34,9 +34,9 @@ if not ASS then
 		end
 	end
 
-	function ASS.job_chk(job)
+	function ASS.check_job(job_list)
 		local current_job = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
-		return type(job) == "table" and table.contains(job, current_job) or job == current_job
+		return table.contains(job_list, current_job)
 	end
 
 end

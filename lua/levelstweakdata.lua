@@ -1,7 +1,7 @@
 Hooks:PostHook( LevelsTweakData, "init", "ass_init", function(self)
 
 	for _, job in pairs(ASS.murky_to_america_jobs) do
-		self[job].ai_group_type = self.framing_frame_1.ai_group_type
+		self[job].ai_group_type = LevelsTweakData.LevelType.America
 	end
 
 	if not ASS.is_offline then
@@ -9,7 +9,7 @@ Hooks:PostHook( LevelsTweakData, "init", "ass_init", function(self)
 	end
 
 	for _, job in pairs(ASS.hvh_jobs) do
-		self[job].ai_group_type = self.hvh.ai_group_type
+		self[job].ai_group_type = LevelsTweakData.LevelType.Zombie
 	end
 
 end )

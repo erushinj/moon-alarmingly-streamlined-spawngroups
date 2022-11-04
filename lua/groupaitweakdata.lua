@@ -252,6 +252,17 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		"deathguard"
 	}
 
+	tactics.hostage_rescue_flank = {
+		"flank",
+		"ranged_fire",
+		"rescue_hostages"
+	}
+	tactics.hostage_rescue_rush = {
+		"charge",
+		"flash_grenade",
+		"rescue_hostages"
+	}
+
 	--	every group needs at least one baseline unit
 	--	all other freqs remain constantly proportional to each other, its just that
 	--	overall chance of a baseline unit being replaced increases with difficulty
@@ -304,6 +315,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
+	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
+	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
+	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
+
 	self.enemy_spawn_groups.tac_swat_shotgun_flank = {
 		amount = { 3, 4 },
 		spawn = {
@@ -344,6 +359,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
+
+	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank)
+	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
+	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
 
 	self.enemy_spawn_groups.tac_swat_rifle = {
 		amount = { 3, 4 },
@@ -386,6 +405,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
+	self.enemy_spawn_groups.tac_swat_rifle_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle)
+	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
+	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
+
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
 		amount = { 3, 4 },
 		spawn = {
@@ -422,6 +445,13 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				freq = freq.uncommon
 			}
 		}
+	}
+
+	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
+	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
+	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
+	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn_point_chk_ref = {
+		tac_swat_rifle_flank = true
 	}
 
 	self.enemy_spawn_groups.tac_shield_wall_ranged = {
@@ -665,8 +695,8 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	if ASS.job_chk("trai") or ASS.is_offline then
-		ASS:log(ASS.job_chk("trai") and "Game is on Lost In Transit level" or "Game is in offline mode" .. ", tweaking Marshal spawn group...")
+	if ASS.check_job({"trai"}) or ASS.is_offline then
+		ASS:log(ASS.check_job({"trai"}) and "Game is on Lost In Transit level" or "Game is in offline mode" .. ", tweaking Marshal spawn group...")
 		self.enemy_spawn_groups.marshal_squad = {
 			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
 			spawn_cooldown = marshal_cooldown[difficulty_index],
@@ -710,17 +740,17 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		amount = { 2, 3 },
 		spawn = {
 			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.swat_shotgun_flank,
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.hostage_rescue_rush,
 				amount_min = 0,
-				amount_max = 3,
+				amount_max = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
-				tactics = tactics.swat_rifle_flank,
+				tactics = tactics.hostage_rescue_flank,
 				amount_min = 0,
 				amount_max = 3,
 				freq = freq.baseline
@@ -734,68 +764,25 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		amount = { 2, 3 },
 		spawn = {
 			{
-				rank = 1,
-				unit = "FBI_suit_C45_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 3,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle,
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.hostage_rescue_rush,
 				amount_min = 0,
 				amount_max = 1,
 				freq = freq.baseline
-			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
-		}
-	}
-	self.enemy_spawn_groups.hostage_rescue_c = {
-		amount = { 2, 3 },
-		spawn = {
+			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.swat_shotgun_flank,
+				tactics = tactics.hostage_rescue_flank,
 				amount_min = 0,
 				amount_max = 3,
 				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
 			}
 		},
 		spawn_point_chk_ref = {
 			tac_swat_rifle_flank = true
 		}
-	}
-
-	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
-
-	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
-
-	self.enemy_spawn_groups.tac_swat_rifle_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
-
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn_point_chk_ref = {
-		tac_swat_rifle_flank = true
 	}
 
 	if StreamHeist then
@@ -864,9 +851,8 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	end
 
 	local new_recon_weights = {
-		hostage_rescue_a = { 17, 12, 7 },
-		hostage_rescue_b = { 0, 3, 6 },
-		hostage_rescue_c = { 0, 2, 4 }
+		hostage_rescue_a = { 1, 1, 1 },
+		hostage_rescue_b = { 1, 1, 1 }
 	}
 	for group, _ in pairs(self.besiege.recon.groups) do
 		self.besiege.recon.groups[group] = { 0, 0, 0 }
