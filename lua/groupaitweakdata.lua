@@ -707,7 +707,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 					rank = 2,
 					unit = "marshal_shield",
 					tactics = tactics.marshal_shield,
-					amount_min = 1,
+					amount_min = 0,
 					amount_max = 2,
 					freq = freq.elite
 				},
@@ -715,7 +715,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 					rank = 2,
 					unit = "marshal_marksman",
 					tactics = tactics.marshal_marksman,
-					amount_min = 1,
+					amount_min = 0,
 					amount_max = 2,
 					freq = freq.elite
 				},
@@ -760,30 +760,9 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-	self.enemy_spawn_groups.hostage_rescue_b = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_swat_R870",
-				tactics = tactics.hostage_rescue_rush,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.hostage_rescue_flank,
-				amount_min = 0,
-				amount_max = 3,
-				freq = freq.baseline
-			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
-		}
-	}
+	self.enemy_spawn_groups.hostage_rescue_b = deep_clone(self.enemy_spawn_groups.hostage_rescue_a)
+	self.enemy_spawn_groups.hostage_rescue_b.spawn[1].unit = "FBI_swat_R870"
+	self.enemy_spawn_groups.hostage_rescue_b.spawn[2].unit = "FBI_suit_stealth_MP5"
 
 	if StreamHeist then
 		self.enemy_spawn_groups.reenforce_a = {
@@ -843,6 +822,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		tac_bull_rush = { 0, special_weight * 0.5, special_weight },
 		FBI_spoocs = { 0, special_weight * 0.5, special_weight }
 	}
+	--	avoiding issues if new groups are added in vanilla
 	for group, _ in pairs(self.besiege.assault.groups) do
 		self.besiege.assault.groups[group] = { 0, 0, 0 }
 	end
@@ -889,7 +869,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
 		self.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
 		self.besiege.assault.force = { 12, 14, 16 }
-		self.besiege.assault.force_pool = table.collect(self.besiege.assault.sustain_duration_min, function(val) return val / 4 end)
+		self.besiege.assault.force_pool = { 60, 70, 80 }
 		self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
 		self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
 		self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
