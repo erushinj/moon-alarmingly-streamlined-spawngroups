@@ -5,21 +5,10 @@ if not ASS then
 		mod_path = ModPath,
 		logging = io.file_is_readable("mods/developer.txt"),
 		is_offline = Global.game_settings and Global.game_settings.single_player,
-		current_factions = {
-			"america",
-			"russia",
-			"zombie",
-			"murkywater",
-			"federales"
-		},
 		hvh_jobs = {
 			"help",
 			"nail",
 			"haunted"
-		},
-		murky_to_america_jobs = {
-			"pbr",
-			"des"
 		}
 	}
 

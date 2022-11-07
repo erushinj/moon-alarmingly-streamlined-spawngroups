@@ -10,7 +10,7 @@ Hooks:PostHook( GameSetup, "load_packages", "ass_load_packages", function(self)
 	end
 
 	if ASS.check_job(ASS.hvh_jobs) then
-		ASS:log("Game is on Helloween level, ensuring HVH level package is loaded...")
+		ASS:log("Game is on Helloween level in offline mode, ensuring HVH level package is loaded...")
 		if PackageManager:package_exists("packages/narr_hvh") and not PackageManager:loaded("packages/narr_hvh") then
 			PackageManager:load("packages/narr_hvh")
 		end
