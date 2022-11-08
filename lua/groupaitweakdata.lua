@@ -279,6 +279,31 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = difficulty_index / 32
 	}
 
+	local function no_medic_group(original_group)
+		local g = deep_clone(original_group)
+
+		for i, v in ipairs(g.spawn) do
+			if not v.unit:match("heavy") and not v.unit:match("swat") then
+				table.remove(g.spawn, i)
+			end
+			if v.unit:match("heavy") then
+				v.freq = freq.common
+			end
+		end
+		--	bruh
+		for i, v in ipairs(g.spawn) do
+			if not v.unit:match("heavy") and not v.unit:match("swat") then
+				table.remove(g.spawn, i)
+			end
+		end
+
+		g.spawn_point_chk_ref = g.spawn_point_chk_ref or {
+			tac_swat_rifle_flank = true
+		}
+
+		return g
+	end
+
 	self.enemy_spawn_groups.tac_swat_shotgun_rush = {
 		amount = { 3, 4 },
 		spawn = {
@@ -319,10 +344,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-
-	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_rush)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic.spawn)
+	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_rush)
 
 	self.enemy_spawn_groups.tac_swat_shotgun_flank = {
 		amount = { 3, 4 },
@@ -333,7 +355,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.swat_shotgun_flank,
 				amount_min = 0,
 				amount_max = 4,
-				freq = freq.common
+				freq = freq.baseline
 			},
 			{
 				rank = 2,
@@ -364,10 +386,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-
-	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_shotgun_flank)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic.spawn)
+	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_flank)
 
 	self.enemy_spawn_groups.tac_swat_rifle = {
 		amount = { 3, 4 },
@@ -409,10 +428,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-
-	self.enemy_spawn_groups.tac_swat_rifle_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_no_medic.spawn)
+	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_no_medic)
 
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
 		amount = { 3, 4 },
@@ -423,7 +439,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.swat_rifle_flank,
 				amount_min = 0,
 				amount_max = 4,
-				freq = freq.common
+				freq = freq.baseline
 			},
 			{
 				rank = 2,
@@ -451,13 +467,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			}
 		}
 	}
-
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = deep_clone(self.enemy_spawn_groups.tac_swat_rifle_flank)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	table.remove(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn)
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic.spawn_point_chk_ref = {
-		tac_swat_rifle_flank = true
-	}
+	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic)
 
 	self.enemy_spawn_groups.tac_shield_wall_ranged = {
 		amount = { 4, 5 },
@@ -648,6 +658,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			}
 		}
 	}
+
 	self.enemy_spawn_groups.FBI_spoocs = {
 		amount = { 1, 2 },
 		spawn = {
@@ -706,16 +717,16 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		self.enemy_spawn_groups.marshal_squad.spawn = {
 			{
 				rank = 2,
-				unit = "marshal_shield",
-				tactics = tactics.marshal_shield,
+				unit = "marshal_marksman",
+				tactics = tactics.marshal_marksman,
 				amount_min = 0,
 				amount_max = 2,
 				freq = freq.elite
 			},
 			{
 				rank = 2,
-				unit = "marshal_marksman",
-				tactics = tactics.marshal_marksman,
+				unit = "marshal_shield",
+				tactics = tactics.marshal_shield,
 				amount_min = 0,
 				amount_max = 2,
 				freq = freq.elite
@@ -774,33 +785,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		table.remove(self.enemy_spawn_groups.reenforce_a.spawn)
 		self.enemy_spawn_groups.reenforce_a.spawn[1].tactics = tactics.swat_shotgun_rush
 		self.enemy_spawn_groups.reenforce_a.spawn[2].tactics = tactics.swat_rifle
-		self.enemy_spawn_groups.reenforce_a = {
-			amount = { 2, 3 },
-			spawn = {
-				{
-					rank = 1,
-					unit = "FBI_suit_stealth_MP5",
-					tactics = tactics.swat_shotgun_rush,
-					amount_min = 0,
-					amount_max = 3,
-					freq = freq.baseline
-				},
-				{
-					rank = 1,
-					unit = "FBI_suit_C45_M4",
-					tactics = tactics.swat_rifle,
-					amount_min = 0,
-					amount_max = 3,
-					freq = freq.baseline
-				}
-			},
-			spawn_point_chk_ref = {
-				tac_swat_rifle_flank = true
-			}
-		}
+
 		self.enemy_spawn_groups.reenforce_b = deep_clone(self.enemy_spawn_groups.reenforce_a)
 		self.enemy_spawn_groups.reenforce_b.spawn[1].unit = "FBI_swat_R870"
 		self.enemy_spawn_groups.reenforce_b.spawn[2].unit = "FBI_swat_M4"
+
 		self.enemy_spawn_groups.reenforce_c = deep_clone(self.enemy_spawn_groups.reenforce_a)
 		self.enemy_spawn_groups.reenforce_c.spawn[1].unit = "FBI_heavy_R870"
 		self.enemy_spawn_groups.reenforce_c.spawn[2].unit = "FBI_heavy_G36"
@@ -813,17 +802,17 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	local f = math.max(0, difficulty_index - 2) / 6
 
-	--	spawn group weights (based on sh, no medic groups made more common early on to account for presence of hrts/specials)
+	--	spawn group weights (literally from sh, used to have more common no medic groups early on before i made heavies less common in those)
 	local special_weight = math.lerp(3, 5, f)
 	local new_assault_weights = {
-		tac_swat_shotgun_rush = { 0, 1, 2 },
-		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
-		tac_swat_shotgun_flank = { 0, 0.5, 1 },
-		tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
-		tac_swat_rifle = { 0, 8, 16 },
-		tac_swat_rifle_no_medic = { 16, 8, 0 },
-		tac_swat_rifle_flank = { 0, 4, 8 },
-		tac_swat_rifle_flank_no_medic = { 8, 4, 0 },
+		tac_swat_shotgun_rush = { 1, 1.5, 2 },
+		tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0 },
+		tac_swat_shotgun_flank = { 0.5, 0.75, 1 },
+		tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0 },
+		tac_swat_rifle = { 8, 12, 16 },
+		tac_swat_rifle_no_medic = { 8, 4, 0 },
+		tac_swat_rifle_flank = { 4, 6, 8 },
+		tac_swat_rifle_flank_no_medic = { 4, 2, 0 },
 		tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight },
 		tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight },
 		tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
@@ -892,9 +881,9 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
 
 	--	this is just the sh winters settings
-	-- self.phalanx.vip.damage_reduction.start = 0.05
-	-- self.phalanx.vip.damage_reduction.increase = 0.05
-	-- self.phalanx.vip.damage_reduction.increase_intervall = 10
+	self.phalanx.vip.damage_reduction.start = 0.05
+	self.phalanx.vip.damage_reduction.increase = 0.05
+	self.phalanx.vip.damage_reduction.increase_intervall = 10
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
