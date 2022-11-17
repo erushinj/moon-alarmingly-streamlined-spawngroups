@@ -428,7 +428,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_no_medic)
+	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle)
 
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
 		amount = { 3, 4 },
@@ -467,7 +467,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			}
 		}
 	}
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic)
+	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_flank)
 
 	self.enemy_spawn_groups.tac_shield_wall_ranged = {
 		amount = { 4, 5 },
