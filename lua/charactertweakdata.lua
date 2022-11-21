@@ -2,8 +2,7 @@ if StreamHeist then
 	return
 end
 
-ASS:log("SH is not being used, running CharacterTweakData changes...")
-
+--	sh surrender presets, "easy" changes automatically apply to everyone who uses it
 local _presets_original = CharacterTweakData._presets
 function CharacterTweakData:_presets(tweak_data, ...)
 	local presets = _presets_original(self, tweak_data, ...)
@@ -62,8 +61,8 @@ function CharacterTweakData:_presets(tweak_data, ...)
 end
 
 
-Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
-
+--	swats dont give up easily, marshals are no longer guaranteed to miss their first shot, fix medics crouching repeatedly
+Hooks:PostHook(CharacterTweakData, "init", "ass_init", function(self)
 	self.swat.surrender = self.presets.surrender.normal
 	self.fbi_swat.surrender = self.presets.surrender.normal
 	self.city_swat.surrender = self.presets.surrender.normal
@@ -75,5 +74,4 @@ Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 	self.marshal_marksman.misses_first_player_shot = false
 
 	self.medic.suppression = nil
-
-end )
+end)

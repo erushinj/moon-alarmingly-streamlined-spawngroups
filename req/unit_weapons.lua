@@ -17,10 +17,8 @@ local city_shot_smg = { city_smg, city_shot }
 local zeal_rifle = zeal and "g36" or "m4"
 
 return {
-	[Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = fbi and "raging_bull" or "m4",
 	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = pis_rifle,
 	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"):key()] = fbi_pis_rifle,
-	[Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2"):key()] = fbi and "raging_bull" or "m4",
 	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = fbi_pis_rifle,
 	[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"):key()] = fbi_pis_rifle,
 

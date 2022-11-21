@@ -3,7 +3,6 @@ if not ASS then
 	ASS = {
 		is_massive = true,
 		mod_path = ModPath,
-		logging = io.file_is_readable("mods/developer.txt"),
 		is_offline = Global.game_settings and Global.game_settings.single_player,
 		hvh_jobs = {
 			"help",
@@ -15,12 +14,6 @@ if not ASS then
 	function ASS:require(file)
 		local path = self.mod_path .. "req/" .. file .. ".lua"
 		return io.file_is_readable(path) and blt.vm.dofile(path)
-	end
-
-	function ASS:log(...)
-		if self.logging then
-			log("[AlarminglyStreamlinedSpawngroups] " .. table.concat({...}, " "))
-		end
 	end
 
 	function ASS.check_job(job_list)

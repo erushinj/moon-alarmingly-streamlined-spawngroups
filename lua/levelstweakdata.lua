@@ -1,5 +1,5 @@
-Hooks:PostHook( LevelsTweakData, "init", "ass_init", function(self)
-
+--	restores original american response on beneath the mountain and henrys rock, and adds zombies to event heists in offline mode
+Hooks:PostHook(LevelsTweakData, "init", "ass_init", function(self)
 	local murky_to_america_jobs = {
 		"pbr",
 		"des"
@@ -15,5 +15,4 @@ Hooks:PostHook( LevelsTweakData, "init", "ass_init", function(self)
 	for _, job in pairs(ASS.hvh_jobs) do
 		self[job].ai_group_type = LevelsTweakData.LevelType.Zombie
 	end
-
-end )
+end)
