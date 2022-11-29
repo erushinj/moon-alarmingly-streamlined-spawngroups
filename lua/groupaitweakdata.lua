@@ -204,6 +204,8 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	}
 
 	--	shields stay in front of their backup and keep guard if they take you down
+	--	yes, shields have a "deathguard" flag set to false in charactertweakdata, but
+	--	the function checking for that in playerbleedout doesnt seem to be used anywhere
 	tactics.shield_ranged = {
 		"shield",
 		"ranged_fire",
@@ -251,7 +253,6 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	--	despite being a flanker, cloaker uses smoke to conceal his charge until its too late
 	tactics.spooc = {
 		"flank",
-		"deathguard",
 		"smoke_grenade"
 	}
 
@@ -279,21 +280,16 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 		elite = difficulty_index / 32
 	}
 
-	--	clones a group, removes units that arent lights or heavies, lowers heavy freq, ensures spawn point chk ref is set
-	--	theres likely a better way to iterate over the spawn table but i cant be bothered
+	--	copies a group, then removes units that arent lights or heavies, lowers heavy frequency, and ensures a spawn point check reference is set
 	local function no_medic_group(original_group)
 		local g = deep_clone(original_group)
 
-		local freq_set = false
-		for size = 1, #g.spawn do
-			for i, v in ipairs(g.spawn) do
-				if not (v.unit:match("heavy") or v.unit:match("swat")) then
-					table.remove(g.spawn, i)
-				end
-				if not freq_set and v.unit:match("heavy") then
-					v.freq = freq.common
-					freq_set = true
-				end
+		for i = #g.spawn, 1, -1 do
+			local enemy = g.spawn[i]
+			if enemy.unit:match("heavy") then
+				enemy.freq = freq.common
+			elseif not enemy.unit:match("swat") then
+				table.remove(g.spawn, i)	--	slowest thing in the galaxy, as proven by upwards of 2208 hours of research i will not show you
 			end
 		end
 
@@ -435,7 +431,7 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	}
 	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle)
 
-	--	riflemen deal consistent damage to taser's victim
+	--	riflemen deal consistent damage to taser's victim, but these guys arent as coordinated as in the taser or dozer groups
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
 		amount = { 3, 4 },
 		spawn = {
@@ -622,9 +618,9 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	}
 
 	--	1 bulldozer group
+
 	--	spawns with rifle and shotgun heavies who are bulky enough to not go down immediately if caught not hiding behind the dozer
 	--	if a taser spawns with him, well, shame if you get immobilized in front of the walking tank
-
 	self.enemy_spawn_groups.tac_bull_rush = {
 		amount = { 3, 4 },
 		spawn = {
@@ -742,37 +738,42 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	--	marshal group is changed to add marshal shield if he is loaded in and usable, either on lost in transit or offline
 	--	spawns in duo or trio, possible to get only one type of marshal
 	if ASS.check_job({"trai"}) or ASS.is_offline then
-		self.enemy_spawn_groups.marshal_squad.amount = { 2, 3 }
-		self.enemy_spawn_groups.marshal_squad.spawn = {
-			{
-				rank = 2,
-				unit = "marshal_marksman",
-				tactics = tactics.marshal_marksman,
-				amount_min = 0,
-				amount_max = 2,
-				freq = freq.elite
+		self.enemy_spawn_groups.marshal_squad = {
+			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
+			spawn_cooldown = marshal_cooldown[difficulty_index],
+			initial_spawn_delay = marshal_cooldown[difficulty_index],
+			amount = { 2, 3 },
+			spawn = {
+				{
+					rank = 2,
+					unit = "marshal_shield",
+					tactics = tactics.marshal_shield,
+					amount_min = 0,
+					amount_max = 2,
+					freq = freq.elite
+				},
+				{
+					rank = 2,
+					unit = "marshal_marksman",
+					tactics = tactics.marshal_marksman,
+					amount_min = 0,
+					amount_max = 2,
+					freq = freq.elite
+				},
+				{
+					rank = 1,
+					unit = "FBI_suit_C45_M4",
+					tactics = tactics.marshal_marksman,
+					amount_min = 0,
+					amount_max = 1,
+					freq = freq.baseline
+				}
 			},
-			{
-				rank = 2,
-				unit = "marshal_shield",
-				tactics = tactics.marshal_shield,
-				amount_min = 0,
-				amount_max = 2,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_C45_M4",
-				tactics = tactics.marshal_marksman,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.baseline
+			spawn_point_chk_ref = {
+				tac_shield_wall_ranged = true,
+				tac_shield_wall_charge = true,
+				tac_shield_wall = true
 			}
-		}
-		self.enemy_spawn_groups.marshal_squad.spawn_point_chk_ref = {
-			tac_shield_wall_ranged = true,
-			tac_shield_wall_charge = true,
-			tac_shield_wall = true
 		}
 	end
 
