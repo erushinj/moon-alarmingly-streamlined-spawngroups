@@ -7,20 +7,23 @@ local zeal = difficulty_index > 7
 local pis_rifle = { "c45", "m4" }
 local shot_smg = { "mp5", "r870" }
 
-local fbi_pis_rifle = zeal and "m4" or pis_rifle
-
 local city_rifle = city and "g36" or "m4"
-local city_shot = zeal and "r870" or city and "benelli" or "r870"	--	r870 does more base damage on ds
+local city_shot = city and "benelli" or "r870"
 local city_smg = city and "ump" or "mp5"
 local city_shot_smg = { city_smg, city_shot }
 
 local zeal_rifle = zeal and "g36" or "m4"
+local zeal_pis_rifle = zeal and "m4" or pis_rifle
 
 return {
+	-- [Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = pis_rifle,
+	-- [Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = pis_rifle,
 	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = pis_rifle,
-	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"):key()] = fbi_pis_rifle,
-	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = fbi_pis_rifle,
-	[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"):key()] = fbi_pis_rifle,
+	[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"):key()] = zeal_pis_rifle,
+	-- [Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"):key()] = pis_rifle,
+	-- [Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"):key()] = pis_rifle,
+	[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = zeal_pis_rifle,
+	[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"):key()] = zeal_pis_rifle,
 
 	[Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = "r870",
 	[Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = "mp5",

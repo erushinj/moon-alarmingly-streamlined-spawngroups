@@ -1,18 +1,19 @@
-Hooks:PostHook(GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
+Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
+
 	--	sets new factions to america if any are added
 	--	there will likely be inconsistencies, and crash typos in fbi agent unit names otherwise
+	local current_factions = {
+		"america",
+		"russia",
+		"zombie",
+		"murkywater",
+		"federales"
+	}
 	for faction, _ in pairs(self.unit_categories.spooc.unit_types) do
-		local current_factions = {
-			"america",
-			"russia",
-			"zombie",
-			"murkywater",
-			"federales"
-		}
 		if not table.contains(current_factions, faction) then
 			for category_k, category_v in pairs(self.unit_categories) do
 				if category_v.unit_types and category_v.unit_types.america then
-					self.unit_categories[category_k].unit_types[faction] = deep_clone(category_v.unit_types.america)
+					self.unit_categories[category_k].unit_types[faction] = category_v.unit_types.america
 				end
 			end
 		end
@@ -44,13 +45,32 @@ Hooks:PostHook(GroupAITweakData, "_init_unit_categories", "ass__init_unit_catego
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	--	with sh, separate russian hrt by weapon type, and make no further changes
+	--	with sh, separate hrt by weapon type, and make no further changes
 	if StreamHeist then
+		if difficulty_index < 4 then
+			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
+				Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
+			}
+			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
+			}
+			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3")
+			}
+		end
 		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
 			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
 			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
+		}
+		--	still waiting on proper federales hrt in sh
+		self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
+			Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
+			Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02")
 		}
 		return
 	end
@@ -171,16 +191,19 @@ Hooks:PostHook(GroupAITweakData, "_init_unit_categories", "ass__init_unit_catego
 		tank = limits_tank[difficulty_index],
 		spooc = limits_spooc[difficulty_index]
 	}
-end)
+
+end )
 
 
-Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+
 	local tactics = self._tactics
 
 	--	shame most tactics do little to nothing in vanilla
 
 	--	non-flankers use smoke bombs (helps conceal their approach)
 	--	but flankers use flashbangs (if they used smoke, youd be prepared for them, defeating the point of flanking)
+	--	"rescue_hostages" tactic is used for sh
 	tactics.swat_shotgun_rush = {
 		"charge",
 		"smoke_grenade",
@@ -191,7 +214,7 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 		"flank",
 		"flash_grenade",
 		"deathguard",
-		"rescue_hostages"	--	used for sh
+		"rescue_hostages"
 	}
 	tactics.swat_rifle = {
 		"ranged_fire",
@@ -222,8 +245,9 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	}
 
 	--	taser makes sure youre down for good
+	--	also, hide behind backup to better keep you immobilized without interruption (in sh, does nothing in vanilla)
 	tactics.tazer_flanking = {
-		"shield_cover",	--	hide behind backup to better keep you immobilized without interruption (in sh, does nothing in vanilla)
+		"shield_cover",
 		"flank",
 		"flash_grenade",
 		"murder"
@@ -240,8 +264,9 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	}
 
 	--	bulldozer also makes sure youre down for good
+	--	bulldozer is his own shield
 	tactics.tank_rush = {
-		"shield",	--	bulldozer is his own shield
+		"shield",
 		"charge",
 		"murder"
 	}
@@ -268,6 +293,16 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 		"flank",
 		"ranged_fire",
 		"deathguard"
+	}
+
+	--	phalanx come in for a takedown, put you down, and move on to the next target
+	tactics.phalanx_shield = {
+		"shield",
+		"murder"
+	}
+	tactics.phalanx_cover = {
+		"shield_cover",
+		"murder"
 	}
 
 	--	every group needs at least one baseline unit
@@ -329,7 +364,7 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 				tactics = tactics.swat_shotgun_rush,
 				amount_min = 0,
 				amount_max = 1,
-				freq = freq.uncommon
+				freq = freq.rare
 			},
 			{
 				rank = 1,
@@ -414,7 +449,7 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 				tactics = tactics.swat_rifle,
 				amount_min = 0,
 				amount_max = 1,
-				freq = freq.uncommon
+				freq = freq.rare
 			},
 			{
 				rank = 1,
@@ -700,48 +735,24 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 		}
 	}
 
-	--	1 marshal group
+	--	2 special groups
+	--	marshal group, and an alternative to winters
 
-	--	can spawn single or with an extra unit, usually an fbi agent for support if player gets close
+	--	80s on normal, decreases 10s per difficulty down to 20s on ds
+	local base_cooldown = (10 - difficulty_index) * 10
+
+	--	occasional fbi agent for support if players get close
 	--	would make marshals spawn normally but that disables their spawn limit
 	--	makes no sense for initial spawn delay and spawn cooldown to differ, so theyre the same
-	local marshal_limits = { 0, 1, 1, 1, 2, 2, 2, 3 }
-	local marshal_cooldown = { 100, 90, 80, 70, 60, 50, 40, 30 }
-	self.enemy_spawn_groups.marshal_squad = {
-		max_nr_simultaneous_groups = marshal_limits[difficulty_index],
-		spawn_cooldown = marshal_cooldown[difficulty_index],
-		initial_spawn_delay = marshal_cooldown[difficulty_index],
-		amount = { 1, 2 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "marshal_marksman",
-				tactics = tactics.marshal_marksman,
-				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_C45_M4",
-				tactics = tactics.marshal_marksman,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.baseline
-			}
-		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
-		}
-	}
-
-	--	marshal group is changed to add marshal shield if he is loaded in and usable, either on lost in transit or offline
-	--	spawns in duo or trio, possible to get only one type of marshal
-	if ASS.check_job({"trai"}) or ASS.is_offline then
+	local marshal_limits = 2
+	local marshal_cooldown = base_cooldown
+	if ASS.current_job == "trai" or ASS.is_offline then
+		--	marshal group has marshal shield if he is loaded in and usable, either on lost in transit or offline
+		--	spawns in duo or trio, possible to get only one type of marshal
 		self.enemy_spawn_groups.marshal_squad = {
-			max_nr_simultaneous_groups = marshal_limits[difficulty_index],
-			spawn_cooldown = marshal_cooldown[difficulty_index],
-			initial_spawn_delay = marshal_cooldown[difficulty_index],
+			max_nr_simultaneous_groups = marshal_limits,
+			spawn_cooldown = marshal_cooldown,
+			initial_spawn_delay = marshal_cooldown,
 			amount = { 2, 3 },
 			spawn = {
 				{
@@ -775,7 +786,86 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 				tac_shield_wall = true
 			}
 		}
+	else
+		--	spawns single or duo
+		self.enemy_spawn_groups.marshal_squad = {
+			max_nr_simultaneous_groups = marshal_limits,
+			spawn_cooldown = marshal_cooldown,
+			initial_spawn_delay = marshal_cooldown,
+			amount = { 1, 2 },
+			spawn = {
+				{
+					rank = 2,
+					unit = "marshal_marksman",
+					tactics = tactics.marshal_marksman,
+					amount_min = 1,
+					amount_max = 2,
+					freq = freq.uncommon
+				},
+				{
+					rank = 1,
+					unit = "FBI_suit_C45_M4",
+					tactics = tactics.marshal_marksman,
+					amount_min = 0,
+					amount_max = 1,
+					freq = freq.baseline
+				}
+			},
+			spawn_point_chk_ref = {
+				tac_swat_rifle_flank = true
+			}
+		}
 	end
+
+	--	occasional takedown squad with 1-2 phalanx shields
+	--	spawn with light swat and very rarely a cowardly dozer for a swift takedown
+	local phalanx_limits = 1
+	local phalanx_cooldown = base_cooldown * 3
+	self.enemy_spawn_groups.phalanx_squad = {
+		max_nr_simultaneous_groups = phalanx_limits,
+		spawn_cooldown = phalanx_cooldown,
+		initial_spawn_delay = phalanx_cooldown,
+		amount = { 4, 5 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "Phalanx_minion",
+				tactics = tactics.phalanx_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_tank",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_shield_wall_ranged = true,
+			tac_shield_wall_charge = true,
+			tac_shield_wall = true
+		}
+	}
 
 	--	1 recon group
 
@@ -817,29 +907,39 @@ Hooks:PostHook(GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_sp
 	--	no reenforce groups.
 	--	reenforce doesnt work properly in vanilla thanks to u173, they end up behaving like regular assault units if spawned
 	--	sh restores reenforce, and its reenforce groups are fine
-end)
+
+end )
 
 
-Hooks:PostHook(GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
+Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 	local f = math.max(0, difficulty_index - 2) / 6
 
-	--	spawn group weights (based on sh, no medic groups are more common early on)
+	--	spawn group weights (based on sh, no medic groups are more common early on, swat groups also shifted to favour some more shotgunners)
 	local special_weight = math.lerp(3, 5, f)
 	local assault_weights = {
-		tac_swat_shotgun_rush = { 0, 1, 2 },
-		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
-		tac_swat_shotgun_flank = { 0, 0.5, 1 },
-		tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
-		tac_swat_rifle = { 0, 8, 16 },
-		tac_swat_rifle_no_medic = { 16, 8, 0 },
-		tac_swat_rifle_flank = { 0, 4, 8 },
-		tac_swat_rifle_flank_no_medic = { 8, 4, 0 },
+		tac_swat_shotgun_rush = { 0, 2, 4 },
+		tac_swat_shotgun_rush_no_medic = { 4, 2, 0 },
+		tac_swat_shotgun_flank = { 0, 1, 2 },
+		tac_swat_shotgun_flank_no_medic = { 2, 1, 0 },
+		tac_swat_rifle = { 0, 7, 14 },
+		tac_swat_rifle_no_medic = { 14, 7, 0 },
+		tac_swat_rifle_flank = { 0, 3.5, 7 },
+		tac_swat_rifle_flank_no_medic = { 7, 3.5, 0 },
+		-- tac_swat_shotgun_rush = { 0, 1, 2 },
+		-- tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
+		-- tac_swat_shotgun_flank = { 0, 0.5, 1 },
+		-- tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
+		-- tac_swat_rifle = { 0, 8, 16 },
+		-- tac_swat_rifle_no_medic = { 16, 8, 0 },
+		-- tac_swat_rifle_flank = { 0, 4, 8 },
+		-- tac_swat_rifle_flank_no_medic = { 8, 4, 0 },
 		tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight },
 		tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight },
 		tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
 		tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
 		tac_bull_rush = { 0, special_weight * 0.5, special_weight },
-		FBI_spoocs = { 0, special_weight * 0.5, special_weight }
+		FBI_spoocs = { 0, special_weight * 0.5, special_weight },
+		phalanx_squad = { 0, 0, 0 }
 	}
 	--	avoiding issues if new groups are added in vanilla
 	for group, _ in pairs(self.besiege.assault.groups) do
@@ -850,7 +950,8 @@ Hooks:PostHook(GroupAITweakData, "_init_task_data", "ass__init_task_data", funct
 	end
 
 	local recon_weights = {
-		hostage_rescue = { 1, 1, 1 }
+		hostage_rescue = { 1, 1, 1 },
+		phalanx_squad = { 0, 0, 0 }
 	}
 	for group, _ in pairs(self.besiege.recon.groups) do
 		self.besiege.recon.groups[group] = { 0, 0, 0 }
@@ -858,6 +959,11 @@ Hooks:PostHook(GroupAITweakData, "_init_task_data", "ass__init_task_data", funct
 	for group, weights in pairs(recon_weights) do
 		self.besiege.recon.groups[group] = weights
 	end
+
+	--	nuke winters, he isnt fun
+	self.phalanx.spawn_chance.start = 0
+	self.phalanx.spawn_chance.increase = 0
+	self.phalanx.spawn_chance.max = 0
 
 	--	make no further task data changes with sh
 	if StreamHeist then
@@ -886,13 +992,7 @@ Hooks:PostHook(GroupAITweakData, "_init_task_data", "ass__init_task_data", funct
 	self.besiege.recon.interval = { 0, 0, 0 }
 	self.besiege.recon.interval_variation = 0
 
-	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
-
-	--	this is just the sh winters settings
-	self.phalanx.vip.damage_reduction.start = 0.05
-	self.phalanx.vip.damage_reduction.increase = 0.05
-	self.phalanx.vip.damage_reduction.increase_intervall = 10
-
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
-end)
+
+end )
