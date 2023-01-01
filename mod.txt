@@ -8,15 +8,11 @@
 	"color" : "218 0 78",
 	"hooks" : [
 		{
-			"hook_id" : "lib/units/enemies/cop/copbase",
-			"script_path" : "mod.lua"
-		},
-		{
 			"hook_id" : "lib/tweak_data/groupaitweakdata",
 			"script_path" : "mod.lua"
 		},
 		{
-			"hook_id" : "lib/setups/gamesetup",
+			"hook_id" : "lib/units/enemies/cop/copbase",
 			"script_path" : "mod.lua"
 		}
 	]
