@@ -52,9 +52,11 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	if StreamHeist then
 		if difficulty_index < 4 then
 			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
+				Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 			}
 			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
 				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
 			}
 			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
@@ -64,18 +66,22 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3")
 			}
 		end
+
 		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
 			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg")
+		}
+		self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
+			Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01")
 		}
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
 			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
 		}
-		--	still waiting on proper federales hrt in sh
 		self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 			Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02")
 		}
+
 		check_new_factions_func()
+
 		return
 	end
 
@@ -924,8 +930,6 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
 	self.besiege.assault.force = { 12, 14, 16 }
 	self.besiege.assault.force_pool = { 40, 50, 60 }
-	self.besiege.assault.force_balance_mul = { 1, 2, 3, 4 }
-	self.besiege.assault.force_pool_balance_mul = { 1, 2, 3, 4 }
 
 	self.besiege.regroup.duration = { 30, 25, 20 }
 
