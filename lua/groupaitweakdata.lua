@@ -1,3 +1,7 @@
+--	unit category and task data changes are different with and without streamlined heisting
+--	similarly, different enemy spawn groups as well as more different task data are used in """beta""" mode
+local ASSGroupAITweakDataModule = ASS:require("ASSGroupAITweakDataModule")
+
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
 	--	sets new factions to america if any are added
@@ -25,6 +29,10 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
 	}
+	self.unit_categories.FBI_suit_M4_MP5.unit_types.murkywater = {
+		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
+		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
+	}
 	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 	}
@@ -44,146 +52,28 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		}
 	end
 
-	--	merc marshal makes no sense for zombies
+	--	merc marshals makes no sense for zombies
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	--	with sh, separate hrt by weapon type, check new factions, and make no further changes
-	if StreamHeist then
-		if difficulty_index < 4 then
-			self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
-				Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-			}
-			self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
-			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-				Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
-			}
-			self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3")
-			}
+	ASSGroupAITweakDataModule["unit_categories_" .. ASS:req_func_suffix()](self, difficulty_index)
+
+	local function combined_category(category_1, category_2)
+		local new_category = deep_clone(category_1)
+
+		for faction, units in pairs(category_2.unit_types) do
+			for _, unit in pairs(units) do
+				table.insert(new_category.unit_types[faction], unit)
+			end
 		end
 
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02")
-		}
-
-		check_new_factions_func()
-
-		return
+		return new_category
 	end
 
-	--	oh boy.
-	if difficulty_index < 4 then
-		self.unit_categories.FBI_swat_M4 = self.unit_categories.CS_swat_MP5
-		self.unit_categories.FBI_swat_R870 = self.unit_categories.CS_swat_R870
-		self.unit_categories.FBI_heavy_G36 = self.unit_categories.CS_heavy_M4
-		self.unit_categories.FBI_heavy_R870 = self.unit_categories.CS_heavy_R870
-		self.unit_categories.FBI_shield = self.unit_categories.CS_shield
-		self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
-			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = {
-			Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass")
-		}
-		self.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = {
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-		}
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = self.unit_categories.CS_cop_C45_R870.unit_types.russia
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4")
-		}
-	else
-		if difficulty_index < 6 then
-			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870")
-			}
-		elseif difficulty_index < 8 then
-			self.unit_categories.FBI_swat_M4.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.america = {
-				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870")
-			}
-			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = {
-				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_heavy_shotgun/ene_murkywater_heavy_shotgun")
-			}
-			self.unit_categories.FBI_shield.unit_types.russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-			}
-		else
-			self.unit_categories.FBI_swat_M4 = self.unit_categories.CS_swat_MP5
-			self.unit_categories.FBI_swat_R870 = self.unit_categories.CS_swat_R870
-			self.unit_categories.FBI_swat_R870.unit_types.america = {
-				Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.murkywater = {
-				Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-			}
-			self.unit_categories.FBI_swat_R870.unit_types.federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
-			}
-			self.unit_categories.FBI_heavy_G36 = self.unit_categories.CS_heavy_M4
-			self.unit_categories.FBI_heavy_R870 = self.unit_categories.CS_heavy_R870
-			self.unit_categories.FBI_heavy_R870.unit_types.america = {
-				Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
-			}
-			self.unit_categories.FBI_heavy_R870.unit_types.murkywater = self.unit_categories.FBI_heavy_R870.unit_types.america
-		end
-		self.unit_categories.FBI_suit_C45_M4.unit_types.russia = self.unit_categories.CS_swat_MP5.unit_types.russia
-		self.unit_categories.FBI_suit_stealth_MP5.unit_types.russia = self.unit_categories.CS_swat_R870.unit_types.russia
-	end
-
-	--	overkill hates fbi agents
-	self.unit_categories.FBI_suit_C45_M4.unit_types.federales = {
-		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale")
-	}
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = {
-		Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870")
-	}
-
-	--	add lmg dozers to mayhem
-	if difficulty_index == 6 then
-		table.insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
-	end
-
-	--	new special limits, from easy to death sentence
-	local limits = {
-		shield = { 0, 2, 2, 4, 4, 6, 6, 8 },
-		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },
-		taser = { 0, 0, 1, 1, 2, 3, 3, 4 },
-		tank = { 0, 0, 0, 1, 1, 2, 2, 3 },
-		spooc = { 0, 0, 0, 1, 2, 3, 3, 4 }
-	}
-	for special, limit in pairs(limits) do
-		self.special_unit_spawn_limits[special] = limit[difficulty_index] or limit[#limit]
-	end
+	self.unit_categories.medic_M4_R870 = combined_category(self.unit_categories.medic_M4, self.unit_categories.medic_R870)
+	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
+	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
+	self.unit_categories.FBI_swat_heavy_M4_G36_R870 = combined_category(self.unit_categories.FBI_swat_M4_R870, self.unit_categories.FBI_heavy_G36_R870)
 
 	check_new_factions_func()
 
@@ -193,7 +83,6 @@ end )
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
 
 	local difficulty_index = math.clamp(difficulty_index, 2, 8)
-	--	local tactics = self._tactics
 
 	--	shame most tactics do little to nothing in vanilla
 
@@ -218,8 +107,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			"charge",
 			"flank",
 			"flash_grenade",
-			"deathguard",
-			"rescue_hostages"
+			"deathguard"
 		},
 		swat_rifle = {
 			"ranged_fire",
@@ -227,8 +115,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		},
 		swat_rifle_flank = {
 			"flank",
-			"flash_grenade",
-			"rescue_hostages"
+			"flash_grenade"
+		},
+		shield = {
+			"shield",
+			"ranged_fire",
+			"deathguard"
 		},
 		shield_ranged = {
 			"shield",
@@ -243,6 +135,14 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		shield_cover = {
 			"shield_cover",
 			"deathguard"
+		},
+		tazer = {
+			"shield_cover",
+			"charge",
+			"flank",
+			"flash_grenade",
+			"smoke_grenade",
+			"murder"
 		},
 		tazer_flanking = {
 			"shield_cover",
@@ -260,9 +160,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			"shield",
 			"murder"
 		},
-		tank_rush = {
+		tank = {
 			"shield",
 			"charge",
+			"flash_grenade",
+			"smoke_grenade",
 			"murder"
 		},
 		tank_cover = {
@@ -292,6 +194,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		phalanx_cover = {
 			"shield_cover",
 			"murder"
+		},
+		hostage_rescue = {
+			"ranged_fire",
+			"smoke_grenade",
+			"rescue_hostages"
 		}
 	}
 
@@ -305,391 +212,268 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = difficulty_index / 32
 	}
 
-	--	copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
-	--	and ensures a spawn point check reference is set
-	local function no_medic_group(original_group)
+	local function automagic(original_group, amount, spawn_values)
 		local g = deep_clone(original_group)
 
-		for i = #g.spawn, 1, -1 do
-			local enemy = g.spawn[i]
-			if enemy.unit:match("heavy") then
-				enemy.freq = freq.common
-			elseif enemy.unit:match("swat") then
-				--	nothing
-			else
-				table.remove(g.spawn, i)
+		g.amount = amount or g.amount
+
+		if spawn_values then
+			for i = #spawn_values, 1, -1 do
+				g.spawn[i] = g.spawn[i] or {}
+
+				if spawn_values[i].remove then
+					table.remove(g.spawn, i)
+				else
+					for k, v in pairs(spawn_values[i]) do
+						g.spawn[i][k] = v
+					end
+				end
 			end
 		end
-
-		g.spawn_point_chk_ref = g.spawn_point_chk_ref or {
-			tac_swat_rifle_flank = true
-		}
 
 		return g
 	end
 
-	--	4 regular swat groups, non-flank/flank shotgunners/riflemen
-	--	non-flankers can spawn with an fbi agent
-	--	flankers can spawn with an extra special
-
-	self.enemy_spawn_groups.tac_swat_shotgun_rush = {
-		amount = { 3, 4 },
+	self.enemy_spawn_groups.tac_swats_a = {
+		amount = { 2, 3 },
 		spawn = {
 			{
-				rank = 3,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 4,
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
 				amount_max = 1,
-				freq = freq.rare
-			},
-			{
-				rank = 1,
-				unit = "medic_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.uncommon
+				freq = freq.common
 			}
 		},
 		spawn_point_chk_ref = {
 			tac_swat_rifle_flank = true
 		}
 	}
-	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_rush)
-
-	--	occasional cloaker helps force player to not pick their targets like a dingus
-	self.enemy_spawn_groups.tac_swat_shotgun_flank = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 3,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "spooc",
-				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "medic_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
+	self.enemy_spawn_groups.tac_swats_b = automagic(self.enemy_spawn_groups.tac_swats_a, nil, {
+		{
+			tactics = tactics.swat_rifle_flank
 		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
+		{
+			tactics = tactics.swat_shotgun_flank
 		}
-	}
-	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_flank)
-
-	self.enemy_spawn_groups.tac_swat_rifle = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 3,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_C45_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.rare
-			},
-			{
-				rank = 1,
-				unit = "medic_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
+	})
+	self.enemy_spawn_groups.tac_swats_c = automagic(self.enemy_spawn_groups.tac_swats_a, { 3, 4 }, {
+		{},
+		{},
+		{
+			rank = 1,
+			unit = "FBI_suit_M4_MP5",
+			tactics = tactics.swat_rifle,
+			amount_max = 1,
+			freq = freq.rare
 		},
-		spawn_point_chk_ref = {
-			tac_swat_rifle_flank = true
+		{
+			rank = 1,
+			unit = "medic_M4_R870",
+			tactics = tactics.swat_rifle,
+			amount_max = 1,
+			freq = freq.uncommon
 		}
-	}
-	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle)
-
-	--	riflemen deal consistent damage to taser's victim, but these guys arent as coordinated as in the taser or dozer groups
-	self.enemy_spawn_groups.tac_swat_rifle_flank = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 3,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "medic_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
+	})
+	self.enemy_spawn_groups.tac_swats_d = automagic(self.enemy_spawn_groups.tac_swats_b, { 3, 4 }, {
+		{},
+		{},
+		{
+			rank = 1,
+			unit = "spooc",
+			tactics = tactics.swat_shotgun_flank,
+			amount_max = 1,
+			freq = freq.elite
+		},
+		{
+			rank = 1,
+			unit = "medic_M4_R870",
+			tactics = tactics.swat_shotgun_flank,
+			amount_max = 1,
+			freq = freq.rare
 		}
-	}
-	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_flank)
+	})
 
-	--	2 shield groups (tac_shield_wall is disgusting and not needed, set to the same as ranged)
+	self.enemy_spawn_groups.tac_heavys_a = automagic(self.enemy_spawn_groups.tac_swats_a, nil, {
+		{
+			unit = "FBI_heavy_G36"
+		},
+		{
+			unit = "FBI_heavy_R870"
+		}
+	})
+	self.enemy_spawn_groups.tac_heavys_b = automagic(self.enemy_spawn_groups.tac_heavys_a, nil, {
+		{
+			tactics = tactics.swat_rifle_flank
+		},
+		{
+			tactics = tactics.swat_shotgun_flank
+		}
+	})
+	self.enemy_spawn_groups.tac_heavys_c = automagic(self.enemy_spawn_groups.tac_heavys_a, { 3, 4 }, {
+		{},
+		{},
+		{
+			rank = 1,
+			unit = "FBI_suit_M4_MP5",
+			tactics = tactics.swat_rifle,
+			amount_max = 1,
+			freq = freq.rare
+		},
+		{
+			rank = 1,
+			unit = "medic_M4_R870",
+			tactics = tactics.swat_rifle,
+			amount_max = 1,
+			freq = freq.uncommon
+		}
+	})
+	self.enemy_spawn_groups.tac_heavys_d = automagic(self.enemy_spawn_groups.tac_heavys_b, { 3, 4 }, {
+		{},
+		{},
+		{
+			rank = 1,
+			unit = "CS_tazer",
+			tactics = tactics.swat_rifle_flank,
+			amount_max = 1,
+			freq = freq.elite
+		},
+		{
+			rank = 1,
+			unit = "medic_M4_R870",
+			tactics = tactics.swat_shotgun_flank,
+			amount_max = 1,
+			freq = freq.rare
+		}
+	})
 
-	--	spawn with heavies/medic who have a health pool worth protecting and fbi agents who have damage worth protecting
-	self.enemy_spawn_groups.tac_shield_wall_ranged = {
-		amount = { 4, 5 },
+	self.enemy_spawn_groups.tac_shields_a = {
+		amount = { 2, 3 },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_shield",
 				tactics = tactics.shield_ranged,
 				amount_min = 1,
-				amount_max = 2,
+				amount_max = 1,
 				freq = freq.uncommon
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36",
+				unit = "FBI_swat_M4_R870",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_C45_M4",
-				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.rare
-			},
-			{
-				rank = 1,
-				unit = "medic_M4",
-				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			}
-		}
-	}
-	self.enemy_spawn_groups.tac_shield_wall = self.enemy_spawn_groups.tac_shield_wall_ranged
-
-	self.enemy_spawn_groups.tac_shield_wall_charge = {
-		amount = { 4, 5 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_shield",
-				tactics = tactics.shield_charge,
 				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 4,
 				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.rare
-			},
-			{
-				rank = 1,
-				unit = "medic_R870",
-				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
 			}
+		},
+		spawn_point_chk_ref = {
+			tac_shield_wall_ranged = true,
+			tac_shield_wall = true,
+			tac_shield_wall_charge = true
 		}
 	}
+	self.enemy_spawn_groups.tac_shields_b = automagic(self.enemy_spawn_groups.tac_shields_a, { 3, 4 }, {
+		{
+			tactics = tactics.shield_charge,
+			amount_max = 2
+		},
+		{
+			unit = "FBI_heavy_G36_R870",
+		},
+		{
+			rank = 1,
+			unit = "medic_M4_R870",
+			tactics = tactics.shield_cover,
+			amount_max = 1,
+			freq = freq.elite
+		}
+	})
 
-	--	2 taser groups
-	--	spawn with light swat to assist in taking down the player while taser has them immobilized
-	--	they can and will throw themselves in front of taser too, to keep him from being interrupted when playing with sh
-
-	--	flank taser sneaks around and, if a cloaker is with him, forces a decision between an instant down or a possible down from damage
-	self.enemy_spawn_groups.tac_tazer_flanking = {
-		amount = { 3, 4 },
+	self.enemy_spawn_groups.tac_tazers_a = {
+		amount = { 1, 3 },
 		spawn = {
 			{
 				rank = 2,
 				unit = "CS_tazer",
-				tactics = tactics.tazer_flanking,
+				tactics = tactics.tazer,
 				amount_min = 1,
-				amount_max = 2,
+				amount_max = 1,
 				freq = freq.uncommon
 			},
 			{
 				rank = 1,
-				unit = "spooc",
+				unit = "FBI_swat_M4_R870",
 				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			}
+		},
+		spawn_point_chk_ref = {
+			tac_tazer_flanking = true,
+			tac_tazer_charge = true
 		}
 	}
+	self.enemy_spawn_groups.tac_tazers_b = automagic(self.enemy_spawn_groups.tac_tazers_a, { 2, 4 }, {
+		{
+			amount_max = 2
+		},
+		{
+			unit = "FBI_swat_heavy_M4_G36_R870",
+			amount_min = 1
+		},
+		{
+			rank = 1,
+			unit = "FBI_shield",
+			tactics = tactics.tazer_shield,
+			amount_max = 1,
+			freq = freq.elite
+		},
+	})
 
-	--	charge taser can have a shield so he can rush in and not get shot so easily
-	self.enemy_spawn_groups.tac_tazer_charge = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "CS_tazer",
-				tactics = tactics.tazer_charge,
-				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_shield",
-				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_R870",
-				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 3,
-				freq = freq.baseline
-			}
-		}
-	}
-
-	--	1 bulldozer group
-
-	--	spawns with rifle and shotgun heavies who are bulky enough to not go down immediately if caught not hiding behind the dozer
-	--	if a taser spawns with him, well, shame if you get immobilized in front of the walking tank
-	self.enemy_spawn_groups.tac_bull_rush = {
-		amount = { 3, 4 },
+	self.enemy_spawn_groups.tac_tanks_a = {
+		amount = { 1, 3 },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_tank",
-				tactics = tactics.tank_rush,
+				tactics = tactics.tank,
 				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.tank_cover,
-				amount_min = 0,
 				amount_max = 1,
-				freq = freq.elite
+				freq = freq.rare
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36",
+				unit = "FBI_swat_M4_R870",
 				tactics = tactics.tank_cover,
-				amount_min = 0,
-				amount_max = 3,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.tank_cover,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			}
+		},
+		spawn_point_chk_ref = {
+			tac_bull_rush = true
 		}
 	}
+	self.enemy_spawn_groups.tac_tanks_b = automagic(self.enemy_spawn_groups.tac_tanks_a, { 2, 4 }, {
+		{
+			amount_max = 2
+		},
+		{
+			unit = "FBI_swat_heavy_M4_G36_R870"
+		},
+		{
+			rank = 1,
+			unit = "CS_tazer",
+			tactics = tactics.tank_cover,
+			amount_max = 1,
+			freq = freq.elite
+		}
+	})
 
-	--	2 cloaker groups
-
-	--	this one is only used on old maps as part of SO spawns, 1 cloaker only to reduce spam
 	self.enemy_spawn_groups.single_spooc = {
 		amount = { 1, 1 },
 		spawn = {
@@ -697,36 +481,38 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				rank = 1,
 				unit = "spooc",
 				tactics = tactics.spooc,
-				amount_min = 1,
-				amount_max = 1,
 				freq = freq.baseline
 			}
 		}
 	}
+	self.enemy_spawn_groups.FBI_spoocs = self.enemy_spawn_groups.single_spooc
 
-	--	cloaker can spawn by himself, or with an extra unit
-	--	additional cloaker for extra stress, or more commonly an fbi agent to, as you may guess, force target prioritization
-	self.enemy_spawn_groups.FBI_spoocs = {
-		amount = { 1, 2 },
+	self.enemy_spawn_groups.tac_spoocs_a = {
+		amount = { 1, 1 },
 		spawn = {
 			{
-				rank = 2,
+				rank = 1,
 				unit = "spooc",
 				tactics = tactics.spooc,
-				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.spooc,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.baseline
+				freq = freq.rare
 			}
+		},
+		spawn_point_chk_ref = {
+			FBI_spoocs = true
 		}
 	}
+	self.enemy_spawn_groups.tac_spoocs_b = automagic(self.enemy_spawn_groups.tac_spoocs_a, { 1, 2 }, {
+		{
+			amount_max = 2
+		},
+		{
+			rank = 1,
+			unit = "FBI_suit_stealth_MP5",
+			tactics = tactics.spooc,
+			amount_max = 1,
+			freq = freq.baseline
+		}
+	})
 
 	--	2 special groups
 	--	marshal group, and an alternative to winters
@@ -748,14 +534,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.marshal_marksman,
 				amount_min = 1,
 				amount_max = 2,
-				freq = freq.uncommon
+				freq = freq.common
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = tactics.marshal_marksman,
-				amount_min = 0,
-				amount_max = 1,
 				freq = freq.baseline
 			}
 		},
@@ -763,13 +547,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 			tac_swat_rifle_flank = true
 		}
 	}
-	local is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
+	local is_trai = true	--	Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
 	if is_trai then
 		table.insert(self.enemy_spawn_groups.marshal_squad.spawn, {
 			rank = 1,
 			unit = "marshal_shield",
 			tactics = tactics.marshal_shield,
-			amount_min = 0,
 			amount_max = 1,
 			freq = freq.elite
 		})
@@ -780,7 +563,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	self.enemy_spawn_groups.phalanx_squad = {
 		max_nr_simultaneous_groups = 1,
 		spawn_cooldown = base_cooldown * 3,
-		amount = { 4, 5 },
+		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
@@ -788,13 +571,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				tactics = tactics.phalanx_shield,
 				amount_min = 1,
 				amount_max = 2,
-				freq = freq.uncommon
+				freq = freq.rare
 			},
 			{
 				rank = 1,
 				unit = "FBI_tank",
 				tactics = tactics.phalanx_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -802,16 +584,12 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = tactics.phalanx_cover,
-				amount_min = 0,
-				amount_max = 4,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = tactics.phalanx_cover,
-				amount_min = 0,
-				amount_max = 4,
 				freq = freq.baseline
 			}
 		},
@@ -822,46 +600,97 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		}
 	}
 
-	--	1 recon group
-
-	--	only really seen in sh, vanilla doesnt really use recon spawn limit correctly and counts assault units towards it
-	--	can spawn with a taser to help keep companions alive if a player comes to hunt them down
 	self.enemy_spawn_groups.hostage_rescue = {
 		amount = { 2, 3 },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 3,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.hostage_rescue,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 3,
+				tactics = tactics.hostage_rescue,
 				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
 			}
 		},
 		spawn_point_chk_ref = {
 			tac_swat_rifle_flank = true
 		}
 	}
+	self.enemy_spawn_groups.hostage_rescue_assault = automagic(self.enemy_spawn_groups.hostage_rescue, { 3, 4 }, {
+		{},
+		{
+			unit = "FBI_suit_stealth_MP5"
+		},
+		{
+			rank = 1,
+			unit = "CS_tazer",
+			tactics = tactics.hostage_rescue,
+			amount_max = 1,
+			freq = freq.elite
+		}
+	})
+	self.enemy_spawn_groups.hostage_rescue_assault.max_nr_simultaneous_groups = 1
+	self.enemy_spawn_groups.hostage_rescue_assault.spawn_cooldown = base_cooldown * 2
 
-	--	no reenforce groups.
-	--	reenforce doesnt work properly in vanilla thanks to u173, they end up behaving like regular assault units if spawned
-	--	sh restores reenforce, and its reenforce groups are fine
+	self.enemy_spawn_groups.reenforce_a = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.swat_shotgun_rush,
+				freq = freq.common
+			},
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+	self.enemy_spawn_groups.reenforce_b = automagic(self.enemy_spawn_groups.reenforce_a, nil, {
+		{
+			unit = "FBI_suit_M4_MP5"
+		},
+		{
+			unit = "FBI_swat_M4"
+		},
+		{
+			unit = "FBI_swat_R870"
+		}
+	})
+	self.enemy_spawn_groups.reenforce_c = automagic(self.enemy_spawn_groups.reenforce_b, nil, {
+		{
+			unit = "FBI_swat_M4"
+		},
+		{
+			unit = "FBI_heavy_G36"
+		},
+		{
+			unit = "FBI_heavy_R870"
+		}
+	})
+	self.enemy_spawn_groups.reenforce_d = automagic(self.enemy_spawn_groups.reenforce_c, nil, {
+		{
+			remove = true
+		}
+	})
 
 end )
 
@@ -869,33 +698,6 @@ end )
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
 	local f = math.clamp(difficulty_index - 2, 0, 6) / 6
-
-	--	spawn group weights (based on sh, swat groups shifted to favour more shotgunners)
-	local special_weight = math.lerp(3, 5, f)
-	local assault_weights = {
-		tac_swat_shotgun_rush = { 2, 3, 4 },
-		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
-		tac_swat_shotgun_flank = { 1, 1.5, 2 },
-		tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
-		tac_swat_rifle = { 7, 10.5, 14 },
-		tac_swat_rifle_no_medic = { 7, 3.5, 0 },
-		tac_swat_rifle_flank = { 3.5, 5.25, 7 },
-		tac_swat_rifle_flank_no_medic = { 3.5, 1.75, 0 },
-		tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight },
-		tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight },
-		tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
-		tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
-		tac_bull_rush = { 0, special_weight * 0.5, special_weight },
-		FBI_spoocs = { 0, special_weight * 0.5, special_weight },
-		phalanx_squad = { 0, 0, 0 }
-	}
-	--	avoiding issues if new groups are added in vanilla
-	for group, _ in pairs(self.besiege.assault.groups) do
-		self.besiege.assault.groups[group] = { 0, 0, 0 }
-	end
-	for group, weights in pairs(assault_weights) do
-		self.besiege.assault.groups[group] = weights
-	end
 
 	local recon_weights = {
 		hostage_rescue = { 1, 1, 1 },
@@ -913,29 +715,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
 
-	--	make no further task data changes with sh
-	if StreamHeist then
-		self.street = deep_clone(self.besiege)
-		self.safehouse = deep_clone(self.besiege)
-		return
-	end
-
-	--	vanilla's flashbang timer is too long
-	self.flash_grenade.timer = math.lerp(2, 1, f)
-
-	self.besiege.assault.sustain_duration_min = { 120, 180, 240 }
-	self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-	self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-	self.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
-	self.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
-	self.besiege.assault.force = { 12, 14, 16 }
-	self.besiege.assault.force_pool = { 40, 50, 60 }
-
-	self.besiege.regroup.duration = { 30, 25, 20 }
-
-	self.besiege.recon.force = { 2, 4, 6 }
-	self.besiege.recon.interval = { 0, 0, 0 }
-	self.besiege.recon.interval_variation = 0
+	ASSGroupAITweakDataModule["task_data_" .. ASS:req_func_suffix()](self, f)
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
