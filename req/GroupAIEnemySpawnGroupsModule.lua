@@ -1,0 +1,1420 @@
+local GroupAIEnemySpawnGroupsModule = {}
+
+--	shame most tactics do little to nothing in vanilla
+
+--	non-flankers use smoke bombs (helps conceal their approach)
+--	but flankers use flashbangs (if they used smoke, youd be prepared for them, defeating the point of flanking)
+--	"rescue_hostages" tactic is used for sh
+
+--	shields stay in front of their backup and keep guard if they take you down
+--	taser makes sure youre down for good, and hides behind backup in sh (shield tactics do nothing in vanilla)
+--	bulldozer also makes sure youre down for good, and is his own shield
+--	despite being a flanker, cloaker uses smoke to conceal his charge until its too late
+--	marshals find an alternate route and keep guard after a takedown
+--	phalanx come in for a takedown, put you down, and move on to the next target
+
+function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai, freq, base_cooldown)
+	if not freq then
+		log("[ASS] Variable 'freq' does not exist")
+		return
+	end
+
+	local tactics = {
+		swat_shotgun_rush = {
+			"charge",
+			"smoke_grenade",
+			"deathguard"
+		},
+		swat_shotgun_flank = {
+			"charge",
+			"flank",
+			"flash_grenade",
+			"deathguard",
+			"rescue_hostages"
+		},
+		swat_rifle = {
+			"ranged_fire",
+			"smoke_grenade"
+		},
+		swat_rifle_flank = {
+			"flank",
+			"flash_grenade",
+			"rescue_hostages"
+		},
+		shield_ranged = {
+			"shield",
+			"ranged_fire",
+			"deathguard"
+		},
+		shield_charge = {
+			"shield",
+			"charge",
+			"deathguard"
+		},
+		shield_cover = {
+			"shield_cover",
+			"deathguard"
+		},
+		tazer_flanking = {
+			"shield_cover",
+			"flank",
+			"flash_grenade",
+			"murder"
+		},
+		tazer_charge = {
+			"shield_cover",
+			"charge",
+			"smoke_grenade",
+			"murder"
+		},
+		tazer_shield = {
+			"shield",
+			"murder"
+		},
+		tank_rush = {
+			"shield",
+			"charge",
+			"murder"
+		},
+		tank_cover = {
+			"shield_cover",
+			"murder"
+		},
+		spooc = {
+			"flank",
+			"smoke_grenade"
+		},
+		marshal_marksman = {
+			"shield_cover",
+			"flank",
+			"ranged_fire",
+			"deathguard"
+		},
+		marshal_shield = {
+			"shield",
+			"flank",
+			"ranged_fire",
+			"deathguard"
+		},
+		phalanx_shield = {
+			"shield",
+			"murder"
+		},
+		phalanx_cover = {
+			"shield_cover",
+			"murder"
+		}
+	}
+
+	--	copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
+	--	and ensures a spawn point check reference is set
+	local function no_medic_group(original_group)
+		local g = deep_clone(original_group)
+
+		for i = #g.spawn, 1, -1 do
+			local enemy = g.spawn[i]
+			if enemy.unit:match("heavy") then
+				enemy.freq = freq.common
+			elseif enemy.unit:match("swat") then
+				--	nothing
+			else
+				table.remove(g.spawn, i)
+			end
+		end
+
+		g.spawn_point_chk_ref = g.spawn_point_chk_ref or {
+			tac_swat_rifle_flank = true
+		}
+
+		return g
+	end
+
+	--	4 regular swat groups, non-flank/flank shotgunners/riflemen
+	--	non-flankers can spawn with an fbi agent
+	--	flankers can spawn with an extra special
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 3,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.swat_shotgun_rush,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush)
+
+	--	occasional cloaker helps force player to not pick their targets like a dingus
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 3,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.swat_shotgun_flank,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank)
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 3,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle)
+
+	--	riflemen deal consistent damage to taser's victim, but these guys arent as coordinated as in the taser or dozer groups
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 3,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank)
+
+	--	2 shield groups (tac_shield_wall is disgusting and not needed, set to the same as ranged)
+
+	--	spawn with heavies/medic who have a health pool worth protecting and fbi agents who have damage worth protecting
+	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_ranged = {
+		amount = { 4, 5 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_shield",
+				tactics = tactics.shield_ranged,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_M4",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall = tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_ranged
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_charge = {
+		amount = { 4, 5 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_shield",
+				tactics = tactics.shield_charge,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_R870",
+				tactics = tactics.shield_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		}
+	}
+
+	--	2 taser groups
+	--	spawn with light swat to assist in taking down the player while taser has them immobilized
+	--	they can and will throw themselves in front of taser too, to keep him from being interrupted when playing with sh
+
+	--	flank taser sneaks around and, if a cloaker is with him, forces a decision between an instant down or a possible down from damage
+	tweak_data_group_ai.enemy_spawn_groups.tac_tazer_flanking = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "CS_tazer",
+				tactics = tactics.tazer_flanking,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.tazer_shield,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.tazer_shield,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	charge taser can have a shield so he can rush in and not get shot so easily
+	tweak_data_group_ai.enemy_spawn_groups.tac_tazer_charge = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "CS_tazer",
+				tactics = tactics.tazer_charge,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_shield",
+				tactics = tactics.tazer_shield,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.tazer_shield,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	1 bulldozer group
+
+	--	spawns with rifle and shotgun heavies who are bulky enough to not go down immediately if caught not hiding behind the dozer
+	--	if a taser spawns with him, well, shame if you get immobilized in front of the walking tank
+	tweak_data_group_ai.enemy_spawn_groups.tac_bull_rush = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_tank",
+				tactics = tactics.tank_rush,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.tank_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.tank_cover,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.tank_cover,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	2 cloaker groups
+
+	--	this one is only used on old maps as part of SO spawns, 1 cloaker only to reduce spam
+	tweak_data_group_ai.enemy_spawn_groups.single_spooc = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.spooc,
+				amount_min = 1,
+				amount_max = 1,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	cloaker can spawn by himtweak_data_group_ai, or with an extra unit
+	--	additional cloaker for extra stress, or more commonly an fbi agent to, as you may guess, force target prioritization
+	tweak_data_group_ai.enemy_spawn_groups.FBI_spoocs = {
+		amount = { 1, 2 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "spooc",
+				tactics = tactics.spooc,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.spooc,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	2 special groups
+	--	marshal group, and an alternative to winters
+
+	--	occasional fbi agent for support if players get close
+	--	would make marshals spawn normally but that disables their spawn limit
+	--	marshal shield is used on lost in transit
+	tweak_data_group_ai.enemy_spawn_groups.marshal_squad = {
+		max_nr_simultaneous_groups = 2,
+		spawn_cooldown = base_cooldown,
+		amount = { 1, 2 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "marshal_marksman",
+				tactics = tactics.marshal_marksman,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.marshal_marksman,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+	local is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
+	if is_trai then
+		table.insert(tweak_data_group_ai.enemy_spawn_groups.marshal_squad.spawn, {
+			rank = 1,
+			unit = "marshal_shield",
+			tactics = tactics.marshal_shield,
+			amount_min = 0,
+			amount_max = 1,
+			freq = freq.elite
+		})
+	end
+
+	--	occasional takedown squad with 1-2 phalanx shields
+	--	spawn with light swat and very rarely a cowardly dozer for a swift takedown
+	tweak_data_group_ai.enemy_spawn_groups.phalanx_squad = {
+		max_nr_simultaneous_groups = 1,
+		spawn_cooldown = base_cooldown * 3,
+		amount = { 4, 5 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "Phalanx_minion",
+				tactics = tactics.phalanx_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_tank",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.phalanx_cover,
+				amount_min = 0,
+				amount_max = 4,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_shield_wall_ranged = true,
+			tac_shield_wall_charge = true,
+			tac_shield_wall = true
+		}
+	}
+
+	--	1 recon group
+
+	--	only really seen in sh, vanilla doesnt really use recon spawn limit correctly and counts assault units towards it
+	--	can spawn with a taser to help keep companions alive if a player comes to hunt them down
+	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 3,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_swat_rifle_flank = true
+		}
+	}
+
+	--	no reenforce groups.
+	--	reenforce doesnt work properly in vanilla thanks to u173, they end up behaving like regular assault units if spawned
+	--	sh restores reenforce, and its reenforce groups are fine
+end
+
+function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_group_ai, freq, base_cooldown)
+	if not freq then
+		log("[ASS] Variable 'freq' does not exist")
+		return
+	end
+
+	local tactics = {
+		swat_shotgun_rush = {
+			"charge",
+			"smoke_grenade",
+			"deathguard"
+		},
+		swat_shotgun_flank = {
+			"charge",
+			"flank",
+			"flash_grenade",
+			"deathguard",
+			"rescue_hostages"
+		},
+		swat_rifle = {
+			"ranged_fire",
+			"smoke_grenade"
+		},
+		swat_rifle_flank = {
+			"flank",
+			"flash_grenade",
+			"rescue_hostages"
+		},
+		shield = {
+			"shield",
+			"ranged_fire",
+			"deathguard"
+		},
+		shield_ranged = {
+			"shield",
+			"ranged_fire",
+			"deathguard"
+		},
+		shield_charge = {
+			"shield",
+			"charge",
+			"deathguard"
+		},
+		shield_cover = {
+			"shield_cover",
+			"deathguard"
+		},
+		tazer = {
+			"shield_cover",
+			"charge",
+			"flank",
+			"flash_grenade",
+			"smoke_grenade",
+			"murder"
+		},
+		tazer_shield = {
+			"shield",
+			"charge",
+			"flank",
+			"flash_grenade",
+			"smoke_grenade",
+			"murder"
+		},
+		tank = {
+			"shield",
+			"charge",
+			"flash_grenade",
+			"smoke_grenade",
+			"murder"
+		},
+		tank_cover = {
+			"shield_cover",
+			"charge",
+			"flash_grenade",
+			"smoke_grenade",
+			"murder"
+		},
+		spooc = {
+			"flank",
+			"smoke_grenade"
+		},
+		marshal_marksman = {
+			"shield_cover",
+			"flank",
+			"ranged_fire",
+			"deathguard"
+		},
+		marshal_shield = {
+			"shield",
+			"flank",
+			"ranged_fire",
+			"deathguard"
+		},
+		phalanx_shield = {
+			"shield",
+			"murder"
+		},
+		phalanx_cover = {
+			"shield_cover",
+			"murder"
+		},
+		hostage_rescue = {
+			"ranged_fire",
+			"smoke_grenade",
+			"rescue_hostages"
+		}
+	}
+
+	local swats_basic_amount = { 3, 3 }
+	local swats_full_amount = { 3, 4 }
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_swats_a = {
+		amount = swats_basic_amount,
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swats_b = {
+		amount = swats_basic_amount,
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swats_c = {
+		amount = swats_full_amount,
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_M4_R870",
+				tactics = tactics.swat_rifle,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_swats_d = {
+		amount = swats_full_amount,
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_M4_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.rare
+			}
+		}
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_a = {
+		amount = swats_basic_amount,
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_b = {
+		amount = swats_basic_amount,
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_c = {
+		amount = swats_full_amount,
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "medic_M4_R870",
+				tactics = tactics.swat_rifle,
+				amount_max = 1,
+				freq = freq.uncommon
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_b = {
+		amount = swats_full_amount,
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_M4_R870",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.rare
+			}
+		}
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_shields_a = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_shield",
+				tactics = tactics.shield_ranged,
+				amount_min = 1,
+				amount_max = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4_R870",
+				tactics = tactics.shield_cover,
+				amount_min = 1,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_shield_wall_ranged = true,
+			tac_shield_wall = true,
+			tac_shield_wall_charge = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_shields_b = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_shield",
+				tactics = tactics.shield_charge,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36_R870",
+				tactics = tactics.shield_cover,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "medic_M4_R870",
+				tactics = tactics.shield_cover,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		},
+		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_tazers_a = {
+		amount = { 1, 3 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "CS_tazer",
+				tactics = tactics.tazer,
+				amount_min = 1,
+				amount_max = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4_R870",
+				tactics = tactics.tazer_shield,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_tazer_flanking = true,
+			tac_tazer_charge = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_tazers_b = {
+		amount = { 2, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "CS_tazer",
+				tactics = tactics.tazer,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_heavy_M4_G36_R870",
+				tactics = tactics.tazer_shield,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_shield",
+				tactics = tactics.tazer_shield,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		},
+		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_tazers_a.spawn_point_chk_ref
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_tanks_a = {
+		amount = { 1, 3 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_tank",
+				tactics = tactics.tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4_R870",
+				tactics = tactics.tank_cover,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			tac_bull_rush = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_tanks_b = {
+		amount = { 2, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_tank",
+				tactics = tactics.tank,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_heavy_M4_G36_R870",
+				tactics = tactics.tank_cover,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.tank_cover,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		},
+		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_tanks_a.spawn_point_chk_ref
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.single_spooc = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.spooc,
+				freq = freq.baseline
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.FBI_spoocs = tweak_data_group_ai.enemy_spawn_groups.single_spooc
+
+	tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_a = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.spooc,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = {
+			FBI_spoocs = true
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_b = {
+		amount = { 1, 2 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.spooc,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.uncommon
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.spooc,
+				amount_max = 1,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_a.spawn_point_chk_ref
+	}
+
+	--	2 special groups
+	--	marshal group, and an alternative to winters
+
+	--	occasional fbi agent for support if players get close
+	--	would make marshals spawn normally but that disables their spawn limit
+	--	marshal shield is used on lost in transit
+	tweak_data_group_ai.enemy_spawn_groups.marshal_squad = {
+		max_nr_simultaneous_groups = 2,
+		spawn_cooldown = base_cooldown,
+		amount = { 1, 2 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "marshal_marksman",
+				tactics = tactics.marshal_marksman,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "marshal_shield",
+				tactics = tactics.marshal_shield,
+				amount_max = 1,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.marshal_marksman,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	--	occasional takedown squad with 1-2 phalanx shields
+	--	spawn with light swat and very rarely a cowardly dozer for a swift takedown
+	tweak_data_group_ai.enemy_spawn_groups.phalanx_squad = {
+		max_nr_simultaneous_groups = 1,
+		spawn_cooldown = base_cooldown * 3,
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "Phalanx_minion",
+				tactics = tactics.phalanx_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = freq.rare
+			},
+			{
+				rank = 1,
+				unit = "FBI_tank",
+				tactics = tactics.phalanx_cover,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.phalanx_cover,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.phalanx_cover,
+				freq = freq.baseline
+			}
+		},
+		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.hostage_rescue,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.hostage_rescue,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.hostage_rescue,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue_assault = {
+		max_nr_simultaneous_groups = 1,
+		spawn_cooldown = base_cooldown,
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.hostage_rescue,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.hostage_rescue,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.hostage_rescue,
+				amount_max = 1,
+				freq = freq.rare
+			}
+		}
+	}
+
+	tweak_data_group_ai.enemy_spawn_groups.reenforce_a = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = tactics.swat_shotgun_rush,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.reenforce_b = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.reenforce_c = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				freq = freq.common
+			}
+		}
+	}
+	tweak_data_group_ai.enemy_spawn_groups.reenforce_d = {
+		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				freq = freq.baseline
+			}
+		}
+	}
+
+	for group_name, group in pairs(tweak_data_group_ai.enemy_spawn_groups) do
+		if group_name == "single_spooc" or group_name == "FBI_spoocs" or group_name == "Phalanx" then
+			--	nothing
+		else
+			group.spawn_point_chk_ref = group.spawn_point_chk_ref or {
+				tac_swat_rifle_flank = true
+			}
+		end
+	end
+end
+
+GroupAIEnemySpawnGroupsModule.vanilla = GroupAIEnemySpawnGroupsModule.streamlined_heisting
+GroupAIEnemySpawnGroupsModule.beta_vanilla = GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting
+
+return GroupAIEnemySpawnGroupsModule

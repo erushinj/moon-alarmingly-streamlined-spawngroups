@@ -2,10 +2,10 @@ if not Network:is_server() then
 	return
 end
 
-local ASSCopBaseModule = ASS:require("ASSCopBaseModule")
+local CopBaseModule = ASS:require("CopBaseModule")
 
-local weapon_mapping = ASSCopBaseModule["weapon_mapping_" .. ASS:req_func_suffix()]()
-local tweak_mapping = ASSCopBaseModule["tweak_mapping_" .. ASS:req_func_suffix()]()
+local weapon_mapping = CopBaseModule["weapon_mapping_" .. ASS:req_func_name()]()
+local tweak_mapping = CopBaseModule["tweak_mapping_" .. ASS:req_func_name()]()
 
 Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
 	self._default_weapon_id = weapon_mapping[self._unit:name():key()] or self._default_weapon_id
