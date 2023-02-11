@@ -31,11 +31,8 @@ function CopBaseModule.weapon_mapping_vanilla()
 	}
 end
 
-function CopBaseModule.weapon_mapping_streamlined_heisting()
+function CopBaseModule.weapon_mapping_streamheist()
 	return {
-		[Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"):key()] = "r870",
-		[Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"):key()] = "mp5",
-		[Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"):key()] = "spas12",
 		[Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = "mp5",
 		[Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = "r870",
 
@@ -49,7 +46,7 @@ function CopBaseModule.weapon_mapping_streamlined_heisting()
 end
 
 CopBaseModule.weapon_mapping_beta_vanilla = CopBaseModule.weapon_mapping_vanilla
-CopBaseModule.weapon_mapping_beta_streamlined_heisting = CopBaseModule.weapon_mapping_streamlined_heisting
+CopBaseModule.weapon_mapping_beta_streamheist = CopBaseModule.weapon_mapping_streamheist
 
 function CopBaseModule.tweak_mapping_vanilla()
 	local light = is_zeal and "swat" or "fbi_swat" 
@@ -77,16 +74,14 @@ function CopBaseModule.tweak_mapping_vanilla()
 	}
 end
 
-function CopBaseModule.tweak_mapping_streamlined_heisting()
+function CopBaseModule.tweak_mapping_streamheist()
 	return {
 		swaps = {},
 		override = {}
 	}
 end
 
-CopBaseModule.tweak_mapping_streamlined_heisting = CopBaseModule.tweak_mapping_vanilla
-
 CopBaseModule.tweak_mapping_beta_vanilla = CopBaseModule.tweak_mapping_vanilla
-CopBaseModule.tweak_mapping_beta_streamlined_heisting = CopBaseModule.tweak_mapping_streamlined_heisting
+CopBaseModule.tweak_mapping_beta_streamheist = CopBaseModule.tweak_mapping_streamheist
 
 return CopBaseModule

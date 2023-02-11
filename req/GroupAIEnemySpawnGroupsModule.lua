@@ -13,12 +13,7 @@ local GroupAIEnemySpawnGroupsModule = {}
 --	marshals find an alternate route and keep guard after a takedown
 --	phalanx come in for a takedown, put you down, and move on to the next target
 
-function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai, freq, base_cooldown)
-	if not freq then
-		log("[ASS] Variable 'freq' does not exist")
-		return
-	end
-
+function GroupAIEnemySpawnGroupsModule.streamheist(group_ai, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -113,6 +108,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 
 		for i = #g.spawn, 1, -1 do
 			local enemy = g.spawn[i]
+
 			if enemy.unit:match("heavy") then
 				enemy.freq = freq.common
 			elseif enemy.unit:match("swat") then
@@ -133,7 +129,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	--	non-flankers can spawn with an fbi agent
 	--	flankers can spawn with an extra special
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush = {
+	group_ai.enemy_spawn_groups.tac_swat_shotgun_rush = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -173,10 +169,10 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 			tac_swat_rifle_flank = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_rush)
+	group_ai.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(group_ai.enemy_spawn_groups.tac_swat_shotgun_rush)
 
 	--	occasional cloaker helps force player to not pick their targets like a dingus
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank = {
+	group_ai.enemy_spawn_groups.tac_swat_shotgun_flank = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -216,9 +212,9 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 			tac_swat_rifle_flank = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_shotgun_flank)
+	group_ai.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(group_ai.enemy_spawn_groups.tac_swat_shotgun_flank)
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle = {
+	group_ai.enemy_spawn_groups.tac_swat_rifle = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -258,10 +254,10 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 			tac_swat_rifle_flank = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle)
+	group_ai.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(group_ai.enemy_spawn_groups.tac_swat_rifle)
 
 	--	riflemen deal consistent damage to taser's victim, but these guys arent as coordinated as in the taser or dozer groups
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank = {
+	group_ai.enemy_spawn_groups.tac_swat_rifle_flank = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -298,12 +294,12 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(tweak_data_group_ai.enemy_spawn_groups.tac_swat_rifle_flank)
+	group_ai.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(group_ai.enemy_spawn_groups.tac_swat_rifle_flank)
 
 	--	2 shield groups (tac_shield_wall is disgusting and not needed, set to the same as ranged)
 
 	--	spawn with heavies/medic who have a health pool worth protecting and fbi agents who have damage worth protecting
-	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_ranged = {
+	group_ai.enemy_spawn_groups.tac_shield_wall_ranged = {
 		amount = { 4, 5 },
 		spawn = {
 			{
@@ -340,9 +336,9 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall = tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_ranged
+	group_ai.enemy_spawn_groups.tac_shield_wall = group_ai.enemy_spawn_groups.tac_shield_wall_ranged
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_shield_wall_charge = {
+	group_ai.enemy_spawn_groups.tac_shield_wall_charge = {
 		amount = { 4, 5 },
 		spawn = {
 			{
@@ -385,7 +381,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	--	they can and will throw themselves in front of taser too, to keep him from being interrupted when playing with sh
 
 	--	flank taser sneaks around and, if a cloaker is with him, forces a decision between an instant down or a possible down from damage
-	tweak_data_group_ai.enemy_spawn_groups.tac_tazer_flanking = {
+	group_ai.enemy_spawn_groups.tac_tazer_flanking = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -416,7 +412,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	}
 
 	--	charge taser can have a shield so he can rush in and not get shot so easily
-	tweak_data_group_ai.enemy_spawn_groups.tac_tazer_charge = {
+	group_ai.enemy_spawn_groups.tac_tazer_charge = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -450,7 +446,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 
 	--	spawns with rifle and shotgun heavies who are bulky enough to not go down immediately if caught not hiding behind the dozer
 	--	if a taser spawns with him, well, shame if you get immobilized in front of the walking tank
-	tweak_data_group_ai.enemy_spawn_groups.tac_bull_rush = {
+	group_ai.enemy_spawn_groups.tac_bull_rush = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -491,7 +487,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	--	2 cloaker groups
 
 	--	this one is only used on old maps as part of SO spawns, 1 cloaker only to reduce spam
-	tweak_data_group_ai.enemy_spawn_groups.single_spooc = {
+	group_ai.enemy_spawn_groups.single_spooc = {
 		amount = { 1, 1 },
 		spawn = {
 			{
@@ -505,9 +501,9 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 		}
 	}
 
-	--	cloaker can spawn by himtweak_data_group_ai, or with an extra unit
+	--	cloaker can spawn by himgroup_ai, or with an extra unit
 	--	additional cloaker for extra stress, or more commonly an fbi agent to, as you may guess, force target prioritization
-	tweak_data_group_ai.enemy_spawn_groups.FBI_spoocs = {
+	group_ai.enemy_spawn_groups.FBI_spoocs = {
 		amount = { 1, 2 },
 		spawn = {
 			{
@@ -535,7 +531,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	--	occasional fbi agent for support if players get close
 	--	would make marshals spawn normally but that disables their spawn limit
 	--	marshal shield is used on lost in transit
-	tweak_data_group_ai.enemy_spawn_groups.marshal_squad = {
+	group_ai.enemy_spawn_groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
 		spawn_cooldown = base_cooldown,
 		amount = { 1, 2 },
@@ -555,27 +551,24 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 				amount_min = 0,
 				amount_max = 1,
 				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "marshal_shield",
+				tactics = tactics.marshal_shield,
+				amount_min = 0,
+				amount_max = 1,
+				freq = freq.elite
 			}
 		},
 		spawn_point_chk_ref = {
 			tac_swat_rifle_flank = true
 		}
 	}
-	local is_trai = Global.level_data and Global.level_data.level_id == "trai" or Global.game_settings and Global.game_settings.level_id == "trai"
-	if is_trai then
-		table.insert(tweak_data_group_ai.enemy_spawn_groups.marshal_squad.spawn, {
-			rank = 1,
-			unit = "marshal_shield",
-			tactics = tactics.marshal_shield,
-			amount_min = 0,
-			amount_max = 1,
-			freq = freq.elite
-		})
-	end
 
 	--	occasional takedown squad with 1-2 phalanx shields
 	--	spawn with light swat and very rarely a cowardly dozer for a swift takedown
-	tweak_data_group_ai.enemy_spawn_groups.phalanx_squad = {
+	group_ai.enemy_spawn_groups.phalanx_squad = {
 		max_nr_simultaneous_groups = 1,
 		spawn_cooldown = base_cooldown * 3,
 		amount = { 4, 5 },
@@ -624,7 +617,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 
 	--	only really seen in sh, vanilla doesnt really use recon spawn limit correctly and counts assault units towards it
 	--	can spawn with a taser to help keep companions alive if a player comes to hunt them down
-	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue = {
+	group_ai.enemy_spawn_groups.hostage_rescue = {
 		amount = { 2, 3 },
 		spawn = {
 			{
@@ -662,12 +655,7 @@ function GroupAIEnemySpawnGroupsModule.streamlined_heisting(tweak_data_group_ai,
 	--	sh restores reenforce, and its reenforce groups are fine
 end
 
-function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_group_ai, freq, base_cooldown)
-	if not freq then
-		log("[ASS] Variable 'freq' does not exist")
-		return
-	end
-
+function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -700,13 +688,22 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			"ranged_fire",
 			"deathguard"
 		},
+		shield_ranged_cover = {
+			"shield_cover",
+			"ranged_fire",
+			"smoke_grenade",
+			"deathguard"
+		},
 		shield_charge = {
 			"shield",
 			"charge",
 			"deathguard"
 		},
-		shield_cover = {
+		shield_charge_cover = {
 			"shield_cover",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
 			"deathguard"
 		},
 		tazer = {
@@ -773,7 +770,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 	local swats_basic_amount = { 3, 3 }
 	local swats_full_amount = { 3, 4 }
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_swats_a = {
+	group_ai.enemy_spawn_groups.tac_swats_a = {
 		amount = swats_basic_amount,
 		spawn = {
 			{
@@ -792,7 +789,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swats_b = {
+	group_ai.enemy_spawn_groups.tac_swats_b = {
 		amount = swats_basic_amount,
 		spawn = {
 			{
@@ -811,7 +808,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swats_c = {
+	group_ai.enemy_spawn_groups.tac_swats_c = {
 		amount = swats_full_amount,
 		spawn = {
 			{
@@ -844,7 +841,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_swats_d = {
+	group_ai.enemy_spawn_groups.tac_swats_d = {
 		amount = swats_full_amount,
 		spawn = {
 			{
@@ -878,7 +875,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 		}
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_a = {
+	group_ai.enemy_spawn_groups.tac_heavys_a = {
 		amount = swats_basic_amount,
 		spawn = {
 			{
@@ -897,7 +894,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_b = {
+	group_ai.enemy_spawn_groups.tac_heavys_b = {
 		amount = swats_basic_amount,
 		spawn = {
 			{
@@ -916,7 +913,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_c = {
+	group_ai.enemy_spawn_groups.tac_heavys_c = {
 		amount = swats_full_amount,
 		spawn = {
 			{
@@ -949,7 +946,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_heavys_b = {
+	group_ai.enemy_spawn_groups.tac_heavys_d = {
 		amount = swats_full_amount,
 		spawn = {
 			{
@@ -983,8 +980,8 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 		}
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_shields_a = {
-		amount = { 2, 3 },
+	group_ai.enemy_spawn_groups.tac_shields_a = {
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 2,
@@ -996,9 +993,8 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4_R870",
-				tactics = tactics.shield_cover,
-				amount_min = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.shield_ranged_cover,
 				freq = freq.baseline
 			}
 		},
@@ -1008,11 +1004,11 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			tac_shield_wall_charge = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_shields_b = {
+	group_ai.enemy_spawn_groups.tac_shields_b = {
 		amount = { 3, 4 },
 		spawn = {
 			{
-				rank = 2,
+				rank = 3,
 				unit = "FBI_shield",
 				tactics = tactics.shield_charge,
 				amount_min = 1,
@@ -1020,24 +1016,24 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				freq = freq.uncommon
 			},
 			{
-				rank = 1,
-				unit = "FBI_heavy_G36_R870",
-				tactics = tactics.shield_cover,
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.shield_charge_cover,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "medic_M4_R870",
-				tactics = tactics.shield_cover,
+				unit = "medic_M4",
+				tactics = tactics.shield_charge_cover,
 				amount_max = 1,
 				freq = freq.elite
 			}
 		},
-		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
+		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_tazers_a = {
+	group_ai.enemy_spawn_groups.tac_tazers_a = {
 		amount = { 1, 3 },
 		spawn = {
 			{
@@ -1050,7 +1046,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4_R870",
+				unit = "FBI_swat_M4",
 				tactics = tactics.tazer_shield,
 				freq = freq.baseline
 			}
@@ -1060,35 +1056,35 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			tac_tazer_charge = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_tazers_b = {
+	group_ai.enemy_spawn_groups.tac_tazers_b = {
 		amount = { 2, 4 },
 		spawn = {
 			{
-				rank = 2,
+				rank = 3,
 				unit = "CS_tazer",
 				tactics = tactics.tazer,
-				amount_min = 1,
+				amount_min = 2,
 				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_heavy_M4_G36_R870",
-				tactics = tactics.tazer_shield,
 				freq = freq.baseline
 			},
 			{
-				rank = 1,
+				rank = 2,
 				unit = "FBI_shield",
 				tactics = tactics.tazer_shield,
 				amount_max = 1,
 				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4_R870",
+				tactics = tactics.tazer_shield,
+				freq = freq.baseline
 			}
 		},
-		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_tazers_a.spawn_point_chk_ref
+		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_tazers_a.spawn_point_chk_ref
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_tanks_a = {
+	group_ai.enemy_spawn_groups.tac_tanks_a = {
 		amount = { 1, 3 },
 		spawn = {
 			{
@@ -1110,35 +1106,35 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			tac_bull_rush = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_tanks_b = {
+	group_ai.enemy_spawn_groups.tac_tanks_b = {
 		amount = { 2, 4 },
 		spawn = {
 			{
-				rank = 2,
+				rank = 3,
 				unit = "FBI_tank",
 				tactics = tactics.tank,
 				amount_min = 1,
 				amount_max = 2,
-				freq = freq.rare
+				freq = freq.elite
 			},
 			{
-				rank = 1,
-				unit = "FBI_swat_heavy_M4_G36_R870",
-				tactics = tactics.tank_cover,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
+				rank = 2,
 				unit = "CS_tazer",
 				tactics = tactics.tank_cover,
 				amount_max = 1,
 				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_G36_R870",
+				tactics = tactics.tank_cover,
+				freq = freq.baseline
 			}
 		},
-		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_tanks_a.spawn_point_chk_ref
+		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_tanks_a.spawn_point_chk_ref
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.single_spooc = {
+	group_ai.enemy_spawn_groups.single_spooc = {
 		amount = { 1, 1 },
 		spawn = {
 			{
@@ -1149,9 +1145,9 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.FBI_spoocs = tweak_data_group_ai.enemy_spawn_groups.single_spooc
+	group_ai.enemy_spawn_groups.FBI_spoocs = group_ai.enemy_spawn_groups.single_spooc
 
-	tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_a = {
+	group_ai.enemy_spawn_groups.tac_spoocs_a = {
 		amount = { 1, 1 },
 		spawn = {
 			{
@@ -1165,11 +1161,11 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			FBI_spoocs = true
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_b = {
-		amount = { 1, 2 },
+	group_ai.enemy_spawn_groups.tac_spoocs_b = {
+		amount = { 2, 2 },
 		spawn = {
 			{
-				rank = 1,
+				rank = 2,
 				unit = "spooc",
 				tactics = tactics.spooc,
 				amount_min = 1,
@@ -1180,11 +1176,10 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
 				tactics = tactics.spooc,
-				amount_max = 1,
 				freq = freq.baseline
 			}
 		},
-		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_spoocs_a.spawn_point_chk_ref
+		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_spoocs_a.spawn_point_chk_ref
 	}
 
 	--	2 special groups
@@ -1193,7 +1188,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 	--	occasional fbi agent for support if players get close
 	--	would make marshals spawn normally but that disables their spawn limit
 	--	marshal shield is used on lost in transit
-	tweak_data_group_ai.enemy_spawn_groups.marshal_squad = {
+	group_ai.enemy_spawn_groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
 		spawn_cooldown = base_cooldown,
 		amount = { 1, 2 },
@@ -1207,7 +1202,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				freq = freq.common
 			},
 			{
-				rank = 1,
+				rank = 2,
 				unit = "marshal_shield",
 				tactics = tactics.marshal_shield,
 				amount_max = 1,
@@ -1224,13 +1219,13 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 
 	--	occasional takedown squad with 1-2 phalanx shields
 	--	spawn with light swat and very rarely a cowardly dozer for a swift takedown
-	tweak_data_group_ai.enemy_spawn_groups.phalanx_squad = {
+	group_ai.enemy_spawn_groups.phalanx_squad = {
 		max_nr_simultaneous_groups = 1,
 		spawn_cooldown = base_cooldown * 3,
 		amount = { 3, 4 },
 		spawn = {
 			{
-				rank = 2,
+				rank = 3,
 				unit = "Phalanx_minion",
 				tactics = tactics.phalanx_shield,
 				amount_min = 1,
@@ -1238,7 +1233,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				freq = freq.rare
 			},
 			{
-				rank = 1,
+				rank = 2,
 				unit = "FBI_tank",
 				tactics = tactics.phalanx_cover,
 				amount_max = 1,
@@ -1257,11 +1252,29 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				freq = freq.baseline
 			}
 		},
-		spawn_point_chk_ref = tweak_data_group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
+		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue = {
+	group_ai.enemy_spawn_groups.recon_a = {
 		amount = { 2, 3 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_C45_M4",
+				tactics = tactics.hostage_rescue,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.hostage_rescue,
+				freq = freq.common
+			}
+		}
+	}
+	group_ai.enemy_spawn_groups.recon_b = {
+		amount = { 2, 4 },
 		spawn = {
 			{
 				rank = 1,
@@ -1274,6 +1287,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = tactics.hostage_rescue,
+				amount_max = 1,
 				freq = freq.baseline
 			},
 			{
@@ -1285,10 +1299,10 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.hostage_rescue_assault = {
+	group_ai.enemy_spawn_groups.recon_c = {
 		max_nr_simultaneous_groups = 1,
 		spawn_cooldown = base_cooldown,
-		amount = { 2, 3 },
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -1313,7 +1327,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 		}
 	}
 
-	tweak_data_group_ai.enemy_spawn_groups.reenforce_a = {
+	group_ai.enemy_spawn_groups.reenforce_a = {
 		amount = { 2, 3 },
 		spawn = {
 			{
@@ -1337,7 +1351,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.reenforce_b = {
+	group_ai.enemy_spawn_groups.reenforce_b = {
 		amount = { 2, 3 },
 		spawn = {
 			{
@@ -1361,7 +1375,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.reenforce_c = {
+	group_ai.enemy_spawn_groups.reenforce_c = {
 		amount = { 2, 3 },
 		spawn = {
 			{
@@ -1385,7 +1399,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 			}
 		}
 	}
-	tweak_data_group_ai.enemy_spawn_groups.reenforce_d = {
+	group_ai.enemy_spawn_groups.reenforce_d = {
 		amount = { 2, 3 },
 		spawn = {
 			{
@@ -1403,7 +1417,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 		}
 	}
 
-	for group_name, group in pairs(tweak_data_group_ai.enemy_spawn_groups) do
+	for group_name, group in pairs(group_ai.enemy_spawn_groups) do
 		if group_name == "single_spooc" or group_name == "FBI_spoocs" or group_name == "Phalanx" then
 			--	nothing
 		else
@@ -1414,7 +1428,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting(tweak_data_grou
 	end
 end
 
-GroupAIEnemySpawnGroupsModule.vanilla = GroupAIEnemySpawnGroupsModule.streamlined_heisting
-GroupAIEnemySpawnGroupsModule.beta_vanilla = GroupAIEnemySpawnGroupsModule.beta_streamlined_heisting
+GroupAIEnemySpawnGroupsModule.vanilla = GroupAIEnemySpawnGroupsModule.streamheist
+GroupAIEnemySpawnGroupsModule.beta_vanilla = GroupAIEnemySpawnGroupsModule.beta_streamheist
 
 return GroupAIEnemySpawnGroupsModule

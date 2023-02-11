@@ -4,8 +4,10 @@ end
 
 local CopBaseModule = ASS:require("CopBaseModule")
 
-local weapon_mapping = CopBaseModule["weapon_mapping_" .. ASS:req_func_name()]()
-local tweak_mapping = CopBaseModule["tweak_mapping_" .. ASS:req_func_name()]()
+local func = ASS:req_func_name()
+
+local weapon_mapping = CopBaseModule["weapon_mapping_" .. func]()
+local tweak_mapping = CopBaseModule["tweak_mapping_" .. func]()
 
 Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
 	self._default_weapon_id = weapon_mapping[self._unit:name():key()] or self._default_weapon_id

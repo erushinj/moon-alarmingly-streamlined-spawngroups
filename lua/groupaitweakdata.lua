@@ -5,21 +5,23 @@ local GroupAILevelModModule = ASS:require("GroupAILevelModModule")
 local GroupAIEnemySpawnGroupsModule = ASS:require("GroupAIEnemySpawnGroupsModule")
 local GroupAITaskDataModule = ASS:require("GroupAITaskDataModule")
 
+local func = ASS:req_func_name()
+
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
 	--	sets new factions to america if any are added
 	--	there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
 	local faction_reference = clone(self.unit_categories.spooc.unit_types)
 	local current_factions = {
-		"america",
-		"russia",
-		"zombie",
-		"murkywater",
-		"federales"
+		america = true,
+		russia = true,
+		zombie = true,
+		murkywater = true,
+		federales = true
 	}
 	local function check_new_factions_func()
 		for faction, _ in pairs(faction_reference) do
-			if not table.contains(current_factions, faction) then
+			if not current_factions[faction] then
 				for _, category in pairs(self.unit_categories) do
 					if category.unit_types and category.unit_types.america then
 						category.unit_types[faction] = clone(category.unit_types.america)
@@ -59,11 +61,12 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	GroupAIUnitCategoriesModule[ASS:req_func_name()](self, difficulty_index)
+	GroupAIUnitCategoriesModule[func](self, difficulty_index)
 
 	local level_mod = ASS:level_mod()
 	if level_mod then
-		GroupAILevelModModule[level_mod](self)
+		local is_death_sentence = difficulty_index > 7
+		GroupAILevelModModule[level_mod](self, is_death_sentence)
 	end
 
 	local function combined_category(category_1, category_2)
@@ -90,59 +93,44 @@ end )
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
 
-	local difficulty_index = math.clamp(difficulty_index, 2, 8)
+	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 
 	--	every group needs at least one baseline unit
 	--	chance of other units spawning increases with difficulty
-	local numerator = ASS.settings.fixed_freq and 8 or difficulty_index
 	local freq = {
 		baseline = 1,
-		common = numerator / 8,
-		uncommon = numerator / 16,
-		rare = numerator / 24,
-		elite = numerator / 32
+		common = difficulty_index / 8,
+		uncommon = difficulty_index / 16,
+		rare = difficulty_index / 24,
+		elite = difficulty_index / 32
 	}
 
 	--	80s on normal, decreases 10s per difficulty down to 20s on ds
 	local base_cooldown = (10 - difficulty_index) * 10
 
-	GroupAIEnemySpawnGroupsModule[ASS:req_func_name()](self, freq, base_cooldown)
+	GroupAIEnemySpawnGroupsModule[func](self, freq, base_cooldown)
 
 end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
-	local f = math.clamp(difficulty_index - 2, 0, 6) / 6
+	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
 
-	GroupAITaskDataModule[ASS:req_func_name()](self, f)
-
-	--	needs refinement, same as "beta" weights
-	if ASS.settings.street_assaults and ASS:street_level() then
-		self.besiege.assault.sustain_duration_min = { math.lerp(50, 100, f), math.lerp(75, 120, f), math.lerp(100, 140, f) }
-		self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-		self.besiege.assault.delay = { math.lerp(40, 20, f), math.lerp(30, 15, f), math.lerp(20, 10, f) }
-		self.besiege.assault.hostage_hesitation_delay = { 5, 3.75, 2.5 }
-
-		self.besiege.regroup.duration = { 20, 15, 10 }
+	--	avoiding issues if new groups are added in vanilla, new groups are added from GroupAITaskDataModule
+	for group, _ in pairs(self.besiege.assault.groups) do
+		self.besiege.assault.groups[group] = { 0, 0, 0 }
 	end
-
-	local recon_weights = {
-		hostage_rescue = { 1, 1, 1 },
-		hostage_rescue_assault = { 0, 0, 0 },
-		phalanx_squad = { 0, 0, 0 }
-	}
 	for group, _ in pairs(self.besiege.recon.groups) do
 		self.besiege.recon.groups[group] = { 0, 0, 0 }
 	end
-	for group, weights in pairs(recon_weights) do
-		self.besiege.recon.groups[group] = weights
-	end
 
-	--	nuke winters, he isnt fun
+	--	nuke winters, he isnt fun and theres a replacement for him
 	self.phalanx.spawn_chance.start = 0
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
+
+	GroupAITaskDataModule[func](self, f)
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
