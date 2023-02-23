@@ -12,6 +12,6 @@
 	"ass_menu_level_mods_desc" : "Requires Streamlined Heisting. Makes some levels use a fixed response faction (eg, GenSec SWAT on Transports and Alesso Heist) regardless of difficulty.",
 
 	"ass_menu_max_intensity" : "Enable Max Intensity",
-	"ass_menu_max_intensity_desc" : "Makes various difficulty-specific values instead use Death Sentence values - alternate units and special groups will be more common, timed groups will respawn faster, breaks between assaults will be shorter, list goes on."
+	"ass_menu_max_intensity_desc" : "Makes spawn groups and task data use Death Sentence values - alternate units and special groups will be more common, timed groups will respawn faster, assaults will be longer and breaks shorter, list goes on."
 
 }

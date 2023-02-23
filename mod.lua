@@ -3,7 +3,6 @@ if not ASS then
 	ASS = {
 		mod_path = ModPath,
 		save_path = SavePath .. "alarmingly_streamlined_spawngroups.json",
-		is_stream_heist = StreamHeist,
 		settings = {
 			is_massive = true,
 			beta_assault_tweaks = true,
@@ -63,18 +62,16 @@ if not ASS then
 
 	function ASS:req_func_name()
 		local beta_string = self.settings.beta_assault_tweaks and "beta_" or ""
-		local sh_string = self.is_stream_heist and "streamheist" or "vanilla"
+		local sh_string = StreamHeist and "streamheist" or "vanilla"
 
 		return beta_string .. sh_string
 	end
 
-	local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
-	local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
-
 	function ASS:level_mod()
-		local level_mod = self.settings.level_mods and (self._level_mod[job_id] or self._level_mod[level_id])
+		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
+		local level_mod = StreamHeist and self.settings.level_mods and self._level_mod[job_id]
 
-		return self.is_stream_heist and level_mod
+		return level_mod
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
@@ -123,7 +120,7 @@ if not ASS then
 			desc = "ass_menu_level_mods_desc",
 			callback = clbk,
 			value = ASS.settings.level_mods,
-			disabled = not ASS.is_stream_heist,
+			disabled = not StreamHeist,
 			menu_id = menu_id,
 			priority = 80
 		})

@@ -96,22 +96,18 @@ end
 function GroupAITaskDataModule.beta_streamheist(group_ai, f)
 	local special_weight = math.lerp(3, 5, f)
 	local assault_weights = {
-		tac_swats_a = { 12, 6, 0 },
-		tac_swats_b = { 6, 3, 0 },
-		tac_swats_c = { 0, 3, 6 },
-		tac_swats_d = { 0, 1.5, 3 },
-		tac_heavys_a = { 6, 3, 0 },
-		tac_heavys_b = { 3, 1.5, 0 },
-		tac_heavys_c = { 0, 6, 12 },
-		tac_heavys_d = { 0, 3, 6 },
-		tac_shields_a = { 0, special_weight * 0.5, 0 },
-		tac_shields_b = { 0, special_weight * 0.5, special_weight * 2 },
-		tac_tazers_a = { 0, special_weight * 0.5, 0 },
-		tac_tazers_b = { 0, special_weight * 0.5, special_weight * 2 },
-		tac_tanks_a = { 0, special_weight * 0.25, 0 },
-		tac_tanks_b = { 0, special_weight * 0.25, special_weight },
-		tac_spoocs_a = { 0, special_weight * 0.25, 0 },
-		tac_spoocs_b = { 0, special_weight * 0.25, special_weight },
+		tac_swats_e = { 12, 9, 6 },
+		tac_swats_f = { 6, 4.5, 3 },
+		tac_heavys_e = { 6, 9, 12 },
+		tac_heavys_f = { 3, 4.5, 6 },
+		tac_shields_a = { 0, special_weight, 0 },
+		tac_shields_b = { 0, 0, special_weight * 2 },
+		tac_tazers_a = { 0, special_weight, 0 },
+		tac_tazers_b = { 0, 0, special_weight * 2 },
+		tac_tanks_a = { 0, special_weight * 0.5, 0 },
+		tac_tanks_b = { 0, 0, special_weight },
+		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
+		tac_spoocs_b = { 0, 0, special_weight },
 		phalanx_squad = { 0, 0, 0 }
 	}
 	for group, weights in pairs(assault_weights) do
@@ -121,7 +117,7 @@ function GroupAITaskDataModule.beta_streamheist(group_ai, f)
 	local recon_weights = {
 		recon_a = { 1, 2, 0 },
 		recon_b = { 0, 1, 2 },
-		recon_c = { 0, 1, 1 },
+		recon_c = { 0, 0, 1 },
 		phalanx_squad = { 0, 0, 0 }
 	}
 	for group, weights in pairs(recon_weights) do
@@ -150,22 +146,18 @@ end
 function GroupAITaskDataModule.beta_vanilla(group_ai, f)
 	local special_weight = math.lerp(3, 5, f)
 	local assault_weights = {
-		tac_swats_a = { 12, 6, 0 },
-		tac_swats_b = { 6, 3, 0 },
-		tac_swats_c = { 0, 3, 6 },
-		tac_swats_d = { 0, 1.5, 3 },
-		tac_heavys_a = { 6, 3, 0 },
-		tac_heavys_b = { 3, 1.5, 0 },
-		tac_heavys_c = { 0, 6, 12 },
-		tac_heavys_d = { 0, 3, 6 },
-		tac_shields_a = { 0, special_weight * 0.5, 0 },
-		tac_shields_b = { 0, special_weight * 0.5, special_weight * 2 },
-		tac_tazers_a = { 0, special_weight * 0.5, 0 },
-		tac_tazers_b = { 0, special_weight * 0.5, special_weight * 2 },
-		tac_tanks_a = { 0, special_weight * 0.25, 0 },
-		tac_tanks_b = { 0, special_weight * 0.25, special_weight },
-		tac_spoocs_a = { 0, special_weight * 0.25, 0 },
-		tac_spoocs_b = { 0, special_weight * 0.25, special_weight },
+		tac_swats_e = { 12, 9, 6 },
+		tac_swats_f = { 6, 4.5, 3 },
+		tac_heavys_e = { 6, 9, 12 },
+		tac_heavys_f = { 3, 4.5, 6 },
+		tac_shields_a = { 0, special_weight, 0 },
+		tac_shields_b = { 0, 0, special_weight * 2 },
+		tac_tazers_a = { 0, special_weight, 0 },
+		tac_tazers_b = { 0, 0, special_weight * 2 },
+		tac_tanks_a = { 0, special_weight * 0.5, 0 },
+		tac_tanks_b = { 0, 0, special_weight },
+		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
+		tac_spoocs_b = { 0, 0, special_weight },
 		phalanx_squad = { 0, 0, 0 }
 	}
 	for group, weights in pairs(assault_weights) do

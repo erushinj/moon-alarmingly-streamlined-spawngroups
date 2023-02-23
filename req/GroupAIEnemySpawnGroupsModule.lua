@@ -530,7 +530,6 @@ function GroupAIEnemySpawnGroupsModule.streamheist(group_ai, freq, base_cooldown
 
 	--	occasional fbi agent for support if players get close
 	--	would make marshals spawn normally but that disables their spawn limit
-	--	marshal shield is used on lost in transit
 	group_ai.enemy_spawn_groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
 		spawn_cooldown = base_cooldown,
@@ -660,7 +659,8 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		swat_shotgun_rush = {
 			"charge",
 			"smoke_grenade",
-			"deathguard"
+			"deathguard",
+			"rescue_hostages"
 		},
 		swat_shotgun_flank = {
 			"charge",
@@ -671,17 +671,13 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		},
 		swat_rifle = {
 			"ranged_fire",
-			"smoke_grenade"
+			"smoke_grenade",
+			"rescue_hostages"
 		},
 		swat_rifle_flank = {
 			"flank",
 			"flash_grenade",
 			"rescue_hostages"
-		},
-		shield = {
-			"shield",
-			"ranged_fire",
-			"deathguard"
 		},
 		shield_ranged = {
 			"shield",
@@ -718,8 +714,6 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			"shield",
 			"charge",
 			"flank",
-			"flash_grenade",
-			"smoke_grenade",
 			"murder"
 		},
 		tank = {
@@ -732,8 +726,6 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		tank_cover = {
 			"shield_cover",
 			"charge",
-			"flash_grenade",
-			"smoke_grenade",
 			"murder"
 		},
 		spooc = {
@@ -767,11 +759,8 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 
-	local swats_basic_amount = { 3, 3 }
-	local swats_full_amount = { 3, 4 }
-
 	group_ai.enemy_spawn_groups.tac_swats_a = {
-		amount = swats_basic_amount,
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -790,7 +779,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_swats_b = {
-		amount = swats_basic_amount,
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -809,7 +798,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_swats_c = {
-		amount = swats_full_amount,
+		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
@@ -842,7 +831,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_swats_d = {
-		amount = swats_full_amount,
+		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
@@ -876,7 +865,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 	}
 
 	group_ai.enemy_spawn_groups.tac_heavys_a = {
-		amount = swats_basic_amount,
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -895,7 +884,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_heavys_b = {
-		amount = swats_basic_amount,
+		amount = { 3, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -914,7 +903,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_heavys_c = {
-		amount = swats_full_amount,
+		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
@@ -947,7 +936,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_heavys_d = {
-		amount = swats_full_amount,
+		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
@@ -976,6 +965,154 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 				tactics = tactics.swat_shotgun_flank,
 				amount_max = 1,
 				freq = freq.rare
+			}
+		}
+	}
+
+	group_ai.enemy_spawn_groups.tac_swats_e = {
+		amount = { 3, 3 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_rifle,
+				amount_max = 1,
+				freq = freq.elite
+			},
+		}
+	}
+	group_ai.enemy_spawn_groups.tac_swats_f = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 2,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "spooc",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.elite
+			}
+		}
+	}
+
+	group_ai.enemy_spawn_groups.tac_heavys_e = {
+		amount = { 3, 3 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
+		}
+	}
+	group_ai.enemy_spawn_groups.tac_heavys_f = {
+		amount = { 3, 4 },
+		spawn = {
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle,
+				amount_min = 1,
+				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 2,
+				freq = freq.common
+			},
+			{
+				rank = 1,
+				unit = "CS_tazer",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "medic_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.uncommon
 			}
 		}
 	}
@@ -1070,6 +1207,13 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			{
 				rank = 2,
 				unit = "FBI_shield",
+				tactics = tactics.tazer_shield,
+				amount_max = 1,
+				freq = freq.elite
+			},
+			{
+				rank = 1,
+				unit = "spooc",
 				tactics = tactics.tazer_shield,
 				amount_max = 1,
 				freq = freq.elite
@@ -1187,7 +1331,6 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 
 	--	occasional fbi agent for support if players get close
 	--	would make marshals spawn normally but that disables their spawn limit
-	--	marshal shield is used on lost in transit
 	group_ai.enemy_spawn_groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
 		spawn_cooldown = base_cooldown,
@@ -1234,7 +1377,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			},
 			{
 				rank = 2,
-				unit = "FBI_tank",
+				unit = "FBI_wtf",
 				tactics = tactics.phalanx_cover,
 				amount_max = 1,
 				freq = freq.elite
@@ -1269,12 +1412,13 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 				rank = 1,
 				unit = "FBI_suit_M4_MP5",
 				tactics = tactics.hostage_rescue,
+				amount_max = 1,
 				freq = freq.common
 			}
 		}
 	}
 	group_ai.enemy_spawn_groups.recon_b = {
-		amount = { 2, 4 },
+		amount = { 2, 3 },
 		spawn = {
 			{
 				rank = 1,
@@ -1301,8 +1445,8 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 	}
 	group_ai.enemy_spawn_groups.recon_c = {
 		max_nr_simultaneous_groups = 1,
-		spawn_cooldown = base_cooldown,
-		amount = { 3, 3 },
+		spawn_cooldown = base_cooldown * 2,
+		amount = { 2, 3 },
 		spawn = {
 			{
 				rank = 1,

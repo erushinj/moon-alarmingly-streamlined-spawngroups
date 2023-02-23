@@ -1,7 +1,6 @@
 --	unit category and task data changes are different with and without streamlined heisting
 --	similarly, different enemy spawn groups as well as more different task data are used in """beta""" mode
 local GroupAIUnitCategoriesModule = ASS:require("GroupAIUnitCategoriesModule")
-local GroupAILevelModModule = ASS:require("GroupAILevelModModule")
 local GroupAIEnemySpawnGroupsModule = ASS:require("GroupAIEnemySpawnGroupsModule")
 local GroupAITaskDataModule = ASS:require("GroupAITaskDataModule")
 
@@ -9,7 +8,7 @@ local func = ASS:req_func_name()
 
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
-	--	sets new factions to america if any are added
+	--	these are used later to set new factions to america if any are added
 	--	there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
 	local faction_reference = clone(self.unit_categories.spooc.unit_types)
 	local current_factions = {
@@ -19,17 +18,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		murkywater = true,
 		federales = true
 	}
-	local function check_new_factions_func()
-		for faction, _ in pairs(faction_reference) do
-			if not current_factions[faction] then
-				for _, category in pairs(self.unit_categories) do
-					if category.unit_types and category.unit_types.america then
-						category.unit_types[faction] = clone(category.unit_types.america)
-					end
-				end
-			end
-		end
-	end
 
 	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
@@ -42,12 +30,8 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 	}
 
-	--	correct vh federales dozer, all dozer types for ds zombies
-	if difficulty_index < 5 then
-		self.unit_categories.FBI_tank.unit_types.federales = {
-			Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870")
-		}
-	elseif difficulty_index > 7 then
+	--	all dozer types for ds zombies
+	if difficulty_index > 7 then
 		self.unit_categories.FBI_tank.unit_types.zombie = {
 			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1"),
 			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"),
@@ -61,12 +45,16 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	GroupAIUnitCategoriesModule[func](self, difficulty_index)
+	if GroupAIUnitCategoriesModule[func] then
+		GroupAIUnitCategoriesModule[func](self, difficulty_index)
+	end
 
 	local level_mod = ASS:level_mod()
-	if level_mod then
-		local is_death_sentence = difficulty_index > 7
-		GroupAILevelModModule[level_mod](self, is_death_sentence)
+	if level_mod and GroupAIUnitCategoriesModule[level_mod] then
+		GroupAIUnitCategoriesModule[level_mod](self)
+		if difficulty_index > 7 then
+			GroupAIUnitCategoriesModule.revert_zeal_specials(self)
+		end
 	end
 
 	local function combined_category(category_1, category_2)
@@ -84,10 +72,41 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.medic_M4_R870 = combined_category(self.unit_categories.medic_M4, self.unit_categories.medic_R870)
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
-	self.unit_categories.FBI_swat_heavy_M4_G36_R870 = combined_category(self.unit_categories.FBI_swat_M4_R870, self.unit_categories.FBI_heavy_G36_R870)
 
-	check_new_factions_func()
+	self.unit_categories.FBI_wtf = combined_category(self.unit_categories.medic_M4, self.unit_categories.CS_tazer)
+	self.unit_categories.FBI_wtf = combined_category(self.unit_categories.FBI_wtf, self.unit_categories.spooc)
+	for faction, units in pairs(self.unit_categories.FBI_tank.unit_types) do
+		table.insert(self.unit_categories.FBI_wtf.unit_types[faction], units[#units])
+	end
+	self.unit_categories.FBI_wtf.special_type = nil
+	if difficulty_index < 5 then
+		--	nothing
+	elseif difficulty_index < 6 then
+		self.unit_categories.FBI_wtf.unit_types.russia[4] = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga")
+		self.unit_categories.FBI_wtf.unit_types.federales[4] = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga")
+	elseif difficulty_index < 7 then
+		--	nothing
+	elseif difficulty_index < 8 then
+		self.unit_categories.FBI_wtf.unit_types.murkywater[4] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1")
+	else
+		self.unit_categories.FBI_wtf.unit_types.america[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
+		self.unit_categories.FBI_wtf.unit_types.russia[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
+		self.unit_categories.FBI_wtf.unit_types.zombie[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
+	end
 
+	for faction, _ in pairs(faction_reference) do
+		if not current_factions[faction] then
+			for _, category in pairs(self.unit_categories) do
+				if category.unit_types and category.unit_types.america then
+					category.unit_types[faction] = clone(category.unit_types.america)
+				end
+			end
+		end
+	end
+
+	if func == "beta_streamheist" and self.special_unit_spawn_limits.taser == 1 then
+		self.special_unit_spawn_limits.taser = 2
+	end
 end )
 
 
@@ -108,7 +127,9 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	--	80s on normal, decreases 10s per difficulty down to 20s on ds
 	local base_cooldown = (10 - difficulty_index) * 10
 
-	GroupAIEnemySpawnGroupsModule[func](self, freq, base_cooldown)
+	if GroupAIEnemySpawnGroupsModule[func] then
+		GroupAIEnemySpawnGroupsModule[func](self, freq, base_cooldown)
+	end
 
 end )
 
@@ -130,7 +151,9 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
 
-	GroupAITaskDataModule[func](self, f)
+	if GroupAITaskDataModule[func] then
+		GroupAITaskDataModule[func](self, f)
+	end
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
