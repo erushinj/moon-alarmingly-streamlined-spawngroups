@@ -39,6 +39,9 @@ local enemy_replacements = {
 		sniper = "units/payday2/characters/ene_sniper_3/ene_sniper_3"
 	}
 }
+enemy_replacements.FBI_mcmansion = enemy_replacements.FBI_hard
+enemy_replacements.FBI_murkywater = enemy_replacements.FBI_hard
+
 local shared_replacements = {
 	dozer_1 = "units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
 	dozer_2 = "units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",

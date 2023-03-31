@@ -30,32 +30,9 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 	}
 
-	--	all dozer types for ds zombies
-	if difficulty_index > 7 then
-		self.unit_categories.FBI_tank.unit_types.zombie = {
-			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1"),
-			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"),
-			Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"),
-			Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
-			Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun")
-		}
-	end
-
 	--	merc marshals makes no sense for zombies
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
-
-	if GroupAIUnitCategoriesModule[func] then
-		GroupAIUnitCategoriesModule[func](self, difficulty_index)
-	end
-
-	local level_mod = ASS:level_mod()
-	if level_mod and GroupAIUnitCategoriesModule[level_mod] then
-		GroupAIUnitCategoriesModule[level_mod](self)
-		if difficulty_index > 7 then
-			GroupAIUnitCategoriesModule.revert_zeal_specials(self)
-		end
-	end
 
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
@@ -73,25 +50,17 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
 
-	self.unit_categories.FBI_wtf = combined_category(self.unit_categories.medic_M4, self.unit_categories.CS_tazer)
-	self.unit_categories.FBI_wtf = combined_category(self.unit_categories.FBI_wtf, self.unit_categories.spooc)
-	for faction, units in pairs(self.unit_categories.FBI_tank.unit_types) do
-		table.insert(self.unit_categories.FBI_wtf.unit_types[faction], units[#units])
+	if GroupAIUnitCategoriesModule[func] then
+		GroupAIUnitCategoriesModule[func](self, difficulty_index)
 	end
-	self.unit_categories.FBI_wtf.special_type = nil
-	if difficulty_index < 5 then
-		--	nothing
-	elseif difficulty_index < 6 then
-		self.unit_categories.FBI_wtf.unit_types.russia[4] = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga")
-		self.unit_categories.FBI_wtf.unit_types.federales[4] = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga")
-	elseif difficulty_index < 7 then
-		--	nothing
-	elseif difficulty_index < 8 then
-		self.unit_categories.FBI_wtf.unit_types.murkywater[4] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1")
-	else
-		self.unit_categories.FBI_wtf.unit_types.america[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-		self.unit_categories.FBI_wtf.unit_types.russia[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-		self.unit_categories.FBI_wtf.unit_types.zombie[4] = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
+
+	local level_mod = ASS:level_mod()
+	if GroupAIUnitCategoriesModule[level_mod] then
+		GroupAIUnitCategoriesModule[level_mod](self)
+
+		if difficulty_index > 7 then
+			GroupAIUnitCategoriesModule.revert_zeal_specials(self)
+		end
 	end
 
 	for faction, _ in pairs(faction_reference) do
@@ -103,25 +72,33 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			end
 		end
 	end
-
-	if func == "beta_streamheist" and self.special_unit_spawn_limits.taser == 1 then
-		self.special_unit_spawn_limits.taser = 2
-	end
 end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
 
 	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
+	local f = ASS.settings.max_intensity and 1 or (difficulty_index - 2) / 6
+
+	local function lerp_freq(val)
+		return math.lerp(val * 0.5, val, f)
+	end
 
 	--	every group needs at least one baseline unit
 	--	chance of other units spawning increases with difficulty
+	-- local freq = {
+	-- 	baseline = 1,
+	-- 	common = difficulty_index / 8,
+	-- 	uncommon = difficulty_index / 16,
+	-- 	rare = difficulty_index / 24,
+	-- 	elite = difficulty_index / 32
+	-- }
 	local freq = {
 		baseline = 1,
-		common = difficulty_index / 8,
-		uncommon = difficulty_index / 16,
-		rare = difficulty_index / 24,
-		elite = difficulty_index / 32
+		common = lerp_freq(1),
+		uncommon = lerp_freq(0.5),
+		rare = lerp_freq(0.35),
+		elite = lerp_freq(0.2),
 	}
 
 	--	80s on normal, decreases 10s per difficulty down to 20s on ds

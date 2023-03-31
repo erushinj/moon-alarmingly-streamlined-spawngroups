@@ -4,7 +4,6 @@ local GroupAIEnemySpawnGroupsModule = {}
 
 --	non-flankers use smoke bombs (helps conceal their approach)
 --	but flankers use flashbangs (if they used smoke, youd be prepared for them, defeating the point of flanking)
---	"rescue_hostages" tactic is used for sh
 
 --	shields stay in front of their backup and keep guard if they take you down
 --	taser makes sure youre down for good, and hides behind backup in sh (shield tactics do nothing in vanilla)
@@ -24,8 +23,7 @@ function GroupAIEnemySpawnGroupsModule.streamheist(group_ai, freq, base_cooldown
 			"charge",
 			"flank",
 			"flash_grenade",
-			"deathguard",
-			"rescue_hostages"
+			"deathguard"
 		},
 		swat_rifle = {
 			"ranged_fire",
@@ -33,8 +31,7 @@ function GroupAIEnemySpawnGroupsModule.streamheist(group_ai, freq, base_cooldown
 		},
 		swat_rifle_flank = {
 			"flank",
-			"flash_grenade",
-			"rescue_hostages"
+			"flash_grenade"
 		},
 		shield_ranged = {
 			"shield",
@@ -659,25 +656,21 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		swat_shotgun_rush = {
 			"charge",
 			"smoke_grenade",
-			"deathguard",
-			"rescue_hostages"
+			"deathguard"
 		},
 		swat_shotgun_flank = {
 			"charge",
 			"flank",
 			"flash_grenade",
-			"deathguard",
-			"rescue_hostages"
+			"deathguard"
 		},
 		swat_rifle = {
 			"ranged_fire",
-			"smoke_grenade",
-			"rescue_hostages"
+			"smoke_grenade"
 		},
 		swat_rifle_flank = {
 			"flank",
-			"flash_grenade",
-			"rescue_hostages"
+			"flash_grenade"
 		},
 		shield_ranged = {
 			"shield",
@@ -754,8 +747,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		},
 		hostage_rescue = {
 			"ranged_fire",
-			"smoke_grenade",
-			"rescue_hostages"
+			"smoke_grenade"
 		}
 	}
 
@@ -763,49 +755,18 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		amount = { 3, 3 },
 		spawn = {
 			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_max = 1,
-				freq = freq.common
-			}
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_swats_b = {
-		amount = { 3, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.common
-			}
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_swats_c = {
-		amount = { 3, 4 },
-		spawn = {
-			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
 			},
 			{
 				rank = 2,
@@ -819,32 +780,32 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 				unit = "FBI_suit_M4_MP5",
 				tactics = tactics.swat_rifle,
 				amount_max = 1,
-				freq = freq.rare
+				freq = freq.elite
 			},
-			{
-				rank = 1,
-				unit = "medic_M4_R870",
-				tactics = tactics.swat_rifle,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
 		}
 	}
-	group_ai.enemy_spawn_groups.tac_swats_d = {
+	group_ai.enemy_spawn_groups.tac_swats_b = {
 		amount = { 3, 4 },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle_flank,
+				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
 				rank = 2,
 				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
+				tactics = tactics.swat_shotgun_rush,
+				amount_max = 2,
 				freq = freq.common
 			},
 			{
@@ -857,7 +818,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			{
 				rank = 1,
 				unit = "medic_M4_R870",
-				tactics = tactics.swat_shotgun_flank,
+				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.rare
 			}
@@ -868,215 +829,36 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		amount = { 3, 3 },
 		spawn = {
 			{
-				rank = 1,
+				rank = 2,
 				unit = "FBI_heavy_G36",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
-				rank = 1,
+				rank = 2,
+				unit = "FBI_heavy_G36",
+				tactics = tactics.swat_rifle_flank,
+				amount_max = 1,
+				freq = freq.common
+			},
+			{
+				rank = 2,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.swat_shotgun_rush,
 				amount_max = 1,
 				freq = freq.common
-			}
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4_MP5",
+				tactics = tactics.swat_shotgun_flank,
+				amount_max = 1,
+				freq = freq.elite
+			},
 		}
 	}
 	group_ai.enemy_spawn_groups.tac_heavys_b = {
-		amount = { 3, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.common
-			}
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_heavys_c = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_M4_MP5",
-				tactics = tactics.swat_rifle,
-				amount_max = 1,
-				freq = freq.rare
-			},
-			{
-				rank = 1,
-				unit = "medic_M4_R870",
-				tactics = tactics.swat_rifle,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_heavys_d = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "medic_M4_R870",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.rare
-			}
-		}
-	}
-
-	group_ai.enemy_spawn_groups.tac_swats_e = {
-		amount = { 3, 3 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_M4_MP5",
-				tactics = tactics.swat_rifle,
-				amount_max = 1,
-				freq = freq.elite
-			},
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_swats_f = {
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 2,
-				unit = "FBI_swat_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_max = 2,
-				freq = freq.common
-			},
-			{
-				rank = 1,
-				unit = "spooc",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "medic_M4",
-				tactics = tactics.swat_rifle_flank,
-				amount_max = 1,
-				freq = freq.elite
-			}
-		}
-	}
-
-	group_ai.enemy_spawn_groups.tac_heavys_e = {
-		amount = { 3, 3 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 2,
-				unit = "FBI_heavy_G36",
-				tactics = tactics.swat_rifle_flank,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 2,
-				unit = "FBI_heavy_R870",
-				tactics = tactics.swat_shotgun_rush,
-				amount_max = 1,
-				freq = freq.common
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_M4_MP5",
-				tactics = tactics.swat_shotgun_flank,
-				amount_max = 1,
-				freq = freq.elite
-			},
-		}
-	}
-	group_ai.enemy_spawn_groups.tac_heavys_f = {
 		amount = { 3, 4 },
 		spawn = {
 			{
@@ -1109,7 +891,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "medic_M4",
+				unit = "medic_M4_R870",
 				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.uncommon
@@ -1130,7 +912,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4",
+				unit = "FBI_heavy_G36",
 				tactics = tactics.shield_ranged_cover,
 				freq = freq.baseline
 			}
@@ -1154,14 +936,14 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			},
 			{
 				rank = 2,
-				unit = "FBI_heavy_G36",
+				unit = "FBI_heavy_G36_R870",
 				tactics = tactics.shield_charge_cover,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "medic_M4",
+				unit = "CS_tazer",
 				tactics = tactics.shield_charge_cover,
 				amount_max = 1,
 				freq = freq.elite
@@ -1197,19 +979,18 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		amount = { 2, 4 },
 		spawn = {
 			{
-				rank = 3,
+				rank = 2,
 				unit = "CS_tazer",
 				tactics = tactics.tazer,
-				amount_min = 2,
+				amount_min = 1,
 				amount_max = 2,
-				freq = freq.baseline
+				freq = freq.uncommon
 			},
 			{
-				rank = 2,
-				unit = "FBI_shield",
+				rank = 1,
+				unit = "FBI_swat_M4_R870",
 				tactics = tactics.tazer_shield,
-				amount_max = 1,
-				freq = freq.elite
+				freq = freq.baseline
 			},
 			{
 				rank = 1,
@@ -1217,12 +998,6 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 				tactics = tactics.tazer_shield,
 				amount_max = 1,
 				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4_R870",
-				tactics = tactics.tazer_shield,
-				freq = freq.baseline
 			}
 		},
 		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_tazers_a.spawn_point_chk_ref
@@ -1312,14 +1087,13 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 				rank = 2,
 				unit = "spooc",
 				tactics = tactics.spooc,
-				amount_min = 1,
-				amount_max = 2,
 				freq = freq.uncommon
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
 				tactics = tactics.spooc,
+				amount_max = 1,
 				freq = freq.baseline
 			}
 		},
@@ -1377,7 +1151,7 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 			},
 			{
 				rank = 2,
-				unit = "FBI_wtf",
+				unit = "FBI_tank",
 				tactics = tactics.phalanx_cover,
 				amount_max = 1,
 				freq = freq.elite
@@ -1561,11 +1335,29 @@ function GroupAIEnemySpawnGroupsModule.beta_streamheist(group_ai, freq, base_coo
 		}
 	}
 
+	local no_spawn_point_chk_ref = {
+		tac_swat_shotgun_rush_no_medic = true,
+		tac_swat_shotgun_flank_no_medic = true,
+		tac_swat_rifle_no_medic = true,
+		tac_swat_rifle_flank_no_medic = true,
+		tac_swat_shotgun_rush = true,
+		tac_swat_shotgun_flank = true,
+		tac_swat_rifle = true,
+		tac_shield_wall_ranged = true,
+		tac_shield_wall_charge = true,
+		tac_shield_wall = true,
+		tac_tazer_flanking = true,
+		tac_tazer_charge = true,
+		tac_bull_rush = true,
+		Phalanx = true,
+		single_spooc = true,
+		FBI_spoocs = true,
+		marshal_squad = true,
+		snowman_boss = true
+	}
 	for group_name, group in pairs(group_ai.enemy_spawn_groups) do
-		if group_name == "single_spooc" or group_name == "FBI_spoocs" or group_name == "Phalanx" then
-			--	nothing
-		else
-			group.spawn_point_chk_ref = group.spawn_point_chk_ref or {
+		if not no_spawn_point_chk_ref[group_name] and not group.spawn_point_chk_ref then
+			group.spawn_point_chk_ref = {
 				tac_swat_rifle_flank = true
 			}
 		end

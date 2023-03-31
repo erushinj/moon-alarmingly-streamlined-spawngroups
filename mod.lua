@@ -3,6 +3,7 @@ if not ASS then
 	ASS = {
 		mod_path = ModPath,
 		save_path = SavePath .. "alarmingly_streamlined_spawngroups.json",
+		required = {},
 		settings = {
 			is_massive = true,
 			beta_assault_tweaks = true,
@@ -34,12 +35,12 @@ if not ASS then
 			mia = "FBI_hard",
 			gallery = "FBI_hard",
 			hox = "FBI_hard",
-			hox_3 = "FBI_hard",
+			hox_3 = "FBI_mcmansion",
 			shoutout_raid = "FBI_hard",
 			arena = "CITY_overkill",
 			red2 = "CS_normal",
 			dinner = "CITY_overkill",
-			pbr = "FBI_hard",
+			pbr = "FBI_murkywater",
 			pbr2 = "FBI_hard",
 			pal = "CS_normal",
 			man = "FBI_hard",
@@ -48,7 +49,7 @@ if not ASS then
 			run = "CS_normal",
 			glace = "FBI_hard",
 			dah = "CITY_overkill",
-			des = "FBI_hard",
+			des = "FBI_murkywater",
 			nmh = "CITY_overkill",
 			roberts = "FBI_hard"
 		}
@@ -163,20 +164,22 @@ if not ASS then
 	TheFixesPreventer = TheFixesPreventer or {}
 	TheFixesPreventer.fix_gensec_shotgunner_in_murkywater = true
 
+	--	side mod, dont need
+	CorpMarshalSquadIsDisabled = true
+
 end
 
 if not ASS.settings.is_massive then
 	return
 end
 
-local required = {}
-if RequiredScript and not required[RequiredScript] then
+if RequiredScript and not ASS.required[RequiredScript] then
 
 	local fname = ASS.mod_path .. RequiredScript:gsub(".+/(.+)", "lua/%1.lua")
 	if io.file_is_readable(fname) then
 		dofile(fname)
 	end
 
-	required[RequiredScript] = true
+	ASS.required[RequiredScript] = true
 
 end
