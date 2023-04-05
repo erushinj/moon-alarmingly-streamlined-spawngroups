@@ -1,8 +1,44 @@
-local GroupAITaskDataModule = {}
+local GroupAITaskData = {}
 
-local nil_value = {}
+local function shared_weights_moon(group_ai, f)
+	local special_weight = math.lerp(3, 5, f)
+	local assault_weights = {
+		tac_swats_a = { 13.5, 6.75, 0 },
+		tac_swats_b = { 0, 6.75, 13.5 },
+		tac_heavys_a = { 13.5, 6.75, 0 },
+		tac_heavys_b = { 0, 6.75, 13.5 },
+		tac_shields_a = { 0, special_weight, 0 },
+		tac_shields_b = { 0, 0, special_weight * 2 },
+		tac_tazers_a = { 0, special_weight, 0 },
+		tac_tazers_b = { 0, 0, special_weight * 2 },
+		tac_tanks_a = { 0, special_weight * 0.5, 0 },
+		tac_tanks_b = { 0, 0, special_weight },
+		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
+		tac_spoocs_b = { 0, 0, special_weight },
+		phalanx_squad = { 0, 0, 0 },
+		recon_c = { 0, 0, 0 }
+	}
+	for group, weights in pairs(assault_weights) do
+		group_ai.besiege.assault.groups[group] = weights
+	end
 
-local function shared_weights(group_ai, f)
+	local recon_weights = {
+		recon_a = { 1, 1, 0 },
+		recon_b = { 0, 1, 1 },
+		recon_c = { 0, 0, 1 },
+		marshal_squad = false,
+		phalanx_squad = false
+	}
+	for group, weights in pairs(recon_weights) do
+		if weights == false then
+			group_ai.besiege.recon.groups[group] = nil
+		else
+			group_ai.besiege.recon.groups[group] = weights
+		end
+	end
+end
+
+local function shared_weights_van(group_ai, f)
 	local special_weight = math.lerp(3, 5, f)
 	local assault_weights = {
 		tac_swat_shotgun_rush = { 2, 3, 4 },
@@ -39,59 +75,6 @@ local function shared_weights(group_ai, f)
 	end
 end
 
-local function shared_weights_beta(group_ai, f)
-	local special_weight = math.lerp(3, 5, f)
-	local assault_weights = {
-		tac_swats_a = {
-			13.5,
-			6.75,
-			0
-		},
-		tac_swats_b = {
-			0,
-			6.75,
-			13.5
-		},
-		tac_heavys_a = {
-			13.5,
-			6.75,
-			0
-		},
-		tac_heavys_b = {
-			0,
-			6.75,
-			13.5
-		},
-		tac_shields_a = { 0, special_weight, 0 },
-		tac_shields_b = { 0, 0, special_weight * 2 },
-		tac_tazers_a = { 0, special_weight, 0 },
-		tac_tazers_b = { 0, 0, special_weight * 2 },
-		tac_tanks_a = { 0, special_weight * 0.5, 0 },
-		tac_tanks_b = { 0, 0, special_weight },
-		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
-		tac_spoocs_b = { 0, 0, special_weight },
-		phalanx_squad = { 0, 0, 0 }
-	}
-	for group, weights in pairs(assault_weights) do
-		group_ai.besiege.assault.groups[group] = weights
-	end
-
-	local recon_weights = {
-		recon_a = { 1, 1, 0 },
-		recon_b = { 0, 1, 1 },
-		recon_c = { 0, 0, 1 },
-		marshal_squad = false,
-		phalanx_squad = false
-	}
-	for group, weights in pairs(recon_weights) do
-		if weights == false then
-			group_ai.besiege.recon.groups[group] = nil
-		else
-			group_ai.besiege.recon.groups[group] = weights
-		end
-	end
-end
-
 local function shared_data_all(group_ai, f)
 	group_ai.smoke_grenade_lifetime = math.lerp(9, 15, f)
 	group_ai.flash_grenade.timer = math.lerp(2, 1, f)
@@ -109,13 +92,15 @@ local function shared_data_all(group_ai, f)
 	group_ai.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.lerp(120, 15, f), math.lerp(240, 30, f) }
 end
 
-local function shared_data_streamheist(group_ai, f)
+local function shared_data_streamlined(group_ai, f)
 	group_ai.cs_grenade_lifetime = math.lerp(20, 40, f)
 
 	group_ai.spawn_cooldown_mul = math.lerp(2, 1, f)
 end
 
 local function shared_data_vanilla(group_ai, f)
+	group_ai.smoke_and_flash_grenade_timeout = { math.lerp(15, 7.5, f), math.lerp(20, 10, f) }
+
 	group_ai.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
 	group_ai.besiege.assault.force = { 12, 14, 16 }
 	group_ai.besiege.assault.force_pool = { 40, 50, 60 }
@@ -123,22 +108,10 @@ local function shared_data_vanilla(group_ai, f)
 	group_ai.besiege.recon.force = { 2, 4, 6 }
 end
 
-function GroupAITaskDataModule.streamheist(group_ai, f)
-	shared_weights(group_ai, f)
+function GroupAITaskData.moon_style_streamlined(group_ai, f)
+	shared_weights_moon(group_ai, f)
 	shared_data_all(group_ai, f)
-	shared_data_streamheist(group_ai, f)
-end
-
-function GroupAITaskDataModule.vanilla(group_ai, f)
-	shared_weights(group_ai, f)
-	shared_data_all(group_ai, f)
-	shared_data_vanilla(group_ai, f)
-end
-
-function GroupAITaskDataModule.beta_streamheist(group_ai, f)
-	shared_weights_beta(group_ai, f)
-	shared_data_all(group_ai, f)
-	shared_data_streamheist(group_ai, f)
+	shared_data_streamlined(group_ai, f)
 
 	group_ai.besiege.reenforce.groups = {
 		reenforce_a = { 1, 1, 0 },
@@ -148,10 +121,22 @@ function GroupAITaskDataModule.beta_streamheist(group_ai, f)
 	}
 end
 
-function GroupAITaskDataModule.beta_vanilla(group_ai, f)
-	shared_weights_beta(group_ai, f)
+function GroupAITaskData.moon_style_vanilla(group_ai, f)
+	shared_weights_moon(group_ai, f)
 	shared_data_all(group_ai, f)
 	shared_data_vanilla(group_ai, f)
 end
 
-return GroupAITaskDataModule
+function GroupAITaskData.van_style_streamlined(group_ai, f)
+	shared_weights_van(group_ai, f)
+	shared_data_all(group_ai, f)
+	shared_data_streamlined(group_ai, f)
+end
+
+function GroupAITaskData.van_style_vanilla(group_ai, f)
+	shared_weights_van(group_ai, f)
+	shared_data_all(group_ai, f)
+	shared_data_vanilla(group_ai, f)
+end
+
+return GroupAITaskData

@@ -1,15 +1,15 @@
---	unit category and task data changes are different with and without streamlined heisting
---	similarly, different enemy spawn groups as well as more different task data are used in """beta""" mode
-local GroupAIUnitCategoriesModule = ASS:require("GroupAIUnitCategoriesModule")
-local GroupAIEnemySpawnGroupsModule = ASS:require("GroupAIEnemySpawnGroupsModule")
-local GroupAITaskDataModule = ASS:require("GroupAITaskDataModule")
+-- unit category and task data changes are different with and without streamlined heisting
+-- similarly, different enemy spawn groups as well as more different task data are used in """beta""" mode
+local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
+local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
+local GroupAITaskData = ASS:require("GroupAITaskData")
 
 local func = ASS:req_func_name()
 
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
-	--	these are used later to set new factions to america if any are added
-	--	there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
+	-- these are used later to set new factions to america if any are added
+	-- there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
 	local faction_reference = clone(self.unit_categories.spooc.unit_types)
 	local current_factions = {
 		america = true,
@@ -30,9 +30,22 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
 	}
 
-	--	merc marshals makes no sense for zombies
+	-- merc marshals makes no sense for zombies
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
+
+	if GroupAIUnitCategories[func] then
+		GroupAIUnitCategories[func](self, difficulty_index)
+	end
+
+	local level_mod = ASS:level_mod()
+	if GroupAIUnitCategories[level_mod] then
+		GroupAIUnitCategories[level_mod](self)
+
+		if difficulty_index > 7 then
+			GroupAIUnitCategories.revert_zeal_specials(self)
+		end
+	end
 
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
@@ -50,19 +63,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
 
-	if GroupAIUnitCategoriesModule[func] then
-		GroupAIUnitCategoriesModule[func](self, difficulty_index)
-	end
-
-	local level_mod = ASS:level_mod()
-	if GroupAIUnitCategoriesModule[level_mod] then
-		GroupAIUnitCategoriesModule[level_mod](self)
-
-		if difficulty_index > 7 then
-			GroupAIUnitCategoriesModule.revert_zeal_specials(self)
-		end
-	end
-
 	for faction, _ in pairs(faction_reference) do
 		if not current_factions[faction] then
 			for _, category in pairs(self.unit_categories) do
@@ -72,6 +72,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 			end
 		end
 	end
+
 end )
 
 
@@ -81,18 +82,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	local f = ASS.settings.max_intensity and 1 or (difficulty_index - 2) / 6
 
 	local function lerp_freq(val)
-		return math.lerp(val * 0.5, val, f)
+		return math.lerp(val / 3, val, f)
 	end
 
-	--	every group needs at least one baseline unit
-	--	chance of other units spawning increases with difficulty
-	-- local freq = {
-	-- 	baseline = 1,
-	-- 	common = difficulty_index / 8,
-	-- 	uncommon = difficulty_index / 16,
-	-- 	rare = difficulty_index / 24,
-	-- 	elite = difficulty_index / 32
-	-- }
+	-- every group needs at least one baseline unit
+	-- chance of other units spawning increases with difficulty
 	local freq = {
 		baseline = 1,
 		common = lerp_freq(1),
@@ -101,11 +95,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = lerp_freq(0.2),
 	}
 
-	--	80s on normal, decreases 10s per difficulty down to 20s on ds
+	-- 80s on normal, decreases 10s per difficulty down to 20s on ds
 	local base_cooldown = (10 - difficulty_index) * 10
 
-	if GroupAIEnemySpawnGroupsModule[func] then
-		GroupAIEnemySpawnGroupsModule[func](self, freq, base_cooldown)
+	if GroupAIEnemySpawnGroups[func] then
+		GroupAIEnemySpawnGroups[func](self, freq, base_cooldown)
 	end
 
 end )
@@ -115,7 +109,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
 
-	--	avoiding issues if new groups are added in vanilla, new groups are added from GroupAITaskDataModule
+	-- avoiding issues if new groups are added in vanilla, new groups are added from GroupAITaskData
 	for group, _ in pairs(self.besiege.assault.groups) do
 		self.besiege.assault.groups[group] = { 0, 0, 0 }
 	end
@@ -123,13 +117,17 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		self.besiege.recon.groups[group] = { 0, 0, 0 }
 	end
 
-	--	nuke winters, he isnt fun and theres a replacement for him
+	-- nuke winters, he isnt fun and theres a replacement for him
 	self.phalanx.spawn_chance.start = 0
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
 
-	if GroupAITaskDataModule[func] then
-		GroupAITaskDataModule[func](self, f)
+	if GroupAITaskData[func] then
+		GroupAITaskData[func](self, f)
+	end
+
+	for group, weights in pairs(self.besiege.assault.groups) do
+		log(group, weights[1], weights[2], weights[3])
 	end
 
 	self.street = deep_clone(self.besiege)

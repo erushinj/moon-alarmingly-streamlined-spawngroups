@@ -2,15 +2,15 @@ if Network:is_client() then
 	return
 end
 
-local CopWeaponSwapsModule = ASS:require("CopWeaponSwapsModule")
-local CopTweakSwapsModule = ASS:require("CopTweakSwapsModule")
+local CopWeaponSwaps = ASS:require("CopWeaponSwaps")
+local CopTweakSwaps = ASS:require("CopTweakSwaps")
 
 local func = ASS:req_func_name()
 
 Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
 
-	local weapon_mapping = CopWeaponSwapsModule[func] and CopWeaponSwapsModule[func]()
-	local tweak_mapping = CopTweakSwapsModule[func] and CopTweakSwapsModule[func]()
+	local weapon_mapping = CopWeaponSwaps[func] and CopWeaponSwaps[func]()
+	local tweak_mapping = CopTweakSwaps[func] and CopTweakSwaps[func]()
 
 	if weapon_mapping then
 		local weapon_swap = weapon_mapping[self._unit:name():key()]
@@ -33,5 +33,7 @@ end )
 
 
 Hooks:PostHook( CopBase, "change_char_tweak", "ass_change_char_tweak", function(self, tweak)
-	managers.network:session():send_to_peers_synched("sync_change_char_tweak", self._unit, tweak)
+	if not (Global.game_settings and Global.game_settings.single_player) then
+		managers.network:session():send_to_peers_synched("sync_change_char_tweak", self._unit, tweak)
+	end
 end )

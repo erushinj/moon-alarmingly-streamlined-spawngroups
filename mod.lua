@@ -6,8 +6,8 @@ if not ASS then
 		required = {},
 		settings = {
 			is_massive = true,
-			beta_assault_tweaks = true,
 			level_mods = true,
+			vanilla_styled_assaults = false,
 			max_intensity = false
 		},
 		_level_mod = {
@@ -20,6 +20,7 @@ if not ASS then
 			branchbank_cash = "CS_normal",
 			branchbank_prof = "CS_normal",
 			branchbank_gold_prof = "CS_normal",
+			firestarter = "FBI_hard",
 			alex = "FBI_hard",
 			watchdogs = "FBI_hard",
 			watchdogs_night = "FBI_hard",
@@ -40,16 +41,16 @@ if not ASS then
 			arena = "CITY_overkill",
 			red2 = "CS_normal",
 			dinner = "CITY_overkill",
-			pbr = "FBI_murkywater",
 			pbr2 = "FBI_hard",
 			pal = "CS_normal",
 			man = "FBI_hard",
+			born = "FBI_hard",
 			chill_combat = "FBI_hard",
 			flat = "FBI_hard",
+			moon = "CS_normal",
 			run = "CS_normal",
 			glace = "FBI_hard",
 			dah = "CITY_overkill",
-			des = "FBI_murkywater",
 			nmh = "CITY_overkill",
 			roberts = "FBI_hard"
 		}
@@ -62,15 +63,15 @@ if not ASS then
 	end
 
 	function ASS:req_func_name()
-		local beta_string = self.settings.beta_assault_tweaks and "beta_" or ""
-		local sh_string = StreamHeist and "streamheist" or "vanilla"
+		local assault_str = self.settings.vanilla_styled_assaults and "van_style_" or "moon_style_"
+		local sh_str = StreamHeist and "streamlined" or "vanilla"
 
-		return beta_string .. sh_string
+		return assault_str .. sh_str
 	end
 
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
-		local level_mod = StreamHeist and self.settings.level_mods and self._level_mod[job_id]
+		local level_mod = self.settings.level_mods and self._level_mod[job_id]
 
 		return level_mod
 	end
@@ -84,7 +85,6 @@ if not ASS then
 		local menu_id = "ass_menu"
 		MenuHelper:NewMenu(menu_id)
 
-		--	get the feeling these can all use the same callback
 		MenuCallbackHandler.ass_setting_toggle = function(self, item)
 			ASS.settings[item:name()] = (item:value() == "on")
 		end
@@ -93,24 +93,24 @@ if not ASS then
 			io.save_as_json(ASS.settings, ASS.save_path)
 		end
 
-		local clbk = "ass_setting_toggle"
+		local callback = "ass_setting_toggle"
 
 		MenuHelper:AddToggle({
 			id = "is_massive",
 			title = "ass_menu_is_massive",
 			desc = "ass_menu_is_massive_desc",
-			callback = clbk,
+			callback = callback,
 			value = ASS.settings.is_massive,
 			menu_id = menu_id,
 			priority = 100
 		})
 
 		MenuHelper:AddToggle({
-			id = "beta_assault_tweaks",
-			title = "ass_menu_beta_assault_tweaks",
-			desc = "ass_menu_beta_assault_tweaks_desc",
-			callback = clbk,
-			value = ASS.settings.beta_assault_tweaks,
+			id = "vanilla_styled_assaults",
+			title = "ass_menu_vanilla_styled_assaults",
+			desc = "ass_menu_vanilla_styled_assaults_desc",
+			callback = callback,
+			value = ASS.settings.vanilla_styled_assaults,
 			menu_id = menu_id,
 			priority = 90
 		})
@@ -119,9 +119,8 @@ if not ASS then
 			id = "level_mods",
 			title = "ass_menu_level_mods",
 			desc = "ass_menu_level_mods_desc",
-			callback = clbk,
+			callback = callback,
 			value = ASS.settings.level_mods,
-			disabled = not StreamHeist,
 			menu_id = menu_id,
 			priority = 80
 		})
@@ -130,7 +129,7 @@ if not ASS then
 			id = "max_intensity",
 			title = "ass_menu_max_intensity",
 			desc = "ass_menu_max_intensity_desc",
-			callback = clbk,
+			callback = callback,
 			value = ASS.settings.max_intensity,
 			menu_id = menu_id,
 			priority = 60
@@ -160,12 +159,9 @@ if not ASS then
 		end
 	end
 
-	--	conflicts with GroupAILevelModModule on beneath the mountain and henrys rock
+	-- conflicts with GroupAILevelMod on beneath the mountain and henrys rock
 	TheFixesPreventer = TheFixesPreventer or {}
 	TheFixesPreventer.fix_gensec_shotgunner_in_murkywater = true
-
-	--	side mod, dont need
-	CorpMarshalSquadIsDisabled = true
 
 end
 

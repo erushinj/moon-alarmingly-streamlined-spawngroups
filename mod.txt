@@ -1,7 +1,7 @@
 {
 
 	"name" : "Alarmingly Streamlined Spawngroups",
-	"description" : "wuh",
+	"description" : "Simultaneously simplifies and complexifies enemy spawn groups\nAlso known as ASS, since it probably is",
 	"author" : "moon",
 	"contact" : "https://modworkshop.net/user/55749",
 	"version" : "1",

@@ -36,12 +36,10 @@ local enemy_replacements = {
 		heavy_1 = "units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36",
 		heavy_2 = "units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870",
 		shield = "units/payday2/characters/ene_city_shield/ene_city_shield",
-		sniper = "units/payday2/characters/ene_sniper_3/ene_sniper_3"
+		sniper = StreamHeist and "units/payday2/characters/ene_sniper_3/ene_sniper_3"
+			or "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	}
 }
-enemy_replacements.FBI_mcmansion = enemy_replacements.FBI_hard
-enemy_replacements.FBI_murkywater = enemy_replacements.FBI_hard
-
 local shared_replacements = {
 	dozer_1 = "units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
 	dozer_2 = "units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",
@@ -57,6 +55,11 @@ for mapped, replacement in pairs(shared_replacements) do
 		_level_mod[mapped] = replacement
 	end
 end
+
+enemy_replacements.FBI_mcmansion = clone(enemy_replacements.FBI_hard)
+enemy_replacements.FBI_mcmansion.swat_1 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"
+enemy_replacements.FBI_mcmansion.swat_2 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"
+enemy_replacements.FBI_mcmansion.swat_3 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"
 
 local enemy_mapping = {
 	[Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"):key()] = "swat_1",
