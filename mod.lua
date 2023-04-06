@@ -69,6 +69,26 @@ if not ASS then
 		return assault_str .. sh_str
 	end
 
+	function ASS:func_missing_error(func, module)
+		log("[Alarmingly Streamlined Spawngroups] ERROR - Function " .. func .. " is missing from " .. module)
+
+		Global.ass_was_poked_with_stick = Global.ass_was_poked_with_stick or {}
+		if not table.contains(Global.ass_was_poked_with_stick, module) then
+			table.insert(Global.ass_was_poked_with_stick, module)
+		end
+
+		Hooks:Add( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroups", function()
+			local message = managers.localization:text("ass_menu_func_missing_error") .. "\n\nFunction: " .. func .. "\n\nModules:\n" .. table.concat(Global.ass_was_poked_with_stick, "\n")
+			local buttons = {
+				{
+					text = managers.localization:text("ass_menu_func_missing_error_button")
+				}
+			}
+
+			QuickMenu:new(managers.localization:text("ass_menu_error"), message, buttons, true)
+		end )
+	end
+
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.settings.level_mods and self._level_mod[job_id]

@@ -9,6 +9,10 @@ if not level_mod then
 	return
 end
 
+if Global.ass_was_poked_with_stick then
+	return
+end
+
 -- Map to correct incorrect faction spawns
 local enemy_replacements = {
 	CS_normal = {

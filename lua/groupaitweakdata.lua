@@ -1,10 +1,26 @@
 -- unit category and task data changes are different with and without streamlined heisting
--- similarly, different enemy spawn groups as well as more different task data are used in """beta""" mode
+-- similarly, different enemy spawn groups as well as more different task data are used with vanilla style groups
 local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
 local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
 local GroupAITaskData = ASS:require("GroupAITaskData")
 
 local func = ASS:req_func_name()
+
+if not GroupAIUnitCategories[func] then
+	ASS:func_missing_error(func, "GroupAIUnitCategories")
+end
+
+if not GroupAIEnemySpawnGroups[func] then
+	ASS:func_missing_error(func, "GroupAIEnemySpawnGroups")
+end
+
+if not GroupAITaskData[func] then
+	ASS:func_missing_error(func, "GroupAITaskData")
+end
+
+if Global.ass_was_poked_with_stick then
+	return
+end
 
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
@@ -124,10 +140,6 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	if GroupAITaskData[func] then
 		GroupAITaskData[func](self, f)
-	end
-
-	for group, weights in pairs(self.besiege.assault.groups) do
-		log(group, weights[1], weights[2], weights[3])
 	end
 
 	self.street = deep_clone(self.besiege)

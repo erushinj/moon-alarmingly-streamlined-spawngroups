@@ -12,6 +12,10 @@
 	"ass_menu_level_mods_desc" : "Makes some levels use a fixed response faction (eg, GenSec units on Transports and Alesso Heist) regardless of difficulty.",
 
 	"ass_menu_max_intensity" : "Enable Max Intensity",
-	"ass_menu_max_intensity_desc" : "Makes spawn groups and task data use Death Sentence values - alternate units and special groups will be more common, timed groups will respawn faster, assaults will be longer and breaks shorter, list goes on."
+	"ass_menu_max_intensity_desc" : "Makes spawn groups and task data use Death Sentence values - alternate units and special groups will be more common, timed groups will respawn faster, assaults will be longer and breaks shorter, list goes on.",
+
+	"ass_menu_error" : "Alarmingly Streamlined Spawngroups - ERROR",
+	"ass_menu_func_missing_error" : "Module functions are missing - the mod will do nothing\nPlease report this",
+	"ass_menu_func_missing_error_button" : "Okay",
 
 }

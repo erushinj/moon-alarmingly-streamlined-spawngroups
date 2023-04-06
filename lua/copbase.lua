@@ -7,28 +7,32 @@ local CopTweakSwaps = ASS:require("CopTweakSwaps")
 
 local func = ASS:req_func_name()
 
+if not CopWeaponSwaps[func] then
+	ASS:func_missing_error(func, "CopWeaponSwaps")
+end
+
+if not CopTweakSwaps[func] then
+	ASS:func_missing_error(func, "CopTweakSwaps")
+end
+
+if Global.ass_was_poked_with_stick then
+	return
+end
+
+local weapon_mapping = CopWeaponSwaps[func] and CopWeaponSwaps[func]()
+local tweak_mapping = CopTweakSwaps[func] and CopTweakSwaps[func]()
+
 Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
-
-	local weapon_mapping = CopWeaponSwaps[func] and CopWeaponSwaps[func]()
-	local tweak_mapping = CopTweakSwaps[func] and CopTweakSwaps[func]()
-
-	if weapon_mapping then
-		local weapon_swap = weapon_mapping[self._unit:name():key()]
-
-		if weapon_swap then
-			self._default_weapon_id = type(weapon_swap) == "table" and table.random(weapon_swap) or weapon_swap
-		end
+	local weapon_swap = weapon_mapping[self._unit:name():key()]
+	if weapon_swap then
+		self._default_weapon_id = type(weapon_swap) == "table" and table.random(weapon_swap) or weapon_swap
 	end
 
-	if tweak_mapping then
-		local unit_tweak = tweak_mapping.swaps[self._tweak_table]
-		local unit_tweak_override = tweak_mapping.override[self._unit:name():key()]
-
-		if unit_tweak then
-			self._post_init_change_tweak_name = unit_tweak_override or unit_tweak
-		end
+	local unit_tweak = tweak_mapping.swaps[self._tweak_table]
+	local unit_tweak_override = tweak_mapping.override[self._unit:name():key()]
+	if unit_tweak then
+		self._post_init_change_tweak_name = unit_tweak_override or unit_tweak
 	end
-
 end )
 
 
