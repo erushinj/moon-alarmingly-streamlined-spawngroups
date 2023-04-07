@@ -77,7 +77,7 @@ if not ASS then
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
-		loc:load_localization_file(ASS.mod_path .. "loc/en.txt")
+		loc:load_localization_file(ASS.mod_path .. "loc/english.txt")
 	end )
 
 	Hooks:Add( "MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusAlarminglyStreamlinedSpawngroups", function(_, nodes)
