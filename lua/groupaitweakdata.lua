@@ -50,9 +50,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	if GroupAIUnitCategories[func] then
-		GroupAIUnitCategories[func](self, difficulty_index)
-	end
+	GroupAIUnitCategories[func](self, difficulty_index)
 
 	local level_mod = ASS:level_mod()
 	if GroupAIUnitCategories[level_mod] then
@@ -114,9 +112,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	-- 80s on normal, decreases 10s per difficulty down to 20s on ds
 	local base_cooldown = (10 - difficulty_index) * 10
 
-	if GroupAIEnemySpawnGroups[func] then
-		GroupAIEnemySpawnGroups[func](self, freq, base_cooldown)
-	end
+	GroupAIEnemySpawnGroups[func](self, freq, base_cooldown)
 
 end )
 
@@ -138,9 +134,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
 
-	if GroupAITaskData[func] then
-		GroupAITaskData[func](self, f)
-	end
+	GroupAITaskData[func](self, f)
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)

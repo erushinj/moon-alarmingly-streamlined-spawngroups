@@ -19,8 +19,8 @@ if Global.ass_was_poked_with_stick then
 	return
 end
 
-local weapon_mapping = CopWeaponSwaps[func] and CopWeaponSwaps[func]()
-local tweak_mapping = CopTweakSwaps[func] and CopTweakSwaps[func]()
+local weapon_mapping = CopWeaponSwaps[func]()
+local tweak_mapping = CopTweakSwaps[func]()
 
 Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
 	local weapon_swap = weapon_mapping[self._unit:name():key()]
