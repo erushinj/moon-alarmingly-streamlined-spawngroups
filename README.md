@@ -1,3 +1,5 @@
+# Alarmingly Streamlined Spawngroups
+
 Simultaneously simplifies and complexifies enemy spawn groups
 
 Also known as ASS, since it probably is
