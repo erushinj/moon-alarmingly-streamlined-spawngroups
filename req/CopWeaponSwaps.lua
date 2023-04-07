@@ -6,8 +6,7 @@ local sh_mossberg_r870 = StreamHeist and "mossberg" or "r870"
 
 local variety_security = {
 	"c45",
-	"mp5",
-	"r870"
+	"mp5"
 }
 local variety_security_heavy = {
 	"mp5",

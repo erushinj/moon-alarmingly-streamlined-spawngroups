@@ -15,7 +15,6 @@ local function shared_weights_moon(group_ai, f)
 		tac_tanks_b = { 0, 0, special_weight },
 		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
 		tac_spoocs_b = { 0, 0, special_weight },
-		phalanx_squad = { 0, 0, 0 },
 		recon_c = { 0, 0, 0 }
 	}
 	for group, weights in pairs(assault_weights) do
@@ -26,8 +25,7 @@ local function shared_weights_moon(group_ai, f)
 		recon_a = { 1, 1, 0 },
 		recon_b = { 0, 1, 1 },
 		recon_c = { 0, 0, 1 },
-		marshal_squad = false,
-		phalanx_squad = false
+		marshal_squad = false
 	}
 	for group, weights in pairs(recon_weights) do
 		if weights == false then
@@ -54,8 +52,7 @@ local function shared_weights_van(group_ai, f)
 		tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
 		tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
 		tac_bull_rush = { 0, special_weight * 0.5, special_weight },
-		FBI_spoocs = { 0, special_weight * 0.5, special_weight },
-		phalanx_squad = { 0, 0, 0 }
+		FBI_spoocs = { 0, special_weight * 0.5, special_weight }
 	}
 	for group, weights in pairs(assault_weights) do
 		group_ai.besiege.assault.groups[group] = weights
@@ -63,8 +60,7 @@ local function shared_weights_van(group_ai, f)
 
 	local recon_weights = {
 		hostage_rescue = { 1, 1, 1 },
-		marshal_squad = false,
-		phalanx_squad = false
+		marshal_squad = false
 	}
 	for group, weights in pairs(recon_weights) do
 		if weights == false then

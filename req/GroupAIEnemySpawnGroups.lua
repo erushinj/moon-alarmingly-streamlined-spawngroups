@@ -281,7 +281,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 				tactics = tactics.shield_charge,
 				amount_min = 1,
 				amount_max = 2,
-				freq = freq.uncommon
+				freq = freq.common
 			},
 			{
 				rank = 2,
@@ -394,7 +394,13 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36_R870",
+				unit = "FBI_heavy_G36",
+				tactics = tactics.tank_cover,
+				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
 				tactics = tactics.tank_cover,
 				freq = freq.baseline
 			}
@@ -481,44 +487,6 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 				freq = freq.baseline
 			}
 		}
-	}
-
-	-- occasional takedown squad with 1-2 phalanx shields
-	-- spawn with light swat and very rarely a cowardly dozer for a swift takedown
-	group_ai.enemy_spawn_groups.phalanx_squad = {
-		max_nr_simultaneous_groups = 1,
-		spawn_cooldown = base_cooldown * 3,
-		amount = { 3, 4 },
-		spawn = {
-			{
-				rank = 3,
-				unit = "Phalanx_minion",
-				tactics = tactics.phalanx_shield,
-				amount_min = 1,
-				amount_max = 2,
-				freq = freq.rare
-			},
-			{
-				rank = 2,
-				unit = "FBI_tank",
-				tactics = tactics.phalanx_cover,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.phalanx_cover,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_R870",
-				tactics = tactics.phalanx_cover,
-				freq = freq.baseline
-			}
-		},
-		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_shields_a.spawn_point_chk_ref
 	}
 
 	group_ai.enemy_spawn_groups.recon_a = {
@@ -701,7 +669,6 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		Phalanx = true,
 		single_spooc = true,
 		FBI_spoocs = true,
-		marshal_squad = true,
 		snowman_boss = true
 	}
 	for group_name, group in pairs(group_ai.enemy_spawn_groups) do
@@ -1272,53 +1239,6 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 		},
 		spawn_point_chk_ref = {
 			tac_swat_rifle_flank = true
-		}
-	}
-
-	-- occasional takedown squad with 1-2 phalanx shields
-	-- spawn with light swat and very rarely a cowardly dozer for a swift takedown
-	group_ai.enemy_spawn_groups.phalanx_squad = {
-		max_nr_simultaneous_groups = 1,
-		spawn_cooldown = base_cooldown * 3,
-		amount = { 4, 5 },
-		spawn = {
-			{
-				rank = 2,
-				unit = "Phalanx_minion",
-				tactics = tactics.phalanx_shield,
-				amount_min = 1,
-				amount_max = 2,
-				freq = freq.uncommon
-			},
-			{
-				rank = 1,
-				unit = "FBI_tank",
-				tactics = tactics.phalanx_cover,
-				amount_min = 0,
-				amount_max = 1,
-				freq = freq.elite
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_M4",
-				tactics = tactics.phalanx_cover,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_swat_R870",
-				tactics = tactics.phalanx_cover,
-				amount_min = 0,
-				amount_max = 4,
-				freq = freq.baseline
-			}
-		},
-		spawn_point_chk_ref = {
-			tac_shield_wall_ranged = true,
-			tac_shield_wall_charge = true,
-			tac_shield_wall = true
 		}
 	}
 

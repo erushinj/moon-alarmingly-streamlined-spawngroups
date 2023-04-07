@@ -11,7 +11,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	-- these are used later to set new factions to america if any are added
 	-- there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
 	local faction_reference = clone(self.unit_categories.spooc.unit_types)
-	local current_factions = {
+	local supported_factions = {
 		america = true,
 		russia = true,
 		zombie = true,
@@ -62,7 +62,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
 
 	for faction, _ in pairs(faction_reference) do
-		if not current_factions[faction] then
+		if not supported_factions[faction] then
 			for _, category in pairs(self.unit_categories) do
 				if category.unit_types and category.unit_types.america then
 					category.unit_types[faction] = clone(category.unit_types.america)
