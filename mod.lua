@@ -69,26 +69,6 @@ if not ASS then
 		return assault_str .. sh_str
 	end
 
-	function ASS:func_missing_error(func, module)
-		log("[Alarmingly Streamlined Spawngroups] ERROR - Function " .. func .. " is missing from " .. module)
-
-		Global.ass_was_poked_with_stick = Global.ass_was_poked_with_stick or {}
-		if not table.contains(Global.ass_was_poked_with_stick, module) then
-			table.insert(Global.ass_was_poked_with_stick, module)
-		end
-
-		Hooks:Add( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroups", function()
-			local message = managers.localization:text("ass_menu_func_missing_error") .. "\n\nFunction: " .. func .. "\n\nModules:\n" .. table.concat(Global.ass_was_poked_with_stick, "\n")
-			local buttons = {
-				{
-					text = managers.localization:text("ass_menu_func_missing_error_button")
-				}
-			}
-
-			QuickMenu:new(managers.localization:text("ass_menu_error"), message, buttons, true)
-		end )
-	end
-
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.settings.level_mods and self._level_mod[job_id]
@@ -115,45 +95,22 @@ if not ASS then
 
 		local callback = "ass_setting_toggle"
 
-		MenuHelper:AddToggle({
-			id = "is_massive",
-			title = "ass_menu_is_massive",
-			desc = "ass_menu_is_massive_desc",
-			callback = callback,
-			value = ASS.settings.is_massive,
-			menu_id = menu_id,
-			priority = 100
-		})
+		local function add_toggle(value, priority)
+			MenuHelper:AddToggle({
+				id = value,
+				title = "ass_menu_" .. value,
+				desc = "ass_menu_" .. value .. "_desc",
+				callback = "ass_setting_toggle",
+				value = ASS.settings[value],
+				menu_id = menu_id,
+				priority = priority
+			})
+		end
 
-		MenuHelper:AddToggle({
-			id = "vanilla_styled_assaults",
-			title = "ass_menu_vanilla_styled_assaults",
-			desc = "ass_menu_vanilla_styled_assaults_desc",
-			callback = callback,
-			value = ASS.settings.vanilla_styled_assaults,
-			menu_id = menu_id,
-			priority = 90
-		})
-
-		MenuHelper:AddToggle({
-			id = "level_mods",
-			title = "ass_menu_level_mods",
-			desc = "ass_menu_level_mods_desc",
-			callback = callback,
-			value = ASS.settings.level_mods,
-			menu_id = menu_id,
-			priority = 80
-		})
-
-		MenuHelper:AddToggle({
-			id = "max_intensity",
-			title = "ass_menu_max_intensity",
-			desc = "ass_menu_max_intensity_desc",
-			callback = callback,
-			value = ASS.settings.max_intensity,
-			menu_id = menu_id,
-			priority = 60
-		})
+		add_toggle("is_massive", 3)
+		add_toggle("level_mods", 2)
+		add_toggle("vanilla_styled_assaults", 1)
+		add_toggle("max_intensity", 0)
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "ass_save" })
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "ass_menu_main")
@@ -179,7 +136,7 @@ if not ASS then
 		end
 	end
 
-	-- conflicts with GroupAILevelMod on beneath the mountain and henrys rock
+	-- just in case
 	TheFixesPreventer = TheFixesPreventer or {}
 	TheFixesPreventer.fix_gensec_shotgunner_in_murkywater = true
 

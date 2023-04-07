@@ -7,18 +7,6 @@ local CopTweakSwaps = ASS:require("CopTweakSwaps")
 
 local func = ASS:req_func_name()
 
-if not CopWeaponSwaps[func] then
-	ASS:func_missing_error(func, "CopWeaponSwaps")
-end
-
-if not CopTweakSwaps[func] then
-	ASS:func_missing_error(func, "CopTweakSwaps")
-end
-
-if Global.ass_was_poked_with_stick then
-	return
-end
-
 local weapon_mapping = CopWeaponSwaps[func]()
 local tweak_mapping = CopTweakSwaps[func]()
 

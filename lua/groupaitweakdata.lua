@@ -6,22 +6,6 @@ local GroupAITaskData = ASS:require("GroupAITaskData")
 
 local func = ASS:req_func_name()
 
-if not GroupAIUnitCategories[func] then
-	ASS:func_missing_error(func, "GroupAIUnitCategories")
-end
-
-if not GroupAIEnemySpawnGroups[func] then
-	ASS:func_missing_error(func, "GroupAIEnemySpawnGroups")
-end
-
-if not GroupAITaskData[func] then
-	ASS:func_missing_error(func, "GroupAITaskData")
-end
-
-if Global.ass_was_poked_with_stick then
-	return
-end
-
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
 	-- these are used later to set new factions to america if any are added
