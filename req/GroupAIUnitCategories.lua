@@ -290,6 +290,48 @@ function GroupAIUnitCategories.CS_normal(group_ai)
 	}
 end
 
+function GroupAIUnitCategories.CS_FBI_hvh(group_ai)
+	if StreamHeist then
+		group_ai.unit_categories.FBI_suit_C45_M4.unit_types.zombie = {
+			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
+		}
+		group_ai.unit_categories.FBI_suit_M4_MP5.unit_types.zombie = {
+			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
+		}
+		group_ai.unit_categories.FBI_suit_stealth_MP5.unit_types.zombie = {
+			Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
+			Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
+		}
+	end
+
+	group_ai.unit_categories.FBI_swat_M4.unit_types.zombie = {
+		Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1"),
+		Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1")
+	}
+	group_ai.unit_categories.FBI_swat_R870.unit_types.zombie = {
+		Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2"),
+		Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_2/ene_fbi_swat_hvh_2")
+	}
+	group_ai.unit_categories.FBI_heavy_G36.unit_types.zombie = {
+		Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1"),
+		Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_1/ene_fbi_heavy_hvh_1")
+	}
+	group_ai.unit_categories.FBI_heavy_R870.unit_types.zombie = {
+		Idstring("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870"),
+		Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
+	}
+	group_ai.unit_categories.FBI_shield.unit_types.zombie = {
+		Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1"),
+		Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2")
+	}
+end
+
 function GroupAIUnitCategories.FBI_hard(group_ai)
 	group_ai.unit_categories.FBI_suit_C45_M4.unit_types.america = {
 		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),

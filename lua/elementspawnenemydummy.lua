@@ -20,6 +20,15 @@ local enemy_replacements = {
 		shield = "units/payday2/characters/ene_shield_2/ene_shield_2",
 		sniper = "units/payday2/characters/ene_sniper_1/ene_sniper_1"
 	},
+	CS_FBI_hvh = {
+		swat_1 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1",
+		swat_2 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2",
+		swat_3 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1",
+		heavy_1 = "units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1",
+		heavy_2 = "units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870",
+		shield = "units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2",
+		sniper = "units/pd2_dlc_hvh/characters/ene_sniper_hvh_1/ene_sniper_hvh_1"
+	},
 	FBI_hard = {
 		swat_1 = "units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
 		swat_2 = "units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2",
@@ -37,7 +46,6 @@ local enemy_replacements = {
 		heavy_2 = "units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870",
 		shield = "units/payday2/characters/ene_city_shield/ene_city_shield",
 		sniper = StreamHeist and "units/payday2/characters/ene_sniper_3/ene_sniper_3"
-			or "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	}
 }
 local shared_replacements = {
