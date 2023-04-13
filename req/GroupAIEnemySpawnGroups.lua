@@ -14,8 +14,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			"deathguard"
 		},
 		swat_rifle = {
-			"ranged_fire",
-			-- "smoke_grenade"
+			"ranged_fire"
 		},
 		swat_rifle_flank = {
 			"flank",
@@ -85,14 +84,6 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			"flank",
 			"ranged_fire",
 			"deathguard"
-		},
-		phalanx_shield = {
-			"shield",
-			"murder"
-		},
-		phalanx_cover = {
-			"shield_cover",
-			"murder"
 		},
 		hostage_rescue = {
 			"ranged_fire",
@@ -455,9 +446,6 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn_point_chk_ref = group_ai.enemy_spawn_groups.tac_spoocs_a.spawn_point_chk_ref
 	}
 
-	-- 2 special groups
-	-- marshal group, and an alternative to winters
-
 	-- occasional fbi agent for support if players get close
 	-- would make marshals spawn normally but that disables their spawn limit
 	group_ai.enemy_spawn_groups.marshal_squad = {
@@ -767,14 +755,6 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 			"flank",
 			"ranged_fire",
 			"deathguard"
-		},
-		phalanx_shield = {
-			"shield",
-			"murder"
-		},
-		phalanx_cover = {
-			"shield_cover",
-			"murder"
 		}
 	}
 
@@ -1201,9 +1181,6 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 			}
 		}
 	}
-
-	-- 2 special groups
-	-- marshal group, and an alternative to winters
 
 	-- occasional fbi agent for support if players get close
 	-- would make marshals spawn normally but that disables their spawn limit

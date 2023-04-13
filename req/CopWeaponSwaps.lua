@@ -170,6 +170,8 @@ local weapon_mapping = {
 local difficulty_index = tweak_data:difficulty_to_index(Global.game_settings and Global.game_settings.difficulty or "normal")
 
 function CopBaseWeaponSwaps.moon_style_streamlined()
+	local weapon_mapping = clone(weapon_mapping)
+
 	local to_append = {
 		[Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "m4",
 		[Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "spas12",
@@ -196,17 +198,19 @@ function CopBaseWeaponSwaps.moon_style_streamlined()
 end
 
 function CopBaseWeaponSwaps.moon_style_vanilla()
+	local weapon_mapping = clone(weapon_mapping)
+
 	local fbi = difficulty_index > 3
 	local city = difficulty_index > 5
 	local zeal = difficulty_index > 7
 
 	local light_rifle = zeal and "mp5" or city and "g36" or fbi and "m4" or "mp5"
-	local heavy_rifle = zeal and "m4" or light_rifle	-- city and "g36" or "m4"
+	local heavy_rifle = zeal and "m4" or light_rifle
 	local hrt_rifle = fbi and "m4" or "mp5"
 
 	local light_shotgun = city and "benelli" or "r870"
-	local heavy_shotgun = zeal and "r870" or city and "benelli" or "r870"
-	local hrt_shotgun = fbi and "mp5" or "r870"
+	local heavy_shotgun = zeal and "r870" or light_shotgun
+	local hrt_shotgun = zeal and "r870" or fbi and "mp5" or "r870"
 
 	local shield_weapon = fbi and "mp9" or "c45"
 

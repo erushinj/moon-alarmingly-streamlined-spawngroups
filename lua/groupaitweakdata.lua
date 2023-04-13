@@ -34,7 +34,25 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	GroupAIUnitCategories[func](self, difficulty_index)
+	-- used to determine special spawn limits
+	local special_difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
+
+	GroupAIUnitCategories[func](self, difficulty_index, special_difficulty_index)
+
+	-- tweak dozer types
+	if difficulty_index == 4 then
+		table.insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"))
+		table.insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga"))
+		table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"))
+		table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_3/ene_murkywater_bulldozer_3"))
+		table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga"))
+	elseif ASS.settings.remove_death_wish_minidozers and difficulty_index == 7 then
+		table.delete(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
+		table.delete(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
+		table.delete(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
+		table.delete(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"))
+		table.delete(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"))
+	end
 
 	local level_mod = ASS:level_mod()
 	if GroupAIUnitCategories[level_mod] then
@@ -103,7 +121,10 @@ end )
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
 
-	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
+	-- nuke winters, he isnt fun
+	self.phalanx.spawn_chance.start = 0
+	self.phalanx.spawn_chance.increase = 0
+	self.phalanx.spawn_chance.max = 0
 
 	-- avoiding issues if new groups are added in vanilla, new groups are added from GroupAITaskData
 	for group, _ in pairs(self.besiege.assault.groups) do
@@ -113,12 +134,10 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		self.besiege.recon.groups[group] = { 0, 0, 0 }
 	end
 
-	-- nuke winters, he isnt fun and theres a replacement for him
-	self.phalanx.spawn_chance.start = 0
-	self.phalanx.spawn_chance.increase = 0
-	self.phalanx.spawn_chance.max = 0
+	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
+	local special_weight = math.lerp(3, 5, f)
 
-	GroupAITaskData[func](self, f)
+	GroupAITaskData[func](self, f, special_weight)
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)

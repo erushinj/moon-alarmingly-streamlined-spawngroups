@@ -1,6 +1,6 @@
 local GroupAIUnitCategories = {}
 
-function GroupAIUnitCategories.moon_style_streamlined(group_ai, difficulty_index)
+function GroupAIUnitCategories.moon_style_streamlined(group_ai, difficulty_index, special_difficulty_index)
 	if difficulty_index < 4 then
 		group_ai.unit_categories.FBI_suit_C45_M4.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
@@ -51,16 +51,15 @@ function GroupAIUnitCategories.moon_style_streamlined(group_ai, difficulty_index
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
 		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },
 		taser = { 0, 0, 1, 1, 2, 2, 3, 3 },
-		tank = { 0, 0, 0, 1, 1, 2, 2, 3 },
+		tank = { 0, 0, 1, 1, 1, 2, 2, 3 },
 		spooc = { 0, 0, 0, 1, 1, 2, 2, 3 }
 	}
-	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 	for special, limit in pairs(limits) do
-		group_ai.special_unit_spawn_limits[special] = limit[difficulty_index]
+		group_ai.special_unit_spawn_limits[special] = limit[special_difficulty_index]
 	end
 end
 
-function GroupAIUnitCategories.moon_style_vanilla(group_ai, difficulty_index)
+function GroupAIUnitCategories.moon_style_vanilla(group_ai, difficulty_index, special_difficulty_index)
 	-- oh boy. (hoppip said to keep this as a memorial)
 	if difficulty_index < 4 then
 		group_ai.unit_categories.FBI_swat_M4 = group_ai.unit_categories.CS_swat_MP5
@@ -224,12 +223,11 @@ function GroupAIUnitCategories.moon_style_vanilla(group_ai, difficulty_index)
 		shield = { 0, 2, 2, 4, 4, 6, 6, 8 },
 		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },
 		taser = { 0, 0, 1, 1, 2, 3, 3, 4 },
-		tank = { 0, 0, 0, 1, 1, 2, 2, 3 },
+		tank = { 0, 0, 1, 1, 1, 2, 2, 3 },
 		spooc = { 0, 0, 0, 1, 2, 3, 3, 4 }
 	}
-	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 	for special, limit in pairs(limits) do
-		group_ai.special_unit_spawn_limits[special] = limit[difficulty_index]
+		group_ai.special_unit_spawn_limits[special] = limit[special_difficulty_index]
 	end
 end
 

@@ -7,6 +7,7 @@ if not ASS then
 		settings = {
 			is_massive = true,
 			level_mods = true,
+			remove_death_wish_minidozers = true,
 			vanilla_styled_assaults = false,
 			max_intensity = false
 		},
@@ -112,8 +113,9 @@ if not ASS then
 			})
 		end
 
-		add_toggle("is_massive", 3)
-		add_toggle("level_mods", 2)
+		add_toggle("is_massive", 4)
+		add_toggle("level_mods", 3)
+		add_toggle("remove_death_wish_minidozers", 2)
 		add_toggle("vanilla_styled_assaults", 1)
 		add_toggle("max_intensity", 0)
 

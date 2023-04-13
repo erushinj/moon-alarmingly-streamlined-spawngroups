@@ -1,12 +1,11 @@
 local GroupAITaskData = {}
 
-local function shared_weights_moon(group_ai, f)
-	local special_weight = math.lerp(3, 5, f)
+local function shared_weights_moon(group_ai, special_weight)
 	local assault_weights = {
-		tac_swats_a = { 13.5, 6.75, 0 },
-		tac_swats_b = { 0, 6.75, 13.5 },
-		tac_heavys_a = { 13.5, 6.75, 0 },
-		tac_heavys_b = { 0, 6.75, 13.5 },
+		tac_swats_a = { 6.75, 3.375, 0 },
+		tac_swats_b = { 6.75, 10.125, 13.5 },
+		tac_heavys_a = { 6.75, 3.375, 0 },
+		tac_heavys_b = { 6.75, 10.125, 13.5 },
 		tac_shields_a = { 0, special_weight, 0 },
 		tac_shields_b = { 0, 0, special_weight * 2 },
 		tac_tazers_a = { 0, special_weight, 0 },
@@ -24,20 +23,14 @@ local function shared_weights_moon(group_ai, f)
 	local recon_weights = {
 		recon_a = { 1, 1, 0 },
 		recon_b = { 0, 1, 1 },
-		recon_c = { 0, 0, 1 },
-		marshal_squad = false
+		recon_c = { 0, 0, 1 }
 	}
 	for group, weights in pairs(recon_weights) do
-		if weights == false then
-			group_ai.besiege.recon.groups[group] = nil
-		else
-			group_ai.besiege.recon.groups[group] = weights
-		end
+		group_ai.besiege.recon.groups[group] = weights
 	end
 end
 
-local function shared_weights_van(group_ai, f)
-	local special_weight = math.lerp(3, 5, f)
+local function shared_weights_van(group_ai, special_weight)
 	local assault_weights = {
 		tac_swat_shotgun_rush = { 2, 3, 4 },
 		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
@@ -59,15 +52,10 @@ local function shared_weights_van(group_ai, f)
 	end
 
 	local recon_weights = {
-		hostage_rescue = { 1, 1, 1 },
-		marshal_squad = false
+		hostage_rescue = { 1, 1, 1 }
 	}
 	for group, weights in pairs(recon_weights) do
-		if weights == false then
-			group_ai.besiege.recon.groups[group] = nil
-		else
-			group_ai.besiege.recon.groups[group] = weights
-		end
+		group_ai.besiege.recon.groups[group] = weights
 	end
 end
 
@@ -95,7 +83,7 @@ local function shared_data_streamlined(group_ai, f)
 end
 
 local function shared_data_vanilla(group_ai, f)
-	group_ai.smoke_and_flash_grenade_timeout = { math.lerp(15, 7.5, f), math.lerp(20, 10, f) }
+	group_ai.smoke_and_flash_grenade_timeout = { math.lerp(12, 6, f), math.lerp(20, 10, f) }
 
 	group_ai.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
 	group_ai.besiege.assault.force = { 12, 14, 16 }
@@ -104,8 +92,8 @@ local function shared_data_vanilla(group_ai, f)
 	group_ai.besiege.recon.force = { 2, 4, 6 }
 end
 
-function GroupAITaskData.moon_style_streamlined(group_ai, f)
-	shared_weights_moon(group_ai, f)
+function GroupAITaskData.moon_style_streamlined(group_ai, f, special_weight)
+	shared_weights_moon(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_streamlined(group_ai, f)
 
@@ -117,20 +105,20 @@ function GroupAITaskData.moon_style_streamlined(group_ai, f)
 	}
 end
 
-function GroupAITaskData.moon_style_vanilla(group_ai, f)
-	shared_weights_moon(group_ai, f)
+function GroupAITaskData.moon_style_vanilla(group_ai, f, special_weight)
+	shared_weights_moon(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_vanilla(group_ai, f)
 end
 
-function GroupAITaskData.van_style_streamlined(group_ai, f)
-	shared_weights_van(group_ai, f)
+function GroupAITaskData.van_style_streamlined(group_ai, f, special_weight)
+	shared_weights_van(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_streamlined(group_ai, f)
 end
 
-function GroupAITaskData.van_style_vanilla(group_ai, f)
-	shared_weights_van(group_ai, f)
+function GroupAITaskData.van_style_vanilla(group_ai, f, special_weight)
+	shared_weights_van(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_vanilla(group_ai, f)
 end

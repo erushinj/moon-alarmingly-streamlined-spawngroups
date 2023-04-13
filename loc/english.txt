@@ -8,6 +8,9 @@
 	"ass_menu_level_mods" : "Level Mod",
 	"ass_menu_level_mods_desc" : "When enabled, makes some levels use a fixed response faction regardless of difficulty.",
 
+	"ass_menu_remove_death_wish_minidozers" : "Remove Death Wish Minidozers",
+	"ass_menu_remove_death_wish_minidozers_desc" : "When enabled, removes Minigun Dozers from Death Wish difficulty.",
+
 	"ass_menu_vanilla_styled_assaults" : "Vanilla Styled Assaults",
 	"ass_menu_vanilla_styled_assaults_desc" : "When enabled, uses a different set of spawn groups made in the style of the modern spawn groups.",
 
