@@ -20,15 +20,6 @@ local enemy_replacements = {
 		shield = "units/payday2/characters/ene_shield_2/ene_shield_2",
 		sniper = "units/payday2/characters/ene_sniper_1/ene_sniper_1"
 	},
-	CS_FBI_hvh = {
-		swat_1 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1",
-		swat_2 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2",
-		swat_3 = "units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1",
-		heavy_1 = "units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1",
-		heavy_2 = "units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870",
-		shield = "units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2",
-		sniper = "units/pd2_dlc_hvh/characters/ene_sniper_hvh_1/ene_sniper_hvh_1"
-	},
 	FBI_hard = {
 		swat_1 = "units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
 		swat_2 = "units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2",
@@ -113,11 +104,11 @@ local enemy_mapping = {
 	[Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"):key()] = "cloaker"
 }
 
-Hooks:PostHook(ElementSpawnEnemyDummy, "init", "ass_init", function(self)
+Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
 	local mapped_unit = enemy_replacements[level_mod] and enemy_replacements[level_mod][mapped_name]
 	local mapped_unit_ids = mapped_unit and Idstring(mapped_unit)
 	if mapped_unit_ids and mapped_unit_ids ~= self._enemy_name then
 		self._enemy_name = mapped_unit_ids
 	end
-end)
+end )

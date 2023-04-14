@@ -99,7 +99,7 @@ function GroupAITaskData.moon_style_streamlined(group_ai, f, special_weight)
 
 	group_ai.besiege.reenforce.groups = {
 		reenforce_a = { 1, 1, 0 },
-		reenforce_b = { 3, 1, 1 },
+		reenforce_b = { 0, 1, 1 },
 		reenforce_c = { 0, 1, 0 },
 		reenforce_d = { 0, 1, 3 }
 	}

@@ -56,7 +56,6 @@ if not ASS then
 			run = "CS_normal",
 			glace = "FBI_hard",
 			dah = "CITY_overkill",
-			hvh = "CS_FBI_hvh",
 			nmh = "CITY_overkill",
 			roberts = "FBI_hard"
 		}
