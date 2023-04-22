@@ -36,7 +36,7 @@ if not ASS then
 			arm_for = "CITY_overkill_290",
 			mia = "FBI_overkill_145",
 			gallery = "FBI_overkill_145",
-			hox = "CS_FBI_overkill",
+			hox = "FBI_overkill_145",
 			hox_3 = "FBI_mcmansion",
 			pines = "FBI_overkill_145",
 			shoutout_raid = "FBI_overkill_145",
