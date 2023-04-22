@@ -1,6 +1,6 @@
 local GroupAIEnemySpawnGroups = {}
 
-function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_cooldown)
+function GroupAIEnemySpawnGroups.old_style_streamlined(group_ai, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -96,28 +96,28 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_swat_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
-				unit = "FBI_swat_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.common
 			},
 			{
 				rank = 2,
-				unit = "FBI_swat_R870",
+				unit = "CS_swat_R870",
 				tactics = tactics.swat_shotgun_rush,
 				amount_max = 1,
 				freq = freq.common
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.swat_rifle,
 				amount_max = 1,
 				freq = freq.elite
@@ -170,28 +170,28 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_heavy_G36",
+				unit = "CS_heavy_M4",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
-				unit = "FBI_heavy_G36",
+				unit = "CS_heavy_M4",
 				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.common
 			},
 			{
 				rank = 2,
-				unit = "FBI_heavy_R870",
+				unit = "CS_heavy_R870",
 				tactics = tactics.swat_shotgun_rush,
 				amount_max = 1,
 				freq = freq.common
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.swat_shotgun_flank,
 				amount_max = 1,
 				freq = freq.elite
@@ -244,7 +244,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_shield",
+				unit = "CS_shield",
 				tactics = tactics.shield_ranged,
 				amount_min = 1,
 				amount_max = 1,
@@ -252,7 +252,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36",
+				unit = "CS_heavy_M4",
 				tactics = tactics.shield_ranged_cover,
 				freq = freq.baseline
 			}
@@ -305,7 +305,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.tazer_shield,
 				freq = freq.baseline
 			}
@@ -356,7 +356,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4_R870",
+				unit = "CS_swat_MP5_R870",
 				tactics = tactics.tank_cover,
 				freq = freq.baseline
 			}
@@ -482,14 +482,14 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_C45_M4",
+				unit = "CS_cop_C45_MP5",
 				tactics = tactics.hostage_rescue,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.hostage_rescue,
 				amount_max = 1,
 				freq = freq.common
@@ -501,24 +501,16 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.hostage_rescue,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_C45_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.hostage_rescue,
-				amount_max = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.hostage_rescue,
-				amount_max = 1,
-				freq = freq.elite
+				freq = freq.uncommon
 			}
 		}
 	}
@@ -529,14 +521,7 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
-				tactics = tactics.hostage_rescue,
-				amount_min = 1,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
+				unit = "CS_cop_stealth_R870",
 				tactics = tactics.hostage_rescue,
 				freq = freq.baseline
 			},
@@ -555,20 +540,20 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_C45_M4",
+				unit = "CS_cop_C45_MP5",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.swat_rifle,
 				freq = freq.common
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
+				unit = "CS_cop_stealth_R870",
 				tactics = tactics.swat_shotgun_rush,
 				freq = freq.common
 			}
@@ -579,20 +564,20 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "CS_cop_MP5_R870",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.swat_rifle,
 				freq = freq.common
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_R870",
+				unit = "CS_swat_R870",
 				tactics = tactics.swat_shotgun_rush,
 				freq = freq.common
 			}
@@ -603,20 +588,20 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_swat_M4",
+				unit = "CS_swat_MP5",
 				tactics = tactics.swat_rifle,
 				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36",
+				unit = "CS_heavy_M4",
 				tactics = tactics.swat_rifle,
 				freq = freq.common
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_R870",
+				unit = "CS_heavy_R870",
 				tactics = tactics.swat_shotgun_rush,
 				freq = freq.common
 			}
@@ -627,13 +612,13 @@ function GroupAIEnemySpawnGroups.moon_style_streamlined(group_ai, freq, base_coo
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_heavy_G36",
+				unit = "CS_heavy_M4",
 				tactics = tactics.swat_rifle,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_R870",
+				unit = "CS_heavy_R870",
 				tactics = tactics.swat_shotgun_rush,
 				freq = freq.baseline
 			}
@@ -729,7 +714,7 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 		},
 		tazer_shield = {
 			"murder",
-			StreamHeist and "shield" or nil
+			StreamHeist and "shield"
 		},
 		tank_rush = {
 			"shield",
@@ -758,6 +743,13 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 		}
 	}
 
+	local unit_names_map = {
+		FBI_swat_M4 = "CS_swat_MP5",
+		FBI_swat_R870 = "CS_swat_R870",
+		FBI_heavy_G36 = "CS_heavy_M4",
+		FBI_heavy_R870 = "CS_heavy_R870"
+	}
+
 	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
 	-- and ensures a spawn point check reference is set
 	local function no_medic_group(original_group)
@@ -765,11 +757,15 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 
 		for i = #g.spawn, 1, -1 do
 			local enemy = g.spawn[i]
+			local unit = enemy.unit
+			local mapped_unit = unit_names_map[unit]
 
-			if enemy.unit:match("heavy") then
-				enemy.freq = freq.common
-			elseif enemy.unit:match("swat") then
-				-- nothing
+			if mapped_unit then
+				unit = mapped_unit
+
+				if unit:match("heavy") then
+					enemy.freq = freq.common
+				end
 			else
 				table.remove(g.spawn, i)
 			end
@@ -780,6 +776,29 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 		}
 
 		return g
+	end
+
+	-- no reenforce groups.
+	-- reenforce doesnt work properly in vanilla thanks to u173, they end up behaving more like regular assault units if spawned
+	-- sh restores reenforce, and its reenforce groups are fine for this mode
+	local sh_reenforce_groups = {
+		reenforce_init = true,
+		reenforce_light = true,
+		reenforce_heavy = true
+	}
+	for group in pairs(sh_reenforce_groups) do
+		if group_ai.enemy_spawn_groups[group] then
+			local spawn = group_ai.enemy_spawn_groups[group].spawn
+
+			for i = #spawn, 1, -1 do
+				local unit = spawn[i].unit
+				local mapped_unit = unit_names_map[unit]
+
+				if mapped_unit then
+					unit = mapped_unit
+				end
+			end
+		end
 	end
 
 	-- 4 regular swat groups, non-flank/flank shotgunners/riflemen
@@ -1254,13 +1273,9 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(group_ai, freq, base_cool
 			tac_swat_rifle_flank = true
 		}
 	}
-
-	-- no reenforce groups.
-	-- reenforce doesnt work properly in vanilla thanks to u173, they end up behaving more like regular assault units if spawned
-	-- sh restores reenforce, and its reenforce groups are fine for this mode
 end
 
-GroupAIEnemySpawnGroups.moon_style_vanilla = GroupAIEnemySpawnGroups.moon_style_streamlined
+GroupAIEnemySpawnGroups.old_style_vanilla = GroupAIEnemySpawnGroups.old_style_streamlined
 GroupAIEnemySpawnGroups.van_style_vanilla = GroupAIEnemySpawnGroups.van_style_streamlined
 
 return GroupAIEnemySpawnGroups

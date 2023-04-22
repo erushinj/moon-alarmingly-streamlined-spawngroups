@@ -2,14 +2,14 @@ local CopBaseTweakSwaps = {}
 
 local difficulty_index = tweak_data:difficulty_to_index(Global.game_settings and Global.game_settings.difficulty or "normal")
 
-function CopBaseTweakSwaps.moon_style_streamlined()
+function CopBaseTweakSwaps.old_style_streamlined()
 	return {
 		swaps = {},
 		override = {}
 	}
 end
 
-function CopBaseTweakSwaps.moon_style_vanilla()
+function CopBaseTweakSwaps.old_style_vanilla()
 	local light = difficulty_index > 7 and "swat" or "fbi_swat" 
 	local heavy = difficulty_index > 7 and "heavy_swat" or "fbi_heavy_swat"
 	local hrt = "fbi"
@@ -37,7 +37,7 @@ function CopBaseTweakSwaps.moon_style_vanilla()
 	}
 end
 
-CopBaseTweakSwaps.van_style_streamlined = CopBaseTweakSwaps.moon_style_streamlined
-CopBaseTweakSwaps.van_style_vanilla = CopBaseTweakSwaps.moon_style_vanilla
+CopBaseTweakSwaps.van_style_streamlined = CopBaseTweakSwaps.old_style_streamlined
+CopBaseTweakSwaps.van_style_vanilla = CopBaseTweakSwaps.old_style_vanilla
 
 return CopBaseTweakSwaps

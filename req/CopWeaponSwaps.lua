@@ -169,7 +169,7 @@ local weapon_mapping = {
 
 local difficulty_index = tweak_data:difficulty_to_index(Global.game_settings and Global.game_settings.difficulty or "normal")
 
-function CopBaseWeaponSwaps.moon_style_streamlined()
+function CopBaseWeaponSwaps.old_style_streamlined()
 	local weapon_mapping = clone(weapon_mapping)
 
 	local to_append = {
@@ -185,6 +185,7 @@ function CopBaseWeaponSwaps.moon_style_streamlined()
 		[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"):key()] = "scar_murky",
 		[Idstring("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"):key()] = "mp5",
 
+		[Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"):key()] = "ksg",
 		[Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = "shepheard",
 		[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_2/ene_murkywater_bulldozer_2"):key()] = "spas12",
 		[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"):key()] = "scar_murky"
@@ -197,7 +198,7 @@ function CopBaseWeaponSwaps.moon_style_streamlined()
 	return weapon_mapping
 end
 
-function CopBaseWeaponSwaps.moon_style_vanilla()
+function CopBaseWeaponSwaps.old_style_vanilla()
 	local weapon_mapping = clone(weapon_mapping)
 
 	local fbi = difficulty_index > 3
@@ -215,14 +216,13 @@ function CopBaseWeaponSwaps.moon_style_vanilla()
 	local shield_weapon = fbi and "mp9" or "c45"
 
 	local to_append = {
-		[Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = variety_security_heavy,
-		[Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = variety_security_heavy,
-
 		[Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = hrt_shotgun,
 		[Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = hrt_rifle,
 		[Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"):key()] = hrt_rifle,
 		[Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = hrt_shotgun,
 		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = hrt_rifle,
+		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"):key()] = hrt_rifle,
+		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"):key()] = hrt_rifle,
 		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"):key()] = hrt_shotgun,
 		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"):key()] = hrt_rifle,
 		[Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870"):key()] = hrt_shotgun,
@@ -232,6 +232,8 @@ function CopBaseWeaponSwaps.moon_style_vanilla()
 		[Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"):key()] = hrt_shotgun,
 		[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = hrt_rifle,
 		[Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"):key()] = hrt_shotgun,
+		[Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = hrt_rifle,
+		[Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = hrt_shotgun,
 		[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"):key()] = hrt_rifle,
 		[Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870"):key()] = hrt_shotgun,
 
@@ -311,7 +313,7 @@ function CopBaseWeaponSwaps.moon_style_vanilla()
 	return weapon_mapping
 end
 
-CopBaseWeaponSwaps.van_style_streamlined = CopBaseWeaponSwaps.moon_style_streamlined
-CopBaseWeaponSwaps.van_style_vanilla = CopBaseWeaponSwaps.moon_style_vanilla
+CopBaseWeaponSwaps.van_style_streamlined = CopBaseWeaponSwaps.old_style_streamlined
+CopBaseWeaponSwaps.van_style_vanilla = CopBaseWeaponSwaps.old_style_vanilla
 
 return CopBaseWeaponSwaps

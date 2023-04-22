@@ -7,7 +7,7 @@ if not ASS then
 		settings = {
 			is_massive = true,
 			level_mods = true,
-			remove_death_wish_minidozers = true,
+			minigun_dozers_on_death_wish = true,
 			vanilla_styled_assaults = false,
 			max_intensity = false
 		},
@@ -21,43 +21,43 @@ if not ASS then
 			branchbank_cash = "CS_normal",
 			branchbank_prof = "CS_normal",
 			branchbank_gold_prof = "CS_normal",
-			firestarter = "FBI_hard",
-			alex = "FBI_hard",
-			watchdogs = "FBI_hard",
-			watchdogs_night = "FBI_hard",
-			framing_frame = "FBI_hard",
-			welcome_to_the_jungle_prof = "FBI_hard",
-			welcome_to_the_jungle_night_prof = "FBI_hard",
-			arm_fac = "CITY_overkill",
-			arm_par = "CITY_overkill",
-			arm_hcm = "CITY_overkill",
-			arm_und = "CITY_overkill",
-			arm_cro = "CITY_overkill",
-			arm_for = "CITY_overkill",
-			mia = "FBI_hard",
-			gallery = "FBI_hard",
-			hox = "FBI_hard",
+			firestarter = "FBI_overkill_145",
+			alex = "FBI_overkill_145",
+			watchdogs = "FBI_overkill_145",
+			watchdogs_night = "FBI_overkill_145",
+			framing_frame = "FBI_overkill_145",
+			welcome_to_the_jungle_prof = "FBI_overkill_145",
+			welcome_to_the_jungle_night_prof = "FBI_overkill_145",
+			arm_fac = "CITY_overkill_290",
+			arm_par = "CITY_overkill_290",
+			arm_hcm = "CITY_overkill_290",
+			arm_und = "CITY_overkill_290",
+			arm_cro = "CITY_overkill_290",
+			arm_for = "CITY_overkill_290",
+			mia = "FBI_overkill_145",
+			gallery = "FBI_overkill_145",
+			hox = "CS_FBI_overkill",
 			hox_3 = "FBI_mcmansion",
-			pines = "FBI_hard",
-			shoutout_raid = "FBI_hard",
-			arena = "CITY_overkill",
+			pines = "FBI_overkill_145",
+			shoutout_raid = "FBI_overkill_145",
+			arena = "CITY_overkill_290",
 			red2 = "CS_normal",
-			dinner = "CITY_overkill",
-			nail = "FBI_hard",
-			cane = "FBI_hard",
-			pbr2 = "FBI_hard",
+			dinner = "FBI_CITY_easy_wish",
+			nail = "FBI_overkill_145",
+			cane = "FBI_overkill_145",
+			pbr2 = "FBI_overkill_145",
 			pal = "CS_normal",
-			man = "FBI_hard",
-			born = "FBI_hard",
-			chill_combat = "FBI_hard",
-			flat = "FBI_hard",
-			help = "FBI_hard",
+			man = "FBI_overkill_145",
+			born = "FBI_overkill_145",
+			chill_combat = "FBI_overkill_145",
+			flat = "CS_FBI_overkill",
+			help = "FBI_overkill_145",
 			moon = "CS_normal",
 			run = "CS_normal",
-			glace = "FBI_hard",
-			dah = "CITY_overkill",
-			nmh = "CITY_overkill",
-			roberts = "FBI_hard"
+			glace = "CS_FBI_overkill",
+			dah = "CITY_overkill_290",
+			nmh = "FBI_CITY_easy_wish",
+			roberts = "FBI_overkill_145"
 		}
 	}
 
@@ -68,7 +68,7 @@ if not ASS then
 	end
 
 	function ASS:req_func_name()
-		local assault_str = self.settings.vanilla_styled_assaults and "van_style_" or "moon_style_"
+		local assault_str = self.settings.vanilla_styled_assaults and "van_style_" or "old_style_"
 		local sh_str = StreamHeist and "streamlined" or "vanilla"
 
 		return assault_str .. sh_str
@@ -114,7 +114,7 @@ if not ASS then
 
 		add_toggle("is_massive", 4)
 		add_toggle("level_mods", 3)
-		add_toggle("remove_death_wish_minidozers", 2)
+		add_toggle("minigun_dozers_on_death_wish", 2)
 		add_toggle("vanilla_styled_assaults", 1)
 		add_toggle("max_intensity", 0)
 

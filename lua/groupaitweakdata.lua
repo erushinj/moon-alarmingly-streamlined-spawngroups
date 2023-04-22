@@ -4,7 +4,9 @@ local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
 local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
 local GroupAITaskData = ASS:require("GroupAITaskData")
 
+local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 local func = ASS:req_func_name()
+local level_mod = ASS:level_mod()
 
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
@@ -19,42 +21,16 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		federales = true
 	}
 
-	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light")
-	}
-	self.unit_categories.FBI_suit_M4_MP5.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-	}
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = {
-		Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870")
-	}
-
 	-- merc marshals makes no sense for zombies
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
+	GroupAIUnitCategories[difficulty](self)
+
 	-- used to determine special spawn limits
 	local special_difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
-
 	GroupAIUnitCategories[func](self, difficulty_index, special_difficulty_index)
 
-	-- tweak dozer types
-	if difficulty_index == 4 then
-		table.insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_3/ene_murkywater_bulldozer_3"))
-		table.insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga"))
-	elseif ASS.settings.remove_death_wish_minidozers and difficulty_index == 7 then
-		table.delete(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"))
-	end
-
-	local level_mod = ASS:level_mod()
 	if GroupAIUnitCategories[level_mod] then
 		GroupAIUnitCategories[level_mod](self)
 
@@ -76,6 +52,8 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	end
 
 	self.unit_categories.medic_M4_R870 = combined_category(self.unit_categories.medic_M4, self.unit_categories.medic_R870)
+	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
+	self.unit_categories.CS_heavy_M4_R870 = combined_category(self.unit_categories.CS_heavy_M4, self.unit_categories.CS_heavy_R870)
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
 
@@ -93,6 +71,15 @@ end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+
+	-- remove preexisting timed groups
+	for _, group_data in pairs(self.enemy_spawn_groups) do
+		if group_data.max_nr_simultaneous_groups then
+			group_data.max_nr_simultaneous_groups = 0
+			group_data.spawn_cooldown = 300000
+			group_data.initial_spawn_delay = 300000
+		end
+	end
 
 	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 	local f = ASS.settings.max_intensity and 1 or (difficulty_index - 2) / 6

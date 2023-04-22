@@ -1,6 +1,6 @@
 local GroupAITaskData = {}
 
-local function shared_weights_moon(group_ai, special_weight)
+local function shared_weights_old(group_ai, special_weight)
 	local assault_weights = {
 		tac_swats_a = { 6.75, 3.375, 0 },
 		tac_swats_b = { 6.75, 10.125, 13.5 },
@@ -92,8 +92,8 @@ local function shared_data_vanilla(group_ai, f)
 	group_ai.besiege.recon.force = { 2, 4, 6 }
 end
 
-function GroupAITaskData.moon_style_streamlined(group_ai, f, special_weight)
-	shared_weights_moon(group_ai, special_weight)
+function GroupAITaskData.old_style_streamlined(group_ai, f, special_weight)
+	shared_weights_old(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_streamlined(group_ai, f)
 
@@ -105,8 +105,8 @@ function GroupAITaskData.moon_style_streamlined(group_ai, f, special_weight)
 	}
 end
 
-function GroupAITaskData.moon_style_vanilla(group_ai, f, special_weight)
-	shared_weights_moon(group_ai, special_weight)
+function GroupAITaskData.old_style_vanilla(group_ai, f, special_weight)
+	shared_weights_old(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_vanilla(group_ai, f)
 end
