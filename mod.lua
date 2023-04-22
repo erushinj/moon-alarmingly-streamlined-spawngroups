@@ -7,7 +7,7 @@ if not ASS then
 		settings = {
 			is_massive = true,
 			level_mods = true,
-			minigun_dozers_on_death_wish = true,
+			minigun_dozers_on_death_wish = false,
 			vanilla_styled_assaults = false,
 			max_intensity = false
 		},
