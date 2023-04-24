@@ -11,7 +11,7 @@ if not ASS then
 			vanilla_styled_assaults = false,
 			max_intensity = false
 		},
-		_level_mod = {
+		level_mod_map = {
 			jewelry_store = "CS_normal",
 			four_stores = "CS_normal",
 			nightclub = "CS_normal",
@@ -22,42 +22,46 @@ if not ASS then
 			branchbank_prof = "CS_normal",
 			branchbank_gold_prof = "CS_normal",
 			firestarter = "FBI_overkill_145",
-			alex = "FBI_overkill_145",
+			alex = "FBI_overkill_145", -- rats
 			watchdogs = "FBI_overkill_145",
 			watchdogs_night = "FBI_overkill_145",
 			framing_frame = "FBI_overkill_145",
-			welcome_to_the_jungle_prof = "FBI_overkill_145",
+			welcome_to_the_jungle_prof = "FBI_overkill_145", -- big oil
 			welcome_to_the_jungle_night_prof = "FBI_overkill_145",
-			arm_fac = "CITY_overkill_290",
-			arm_par = "CITY_overkill_290",
-			arm_hcm = "CITY_overkill_290",
-			arm_und = "CITY_overkill_290",
-			arm_cro = "CITY_overkill_290",
-			arm_for = "CITY_overkill_290",
-			mia = "FBI_overkill_145",
-			gallery = "FBI_overkill_145",
-			hox = "FBI_overkill_145",
-			hox_3 = "FBI_mcmansion",
-			pines = "FBI_overkill_145",
-			shoutout_raid = "FBI_overkill_145",
-			arena = "CITY_overkill_290",
-			red2 = "CS_normal",
-			dinner = "FBI_CITY_easy_wish",
-			nail = "FBI_overkill_145",
-			cane = "FBI_overkill_145",
-			pbr2 = "FBI_overkill_145",
-			pal = "CS_normal",
-			man = "FBI_overkill_145",
-			born = "FBI_overkill_145",
-			chill_combat = "FBI_overkill_145",
-			flat = "CS_FBI_overkill",
-			help = "FBI_overkill_145",
-			moon = "CS_normal",
-			run = "CS_normal",
-			glace = "CS_FBI_overkill",
-			dah = "CITY_overkill_290",
-			nmh = "FBI_CITY_easy_wish",
-			roberts = "FBI_overkill_145"
+			arm_fac = "CITY_overkill_290", -- transport 
+			arm_par = "CITY_overkill_290", -- transport 
+			arm_hcm = "CITY_overkill_290", -- transport 
+			arm_und = "CITY_overkill_290", -- transport 
+			arm_cro = "CITY_overkill_290", -- transport 
+			arm_for = "CITY_overkill_290", -- transport train
+			mia = "FBI_overkill_145", -- hotline miami
+			gallery = "FBI_overkill_145", -- art gallery
+			hox = "FBI_overkill_145", -- hoxton breakout
+			hox_3 = "FBI_mcmansion", -- hoxton revenge
+			pines = "FBI_overkill_145", -- white xmas
+			shoutout_raid = "FBI_overkill_145",  -- meltdown
+			arena = "CITY_overkill_290", -- alesso heist
+			red2 = "CS_normal", -- first world bank
+			dinner = "FBI_CITY_easy_wish", -- slaughterhouse
+			nail = "FBI_overkill_145", -- lab rats
+			cane = "FBI_overkill_145", -- santas workshop
+			pbr2 = "CS_FBI_pbr2", -- birth of sky
+			pal = "CS_normal", -- counterfeit
+			man = "CS_FBI_man", -- undercover
+			born = "FBI_overkill_145", -- biker heist
+			chill_combat = "FBI_overkill_145", -- safehouse raid
+			flat = "CS_FBI_overkill", -- panic room
+			help = "FBI_overkill_145", -- prison nightmare
+			moon = "CS_normal", -- stealing xmas
+			run = "CS_normal", -- heat street
+			glace = "CS_FBI_overkill", -- green bridge
+			dah = "CITY_overkill_290", -- diamond heist
+			nmh = "CS_FBI_CITY_nmh", -- no mercy
+			roberts = "FBI_overkill_145" -- go bank
+		},
+		bad_raging_bull_levels = {
+			pbr2 = true, -- birth of sky
+			hvh = true -- cursed kill room
 		}
 	}
 
@@ -76,9 +80,14 @@ if not ASS then
 
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
-		local level_mod = self.settings.level_mods and self._level_mod[job_id]
 
-		return level_mod
+		return self.settings.level_mods and self.level_mod_map[job_id]
+	end
+
+	function ASS:is_bad_raging_bull_level()
+		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+
+		return self.bad_raging_bull_levels[level_id]
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)

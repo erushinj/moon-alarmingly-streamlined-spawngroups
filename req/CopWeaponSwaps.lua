@@ -1,5 +1,7 @@
 local CopBaseWeaponSwaps = {}
 
+local c45_raging_bull = ASS:is_bad_raging_bull_level() and "c45" or "raging_bull"
+
 local sh_spas12_r870 = StreamHeist and "spas12" or "r870"
 local sh_spas12_benelli = StreamHeist and "spas12" or "benelli"
 local sh_mossberg_r870 = StreamHeist and "mossberg" or "r870"
@@ -55,6 +57,10 @@ local variety_triads_pent = {
 }
 
 local weapon_mapping = {
+	-- bronco cop (gets replaced with a normal pistol on certain heists he really sucks on, like birth of sky)
+	[Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = c45_raging_bull,
+	[Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2"):key()] = c45_raging_bull,
+
 	-- security guards
 	[Idstring("units/payday2/characters/ene_security_1/ene_security_1"):key()] = variety_security,
 	[Idstring("units/payday2/characters/ene_security_2/ene_security_2"):key()] = variety_security,

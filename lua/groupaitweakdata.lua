@@ -25,17 +25,17 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	GroupAIUnitCategories[difficulty](self)
+	GroupAIUnitCategories[difficulty](self.unit_categories)
 
 	-- used to determine special spawn limits
 	local special_difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 	GroupAIUnitCategories[func](self, difficulty_index, special_difficulty_index)
 
 	if GroupAIUnitCategories[level_mod] then
-		GroupAIUnitCategories[level_mod](self)
+		GroupAIUnitCategories[level_mod](self.unit_categories)
 
 		if difficulty_index > 7 then
-			GroupAIUnitCategories.revert_zeal_specials(self)
+			GroupAIUnitCategories.revert_zeal_specials(self.unit_categories)
 		end
 	end
 
@@ -53,7 +53,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	self.unit_categories.medic_M4_R870 = combined_category(self.unit_categories.medic_M4, self.unit_categories.medic_R870)
 	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
-	self.unit_categories.CS_heavy_M4_R870 = combined_category(self.unit_categories.CS_heavy_M4, self.unit_categories.CS_heavy_R870)
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
 
@@ -101,7 +100,7 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	-- 80s on normal, decreases 10s per difficulty down to 20s on ds
 	local base_cooldown = (10 - difficulty_index) * 10
 
-	GroupAIEnemySpawnGroups[func](self, freq, base_cooldown)
+	GroupAIEnemySpawnGroups[func](self.enemy_spawn_groups, freq, base_cooldown)
 
 end )
 
