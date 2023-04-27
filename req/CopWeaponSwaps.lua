@@ -1,4 +1,4 @@
-local CopBaseWeaponSwaps = {}
+local CopWeaponSwaps = {}
 
 local sh_spas12_r870 = StreamHeist and "spas12" or "r870"
 local sh_spas12_benelli = StreamHeist and "spas12" or "benelli"
@@ -169,7 +169,7 @@ local weapon_mapping = {
 
 local difficulty_index = tweak_data:difficulty_to_index(Global.game_settings and Global.game_settings.difficulty or "normal")
 
-function CopBaseWeaponSwaps.old_style_streamlined()
+function CopWeaponSwaps.old_style_streamlined()
 	local weapon_mapping = clone(weapon_mapping)
 
 	local to_append = {
@@ -198,11 +198,11 @@ function CopBaseWeaponSwaps.old_style_streamlined()
 	return weapon_mapping
 end
 
-function CopBaseTweakSwaps.van_style_streamlined()
-	return CopBaseTweakSwaps.old_style_streamlined()
+function CopWeaponSwaps.van_style_streamlined()
+	return CopWeaponSwaps.old_style_streamlined()
 end
 
-function CopBaseWeaponSwaps.old_style_vanilla()
+function CopWeaponSwaps.old_style_vanilla()
 	local weapon_mapping = clone(weapon_mapping)
 
 	local fbi = difficulty_index > 3
@@ -317,8 +317,8 @@ function CopBaseWeaponSwaps.old_style_vanilla()
 	return weapon_mapping
 end
 
-function CopBaseTweakSwaps.van_style_vanilla()
-	return CopBaseTweakSwaps.old_style_vanilla()
+function CopWeaponSwaps.van_style_vanilla()
+	return CopWeaponSwaps.old_style_vanilla()
 end
 
-return CopBaseWeaponSwaps
+return CopWeaponSwaps

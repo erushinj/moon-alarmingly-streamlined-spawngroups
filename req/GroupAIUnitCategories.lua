@@ -448,8 +448,8 @@ function GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index,
 	end
 end
 
-function GroupAIUnitCategories.van_style_streamlined()
-	GroupAIUnitCategories.old_style_streamlined()
+function GroupAIUnitCategories.van_style_streamlined(group_ai, difficulty_index, special_difficulty_index)
+	GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index, special_difficulty_index)
 end
 
 function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, special_difficulty_index)
@@ -510,8 +510,8 @@ function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, spe
 	end
 end
 
-function GroupAIUnitCategories.van_style_vanilla()
-	GroupAIUnitCategories.old_style_vanilla()
+function GroupAIUnitCategories.van_style_vanilla(group_ai, difficulty_index, special_difficulty_index)
+	GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, special_difficulty_index)
 end
 
 

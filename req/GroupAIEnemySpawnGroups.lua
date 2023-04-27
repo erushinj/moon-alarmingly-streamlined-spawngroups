@@ -590,8 +590,8 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 	end
 end
 
-function GroupAIEnemySpawnGroups.old_style_vanilla()
-	GroupAIEnemySpawnGroups.old_style_streamlined()
+function GroupAIEnemySpawnGroups.old_style_vanilla(groups, freq, base_cooldown)
+	GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldown)
 end
 
 -- shame most tactics do little to nothing in vanilla
@@ -1221,8 +1221,8 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 	groups.reenforce_heavy = sh_reenforce_group({ "CS_heavy_M4", "CS_heavy_R870" })
 end
 
-function GroupAIEnemySpawnGroups.van_style_vanilla()
-	GroupAIEnemySpawnGroups.van_style_streamlined()
+function GroupAIEnemySpawnGroups.van_style_vanilla(groups, freq, base_cooldown)
+	GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldown)
 end
 
 return GroupAIEnemySpawnGroups
