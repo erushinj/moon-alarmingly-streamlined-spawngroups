@@ -106,19 +106,9 @@ end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
-
-	-- nuke winters, he isnt fun
 	self.phalanx.spawn_chance.start = 0
 	self.phalanx.spawn_chance.increase = 0
 	self.phalanx.spawn_chance.max = 0
-
-	-- avoiding issues if new groups are added in vanilla, new groups are added from GroupAITaskData
-	for group, _ in pairs(self.besiege.assault.groups) do
-		self.besiege.assault.groups[group] = { 0, 0, 0 }
-	end
-	for group, _ in pairs(self.besiege.recon.groups) do
-		self.besiege.recon.groups[group] = { 0, 0, 0 }
-	end
 
 	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
 	local special_weight = math.lerp(3, 5, f)
@@ -127,5 +117,4 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
-
 end )

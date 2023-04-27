@@ -22,46 +22,49 @@ if not ASS then
 			branchbank_prof = "CS_normal",
 			branchbank_gold_prof = "CS_normal",
 			firestarter = "FBI_overkill_145",
-			alex = "FBI_overkill_145", -- rats
+			alex = "FBI_overkill_145",  -- rats
 			watchdogs = "FBI_overkill_145",
 			watchdogs_night = "FBI_overkill_145",
 			framing_frame = "FBI_overkill_145",
-			welcome_to_the_jungle_prof = "FBI_overkill_145", -- big oil
+			welcome_to_the_jungle_prof = "FBI_overkill_145",  -- big oil
 			welcome_to_the_jungle_night_prof = "FBI_overkill_145",
-			arm_fac = "CITY_overkill_290", -- transport 
-			arm_par = "CITY_overkill_290", -- transport 
-			arm_hcm = "CITY_overkill_290", -- transport 
-			arm_und = "CITY_overkill_290", -- transport 
-			arm_cro = "CITY_overkill_290", -- transport 
-			arm_for = "CITY_overkill_290", -- transport train
-			mia = "FBI_overkill_145", -- hotline miami
-			gallery = "FBI_overkill_145", -- art gallery
-			hox = "FBI_overkill_145", -- hoxton breakout
-			hox_3 = "FBI_mcmansion", -- hoxton revenge
-			pines = "FBI_overkill_145", -- white xmas
+			arm_fac = "CITY_overkill_290",  -- transport harbor
+			arm_par = "CITY_overkill_290",  -- transport park
+			arm_hcm = "CITY_overkill_290",  -- transport downtown
+			arm_und = "CITY_overkill_290",  -- transport underpass
+			arm_cro = "CITY_overkill_290",  -- transport crossroads
+			arm_for = "CITY_overkill_290",  -- transport train
+			mia = "FBI_overkill_145",  -- hotline miami
+			gallery = "FBI_overkill_145",  -- art gallery
+			hox = "FBI_overkill_145",  -- hoxton breakout
+			hox_3 = "FBI_mcmansion",  -- hoxton revenge
+			pines = "FBI_overkill_145",  -- white xmas
 			shoutout_raid = "FBI_overkill_145",  -- meltdown
-			arena = "CITY_overkill_290", -- alesso heist
-			red2 = "CS_normal", -- first world bank
-			dinner = "FBI_CITY_easy_wish", -- slaughterhouse
-			nail = "FBI_overkill_145", -- lab rats
-			cane = "FBI_overkill_145", -- santas workshop
-			pbr2 = "CS_FBI_pbr2", -- birth of sky
-			pal = "CS_normal", -- counterfeit
-			man = "CS_FBI_man", -- undercover
-			born = "FBI_overkill_145", -- biker heist
-			chill_combat = "FBI_overkill_145", -- safehouse raid
-			flat = "CS_FBI_overkill", -- panic room
-			help = "FBI_overkill_145", -- prison nightmare
-			moon = "CS_normal", -- stealing xmas
-			run = "CS_normal", -- heat street
-			glace = "CS_FBI_overkill", -- green bridge
-			dah = "CITY_overkill_290", -- diamond heist
-			nmh = "CS_FBI_CITY_nmh", -- no mercy
-			roberts = "FBI_overkill_145" -- go bank
-		},
-		bad_raging_bull_levels = {
-			pbr2 = true, -- birth of sky
-			hvh = true -- cursed kill room
+			arena = "CITY_overkill_290",  -- alesso heist
+			red2 = "CS_normal",  -- first world bank
+			dinner = "FBI_CITY_easy_wish",  -- slaughterhouse
+			nail = "FBI_overkill_145",  -- lab rats
+			cane = "FBI_overkill_145",  -- santas workshop
+			pbr2 = "CS_FBI_pbr2",  -- birth of sky
+			pal = "CS_normal",  -- counterfeit
+			man = "CS_FBI_man",  -- undercover
+			born = "FBI_overkill_145",  -- biker heist
+			chill_combat = "FBI_overkill_145",  -- safehouse raid
+			flat = "CS_FBI_overkill",  -- panic room
+			help = "FBI_overkill_145",  -- prison nightmare
+			moon = "CS_normal",  -- stealing xmas
+			run = "CS_normal",  -- heat street
+			glace = "CS_FBI_overkill",  -- green bridge
+			dah = "CITY_overkill_290",  -- diamond heist
+			nmh = "CS_FBI_CITY_nmh",  -- no mercy
+			chas = "CS_normal",  -- dragon heist
+			sand = "CS_FBI_overkill",  -- ukrainian prisoner
+			chca = "FBI_overkill_145",  -- black cat
+			pent = "FBI_CITY_easy_wish",  -- mountain master
+			ranc = "FBI_overkill_145",  -- midland ranch
+			trai = "FBI_CITY_easy_wish",  -- lost in transit
+			corp = "CITY_overkill_290",  -- hostile takeover
+			roberts = "FBI_overkill_145"  -- go bank
 		}
 	}
 
@@ -84,14 +87,20 @@ if not ASS then
 		return self.settings.level_mods and self.level_mod_map[job_id]
 	end
 
-	function ASS:is_bad_raging_bull_level()
-		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
-
-		return self.bad_raging_bull_levels[level_id]
-	end
-
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
-		loc:load_localization_file(ASS.mod_path .. "loc/english.txt")
+		loc:add_localized_strings({
+			ass_menu_main = "Alarmingly Streamlined Spawngroups",
+			ass_menu_is_massive = "Enable the ASS",
+			ass_menu_is_massive_desc = "When enabled, the mod does the thing.",
+			ass_menu_level_mods = "Level Mod",
+			ass_menu_level_mods_desc = "When enabled, makes some levels use a fixed response faction regardless of difficulty.",
+			ass_menu_minigun_dozers_on_death_wish = "Minigun Dozers on Death Wish",
+			ass_menu_minigun_dozers_on_death_wish_desc = "When enabled, reenables Minigun Dozers on Death Wish difficulty.",
+			ass_menu_vanilla_styled_assaults = "Vanilla Styled Assaults",
+			ass_menu_vanilla_styled_assaults_desc = "When enabled, uses a different set of spawn groups made in the style of the modern spawn groups.",
+			ass_menu_max_intensity = "Max Intensity",
+			ass_menu_max_intensity_desc = "When enabled, makes special spawn limits, spawn groups, and task data use Death Sentence values."
+		})
 	end )
 
 	Hooks:Add( "MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusAlarminglyStreamlinedSpawngroups", function(_, nodes)
@@ -108,8 +117,9 @@ if not ASS then
 		end
 
 		local callback = "ass_setting_toggle"
+		local priority = table.size(ASS.settings)
 
-		local function add_toggle(value, priority)
+		local function add_toggle(value)
 			MenuHelper:AddToggle({
 				id = value,
 				title = "ass_menu_" .. value,
@@ -119,13 +129,15 @@ if not ASS then
 				menu_id = menu_id,
 				priority = priority
 			})
+
+			priority = priority - 1
 		end
 
-		add_toggle("is_massive", 4)
-		add_toggle("level_mods", 3)
-		add_toggle("minigun_dozers_on_death_wish", 2)
-		add_toggle("vanilla_styled_assaults", 1)
-		add_toggle("max_intensity", 0)
+		add_toggle("is_massive")
+		add_toggle("level_mods")
+		add_toggle("minigun_dozers_on_death_wish")
+		add_toggle("vanilla_styled_assaults")
+		add_toggle("max_intensity")
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "ass_save" })
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "ass_menu_main")

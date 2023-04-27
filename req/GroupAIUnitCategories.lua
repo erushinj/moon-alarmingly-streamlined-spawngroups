@@ -19,6 +19,12 @@ local function set_cs_to_fbi(categories)
 	end
 end
 
+
+-----------------------------------
+---- DIFFICULTY SPECIFIC BELOW ----
+-----------------------------------
+
+
 function GroupAIUnitCategories.normal(categories)
 	categories.CS_cop_C45_R870 = {
 		access = clone(categories.spooc.access),
@@ -26,8 +32,7 @@ function GroupAIUnitCategories.normal(categories)
 			america = {
 				Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 				Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-				ASS:is_bad_raging_bull_level() and Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+				Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 			},
 			russia = {
 				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
@@ -423,6 +428,12 @@ function GroupAIUnitCategories.sm_wish(categories)
 	set_cs_to_fbi(categories)
 end
 
+
+--------------------------------------
+---- ASS:req_func() RELATED BELOW ----
+--------------------------------------
+
+
 function GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index, special_difficulty_index)
 	local limits = {
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
@@ -437,8 +448,13 @@ function GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index,
 	end
 end
 
+function GroupAIUnitCategories.van_style_streamlined()
+	GroupAIUnitCategories.old_style_streamlined()
+end
+
 function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, special_difficulty_index)
 	local categories = group_ai.unit_categories
+
 	-- oh boy. (hoppip said to keep this as a memorial)
 	if difficulty_index < 4 then
 		categories.FBI_suit_C45_M4.unit_types.america = {
@@ -494,8 +510,15 @@ function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, spe
 	end
 end
 
-GroupAIUnitCategories.van_style_streamlined = GroupAIUnitCategories.old_style_streamlined
-GroupAIUnitCategories.van_style_vanilla = GroupAIUnitCategories.old_style_vanilla
+function GroupAIUnitCategories.van_style_vanilla()
+	GroupAIUnitCategories.old_style_vanilla()
+end
+
+
+---------------------------------
+---- LEVEL MOD RELATED BELOW ----
+---------------------------------
+
 
 function GroupAIUnitCategories.revert_zeal_specials(categories)
 	categories.spooc.unit_types.america = { Idstring("units/payday2/characters/ene_spook_1/ene_spook_1") }
@@ -544,8 +567,7 @@ function GroupAIUnitCategories.CS_FBI_overkill(categories)
 		categories.CS_cop_C45_R870.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-			ASS:is_bad_raging_bull_level() and Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 		}
 		categories.CS_cop_C45_MP5.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
@@ -586,8 +608,7 @@ function GroupAIUnitCategories.CS_FBI_pbr2(categories)
 		categories.CS_cop_C45_R870.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-			ASS:is_bad_raging_bull_level() and Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 		}
 		categories.CS_cop_C45_MP5.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
@@ -653,8 +674,7 @@ function GroupAIUnitCategories.CS_FBI_CITY_nmh(categories)
 		categories.CS_cop_C45_R870.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 			Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-			ASS:is_bad_raging_bull_level() and Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+			Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 		}
 		categories.CS_cop_C45_MP5.unit_types.america = {
 			Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),

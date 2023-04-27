@@ -1,7 +1,17 @@
 local GroupAITaskData = {}
 
+local function set_weights(type, new_weights)
+	for group, _ in pairs(type.groups) do
+		type.groups[group] = { 0, 0, 0 }
+	end
+
+	for group, weights in pairs(new_weights) do
+		type.groups[group] = weights
+	end
+end
+
 local function shared_weights_old(group_ai, special_weight)
-	local assault_weights = {
+	set_weights(group_ai.besiege.assault, {
 		tac_swats_a = { 6.75, 3.375, 0 },
 		tac_swats_b = { 6.75, 10.125, 13.5 },
 		tac_heavys_a = { 6.75, 3.375, 0 },
@@ -15,24 +25,24 @@ local function shared_weights_old(group_ai, special_weight)
 		tac_spoocs_a = { 0, special_weight * 0.5, 0 },
 		tac_spoocs_b = { 0, 0, special_weight },
 		recon_d = { 0, special_weight * 0.1, special_weight * 0.2 }
-	}
-	for group, weights in pairs(assault_weights) do
-		group_ai.besiege.assault.groups[group] = weights
-	end
+	})
 
-	local recon_weights = {
+	set_weights(group_ai.besiege.recon, {
 		recon_a = { 1, 1, 0 },
 		recon_b = { 0, 1, 1 },
 		recon_c = { 0, 0, 1 },
 		recon_d = { 0, 0, 0 }
-	}
-	for group, weights in pairs(recon_weights) do
-		group_ai.besiege.recon.groups[group] = weights
-	end
+	})
+
+	set_weights(group_ai.besiege.reenforce, {
+		reenforce_a = { 1, 1, 0 },
+		reenforce_b = { 0, 1, 1 },
+		reenforce_c = { 0, 0, 1 }
+	})
 end
 
 local function shared_weights_van(group_ai, special_weight)
-	local assault_weights = {
+	set_weights(group_ai.besiege.assault, {
 		tac_swat_shotgun_rush = { 2, 3, 4 },
 		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
 		tac_swat_shotgun_flank = { 1, 1.5, 2 },
@@ -47,17 +57,17 @@ local function shared_weights_van(group_ai, special_weight)
 		tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
 		tac_bull_rush = { 0, special_weight * 0.5, special_weight },
 		FBI_spoocs = { 0, special_weight * 0.5, special_weight }
-	}
-	for group, weights in pairs(assault_weights) do
-		group_ai.besiege.assault.groups[group] = weights
-	end
+	})
 
-	local recon_weights = {
+	set_weights(group_ai.besiege.recon, {
 		hostage_rescue = { 1, 1, 1 }
-	}
-	for group, weights in pairs(recon_weights) do
-		group_ai.besiege.recon.groups[group] = weights
-	end
+	})
+
+	set_weights(group_ai.besiege.reenforce, {
+		reenforce_init = { 1, 0, 0 },
+		reenforce_light = { 0, 1, 0 },
+		reenforce_heavy = { 0, 0, 1 }
+	})
 end
 
 local function shared_data_all(group_ai, f)
@@ -76,6 +86,7 @@ end
 local function shared_data_streamlined(group_ai, f)
 	group_ai.cs_grenade_lifetime = math.lerp(20, 40, f)
 	group_ai.spawn_cooldown_mul = math.lerp(2, 1, f)
+	group_ai.cs_grenade_chance_times = { 60, 90 }
 end
 
 local function shared_data_vanilla(group_ai, f)
@@ -90,12 +101,6 @@ function GroupAITaskData.old_style_streamlined(group_ai, f, special_weight)
 	shared_weights_old(group_ai, special_weight)
 	shared_data_all(group_ai, f)
 	shared_data_streamlined(group_ai, f)
-
-	group_ai.besiege.reenforce.groups = {
-		reenforce_a = { 1, 1, 0 },
-		reenforce_b = { 0, 1, 1 },
-		reenforce_c = { 0, 0, 1 }
-	}
 end
 
 function GroupAITaskData.old_style_vanilla(group_ai, f, special_weight)

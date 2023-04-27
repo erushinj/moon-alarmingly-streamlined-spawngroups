@@ -14,7 +14,10 @@ local enemy_replacements = {
 	CS_normal = {
 		swat_1 = "units/payday2/characters/ene_swat_1/ene_swat_1",
 		swat_2 = "units/payday2/characters/ene_swat_2/ene_swat_2",
-		swat_3 = "units/payday2/characters/ene_swat_1/ene_swat_1",
+		swat_3 = {
+			"units/payday2/characters/ene_swat_1/ene_swat_1",
+			"units/payday2/characters/ene_swat_2/ene_swat_2"
+		},
 		heavy_1 = "units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1",
 		heavy_2 = "units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870",
 		shield = "units/payday2/characters/ene_shield_2/ene_shield_2",
@@ -23,21 +26,35 @@ local enemy_replacements = {
 	FBI_overkill_145 = {
 		swat_1 = "units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
 		swat_2 = "units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2",
-		swat_3 = "units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
+		swat_3 = {
+			"units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
+			"units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"
+		},
 		heavy_1 = "units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1",
 		heavy_2 = "units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870",
 		shield = "units/payday2/characters/ene_shield_1/ene_shield_1",
 		sniper = "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	},
 	CITY_overkill_290 = {
-		swat_1 = "units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
-		swat_2 = "units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
-		swat_3 = "units/payday2/characters/ene_city_swat_3/ene_city_swat_3",
+		swat_1 = {
+			"units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
+			"units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
+			"units/payday2/characters/ene_city_swat_3/ene_city_swat_3"
+		},
+		swat_2 = {
+			"units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
+			"units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
+			"units/payday2/characters/ene_city_swat_3/ene_city_swat_3"
+		},
+		swat_3 = {
+			"units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
+			"units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
+			"units/payday2/characters/ene_city_swat_3/ene_city_swat_3"
+		},
 		heavy_1 = "units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36",
 		heavy_2 = "units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870",
 		shield = "units/payday2/characters/ene_city_shield/ene_city_shield",
 		sniper = StreamHeist and "units/payday2/characters/ene_sniper_3/ene_sniper_3"
-		or "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	}
 }
 local shared_replacements = {
@@ -56,15 +73,18 @@ for mapped, replacement in pairs(shared_replacements) do
 	end
 end
 
-enemy_replacements.CS_FBI_overkill = clone(enemy_replacements.CS_normal)
-enemy_replacements.CS_FBI_CITY_nmh = clone(enemy_replacements.CS_normal)
-enemy_replacements.CS_FBI_pbr2 = clone(enemy_replacements.CS_normal)
-enemy_replacements.CS_FBI_man = clone(enemy_replacements.CS_normal)
-enemy_replacements.FBI_mcmansion = clone(enemy_replacements.FBI_overkill_145)
+enemy_replacements.CS_FBI_overkill = deep_clone(enemy_replacements.CS_normal)
+enemy_replacements.CS_FBI_pbr2 = deep_clone(enemy_replacements.CS_normal)
+enemy_replacements.CS_FBI_man = deep_clone(enemy_replacements.CS_normal)
+enemy_replacements.CS_FBI_CITY_nmh = deep_clone(enemy_replacements.CS_normal)
+enemy_replacements.FBI_mcmansion = deep_clone(enemy_replacements.FBI_overkill_145)
 enemy_replacements.FBI_mcmansion.swat_1 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"
 enemy_replacements.FBI_mcmansion.swat_2 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"
-enemy_replacements.FBI_mcmansion.swat_3 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"
-enemy_replacements.FBI_CITY_easy_wish = clone(enemy_replacements.FBI_overkill_145)
+enemy_replacements.FBI_mcmansion.swat_3 = {
+	"units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1",
+	"units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"
+}
+enemy_replacements.FBI_CITY_easy_wish = deep_clone(enemy_replacements.FBI_overkill_145)
 
 local enemy_mapping = {
 	[Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"):key()] = "swat_1",
@@ -113,7 +133,8 @@ local enemy_mapping = {
 Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
 	local mapped_unit = enemy_replacements[level_mod] and enemy_replacements[level_mod][mapped_name]
-	local mapped_unit_ids = mapped_unit and Idstring(mapped_unit)
+	local mapped_unit_ids = mapped_unit and (type(mapped_unit) == "table" and Idstring(table.random(mapped_unit)) or Idstring(mapped_unit))
+
 	if mapped_unit_ids and mapped_unit_ids ~= self._enemy_name then
 		self._enemy_name = mapped_unit_ids
 	end

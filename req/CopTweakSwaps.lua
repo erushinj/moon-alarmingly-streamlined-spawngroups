@@ -9,6 +9,10 @@ function CopBaseTweakSwaps.old_style_streamlined()
 	}
 end
 
+function CopBaseTweakSwaps.van_style_streamlined()
+	return CopBaseTweakSwaps.old_style_streamlined()
+end
+
 function CopBaseTweakSwaps.old_style_vanilla()
 	local light = difficulty_index > 7 and "swat" or "fbi_swat" 
 	local heavy = difficulty_index > 7 and "heavy_swat" or "fbi_heavy_swat"
@@ -37,7 +41,8 @@ function CopBaseTweakSwaps.old_style_vanilla()
 	}
 end
 
-CopBaseTweakSwaps.van_style_streamlined = CopBaseTweakSwaps.old_style_streamlined
-CopBaseTweakSwaps.van_style_vanilla = CopBaseTweakSwaps.old_style_vanilla
+function CopBaseTweakSwaps.van_style_vanilla()
+	return CopBaseTweakSwaps.old_style_vanilla()
+end
 
 return CopBaseTweakSwaps

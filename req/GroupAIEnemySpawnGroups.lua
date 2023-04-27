@@ -127,8 +127,8 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			},
 			{
 				rank = 1,
-				unit = "CS_cop_MP5_R870",
-				tactics = tactics.swat_rifle,
+				unit = "CS_cop_C45_R870",
+				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -202,7 +202,7 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			{
 				rank = 1,
 				unit = "CS_cop_MP5_R870",
-				tactics = tactics.swat_shotgun_flank,
+				tactics = tactics.swat_rifle_flank,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -286,10 +286,16 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			},
 			{
 				rank = 2,
-				unit = "FBI_heavy_G36_R870",
+				unit = "FBI_heavy_G36",
 				tactics = tactics.shield_charge_cover,
 				amount_min = 1,
 				freq = freq.baseline
+			},
+			{
+				rank = 2,
+				unit = "FBI_heavy_R870",
+				tactics = tactics.shield_charge_cover,
+				freq = freq.common
 			},
 			{
 				rank = 1,
@@ -345,16 +351,15 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_M4_R870",
+				unit = "FBI_swat_M4",
 				tactics = tactics.tazer_shield,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "FBI_swat_R870",
 				tactics = tactics.tazer_shield,
-				amount_max = 1,
-				freq = freq.rare
+				freq = freq.common
 			},
 			{
 				rank = 1,
@@ -380,9 +385,15 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			},
 			{
 				rank = 1,
-				unit = "CS_swat_MP5_R870",
+				unit = "CS_swat_MP5",
 				tactics = tactics.tank_cover,
 				freq = freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_R870",
+				tactics = tactics.tank_cover,
+				freq = freq.common
 			}
 		},
 		spawn_point_chk_ref = {
@@ -417,7 +428,7 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.tank_cover,
-				freq = freq.baseline
+				freq = freq.common
 			}
 		},
 		spawn_point_chk_ref = groups.tac_tanks_a.spawn_point_chk_ref
@@ -501,134 +512,55 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 		}
 	}
 
-	groups.recon_a = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_cop_C45_MP5",
-				tactics = tactics.recon_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_cop_MP5_R870",
-				tactics = tactics.recon_agg,
-				amount_max = 1,
-				freq = freq.common
+	local function recon_group(unit_1, unit_2, unit_2_freq)
+		return {
+			amount = { 2, 3 },
+			spawn = {
+				{
+					rank = 1,
+					unit = unit_1,
+					tactics = tactics.recon_def,
+					freq = freq.baseline
+				},
+				{
+					rank = 1,
+					unit = unit_2,
+					tactics = tactics.recon_agg,
+					amount_max = 1,
+					freq = unit_2_freq
+				}
 			}
 		}
-	}
-	groups.recon_b = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_cop_MP5_R870",
-				tactics = tactics.recon_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_swat_MP5",
-				tactics = tactics.recon_agg,
-				amount_max = 1,
-				freq = freq.uncommon
-			}
-		}
-	}
-	groups.recon_c = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_cop_stealth_R870",
-				tactics = tactics.recon_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.recon_agg,
-				amount_max = 1,
-				freq = freq.rare
-			}
-		}
-	}
+	end
+	groups.recon_a = recon_group("CS_cop_C45_MP5", "CS_cop_MP5_R870", freq.common)
+	groups.recon_b = recon_group("CS_cop_MP5_R870", "CS_swat_MP5", freq.uncommon)
+	groups.recon_c = recon_group("CS_cop_stealth_R870", "CS_tazer", freq.rare)
 	-- not a real recon group, just recon_c but able to spawn rarely mid-assault
-	groups.recon_d = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_suit_stealth_MP5",
-				tactics = tactics.recon_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_tazer",
-				tactics = tactics.recon_agg,
-				amount_max = 1,
-				freq = freq.elite
-			}
-		}
-	}
+	groups.recon_d = recon_group("FBI_suit_stealth_MP5", "CS_tazer", freq.elite)
 
-	groups.reenforce_a = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_cop_C45_MP5",
-				tactics = tactics.reenforce_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_cop_stealth_R870",
-				tactics = tactics.reenforce_agg,
-				amount_max = 1,
-				freq = freq.common
+	local function sh_reenforce_group(unit_1, unit_2)
+		return StreamHeist and {
+			amount = { 2, 3 },
+			spawn = {
+				{
+					rank = 1,
+					unit = unit_1,
+					tactics = tactics.reenforce_def,
+					freq = freq.baseline
+				},
+				{
+					rank = 1,
+					unit = unit_2,
+					tactics = tactics.reenforce_agg,
+					amount_max = 1,
+					freq = freq.common
+				}
 			}
 		}
-	}
-	groups.reenforce_b = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_cop_C45_R870",
-				tactics = tactics.reenforce_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_swat_MP5_R870",
-				tactics = tactics.reenforce_agg,
-				amount_max = 1,
-				freq = freq.common
-			}
-		}
-	}
-	groups.reenforce_c = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_heavy_M4",
-				tactics = tactics.reenforce_def,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_heavy_R870",
-				tactics = tactics.reenforce_agg,
-				amount_max = 1,
-				freq = freq.common
-			}
-		}
-	}
+	end
+	groups.reenforce_a = sh_reenforce_group("CS_cop_C45_MP5", "CS_cop_stealth_R870")
+	groups.reenforce_b = sh_reenforce_group("CS_cop_C45_R870", "CS_swat_MP5_R870")
+	groups.reenforce_c = sh_reenforce_group("CS_heavy_M4", "CS_heavy_R870")
 
 	local no_spawn_point_chk_ref = {
 		tac_swat_shotgun_rush_no_medic = true,
@@ -656,6 +588,10 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			}
 		end
 	end
+end
+
+function GroupAIEnemySpawnGroups.old_style_vanilla()
+	GroupAIEnemySpawnGroups.old_style_streamlined()
 end
 
 -- shame most tactics do little to nothing in vanilla
@@ -781,29 +717,6 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 		}
 
 		return g
-	end
-
-	-- no reenforce groups.
-	-- reenforce doesnt work properly in vanilla thanks to u173, they end up behaving more like regular assault units if spawned
-	-- sh restores reenforce, and its reenforce groups are fine for this mode
-	local sh_reenforce_groups = {
-		reenforce_init = true,
-		reenforce_light = true,
-		reenforce_heavy = true
-	}
-	for group in pairs(sh_reenforce_groups) do
-		if groups[group] then
-			local spawn = groups[group].spawn
-
-			for i = #spawn, 1, -1 do
-				local unit = spawn[i].unit
-				local mapped_unit = unit_names_map[unit]
-
-				if mapped_unit then
-					unit = mapped_unit
-				end
-			end
-		end
 	end
 
 	-- 4 regular swat groups, non-flank/flank shotgunners/riflemen
@@ -1278,9 +1191,38 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 			tac_swat_rifle_flank = true
 		}
 	}
+
+	-- 3 reenforce groups when playing with sh
+	local function sh_reenforce_group(unit_1, unit_2)
+		return StreamHeist and {
+			amount = { 2, 3 },
+			spawn = {
+				{
+					rank = 1,
+					unit = unit_1,
+					tactics = tactics.swat_rifle,
+					freq = freq.baseline
+				},
+				{
+					rank = 1,
+					unit = unit_2,
+					tactics = tactics.swat_shotgun_rush,
+					freq = freq.common
+				}
+			},
+			spawn_point_chk_ref = {
+				tac_swat_rifle_flank = true
+			}
+		}
+	end
+
+	groups.reenforce_init = sh_reenforce_group({ "CS_cop_C45_MP5", "CS_cop_stealth_R870" })
+	groups.reenforce_light = sh_reenforce_group({ "CS_swat_MP5", "CS_swat_R870" })
+	groups.reenforce_heavy = sh_reenforce_group({ "CS_heavy_M4", "CS_heavy_R870" })
 end
 
-GroupAIEnemySpawnGroups.old_style_vanilla = GroupAIEnemySpawnGroups.old_style_streamlined
-GroupAIEnemySpawnGroups.van_style_vanilla = GroupAIEnemySpawnGroups.van_style_streamlined
+function GroupAIEnemySpawnGroups.van_style_vanilla()
+	GroupAIEnemySpawnGroups.van_style_streamlined()
+end
 
 return GroupAIEnemySpawnGroups

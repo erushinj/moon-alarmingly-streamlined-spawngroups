@@ -23,16 +23,19 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 
 ### Notes (vanilla and [Streamlined Heisting](https://modworkshop.net/mod/29713)):
 - Only works as host
-- Default spawn group set is made in the style of (but is **not** a 1:1 port of) the pre-Hoxton's Housewarming Party spawn groups
-- Vanilla Styled Assaults are a tweaked version of SH's default groups
-- Marshal Marksmen are more common and (re)spawn sooner on higher difficulties; Marshal Shields are infrequent
+- Default spawn group set is made in the style of the original spawn groups
+- Vanilla Styled Assaults are a tweaked version of Streamlined Heisting's default groups
+- Marshal Marksmen are more common and (re)spawn sooner on higher difficulties; Marshal Shields are rare spawns
+- Very Hard has a mixed response of SWAT and FBI
+- Mayhem has a mixed response of FBI and GenSec
 - Dozer types are tweaked on difficulties below Death Sentence
 - Captain Winters is removed
-- Various scripted spawns (eg, gangsters and security guards) have randomized weapons
+- Various scripted spawns have randomized weapons
 
 ### Notes (vanilla only):
 - Light and heavy units of all tiers will be statistically identical on any given difficulty in a way that should sync to clients
-- Units use difficulty-appropriate weaponry (eg, SWAT use G36s and Benellis on Mayhem and Death Wish) as weapon scaling is messed up
+- Units use difficulty-appropriate weaponry (eg, SWAT and FBI use G36s and Benellis on Mayhem and Death Wish) as weapon scaling is messed up
+- Russian and zombie Tasers are given yellow M4s
 - Special unit spawn limits are revised
 - The timeout between enemies using grenades decreases with difficulty (enemies should be a bit more aggressive on high difficulties)
 
@@ -57,10 +60,12 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - First World Bank
 - Heat Street
 - Counterfeit
+- Dragon Heist
 
 #### SWAT-FBI:
 - Panic Room
 - Green Bridge
+- Ukrainian Prisoner
 
 #### FBI:
 - GO Bank
@@ -81,10 +86,14 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - White Xmas
 - Santa's Workshop
 - Undercover
+- Black Cat
+- Midland Ranch
 
 #### FBI-GenSec:
 - Slaughterhouse
 - No Mercy
+- Mountain Master
+- Lost in Transit
 
 #### GenSec:
 - Transport: Park
@@ -95,9 +104,11 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - Transport: Train Heist
 - Alesso Heist
 - Diamond Heist
+- Hostile Takeover
 
 ### Incompatibilities:
 - [Little Intelligence EnhancementS](https://modworkshop.net/mod/37304) (probable, **not tested and not interested** in making ASS compatible if it isn't)
+- Any mods causing different enemy tiers to have different health values will cause Level Mod not to function as intended
 
 -----
 
