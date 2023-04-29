@@ -28,8 +28,8 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	GroupAIUnitCategories[difficulty](self.unit_categories)
 
 	-- used to determine special spawn limits
-	local special_difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
-	GroupAIUnitCategories[func](self, difficulty_index, special_difficulty_index)
+	local special_limit_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
+	GroupAIUnitCategories[func](self, difficulty_index, special_limit_index)
 
 	if GroupAIUnitCategories[level_mod] then
 		GroupAIUnitCategories[level_mod](self.unit_categories)

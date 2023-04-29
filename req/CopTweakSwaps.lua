@@ -14,7 +14,7 @@ function CopTweakSwaps.van_style_streamlined()
 end
 
 function CopTweakSwaps.old_style_vanilla()
-	local light = difficulty_index > 7 and "swat" or "fbi_swat" 
+	local light = difficulty_index > 7 and "swat" or "fbi_swat"
 	local heavy = difficulty_index > 7 and "heavy_swat" or "fbi_heavy_swat"
 	local hrt = "fbi"
 
