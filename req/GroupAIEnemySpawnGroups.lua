@@ -468,6 +468,7 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 				rank = 2,
 				unit = "spooc",
 				tactics = tactics.spooc,
+				amount_min = 1,
 				freq = freq.rare
 			},
 			{
