@@ -70,6 +70,8 @@ end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+	local freq_base = ASS:get_skill_dependent_value("freq_base")
+	local base_cooldown_base = ASS:get_skill_dependent_value("base_cooldown_base")
 
 	-- remove preexisting timed groups
 	for _, group_data in pairs(self.enemy_spawn_groups) do
@@ -83,22 +85,21 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
 	local f = ASS.settings.max_intensity and 1 or (difficulty_index - 2) / 6
 
-	local function lerp_freq(val)
+	local function lerp(val)
 		return math.lerp(val / 3, val, f)
 	end
 
 	-- every group needs at least one baseline unit
 	-- chance of other units spawning increases with difficulty
 	local freq = {
-		baseline = 1,
-		common = lerp_freq(1),
-		uncommon = lerp_freq(0.5),
-		rare = lerp_freq(0.35),
-		elite = lerp_freq(0.2),
+		baseline = freq_base.baseline,
+		common = lerp(freq_base.common),
+		uncommon = lerp(freq_base.uncommon),
+		rare = lerp(freq_base.rare),
+		elite = lerp(freq_base.elite),
 	}
 
-	-- 80s on normal, decreases 10s per difficulty down to 20s on ds
-	local base_cooldown = (10 - difficulty_index) * 10
+	local base_cooldown = math.lerp(base_cooldown_base * 4, base_cooldown_base, f)
 
 	GroupAIEnemySpawnGroups[func](self.enemy_spawn_groups, freq, base_cooldown)
 
@@ -106,12 +107,17 @@ end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
-	self.phalanx.spawn_chance.start = 0
-	self.phalanx.spawn_chance.increase = 0
-	self.phalanx.spawn_chance.max = 0
+	local special_weight_base = ASS:get_skill_dependent_value("special_weight_base")
+
+	if not ASS.settings.captain_winters then
+		self.phalanx.spawn_chance.start = 0
+		self.phalanx.spawn_chance.increase = 0
+		self.phalanx.spawn_chance.max = 0
+	end
 
 	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
-	local special_weight = math.lerp(3, 5, f)
+
+	local special_weight = math.lerp(special_weight_base[1], special_weight_base[2], f)
 
 	GroupAITaskData[func](self, f, special_weight)
 

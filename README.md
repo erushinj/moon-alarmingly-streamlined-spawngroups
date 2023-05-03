@@ -18,6 +18,8 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - Enable the ASS: When enabled, the mod does the thing.
 - Level Mod: When enabled, makes some levels use a fixed response faction regardless of difficulty.
 - Minigun Dozers on Death Wish: When enabled, reenables Minigun Dozers on Death Wish difficulty.
+- Captain Winters: When enabled, reenables Captain Winters.
+- Escapes: When enabled, reenables escapes.
 - Vanilla Styled Assaults: When enabled, uses a different set of spawn groups made in the style of the modern spawn groups.
 - Max Intensity: When enabled, makes special spawn limits, spawn groups, and task data use Death Sentence values.
 
@@ -30,7 +32,8 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - Mayhem has a mixed response of FBI and GenSec
 - Dozer types are tweaked on difficulties below Death Sentence
 - Captain Winters is removed
-- Various scripted spawns have randomized weapons
+- Escapes (seen only on heists up to Armored Transport) are disabled
+- Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 
 ### Notes (vanilla only):
 - Light and heavy units of all tiers will be statistically identical on any given difficulty in a way that should sync to clients

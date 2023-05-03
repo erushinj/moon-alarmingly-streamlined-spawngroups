@@ -70,10 +70,20 @@ local function shared_weights_van(group_ai, special_weight)
 	})
 end
 
+local function collect(tbl, mul)
+	return table.collect(tbl, function(val)
+		return val * mul
+	end)
+end
+
 local function shared_data_all(group_ai, f)
-	group_ai.smoke_grenade_lifetime = math.lerp(9, 15, f)
-	group_ai.flash_grenade.timer = math.lerp(2, 1, f)
-	group_ai.besiege.assault.sustain_duration_min = { math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }
+	local smokebomb_lifetime = ASS:get_skill_dependent_value("smokebomb_lifetime")
+	local flashbang_timer = ASS:get_skill_dependent_value("flashbang_timer")
+	local sustain_duration_mul = ASS:get_skill_dependent_value("sustain_duration_mul")
+
+	group_ai.smoke_grenade_lifetime = math.lerp(smokebomb_lifetime[1], smokebomb_lifetime[2], f)
+	group_ai.flash_grenade.timer = math.lerp(flashbang_timer[1], flashbang_timer[2], f)
+	group_ai.besiege.assault.sustain_duration_min = collect({ math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }, sustain_duration_mul)
 	group_ai.besiege.assault.sustain_duration_max = group_ai.besiege.assault.sustain_duration_min
 	group_ai.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
 	group_ai.besiege.assault.delay = { math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }
@@ -84,13 +94,22 @@ local function shared_data_all(group_ai, f)
 end
 
 local function shared_data_streamlined(group_ai, f)
+	local grenade_cooldown_mul = ASS:get_skill_dependent_value("grenade_cooldown_mul")
+	local gas_grenade_times = ASS:get_skill_dependent_value("gas_grenade_times")
+	local spawn_cooldowns = ASS:get_skill_dependent_value("spawn_cooldowns")
+
+	group_ai.smoke_grenade_timeout = collect({ 25, 35 }, grenade_cooldown_mul)
+	group_ai.flash_grenade_timeout = collect({ 15, 20 }, grenade_cooldown_mul)
+	group_ai.cs_grenade_timeout = collect({ 60, 90 }, grenade_cooldown_mul)
 	group_ai.cs_grenade_lifetime = math.lerp(20, 40, f)
-	group_ai.spawn_cooldown_mul = math.lerp(2, 1, f)
-	group_ai.cs_grenade_chance_times = { 60, 90 }
+	group_ai.cs_grenade_chance_times = gas_grenade_times
+	group_ai.spawn_cooldown_mul = math.lerp(spawn_cooldowns[1], spawn_cooldowns[2], f)
 end
 
 local function shared_data_vanilla(group_ai, f)
-	group_ai.smoke_and_flash_grenade_timeout = { math.lerp(12, 6, f), math.lerp(20, 10, f) }
+	local grenade_cooldown_mul = ASS:get_skill_dependent_value("grenade_cooldown_mul")
+
+	group_ai.smoke_and_flash_grenade_timeout = collect({ math.lerp(15, 10, f), math.lerp(20, 15, f) }, grenade_cooldown_mul)
 	group_ai.besiege.assault.hostage_hesitation_delay = { 40, 30, 20 }
 	group_ai.besiege.assault.force = { 12, 14, 16 }
 	group_ai.besiege.assault.force_pool = { 40, 50, 60 }

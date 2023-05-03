@@ -7,9 +7,99 @@ if not ASS then
 		settings = {
 			is_massive = true,
 			level_mods = true,
+			skill = 2,
 			minigun_dozers_on_death_wish = false,
+			captain_winters = false,
+			escapes = false,
 			vanilla_styled_assaults = false,
 			max_intensity = false
+		},
+		values = {
+			skill = {
+				"ass_skill_1",
+				"ass_skill_2",
+				"ass_skill_3",
+				"ass_skill_4",
+				"ass_skill_5"
+			}
+		},
+		skill_tweaks = {
+			freq_base = {
+				{
+					baseline = 1,
+					common = 0.5,
+					uncommon = 0.35,
+					rare = 0.2,
+					elite = 0.1
+				},
+				{
+					baseline = 1,
+					common = 0.5,
+					uncommon = 0.35,
+					rare = 0.2,
+					elite = 0.1
+				},
+				{
+					baseline = 1,
+					common = 1,
+					uncommon = 0.5,
+					rare = 0.35,
+					elite = 0.2
+				},
+				{
+					baseline = 1,
+					common = 1,
+					uncommon = 1,
+					rare = 0.5,
+					elite = 0.35
+				},
+				{
+					baseline = 1,
+					common = 1,
+					uncommon = 1,
+					rare = 0.5,
+					elite = 0.35
+				}
+			},
+			base_cooldown_base = { 30, 30, 20, 10, 10 },
+			sustain_duration_mul = { 0.85, 1, 1, 1.25, 2 },
+			special_limit_mul = { 0.7, 1, 1, 1.25, 2 },
+			grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.35 },
+			spawn_cooldowns = {
+				{ 3, 1 },
+				{ 2, 1 },
+				{ 2, 1 },
+				{ 1.5, 0.75 },
+				{ 0.5, 0.25 }
+			},
+			special_weight_base = {
+				{ 1.5, 5 },
+				{ 3, 5 },
+				{ 3, 5 },
+				{ 4, 6 },
+				{ 8, 12 }
+			},
+			flashbang_timer = {
+				{ 3, 1.5 },
+				{ 2, 1 },
+				{ 2, 1 },
+				{ 1.5, 0.75 },
+				{ 0, 0 }
+			},
+			smokebomb_lifetime = {
+				{ 7.5, 12 },
+				{ 9, 15 },
+				{ 9, 15 },
+				{ 15, 20 },
+				{ 20, 30 }
+			},
+			gas_grenade_times = {
+				{ 60, 240 },
+				{ 60, 90 },
+				{ 60, 90 },
+				{ 45, 75 },
+				{ 10, 20 }
+			}
 		},
 		level_mod_map = {
 			jewelry_store = "CS_normal",
@@ -87,17 +177,43 @@ if not ASS then
 		return self.settings.level_mods and self.level_mod_map[job_id]
 	end
 
+	function ASS:get_skill_dependent_value(val)
+		local skill = self.skill_tweaks[val]
+		local index = self.settings.skill
+
+		return skill and skill[index]
+	end
+
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
 		loc:add_localized_strings({
 			ass_menu_main = "Alarmingly Streamlined Spawngroups",
+
 			ass_menu_is_massive = "Enable the ASS",
 			ass_menu_is_massive_desc = "When enabled, the mod does the thing.",
+
 			ass_menu_level_mods = "Level Mod",
 			ass_menu_level_mods_desc = "When enabled, makes some levels use a fixed response faction regardless of difficulty.",
+
+			ass_menu_skill = "Skill Level",
+			ass_menu_skill_desc = "Tweak how tough the mod is.",
+			ass_skill_1 = "Too Young to Die",
+			ass_skill_2 = "Not Too Rough",
+			ass_skill_3 = "Hurt Me Plenty",
+			ass_skill_4 = "Ultra-Violence",
+			ass_skill_5 = "Nightmare",
+
 			ass_menu_minigun_dozers_on_death_wish = "Minigun Dozers on Death Wish",
 			ass_menu_minigun_dozers_on_death_wish_desc = "When enabled, reenables Minigun Dozers on Death Wish difficulty.",
+
+			ass_menu_captain_winters = "Captain Winters",
+			ass_menu_captain_winters_desc = "When enabled, reenables Captain Winters.",
+
+			ass_menu_escapes = "Escapes",
+			ass_menu_escapes_desc = "When enabled, reenables escapes.",
+
 			ass_menu_vanilla_styled_assaults = "Vanilla Styled Assaults",
 			ass_menu_vanilla_styled_assaults_desc = "When enabled, uses a different set of spawn groups made in the style of the modern spawn groups.",
+
 			ass_menu_max_intensity = "Max Intensity",
 			ass_menu_max_intensity_desc = "When enabled, makes special spawn limits, spawn groups, and task data use Death Sentence values."
 		})
@@ -112,11 +228,14 @@ if not ASS then
 			ASS.settings[item:name()] = (item:value() == "on")
 		end
 
+		MenuCallbackHandler.ass_setting_value = function(self, item)
+			ASS.settings[item:name()] = item:value()
+		end
+
 		MenuCallbackHandler.ass_save = function()
 			io.save_as_json(ASS.settings, ASS.save_path)
 		end
 
-		local callback = "ass_setting_toggle"
 		local priority = table.size(ASS.settings)
 
 		local function add_toggle(value)
@@ -133,9 +252,27 @@ if not ASS then
 			priority = priority - 1
 		end
 
+		local function add_multiple_choice(value)
+			MenuHelper:AddMultipleChoice({
+				id = value,
+				title = "ass_menu_" .. value,
+				desc = "ass_menu_" .. value .. "_desc",
+				callback = "ass_setting_value",
+				value = ASS.settings[value],
+				items = ASS.values[value],
+				menu_id = menu_id,
+				priority = priority
+			})
+
+			priority = priority - 1
+		end
+
 		add_toggle("is_massive")
 		add_toggle("level_mods")
+		add_multiple_choice("skill")
 		add_toggle("minigun_dozers_on_death_wish")
+		add_toggle("captain_winters")
+		add_toggle("escapes")
 		add_toggle("vanilla_styled_assaults")
 		add_toggle("max_intensity")
 

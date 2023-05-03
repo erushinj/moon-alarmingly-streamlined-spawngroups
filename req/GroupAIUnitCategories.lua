@@ -20,6 +20,8 @@ local function set_cs_to_fbi(categories)
 end
 
 function GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index, special_limit_index)
+	local special_limit_mul = ASS:get_skill_dependent_value("special_limit_mul")
+
 	-- new special limits, from easy to death sentence
 	local limits = {
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
@@ -30,7 +32,7 @@ function GroupAIUnitCategories.old_style_streamlined(group_ai, difficulty_index,
 	}
 
 	for special, limit in pairs(limits) do
-		group_ai.special_unit_spawn_limits[special] = limit[special_limit_index]
+		group_ai.special_unit_spawn_limits[special] = math.round(limit[special_limit_index] * special_limit_mul)
 	end
 end
 
@@ -39,6 +41,8 @@ function GroupAIUnitCategories.van_style_streamlined(group_ai, difficulty_index,
 end
 
 function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, special_limit_index)
+	local special_limit_mul = ASS:get_skill_dependent_value("special_limit_mul")
+
 	local categories = group_ai.unit_categories
 
 	-- oh boy. (hoppip said to keep this as a memorial)
@@ -84,7 +88,7 @@ function GroupAIUnitCategories.old_style_vanilla(group_ai, difficulty_index, spe
 		spooc = { 0, 0, 0, 1, 2, 3, 3, 4 }
 	}
 	for special, limit in pairs(limits) do
-		group_ai.special_unit_spawn_limits[special] = limit[special_limit_index]
+		group_ai.special_unit_spawn_limits[special] = math.round(limit[special_limit_index] * special_limit_mul)
 	end
 end
 
