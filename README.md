@@ -17,6 +17,7 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 ### Settings:
 - Enable the ASS: When enabled, the mod does the thing.
 - Level Mod: When enabled, makes some levels use a fixed response faction regardless of difficulty.
+- Skill Level: Tweak how tough the mod is.
 - Minigun Dozers on Death Wish: When enabled, reenables Minigun Dozers on Death Wish difficulty.
 - Captain Winters: When enabled, reenables Captain Winters.
 - Escapes: When enabled, reenables escapes.
@@ -46,6 +47,28 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - Tasers and Bulldozers use faction-appropriate weaponry where possible - this is cosmetic
 
 -----
+
+### Skill Levels
+
+#### Too Young to Die
+- Coward.
+- Most values decreased.
+
+#### Not Too Rough (default)
+- Probably won't hurt.
+- Some values decreased.
+
+#### Hurt Me Plenty (recommended)
+- May hurt.
+- Original values.
+
+#### Ultra-Violence
+- Will hurt.
+- Most values increased.
+
+#### Nightmare
+- Bullshit.
+- Most values cranked through the roof.
 
 ### "Level Mod" list:
 
