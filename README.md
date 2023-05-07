@@ -6,57 +6,55 @@ Also known as ASS, since it probably is
 
 -----
 
-An enemy spawn group mod, crafted and refined for this one's tastes over half a year, with two distinct sets of simple yet alarming groups
+An enemy spawn group mod, crafted and refined for this one's tastes, with two distinct sets of simple yet alarming groups
 
-Both sets of groups mix in occasional specials with regular spawns, allow dangerous pairings of specials, and make liberal use of enemy types neglected in vanilla
+Both sets of groups mix in occasional specials with regular spawns, allow dangerous pairings of specials, and make liberal use of neglected enemy types
 
-Designed for full out-of-box compatibility with (and plays best with) [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all changes may be fully ideal for a vanilla game
+Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all changes are ideal for a vanilla game
 
 -----
 
 ### Settings:
-- Enable the ASS: When enabled, the mod does the thing.
-- Level Mod: When enabled, makes some levels use a fixed response faction regardless of difficulty.
+- Enable the ASS: Make the mod do the thing.
+- Level Mod: Make some levels use a fixed response faction regardless of difficulty.
+- Vanilla Styled Assaults: Use a different set of spawn groups made in the style of Streamlined Heisting's default groups.
 - Skill Level: Tweak how tough the mod is.
-- Minigun Dozers on Death Wish: When enabled, reenables Minigun Dozers on Death Wish difficulty.
-- Captain Winters: When enabled, reenables Captain Winters.
-- Escapes: When enabled, reenables escapes.
-- Vanilla Styled Assaults: When enabled, uses a different set of spawn groups made in the style of the modern spawn groups.
-- Max Intensity: When enabled, makes special spawn limits, spawn groups, and task data use Death Sentence values.
+- Intensity: Optional further tweaks on the current Skill Level.
+- Minigun Dozers on Death Wish: Reenable Minigun Dozers on Death Wish difficulty.
+- Captain Winters: Reenable Captain Winters.
+- Escapes: Reenable escapes.
 
-### Notes (vanilla and [Streamlined Heisting](https://modworkshop.net/mod/29713)):
+### Notes:
 - Only works as host
 - Default spawn group set is made in the style of the original spawn groups
 - Vanilla Styled Assaults are a tweaked version of Streamlined Heisting's default groups
-- Marshal Marksmen are more common and (re)spawn sooner on higher difficulties; Marshal Shields are rare spawns
+- Marshal Marksmen are more common and spawn sooner on higher difficulties; Marshal Shields are rare spawns
 - Very Hard has a mixed response of SWAT and FBI
 - Mayhem has a mixed response of FBI and GenSec
 - Dozer types are tweaked on difficulties below Death Sentence
-- Captain Winters is removed
-- Escapes (seen only on heists up to Armored Transport) are disabled
+- Captain Winters is removed by default
+- Escapes (seen only on heists up to Armored Transport) are disabled by default
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-
-### Notes (vanilla only):
-- Light and heavy units of all tiers will be statistically identical on any given difficulty in a way that should sync to clients
-- Units use difficulty-appropriate weaponry (eg, SWAT and FBI use G36s and Benellis on Mayhem and Death Wish) as weapon scaling is messed up
-- Russian and zombie Tasers are given yellow M4s
-- Special unit spawn limits are revised
-- The timeout between enemies using grenades decreases with difficulty (enemies should be a bit more aggressive on high difficulties)
-
-### Notes ([Streamlined Heisting](https://modworkshop.net/mod/29713) only):
-- Tasers and Bulldozers use faction-appropriate weaponry where possible - this is cosmetic
+- Certain special enemies use faction-appropriate weaponry where possible - this is cosmetic
 
 -----
 
 ### Skill Levels
 
-#### Too Young to Die
-- Coward.
-- Most values decreased.
+#### I'm Too Young to Die
+- Pussy.
+- Tougher units are less likely to spawn.
+- Assaults are shorter.
+- Assault breaks are longer.
+- The cooldown between enemies using grenades is increased.
+- Enemies spawn slightly slower.
+- Smoke bombs last a shorter time.
+- Gas grenades are less likely.
+- Special limits are lowered.
 
-#### Not Too Rough (default)
+#### Hey, Not Too Rough (default)
 - Probably won't hurt.
-- Some values decreased.
+- Tougher units are less likely to spawn.
 
 #### Hurt Me Plenty (recommended)
 - May hurt.
@@ -64,13 +62,55 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 
 #### Ultra-Violence
 - Will hurt.
-- Most values increased.
+- Tougher units are more likely to spawn.
+- Assaults are longer.
+- Assault breaks are shorter.
+- The cooldown between enemies using grenades is decreased.
+- Enemies spawn slightly faster.
+- Smoke bombs last a longer time.
+- Gas grenades are more likely.
+- Special limits are higher.
 
-#### Nightmare
-- Bullshit.
-- Most values cranked through the roof.
+#### Nightmare!
+- Doable bullshit.
+- Tougher units are more likely to spawn.
+- Assaults are longer.
+- Assault breaks are shorter.
+- The cooldown between enemies using grenades is massively decreased.
+- Enemies spawn far faster.
+- Smoke bombs last a much longer time.
+- Gas grenades are much, much more likely.
+- Special limits are doubled.
 
-### "Level Mod" list:
+#### Ultra-Nightmare!!
+- Less doable bullshit.
+- Tougher units are exponentially more likely to spawn.
+- Assaults will only end by killing enough cops.
+- Assault breaks may as well not exist.
+- The cooldown between enemies using grenades is removed.
+- Enemies spawn far, far faster.
+- Smoke bombs last a full minute.
+- Gas grenades are always used if available.
+- Special limits are quadrupled.
+
+### Intensities
+
+#### No Soap Dropping
+- Nothing is altered.
+
+#### Drop the Soap
+- Uses Death Sentence values.
+
+#### Pick Up the Soap
+- Uses Death Sentence values.
+- In-heist "diff" is always 1.
+
+#### Fuck Me Sideways
+- Uses Death Sentence values.
+- In-heist "diff" is always 1.
+- Always uses 4 player spawns.
+
+### Level Mods:
 
 #### SWAT:
 - Jewelry Store
@@ -132,18 +172,14 @@ Designed for full out-of-box compatibility with (and plays best with) [Streamlin
 - Diamond Heist
 - Hostile Takeover
 
-### Incompatibilities:
-- [Little Intelligence EnhancementS](https://modworkshop.net/mod/37304) (probable, **not tested and not interested** in making ASS compatible if it isn't)
-- Any mods causing different enemy tiers to have different health values will cause Level Mod not to function as intended
-
 -----
 
 ### For modders:
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
-- Hooks into `lib/managers/mission/elementspawnenemydummy`, `lib/tweak_data/groupaitweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/tweak_data/groupaitweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
-- Mod will probably be confusing to modify - it has a, to say the least, unique setup to make everything work
+- Mod may be confusing to modify
 
 -----
 

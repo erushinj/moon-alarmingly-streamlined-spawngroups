@@ -1,6 +1,6 @@
 local GroupAIEnemySpawnGroups = {}
 
-function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldown)
+function GroupAIEnemySpawnGroups.old_style(groups, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -52,10 +52,10 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			"murder"
 		},
 		tazer_shield = {
+			"shield",
 			"charge",
 			"flank",
-			"murder",
-			StreamHeist and "shield" or nil
+			"murder"
 		},
 		tank = {
 			"shield",
@@ -539,8 +539,8 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 	-- not a real recon group, just recon_c but able to spawn rarely mid-assault
 	groups.recon_d = recon_group("FBI_suit_stealth_MP5", "CS_tazer", freq.elite)
 
-	local function sh_reenforce_group(unit_1, unit_2)
-		return StreamHeist and {
+	local function reenforce_group(unit_1, unit_2)
+		return {
 			amount = { 2, 3 },
 			spawn = {
 				{
@@ -559,9 +559,9 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 			}
 		}
 	end
-	groups.reenforce_a = sh_reenforce_group("CS_cop_C45_MP5", "CS_cop_stealth_R870")
-	groups.reenforce_b = sh_reenforce_group("CS_cop_C45_R870", "CS_swat_MP5_R870")
-	groups.reenforce_c = sh_reenforce_group("CS_heavy_M4", "CS_heavy_R870")
+	groups.reenforce_a = reenforce_group("CS_cop_C45_MP5", "CS_cop_stealth_R870")
+	groups.reenforce_b = reenforce_group("CS_cop_C45_R870", "CS_swat_MP5_R870")
+	groups.reenforce_c = reenforce_group("CS_heavy_M4", "CS_heavy_R870")
 
 	local no_spawn_point_chk_ref = {
 		tac_swat_shotgun_rush_no_medic = true,
@@ -591,12 +591,6 @@ function GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldo
 	end
 end
 
-function GroupAIEnemySpawnGroups.old_style_vanilla(groups, freq, base_cooldown)
-	GroupAIEnemySpawnGroups.old_style_streamlined(groups, freq, base_cooldown)
-end
-
--- shame most tactics do little to nothing in vanilla
-
 -- non-flankers use smoke bombs (helps conceal their approach)
 -- but flankers use flashbangs (if they used smoke, youd be prepared for them, defeating the point of flanking)
 
@@ -607,7 +601,7 @@ end
 -- marshals find an alternate route and keep guard after a takedown
 -- phalanx come in for a takedown, put you down, and move on to the next target
 
-function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldown)
+function GroupAIEnemySpawnGroups.van_style(groups, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -655,8 +649,8 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 			"murder"
 		},
 		tazer_shield = {
-			"murder",
-			StreamHeist and "shield"
+			"shield",
+			"murder"
 		},
 		tank_rush = {
 			"shield",
@@ -1193,9 +1187,8 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 		}
 	}
 
-	-- 3 reenforce groups when playing with sh
-	local function sh_reenforce_group(unit_1, unit_2)
-		return StreamHeist and {
+	local function reenforce_group(unit_1, unit_2)
+		return {
 			amount = { 2, 3 },
 			spawn = {
 				{
@@ -1217,13 +1210,9 @@ function GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldo
 		}
 	end
 
-	groups.reenforce_init = sh_reenforce_group({ "CS_cop_C45_MP5", "CS_cop_stealth_R870" })
-	groups.reenforce_light = sh_reenforce_group({ "CS_swat_MP5", "CS_swat_R870" })
-	groups.reenforce_heavy = sh_reenforce_group({ "CS_heavy_M4", "CS_heavy_R870" })
-end
-
-function GroupAIEnemySpawnGroups.van_style_vanilla(groups, freq, base_cooldown)
-	GroupAIEnemySpawnGroups.van_style_streamlined(groups, freq, base_cooldown)
+	groups.reenforce_init = reenforce_group({ "CS_cop_C45_MP5", "CS_cop_stealth_R870" })
+	groups.reenforce_light = reenforce_group({ "CS_swat_MP5", "CS_swat_R870" })
+	groups.reenforce_heavy = reenforce_group({ "CS_heavy_M4", "CS_heavy_R870" })
 end
 
 return GroupAIEnemySpawnGroups

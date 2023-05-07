@@ -73,17 +73,16 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	local freq_base = ASS:get_skill_dependent_value("freq_base")
 	local base_cooldown_base = ASS:get_skill_dependent_value("base_cooldown_base")
 
-	-- remove preexisting timed groups
+	local max_values = ASS:get_intensity_dependent_boolean("max_values")
+
+	-- effectively remove preexisting timed groups
 	for _, group_data in pairs(self.enemy_spawn_groups) do
 		if group_data.max_nr_simultaneous_groups then
-			group_data.max_nr_simultaneous_groups = 0
 			group_data.spawn_cooldown = 300000
-			group_data.initial_spawn_delay = 300000
 		end
 	end
 
-	local difficulty_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
-	local f = ASS.settings.max_intensity and 1 or (difficulty_index - 2) / 6
+	local f = max_values and 1 or (math.clamp(difficulty_index, 2, 8) - 2) / 6
 
 	local function lerp(val)
 		return math.lerp(val / 3, val, f)
