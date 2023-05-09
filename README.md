@@ -41,136 +41,250 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
 
 ### Skill Levels
 
-#### I'm Too Young to Die
-- Pussy.
-- Tougher units are less likely to spawn.
-- Assaults are shorter.
-- Assault breaks are longer.
-- The cooldown between enemies using grenades is increased.
-- Enemies spawn slightly slower.
-- Smoke bombs last a shorter time.
-- Gas grenades are less likely.
-- Special limits are lowered.
-
-#### Hey, Not Too Rough (default)
-- Probably won't hurt.
-- Tougher units are less likely to spawn.
-
-#### Hurt Me Plenty (recommended)
-- May hurt.
-- Original values.
-
-#### Ultra-Violence
-- Will hurt.
-- Tougher units are more likely to spawn.
-- Assaults are longer.
-- Assault breaks are shorter.
-- The cooldown between enemies using grenades is decreased.
-- Enemies spawn slightly faster.
-- Smoke bombs last a longer time.
-- Gas grenades are more likely.
-- Special limits are higher.
-
-#### Nightmare!
-- Doable bullshit.
-- Tougher units are more likely to spawn.
-- Assaults are longer.
-- Assault breaks are shorter.
-- The cooldown between enemies using grenades is massively decreased.
-- Enemies spawn far faster.
-- Smoke bombs last a much longer time.
-- Gas grenades are much, much more likely.
-- Special limits are doubled.
-
-#### Ultra-Nightmare!!
-- Less doable bullshit.
-- Tougher units are exponentially more likely to spawn.
-- Assaults will only end by killing enough cops.
-- Assault breaks may as well not exist.
-- The cooldown between enemies using grenades is removed.
-- Enemies spawn far, far faster.
-- Smoke bombs last a full minute.
-- Gas grenades are always used if available.
-- Special limits are quadrupled.
+<table>
+    <tr>
+        <th>
+            I'm Too Young to Die
+        </th>
+        <td>
+            <ul>
+                <li>Pussy.</li>
+                <li>Tougher units are less likely to spawn.</li>
+                <li>Assaults are shorter.</li>
+                <li>Assault breaks are longer.</li>
+                <li>The cooldown between enemies using grenades is increased.</li>
+                <li>Enemies spawn slightly slower.</li>
+                <li>Smoke bombs last a shorter time.</li>
+                <li>Gas grenades are less likely.</li>
+                <li>Special limits are lowered.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Hey, Not Too Rough (default)
+        </th>
+        <td>
+            <ul>
+                <li>Probably won't hurt.</li>
+                <li>Tougher units are less likely to spawn.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Hurt Me Plenty
+        </th>
+        <td>
+            <ul>
+                <li>May hurt.</li>
+                <li>Original values.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Ultra-Violence
+        </th>
+        <td>
+            <ul>
+                <li>Will hurt.</li>
+                <li>Tougher units are more likely to spawn.</li>
+                <li>Assaults are longer.</li>
+                <li>Assault breaks are shorter.</li>
+                <li>The cooldown between enemies using grenades is decreased.</li>
+                <li>Enemies spawn slightly faster.</li>
+                <li>Smoke bombs last a longer time.</li>
+                <li>Gas grenades are more likely.</li>
+                <li>Special limits are higher.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Nightmare!
+        </th>
+        <td>
+            <ul>
+                <li>Doable bullshit.</li>
+                <li>Tougher units are more likely to spawn.</li>
+                <li>Assaults are longer.</li>
+                <li>Assault breaks are shorter.</li>
+                <li>The cooldown between enemies using grenades is massively decreased.</li>
+                <li>Enemies spawn far faster.</li>
+                <li>Smoke bombs last a much longer time.</li>
+                <li>Gas grenades are much, much more likely.</li>
+                <li>Special limits are doubled.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Ultra-Nightmare!!
+        </th>
+        <td>
+            <ul>
+                <li>Less doable bullshit.</li>
+                <li>Tougher units are exponentially more likely to spawn.</li>
+                <li>Assaults will only end by killing enough cops.</li>
+                <li>Assault breaks may as well not exist.</li>
+                <li>The cooldown between enemies using grenades is removed.</li>
+                <li>Enemies spawn far, far faster.</li>
+                <li>Smoke bombs last a full minute.</li>
+                <li>Gas grenades are always used if available.</li>
+                <li>Special limits are quadrupled.</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 ### Intensities
 
-#### No Soap Dropping
-- Nothing is altered.
-
-#### Drop the Soap
-- Uses Death Sentence values.
-
-#### Pick Up the Soap
-- Uses Death Sentence values.
-- In-heist "diff" is always 1.
-
-#### Fuck Me Sideways
-- Uses Death Sentence values.
-- In-heist "diff" is always 1.
-- Always uses 4 player spawns.
+<table>
+    <tr>
+        <th>
+            No Soap Dropping
+        </th>
+        <td>
+            <ul>
+                <li>Nothing is altered.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Drop the Soap
+        </th>
+        <td>
+            <ul>
+                <li>Uses Death Sentence values.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Pick Up the Soap
+        </th>
+        <td>
+            <ul>
+                <li>Uses Death Sentence values.</li>
+                <li>In-heist "diff" is always 1.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Fuck Me Sideways
+        </th>
+        <td>
+            <ul>
+                <li>Uses Death Sentence values.</li>
+                <li>In-heist "diff" is always 1.</li>
+                <li>Always uses 4 player spawns.</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 ### Level Mods:
 
-#### SWAT:
-- Jewelry Store
-- Four Stores
-- Nightclub
-- Mallcrasher
-- Ukrainian Job
-- Bank Heist: Deposit
-- Bank Heist: Cash
-- Bank Heist: Random
-- Bank Heist: Gold
-- Stealing Xmas
-- First World Bank
-- Heat Street
-- Counterfeit
-- Dragon Heist
-
-#### SWAT-FBI:
-- Panic Room
-- Green Bridge
-- Ukrainian Prisoner
-
-#### FBI:
-- GO Bank
-- Firestarter
-- Rats
-- Watchdogs
-- Framing Frame
-- Big Oil
-- Hotline Miami
-- Art Gallery
-- Hoxton Breakout
-- Hoxton Revenge (also featuring the Ready Team guards)
-- Meltdown
-- Biker Heist
-- Safehouse Raid
-- Lab Rats
-- Prison Nightmare
-- White Xmas
-- Santa's Workshop
-- Undercover
-- Black Cat
-- Midland Ranch
-
-#### FBI-GenSec:
-- Slaughterhouse
-- No Mercy
-- Mountain Master
-- Lost in Transit
-
-#### GenSec:
-- Transport: Park
-- Transport: Downtown
-- Transport: Underpass
-- Transport: Crossroads
-- Transport: Harbor
-- Transport: Train Heist
-- Alesso Heist
-- Diamond Heist
-- Hostile Takeover
+<table>
+    <tr>
+        <th>
+            SWAT
+        </th>
+        <td>
+            <ul>
+                <li>Jewelry Store</li>
+                <li>Four Stores</li>
+                <li>Nightclub</li>
+                <li>Mallcrasher</li>
+                <li>Ukrainian Job</li>
+                <li>Bank Heist: Deposit</li>
+                <li>Bank Heist: Cash</li>
+                <li>Bank Heist: Random</li>
+                <li>Bank Heist: Gold</li>
+                <li>Stealing Xmas</li>
+                <li>First World Bank</li>
+                <li>Heat Street</li>
+                <li>Counterfeit</li>
+                <li>Dragon Heist</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            SWAT-FBI
+        </th>
+        <td>
+            <ul>
+                <li>Panic Room</li>
+                <li>Green Bridge</li>
+                <li>Ukrainian Prisoner</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            FBI
+        </th>
+        <td>
+            <ul>  
+                <li>GO Bank</li>
+                <li>Firestarter</li>
+                <li>Rats</li>
+                <li>Watchdogs</li>
+                <li>Framing Frame</li>
+                <li>Big Oil</li>
+                <li>Hotline Miami</li>
+                <li>Art Gallery</li>
+                <li>Hoxton Breakout</li>
+                <li>Hoxton Revenge (also featuring the Ready Team guards)</li>
+                <li>Meltdown</li>
+                <li>Biker Heist</li>
+                <li>Safehouse Raid</li>
+                <li>Lab Rats</li>
+                <li>Prison Nightmare</li>
+                <li>White Xmas</li>
+                <li>Santa's Workshop</li>
+                <li>Undercover</li>
+                <li>Black Cat</li>
+                <li>Midland Ranch</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            FBI-GenSec
+        </th>
+        <td>
+            <ul>  
+                <li>Slaughterhouse</li>
+                <li>No Mercy</li>
+                <li>Mountain Master</li>
+                <li>Lost in Transit</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            GenSec
+        </th>
+        <td>
+            <ul>  
+                <li>Transport: Park</li>
+                <li>Transport: Downtown</li>
+                <li>Transport: Underpass</li>
+                <li>Transport: Crossroads</li>
+                <li>Transport: Harbor</li>
+                <li>Transport: Train Heist</li>
+                <li>Alesso Heist</li>
+                <li>Diamond Heist</li>
+                <li>Hostile Takeover</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 -----
 
