@@ -1210,9 +1210,9 @@ function GroupAIEnemySpawnGroups.van_style(groups, freq, base_cooldown)
 		}
 	end
 
-	groups.reenforce_init = reenforce_group({ "CS_cop_C45_MP5", "CS_cop_stealth_R870" })
-	groups.reenforce_light = reenforce_group({ "CS_swat_MP5", "CS_swat_R870" })
-	groups.reenforce_heavy = reenforce_group({ "CS_heavy_M4", "CS_heavy_R870" })
+	groups.reenforce_init = reenforce_group("CS_cop_C45_MP5", "CS_cop_stealth_R870")
+	groups.reenforce_light = reenforce_group("CS_swat_MP5", "CS_swat_R870")
+	groups.reenforce_heavy = reenforce_group("CS_heavy_M4", "CS_heavy_R870")
 end
 
 return GroupAIEnemySpawnGroups
