@@ -6,15 +6,28 @@ if not ASS then
 		required = {},
 		settings = {
 			is_massive = true,
-			level_mods = true,
+			level_mod = 2,
+			assault_style = 1,
 			skill = 2,
 			intensity = 1,
-			vanilla_styled_assaults = false,
-			minigun_dozers_on_death_wish = false,
+			minigun_dozers = false,
 			captain_winters = false,
 			escapes = false
 		},
 		values = {
+			level_mod = {
+				"ass_level_mod_disable",
+				"ass_level_mod_per_level",
+				"ass_level_mod_CS_normal",
+				"ass_level_mod_CS_FBI_overkill",
+				"ass_level_mod_FBI_overkill_145",
+				"ass_level_mod_FBI_CITY_easy_wish",
+				"ass_level_mod_CITY_overkill_290"
+			},
+			assault_style = {
+				"ass_assault_style_original",
+				"ass_assault_style_streamlined"
+			},
 			skill = {
 				"ass_skill_1",
 				"ass_skill_2",
@@ -135,36 +148,53 @@ if not ASS then
 			watchdogs_night = "FBI_overkill_145",
 			framing_frame = "FBI_overkill_145",
 			welcome_to_the_jungle_prof = "FBI_overkill_145",  -- big oil
-			welcome_to_the_jungle_night_prof = "FBI_overkill_145",
+			welcome_to_the_jungle_night_prof = "FBI_overkill_145",  -- big oil
+			family = "CS_normal",  -- diamond store
+			election_day = "CS_FBI_overkill",
 			arm_fac = "CITY_overkill_290",  -- transport harbor
 			arm_par = "CITY_overkill_290",  -- transport park
 			arm_hcm = "CITY_overkill_290",  -- transport downtown
 			arm_und = "CITY_overkill_290",  -- transport underpass
 			arm_cro = "CITY_overkill_290",  -- transport crossroads
 			arm_for = "CITY_overkill_290",  -- transport train
+			big = "CS_FBI_overkill",  -- big bank
 			mia = "FBI_overkill_145",  -- hotline miami
 			gallery = "FBI_overkill_145",  -- art gallery
 			hox = "FBI_overkill_145",  -- hoxton breakout
 			hox_3 = "FBI_mcmansion",  -- hoxton revenge
 			pines = "FBI_overkill_145",  -- white xmas
+			mus = "CS_FBI_overkill",  -- the diamond
+			crojob1 = "FBI_overkill_145",  -- bomb dockyard
+			crojob2 = "FBI_overkill_145",  -- bomb forest
+			crojob2_night = "FBI_overkill_145",  -- bomb forest
+			rat = "FBI_overkill_145",  -- cook off
 			shoutout_raid = "FBI_overkill_145",  -- meltdown
 			arena = "CITY_overkill_290",  -- alesso heist
+			kenaz = "FBI_overkill_145",  -- golden grin casino
+			jolly = "FBI_overkill_145",  -- aftershock
 			red2 = "CS_normal",  -- first world bank
 			dinner = "FBI_CITY_easy_wish",  -- slaughterhouse
 			nail = "FBI_overkill_145",  -- lab rats
 			cane = "FBI_overkill_145",  -- santas workshop
 			pbr2 = "CS_FBI_pbr2",  -- birth of sky
+			peta = "CS_FBI_overkill",  -- goat simulator
 			pal = "CS_normal",  -- counterfeit
 			man = "CS_FBI_man",  -- undercover
 			born = "FBI_overkill_145",  -- biker heist
 			chill_combat = "FBI_overkill_145",  -- safehouse raid
+			friend = "FBI_overkill_145",  -- scarface mansion
 			flat = "CS_FBI_overkill",  -- panic room
 			help = "FBI_overkill_145",  -- prison nightmare
+			spa = "FBI_overkill_145",  -- brooklyn 10-10
 			moon = "CS_normal",  -- stealing xmas
 			run = "CS_normal",  -- heat street
 			glace = "CS_FBI_overkill",  -- green bridge
 			dah = "CITY_overkill_290",  -- diamond heist
+			rvd = "FBI_overkill_145",  -- reservoir dogs
+			wwh = "FBI_overkill_145",  -- alaskan deal
+			brb = "FBI_overkill_145",  -- brooklyn bank
 			nmh = "CS_FBI_CITY_nmh",  -- no mercy
+			sah = "FBI_overkill_145",  -- shacklethorne auction
 			chas = "CS_normal",  -- dragon heist
 			sand = "CS_FBI_overkill",  -- ukrainian prisoner
 			chca = "FBI_overkill_145",  -- black cat
@@ -172,7 +202,7 @@ if not ASS then
 			ranc = "FBI_overkill_145",  -- midland ranch
 			trai = "FBI_CITY_easy_wish",  -- lost in transit
 			corp = "CITY_overkill_290",  -- hostile takeover
-			roberts = "FBI_overkill_145"  -- go bank
+			roberts = "FBI_overkill_145",  -- go bank
 		}
 	}
 
@@ -183,15 +213,17 @@ if not ASS then
 	end
 
 	function ASS:req_func_name()
-		local is_vanilla_styled = self.settings.vanilla_styled_assaults
-
-		return is_vanilla_styled and "van_style" or "old_style"
+		return self.values.assault_style[self.settings.assault_style]:gsub("^ass_assault_style_", "")
 	end
 
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
+		local level_mod = self.values.level_mod[self.settings.level_mod]:gsub("^ass_level_mod_", "")
+		local redirect = {
+			per_level = self.level_mod_map[job_id]
+		}
 
-		return self.settings.level_mods and self.level_mod_map[job_id]
+		return redirect[level_mod] or level_mod
 	end
 
 	function ASS:get_skill_dependent_value(val)
@@ -216,14 +248,23 @@ if not ASS then
 			ass_menu_is_massive = "Enable the ASS",
 			ass_menu_is_massive_desc = "Make the mod do the thing.",
 
-			ass_menu_level_mods = "Level Mod",
-			ass_menu_level_mods_desc = "Make some levels use a fixed response faction regardless of difficulty.",
+			ass_menu_level_mod = "Level Mod",
+			ass_menu_level_mod_desc = "Make levels use a fixed response faction on any difficulty.",
+			ass_level_mod_disable = "Disable",
+			ass_level_mod_per_level = "Per-Level",
+			ass_level_mod_CS_normal = "SWAT",
+			ass_level_mod_CS_FBI_overkill = "SWAT-FBI",
+			ass_level_mod_FBI_overkill_145 = "FBI",
+			ass_level_mod_FBI_CITY_easy_wish = "FBI-GenSec",
+			ass_level_mod_CITY_overkill_290 = "GenSec",
 
-			ass_menu_vanilla_styled_assaults = "Vanilla Styled Assaults",
-			ass_menu_vanilla_styled_assaults_desc = "Use a different set of spawn groups made in the style of Streamlined Heisting's default groups.",
+			ass_menu_assault_style = "Assault Style",
+			ass_menu_assault_style_desc = "Choose between original styled and Streamlined Heisting styled spawn groups.",
+			ass_assault_style_original = "Original",
+			ass_assault_style_streamlined = "Streamlined",
 
 			ass_menu_skill = "Skill Level",
-			ass_menu_skill_desc = "Tweak how tough the mod is.",
+			ass_menu_skill_desc = "Tweaks base values used for scaling.",
 			ass_skill_1 = "I'm Too Young to Die",
 			ass_skill_2 = "Hey, Not Too Rough",
 			ass_skill_3 = "Hurt Me Plenty",
@@ -232,14 +273,14 @@ if not ASS then
 			ass_skill_6 = "Ultra-Nightmare!!",
 
 			ass_menu_intensity = "Intensity",
-			ass_menu_intensity_desc = "Optional further tweaks on the current Skill Level.",
+			ass_menu_intensity_desc = "Forces certain scaling values to the maximum.",
 			ass_intensity_1 = "No Soap Dropping",
 			ass_intensity_2 = "Drop the Soap",
 			ass_intensity_3 = "Pick Up the Soap",
 			ass_intensity_4 = "Fuck Me Sideways",
 
-			ass_menu_minigun_dozers_on_death_wish = "Minigun Dozers on Death Wish",
-			ass_menu_minigun_dozers_on_death_wish_desc = "Reenable Minigun Dozers on Death Wish difficulty.",
+			ass_menu_minigun_dozers = "Minigun Dozers",
+			ass_menu_minigun_dozers_desc = "Reenable Minigun Dozers on Death Wish difficulty.",
 
 			ass_menu_captain_winters = "Captain Winters",
 			ass_menu_captain_winters_desc = "Reenable Captain Winters.",
@@ -272,7 +313,8 @@ if not ASS then
 			io.save_as_json(ASS.settings, ASS.save_path)
 		end
 
-		local priority = table.size(ASS.settings)
+		local priority = table.size(ASS.settings) * 2
+		local divider_id = 1
 
 		local function add_toggle(value)
 			MenuHelper:AddToggle({
@@ -285,7 +327,19 @@ if not ASS then
 				priority = priority
 			})
 
+			priority = priority - 2
+		end
+
+		local function add_divider()
+			MenuHelper:AddDivider({
+				id = "ass_divider_" .. divider_id,
+				size = 16,
+				menu_id = menu_id,
+				priority = priority,
+			})
+
 			priority = priority - 1
+			divider_id = divider_id + 1
 		end
 
 		local function add_multiple_choice(value)
@@ -300,15 +354,17 @@ if not ASS then
 				priority = priority
 			})
 
-			priority = priority - 1
+			priority = priority - 2
 		end
 
 		add_toggle("is_massive")
-		add_toggle("level_mods")
-		add_toggle("vanilla_styled_assaults")
+		add_divider()
+		add_multiple_choice("level_mod")
+		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
 		add_multiple_choice("intensity")
-		add_toggle("minigun_dozers_on_death_wish")
+		add_divider()
+		add_toggle("minigun_dozers")
 		add_toggle("captain_winters")
 		add_toggle("escapes")
 

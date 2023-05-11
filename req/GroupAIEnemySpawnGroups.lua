@@ -1,6 +1,6 @@
 local GroupAIEnemySpawnGroups = {}
 
-function GroupAIEnemySpawnGroups.old_style(groups, freq, base_cooldown)
+function GroupAIEnemySpawnGroups.original(groups, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",
@@ -601,7 +601,7 @@ end
 -- marshals find an alternate route and keep guard after a takedown
 -- phalanx come in for a takedown, put you down, and move on to the next target
 
-function GroupAIEnemySpawnGroups.van_style(groups, freq, base_cooldown)
+function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
 			"charge",

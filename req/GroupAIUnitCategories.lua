@@ -19,7 +19,7 @@ local function set_cs_to_fbi(categories)
 	end
 end
 
-function GroupAIUnitCategories.old_style(group_ai, difficulty_index, special_limit_index)
+function GroupAIUnitCategories.original(group_ai, difficulty_index, special_limit_index)
 	local special_limit_mul = ASS:get_skill_dependent_value("special_limit_mul")
 
 	-- new special limits, from easy to death sentence
@@ -36,8 +36,8 @@ function GroupAIUnitCategories.old_style(group_ai, difficulty_index, special_lim
 	end
 end
 
-function GroupAIUnitCategories.van_style(group_ai, difficulty_index, special_limit_index)
-	GroupAIUnitCategories.old_style(group_ai, difficulty_index, special_limit_index)
+function GroupAIUnitCategories.streamlined(group_ai, difficulty_index, special_limit_index)
+	GroupAIUnitCategories.original(group_ai, difficulty_index, special_limit_index)
 end
 
 function GroupAIUnitCategories.normal(categories)
@@ -353,7 +353,7 @@ end
 function GroupAIUnitCategories.overkill_290(categories)
 	GroupAIUnitCategories.easy_wish(categories)
 
-	if ASS.settings.minigun_dozers_on_death_wish then
+	if ASS.settings.minigun_dozers then
 		table.insert(categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
 		table.insert(categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
 		table.insert(categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))

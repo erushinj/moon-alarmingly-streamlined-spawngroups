@@ -12,7 +12,7 @@ local function set_weights(type, new_weights)
 	end
 end
 
-local function shared_weights_old(group_ai, special_weight)
+local function shared_weights_original(group_ai, special_weight)
 	set_weights(group_ai.besiege.assault, {
 		tac_swats_a = { 6.75, 3.375, 0 },
 		tac_swats_b = { 6.75, 10.125, 13.5 },
@@ -43,7 +43,7 @@ local function shared_weights_old(group_ai, special_weight)
 	})
 end
 
-local function shared_weights_van(group_ai, special_weight)
+local function shared_weights_streamlined(group_ai, special_weight)
 	set_weights(group_ai.besiege.assault, {
 		tac_swat_shotgun_rush = { 2, 3, 4 },
 		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
@@ -123,13 +123,13 @@ local function shared_data(group_ai, f)
 	end
 end
 
-function GroupAITaskData.old_style(group_ai, f, special_weight)
-	shared_weights_old(group_ai, special_weight)
+function GroupAITaskData.original(group_ai, f, special_weight)
+	shared_weights_original(group_ai, special_weight)
 	shared_data(group_ai, f)
 end
 
-function GroupAITaskData.van_style(group_ai, f, special_weight)
-	shared_weights_van(group_ai, special_weight)
+function GroupAITaskData.streamlined(group_ai, f, special_weight)
+	shared_weights_streamlined(group_ai, special_weight)
 	shared_data(group_ai, f)
 end
 
