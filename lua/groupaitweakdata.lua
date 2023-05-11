@@ -8,6 +8,8 @@ local difficulty = Global.game_settings and Global.game_settings.difficulty or "
 local func = ASS:req_func_name()
 local level_mod = ASS:level_mod()
 
+local max_values = ASS:get_intensity_dependent_boolean("max_balance_muls")
+
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
 	-- these are used later to set new factions to america if any are added
@@ -28,7 +30,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	GroupAIUnitCategories[difficulty](self.unit_categories)
 
 	-- used to determine special spawn limits
-	local special_limit_index = ASS.settings.max_intensity and 8 or math.clamp(difficulty_index, 2, 8)
+	local special_limit_index = max_values and 8 or math.clamp(difficulty_index, 2, 8)
 	GroupAIUnitCategories[func](self, difficulty_index, special_limit_index)
 
 	if GroupAIUnitCategories[level_mod] then
@@ -73,8 +75,6 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 	local freq_base = ASS:get_skill_dependent_value("freq_base")
 	local base_cooldown_base = ASS:get_skill_dependent_value("base_cooldown_base")
 
-	local max_values = ASS:get_intensity_dependent_boolean("max_values")
-
 	-- effectively remove preexisting timed groups
 	for _, group_data in pairs(self.enemy_spawn_groups) do
 		if group_data.max_nr_simultaneous_groups then
@@ -114,7 +114,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		self.phalanx.spawn_chance.max = 0
 	end
 
-	local f = ASS.settings.max_intensity and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
+	local f = max_values and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
 
 	local special_weight = math.lerp(special_weight_base[1], special_weight_base[2], f)
 
