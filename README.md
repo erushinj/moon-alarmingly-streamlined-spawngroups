@@ -10,36 +10,90 @@ An enemy spawn group mod, crafted and refined for this one's tastes, with two di
 
 Both sets of groups mix in occasional specials with regular spawns, allow dangerous pairings of specials, and make liberal use of neglected enemy types
 
-Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all changes are ideal for a vanilla game
+Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - not all changes are ideal for a vanilla game
+
+The mod's difficulty is also customizable to an extent.
 
 -----
 
 ### Settings:
-- Enable the ASS: Make the mod do the thing.
-- Level Mod: Make some levels use a fixed response faction regardless of difficulty.
-- Vanilla Styled Assaults: Use a different set of spawn groups made in the style of Streamlined Heisting's default groups.
-- Skill Level: Tweak how tough the mod is.
-- Intensity: Optional further tweaks on the current Skill Level.
-- Minigun Dozers on Death Wish: Reenable Minigun Dozers on Death Wish difficulty.
-- Captain Winters: Reenable Captain Winters.
-- Escapes: Reenable escapes.
+<table>
+    <tr>
+        <th>
+            Enable the ASS
+        </th>
+        <td>
+            Make the mod do the thing.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Level Mod
+        </th>
+        <td>
+            Make levels use a fixed response faction on any difficulty.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Assault Style
+        </th>
+        <td>
+            Choose between original styled and Streamlined Heisting styled spawn groups.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Skill Level
+        </th>
+        <td>
+            Tweaks base values used for scaling.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Intensity
+        </th>
+        <td>
+            Forces certain scaling values to the maximum.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Minigun Dozers
+        </th>
+        <td>
+            Allow Minigun Dozers to spawn on Death Wish difficulty.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Captain Winters
+        </th>
+        <td>
+            Allow Captain Winters to spawn.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Escapes
+        </th>
+        <td>
+            Allow escapes to occur.
+        </td>
+    </tr>
+</table>
 
 ### Notes:
 - Only works as host
-- Default spawn group set is made in the style of the original spawn groups
-- Vanilla Styled Assaults are a tweaked version of Streamlined Heisting's default groups
-- Marshal Marksmen are more common and spawn sooner on higher difficulties; Marshal Shields are rare spawns
-- Very Hard has a mixed response of SWAT and FBI
-- Mayhem has a mixed response of FBI and GenSec
-- Dozer types are tweaked on difficulties below Death Sentence
-- Captain Winters is removed by default
-- Escapes (seen only on heists up to Armored Transport) are disabled by default
+- Values (eg, frequency of tougher units) scales with difficulty
+- Some difficulties and Level Mods have a mixed response of two different police factions
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 - Certain special enemies use faction-appropriate weaponry where possible - this is cosmetic
 
 -----
 
-### Skill Levels
+### Skill Levels:
 
 <table>
     <tr>
@@ -50,13 +104,12 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
             <ul>
                 <li>Pussy.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults are shorter.</li>
-                <li>Assault breaks are longer.</li>
-                <li>The cooldown between enemies using grenades is increased.</li>
-                <li>Enemies spawn slightly slower.</li>
-                <li>Smoke bombs last a shorter time.</li>
-                <li>Gas grenades are less likely.</li>
-                <li>Special limits are lowered.</li>
+                <li>Assaults last up to around 4.5 minutes.</li>
+                <li>Assault breaks are 25% longer.</li>
+                <li>The cooldown between enemies using grenades is increased 15%.</li>
+                <li>Enemies spawn 10% slower.</li>
+                <li>Smoke bombs last up to 12 seconds.</li>
+                <li>Gas grenade chance builds up much more slowly.</li>
             </ul>
         </td>
     </tr>
@@ -68,17 +121,21 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
             <ul>
                 <li>Probably won't hurt.</li>
                 <li>Tougher units are less likely to spawn.</li>
+                <li>Assaults last up to around 5 minutes.</li>
+                <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Hurt Me Plenty
+            Hurt Me Plenty (recommended)
         </th>
         <td>
             <ul>
                 <li>May hurt.</li>
                 <li>Original values.</li>
+                <li>Assaults last up to around 5 minutes.</li>
+                <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
     </tr>
@@ -90,13 +147,13 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
             <ul>
                 <li>Will hurt.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults are longer.</li>
-                <li>Assault breaks are shorter.</li>
-                <li>The cooldown between enemies using grenades is decreased.</li>
-                <li>Enemies spawn slightly faster.</li>
-                <li>Smoke bombs last a longer time.</li>
-                <li>Gas grenades are more likely.</li>
-                <li>Special limits are higher.</li>
+                <li>Assaults last up to around 6 minutes.</li>
+                <li>Assault breaks are 15% shorter.</li>
+                <li>The cooldown between enemies using grenades is decreased by 25%.</li>
+                <li>Enemies spawn 25% faster.</li>
+                <li>Smoke bombs last up to 20 seconds.</li>
+                <li>Gas grenade chance builds up faster.</li>
+                <li>Special limits are increased by about 25%.</li>
             </ul>
         </td>
     </tr>
@@ -108,13 +165,13 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
             <ul>
                 <li>Doable bullshit.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults are longer.</li>
-                <li>Assault breaks are shorter.</li>
-                <li>The cooldown between enemies using grenades is massively decreased.</li>
-                <li>Enemies spawn far faster.</li>
-                <li>Smoke bombs last a much longer time.</li>
-                <li>Gas grenades are much, much more likely.</li>
-                <li>Special limits are doubled.</li>
+                <li>Assaults last up to around 8 minutes.</li>
+                <li>Assault breaks are 15% shorter.</li>
+                <li>The cooldown between enemies using grenades is decreased by 75%.</li>
+                <li>Enemies spawn 75% faster.</li>
+                <li>Smoke bombs last up to 30 seconds.</li>
+                <li>Gas grenade chance builds up nearly instantly.</li>
+                <li>Special limits are increased by 100%.</li>
             </ul>
         </td>
     </tr>
@@ -129,25 +186,25 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
                 <li>Assaults will only end by killing enough cops.</li>
                 <li>Assault breaks may as well not exist.</li>
                 <li>The cooldown between enemies using grenades is removed.</li>
-                <li>Enemies spawn far, far faster.</li>
-                <li>Smoke bombs last a full minute.</li>
+                <li>Enemies spawn as fast as the game will allow.</li>
+                <li>Smoke bombs last 60 seconds.</li>
                 <li>Gas grenades are always used if available.</li>
-                <li>Special limits are quadrupled.</li>
+                <li>Special limits are increased by 300%.</li>
             </ul>
         </td>
     </tr>
 </table>
 
-### Intensities
+### Intensities:
 
 <table>
     <tr>
         <th>
-            No Soap Dropping
+            No Soap Dropping (default)
         </th>
         <td>
             <ul>
-                <li>Nothing is altered.</li>
+                <li>Original values.</li>
             </ul>
         </td>
     </tr>
@@ -168,7 +225,7 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
         <td>
             <ul>
                 <li>Uses Death Sentence values.</li>
-                <li>In-heist "diff" is always 1.</li>
+                <li>Heist difficulty progression is always at max.</li>
             </ul>
         </td>
     </tr>
@@ -179,7 +236,7 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
         <td>
             <ul>
                 <li>Uses Death Sentence values.</li>
-                <li>In-heist "diff" is always 1.</li>
+                <li>Heist difficulty progression is always at max.</li>
                 <li>Always uses 4 player spawns.</li>
             </ul>
         </td>
@@ -187,6 +244,8 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
 </table>
 
 ### Level Mods:
+
+A specific Level Mod can also be forced on any regular American map.
 
 <table>
     <tr>
@@ -204,6 +263,7 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
                 <li>Bank Heist: Cash</li>
                 <li>Bank Heist: Random</li>
                 <li>Bank Heist: Gold</li>
+                <li>Diamond Store</li>
                 <li>Stealing Xmas</li>
                 <li>First World Bank</li>
                 <li>Heat Street</li>
@@ -218,6 +278,11 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
         </th>
         <td>
             <ul>
+                <li>Election Day</li>
+                <li>Big Bank</li>
+                <li>The Diamond</li>
+                <li>Aftershock</li>
+                <li>Goat Simulator</li>
                 <li>Panic Room</li>
                 <li>Green Bridge</li>
                 <li>Ukrainian Prisoner</li>
@@ -239,14 +304,23 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
                 <li>Hotline Miami</li>
                 <li>Art Gallery</li>
                 <li>Hoxton Breakout</li>
-                <li>Hoxton Revenge (also featuring the Ready Team guards)</li>
+                <li>Hoxton Revenge</li>
+                <li>White Xmas</li>
+                <li>Bomb: Dockyard</li>
+                <li>Bomb: Forest</li>
+                <li>Cook Off</li>
+                <li>Golden Grin Casino</li>
+                <li>Aftershock</li>
+                <li>Santa's Workshop</li>
                 <li>Meltdown</li>
                 <li>Biker Heist</li>
                 <li>Safehouse Raid</li>
-                <li>Lab Rats</li>
-                <li>Prison Nightmare</li>
-                <li>White Xmas</li>
-                <li>Santa's Workshop</li>
+                <li>Scarface Mansion</li>
+                <li>Brooklyn 10-10</li>
+                <li>Reservoir Dogs</li>
+                <li>Alaskan Deal</li>
+                <li>Brooklyn Bank</li>
+                <li>Shacklethorne Auction</li>
                 <li>Undercover</li>
                 <li>Black Cat</li>
                 <li>Midland Ranch</li>
@@ -293,7 +367,6 @@ Requires [Streamlined Heisting](https://modworkshop.net/mod/29713) - not all cha
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/tweak_data/groupaitweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
-- Mod may be confusing to modify
 
 -----
 
