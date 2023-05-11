@@ -20,14 +20,6 @@ The mod's difficulty is also customizable to an extent.
 <table>
     <tr>
         <th>
-            Name
-        </th>
-        <th>
-            Description
-        </th>
-    </tr>
-    <tr>
-        <th>
             Enable the ASS
         </th>
         <td>
@@ -39,15 +31,15 @@ The mod's difficulty is also customizable to an extent.
             Level Mod
         </th>
         <td>
-            Make some levels use a fixed response faction regardless of difficulty.
+            Make levels use a fixed response faction on any difficulty.
         </td>
     </tr>
     <tr>
         <th>
-            Vanilla Styled Assaults
+            Assault Style
         </th>
         <td>
-            Use a different set of spawn groups made in the style of Streamlined Heisting's default groups.
+            Choose between original styled and Streamlined Heisting styled spawn groups.
         </td>
     </tr>
     <tr>
@@ -68,7 +60,7 @@ The mod's difficulty is also customizable to an extent.
     </tr>
     <tr>
         <th>
-            Minigun Dozers on Death Wish
+            Minigun Dozers
         </th>
         <td>
             Allow Minigun Dozers to spawn on Death Wish difficulty.
@@ -95,8 +87,6 @@ The mod's difficulty is also customizable to an extent.
 ### Notes:
 - Only works as host
 - Values (eg, frequency of tougher units) scales with difficulty
-- Default spawn group set is made in the style of the original spawn groups
-- Marshal Marksmen are more common and spawn sooner on higher difficulties
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 - Certain special enemies use faction-appropriate weaponry where possible - this is cosmetic
@@ -255,6 +245,8 @@ The mod's difficulty is also customizable to an extent.
 
 ### Level Mods:
 
+A specific Level Mod can also be forced on any regular American map.
+
 <table>
     <tr>
         <th>
@@ -271,6 +263,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Bank Heist: Cash</li>
                 <li>Bank Heist: Random</li>
                 <li>Bank Heist: Gold</li>
+                <li>Diamond Store</li>
                 <li>Stealing Xmas</li>
                 <li>First World Bank</li>
                 <li>Heat Street</li>
@@ -285,6 +278,11 @@ The mod's difficulty is also customizable to an extent.
         </th>
         <td>
             <ul>
+                <li>Election Day</li>
+                <li>Big Bank</li>
+                <li>The Diamond</li>
+                <li>Aftershock</li>
+                <li>Goat Simulator</li>
                 <li>Panic Room</li>
                 <li>Green Bridge</li>
                 <li>Ukrainian Prisoner</li>
@@ -306,14 +304,23 @@ The mod's difficulty is also customizable to an extent.
                 <li>Hotline Miami</li>
                 <li>Art Gallery</li>
                 <li>Hoxton Breakout</li>
-                <li>Hoxton Revenge (also featuring the Ready Team guards)</li>
+                <li>Hoxton Revenge</li>
+                <li>White Xmas</li>
+                <li>Bomb: Dockyard</li>
+                <li>Bomb: Forest</li>
+                <li>Cook Off</li>
+                <li>Golden Grin Casino</li>
+                <li>Aftershock</li>
+                <li>Santa's Workshop</li>
                 <li>Meltdown</li>
                 <li>Biker Heist</li>
                 <li>Safehouse Raid</li>
-                <li>Lab Rats</li>
-                <li>Prison Nightmare</li>
-                <li>White Xmas</li>
-                <li>Santa's Workshop</li>
+                <li>Scarface Mansion</li>
+                <li>Brooklyn 10-10</li>
+                <li>Reservoir Dogs</li>
+                <li>Alaskan Deal</li>
+                <li>Brooklyn Bank</li>
+                <li>Shacklethorne Auction</li>
                 <li>Undercover</li>
                 <li>Black Cat</li>
                 <li>Midland Ranch</li>
