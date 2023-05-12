@@ -1,0 +1,66 @@
+{
+
+	"ass_menu_main" : "Alarmingly Streamlined Spawngroups",
+
+	"ass_menu_is_massive" : "Enable the ASS",
+	"ass_menu_is_massive_desc" : "Make the mod do the thing.",
+
+	"ass_menu_level_mod" : "Level Mod",
+	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty.",
+	"ass_menu_level_mod_map" : "Level Mod Map",
+	"ass_menu_level_mod_map_desc" : "Change which level has which Level Mod when using \"Per-Level\" setting.",
+	"ass_level_mod_disable" : "Disable",
+	"ass_level_mod_per_level" : "Per-Level",
+	"ass_level_mod_CS_normal" : "SWAT",
+	"ass_level_mod_CS_FBI_overkill" : "SWAT-FBI",
+	"ass_level_mod_FBI_overkill_145" : "FBI",
+	"ass_level_mod_FBI_CITY_easy_wish" : "FBI-GenSec",
+	"ass_level_mod_CITY_overkill_290" : "GenSec",
+
+	"ass_menu_assault_style" : "Assault Style",
+	"ass_menu_assault_style_desc" : "Choose between original styled and Streamlined Heisting styled spawn groups.",
+	"ass_assault_style_original" : "Original",
+	"ass_assault_style_streamlined" : "Streamlined",
+
+	"ass_menu_skill" : "Skill Level",
+	"ass_menu_skill_desc" : "Tweaks base values used for scaling.",
+	"ass_skill_1" : "I'm Too Young to Die",
+	"ass_skill_2" : "Hey, Not Too Rough",
+	"ass_skill_3" : "Hurt Me Plenty",
+	"ass_skill_4" : "Ultra-Violence",
+	"ass_skill_5" : "Nightmare!",
+	"ass_skill_6" : "Ultra-Nightmare!!",
+
+	"ass_menu_intensity" : "Intensity",
+	"ass_menu_intensity_desc" : "Forces certain scaling values to the maximum.",
+	"ass_intensity_1" : "No Soap Dropping",
+	"ass_intensity_2" : "Drop the Soap",
+	"ass_intensity_3" : "Pick Up the Soap",
+	"ass_intensity_4" : "Fuck Me Sideways",
+
+	"ass_menu_minigun_dozers" : "Minigun Dozers",
+	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn on Death Wish difficulty.",
+
+	"ass_menu_captain_winters" : "Captain Winters",
+	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn.",
+
+	"ass_menu_escapes" : "Escapes",
+	"ass_menu_escapes_desc" : "Allow escapes to occur.",
+
+	"ass_menu_reset_settings" : "Reset Settings",
+	"ass_menu_reset_settings_desc" : "Reset settings to the default for the next heist. Does not affect Level Mod Map.",
+
+	"ass_menu_reset_level_mod_map" : "Reset Level Mod Map",
+	"ass_menu_reset_level_mod_map_desc" : "Reset Level Mod Map to the default for the next heist. Does not affect settings.",
+
+	"ass_menu_warning" : "Listen up",
+	"ass_menu_verify" : "Are you sure you want to do this?",
+	"ass_menu_verify_reset_settings" : "Are you sure you want to reset your settings?",
+	"ass_menu_verify_reset_level_mod_map" : "Are you sure you want to reset the Level Mod Map?",
+	"ass_menu_confirm" : "Fuck me up already",
+	"ass_menu_ignore" : "Get out of my face",
+
+	"ass_menu_did_not_find_sh" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
+	"ass_menu_did_not_find_sh_goto" : "Streamline my heisting",
+
+}

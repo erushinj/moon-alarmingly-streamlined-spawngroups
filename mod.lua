@@ -206,6 +206,11 @@ if not ASS then
 		}
 	}
 
+	local original = {
+		settings = deep_clone(ASS.settings),
+		level_mod_map = deep_clone(ASS.level_mod_map)
+	}
+
 	function ASS:require(file)
 		local path = self.mod_path .. "req/" .. file .. ".lua"
 
@@ -219,6 +224,11 @@ if not ASS then
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.values.level_mod[self.settings.level_mod]:gsub("^ass_level_mod_", "")
+
+		if job_id and job_id:match("^skm_") then
+			level_mod = "disable"
+		end
+
 		local redirect = {
 			per_level = self.level_mod_map[job_id]
 		}
@@ -241,65 +251,16 @@ if not ASS then
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
-
-		loc:add_localized_strings({
-			ass_menu_main = "Alarmingly Streamlined Spawngroups",
-
-			ass_menu_is_massive = "Enable the ASS",
-			ass_menu_is_massive_desc = "Make the mod do the thing.",
-
-			ass_menu_level_mod = "Level Mod",
-			ass_menu_level_mod_desc = "Make levels use a fixed response faction on any difficulty.",
-			ass_level_mod_disable = "Disable",
-			ass_level_mod_per_level = "Per-Level",
-			ass_level_mod_CS_normal = "SWAT",
-			ass_level_mod_CS_FBI_overkill = "SWAT-FBI",
-			ass_level_mod_FBI_overkill_145 = "FBI",
-			ass_level_mod_FBI_CITY_easy_wish = "FBI-GenSec",
-			ass_level_mod_CITY_overkill_290 = "GenSec",
-
-			ass_menu_assault_style = "Assault Style",
-			ass_menu_assault_style_desc = "Choose between original styled and Streamlined Heisting styled spawn groups.",
-			ass_assault_style_original = "Original",
-			ass_assault_style_streamlined = "Streamlined",
-
-			ass_menu_skill = "Skill Level",
-			ass_menu_skill_desc = "Tweaks base values used for scaling.",
-			ass_skill_1 = "I'm Too Young to Die",
-			ass_skill_2 = "Hey, Not Too Rough",
-			ass_skill_3 = "Hurt Me Plenty",
-			ass_skill_4 = "Ultra-Violence",
-			ass_skill_5 = "Nightmare!",
-			ass_skill_6 = "Ultra-Nightmare!!",
-
-			ass_menu_intensity = "Intensity",
-			ass_menu_intensity_desc = "Forces certain scaling values to the maximum.",
-			ass_intensity_1 = "No Soap Dropping",
-			ass_intensity_2 = "Drop the Soap",
-			ass_intensity_3 = "Pick Up the Soap",
-			ass_intensity_4 = "Fuck Me Sideways",
-
-			ass_menu_minigun_dozers = "Minigun Dozers",
-			ass_menu_minigun_dozers_desc = "Reenable Minigun Dozers on Death Wish difficulty.",
-
-			ass_menu_captain_winters = "Captain Winters",
-			ass_menu_captain_winters_desc = "Reenable Captain Winters.",
-
-			ass_menu_escapes = "Escapes",
-			ass_menu_escapes_desc = "Reenable escapes.",
-
-			ass_menu_warning = "Warning",
-			ass_menu_ignore = "Get out of my face",
-			ass_menu_did_not_find_sh = "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
-			ass_menu_did_not_find_sh_goto = "Streamline my heisting",
-		})
-
+		loc:load_localization_file(ASS.mod_path .. "loc/english.json")
 	end )
 
 	Hooks:Add( "MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusAlarminglyStreamlinedSpawngroups", function(_, nodes)
 
 		local menu_id = "ass_menu"
 		MenuHelper:NewMenu(menu_id)
+
+		local level_mod_menu_id = "ass_level_mod_menu"
+		-- MenuHelper:NewMenu(level_mod_menu_id)
 
 		MenuCallbackHandler.ass_setting_toggle = function(self, item)
 			ASS.settings[item:name()] = (item:value() == "on")
@@ -313,7 +274,32 @@ if not ASS then
 			io.save_as_json(ASS.settings, ASS.save_path)
 		end
 
-		local priority = table.size(ASS.settings) * 2
+		local function reset(key)
+			local message = managers.localization:text("ass_menu_verify_reset_" .. key)
+			local buttons = {
+				{
+					text = managers.localization:text("ass_menu_confirm"),
+					callback = function()
+						ASS[key] = deep_clone(original[key])
+					end
+				},
+				{
+					text = managers.localization:text("ass_menu_ignore")
+				}
+			}
+
+			QuickMenu:new(managers.localization:text("ass_menu_warning"), message, buttons, true)
+		end
+
+		MenuCallbackHandler.ass_reset_settings = function()
+			reset("settings")
+		end
+
+		MenuCallbackHandler.ass_reset_level_mod_map = function()
+			reset("level_mod_map")
+		end
+
+		local priority = 0
 		local divider_id = 1
 
 		local function add_toggle(value)
@@ -327,7 +313,7 @@ if not ASS then
 				priority = priority
 			})
 
-			priority = priority - 2
+			priority = priority - 1
 		end
 
 		local function add_divider()
@@ -354,12 +340,27 @@ if not ASS then
 				priority = priority
 			})
 
-			priority = priority - 2
+			priority = priority - 1
+		end
+
+		local function add_button(id)
+			MenuHelper:AddButton({
+				id = id,
+				title = "ass_menu_" .. id,
+				desc = "ass_menu_" .. id .. "_desc",
+				callback = "ass_" .. id,
+				menu_id = menu_id,
+				priority = priority
+			})
+
+			priority = priority - 1
 		end
 
 		add_toggle("is_massive")
 		add_divider()
 		add_multiple_choice("level_mod")
+		-- level mod map menu fits in here
+		add_divider()
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
 		add_multiple_choice("intensity")
@@ -367,9 +368,15 @@ if not ASS then
 		add_toggle("minigun_dozers")
 		add_toggle("captain_winters")
 		add_toggle("escapes")
+		add_divider()
+		add_button("reset_settings")
+		-- add_button("reset_level_mod_map")
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "ass_save" })
+		-- nodes[level_mod_menu_id] = MenuHelper:BuildMenu(level_mod_menu_id)
+
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "ass_menu_main")
+		-- MenuHelper:AddMenuItem(nodes[menu_id], level_mod_menu_id, "ass_menu_level_mod_map", "ass_menu_level_mod_map_desc", "level_mod", "after")
 
 	end )
 
