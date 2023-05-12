@@ -25,9 +25,9 @@ local enemy_replacements = {
 		sniper = "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	},
 	overkill_290 = {
-		swat_1 = "units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
+		swat_1 = "units/payday2/characters/ene_city_swat_3/ene_city_swat_3",
 		swat_2 = "units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
-		swat_3 = "units/payday2/characters/ene_city_swat_3/ene_city_swat_3",
+		swat_3 = "units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
 		heavy_1 = "units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36",
 		heavy_2 = "units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870",
 		shield = "units/payday2/characters/ene_city_shield/ene_city_shield",
