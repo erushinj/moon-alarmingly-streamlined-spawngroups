@@ -107,7 +107,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Assaults last up to around 4.5 minutes.</li>
                 <li>Assault breaks are 25% longer.</li>
                 <li>The cooldown between enemies using grenades is increased 15%.</li>
-                <li>Enemies spawn 10% slower.</li>
+                <li>Cooldown between enemy spawns is increased to 110%.</li>
                 <li>Smoke bombs last up to 12 seconds.</li>
                 <li>Gas grenade chance builds up much more slowly.</li>
             </ul>
@@ -150,7 +150,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Assaults last up to around 6 minutes.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using grenades is decreased by 25%.</li>
-                <li>Enemies spawn 25% faster.</li>
+                <li>Cooldown between enemy spawns is decreased to 75%.</li>
                 <li>Smoke bombs last up to 20 seconds.</li>
                 <li>Gas grenade chance builds up faster.</li>
                 <li>Special limits are increased by about 25%.</li>
@@ -168,7 +168,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Assaults last up to around 8 minutes.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using grenades is decreased by 75%.</li>
-                <li>Enemies spawn 75% faster.</li>
+                <li>Cooldown between enemy spawns is decreased to 25%.</li>
                 <li>Smoke bombs last up to 30 seconds.</li>
                 <li>Gas grenade chance builds up nearly instantly.</li>
                 <li>Special limits are increased by 100%.</li>
@@ -186,7 +186,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Assaults will only end by killing enough cops.</li>
                 <li>Assault breaks may as well not exist.</li>
                 <li>The cooldown between enemies using grenades is removed.</li>
-                <li>Enemies spawn as fast as the game will allow.</li>
+                <li>Cooldown between enemy spawns is removed.</li>
                 <li>Smoke bombs last 60 seconds.</li>
                 <li>Gas grenades are always used if available.</li>
                 <li>Special limits are increased by 300%.</li>
@@ -294,7 +294,7 @@ A specific Level Mod can also be forced on any regular American map.
             FBI
         </th>
         <td>
-            <ul>  
+            <ul>
                 <li>GO Bank</li>
                 <li>Firestarter</li>
                 <li>Rats</li>
@@ -332,7 +332,7 @@ A specific Level Mod can also be forced on any regular American map.
             FBI-GenSec
         </th>
         <td>
-            <ul>  
+            <ul>
                 <li>Slaughterhouse</li>
                 <li>No Mercy</li>
                 <li>Mountain Master</li>
@@ -345,7 +345,7 @@ A specific Level Mod can also be forced on any regular American map.
             GenSec
         </th>
         <td>
-            <ul>  
+            <ul>
                 <li>Transport: Park</li>
                 <li>Transport: Downtown</li>
                 <li>Transport: Underpass</li>
