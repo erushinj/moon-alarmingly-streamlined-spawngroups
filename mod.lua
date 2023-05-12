@@ -89,7 +89,7 @@ if not ASS then
 				}
 			},
 			base_cooldown_base = { 30, 30, 20, 10, 5, 0 },
-			force_pool_mul = { 0.85, 1, 1, 1.5, 2, 4 },
+			force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2 },
 			sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250 },
 			break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0 },
 			special_limit_mul = { 1, 1, 1, 1.25, 2, 4 },
@@ -206,10 +206,7 @@ if not ASS then
 		}
 	}
 
-	local original = {
-		settings = deep_clone(ASS.settings),
-		level_mod_map = deep_clone(ASS.level_mod_map)
-	}
+	local original_settings = deep_clone(ASS.settings)
 
 	function ASS:require(file)
 		local path = self.mod_path .. "req/" .. file .. ".lua"
@@ -259,9 +256,6 @@ if not ASS then
 		local menu_id = "ass_menu"
 		MenuHelper:NewMenu(menu_id)
 
-		local level_mod_menu_id = "ass_level_mod_menu"
-		-- MenuHelper:NewMenu(level_mod_menu_id)
-
 		MenuCallbackHandler.ass_setting_toggle = function(self, item)
 			ASS.settings[item:name()] = (item:value() == "on")
 		end
@@ -274,13 +268,13 @@ if not ASS then
 			io.save_as_json(ASS.settings, ASS.save_path)
 		end
 
-		local function reset(key)
-			local message = managers.localization:text("ass_menu_verify_reset_" .. key)
+		MenuCallbackHandler.ass_reset_settings = function()
+			local message = managers.localization:text("ass_menu_verify_reset_settings")
 			local buttons = {
 				{
 					text = managers.localization:text("ass_menu_confirm"),
 					callback = function()
-						ASS[key] = deep_clone(original[key])
+						ASS.settings = deep_clone(original_settings)
 					end
 				},
 				{
@@ -289,14 +283,6 @@ if not ASS then
 			}
 
 			QuickMenu:new(managers.localization:text("ass_menu_warning"), message, buttons, true)
-		end
-
-		MenuCallbackHandler.ass_reset_settings = function()
-			reset("settings")
-		end
-
-		MenuCallbackHandler.ass_reset_level_mod_map = function()
-			reset("level_mod_map")
 		end
 
 		local priority = 0
@@ -359,8 +345,6 @@ if not ASS then
 		add_toggle("is_massive")
 		add_divider()
 		add_multiple_choice("level_mod")
-		-- level mod map menu fits in here
-		add_divider()
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
 		add_multiple_choice("intensity")
@@ -370,13 +354,10 @@ if not ASS then
 		add_toggle("escapes")
 		add_divider()
 		add_button("reset_settings")
-		-- add_button("reset_level_mod_map")
 
 		nodes[menu_id] = MenuHelper:BuildMenu(menu_id, { back_callback = "ass_save" })
-		-- nodes[level_mod_menu_id] = MenuHelper:BuildMenu(level_mod_menu_id)
 
 		MenuHelper:AddMenuItem(nodes["blt_options"], menu_id, "ass_menu_main")
-		-- MenuHelper:AddMenuItem(nodes[menu_id], level_mod_menu_id, "ass_menu_level_mod_map", "ass_menu_level_mod_map_desc", "level_mod", "after")
 
 	end )
 

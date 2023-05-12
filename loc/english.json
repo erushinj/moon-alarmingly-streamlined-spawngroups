@@ -54,11 +54,11 @@
 	"ass_menu_reset_level_mod_map_desc" : "Reset Level Mod Map to the default for the next heist. Does not affect settings.",
 
 	"ass_menu_warning" : "Listen up",
-	"ass_menu_verify" : "Are you sure you want to do this?",
-	"ass_menu_verify_reset_settings" : "Are you sure you want to reset your settings?",
-	"ass_menu_verify_reset_level_mod_map" : "Are you sure you want to reset the Level Mod Map?",
+	"ass_menu_verify" : "Sure you wanna do this?",
 	"ass_menu_confirm" : "Fuck me up already",
 	"ass_menu_ignore" : "Get out of my face",
+
+	"ass_menu_verify_reset_settings" : "Sure you wanna reset your settings?",
 
 	"ass_menu_did_not_find_sh" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
 	"ass_menu_did_not_find_sh_goto" : "Streamline my heisting",
