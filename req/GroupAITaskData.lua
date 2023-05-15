@@ -75,15 +75,18 @@ function GroupAITaskData.streamlined(group_ai, special_weight)
 end
 
 function GroupAITaskData.get_skirmish_groups()
-	local special_weights_original_a = { 4, 2.5, 0 }
+	local skm_special_weights = ASS:get_skill_dependent_value("skm_special_weights")
+	local w1, w2, w3 = skm_special_weights[1], skm_special_weights[2] * 0.5, skm_special_weights[3]
+
+	local special_weights_original_a = { w1, w2, 0 }
 	local special_weights_original_a_double = Utils.collect(special_weights_original_a, 2)
 
-	local special_weights_original_b = { 0, 2.5, 6 }
+	local special_weights_original_b = { 0, w2, w3 }
 	local special_weights_original_b_double = Utils.collect(special_weights_original_b, 2)
 
-	local special_weights_original_c = { 0.4, 0.5, 0.6 }
+	local special_weights_original_c = Utils.collect(skm_special_weights, 0.1)
 
-	local special_weights_streamlined = { 4, 5, 6 }
+	local special_weights_streamlined = skm_special_weights
 
 	return {
 		original = {

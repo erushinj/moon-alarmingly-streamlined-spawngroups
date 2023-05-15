@@ -38,6 +38,10 @@ local wave_unit_categories = {
 
 		medic_M4 = { Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4") },
 		medic_R870 = { Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870") },
+		medic_M4_R870 = {
+			Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
+			Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870")
+		},
 		CS_tazer = { Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1") },
 		spooc = { Idstring("units/payday2/characters/ene_spook_1/ene_spook_1") }
 	},
@@ -101,6 +105,10 @@ local wave_unit_categories = {
 
 		medic_M4 = { Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4") },
 		medic_R870 = { Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870") },
+		medic_M4_R870 = {
+			Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4"),
+			Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870")
+		},
 		CS_tazer = { Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer") },
 		spooc = { Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker") }
 	},
