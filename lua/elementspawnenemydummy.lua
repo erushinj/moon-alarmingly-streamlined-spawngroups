@@ -132,8 +132,14 @@ local enemy_mapping = {
 	[Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870"):key()] = "medic_2"
 }
 
-local difficulty = Global.game_settings and Global.game_settings.difficulty
-local level_mod = ASS:level_mod()
+local difficulty, level_mod
+if tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish" then
+	difficulty = "normal"
+	level_mod = nil
+else
+	difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+	level_mod = ASS:level_mod()
+end
 Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
 	local replacement = level_mod or difficulty

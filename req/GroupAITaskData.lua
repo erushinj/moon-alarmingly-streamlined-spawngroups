@@ -1,3 +1,5 @@
+local Utils = ASS:require("Utils")
+
 local GroupAITaskData = {}
 
 local function set_weights(type, new_weights)
@@ -12,7 +14,7 @@ local function set_weights(type, new_weights)
 	end
 end
 
-local function shared_weights_original(group_ai, special_weight)
+function GroupAITaskData.original(group_ai, special_weight)
 	set_weights(group_ai.besiege.assault, {
 		tac_swats_a = { 6.75, 3.375, 0 },
 		tac_swats_b = { 6.75, 10.125, 13.5 },
@@ -43,7 +45,7 @@ local function shared_weights_original(group_ai, special_weight)
 	})
 end
 
-local function shared_weights_streamlined(group_ai, special_weight)
+function GroupAITaskData.streamlined(group_ai, special_weight)
 	set_weights(group_ai.besiege.assault, {
 		tac_swat_shotgun_rush = { 2, 3, 4 },
 		tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
@@ -72,65 +74,50 @@ local function shared_weights_streamlined(group_ai, special_weight)
 	})
 end
 
-local function collect(tbl, mul)
-	return table.collect(tbl, function(val)
-		return val * mul
-	end)
-end
+function GroupAITaskData.get_skirmish_groups()
+	local special_weights_original_a = { 4, 2.5, 0 }
+	local special_weights_original_a_double = Utils.collect(special_weights_original_a, 2)
 
-local function shared_data(group_ai, f)
-	local grenade_cooldown_mul = ASS:get_skill_dependent_value("grenade_cooldown_mul")
-	local smokebomb_lifetime = ASS:get_skill_dependent_value("smokebomb_lifetime")
-	local gas_grenade_times = ASS:get_skill_dependent_value("gas_grenade_times")
-	local spawn_cooldowns = ASS:get_skill_dependent_value("spawn_cooldowns")
-	local sustain_duration_mul = ASS:get_skill_dependent_value("sustain_duration_mul")
-	local force_pool_mul = ASS:get_skill_dependent_value("force_pool_mul")
-	local break_duration_mul = ASS:get_skill_dependent_value("break_duration_mul")
+	local special_weights_original_b = { 0, 2.5, 6 }
+	local special_weights_original_b_double = Utils.collect(special_weights_original_b, 2)
 
-	local max_balance_muls = ASS:get_intensity_dependent_boolean("max_balance_muls")
+	local special_weights_original_c = { 0.4, 0.5, 0.6 }
 
-	group_ai.smoke_grenade_timeout = collect({ 25, 35 }, grenade_cooldown_mul)
-	group_ai.smoke_grenade_lifetime = math.lerp(smokebomb_lifetime[1], smokebomb_lifetime[2], f)
-	group_ai.flash_grenade_timeout = collect({ 15, 20 }, grenade_cooldown_mul)
-	group_ai.cs_grenade_timeout = collect({ 60, 90 }, grenade_cooldown_mul)
-	group_ai.cs_grenade_lifetime = math.lerp(20, 40, f)
-	group_ai.cs_grenade_chance_times = gas_grenade_times
+	local special_weights_streamlined = { 4, 5, 6 }
 
-	group_ai.spawn_cooldown_mul = math.lerp(spawn_cooldowns[1], spawn_cooldowns[2], f)
-
-	group_ai.besiege.assault.force_pool = collect({ 60, 70, 80 }, force_pool_mul)
-	group_ai.besiege.assault.sustain_duration_min = collect({ math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }, sustain_duration_mul)
-	group_ai.besiege.assault.sustain_duration_max = group_ai.besiege.assault.sustain_duration_min
-	group_ai.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-	group_ai.besiege.assault.delay = collect({ math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }, break_duration_mul)
-	group_ai.besiege.assault.hostage_hesitation_delay = collect({ 10, 7.5, 5 }, break_duration_mul)
-
-	group_ai.besiege.recon.interval = { 0, 0, 0 }
-	group_ai.besiege.recon.interval_variation = 0
-
-	group_ai.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { 300000, 300000 }
-
-	if max_balance_muls then
-		local max_force_mul = group_ai.besiege.assault.force_balance_mul[#group_ai.besiege.assault.force_balance_mul]
-		local max_force_pool_mul = group_ai.besiege.assault.force_pool_balance_mul[#group_ai.besiege.assault.force_pool_balance_mul]
-
-		group_ai.besiege.assault.force_balance_mul = table.collect(group_ai.besiege.assault.force_balance_mul, function(val)
-			return max_force_mul
-		end)
-		group_ai.besiege.assault.force_pool_balance_mul = table.collect(group_ai.besiege.assault.force_pool_balance_mul, function(val)
-			return max_force_pool_mul
-		end)
-	end
-end
-
-function GroupAITaskData.original(group_ai, f, special_weight)
-	shared_weights_original(group_ai, special_weight)
-	shared_data(group_ai, f)
-end
-
-function GroupAITaskData.streamlined(group_ai, f, special_weight)
-	shared_weights_streamlined(group_ai, special_weight)
-	shared_data(group_ai, f)
+	return {
+		original = {
+			tac_swats_a = { 6.75, 3.375, 0 },
+			tac_swats_b = { 6.75, 10.125, 13.5 },
+			tac_heavys_a = { 6.75, 3.375, 0 },
+			tac_heavys_b = { 6.75, 10.125, 13.5 },
+			tac_shields_a = special_weights_original_a_double,
+			tac_shields_b =special_weights_original_b_double,
+			tac_tazers_a = special_weights_original_a_double,
+			tac_tazers_b = special_weights_original_b_double,
+			tac_tanks_a = special_weights_original_a,
+			tac_tanks_b = special_weights_original_b,
+			tac_spoocs_a = special_weights_original_a,
+			tac_spoocs_b = special_weights_original_b,
+			recon_d = special_weights_original_c
+		},
+		streamlined = {
+			tac_swat_shotgun_rush = { 2, 3, 4 },
+			tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
+			tac_swat_shotgun_flank = { 1, 1.5, 2 },
+			tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
+			tac_swat_rifle = { 7, 10.5, 14 },
+			tac_swat_rifle_no_medic = { 7, 3.5, 0 },
+			tac_swat_rifle_flank = { 3.5, 5.25, 7 },
+			tac_swat_rifle_flank_no_medic = { 3.5, 1.75, 0 },
+			tac_shield_wall_ranged = special_weights_streamlined,
+			tac_shield_wall_charge = special_weights_streamlined,
+			tac_tazer_flanking = special_weights_streamlined,
+			tac_tazer_charge = special_weights_streamlined,
+			tac_bull_rush = special_weights_streamlined,
+			FBI_spoocs = special_weights_streamlined
+		}
+	}
 end
 
 return GroupAITaskData

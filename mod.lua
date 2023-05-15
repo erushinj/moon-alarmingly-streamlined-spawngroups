@@ -214,17 +214,13 @@ if not ASS then
 		return io.file_is_readable(path) and blt.vm.dofile(path)
 	end
 
-	function ASS:req_func_name()
+	function ASS:assault_style()
 		return self.values.assault_style[self.settings.assault_style]:gsub("^ass_assault_style_", "")
 	end
 
 	function ASS:level_mod()
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.values.level_mod[self.settings.level_mod]:gsub("^ass_level_mod_", "")
-
-		if job_id and job_id:match("^skm_") then
-			level_mod = "disable"
-		end
 
 		local redirect = {
 			per_level = self.level_mod_map[job_id]
