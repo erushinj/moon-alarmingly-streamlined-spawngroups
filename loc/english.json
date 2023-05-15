@@ -6,9 +6,7 @@
 	"ass_menu_is_massive_desc" : "Make the mod do the thing.",
 
 	"ass_menu_level_mod" : "Level Mod",
-	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty.",
-	"ass_menu_level_mod_map" : "Level Mod Map",
-	"ass_menu_level_mod_map_desc" : "Change which level has which Level Mod when using \"Per-Level\" setting.",
+	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty. Disabled in Holdout.",
 	"ass_level_mod_disable" : "Disable",
 	"ass_level_mod_per_level" : "Per-Level",
 	"ass_level_mod_CS_normal" : "SWAT",
