@@ -13,6 +13,8 @@ local max_values = ASS:get_intensity_dependent_boolean("max_values")
 
 Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categories", function(self, difficulty_index)
 
+	local special_limit_mul = ASS:get_skill_dependent_value("special_limit_mul")
+
 	-- these are used later to set new factions to america if any are added
 	-- there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
 	local faction_reference = clone(self.unit_categories.spooc.unit_types)
@@ -30,10 +32,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	GroupAIUnitCategories[difficulty](self.unit_categories)
 
-	-- used to determine special spawn limits
-	local special_limit_index = max_values and 8 or math.clamp(difficulty_index, 2, 8)
-	GroupAIUnitCategories[assault_style](self, difficulty_index, special_limit_index)
-
 	if GroupAIUnitCategories[level_mod] then
 		GroupAIUnitCategories[level_mod](self.unit_categories)
 
@@ -42,6 +40,15 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		end
 	end
 
+	-- for better holdout support
+	self.unit_categories.CS_tank = deep_clone(self.unit_categories.FBI_tank)
+	self.unit_categories.CS_spooc = deep_clone(self.unit_categories.spooc)
+	self.unit_categories.FBI_tazer = deep_clone(self.unit_categories.CS_tazer)
+	self.unit_categories.FBI_spooc = deep_clone(self.unit_categories.spooc)
+	self.unit_categories.FBI_medic_M4 = deep_clone(self.unit_categories.medic_M4)
+	self.unit_categories.FBI_medic_R870 = deep_clone(self.unit_categories.medic_R870)
+
+	-- combined categories
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
 
@@ -54,10 +61,9 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		return new_category
 	end
 
-	self.unit_categories.medic_M4_R870 = combined_category(self.unit_categories.medic_M4, self.unit_categories.medic_R870)
+	self.unit_categories.FBI_medic_M4_R870 = combined_category(self.unit_categories.FBI_medic_M4, self.unit_categories.FBI_medic_R870)
 	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
-	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
-	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
+
 
 	for faction, _ in pairs(faction_reference) do
 		if not supported_factions[faction] then
@@ -69,10 +75,26 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		end
 	end
 
+	-- used to determine special spawn limits
+	local special_limit_index = max_values and 8 or math.clamp(difficulty_index, 2, 8)
+
+	-- new special limits, from easy to death sentence
+	local limits = {
+		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
+		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },
+		taser = { 0, 0, 1, 1, 2, 2, 3, 3 },
+		tank = { 0, 0, 1, 1, 1, 2, 2, 3 },
+		spooc = { 0, 0, 0, 1, 1, 2, 2, 3 }
+	}
+	for special, limit in pairs(limits) do
+		self.special_unit_spawn_limits[special] = math.round(limit[special_limit_index] * special_limit_mul)
+	end
+
 end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+
 	local freq_base = ASS:get_skill_dependent_value("freq_base")
 	local base_cooldown_base = ASS:get_skill_dependent_value("base_cooldown_base")
 
@@ -107,6 +129,7 @@ end )
 
 
 Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", function(self, difficulty_index)
+
 	local special_weight_base = ASS:get_skill_dependent_value("special_weight_base")
 	local grenade_cooldown_mul = ASS:get_skill_dependent_value("grenade_cooldown_mul")
 	local smokebomb_lifetime = ASS:get_skill_dependent_value("smokebomb_lifetime")
@@ -165,4 +188,5 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
+
 end )

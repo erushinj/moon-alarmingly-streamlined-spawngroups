@@ -19,27 +19,6 @@ local function set_cs_to_fbi(categories)
 	end
 end
 
-function GroupAIUnitCategories.original(group_ai, difficulty_index, special_limit_index)
-	local special_limit_mul = ASS:get_skill_dependent_value("special_limit_mul")
-
-	-- new special limits, from easy to death sentence
-	local limits = {
-		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
-		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },
-		taser = { 0, 0, 1, 1, 2, 2, 3, 3 },
-		tank = { 0, 0, 1, 1, 1, 2, 2, 3 },
-		spooc = { 0, 0, 0, 1, 1, 2, 2, 3 }
-	}
-
-	for special, limit in pairs(limits) do
-		group_ai.special_unit_spawn_limits[special] = math.round(limit[special_limit_index] * special_limit_mul)
-	end
-end
-
-function GroupAIUnitCategories.streamlined(group_ai, difficulty_index, special_limit_index)
-	GroupAIUnitCategories.original(group_ai, difficulty_index, special_limit_index)
-end
-
 function GroupAIUnitCategories.normal(categories)
 	categories.CS_cop_C45_R870 = {
 		access = clone(categories.spooc.access),
