@@ -12,7 +12,9 @@ Both sets of groups mix in occasional specials with regular spawns, allow danger
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - not all changes are ideal for a vanilla game
 
-The mod's difficulty is also customizable to an extent.
+Also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
+
+The mod's difficulty is also customizable with its various settings
 
 -----
 
@@ -52,10 +54,34 @@ The mod's difficulty is also customizable to an extent.
     </tr>
     <tr>
         <th>
-            Intensity
+            Super Serious Dominations
         </th>
         <td>
-            Forces certain scaling values to the maximum.
+            Disallows dominating enemies during assaults.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Death Sentence Values
+        </th>
+        <td>
+            Sets values that scale with chosen difficulty to use Death Sentence values.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Toughest Assault Always
+        </th>
+        <td>
+            Always uses task data corresponding to 100% heist difficulty progression.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Full Lobby Spawns Always
+        </th>
+        <td>
+            Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.
         </td>
     </tr>
     <tr>
@@ -86,7 +112,7 @@ The mod's difficulty is also customizable to an extent.
 
 ### Notes:
 - Only works as host
-- Values (eg, frequency of tougher units) scales with difficulty
+- Values (eg, frequency of tougher units) scales with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 - Certain special enemies use faction-appropriate weaponry where possible - this is cosmetic
@@ -106,7 +132,9 @@ The mod's difficulty is also customizable to an extent.
                 <li>Tougher units are less likely to spawn.</li>
                 <li>Assaults last up to around 4.5 minutes.</li>
                 <li>Assault breaks are 25% longer.</li>
-                <li>The cooldown between enemies using grenades is increased 15%.</li>
+                <li>The cooldown between enemies using the same grenade type again is increased by 15%.</li>
+                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
+                <li>Enemies are more hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is increased to 110%.</li>
                 <li>Smoke bombs last up to 12 seconds.</li>
                 <li>Gas grenade chance builds up much more slowly.</li>
@@ -122,6 +150,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>Probably won't hurt.</li>
                 <li>Tougher units are less likely to spawn.</li>
                 <li>Assaults last up to around 5 minutes.</li>
+                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -135,6 +164,7 @@ The mod's difficulty is also customizable to an extent.
                 <li>May hurt.</li>
                 <li>Original values.</li>
                 <li>Assaults last up to around 5 minutes.</li>
+                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -149,7 +179,9 @@ The mod's difficulty is also customizable to an extent.
                 <li>Tougher units are more likely to spawn.</li>
                 <li>Assaults last up to around 6 minutes.</li>
                 <li>Assault breaks are 15% shorter.</li>
-                <li>The cooldown between enemies using grenades is decreased by 25%.</li>
+                <li>The cooldown between enemies using the same grenade type again is decreased by 25%.</li>
+                <li>The cooldown between enemies using any grenade is 12 seconds.</li>
+                <li>Enemies are slightly less hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is decreased to 75%.</li>
                 <li>Smoke bombs last up to 20 seconds.</li>
                 <li>Gas grenade chance builds up faster.</li>
@@ -167,7 +199,9 @@ The mod's difficulty is also customizable to an extent.
                 <li>Tougher units are more likely to spawn.</li>
                 <li>Assaults last up to around 8 minutes.</li>
                 <li>Assault breaks are 15% shorter.</li>
-                <li>The cooldown between enemies using grenades is decreased by 75%.</li>
+                <li>The cooldown between enemies using the same grenade type again is decreased by 75%.</li>
+                <li>The cooldown between enemies using any grenade is 6 seconds.</li>
+                <li>Enemies are much less hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is decreased to 25%.</li>
                 <li>Smoke bombs last up to 30 seconds.</li>
                 <li>Gas grenade chance builds up nearly instantly.</li>
@@ -185,59 +219,13 @@ The mod's difficulty is also customizable to an extent.
                 <li>Tougher units are exponentially more likely to spawn.</li>
                 <li>Assaults will only end by killing enough cops.</li>
                 <li>Assault breaks may as well not exist.</li>
-                <li>The cooldown between enemies using grenades is removed.</li>
+                <li>The cooldown between enemies using the same grenade type again is removed.</li>
+                <li>The cooldown between enemies using any grenade is 3 seconds.</li>
+                <li>Enemies won't wait to use a grenade before pushing.</li>
                 <li>Cooldown between enemy spawns is removed.</li>
                 <li>Smoke bombs last 60 seconds.</li>
                 <li>Gas grenades are always used if available.</li>
                 <li>Special limits are increased by 300%.</li>
-            </ul>
-        </td>
-    </tr>
-</table>
-
-### Intensities:
-
-<table>
-    <tr>
-        <th>
-            No Soap Dropping (default)
-        </th>
-        <td>
-            <ul>
-                <li>Original values.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Drop the Soap
-        </th>
-        <td>
-            <ul>
-                <li>Uses Death Sentence values.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Pick Up the Soap
-        </th>
-        <td>
-            <ul>
-                <li>Uses Death Sentence values.</li>
-                <li>Heist difficulty progression is always at max.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Fuck Me Sideways
-        </th>
-        <td>
-            <ul>
-                <li>Uses Death Sentence values.</li>
-                <li>Heist difficulty progression is always at max.</li>
-                <li>Always uses 4 player spawns.</li>
             </ul>
         </td>
     </tr>
@@ -264,6 +252,8 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Bank Heist: Random</li>
                 <li>Bank Heist: Gold</li>
                 <li>Diamond Store</li>
+                <li>Hotline Miami</li>
+                <li>Art Gallery</li>
                 <li>Stealing Xmas</li>
                 <li>First World Bank</li>
                 <li>Heat Street</li>
@@ -281,7 +271,6 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Election Day</li>
                 <li>Big Bank</li>
                 <li>The Diamond</li>
-                <li>Aftershock</li>
                 <li>Goat Simulator</li>
                 <li>Panic Room</li>
                 <li>Green Bridge</li>
@@ -301,27 +290,28 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Watchdogs</li>
                 <li>Framing Frame</li>
                 <li>Big Oil</li>
-                <li>Hotline Miami</li>
-                <li>Art Gallery</li>
                 <li>Hoxton Breakout</li>
                 <li>Hoxton Revenge</li>
                 <li>White Xmas</li>
                 <li>Bomb: Dockyard</li>
                 <li>Bomb: Forest</li>
                 <li>Cook Off</li>
+                <li>Meltdown</li>
                 <li>Golden Grin Casino</li>
                 <li>Aftershock</li>
+                <li>Lab Rats</li>
                 <li>Santa's Workshop</li>
-                <li>Meltdown</li>
+                <li>Birth of Sky</li>
+                <li>Undercover</li>
                 <li>Biker Heist</li>
                 <li>Safehouse Raid</li>
                 <li>Scarface Mansion</li>
+                <li>Prison Nightmare</li>
                 <li>Brooklyn 10-10</li>
                 <li>Reservoir Dogs</li>
                 <li>Alaskan Deal</li>
                 <li>Brooklyn Bank</li>
                 <li>Shacklethorne Auction</li>
-                <li>Undercover</li>
                 <li>Black Cat</li>
                 <li>Midland Ranch</li>
             </ul>
@@ -334,7 +324,6 @@ A specific Level Mod can also be forced on any regular American map.
         <td>
             <ul>
                 <li>Slaughterhouse</li>
-                <li>No Mercy</li>
                 <li>Mountain Master</li>
                 <li>Lost in Transit</li>
             </ul>
@@ -354,6 +343,7 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Transport: Train Heist</li>
                 <li>Alesso Heist</li>
                 <li>Diamond Heist</li>
+                <li>No Mercy</li>
                 <li>Hostile Takeover</li>
             </ul>
         </td>
@@ -365,7 +355,7 @@ A specific Level Mod can also be forced on any regular American map.
 ### For modders:
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
-- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/tweak_data/groupaitweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
