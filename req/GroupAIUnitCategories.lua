@@ -500,109 +500,6 @@ function GroupAIUnitCategories.CS_FBI_overkill(categories)
 	categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1") }
 end
 
-function GroupAIUnitCategories.CS_FBI_pbr2(categories)
-	categories.CS_cop_C45_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_C45_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_MP5_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_stealth_R870.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3") }
-
-	categories.CS_swat_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1") }
-	categories.CS_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2") }
-	categories.CS_heavy_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1") }
-	categories.CS_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870") }
-	categories.CS_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1") }
-
-	categories.FBI_suit_C45_M4.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-	}
-	categories.FBI_suit_M4_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-		Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-	}
-	categories.FBI_suit_stealth_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") }
-
-	categories.FBI_swat_M4.unit_types.america = clone(categories.CS_swat_MP5.unit_types.america)
-	categories.FBI_swat_R870.unit_types.america = clone(categories.CS_swat_R870.unit_types.america)
-	categories.FBI_heavy_G36.unit_types.america = clone(categories.CS_heavy_M4.unit_types.america)
-	categories.FBI_heavy_R870.unit_types.america = clone(categories.CS_heavy_R870.unit_types.america)
-	categories.FBI_shield.unit_types.america = clone(categories.CS_shield.unit_types.america)
-end
-
-function GroupAIUnitCategories.CS_FBI_man(categories)
-	categories.CS_cop_C45_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-		Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-	}
-	categories.FBI_suit_C45_M4.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-	}
-	categories.FBI_suit_M4_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-		Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-	}
-	categories.FBI_suit_stealth_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") }
-
-	categories.FBI_swat_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1") }
-	categories.FBI_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2") }
-	categories.FBI_heavy_G36.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1") }
-	categories.FBI_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870") }
-	categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1") }
-
-	set_cs_to_fbi(categories)
-end
-
-function GroupAIUnitCategories.CS_FBI_CITY_nmh(categories)
-	categories.CS_cop_C45_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_C45_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_MP5_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
-	}
-	categories.CS_cop_stealth_R870.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3") }
-
-	categories.CS_swat_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1") }
-	categories.CS_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2") }
-	categories.CS_heavy_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1") }
-	categories.CS_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870") }
-	categories.CS_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1") }
-
-	categories.FBI_suit_C45_M4.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-	}
-	categories.FBI_suit_M4_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-		Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-	}
-	categories.FBI_suit_stealth_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") }
-
-	categories.FBI_swat_M4.unit_types.america = { Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1") }
-	categories.FBI_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2") }
-	categories.FBI_heavy_G36.unit_types.america = { Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36") }
-	categories.FBI_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870") }
-	categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_city_shield/ene_city_shield") }
-end
-
 function GroupAIUnitCategories.FBI_overkill_145(categories)
 	categories.CS_cop_C45_R870.unit_types.america = {
 		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -626,6 +523,34 @@ function GroupAIUnitCategories.FBI_overkill_145(categories)
 	categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1") }
 
 	set_cs_to_fbi(categories)
+end
+
+function GroupAIUnitCategories.FBI_with_office(categories)
+	GroupAIUnitCategories.FBI_overkill_145(categories)
+
+	categories.CS_cop_C45_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
+		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
+		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
+		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4")
+	}
+	categories.CS_cop_C45_MP5.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
+		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
+		Idstring("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"),
+		Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4")
+	}
+	categories.CS_cop_MP5_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
+		Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
+		Idstring("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"),
+		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
+		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3")
+	}
+	categories.CS_cop_stealth_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
+		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3")
+	}
 end
 
 function GroupAIUnitCategories.FBI_mcmansion(categories)

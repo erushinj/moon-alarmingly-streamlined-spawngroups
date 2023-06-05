@@ -9,7 +9,10 @@ if not ASS then
 			level_mod = 2,
 			assault_style = 1,
 			skill = 2,
-			intensity = 1,
+			super_serious_dominations = false,
+			max_values = false,
+			max_diff = false,
+			max_balance_muls = false,
 			minigun_dozers = false,
 			captain_winters = false,
 			escapes = false
@@ -35,12 +38,6 @@ if not ASS then
 				"ass_skill_4",
 				"ass_skill_5",
 				"ass_skill_6"
-			},
-			intensity = {
-				"ass_intensity_1",
-				"ass_intensity_2",
-				"ass_intensity_3",
-				"ass_intensity_4"
 			}
 		},
 		skill_tweaks = {
@@ -88,7 +85,7 @@ if not ASS then
 					elite = 4
 				}
 			},
-			base_cooldown_base = { 30, 30, 20, 10, 5, 0 },
+			spawn_cooldown_base = { 30, 30, 20, 10, 5, 0 },
 			force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2 },
 			sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250 },
 			break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0 },
@@ -118,7 +115,7 @@ if not ASS then
 				{ 9, 12, 15 },
 				{ 21, 24, 27 },
 			},
-			smokebomb_lifetime = {
+			smoke_grenade_lifetime = {
 				{ 7.5, 12 },
 				{ 9, 15 },
 				{ 9, 15 },
@@ -126,39 +123,43 @@ if not ASS then
 				{ 20, 30 },
 				{ 60, 60 }
 			},
-			gas_grenade_times = {
+			cs_grenade_chance_times = {
 				{ 60, 240 },
 				{ 60, 90 },
 				{ 60, 90 },
 				{ 45, 75 },
 				{ 10, 20 },
 				{ 0, 0 }
-			}
+			},
+			min_grenade_timeout = { 15, 15, 15, 12, 6, 3 },
+			no_grenade_push_delay = { 10, 8, 8, 7, 3.5, 0 }
 		},
 		intensity_tweaks = {
-			max_values = { false, true, true, true },
-			max_diff = { false, false, true, true },
-			max_balance_muls = { false, false, false, true }
+			super_serious_dominations = true,
+			max_values = true,
+			max_diff = true,
+			max_balance_muls = true
 		},
 		level_mod_map = {
-			jewelry_store = "CS_normal",
-			four_stores = "CS_normal",
-			nightclub = "CS_normal",
-			mallcrasher = "CS_normal",
-			ukrainian_job_prof = "CS_normal",
-			branchbank_deposit = "CS_normal",
-			branchbank_cash = "CS_normal",
-			branchbank_prof = "CS_normal",
-			branchbank_gold_prof = "CS_normal",
-			firestarter = "FBI_overkill_145",
+			jewelry_store = "CS_normal",  -- jewelry store
+			four_stores = "CS_normal",  -- four stores
+			nightclub = "CS_normal",  -- nightclub
+			mallcrasher = "CS_normal",  -- mallcrasher
+			ukrainian_job_prof = "CS_normal",  -- ukrainian job
+			branchbank_deposit = "CS_normal",  -- bank heist deposit
+			branchbank_cash = "CS_normal",  -- bank heist cash
+			branchbank_prof = "CS_normal",  -- bank heist random
+			branchbank_gold_prof = "CS_normal",  -- bank heist gold
+			firestarter = "FBI_overkill_145",  -- firestarter
 			alex = "FBI_overkill_145",  -- rats
-			watchdogs = "FBI_overkill_145",
-			watchdogs_night = "FBI_overkill_145",
-			framing_frame = "FBI_overkill_145",
+			watchdogs = "FBI_overkill_145",  -- watchdogs
+			watchdogs_night = "FBI_overkill_145",  -- watchdogs
+			framing_frame = "FBI_overkill_145",  -- framing frame (days 2 and 3)
 			welcome_to_the_jungle_prof = "FBI_overkill_145",  -- big oil
 			welcome_to_the_jungle_night_prof = "FBI_overkill_145",  -- big oil
 			family = "CS_normal",  -- diamond store
-			election_day = "CS_FBI_overkill",
+			election_day = "FBI_overkill_145",  -- election day (day 2 and plan c)
+			election_day_1 = "CS_FBI_overkill",  -- election day day 1 override
 			arm_fac = "CITY_overkill_290",  -- transport harbor
 			arm_par = "CITY_overkill_290",  -- transport park
 			arm_hcm = "CITY_overkill_290",  -- transport downtown
@@ -166,9 +167,10 @@ if not ASS then
 			arm_cro = "CITY_overkill_290",  -- transport crossroads
 			arm_for = "CITY_overkill_290",  -- transport train
 			big = "CS_FBI_overkill",  -- big bank
-			mia = "FBI_overkill_145",  -- hotline miami
-			gallery = "FBI_overkill_145",  -- art gallery
-			hox = "FBI_overkill_145",  -- hoxton breakout
+			mia = "CS_normal",  -- hotline miami
+			gallery = "CS_normal",  -- art gallery
+			hox = "FBI_overkill_145",  -- hoxton breakout (day 1)
+			hox_2 = "FBI_with_office",  -- hoxton breakout day 2 override
 			hox_3 = "FBI_mcmansion",  -- hoxton revenge
 			pines = "FBI_overkill_145",  -- white xmas
 			mus = "CS_FBI_overkill",  -- the diamond
@@ -184,10 +186,11 @@ if not ASS then
 			dinner = "FBI_CITY_easy_wish",  -- slaughterhouse
 			nail = "FBI_overkill_145",  -- lab rats
 			cane = "FBI_overkill_145",  -- santas workshop
-			pbr2 = "CS_FBI_pbr2",  -- birth of sky
-			peta = "CS_FBI_overkill",  -- goat simulator
+			pbr2 = "FBI_overkill_145",  -- birth of sky
+			peta = "CS_FBI_overkill",  -- goat simulator (day 1)
+			peta2 = "FBI_overkill_145",  -- goat simulator day 2 override
 			pal = "CS_normal",  -- counterfeit
-			man = "CS_FBI_man",  -- undercover
+			man = "FBI_with_office",  -- undercover
 			born = "FBI_overkill_145",  -- biker heist
 			chill_combat = "FBI_overkill_145",  -- safehouse raid
 			friend = "FBI_overkill_145",  -- scarface mansion
@@ -201,7 +204,7 @@ if not ASS then
 			rvd = "FBI_overkill_145",  -- reservoir dogs
 			wwh = "FBI_overkill_145",  -- alaskan deal
 			brb = "FBI_overkill_145",  -- brooklyn bank
-			nmh = "CS_FBI_CITY_nmh",  -- no mercy
+			nmh = "CITY_overkill_290",  -- no mercy
 			sah = "FBI_overkill_145",  -- shacklethorne auction
 			chas = "CS_normal",  -- dragon heist
 			sand = "CS_FBI_overkill",  -- ukrainian prisoner
@@ -227,14 +230,20 @@ if not ASS then
 	end
 
 	function ASS:level_mod()
+		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.values.level_mod[self.settings.level_mod]:gsub("^ass_level_mod_", "")
 
 		local redirect = {
-			per_level = self.level_mod_map[job_id]
+			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id],
+			disable = false
 		}
 
-		return redirect[level_mod] or level_mod
+		if redirect[level_mod] ~= nil then
+			return redirect[level_mod]
+		end
+
+		return level_mod
 	end
 
 	function ASS:get_skill_dependent_value(val)
@@ -245,10 +254,10 @@ if not ASS then
 	end
 
 	function ASS:get_intensity_dependent_boolean(val)
-		local value = self.intensity_tweaks[val]
-		local index = self.settings.intensity
+		local is_valid_tweak = self.intensity_tweaks[val]
+		local value = is_valid_tweak and self.settings[val]
 
-		return value and value[index]
+		return value
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
@@ -273,7 +282,7 @@ if not ASS then
 		end
 
 		MenuCallbackHandler.ass_reset_settings = function()
-			local message = managers.localization:text("ass_menu_verify_reset_settings")
+			local message = managers.localization:text("ass_menu_reset_settings_verify")
 			local buttons = {
 				{
 					text = managers.localization:text("ass_menu_confirm"),
@@ -351,7 +360,11 @@ if not ASS then
 		add_multiple_choice("level_mod")
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
-		add_multiple_choice("intensity")
+		add_divider()
+		add_toggle("super_serious_dominations")
+		add_toggle("max_values")
+		add_toggle("max_diff")
+		add_toggle("max_balance_muls")
 		add_divider()
 		add_toggle("minigun_dozers")
 		add_toggle("captain_winters")
@@ -425,6 +438,10 @@ if RequiredScript and not ASS.required[RequiredScript] then
 	local fname = ASS.mod_path .. RequiredScript:gsub(".+/(.+)", "lua/%1.lua")
 	if io.file_is_readable(fname) then
 		dofile(fname)
+
+		if SuperSeriousShooter then
+			log(fname)
+		end
 	end
 
 	ASS.required[RequiredScript] = true

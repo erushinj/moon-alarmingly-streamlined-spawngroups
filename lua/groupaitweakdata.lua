@@ -32,7 +32,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	GroupAIUnitCategories[difficulty](self.unit_categories)
 
-	if GroupAIUnitCategories[level_mod] then
+	if level_mod and GroupAIUnitCategories[level_mod] then
 		GroupAIUnitCategories[level_mod](self.unit_categories)
 
 		if difficulty_index > 7 then
@@ -61,9 +61,11 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		return new_category
 	end
 
-	self.unit_categories.FBI_medic_M4_R870 = combined_category(self.unit_categories.FBI_medic_M4, self.unit_categories.FBI_medic_R870)
 	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
-
+	self.unit_categories.CS_heavy_M4_R870 = combined_category(self.unit_categories.CS_heavy_M4, self.unit_categories.CS_heavy_R870)
+	self.unit_categories.FBI_suit_C45_MP5 = combined_category(self.unit_categories.FBI_suit_C45_M4, self.unit_categories.FBI_suit_stealth_MP5)
+	self.unit_categories.FBI_heavy_G36_R870 = combined_category(self.unit_categories.FBI_heavy_G36, self.unit_categories.FBI_heavy_R870)
+	self.unit_categories.FBI_medic_M4_R870 = combined_category(self.unit_categories.FBI_medic_M4, self.unit_categories.FBI_medic_R870)
 
 	for faction, _ in pairs(faction_reference) do
 		if not supported_factions[faction] then
@@ -96,7 +98,7 @@ end )
 Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
 
 	local freq_base = ASS:get_skill_dependent_value("freq_base")
-	local base_cooldown_base = ASS:get_skill_dependent_value("base_cooldown_base")
+	local spawn_cooldown_base = ASS:get_skill_dependent_value("spawn_cooldown_base")
 
 	-- effectively remove preexisting timed groups
 	for _, group_data in pairs(self.enemy_spawn_groups) do
@@ -121,9 +123,13 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 		elite = lerp(freq_base.elite),
 	}
 
-	local base_cooldown = math.lerp(base_cooldown_base * 4, base_cooldown_base, f)
+	local spawn_cooldown = math.lerp(spawn_cooldown_base * 4, spawn_cooldown_base, f)
 
-	GroupAIEnemySpawnGroups[assault_style](self.enemy_spawn_groups, freq, base_cooldown)
+	GroupAIEnemySpawnGroups[assault_style](self.enemy_spawn_groups, freq, spawn_cooldown)
+
+	if SuperSeriousShooter then
+		GroupAIEnemySpawnGroups.super_serious_tweaks(self.enemy_spawn_groups)
+	end
 
 end )
 
@@ -132,20 +138,16 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	local special_weight_base = ASS:get_skill_dependent_value("special_weight_base")
 	local grenade_cooldown_mul = ASS:get_skill_dependent_value("grenade_cooldown_mul")
-	local smokebomb_lifetime = ASS:get_skill_dependent_value("smokebomb_lifetime")
-	local gas_grenade_times = ASS:get_skill_dependent_value("gas_grenade_times")
+	local smoke_grenade_lifetime = ASS:get_skill_dependent_value("smoke_grenade_lifetime")
+	local cs_grenade_chance_times = ASS:get_skill_dependent_value("cs_grenade_chance_times")
+	local min_grenade_timeout = ASS:get_skill_dependent_value("min_grenade_timeout")
+	local no_grenade_push_delay = ASS:get_skill_dependent_value("no_grenade_push_delay")
 	local spawn_cooldowns = ASS:get_skill_dependent_value("spawn_cooldowns")
 	local sustain_duration_mul = ASS:get_skill_dependent_value("sustain_duration_mul")
 	local force_pool_mul = ASS:get_skill_dependent_value("force_pool_mul")
 	local break_duration_mul = ASS:get_skill_dependent_value("break_duration_mul")
 
 	local max_balance_muls = ASS:get_intensity_dependent_boolean("max_balance_muls")
-
-	if not ASS.settings.captain_winters then
-		self.phalanx.spawn_chance.start = 0
-		self.phalanx.spawn_chance.increase = 0
-		self.phalanx.spawn_chance.max = 0
-	end
 
 	local f = max_values and 1 or math.clamp(difficulty_index - 2, 0, 6) / 6
 
@@ -154,13 +156,17 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	GroupAITaskData[assault_style](self, special_weight)
 
 	self.smoke_grenade_timeout = Utils.collect({ 25, 35 }, grenade_cooldown_mul)
-	self.smoke_grenade_lifetime = math.lerp(smokebomb_lifetime[1], smokebomb_lifetime[2], f)
+	self.smoke_grenade_lifetime = math.lerp(smoke_grenade_lifetime[1], smoke_grenade_lifetime[2], f)
 	self.flash_grenade_timeout = Utils.collect({ 15, 20 }, grenade_cooldown_mul)
 	self.cs_grenade_timeout = Utils.collect({ 60, 90 }, grenade_cooldown_mul)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
-	self.cs_grenade_chance_times = gas_grenade_times
+	self.cs_grenade_chance_times = cs_grenade_chance_times
+
+	self.min_grenade_timeout = min_grenade_timeout
+	self.no_grenade_push_delay = no_grenade_push_delay
 
 	self.spawn_cooldown_mul = math.lerp(spawn_cooldowns[1], spawn_cooldowns[2], f)
+	self.spawn_kill_cooldown = spawn_cooldowns[2] * 10
 
 	self.besiege.assault.force_pool = Utils.collect({ 60, 70, 80 }, force_pool_mul)
 	self.besiege.assault.sustain_duration_min = Utils.collect({ math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }, sustain_duration_mul)
@@ -172,7 +178,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.besiege.recon.interval = { 0, 0, 0 }
 	self.besiege.recon.interval_variation = 0
 
-	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { 300000, 300000 }
+	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge }
 
 	if max_balance_muls then
 		local max_force_mul = self.besiege.assault.force_balance_mul[#self.besiege.assault.force_balance_mul]
@@ -188,5 +194,11 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)
+
+	if not ASS.settings.captain_winters then
+		self.phalanx.spawn_chance.start = 0
+		self.phalanx.spawn_chance.increase = 0
+		self.phalanx.spawn_chance.max = 0
+	end
 
 end )

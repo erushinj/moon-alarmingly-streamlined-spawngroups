@@ -75,11 +75,9 @@ enemy_replacements.sm_wish = {
 }
 
 enemy_replacements.CS_normal = clone(enemy_replacements.normal)
-enemy_replacements.CS_FBI_CITY_nmh = clone(enemy_replacements.normal)
-enemy_replacements.CS_FBI_pbr2 = clone(enemy_replacements.normal)
-enemy_replacements.CS_FBI_man = clone(enemy_replacements.normal)
 enemy_replacements.CS_FBI_overkill = clone(enemy_replacements.overkill)
 enemy_replacements.FBI_overkill_145 = clone(enemy_replacements.overkill_145)
+enemy_replacements.FBI_with_office = clone(enemy_replacements.overkill_145)
 enemy_replacements.FBI_mcmansion = clone(enemy_replacements.overkill_145)
 enemy_replacements.FBI_mcmansion.swat_1 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"
 enemy_replacements.FBI_mcmansion.swat_2 = "units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"

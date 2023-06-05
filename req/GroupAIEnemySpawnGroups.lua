@@ -1,5 +1,67 @@
 local GroupAIEnemySpawnGroups = {}
 
+function GroupAIEnemySpawnGroups.super_serious_tweaks(groups)
+	local unit_mapping = {
+		CS_tazer = {
+			rifle = "CS_cop_C45_MP5",
+			shotgun = "CS_cop_stealth_R870",
+			default = "CS_cop_C45_R870"
+		},
+		FBI_tazer = {
+			rifle = "FBI_suit_C45_M4",
+			shotgun = "FBI_suit_stealth_MP5",
+			default = "FBI_suit_C45_MP5"
+		},
+		CS_spooc = {
+			rifle = "CS_cop_C45_MP5",
+			shotgun = "CS_cop_stealth_R870",
+			default = "CS_cop_C45_R870"
+		},
+		FBI_spooc = {
+			rifle = "FBI_suit_C45_M4",
+			shotgun = "FBI_suit_stealth_MP5",
+			default = "FBI_suit_C45_MP5"
+		},
+		CS_tank = { default = "CS_heavy_M4_R870" },
+		FBI_tank = { default = "FBI_heavy_G36_R870" },
+		FBI_medic_M4 = { default = "FBI_suit_C45_M4" },
+		FBI_medic_R870 = { default = "FBI_suit_stealth_MP5" },
+		FBI_medic_M4_R870 = { default = "FBI_suit_C45_MP5" },
+		-- just in case SSS reenables marshals at any point
+		marshal_marksman = { default = "FBI_swat_M4" },
+		marshal_shield = { default = "FBI_shield" }
+	}
+	local type_mapping = {
+		spooc = "shotgun",
+		shotgun = "shotgun",
+		charge = "shotgun",
+		recon = "shotgun",
+		rifle = "rifle",
+		ranged = "rifle",
+		flank = "rifle",
+		rescue = "rifle"
+	}
+
+	for id, data in pairs(groups) do
+		local unit_type = nil
+
+		for name, type in pairs(type_mapping) do
+			if id:match(name) then
+				unit_type = type
+			end
+		end
+
+		for _, enemy in ipairs(data.spawn) do
+			local mapped = unit_mapping[enemy.unit]
+			local mapped_unit = mapped and (mapped[unit_type] or mapped.default)
+
+			if mapped_unit then
+				enemy.unit = mapped_unit
+			end
+		end
+	end
+end
+
 function GroupAIEnemySpawnGroups.original(groups, freq, base_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {
@@ -486,7 +548,7 @@ function GroupAIEnemySpawnGroups.original(groups, freq, base_cooldown)
 	-- would make marshals spawn normally but that disables their spawn limit
 	groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
-		spawn_cooldown = base_cooldown,
+		spawn_cooldown = spawn_cooldown,
 		amount = { 1, 2 },
 		spawn = {
 			{
@@ -582,9 +644,9 @@ function GroupAIEnemySpawnGroups.original(groups, freq, base_cooldown)
 		FBI_spoocs = true,
 		snowman_boss = true
 	}
-	for group_name, group in pairs(groups) do
-		if not no_spawn_point_chk_ref[group_name] and not group.spawn_point_chk_ref then
-			group.spawn_point_chk_ref = {
+	for id, data in pairs(groups) do
+		if not no_spawn_point_chk_ref[id] and not data.spawn_point_chk_ref then
+			data.spawn_point_chk_ref = {
 				tac_swat_rifle_flank = true
 			}
 		end
@@ -725,23 +787,20 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
 				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.rare
 			},
@@ -749,7 +808,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = tactics.swat_shotgun_rush,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.uncommon
 			}
@@ -768,23 +826,20 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -792,7 +847,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = tactics.swat_shotgun_flank,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.uncommon
 			}
@@ -810,23 +864,20 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 3,
 				unit = "FBI_heavy_G36",
 				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = tactics.swat_rifle,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = tactics.swat_rifle,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.rare
 			},
@@ -834,7 +885,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = tactics.swat_rifle,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.uncommon
 			}
@@ -853,23 +903,20 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 3,
 				unit = "FBI_heavy_G36",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 4,
+				amount_min = 1,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -877,7 +924,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.uncommon
 			}
@@ -903,15 +949,12 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_heavy_G36",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 4,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.rare
 			},
@@ -919,7 +962,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			}
@@ -942,15 +984,12 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
-				amount_max = 4,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.rare
 			},
@@ -958,7 +997,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = tactics.shield_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			}
@@ -985,7 +1023,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = tactics.tazer_shield,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -993,8 +1030,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			}
 		}
@@ -1016,7 +1051,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_shield",
 				tactics = tactics.tazer_shield,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -1024,8 +1058,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = tactics.tazer_shield,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			}
 		}
@@ -1050,7 +1082,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = tactics.tank_cover,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			},
@@ -1058,16 +1089,12 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_heavy_G36",
 				tactics = tactics.tank_cover,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = tactics.tank_cover,
-				amount_min = 0,
-				amount_max = 3,
 				freq = freq.baseline
 			}
 		}
@@ -1083,8 +1110,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = tactics.spooc,
-				amount_min = 1,
-				amount_max = 1,
 				freq = freq.baseline
 			}
 		}
@@ -1107,7 +1132,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_suit_stealth_MP5",
 				tactics = tactics.spooc,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.baseline
 			}
@@ -1118,7 +1142,7 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 	-- would make marshals spawn normally but that disables their spawn limit
 	groups.marshal_squad = {
 		max_nr_simultaneous_groups = 2,
-		spawn_cooldown = base_cooldown,
+		spawn_cooldown = spawn_cooldown,
 		amount = { 1, 2 },
 		spawn = {
 			{
@@ -1133,7 +1157,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = tactics.marshal_marksman,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.baseline
 			},
@@ -1141,7 +1164,6 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 				rank = 1,
 				unit = "marshal_shield",
 				tactics = tactics.marshal_shield,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			}
@@ -1159,25 +1181,15 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, base_cooldown)
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_cop_stealth_R870",
+				unit = "CS_cop_C45_R870",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 3,
-				freq = freq.baseline
-			},
-			{
-				rank = 1,
-				unit = "CS_cop_C45_MP5",
-				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
-				amount_max = 3,
+				amount_min = 2,
 				freq = freq.baseline
 			},
 			{
 				rank = 1,
 				unit = "CS_tazer",
 				tactics = tactics.swat_rifle_flank,
-				amount_min = 0,
 				amount_max = 1,
 				freq = freq.elite
 			}

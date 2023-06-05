@@ -29,12 +29,17 @@
 	"ass_skill_5" : "Nightmare!",
 	"ass_skill_6" : "Ultra-Nightmare!!",
 
-	"ass_menu_intensity" : "Intensity",
-	"ass_menu_intensity_desc" : "Forces certain scaling values to the maximum.",
-	"ass_intensity_1" : "No Soap Dropping",
-	"ass_intensity_2" : "Drop the Soap",
-	"ass_intensity_3" : "Pick Up the Soap",
-	"ass_intensity_4" : "Fuck Me Sideways",
+	"ass_menu_super_serious_dominations" : "Super Serious Dominations",
+	"ass_menu_super_serious_dominations_desc" : "Disallows dominating enemies during assaults.",
+
+	"ass_menu_max_values" : "Death Sentence Values",
+	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",
+
+	"ass_menu_max_diff" : "Toughest Assault Always",
+	"ass_menu_max_diff_desc" : "Always uses task data corresponding to 100% heist difficulty progression.",
+
+	"ass_menu_max_balance_muls" : "Full Lobby Spawns Always",
+	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn on Death Wish difficulty.",
@@ -46,19 +51,15 @@
 	"ass_menu_escapes_desc" : "Allow escapes to occur.",
 
 	"ass_menu_reset_settings" : "Reset Settings",
-	"ass_menu_reset_settings_desc" : "Reset settings to the default for the next heist. Does not affect Level Mod Map.",
+	"ass_menu_reset_settings_desc" : "Reset settings to the default for the next heist.",
+	"ass_menu_reset_settings_verify" : "Sure you wanna reset your settings?",
 
-	"ass_menu_reset_level_mod_map" : "Reset Level Mod Map",
-	"ass_menu_reset_level_mod_map_desc" : "Reset Level Mod Map to the default for the next heist. Does not affect settings.",
+	"ass_menu_did_not_find_sh" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
+	"ass_menu_did_not_find_sh_goto" : "Streamline my heisting",
 
 	"ass_menu_warning" : "Listen up",
 	"ass_menu_verify" : "Sure you wanna do this?",
 	"ass_menu_confirm" : "Fuck me up already",
 	"ass_menu_ignore" : "Get out of my face",
-
-	"ass_menu_verify_reset_settings" : "Sure you wanna reset your settings?",
-
-	"ass_menu_did_not_find_sh" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
-	"ass_menu_did_not_find_sh_goto" : "Streamline my heisting",
 
 }
