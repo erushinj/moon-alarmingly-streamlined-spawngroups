@@ -1,4 +1,4 @@
-local Utils = ASS:require("Utils")
+local Utils = ASS:utils()
 local GroupAITaskData = ASS:require("GroupAITaskData")
 
 local assault_style = ASS:assault_style()

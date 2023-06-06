@@ -1,6 +1,6 @@
 -- unit category and task data changes are different with and without streamlined heisting
 -- similarly, different enemy spawn groups as well as more different task data are used with vanilla style groups
-local Utils = ASS:require("Utils")
+local Utils = ASS:utils()
 local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
 local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
 local GroupAITaskData = ASS:require("GroupAITaskData")

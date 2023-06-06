@@ -217,7 +217,111 @@ if not ASS then
 		}
 	}
 
+	ASS.DOZER_TIERS = {
+		R870 = 1,
+		SAIGA = 2,
+		LMG = 3,
+		MINI = 4,
+		MEDIC = 5
+	}
+
 	local original_settings = deep_clone(ASS.settings)
+
+	function ASS:get_difficulty()
+		return Global.game_settings and Global.game_settings.difficulty or "normal"
+	end
+
+	function ASS:get_level_id()
+		return Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+	end
+
+	function ASS:get_job_id()
+		return Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
+	end
+
+	function ASS:is_difficulty_at_least(desired)
+		local difficulties = {
+			normal = table.list_to_set({ "normal", "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
+			hard = table.list_to_set({ "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
+			overkill = table.list_to_set({ "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
+			overkill_145 = table.list_to_set({ "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
+			easy_wish = table.list_to_set({ "easy_wish", "overkill_290", "sm_wish" }),
+			overkill_290 = table.list_to_set({ "overkill_290", "sm_wish" }),
+			sm_wish = table.list_to_set({ "sm_wish" })
+		}
+
+		return difficulties[desired] and difficulties[desired][self:get_difficulty()] or false
+	end
+
+	function ASS:base_units()
+		local base_units = {
+			security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1"),
+			security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2"),
+			security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3"),
+			cop_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
+			cop_2 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
+			cop_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+			cop_4 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
+			fbi_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
+			fbi_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
+			fbi_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+			swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
+			swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"),
+			swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"),
+			heavy_1 = Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
+			heavy_2 = Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),
+			shield = Idstring("units/payday2/characters/ene_shield_2/ene_shield_2"),
+			sniper = Idstring("units/payday2/characters/ene_sniper_1/ene_sniper_1"),
+			dozer_1 = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+			dozer_2 = Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+			dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+			dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+			dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+			medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
+			medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
+			taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
+			cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
+		}
+
+		return base_units
+	end
+
+	function ASS:get_difficulty_dozer(max_tier)
+		max_tier = max_tier or 5
+
+		local tier_i
+		local tier_list = {
+			[1] = "normal",
+			[2] = "overkill",
+			[3] = "easy_wish",
+			[4] = "overkill_290",
+			[5] = "sm_wish",
+		}
+
+		for i = #tier_list, 1, -1 do
+			local difficulty = tier_list[i]
+
+			if self:is_difficulty_at_least(difficulty) then
+				tier_i = i
+
+				break
+			end
+		end
+
+		tier_i = math.min(tier_i, max_tier)
+
+		return self:base_units()["dozer_" .. tier_i] or self:base_units().dozer_1
+	end
+
+	function ASS:utils()
+		return {
+			collect = function(tbl, mul)
+				return table.collect(tbl, function(val)
+					return val * mul
+				end)
+			end,
+		}
+	end
 
 	function ASS:require(file)
 		local path = self.mod_path .. "req/" .. file .. ".lua"
@@ -230,12 +334,10 @@ if not ASS then
 	end
 
 	function ASS:level_mod()
-		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
-		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local level_mod = self.values.level_mod[self.settings.level_mod]:gsub("^ass_level_mod_", "")
 
 		local redirect = {
-			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id],
+			per_level = self.level_mod_map[self:get_level_id()] or self.level_mod_map[self:get_job_id()],
 			disable = false
 		}
 
@@ -258,6 +360,19 @@ if not ASS then
 		local value = is_valid_tweak and self.settings[val]
 
 		return value
+	end
+
+	function ASS:mission_script_patches()
+		if self._mission_script_patches == nil then
+			local level_id = self:get_level_id()
+
+			if level_id then
+				-- self._mission_script_patches = self:require("mission_script/" .. level_id:gsub("_night$", ""):gsub("_day$", "")) or false
+				self._mission_script_patches = self:require("mission_script/" .. level_id) or false
+			end
+		end
+
+		return self._mission_script_patches
 	end
 
 	Hooks:Add( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)

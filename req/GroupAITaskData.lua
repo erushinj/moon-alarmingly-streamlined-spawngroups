@@ -1,4 +1,4 @@
-local Utils = ASS:require("Utils")
+local Utils = ASS:utils()
 
 local GroupAITaskData = {}
 

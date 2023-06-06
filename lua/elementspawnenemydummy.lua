@@ -4,6 +4,8 @@ if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spaw
 	return
 end
 
+local units = ASS:base_units()
+
 -- Map to correct incorrect faction spawns
 local enemy_replacements = {
 	normal = {
@@ -25,9 +27,9 @@ local enemy_replacements = {
 		sniper = "units/payday2/characters/ene_sniper_2/ene_sniper_2"
 	},
 	overkill_290 = {
-		swat_1 = "units/payday2/characters/ene_city_swat_3/ene_city_swat_3",
+		swat_1 = "units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
 		swat_2 = "units/payday2/characters/ene_city_swat_2/ene_city_swat_2",
-		swat_3 = "units/payday2/characters/ene_city_swat_1/ene_city_swat_1",
+		swat_3 = "units/payday2/characters/ene_city_swat_3/ene_city_swat_3",
 		heavy_1 = "units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36",
 		heavy_2 = "units/payday2/characters/ene_city_heavy_r870/ene_city_heavy_r870",
 		shield = "units/payday2/characters/ene_city_shield/ene_city_shield",
@@ -139,6 +141,15 @@ else
 	level_mod = ASS:level_mod()
 end
 Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
+	local mission_script_elements = ASS:mission_script_patches()
+	if mission_script_elements then
+		local element_mapping = mission_script_elements[self._id]
+
+		if element_mapping and element_mapping.enemy then
+			self._enemy_name = element_mapping.enemy
+		end
+	end
+
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
 	local replacement = level_mod or difficulty
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
