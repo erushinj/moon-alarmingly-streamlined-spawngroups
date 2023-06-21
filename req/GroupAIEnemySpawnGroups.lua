@@ -3,14 +3,14 @@ local GroupAIEnemySpawnGroups = {}
 function GroupAIEnemySpawnGroups.super_serious_tweaks(groups)
 	local unit_mapping = {
 		CS_tazer = {
-			rifle = "CS_cop_C45_MP5",
-			shotgun = "CS_cop_stealth_R870",
-			default = "CS_cop_C45_R870"
+			rifle = "CS_heavy_M4",
+			shotgun = "CS_heavy_R870",
+			default = "CS_shield"
 		},
 		FBI_tazer = {
-			rifle = "FBI_suit_C45_M4",
-			shotgun = "FBI_suit_stealth_MP5",
-			default = "FBI_suit_C45_MP5"
+			rifle = "FBI_heavy_G36",
+			shotgun = "FBI_heavy_R870",
+			default = "FBI_shield"
 		},
 		CS_spooc = {
 			rifle = "CS_cop_C45_MP5",

@@ -1,6 +1,5 @@
 -- unit category and task data changes are different with and without streamlined heisting
 -- similarly, different enemy spawn groups as well as more different task data are used with vanilla style groups
-local Utils = ASS:utils()
 local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
 local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
 local GroupAITaskData = ASS:require("GroupAITaskData")
@@ -17,7 +16,10 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 
 	-- these are used later to set new factions to america if any are added
 	-- there will likely be crash typos in fbi agent unit names and other inconsistencies otherwise
-	local faction_reference = clone(self.unit_categories.spooc.unit_types)
+	local faction_reference = {}
+	for faction in pairs(self.unit_categories.spooc.unit_types) do
+		faction_reference[faction] = true
+	end
 	local supported_factions = {
 		america = true,
 		russia = true,
@@ -155,10 +157,10 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	GroupAITaskData[assault_style](self, special_weight)
 
-	self.smoke_grenade_timeout = Utils.collect({ 25, 35 }, grenade_cooldown_mul)
+	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_grenade_lifetime[1], smoke_grenade_lifetime[2], f)
-	self.flash_grenade_timeout = Utils.collect({ 15, 20 }, grenade_cooldown_mul)
-	self.cs_grenade_timeout = Utils.collect({ 60, 90 }, grenade_cooldown_mul)
+	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
+	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
 	self.cs_grenade_chance_times = cs_grenade_chance_times
 
@@ -168,12 +170,12 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 	self.spawn_cooldown_mul = math.lerp(spawn_cooldowns[1], spawn_cooldowns[2], f)
 	self.spawn_kill_cooldown = spawn_cooldowns[2] * 10
 
-	self.besiege.assault.force_pool = Utils.collect({ 60, 70, 80 }, force_pool_mul)
-	self.besiege.assault.sustain_duration_min = Utils.collect({ math.lerp(60, 120, f), math.lerp(120, 180, f), math.lerp(180, 240, f) }, sustain_duration_mul)
+	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * force_pool_mul end)
+	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_min, function(val) return val * sustain_duration_mul end)
 	self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
 	self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
-	self.besiege.assault.delay = Utils.collect({ math.lerp(60, 30, f), math.lerp(40, 20, f), math.lerp(20, 10, f) }, break_duration_mul)
-	self.besiege.assault.hostage_hesitation_delay = Utils.collect({ 10, 7.5, 5 }, break_duration_mul)
+	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
+	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
 
 	self.besiege.recon.interval = { 0, 0, 0 }
 	self.besiege.recon.interval_variation = 0
@@ -184,12 +186,8 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 		local max_force_mul = self.besiege.assault.force_balance_mul[#self.besiege.assault.force_balance_mul]
 		local max_force_pool_mul = self.besiege.assault.force_pool_balance_mul[#self.besiege.assault.force_pool_balance_mul]
 
-		self.besiege.assault.force_balance_mul = table.collect(self.besiege.assault.force_balance_mul, function(val)
-			return max_force_mul
-		end)
-		self.besiege.assault.force_pool_balance_mul = table.collect(self.besiege.assault.force_pool_balance_mul, function(val)
-			return max_force_pool_mul
-		end)
+		self.besiege.assault.force_balance_mul = table.collect(self.besiege.assault.force_balance_mul, function(val) return max_force_mul end)
+		self.besiege.assault.force_pool_balance_mul = table.collect(self.besiege.assault.force_pool_balance_mul, function(val) return max_force_pool_mul end)
 	end
 
 	self.street = deep_clone(self.besiege)

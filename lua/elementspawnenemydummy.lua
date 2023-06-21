@@ -1,10 +1,8 @@
 -- Don't replace spawns on custom enemy spawner map
-local level_id =  Global.game_settings and Global.game_settings.level_id
+local level_id = ASS:get_level_id()
 if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spawner" then
 	return
 end
-
-local units = ASS:base_units()
 
 -- Map to correct incorrect faction spawns
 local enemy_replacements = {
@@ -137,16 +135,23 @@ if tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state ==
 	difficulty = "normal"
 	level_mod = nil
 else
-	difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+	difficulty = ASS:get_difficulty()
 	level_mod = ASS:level_mod()
 end
 Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	local mission_script_elements = ASS:mission_script_patches()
+
 	if mission_script_elements then
 		local element_mapping = mission_script_elements[self._id]
 
-		if element_mapping and element_mapping.enemy then
-			self._enemy_name = element_mapping.enemy
+		if element_mapping then
+			if element_mapping.enemy then
+				self._enemy_name = element_mapping.enemy
+			end
+
+			if element_mapping.disable then
+				self._values.enabled = false
+			end
 		end
 	end
 

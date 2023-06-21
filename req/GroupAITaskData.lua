@@ -1,5 +1,3 @@
-local Utils = ASS:utils()
-
 local GroupAITaskData = {}
 
 local function set_weights(type, new_weights)
@@ -79,12 +77,12 @@ function GroupAITaskData.get_skirmish_groups()
 	local w1, w2, w3 = skm_special_weights[1], skm_special_weights[2] * 0.5, skm_special_weights[3]
 
 	local special_weights_original_a = { w1, w2, 0 }
-	local special_weights_original_a_double = Utils.collect(special_weights_original_a, 2)
+	local special_weights_original_a_double = table.collect(special_weights_original_a, function(val) return val * 2 end)
 
 	local special_weights_original_b = { 0, w2, w3 }
-	local special_weights_original_b_double = Utils.collect(special_weights_original_b, 2)
+	local special_weights_original_b_double = table.collect(special_weights_original_b, function(val) return val * 2 end)
 
-	local special_weights_original_c = Utils.collect(skm_special_weights, 0.1)
+	local special_weights_original_c = table.collect(skm_special_weights, function(val) return val * 0.1 end)
 
 	local special_weights_streamlined = skm_special_weights
 

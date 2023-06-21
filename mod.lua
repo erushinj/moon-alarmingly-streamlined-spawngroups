@@ -140,6 +140,13 @@ if not ASS then
 			max_diff = true,
 			max_balance_muls = true
 		},
+		DOZER_TIERS = {
+			R870 = 1,
+			SAIGA = 2,
+			LMG = 3,
+			MINI = 4,
+			MEDIC = 5
+		},
 		level_mod_map = {
 			jewelry_store = "CS_normal",  -- jewelry store
 			four_stores = "CS_normal",  -- four stores
@@ -214,88 +221,133 @@ if not ASS then
 			trai = "FBI_CITY_easy_wish",  -- lost in transit
 			corp = "CITY_overkill_290",  -- hostile takeover
 			roberts = "FBI_overkill_145",  -- go bank
-		}
+		},
 	}
 
-	ASS.DOZER_TIERS = {
-		R870 = 1,
-		SAIGA = 2,
-		LMG = 3,
-		MINI = 4,
-		MEDIC = 5
-	}
-
-	local original_settings = deep_clone(ASS.settings)
+	ASS.original_settings = deep_clone(ASS.settings)
 
 	function ASS:get_difficulty()
-		return Global.game_settings and Global.game_settings.difficulty or "normal"
+		if not self._difficulty then
+			self._difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+		end
+
+		return self._difficulty
 	end
 
 	function ASS:get_level_id()
-		return Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+		if not self._level_id then
+			self._level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+		end
+
+		return self._level_id
 	end
 
 	function ASS:get_job_id()
-		return Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
+		if not self._job_id then
+			self._job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
+		end
+
+		return self._job_id
 	end
 
-	function ASS:is_difficulty_at_least(desired)
-		local difficulties = {
-			normal = table.list_to_set({ "normal", "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
-			hard = table.list_to_set({ "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
-			overkill = table.list_to_set({ "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
-			overkill_145 = table.list_to_set({ "overkill_145", "easy_wish", "overkill_290", "sm_wish" }),
-			easy_wish = table.list_to_set({ "easy_wish", "overkill_290", "sm_wish" }),
-			overkill_290 = table.list_to_set({ "overkill_290", "sm_wish" }),
-			sm_wish = table.list_to_set({ "sm_wish" })
-		}
+	function ASS:get_random_units()
+		if not self._random_units then
+			self._random_units = {
+				securitys = { "security_1", "security_2", "security_3" },
+				securitys_light = { "security_1", "security_2" },
+				securitys_heavy = { "security_2", "security_3" },
+				cops = { "cop_1", "cop_2", "cop_3", "cop_4" },
+				cops_no_bronco = { "cop_1", "cop_3", "cop_4" },
+				fbis = { "fbi_1", "fbi_2", "fbi_3" },
+				fbis_suits = { "fbi_1", "fbi_2" },
+				fbis_field = { "fbi_2", "fbi_3" },
+				swats = { "swat_1", "swat_2", "swat_3" },
+				swats_close = { "swat_2", "swat_3" },
+				heavys = { "heavy_1", "heavy_2" },
+				specials_agg = { "taser", "cloaker" },
+				specials_def = { "taser", "shield" },
+				specials_sup = { "shield", "shield", "medic_1", "medic_2" },
+				specials_any = { "shield", "taser", "dozer_1", "cloaker", "shield", "taser", "dozer_1", "cloaker", "medic_1", "medic_2" }
+			}
+		end
 
-		return difficulties[desired] and difficulties[desired][self:get_difficulty()] or false
+		return self._random_units
+	end
+
+	function ASS:is_difficulty_at_least(difficulty)
+		if not self._difficulties then
+			self._difficulties = {
+				normal = table.set("normal", "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
+				hard = table.set("hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
+				overkill = table.set("overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
+				overkill_145 = table.set("overkill_145", "easy_wish", "overkill_290", "sm_wish"),
+				easy_wish = table.set("easy_wish", "overkill_290", "sm_wish"),
+				overkill_290 = table.set("overkill_290", "sm_wish"),
+				sm_wish = table.set("sm_wish")
+			}
+		end
+
+		local desired = self._difficulties[difficulty]
+
+		return desired and desired[self:get_difficulty()] or false
 	end
 
 	function ASS:base_units()
-		local base_units = {
-			security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1"),
-			security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2"),
-			security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3"),
-			cop_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-			cop_2 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
-			cop_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			cop_4 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-			fbi_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-			fbi_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-			fbi_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
-			swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
-			swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"),
-			swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"),
-			heavy_1 = Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
-			heavy_2 = Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),
-			shield = Idstring("units/payday2/characters/ene_shield_2/ene_shield_2"),
-			sniper = Idstring("units/payday2/characters/ene_sniper_1/ene_sniper_1"),
-			dozer_1 = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
-			dozer_2 = Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
-			dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
-			dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
-			dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
-			medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
-			medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
-			taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
-			cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
-		}
+		if not self._base_units then
+			self._base_units = {
+				security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1"),
+				security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2"),
+				security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3"),
+				cop_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
+				cop_2 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
+				cop_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+				cop_4 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
+				fbi_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
+				fbi_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
+				fbi_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+				swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
+				swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"),
+				swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"),
+				heavy_1 = Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
+				heavy_2 = Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),
+				shield = Idstring("units/payday2/characters/ene_shield_2/ene_shield_2"),
+				sniper = Idstring("units/payday2/characters/ene_sniper_1/ene_sniper_1"),
+				dozer_1 = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+				dozer_2 = Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+				dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+				dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+				dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+				medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
+				medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
+				taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
+				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
+			}
+		end
 
-		return base_units
+		return self._base_units
+	end
+
+	function ASS:random_unit(units)
+		local base_units = self:base_units()
+		local fallback = base_units.swat_1
+
+		if type(units) == "string" then
+			return base_units[self:get_random_units()[units]] or fallback
+		else
+			return base_units[table.random(units)] or fallback
+		end
 	end
 
 	function ASS:get_difficulty_dozer(max_tier)
 		max_tier = max_tier or 5
 
-		local tier_i
+		local tier_i = 1
 		local tier_list = {
 			[1] = "normal",
 			[2] = "overkill",
 			[3] = "easy_wish",
 			[4] = "overkill_290",
-			[5] = "sm_wish",
+			[5] = "sm_wish"
 		}
 
 		for i = #tier_list, 1, -1 do
@@ -310,17 +362,9 @@ if not ASS then
 
 		tier_i = math.min(tier_i, max_tier)
 
-		return self:base_units()["dozer_" .. tier_i] or self:base_units().dozer_1
-	end
+		local base_units = self:base_units()
 
-	function ASS:utils()
-		return {
-			collect = function(tbl, mul)
-				return table.collect(tbl, function(val)
-					return val * mul
-				end)
-			end,
-		}
+		return base_units["dozer_" .. tier_i] or base_units.dozer_1
 	end
 
 	function ASS:require(file)
@@ -367,7 +411,6 @@ if not ASS then
 			local level_id = self:get_level_id()
 
 			if level_id then
-				-- self._mission_script_patches = self:require("mission_script/" .. level_id:gsub("_night$", ""):gsub("_day$", "")) or false
 				self._mission_script_patches = self:require("mission_script/" .. level_id) or false
 			end
 		end
@@ -402,7 +445,7 @@ if not ASS then
 				{
 					text = managers.localization:text("ass_menu_confirm"),
 					callback = function()
-						ASS.settings = deep_clone(original_settings)
+						ASS.settings = deep_clone(ASS.original_settings)
 					end
 				},
 				{

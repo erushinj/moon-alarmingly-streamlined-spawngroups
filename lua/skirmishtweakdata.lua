@@ -1,4 +1,3 @@
-local Utils = ASS:utils()
 local GroupAITaskData = ASS:require("GroupAITaskData")
 
 local assault_style = ASS:assault_style()
@@ -28,7 +27,7 @@ Hooks:PostHook( SkirmishTweakData, "_init_special_unit_spawn_limits", "ass__init
 
 	for _, wave_limits in ipairs(self.special_unit_spawn_limits) do
 		for special, limit in pairs(wave_limits) do
-			wave_limits[special] = limit * special_limit_mul
+			wave_limits[special] = math.round(limit * special_limit_mul)
 		end
 	end
 end )
@@ -37,7 +36,7 @@ end )
 Hooks:PostHook( SkirmishTweakData, "_init_group_ai_data", "ass__init_group_ai_data", function(self, tweak_data)
 	local force_pool_mul = ASS:get_skill_dependent_value("force_pool_mul")
 
-	tweak_data.group_ai.skirmish.assault.force_pool = Utils.collect({ 100, 100, 100 }, force_pool_mul)
+	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * force_pool_mul end)
 end )
 
 

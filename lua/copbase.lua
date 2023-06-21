@@ -3,7 +3,7 @@ if Network:is_client() then
 end
 
 local level_mod = ASS:level_mod()
-local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
+local level_id = ASS:get_level_id()
 local is_undercover = level_id == "man"
 local is_panic_room = level_id == "flat"
 local is_fbi_office_level_mod = level_mod == "FBI_with_office"

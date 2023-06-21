@@ -1,4 +1,7 @@
 local units = ASS:base_units()
+local get_random_units = ASS:get_random_units()
+local specials_agg = get_random_units.specials_agg
+local cops = get_random_units.cops
 
 return {
 	-- escape office dozers
@@ -20,15 +23,15 @@ return {
 	-- vault dozer immediately to the right
 	[100763] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.SAIGA) },
 
-	-- other vault dozers
-	[104131] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.R870) },
-	[104132] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.R870) },
+	-- other vault dozers (reduced dozer spam)
+	[104131] = { enemy = ASS:random_unit(specials_agg) },
+	[104132] = { enemy = ASS:random_unit(specials_agg) },
 
 	-- medic near taser after vault opening (right side)
-	[104319] = { enemy = ASS:is_difficulty_at_least("overkill_145") and units.medic_1 },
+	[104319] = { enemy = units.medic_1 },
 
 	-- medic near heavy (left side)
-	[105110] = { enemy = ASS:is_difficulty_at_least("overkill_290") and units.medic_2 },
+	[105110] = { enemy = ASS:is_difficulty_at_least("overkill_145") and units.medic_2 },
 
 	-- vault guards that arent security 3
 	[102286] = { enemy = units.security_3 },
@@ -39,17 +42,19 @@ return {
 	[102810] = { enemy = units.security_3 },
 	[102837] = { enemy = units.security_3 },
 	[102881] = { enemy = units.security_3 },
-	[104001] = { enemy = units.cop_2 },  -- vault cop
+	[104001] = { enemy = ASS:random_unit(cops) },  -- vault cop
 
 	-- lobby/surrounding guards that are security 1 (not all of them)
 	[100671] = { enemy = units.security_2 },
 	[100787] = { enemy = units.security_2 },
 
+	-- TODO: check that these are actually scripted spawns
 	[102501] = { enemy = units.swat_2 },
 	[101616] = { enemy = units.swat_2 },
 	[106891] = { enemy = units.swat_2 },
 
 	-- city swat 3 swaps (when gensec units are being used)
+	-- TODO: check that these are actually scripted spawns
 	[103644] = { enemy = units.swat_3 },
 	[101705] = { enemy = units.swat_3 },
 	[102974] = { enemy = units.swat_3 },
