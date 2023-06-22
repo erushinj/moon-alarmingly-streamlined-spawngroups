@@ -250,30 +250,6 @@ if not ASS then
 		return self._job_id
 	end
 
-	function ASS:get_random_units()
-		if not self._random_units then
-			self._random_units = {
-				securitys = { "security_1", "security_2", "security_3" },
-				securitys_light = { "security_1", "security_2" },
-				securitys_heavy = { "security_2", "security_3" },
-				cops = { "cop_1", "cop_2", "cop_3", "cop_4" },
-				cops_no_bronco = { "cop_1", "cop_3", "cop_4" },
-				fbis = { "fbi_1", "fbi_2", "fbi_3" },
-				fbis_suits = { "fbi_1", "fbi_2" },
-				fbis_field = { "fbi_2", "fbi_3" },
-				swats = { "swat_1", "swat_2", "swat_3" },
-				swats_close = { "swat_2", "swat_3" },
-				heavys = { "heavy_1", "heavy_2" },
-				specials_agg = { "taser", "cloaker" },
-				specials_def = { "taser", "shield" },
-				specials_sup = { "shield", "shield", "medic_1", "medic_2" },
-				specials_any = { "shield", "taser", "dozer_1", "cloaker", "shield", "taser", "dozer_1", "cloaker", "medic_1", "medic_2" }
-			}
-		end
-
-		return self._random_units
-	end
-
 	function ASS:is_difficulty_at_least(difficulty)
 		if not self._difficulties then
 			self._difficulties = {
@@ -327,17 +303,6 @@ if not ASS then
 		return self._base_units
 	end
 
-	function ASS:random_unit(units)
-		local base_units = self:base_units()
-		local fallback = base_units.swat_1
-
-		if type(units) == "string" then
-			return base_units[self:get_random_units()[units]] or fallback
-		else
-			return base_units[table.random(units)] or fallback
-		end
-	end
-
 	function ASS:get_difficulty_dozer(max_tier)
 		max_tier = max_tier or 5
 
@@ -362,9 +327,83 @@ if not ASS then
 
 		tier_i = math.min(tier_i, max_tier)
 
-		local base_units = self:base_units()
+		local units = self:base_units()
 
-		return base_units["dozer_" .. tier_i] or base_units.dozer_1
+		return units["dozer_" .. tier_i] or units.dozer_1
+	end
+
+	function ASS:get_random_units()
+		if not self._random_units then
+			local units = self:base_units()
+			local security_1, security_2, security_3 = units.security_1, units.security_2, units.security_3
+			local cop_1, cop_2, cop_3, cop_4 = units.cop_1, units.cop_2, units.cop_3, units.cop_4
+			local fbi_1, fbi_2, fbi_3 = units.fbi_1, units.fbi_2, units.fbi_3
+			local swat_1, swat_2, swat_3 = units.swat_1, units.swat_2, units.swat_3
+			local heavy_1, heavy_2 = units.heavy_1, units.heavy_2
+			local shield, taser, cloaker = units.shield, units.taser, units.cloaker
+			local medic_1, medic_2 = units.medic_1, units.medic_2
+			local dozer_1, dozer_4, dozer_5 = units.dozer_1, units.dozer_4, units.dozer_5
+
+			self._random_units = {
+				securitys = { security_1, security_2, security_3 },
+				securitys_light = { security_1, security_2 },
+				securitys_heavy = { security_2, security_3 },
+				cops = { cop_1, cop_2, cop_3, cop_4 },
+				cops_light = { cop_1, cop_2 },
+				cops_heavy = { cop_3, cop_4 },
+				cops_no_bronco = { cop_1, cop_3, cop_4 },
+				fbis = { fbi_1, fbi_2, fbi_3 },
+				fbis_suits = { fbi_1, fbi_2 },
+				fbis_field = { fbi_2, fbi_3 },
+				swats = { swat_1, swat_2, swat_3 },
+				swats_close = { swat_2, swat_3 },
+				swats_far = { swat_1, swat_3  },
+				heavys = { heavy_1, heavy_2 },
+				swats_heavys = { swat_1, swat_2, swat_3, heavy_1, heavy_1, heavy_2 },
+				swats_heavys_close = { swat_2, swat_3, heavy_2, heavy_2 },
+				swats_heavys_far = { swat_1, swat_3, heavy_1, heavy_1 },
+				specials_agg = { taser, cloaker },
+				specials_def = { taser, shield },
+				specials_sup = { shield, shield, medic_1, medic_2 },
+				specials_any = { shield, shield, taser, taser, cloaker, cloaker, medic_1, medic_2 },
+				specials_no_med = { shield, taser, cloaker },
+				specials_taser_medic = { taser, taser, medic_1, medic_2 },
+				specials_med = { medic_1, medic_2 },
+				dozers_any = { dozer_1 }
+			}
+
+			for _, max_tier in pairs(self.DOZER_TIERS) do
+				local dozer = self:get_difficulty_dozer(max_tier)
+
+				if dozer and not table.contains(self._random_units.dozers_any, dozer) then
+					table.insert(self._random_units.dozers_any, dozer)
+				end
+			end
+
+			self._random_units.dozers_no_mini = clone(self._random_units.dozers_any)
+			table.delete(self._random_units.dozers_no_mini, dozer_4)
+
+			self._random_units.dozers_no_med = clone(self._random_units.dozers_any)
+			table.delete(self._random_units.dozers_no_med, dozer_5)
+
+			self._random_units.dozers_no_cs = clone(self._random_units.dozers_any)
+			table.delete(self._random_units.dozers_no_cs, dozer_4)
+			table.delete(self._random_units.dozers_no_cs, dozer_5)
+		end
+
+		return self._random_units
+	end
+
+	function ASS:random_unit(units)
+		local base_units = self:base_units()
+		local get_random_units = self:get_random_units()
+		local fallback = get_random_units.cops
+
+		if type(units) == "string" then
+			return get_random_units[units] or fallback
+		else
+			return base_units[table.random(units)] or fallback
+		end
 	end
 
 	function ASS:require(file)
@@ -411,7 +450,7 @@ if not ASS then
 			local level_id = self:get_level_id()
 
 			if level_id then
-				self._mission_script_patches = self:require("mission_script/" .. level_id) or false
+				self._mission_script_patches = self:require("mission_script/" .. level_id:gsub("_night$", ""):gsub("_day$", ""):gsub("_skip1$", ""):gsub("_skip2$", "")) or false
 			end
 		end
 

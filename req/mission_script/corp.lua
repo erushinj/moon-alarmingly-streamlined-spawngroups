@@ -1,47 +1,38 @@
-local units = ASS:base_units()
-local get_random_units = ASS:get_random_units()
-local swats = get_random_units.swats
-
-local spawn_enemy_dummy = {}
-
-for _, id in ipairs({
-	103058,
-	103491,
-	103550,
-	103551,
-	103552,
-	103553,
-	103557,
-	103558,
-	103559,
-	103560,
-	103561,
-	103562,
-	103576,
-	103575,
-	103574,
-	103573,
-	103580,
-	103579,
-	103577,
-	103572,
-	103571,
-	103570,
-	102763,
-	103589,
-	103590,
-	103591,
-	103592,
-	103593,
-	103594,
-	103595,
-	103596,
-	103597,
-	103598,
-	103599,
-	103600
-}) do
-	spawn_enemy_dummy[id] = { enemy = ASS:random_unit(swats) }
-end
-
-return spawn_enemy_dummy
+return {
+	-- swat van spawns
+	[103058] = { enemy = ASS:random_unit("swats") },
+	[103491] = { enemy = ASS:random_unit("swats") },
+	[103550] = { enemy = ASS:random_unit("swats") },
+	[103551] = { enemy = ASS:random_unit("swats") },
+	[103552] = { enemy = ASS:random_unit("swats") },
+	[103553] = { enemy = ASS:random_unit("swats") },
+	[103557] = { enemy = ASS:random_unit("swats") },
+	[103558] = { enemy = ASS:random_unit("swats") },
+	[103559] = { enemy = ASS:random_unit("swats") },
+	[103560] = { enemy = ASS:random_unit("swats") },
+	[103561] = { enemy = ASS:random_unit("swats") },
+	[103562] = { enemy = ASS:random_unit("swats") },
+	[103576] = { enemy = ASS:random_unit("swats") },
+	[103575] = { enemy = ASS:random_unit("swats") },
+	[103574] = { enemy = ASS:random_unit("swats") },
+	[103573] = { enemy = ASS:random_unit("swats") },
+	[103580] = { enemy = ASS:random_unit("swats") },
+	[103579] = { enemy = ASS:random_unit("swats") },
+	[103577] = { enemy = ASS:random_unit("swats") },
+	[103572] = { enemy = ASS:random_unit("swats") },
+	[103571] = { enemy = ASS:random_unit("swats") },
+	[103570] = { enemy = ASS:random_unit("swats") },
+	[102763] = { enemy = ASS:random_unit("swats") },
+	[103589] = { enemy = ASS:random_unit("swats") },
+	[103590] = { enemy = ASS:random_unit("swats") },
+	[103591] = { enemy = ASS:random_unit("swats") },
+	[103592] = { enemy = ASS:random_unit("swats") },
+	[103593] = { enemy = ASS:random_unit("swats") },
+	[103594] = { enemy = ASS:random_unit("swats") },
+	[103595] = { enemy = ASS:random_unit("swats") },
+	[103596] = { enemy = ASS:random_unit("swats") },
+	[103597] = { enemy = ASS:random_unit("swats") },
+	[103598] = { enemy = ASS:random_unit("swats") },
+	[103599] = { enemy = ASS:random_unit("swats") },
+	[103600] = { enemy = ASS:random_unit("swats") },
+}

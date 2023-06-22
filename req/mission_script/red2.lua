@@ -1,8 +1,3 @@
-local units = ASS:base_units()
-local get_random_units = ASS:get_random_units()
-local specials_agg = get_random_units.specials_agg
-local cops = get_random_units.cops
-
 return {
 	-- escape office dozers
 	[103603] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
@@ -14,49 +9,97 @@ return {
 	[103163] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
 	[103162] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
 
-	-- vault dozer next to the money table
-	[104169] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MEDIC) },
+	-- vault dozers
+	[104169] = { enemy = ASS:random_unit("dozers_no_med") },
+	[104170] = { enemy = ASS:random_unit("dozers_no_med") },
+	[100763] = { enemy = ASS:random_unit("dozers_no_med") },
 
-	-- vault dozer near the door
-	[104170] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
+	-- other vault dozers, now other units (reduced dozer spam)
+	[104131] = { enemy = ASS:random_unit("specials_agg") },
+	[104132] = { enemy = ASS:random_unit("specials_agg") },
 
-	-- vault dozer immediately to the right
-	[100763] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.SAIGA) },
+	-- after vault heavies (low difficulties only ?)
+	[104319] = { enemy = ASS:random_unit("swats") },
+	[104330] = { enemy = ASS:random_unit("swats") },
+	[100570] = { enemy = ASS:random_unit("swats") },
+	[103704] = { enemy = ASS:random_unit("swats") },
+	[105108] = { enemy = ASS:random_unit("swats") },
+	[105110] = { enemy = ASS:random_unit("swats") },
 
-	-- other vault dozers (reduced dozer spam)
-	[104131] = { enemy = ASS:random_unit(specials_agg) },
-	[104132] = { enemy = ASS:random_unit(specials_agg) },
+	-- after vault tasers
+	[104317] = { enemy = ASS:random_unit("specials_any") },
+	[104318] = { enemy = ASS:random_unit("specials_any") },
 
-	-- medic near taser after vault opening (right side)
-	[104319] = { enemy = units.medic_1 },
+	-- vault guards
+	[102286] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102288] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102289] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102291] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102299] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102810] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102837] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102881] = { enemy = ASS:random_unit("securitys_heavy") },
+	[104001] = { enemy = ASS:random_unit("cops") },  -- vault cop
 
-	-- medic near heavy (left side)
-	[105110] = { enemy = ASS:is_difficulty_at_least("overkill_145") and units.medic_2 },
+	-- office cops
+	[106586] = { enemy = ASS:random_unit("cops_heavy") },
+	[106586] = { enemy = ASS:random_unit("cops_heavy") },
 
-	-- vault guards that arent security 3
-	[102286] = { enemy = units.security_3 },
-	[102288] = { enemy = units.security_3 },
-	[102289] = { enemy = units.security_3 },
-	[102291] = { enemy = units.security_3 },
-	[102299] = { enemy = units.security_3 },
-	[102810] = { enemy = units.security_3 },
-	[102837] = { enemy = units.security_3 },
-	[102881] = { enemy = units.security_3 },
-	[104001] = { enemy = ASS:random_unit(cops) },  -- vault cop
+	-- office fbis
+	[100686] = { enemy = ASS:random_unit("fbis_field") },
+	[100687] = { enemy = ASS:random_unit("fbis_field") },
+	[103609] = { enemy = ASS:random_unit("fbis_field") },
 
-	-- lobby/surrounding guards that are security 1 (not all of them)
-	[100671] = { enemy = units.security_2 },
-	[100787] = { enemy = units.security_2 },
+	-- patrolling guards outside vault
+	[100863] = { enemy = ASS:random_unit("securitys") },
+	[100753] = { enemy = ASS:random_unit("securitys") },
+	[102045] = { enemy = ASS:random_unit("securitys") },
+	[102054] = { enemy = ASS:random_unit("securitys") },
+	[100743] = { enemy = ASS:random_unit("securitys") },
+	[102053] = { enemy = ASS:random_unit("securitys") },
+	[100672] = { enemy = ASS:random_unit("securitys") },
+	[102058] = { enemy = ASS:random_unit("securitys") },
+	[100628] = { enemy = ASS:random_unit("securitys") },
+
+	-- stationary guards
+	[100614] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100646] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100661] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100663] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100787] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100671] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100920] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100872] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102059] = { enemy = ASS:random_unit("securitys_heavy") },
+	[102046] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100752] = { enemy = ASS:random_unit("securitys_heavy") },
+	[100694] = { enemy = ASS:random_unit("securitys_heavy") },
+	[105493] = { enemy = ASS:random_unit("securitys_heavy") },
+	[105494] = { enemy = ASS:random_unit("securitys_heavy") },
+	[105383] = { enemy = ASS:random_unit("securitys_heavy") },
+
+	-- management office window swats
+	[102501] = { enemy = ASS:random_unit("swats") },
+	[102974] = { enemy = ASS:random_unit("swats") },
+	[101705] = { enemy = ASS:random_unit("swats") },
+	[101616] = { enemy = ASS:random_unit("swats") },
+
+	-- one-time cops, outside
+	[103536] = { enemy = ASS:random_unit("cops") },
+	[103670] = { enemy = ASS:random_unit("cops") },
+	[106853] = { enemy = ASS:random_unit("cops") },
+	[106854] = { enemy = ASS:random_unit("cops") },
+	[106857] = { enemy = ASS:random_unit("cops") },
+	[106865] = { enemy = ASS:random_unit("cops") },
+	[106877] = { enemy = ASS:random_unit("cops") },
+	[106878] = { enemy = ASS:random_unit("cops") },
+	[106879] = { enemy = ASS:random_unit("cops") },
+	[106880] = { enemy = ASS:random_unit("cops") },
 
 	-- TODO: check that these are actually scripted spawns
-	[102501] = { enemy = units.swat_2 },
-	[101616] = { enemy = units.swat_2 },
-	[106891] = { enemy = units.swat_2 },
-
-	-- city swat 3 swaps (when gensec units are being used)
-	-- TODO: check that these are actually scripted spawns
-	[103644] = { enemy = units.swat_3 },
-	[101705] = { enemy = units.swat_3 },
-	[102974] = { enemy = units.swat_3 },
-	[106893] = { enemy = units.swat_3 },
+	[106891] = { enemy = ASS:random_unit("swats") },
+	[106892] = { enemy = ASS:random_unit("swats") },
+	[103397] = { enemy = ASS:random_unit("swats") },
+	[106893] = { enemy = ASS:random_unit("swats") },
+	[106894] = { enemy = ASS:random_unit("swats") },
 }
