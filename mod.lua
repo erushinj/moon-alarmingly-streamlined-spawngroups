@@ -13,6 +13,7 @@ if not ASS then
 			max_values = false,
 			max_diff = false,
 			max_balance_muls = false,
+			marshal_squads_allowed = 3,
 			minigun_dozers = false,
 			captain_winters = false,
 			escapes = false
@@ -38,7 +39,12 @@ if not ASS then
 				"ass_skill_4",
 				"ass_skill_5",
 				"ass_skill_6"
-			}
+			},
+			marshal_squads_allowed = {
+				"ass_marshal_squads_allowed_0",
+				"ass_marshal_squads_allowed_1",
+				"ass_marshal_squads_allowed_2",
+			},
 		},
 		skill_tweaks = {
 			freq_base = {
@@ -412,8 +418,21 @@ if not ASS then
 		return io.file_is_readable(path) and blt.vm.dofile(path)
 	end
 
+	function ASS:get_value(val)
+		local value = self.values[val]
+		local index = self.settings[val]
+
+		return value[index]:gsub("^ass_" .. val .. "_", "")
+	end
+
 	function ASS:assault_style()
-		return self.values.assault_style[self.settings.assault_style]:gsub("^ass_assault_style_", "")
+		return self:get_value("assault_style")
+	end
+
+	function ASS:marshal_squads_allowed()
+		local marshal_squads_allowed = self:get_value("marshal_squads_allowed")
+
+		return tonumber(marshal_squads_allowed)
 	end
 
 	function ASS:level_mod()
@@ -557,6 +576,7 @@ if not ASS then
 		add_multiple_choice("level_mod")
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
+		add_multiple_choice("marshal_squads_allowed")
 		add_divider()
 		add_toggle("super_serious_dominations")
 		add_toggle("max_values")

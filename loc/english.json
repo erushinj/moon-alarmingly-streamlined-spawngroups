@@ -29,6 +29,12 @@
 	"ass_skill_5" : "Nightmare!",
 	"ass_skill_6" : "Ultra-Nightmare!!",
 
+	"ass_menu_marshal_squads_allowed" : "Marshal Groups",
+	"ass_menu_marshal_squads_allowed_desc" : "Adjust how many Marshal groups can be present at the same time.",
+	"ass_marshal_squads_allowed_0" : "Disabled",
+	"ass_marshal_squads_allowed_1" : "Reduced",
+	"ass_marshal_squads_allowed_2" : "Default",
+
 	"ass_menu_super_serious_dominations" : "Super Serious Dominations",
 	"ass_menu_super_serious_dominations_desc" : "Disallows dominating enemies during assaults.",
 
@@ -42,7 +48,7 @@
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
-	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn on Death Wish difficulty.",
+	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
 
 	"ass_menu_captain_winters" : "Captain Winters",
 	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn.",

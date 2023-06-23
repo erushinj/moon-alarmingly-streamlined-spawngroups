@@ -547,7 +547,7 @@ function GroupAIEnemySpawnGroups.original(groups, freq, spawn_cooldown)
 	-- occasional fbi agent for support if players get close
 	-- would make marshals spawn normally but that disables their spawn limit
 	groups.marshal_squad = {
-		max_nr_simultaneous_groups = 2,
+		max_nr_simultaneous_groups = ASS:marshal_squads_allowed(),
 		spawn_cooldown = spawn_cooldown,
 		amount = { 1, 2 },
 		spawn = {
@@ -1141,7 +1141,7 @@ function GroupAIEnemySpawnGroups.streamlined(groups, freq, spawn_cooldown)
 	-- occasional fbi agent for support if players get close
 	-- would make marshals spawn normally but that disables their spawn limit
 	groups.marshal_squad = {
-		max_nr_simultaneous_groups = 2,
+		max_nr_simultaneous_groups = ASS:marshal_squads_allowed(),
 		spawn_cooldown = spawn_cooldown,
 		amount = { 1, 2 },
 		spawn = {

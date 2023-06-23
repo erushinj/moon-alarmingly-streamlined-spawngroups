@@ -6,9 +6,11 @@ Also known as ASS, since it probably is
 
 -----
 
-An enemy spawn group mod, crafted and refined for this one's tastes, with two distinct sets of simple yet alarming groups
+An enemy spawn group mod, crafted and refined for this one's tastes over the course of around a year, with two distinct sets of simple yet alarming groups
 
 Both sets of groups mix in occasional specials with regular spawns, allow dangerous pairings of specials, and make liberal use of neglected enemy types
+
+In addition, scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - not all changes are ideal for a vanilla game
 
@@ -54,6 +56,14 @@ The mod's difficulty is also customizable with its various settings
     </tr>
     <tr>
         <th>
+            Marshal Groups
+        </th>
+        <td>
+            Adjust how many Marshal groups can be present at the same time.
+        </td>
+    </tr>
+    <tr>
+        <th>
             Super Serious Dominations
         </th>
         <td>
@@ -89,7 +99,7 @@ The mod's difficulty is also customizable with its various settings
             Minigun Dozers
         </th>
         <td>
-            Allow Minigun Dozers to spawn on Death Wish difficulty.
+            Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.
         </td>
     </tr>
     <tr>
