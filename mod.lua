@@ -650,6 +650,11 @@ if Global.ass_did_not_find_sh then
 	return
 end
 
+-- final fallback
+if not StreamHeist then
+	return
+end
+
 if RequiredScript and not ASS.required[RequiredScript] then
 
 	local fname = ASS.mod_path .. RequiredScript:gsub(".+/(.+)", "lua/%1.lua")
