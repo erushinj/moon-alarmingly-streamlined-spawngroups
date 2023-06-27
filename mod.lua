@@ -259,6 +259,7 @@ if not ASS then
 	function ASS:is_difficulty_at_least(difficulty)
 		if not self._difficulties then
 			self._difficulties = {
+				easy = table.set("easy", "normal", "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
 				normal = table.set("normal", "hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
 				hard = table.set("hard", "overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
 				overkill = table.set("overkill", "overkill_145", "easy_wish", "overkill_290", "sm_wish"),
@@ -272,6 +273,30 @@ if not ASS then
 		local desired = self._difficulties[difficulty]
 
 		return desired and desired[self:get_difficulty()] or false
+	end
+
+	-- fuck tweak data, thats all im saying.
+	function ASS:get_difficulty_index()
+		if not self._difficulty_index then
+			if tweak_data and tweak_data.difficulty_to_index then
+				self._difficulty_index = tweak_data:difficulty_to_index(self:get_difficulty())
+			else
+				local difficulty_indices = {
+					easy = 1,
+					normal = 2,
+					hard = 3,
+					overkill = 4,
+					overkill_145 = 5,
+					easy_wish = 6,
+					overkill_290 = 7,
+					sm_wish = 8
+				}
+
+				self._difficulty_index = difficulty_indices[self:get_difficulty()] or 5
+			end
+		end
+
+		return self._difficulty_index
 	end
 
 	function ASS:base_units()
@@ -373,6 +398,7 @@ if not ASS then
 				specials_sup = { shield, shield, medic_1, medic_2 },
 				specials_any = { shield, shield, taser, taser, cloaker, cloaker, medic_1, medic_2 },
 				specials_no_med = { shield, taser, cloaker },
+				specials_no_clk = { shield, shield, taser, taser, medic_1, medic_2 },
 				specials_taser_medic = { taser, taser, medic_1, medic_2 },
 				specials_med = { medic_1, medic_2 },
 				dozers_any = { dozer_1 }

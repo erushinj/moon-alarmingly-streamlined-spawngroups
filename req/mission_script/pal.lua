@@ -46,7 +46,7 @@ return {
 	[102760] = { enemy = ASS:random_unit("specials_def") },
 
 	-- crashed van dozers
-	[101651] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
-	[102703] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
-	[102745] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
+	[101651] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
+	[102703] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
+	[102745] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
 }

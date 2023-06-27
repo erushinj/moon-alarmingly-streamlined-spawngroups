@@ -1,26 +1,26 @@
 return {
 	-- harasser spawns on warehouse rooftops
-	-- fbi swats
-	[103993] = { enemy = ASS:random_unit("swats") },
-	[103994] = { enemy = ASS:random_unit("swats") },
-	[104112] = { enemy = ASS:random_unit("swats") },
-	[104115] = { enemy = ASS:random_unit("swats") },
-	[104174] = { enemy = ASS:random_unit("swats") },
-	[104175] = { enemy = ASS:random_unit("swats") },
-	[104176] = { enemy = ASS:random_unit("swats") },
-	[104177] = { enemy = ASS:random_unit("swats") },
+	-- swat heavies (n/h, should be swats)
+	[104583] = { enemy = ASS:random_unit("swats") },
+	[104584] = { enemy = ASS:random_unit("swats") },
+	[104585] = { enemy = ASS:random_unit("swats") },
+	[104586] = { enemy = ASS:random_unit("swats") },
+	[104587] = { enemy = ASS:random_unit("swats") },
+	[104588] = { enemy = ASS:random_unit("swats") },
+	[104589] = { enemy = ASS:random_unit("swats") },
+	[104590] = { enemy = ASS:random_unit("swats") },
 
-	-- swat heavies (low difficulties ?  consider making normal swats ?  check on it)
-	[104583] = { enemy = ASS:random_unit("heavys") },
-	[104584] = { enemy = ASS:random_unit("heavys") },
-	[104585] = { enemy = ASS:random_unit("heavys") },
-	[104586] = { enemy = ASS:random_unit("heavys") },
-	[104587] = { enemy = ASS:random_unit("heavys") },
-	[104588] = { enemy = ASS:random_unit("heavys") },
-	[104589] = { enemy = ASS:random_unit("heavys") },
-	[104590] = { enemy = ASS:random_unit("heavys") },
+	-- fbi swats (vh)
+	[103993] = { enemy = ASS:random_unit("swats_heavys") },
+	[103994] = { enemy = ASS:random_unit("swats_heavys") },
+	[104112] = { enemy = ASS:random_unit("swats_heavys") },
+	[104115] = { enemy = ASS:random_unit("swats_heavys") },
+	[104174] = { enemy = ASS:random_unit("swats_heavys") },
+	[104175] = { enemy = ASS:random_unit("swats_heavys") },
+	[104176] = { enemy = ASS:random_unit("swats_heavys") },
+	[104177] = { enemy = ASS:random_unit("swats_heavys") },
 
-	-- fbi heavies
+	-- fbi heavies (ovk+)
 	[104591] = { enemy = ASS:random_unit("heavys") },
 	[104592] = { enemy = ASS:random_unit("heavys") },
 	[104593] = { enemy = ASS:random_unit("heavys") },
