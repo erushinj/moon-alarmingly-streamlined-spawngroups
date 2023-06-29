@@ -102,3 +102,4 @@ return {
 	[102385] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
 	[103025] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
 	[103026] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
+}
