@@ -24,10 +24,6 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 		federales = true
 	}
 
-	-- merc marshals makes no sense for zombies
-	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
-	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
-
 	ASS.group_ai.unit_categories[difficulty](self.unit_categories)
 
 	if level_mod and ASS.group_ai.unit_categories[level_mod] then
@@ -93,7 +89,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 end )
 
 
-Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_spawn_groups", function(self, difficulty_index)
+Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups_level", "ass__init_enemy_spawn_groups_level", function(self, tweak_data, difficulty_index)
 
 	local freq_base = ASS:get_skill_dependent_value("freq_base")
 	local spawn_cooldown_base = ASS:get_skill_dependent_value("spawn_cooldown_base")
@@ -127,6 +123,11 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 
 	if SuperSeriousShooter then
 		ASS.group_ai.enemy_spawn_groups.super_serious_tweaks(self.enemy_spawn_groups)
+	end
+
+	local marshal_disabled_levels = ASS.group_ai.enemy_spawn_groups.marshal_disabled_levels()
+	if marshal_disabled_levels[ASS:get_level_id()] then
+		self.enemy_spawn_groups.marshal_squad = nil
 	end
 
 end )

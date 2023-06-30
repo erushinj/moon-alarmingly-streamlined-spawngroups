@@ -4,6 +4,29 @@ local GroupAI = {
 	task_data = {},
 }
 
+function GroupAI.enemy_spawn_groups.marshal_disabled_levels()
+	return {
+		jewelry_store = true,
+		four_stores = true,
+		ukrainian_job_prof = true,
+		alex_1 = true,
+		alex_2 = true,
+		mia_2 = true,
+		rat = true,
+		chew = true,
+		flat = true,
+		nmh = true,
+		mad = true,
+		hvh = true,
+		bph = true,
+		vit = true,
+		bex = true,
+		skm_bex = true,
+		pex = true,
+		fex = true,
+	}
+end
+
 function GroupAI.enemy_spawn_groups.super_serious_tweaks(groups)
 	local unit_mapping = {
 		CS_tazer = {
