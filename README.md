@@ -355,6 +355,7 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Diamond Heist</li>
                 <li>No Mercy</li>
                 <li>Hostile Takeover</li>
+                <li>Crude Awakening</li>
             </ul>
         </td>
     </tr>

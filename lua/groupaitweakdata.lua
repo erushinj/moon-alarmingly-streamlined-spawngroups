@@ -1,9 +1,5 @@
 -- unit category and task data changes are different with and without streamlined heisting
 -- similarly, different enemy spawn groups as well as more different task data are used with vanilla style groups
-local GroupAIUnitCategories = ASS:require("GroupAIUnitCategories")
-local GroupAIEnemySpawnGroups = ASS:require("GroupAIEnemySpawnGroups")
-local GroupAITaskData = ASS:require("GroupAITaskData")
-
 local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 local assault_style = ASS:assault_style()
 local level_mod = ASS:level_mod()
@@ -32,13 +28,13 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
 
-	GroupAIUnitCategories[difficulty](self.unit_categories)
+	ASS.group_ai.unit_categories[difficulty](self.unit_categories)
 
-	if level_mod and GroupAIUnitCategories[level_mod] then
-		GroupAIUnitCategories[level_mod](self.unit_categories)
+	if level_mod and ASS.group_ai.unit_categories[level_mod] then
+		ASS.group_ai.unit_categories[level_mod](self.unit_categories)
 
 		if difficulty_index > 7 then
-			GroupAIUnitCategories.revert_zeal_specials(self.unit_categories)
+			ASS.group_ai.unit_categories.revert_zeal_specials(self.unit_categories)
 		end
 	end
 
@@ -127,10 +123,10 @@ Hooks:PostHook( GroupAITweakData, "_init_enemy_spawn_groups", "ass__init_enemy_s
 
 	local spawn_cooldown = math.lerp(spawn_cooldown_base * 4, spawn_cooldown_base, f)
 
-	GroupAIEnemySpawnGroups[assault_style](self.enemy_spawn_groups, freq, spawn_cooldown)
+	ASS.group_ai.enemy_spawn_groups[assault_style](self.enemy_spawn_groups, freq, spawn_cooldown)
 
 	if SuperSeriousShooter then
-		GroupAIEnemySpawnGroups.super_serious_tweaks(self.enemy_spawn_groups)
+		ASS.group_ai.enemy_spawn_groups.super_serious_tweaks(self.enemy_spawn_groups)
 	end
 
 end )
@@ -155,7 +151,7 @@ Hooks:PostHook( GroupAITweakData, "_init_task_data", "ass__init_task_data", func
 
 	local special_weight = math.lerp(special_weight_base[1], special_weight_base[2], f)
 
-	GroupAITaskData[assault_style](self, special_weight)
+	ASS.group_ai.task_data[assault_style](self, special_weight)
 
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_grenade_lifetime[1], smoke_grenade_lifetime[2], f)

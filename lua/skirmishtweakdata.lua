@@ -1,5 +1,3 @@
-local GroupAITaskData = ASS:require("GroupAITaskData")
-
 local assault_style = ASS:assault_style()
 
 -- Scale assault duration based on wave number and shorten time in between assaults
@@ -65,7 +63,7 @@ end )
 -- Create custom wave group weights
 Hooks:PostHook( SkirmishTweakData, "_init_spawn_group_weights", "ass__init_spawn_group_weights", function(self, tweak_data)
 
-	local get_skirmish_groups = GroupAITaskData.get_skirmish_groups()
+	local get_skirmish_groups = ASS.group_ai.task_data.get_skirmish_groups()
 	local base_groups = get_skirmish_groups[assault_style]
 
 	for i, _ in ipairs(self.assault.groups) do
