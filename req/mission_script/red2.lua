@@ -46,9 +46,9 @@ return {
 	[106586] = { enemy = ASS:random_unit("cops_heavy") },
 
 	-- office fbis
-	[100686] = { enemy = ASS:random_unit("fbis_field") },
-	[100687] = { enemy = ASS:random_unit("fbis_field") },
-	[103609] = { enemy = ASS:random_unit("fbis_field") },
+	[100686] = { enemy = ASS:random_unit("fbis_heavy") },
+	[100687] = { enemy = ASS:random_unit("fbis_heavy") },
+	[103609] = { enemy = ASS:random_unit("fbis_heavy") },
 
 	-- patrolling guards outside vault
 	[100863] = { enemy = ASS:random_unit("securitys") },

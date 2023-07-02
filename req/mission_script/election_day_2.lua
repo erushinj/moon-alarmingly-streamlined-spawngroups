@@ -93,8 +93,4 @@ return {
 	[103138] = { enemy = ASS:random_unit("heavys") },
 	[103139] = { enemy = ASS:random_unit("heavys") },
 	[103140] = { enemy = ASS:random_unit("heavys") },
-
-	-- [103735] = { enemy = ASS:random_unit("securitys_heavy") },
-
-	-- [100168] = { enemy = ASS:random_unit("securitys") },
 }

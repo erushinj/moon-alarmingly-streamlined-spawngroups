@@ -127,7 +127,6 @@ local weapon_mapping = {
 	[("units/payday2/characters/ene_security_2/ene_security_2"):key()] = security.basic,
 	[("units/payday2/characters/ene_security_4/ene_security_4"):key()] = security.basic,
 	[("units/payday2/characters/ene_security_5/ene_security_5"):key()] = security.basic,
-	[("units/payday2/characters/ene_security_6/ene_security_6"):key()] = security.basic,
 	[("units/payday2/characters/ene_security_8/ene_security_8"):key()] = security.basic,
 	[("units/payday2/characters/ene_secret_service_1/ene_secret_service_1"):key()] = security.basic,
 	[("units/payday2/characters/ene_secret_service_2/ene_secret_service_2"):key()] = security.basic,
@@ -137,6 +136,7 @@ local weapon_mapping = {
 
 	-- assorted "heavy" security
 	[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = security.heavy,
+	[("units/payday2/characters/ene_security_6/ene_security_6"):key()] = security.heavy,
 	[("units/payday2/characters/ene_security_7/ene_security_7"):key()] = security.heavy,
 	[("units/pd2_dlc1/characters/ene_security_gensec_1/ene_security_gensec_1"):key()] = security.heavy,
 	[("units/pd2_dlc1/characters/ene_security_gensec_2/ene_security_gensec_2"):key()] = security.heavy,

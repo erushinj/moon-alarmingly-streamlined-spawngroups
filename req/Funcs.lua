@@ -123,7 +123,7 @@ return {
 
 		return units["dozer_" .. tier_i] or units.dozer_1
 	end,
-	get_random_units = function(self)
+	random_unit = function(self, units)
 		if not self._random_units then
 			local units = self:base_units()
 			local security_1, security_2, security_3 = units.security_1, units.security_2, units.security_3
@@ -141,11 +141,12 @@ return {
 				securitys_heavy = { security_2, security_3 },
 				cops = { cop_1, cop_2, cop_3, cop_4 },
 				cops_light = { cop_1, cop_2 },
+				cops_medium = { cop_2, cop_4 },
 				cops_heavy = { cop_3, cop_4 },
 				cops_no_bronco = { cop_1, cop_3, cop_4 },
 				fbis = { fbi_1, fbi_2, fbi_3 },
-				fbis_suits = { fbi_1, fbi_2 },
-				fbis_field = { fbi_2, fbi_3 },
+				fbis_light = { fbi_1, fbi_2 },
+				fbis_heavy = { fbi_2, fbi_3 },
 				swats = { swat_1, swat_2, swat_3 },
 				swats_close = { swat_2, swat_3 },
 				swats_far = { swat_1, swat_3  },
@@ -183,18 +184,7 @@ return {
 			table.delete(self._random_units.dozers_no_cs, dozer_5)
 		end
 
-		return self._random_units
-	end,
-	random_unit = function(self, units)
-		local base_units = self:base_units()
-		local get_random_units = self:get_random_units()
-		local fallback = get_random_units.cops
-
-		if type(units) == "string" then
-			return get_random_units[units] or fallback
-		else
-			return base_units[table.random(units)] or fallback
-		end
+		return self._random_units[units] or self._random_units.cops
 	end,
 	get_value = function(self, val)
 		local value = self.values[val]
