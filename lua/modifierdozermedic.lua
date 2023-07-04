@@ -1,3 +1,4 @@
+-- adjust to support all factions and the CS tank unit category
 Hooks:OverrideFunction( ModifierDozerMedic, "init", function(self, data)
 	ModifierDozerMedic.super.init(self, data)
 

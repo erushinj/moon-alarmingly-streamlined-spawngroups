@@ -35,24 +35,23 @@ local enemy_replacements = {
 	}
 }
 
-do
-	local shared_replacements = {
-		dozer_1 = "units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
-		dozer_2 = "units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",
-		dozer_3 = "units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3",
-		dozer_4 = "units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic",
-		medic_1 = "units/payday2/characters/ene_medic_m4/ene_medic_m4",
-		medic_2 = "units/payday2/characters/ene_medic_r870/ene_medic_r870",
-		taser = "units/payday2/characters/ene_tazer_1/ene_tazer_1",
-		cloaker = "units/payday2/characters/ene_spook_1/ene_spook_1"
-	}
-	for mapped, replacement in pairs(shared_replacements) do
-		for _, _level_mod in pairs(enemy_replacements) do
-			_level_mod[mapped] = replacement
-		end
+-- shared replacements
+for mapped, replacement in pairs({
+	dozer_1 = "units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
+	dozer_2 = "units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",
+	dozer_3 = "units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3",
+	dozer_4 = "units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic",
+	medic_1 = "units/payday2/characters/ene_medic_m4/ene_medic_m4",
+	medic_2 = "units/payday2/characters/ene_medic_r870/ene_medic_r870",
+	taser = "units/payday2/characters/ene_tazer_1/ene_tazer_1",
+	cloaker = "units/payday2/characters/ene_spook_1/ene_spook_1"
+}) do
+	for _, _level_mod in pairs(enemy_replacements) do
+		_level_mod[mapped] = replacement
 	end
 end
 
+-- very hard has swat scripted spawns, mayhem has fbi scripted spawns
 enemy_replacements.hard = enemy_replacements.normal
 enemy_replacements.overkill = enemy_replacements.normal
 enemy_replacements.easy_wish = enemy_replacements.overkill_145
@@ -74,6 +73,7 @@ enemy_replacements.sm_wish = {
 	cloaker = "units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"
 }
 
+-- level mod replacements
 enemy_replacements.CS_normal = clone(enemy_replacements.normal)
 enemy_replacements.CS_FBI_overkill = clone(enemy_replacements.overkill)
 enemy_replacements.FBI_overkill_145 = clone(enemy_replacements.overkill_145)
@@ -130,6 +130,7 @@ local enemy_mapping = {
 	[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870"):key()] = "medic_2"
 }
 
+-- TODO: look into disabling holdout scripted spawns, it looks weird having yellow heavies spawning when zeals are on the scene
 local difficulty, level_mod
 if tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish" then
 	difficulty = "normal"
@@ -159,6 +160,7 @@ Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 end )
 
 
+-- allow randomization of scripted spawns, even when the same element is used multiple times
 local produce_original = ElementSpawnEnemyDummy.produce
 function ElementSpawnEnemyDummy:produce(params, ...)
 	if params and params.name then

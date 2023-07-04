@@ -1,3 +1,13 @@
+local replace_vault_dozer_1 = math.random(1, 5)
+local replace_vault_dozer_2 = math.random(1, 5)
+local is_overkill_145 = ASS:is_difficulty_at_least("overkill_145")
+if replace_vault_dozer_1 == replace_vault_dozer_2 then
+	repeat
+		replace_vault_dozer_1 = math.random(1, 5)
+		replace_vault_dozer_2 = math.random(1, 5)
+	until replace_vault_dozer_1 ~= replace_vault_dozer_2
+end
+
 return {
 	-- escape office dozers
 	[103603] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
@@ -9,14 +19,12 @@ return {
 	[103163] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
 	[103162] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
 
-	-- vault dozers
-	[104169] = { enemy = ASS:random_unit("dozers_no_med") },
-	[104170] = { enemy = ASS:random_unit("dozers_no_med") },
-	[100763] = { enemy = ASS:random_unit("dozers_no_med") },
-
-	-- other vault dozers, now other units (reduced dozer spam)
-	[104131] = { enemy = ASS:random_unit("specials_agg") },
-	[104132] = { enemy = ASS:random_unit("specials_agg") },
+	-- vault dozers - only 4 are chosen on mh+, so although 2 are meant to be replaced, you might get 3 if youre unlucky and one of the replaced spawns isnt used
+	[104169] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 1 or replace_vault_dozer_2 == 1) and "specials_agg" or "dozers_no_med") },
+	[104170] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 2 or replace_vault_dozer_2 == 2) and "specials_agg" or "dozers_no_med") },
+	[100763] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 3 or replace_vault_dozer_2 == 3) and "specials_agg" or "dozers_no_med") },
+	[104131] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 4 or replace_vault_dozer_2 == 4) and "specials_agg" or "dozers_no_med") },
+	[104132] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 5 or replace_vault_dozer_2 == 5) and "specials_agg" or "dozers_no_med") },
 
 	-- after vault heavies (low difficulties only ?)
 	[104319] = { enemy = ASS:random_unit("swats") },

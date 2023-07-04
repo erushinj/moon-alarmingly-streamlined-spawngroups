@@ -1,3 +1,4 @@
+-- i hate if-else
 return {
 	freq_base = {
 		{

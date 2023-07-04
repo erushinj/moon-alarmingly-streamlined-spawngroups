@@ -1,6 +1,4 @@
--- unit category and task data changes are different with and without streamlined heisting
--- similarly, different enemy spawn groups as well as more different task data are used with vanilla style groups
-local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+local difficulty = ASS:get_difficulty()
 local assault_style = ASS:assault_style()
 local level_mod = ASS:level_mod()
 
@@ -75,6 +73,7 @@ Hooks:PostHook( GroupAITweakData, "_init_unit_categories", "ass__init_unit_categ
 	local special_limit_index = max_values and 8 or math.clamp(difficulty_index, 2, 8)
 
 	-- new special limits, from easy to death sentence
+	-- identical to sh at base, minus allowing dozers on hard
 	local limits = {
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5 },
 		medic = { 0, 0, 0, 0, 1, 2, 3, 4 },

@@ -1,3 +1,4 @@
+-- whole wack of utilities
 return {
 	get_difficulty = function(self)
 		if not self._difficulty then
@@ -20,6 +21,7 @@ return {
 
 		return self._job_id
 	end,
+	-- first used to get around tweak data because fuck tweak data
 	is_difficulty_at_least = function(self, difficulty)
 		if not self._difficulties then
 			self._difficulties = {
@@ -38,7 +40,7 @@ return {
 
 		return desired and desired[self:get_difficulty()] or false
 	end,
-	-- fuck tweak data, thats all im saying.
+	-- added because i realized i needed the difficulty index for some things. but also fuck tweak data.
 	get_difficulty_index = function(self)
 		if not self._difficulty_index then
 			if tweak_data and tweak_data.difficulty_to_index then
@@ -61,6 +63,7 @@ return {
 
 		return self._difficulty_index
 	end,
+	-- commonly used units
 	base_units = function(self)
 		if not self._base_units then
 			self._base_units = {
@@ -95,6 +98,7 @@ return {
 
 		return self._base_units
 	end,
+	-- used for static dozer spawns, mostly minigun dozers
 	get_difficulty_dozer = function(self, max_tier)
 		max_tier = max_tier or 5
 
@@ -123,6 +127,7 @@ return {
 
 		return units["dozer_" .. tier_i] or units.dozer_1
 	end,
+	-- returns a table of units
 	random_unit = function(self, units)
 		if not self._random_units then
 			local units = self:base_units()

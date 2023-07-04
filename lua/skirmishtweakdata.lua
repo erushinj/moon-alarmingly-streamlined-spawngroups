@@ -1,6 +1,6 @@
 local assault_style = ASS:assault_style()
 
--- Scale assault duration based on wave number and shorten time in between assaults
+-- scale assault duration based on wave number
 Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	local sustain_duration_mul = ASS:get_skill_dependent_value("sustain_duration_mul")
 
@@ -35,28 +35,6 @@ Hooks:PostHook( SkirmishTweakData, "_init_group_ai_data", "ass__init_group_ai_da
 	local force_pool_mul = ASS:get_skill_dependent_value("force_pool_mul")
 
 	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * force_pool_mul end)
-end )
-
-
-Hooks:PostHook( SkirmishTweakData, "_init_wave_modifiers", "ass__init_wave_modifiers", function(self)
-	self.wave_modifiers[5] = {
-		{
-			class = "ModifierDozerMinigun"
-		}
-	}
-	self.wave_modifiers[7] = {
-		{
-			class = "ModifierHeavySniper",
-			data = {
-				spawn_chance = 5
-			}
-		}
-	}
-	self.wave_modifiers[9] = {
-		{
-			class = "ModifierDozerMedic"
-		}
-	}
 end )
 
 

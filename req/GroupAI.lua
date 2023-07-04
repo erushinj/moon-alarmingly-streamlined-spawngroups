@@ -89,6 +89,9 @@ function GroupAI.enemy_spawn_groups.super_serious_tweaks(groups)
 	end
 end
 
+-- modernized and tweaked restoration of the original groups
+-- mostly styled after ovk difficulty, the old dw groups are terrible
+-- shotgunners and flankers become more frequent with difficulty
 function GroupAI.enemy_spawn_groups.original(groups, freq, spawn_cooldown)
 	local tactics = {
 		swat_shotgun_rush = {

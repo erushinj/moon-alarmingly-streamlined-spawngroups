@@ -1,3 +1,4 @@
+-- magical
 return {
 	level_mod = {
 		"ass_level_mod_disable",

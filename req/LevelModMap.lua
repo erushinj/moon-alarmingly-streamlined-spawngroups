@@ -12,7 +12,7 @@ return {
 	alex = "FBI_overkill_145",  -- rats
 	watchdogs = "FBI_overkill_145",  -- watchdogs
 	watchdogs_night = "FBI_overkill_145",  -- watchdogs
-	framing_frame = "FBI_overkill_145",  -- framing frame (days 2 and 3)
+	framing_frame = "FBI_overkill_145",  -- framing frame
 	welcome_to_the_jungle_prof = "FBI_overkill_145",  -- big oil
 	welcome_to_the_jungle_night_prof = "FBI_overkill_145",  -- big oil
 	family = "CS_normal",  -- diamond store
@@ -70,7 +70,7 @@ return {
 	pent = "FBI_CITY_easy_wish",  -- mountain master
 	ranc = "FBI_overkill_145",  -- midland ranch
 	trai = "FBI_CITY_easy_wish",  -- lost in transit
-	corp = "CITY_overkill_290",  -- hostile takeover
+	corp = "CITY_overkill_290",  -- hostile takeover. i really dont give a shit that crude awakening confirms this got an fbi response.
 	deep = "CITY_overkill_290",  -- crude awakening
 	roberts = "FBI_overkill_145",  -- go bank
 }

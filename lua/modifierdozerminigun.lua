@@ -1,3 +1,4 @@
+-- adjust to support all factions and the CS tank unit category
 Hooks:OverrideFunction( ModifierDozerMinigun, "init", function(self, data)
 	ModifierDozerMinigun.super.init(self, data)
 

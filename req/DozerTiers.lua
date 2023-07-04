@@ -1,3 +1,4 @@
+-- constants
 return {
 	R870 = 1,
 	SAIGA = 2,

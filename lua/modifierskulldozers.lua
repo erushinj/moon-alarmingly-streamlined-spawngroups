@@ -1,3 +1,4 @@
+-- adjust to support all factions and the CS tank unit category
 Hooks:OverrideFunction( ModifierSkulldozers, "init", function(self, data)
 	ModifierSkulldozers.super.init(self, data)
 

@@ -1,3 +1,4 @@
+-- disable dominations during assault if the setting is enabled
 local super_serious_dominations = ASS:get_intensity_dependent_boolean("super_serious_dominations")
 local has_room_for_police_hostage_original = GroupAIStateBase.has_room_for_police_hostage
 function GroupAIStateBase:has_room_for_police_hostage(...)
@@ -9,6 +10,7 @@ function GroupAIStateBase:has_room_for_police_hostage(...)
 end
 
 
+-- force diff to 1 in loud if the setting is enabled
 local max_diff = ASS:get_intensity_dependent_boolean("max_diff")
 local set_difficulty_original = GroupAIStateBase.set_difficulty
 function GroupAIStateBase:set_difficulty(value, ...)

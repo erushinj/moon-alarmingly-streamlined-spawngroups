@@ -47,7 +47,12 @@ local security = {
 		"raging_bull",
 		"m4",
 		"spas12"
-	}
+	},
+	deep = {
+		"deagle",
+		"ump",
+		"benelli",
+	},
 }
 local gangsters = {
 	bikers_slim = {
@@ -188,6 +193,20 @@ local weapon_mapping = {
 	[("units/pd2_dlc_des/characters/ene_murkywater_no_light_not_security/ene_murkywater_no_light_not_security"):key()] = security.murkywater,
 	[("units/pd2_dlc_vit/characters/ene_murkywater_secret_service/ene_murkywater_secret_service"):key()] = security.murkywater,
 
+	-- bellmead security and maskless gabriel (crude awakening)
+	[("units/pd2_dlc_deep/characters/ene_deep_security_1/ene_deep_security_1"):key()] = security.deep,
+	[("units/pd2_dlc_deep/characters/ene_deep_security_2/ene_deep_security_2"):key()] = security.deep,
+	[("units/pd2_dlc_deep/characters/ene_deep_security_3/ene_deep_security_3"):key()] = security.deep,
+	[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = security.deep,
+
+	-- fbi ready team guards
+	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "m4",
+	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "spas12",
+
+	-- street policia
+	[("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = "mp5",
+	[("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = "r870",
+
 	-- bikers
 	[("units/payday2/characters/ene_biker_1/ene_biker_1"):key()] = gangsters.bikers_slim,
 	[("units/payday2/characters/ene_biker_2/ene_biker_2"):key()] = gangsters.bikers_fat,
@@ -264,13 +283,8 @@ local weapon_mapping = {
 	[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_3/ene_male_triad_penthouse_3"):key()] = gangsters.triads_suit,
 	[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_4/ene_male_triad_penthouse_4"):key()] = gangsters.triads_suit,
 
-	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "m4",
-	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "spas12",
-
+	-- faction appropriate weaponry for biker boss and special enemies
 	[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = "spas12",
-
-	[("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = "mp5",
-	[("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = "r870",
 
 	[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "mp5",
 	[("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"):key()] = "shepheard",
@@ -284,6 +298,7 @@ local weapon_mapping = {
 	[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"):key()] = "scar_murky"
 }
 
+-- shields are practically the new bulldozers in SSS, so give them all smgs
 if SuperSeriousShooter then
 	weapon_mapping[("units/payday2/characters/ene_shield_2/ene_shield_2"):key()] = "mp9"
 	weapon_mapping[("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"):key()] = "sr2_smg"

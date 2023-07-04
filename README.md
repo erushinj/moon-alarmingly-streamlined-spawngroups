@@ -8,15 +8,13 @@ Also known as ASS, since it probably is
 
 An enemy spawn group mod, crafted and refined for this one's tastes over the course of around a year, with two distinct sets of simple yet alarming groups
 
-Both sets of groups mix in occasional specials with regular spawns, allow dangerous pairings of specials, and make liberal use of neglected enemy types
+Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
+
+The default Original group set is a modernized and tweaked restoration of the original spawn groups, while the Streamlined group set is a spicier version of Streamlined Heisting's default spawn groups
 
 In addition, scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
 
-Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - not all changes are ideal for a vanilla game
-
-Also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
-
-The mod's difficulty is also customizable with its various settings
+The mod is more difficult than base Streamlined Heisting, but its difficulty is customizable
 
 -----
 
@@ -124,8 +122,9 @@ The mod's difficulty is also customizable with its various settings
 - Only works as host
 - Values (eg, frequency of tougher units) scales with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
+- Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-- Certain special enemies use faction-appropriate weaponry where possible - this is cosmetic
+- Certain special enemies are given faction-appropriate weaponry - this is cosmetic
 
 -----
 
@@ -206,6 +205,7 @@ The mod's difficulty is also customizable with its various settings
         <td>
             <ul>
                 <li>Doable bullshit.</li>
+                <li>Not playtested. It's just a "fuck you" thing.</li>
                 <li>Tougher units are more likely to spawn.</li>
                 <li>Assaults last up to around 8 minutes.</li>
                 <li>Assault breaks are 15% shorter.</li>
@@ -226,6 +226,7 @@ The mod's difficulty is also customizable with its various settings
         <td>
             <ul>
                 <li>Less doable bullshit.</li>
+                <li>Not playtested. It's just a "fuck you and your mother" thing.</li>
                 <li>Tougher units are exponentially more likely to spawn.</li>
                 <li>Assaults will only end by killing enough cops.</li>
                 <li>Assault breaks may as well not exist.</li>
@@ -371,6 +372,6 @@ A specific Level Mod can also be forced on any regular American map.
 
 -----
 
-If any crashes or other issues occur, report them
+Be trans, shoot pigs - especially on Independence Day
 
-This was mostly only tested in singleplayer before release
+Every month is pride month, motherfucker
