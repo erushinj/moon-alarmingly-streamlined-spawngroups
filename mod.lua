@@ -76,3 +76,5 @@ if RequiredScript and not ASS.required[RequiredScript] then
 	ASS.required[RequiredScript] = true
 
 end
+
+ASS.been_there_fucked_that = true
