@@ -1,10 +1,9 @@
 -- adjust to support all factions and the CS tank unit category
-Hooks:OverrideFunction( ModifierDozerMinigun, "init", function(self, data)
+ASS:override( ModifierDozerMinigun, "init", function(self, data)
 	ModifierDozerMinigun.super.init(self, data)
 
 	local categories = tweak_data.group_ai.unit_categories
 	local unit_name = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-
 	for _, category in pairs({ "CS_tank", "FBI_tank" }) do
 		local unit_types = categories[category] and categories[category].unit_types
 

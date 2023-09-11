@@ -10,10 +10,6 @@ An enemy spawn group mod, crafted and refined for this one's tastes over the cou
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
 
-The default Original group set is a modernized and tweaked restoration of the original spawn groups, while the Streamlined group set is a spicier version of Streamlined Heisting's default spawn groups
-
-In addition, scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
-
 The mod is more difficult than base Streamlined Heisting, but its difficulty is customizable
 
 -----
@@ -41,7 +37,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Assault Style
         </th>
         <td>
-            Choose between original styled and Streamlined Heisting styled spawn groups.
+            Choose which set of spawn groups to face.
         </td>
     </tr>
     <tr>
@@ -50,14 +46,6 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             Tweaks base values used for scaling.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Marshal Groups
-        </th>
-        <td>
-            Adjust how many Marshal groups can be present at the same time.
         </td>
     </tr>
     <tr>
@@ -124,9 +112,48 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-- Certain special enemies are given faction-appropriate weaponry - this is cosmetic
+- Scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
+- Certain special enemies or unique characters are given appropriate weaponry
 
 -----
+
+### Assault Styles:
+
+<table>
+    <tr>
+        <th>
+            Original (default)
+        </th>
+        <td>
+            <ul>
+                <li>Modernized and tweaked restoration of the game's original spawn groups.</li>
+                <li>Scales up shotgunner and flanker presence with difficulty.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Streamlined
+        </th>
+        <td>
+            <ul>
+                <li>Spicier version of Streamlined Heisting's default groups.</li>
+                <li>Scales up heavy presence with difficulty.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Default
+        </th>
+        <td>
+            <ul>
+                <li>Tweaks Streamlined Heisting's default groups to work with the mod's features.</li>
+                <li>All other aspects of the mod are unchanged.</li>
+            </ul>
+        </td>
+    </tr>
+</table>
 
 ### Skill Levels:
 
@@ -244,7 +271,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 ### Level Mods:
 
-A specific Level Mod can also be forced on any regular American map.
+A specific Level Mod can also be forced on any level.
+For alternate factions like Murkywater, this will use their version of equivalent American units.
 
 <table>
     <tr>
@@ -265,10 +293,12 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Diamond Store</li>
                 <li>Hotline Miami</li>
                 <li>Art Gallery</li>
-                <li>Stealing Xmas</li>
                 <li>First World Bank</li>
-                <li>Heat Street</li>
+                <li>Beneath the Mountain</li>
                 <li>Counterfeit</li>
+                <li>Stealing Xmas</li>
+                <li>Heat Street</li>
+                <li>San Martin Bank</li>
                 <li>Dragon Heist</li>
             </ul>
         </td>
@@ -285,7 +315,10 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Goat Simulator</li>
                 <li>Panic Room</li>
                 <li>Green Bridge</li>
+                <li>Reservoir Dogs</li>
+                <li>Cursed Kill Room</li>
                 <li>Ukrainian Prisoner</li>
+                <li>Midland Ranch</li>
             </ul>
         </td>
     </tr>
@@ -295,7 +328,6 @@ A specific Level Mod can also be forced on any regular American map.
         </th>
         <td>
             <ul>
-                <li>GO Bank</li>
                 <li>Firestarter</li>
                 <li>Rats</li>
                 <li>Watchdogs</li>
@@ -313,18 +345,21 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Lab Rats</li>
                 <li>Santa's Workshop</li>
                 <li>Birth of Sky</li>
+                <li>Boiling Point</li>
                 <li>Undercover</li>
                 <li>Biker Heist</li>
                 <li>Safehouse Raid</li>
                 <li>Scarface Mansion</li>
                 <li>Prison Nightmare</li>
                 <li>Brooklyn 10-10</li>
-                <li>Reservoir Dogs</li>
                 <li>Alaskan Deal</li>
                 <li>Brooklyn Bank</li>
+                <li>Henry's Rock</li>
                 <li>Shacklethorne Auction</li>
+                <li>Breakfast in Tijuana</li>
                 <li>Black Cat</li>
-                <li>Midland Ranch</li>
+                <li>Lost in Transit</li>
+                <li>GO Bank</li>
             </ul>
         </td>
     </tr>
@@ -336,7 +371,7 @@ A specific Level Mod can also be forced on any regular American map.
             <ul>
                 <li>Slaughterhouse</li>
                 <li>Mountain Master</li>
-                <li>Lost in Transit</li>
+                <li>Hostile Takeover</li>
             </ul>
         </td>
     </tr>
@@ -355,7 +390,11 @@ A specific Level Mod can also be forced on any regular American map.
                 <li>Alesso Heist</li>
                 <li>Diamond Heist</li>
                 <li>No Mercy</li>
-                <li>Hostile Takeover</li>
+                <li>The White House</li>
+                <li>Hell's Island</li>
+                <li>Border Crossing</li>
+                <li>Border Crystals</li>
+                <li>Buluc's Mansion</li>
                 <li>Crude Awakening</li>
             </ul>
         </td>
@@ -368,11 +407,11 @@ A specific Level Mod can also be forced on any regular American map.
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
 
-Be trans, shoot pigs - especially on Independence Day
+Be trans, shoot pigs
 
 Every month is pride month, motherfucker

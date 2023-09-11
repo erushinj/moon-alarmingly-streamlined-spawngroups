@@ -14,11 +14,13 @@
 	"ass_level_mod_FBI_overkill_145" : "FBI",
 	"ass_level_mod_FBI_CITY_easy_wish" : "FBI-GenSec",
 	"ass_level_mod_CITY_overkill_290" : "GenSec",
+	"ass_level_mod_random" : "Random",
 
 	"ass_menu_assault_style" : "Assault Style",
-	"ass_menu_assault_style_desc" : "Choose between original styled and Streamlined Heisting styled spawn groups.",
+	"ass_menu_assault_style_desc" : "Choose which set of spawn groups to face.",
 	"ass_assault_style_original" : "Original",
 	"ass_assault_style_streamlined" : "Streamlined",
+	"ass_assault_style_default" : "Default",
 
 	"ass_menu_skill" : "Skill Level",
 	"ass_menu_skill_desc" : "Tweaks base values used for scaling.",
@@ -28,12 +30,6 @@
 	"ass_skill_4" : "Ultra-Violence",
 	"ass_skill_5" : "Nightmare!",
 	"ass_skill_6" : "Ultra-Nightmare!!",
-
-	"ass_menu_marshal_squads_allowed" : "Marshal Groups",
-	"ass_menu_marshal_squads_allowed_desc" : "Adjust how many Marshal groups can be present at the same time.",
-	"ass_marshal_squads_allowed_0" : "Disabled",
-	"ass_marshal_squads_allowed_1" : "Reduced",
-	"ass_marshal_squads_allowed_2" : "Default",
 
 	"ass_menu_super_serious_dominations" : "Super Serious Dominations",
 	"ass_menu_super_serious_dominations_desc" : "Disallows dominating enemies during assaults.",

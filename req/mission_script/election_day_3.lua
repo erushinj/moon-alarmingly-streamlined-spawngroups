@@ -40,8 +40,8 @@ return {
 	[100213] = { enemy = ASS:random_unit("heavys") },
 
 	-- elevator dozers
-	[103241] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103266] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103254] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103222] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
+	[103241] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103266] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103254] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103222] = { enemy = ASS:random_unit("dozers_no_med") },
 }

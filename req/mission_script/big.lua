@@ -1,21 +1,12 @@
-local securitys = {
-	Idstring("units/payday2/characters/ene_security_4/ene_security_4"),
-	Idstring("units/payday2/characters/ene_security_5/ene_security_5"),
-	Idstring("units/payday2/characters/ene_security_6/ene_security_6"),
-	Idstring("units/payday2/characters/ene_security_7/ene_security_7"),
-}
-local securitys_light = {
-	Idstring("units/payday2/characters/ene_security_4/ene_security_4"),
-	Idstring("units/payday2/characters/ene_security_5/ene_security_5"),
-}
-local securitys_medium = {
-	Idstring("units/payday2/characters/ene_security_5/ene_security_5"),
-	Idstring("units/payday2/characters/ene_security_6/ene_security_6"),
-}
-local securitys_heavy = {
-	Idstring("units/payday2/characters/ene_security_6/ene_security_6"),
-	Idstring("units/payday2/characters/ene_security_7/ene_security_7"),
-}
+local security_4 = Idstring("units/payday2/characters/ene_security_4/ene_security_4")
+local security_5 = Idstring("units/payday2/characters/ene_security_5/ene_security_5")
+local security_6 = Idstring("units/payday2/characters/ene_security_6/ene_security_6")
+local security_7 = Idstring("units/payday2/characters/ene_security_7/ene_security_7")
+local securitys_light = { security_4, security_5, }
+local securitys_medium = { security_5, security_6, }
+local securitys_heavy = { security_6, security_7, }
+
+local ovk_harassers = ASS:random_unit(ASS:get_var("difficulty_index") > 6 and "heavys" or "swats_heavys")
 
 return {
 	-- guards
@@ -88,24 +79,24 @@ return {
 	[101146] = { enemy = ASS:random_unit("swats_heavys") },
 	[101162] = { enemy = ASS:random_unit("swats_heavys") },
 	[101178] = { enemy = ASS:random_unit("swats_heavys") },
-	[100885] = { enemy = ASS:random_unit("heavys") },  -- ovk+
-	[100336] = { enemy = ASS:random_unit("heavys") },
-	[100908] = { enemy = ASS:random_unit("heavys") },
-	[100924] = { enemy = ASS:random_unit("heavys") },
-	[100940] = { enemy = ASS:random_unit("heavys") },
-	[100956] = { enemy = ASS:random_unit("heavys") },
-	[100971] = { enemy = ASS:random_unit("heavys") },
-	[100987] = { enemy = ASS:random_unit("heavys") },
-	[101003] = { enemy = ASS:random_unit("heavys") },
-	[101019] = { enemy = ASS:random_unit("heavys") },
-	[101035] = { enemy = ASS:random_unit("heavys") },
-	[101051] = { enemy = ASS:random_unit("heavys") },
-	[101067] = { enemy = ASS:random_unit("heavys") },
-	[101083] = { enemy = ASS:random_unit("heavys") },
-	[101099] = { enemy = ASS:random_unit("heavys") },
-	[101115] = { enemy = ASS:random_unit("heavys") },
-	[101131] = { enemy = ASS:random_unit("heavys") },
-	[101147] = { enemy = ASS:random_unit("heavys") },
-	[101163] = { enemy = ASS:random_unit("heavys") },
-	[101179] = { enemy = ASS:random_unit("heavys") },
+	[100885] = { enemy = ovk_harassers },  -- ovk+
+	[100336] = { enemy = ovk_harassers },
+	[100908] = { enemy = ovk_harassers },
+	[100924] = { enemy = ovk_harassers },
+	[100940] = { enemy = ovk_harassers },
+	[100956] = { enemy = ovk_harassers },
+	[100971] = { enemy = ovk_harassers },
+	[100987] = { enemy = ovk_harassers },
+	[101003] = { enemy = ovk_harassers },
+	[101019] = { enemy = ovk_harassers },
+	[101035] = { enemy = ovk_harassers },
+	[101051] = { enemy = ovk_harassers },
+	[101067] = { enemy = ovk_harassers },
+	[101083] = { enemy = ovk_harassers },
+	[101099] = { enemy = ovk_harassers },
+	[101115] = { enemy = ovk_harassers },
+	[101131] = { enemy = ovk_harassers },
+	[101147] = { enemy = ovk_harassers },
+	[101163] = { enemy = ovk_harassers },
+	[101179] = { enemy = ovk_harassers },
 }
