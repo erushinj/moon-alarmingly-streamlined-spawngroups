@@ -33,7 +33,7 @@ local function scripted_swat_squads()
 		end
 	end
 
-	return shield
+	return chance[#chance][2]
 end
 
 -- american enemy fixes are handled with hardcoded replacements
