@@ -155,26 +155,26 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 			default = "FBI_shield",
 		},
 		CS_spooc = {
-			rifle = "CS_cop_C45_MP5",
+			rifle = "CS_cop_MP5",
 			shotgun = "CS_cop_stealth_R870",
-			default = "CS_cop_C45_R870",
+			default = "CS_cop_MP5_R870",
 		},
 		FBI_spooc = {
-			rifle = "FBI_suit_C45_M4",
+			rifle = "FBI_suit_M4",
 			shotgun = "FBI_suit_stealth_MP5",
-			default = "FBI_suit_C45_MP5",
+			default = "FBI_suit_M4_MP5",
 		},
 		CS_tank = { default = "CS_heavy_MP5_R870", },
 		FBI_tank = { default = "FBI_heavy_M4_R870", },
-		CS_medic_MP5 = { default = "CS_cop_C45_MP5", },
+		CS_medic_MP5 = { default = "CS_cop_MP5", },
 		CS_medic_R870 = { default = "CS_cop_stealth_R870", },
-		CS_medic_MP5_R870 = { default = "FBI_suit_C45_MP5", },
-		FBI_medic_M4 = { default = "FBI_suit_C45_M4", },
+		CS_medic_MP5_R870 = { default = "CS_cop_MP5_R870", },
+		FBI_medic_M4 = { default = "FBI_suit_M4", },
 		FBI_medic_R870 = { default = "FBI_suit_stealth_MP5", },
-		FBI_medic_M4_R870 = { default = "FBI_suit_C45_MP5", },
+		FBI_medic_M4_R870 = { default = "FBI_suit_M4_MP5", },
 		-- just in case SSS reenables marshals at any point
 		marshal_marksman = { default = "FBI_swat_M4", },
-		marshal_shield = { default = "FBI_shield", }
+		marshal_shield = { default = "FBI_shield", },
 	}
 	local type_mapping = {
 		spooc = "shotgun",
