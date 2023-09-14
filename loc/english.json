@@ -31,8 +31,12 @@
 	"ass_skill_5" : "Nightmare!",
 	"ass_skill_6" : "Ultra-Nightmare!!",
 
-	"ass_menu_super_serious_dominations" : "Super Serious Dominations",
-	"ass_menu_super_serious_dominations_desc" : "Disallows dominating enemies during assaults.",
+	"ass_menu_dominations" : "Dominations",
+	"ass_menu_dominations_desc" : "Tweak the difficulty of dominating enemies.",
+	"ass_dominations_super_silly" : "Super Silly",
+	"ass_dominations_silly" : "Silly",
+	"ass_dominations_serious" : "Serious",
+	"ass_dominations_super_serious" : "Super Serious",
 
 	"ass_menu_max_values" : "Death Sentence Values",
 	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",

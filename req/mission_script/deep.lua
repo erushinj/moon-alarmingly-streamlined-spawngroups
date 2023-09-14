@@ -24,6 +24,20 @@ return {
 	[102539] = { enemy = bellmead_securitys },
 	[100211] = { enemy = bellmead_securitys },
 
+	-- "helicopter gaurd"
+	[101280] = { enemy = bellmead_securitys },
+	[102066] = { enemy = bellmead_securitys },
+	[103696] = { enemy = bellmead_securitys },
+	[103697] = { enemy = bellmead_securitys },
+	[104861] = { enemy = bellmead_securitys },
+	[104862] = { enemy = bellmead_securitys },
+	[104863] = { enemy = bellmead_securitys },
+	[104980] = { enemy = bellmead_securitys },
+	[104981] = { enemy = bellmead_securitys },
+	[104982] = { enemy = bellmead_securitys },
+	[104983] = { enemy = bellmead_securitys },
+	[104984] = { enemy = bellmead_securitys },
+
 	-- "force" security, presumably additional spawns that happen at some point
 	[100177] = { enemy = bellmead_securitys },
 	[100178] = { enemy = bellmead_securitys },
@@ -58,50 +72,28 @@ return {
 	-- why are there so many bulldozers during the escape sequence ?
 	-- reduce to 1 on vh/ovk, 2 on mh/dw, and 4 on ds (from what appears to be 6/6/8)
 	-- TODO: find out if all of them for a given difficulty are activated, looking like all of them plus a random other dozer get activated..?
-	-- [104215] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 1 and "specials_agg" or "dozers_no_cs") },  -- vh/ovk
-	-- [104206] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 2 and "specials_agg" or "dozers_no_cs") },
-	-- [104217] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 3 and "specials_agg" or "dozers_no_cs") },
-	-- [104219] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 4 and "specials_agg" or "dozers_no_cs") },
-	-- [104221] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 5 and "specials_agg" or "dozers_no_cs") },
-	[104215] = { enemy = bellmead_shield },  -- vh/ovk
-	[104206] = { enemy = bellmead_shield },
-	[104217] = { enemy = bellmead_shield },
-	[104219] = { enemy = bellmead_shield },
-	[104221] = { enemy = bellmead_shield },
-	-- [104998] = { enemy = ASS:random_unit("specials_agg") },  -- 25/25/25/25
-	-- [104997] = { enemy = ASS:random_unit("specials_agg") },  -- 25/25/25/25
-	-- [104996] = { enemy = ASS:random_unit("specials_agg") },  -- 25/25/25/25
-	-- [104994] = { enemy = ASS:random_unit("specials_agg") },  -- 25/25/25/25
+	[104215] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or ASS:random_unit("dozers_no_cs") },  -- vh/ovk
+	[104206] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104217] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104219] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104221] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
 	[104998] = { enemy = bellmead_marksman },  -- 25/25/25/25
 	[104997] = { enemy = bellmead_marksman },  -- 25/25/25/25
 	[104996] = { enemy = bellmead_marksman },  -- 25/25/25/25
 	[104994] = { enemy = bellmead_marksman },  -- 25/25/25/25
-	-- [104213] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 1 and "specials_agg" or "dozers_no_cs") },  -- mh+
-	-- [104214] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 2 and "specials_agg" or "dozers_no_cs") },
-	-- [104216] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 3 and "specials_agg" or "dozers_no_cs") },
-	-- [104218] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 4 and "specials_agg" or "dozers_no_cs") },
-	-- [104220] = { enemy = ASS:random_unit(replace_guaranteed_dozer_spot ~= 5 and "specials_agg" or "dozers_no_cs") },
-	[104213] = { enemy = bellmead_shield },  -- mh+
-	[104214] = { enemy = bellmead_shield },
-	[104216] = { enemy = bellmead_shield },
-	[104218] = { enemy = bellmead_shield },
-	[104220] = { enemy = bellmead_shield },
-	-- [104993] = { enemy = ASS:random_unit("dozers_no_med") },  -- 50/50
-	-- [104999] = { enemy = ASS:random_unit("dozers_no_med") },  -- 50/50
-	-- [104995] = { enemy = ASS:random_unit("dozers_any") },  -- ds
-	-- [105000] = { enemy = ASS:random_unit("dozers_any") },
-	[104993] = { enemy = bellmead_marksman },  -- 50/50
-	[104999] = { enemy = bellmead_marksman },  -- 50/50
-	[104995] = { enemy = bellmead_marksman },  -- ds
-	[105000] = { enemy = bellmead_marksman },
+	[104213] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or ASS:random_unit("dozers_no_cs") },  -- mh+
+	[104214] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104216] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104218] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104220] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or ASS:random_unit("dozers_no_cs") },
+	[104993] = { enemy = ASS:random_unit("dozers_no_med") },  -- 50/50
+	[104999] = { enemy = ASS:random_unit("dozers_no_med") },  -- 50/50
+	[104995] = { enemy = ASS:random_unit("dozers_any") },  -- ds
+	[105000] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- "force dozers" while going up to the pipe puzzle, 50/50 chance
-	-- [102312] = { enemy = ASS:random_unit("dozers_no_med") },
-	-- [104519] = { enemy = ASS:random_unit("dozers_no_med") },
-	-- [104518] = { enemy = ASS:random_unit("dozers_no_med") },
-	-- [104517] = { enemy = ASS:random_unit("dozers_no_med") },
-	[102312] = { enemy = bellmead_shield },
-	[104519] = { enemy = bellmead_shield },
-	[104518] = { enemy = bellmead_shield },
-	[104517] = { enemy = bellmead_shield },
+	[102312] = { enemy = ASS:random_unit("dozers_no_med") },
+	[104519] = { enemy = ASS:random_unit("dozers_no_med") },
+	[104518] = { enemy = ASS:random_unit("dozers_no_med") },
+	[104517] = { enemy = ASS:random_unit("dozers_no_med") },
 }

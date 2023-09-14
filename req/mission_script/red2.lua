@@ -3,7 +3,7 @@ repeat
 	replace_vault_dozer_1, replace_vault_dozer_2 = math.random(1, 5), math.random(1, 5)
 until replace_vault_dozer_1 ~= replace_vault_dozer_2
 
-local is_overkill_145 = ASS:get_var("difficulty_index") > 4
+local is_overkill_145 = ASS:get_var("real_difficulty_index") > 4
 
 return {
 	-- escape office dozers

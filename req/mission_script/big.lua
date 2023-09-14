@@ -6,7 +6,7 @@ local securitys_light = { security_4, security_5, }
 local securitys_medium = { security_5, security_6, }
 local securitys_heavy = { security_6, security_7, }
 
-local ovk_harassers = ASS:random_unit(ASS:get_var("difficulty_index") > 6 and "heavys" or "swats_heavys")
+local ovk_harassers = ASS:random_unit(ASS:get_var("real_difficulty_index") > 6 and "heavys" or "swats_heavys")
 
 return {
 	-- guards

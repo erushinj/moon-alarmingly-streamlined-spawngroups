@@ -10,7 +10,7 @@ if not ASS then
 		level_mod = 2,
 		assault_style = 1,
 		skill = 2,
-		super_serious_dominations = false,
+		dominations = 2,
 		max_values = false,
 		max_diff = false,
 		max_balance_muls = false,
@@ -42,6 +42,12 @@ if not ASS then
 			"ass_skill_4",
 			"ass_skill_5",
 			"ass_skill_6",
+		},
+		dominations = {
+			"ass_dominations_super_silly",
+			"ass_dominations_silly",
+			"ass_dominations_serious",
+			"ass_dominations_super_serious",
 		},
 	}
 	ASS.tweaks = {
@@ -259,8 +265,10 @@ if not ASS then
 
 		self._assault_style = self:_gsub("assault_style")
 		self._skill = tonumber((self:_gsub("skill")))
+		self._dominations = self:_gsub("dominations")
 		self._difficulty = difficulty
-		self._difficulty_index = indices[difficulty] or indices.normal
+		self._difficulty_index = self:get_setting("max_values") and 8 or indices[difficulty] or indices.normal
+		self._real_difficulty_index = indices[difficulty] or indices.normal
 		self._level_id = level_id
 		self._job_id = job_id
 
@@ -395,7 +403,7 @@ if not ASS then
 			}
 
 			local tier_list = { 2, 4, 6, 7, 8 }
-			local difficulty_index = self:get_var("difficulty_index")
+			local difficulty_index = self:get_var("real_difficulty_index")
 			local function get_difficulty_dozer(max_tier)
 				local tier_i = 1
 
@@ -952,8 +960,8 @@ if not ASS then
 		add_multiple_choice("level_mod")
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
+		add_multiple_choice("dominations")
 		add_divider()
-		add_toggle("super_serious_dominations")
 		add_toggle("max_values")
 		add_toggle("max_diff")
 		add_toggle("max_balance_muls")

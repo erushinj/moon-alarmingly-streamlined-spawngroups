@@ -1,4 +1,4 @@
-local super_serious_dominations = ASS:get_setting("super_serious_dominations")
+local super_serious_dominations = ASS:get_var("dominations") == "super_serious"
 local max_diff = ASS:get_setting("max_diff")
 
 -- disable dominations during assault if the setting is enabled
@@ -25,42 +25,41 @@ if ASS:get_var("assault_style") == "default" then
 	return
 end
 
--- make marshals register as specials
-local function register_special_types(gstate)
-	gstate._special_unit_types.marshal = true
-	gstate._special_unit_types.marshal_marksman = true
-	gstate._special_unit_types.marshal_shield = true
-	gstate._special_unit_mappings = {
-		marshal_marksman = { "marshal", },
-		marshal_shield = { "marshal", },
-	}
+-- make marshals register as their own special type
+local function register_special_types(state)
+	state._special_unit_types.marshal = true
 end
 
 ASS:post_hook( GroupAIStateBase, "_init_misc_data", register_special_types)
 ASS:post_hook( GroupAIStateBase, "on_simulation_started", register_special_types)
 
-local register_special_unit_original = GroupAIStateBase.register_special_unit
-function GroupAIStateBase:register_special_unit(u_key, category_name, ...)
-	local mapping = self._special_unit_mappings[category_name]
+-- sigh. u240.
+local on_enemy_registered_original = GroupAIStateBase.on_enemy_registered
+function GroupAIStateBase:on_enemy_registered(unit, ...)
+	local special_unit_types_shield_original = self._special_unit_types.shield
 
-	if mapping then
-		for _, v in pairs(mapping) do
-			register_special_unit_original(self, u_key, v, ...)
-		end
-	else
-		register_special_unit_original(self, u_key, category_name, ...)
+	if unit:base()._tweak_table == "marshal_shield" then
+		self._special_unit_types.shield = false
 	end
+
+	local result = on_enemy_registered_original(self, unit, ...)
+
+	self._special_unit_types.shield = special_unit_types_shield_original
+
+	return result
 end
 
-local unregister_special_unit_original = GroupAIStateBase.unregister_special_unit
-function GroupAIStateBase:unregister_special_unit(u_key, category_name, ...)
-	local mapping = self._special_unit_mappings[category_name]
+local on_enemy_unregistered_original = GroupAIStateBase.on_enemy_unregistered
+function GroupAIStateBase:on_enemy_unregistered(unit, ...)
+	local special_unit_types_shield_original = self._special_unit_types.shield
 
-	if mapping then
-		for _, v in pairs(mapping) do
-			unregister_special_unit_original(self, u_key, v, ...)
-		end
-	else
-		unregister_special_unit_original(self, u_key, category_name, ...)
+	if unit:base()._tweak_table == "marshal_shield" then
+		self._special_unit_types.shield = false
 	end
+
+	local result = on_enemy_unregistered_original(self, unit, ...)
+
+	self._special_unit_types.shield = special_unit_types_shield_original
+
+	return result
 end

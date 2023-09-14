@@ -3,7 +3,7 @@ local is_super_serious = sss and sss:IsEnabled() and SuperSeriousShooter and tru
 
 local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
 
-local difficulty_index = ASS:get_setting("max_values") and 8 or ASS:get_var("difficulty_index")
+local difficulty_index = ASS:get_var("difficulty_index")
 local f = math.clamp(difficulty_index - 2, 0, 6) / 6
 
 function GroupAITweakData:_moon_swap_units(prefixes)
