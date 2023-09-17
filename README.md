@@ -50,10 +50,10 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Super Serious Dominations
+            Dominations
         </th>
         <td>
-            Disallows dominating enemies during assaults.
+            Tweak the difficulty of dominating enemies.
         </td>
     </tr>
     <tr>
@@ -150,6 +150,54 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Tweaks Streamlined Heisting's default groups to work with the mod's features.</li>
                 <li>All other aspects of the mod are unchanged.</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Dominations:
+
+<table>
+    <tr>
+        <th>
+            Super Silly
+        </th>
+        <td>
+            <ul>
+                <li>Unchanged.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Silly (default)
+        </th>
+        <td>
+            <ul>
+                <li>Dominating enemies gets harder with difficulty.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Serious
+        </th>
+        <td>
+            <ul>
+                <li>Dominating enemies gets harder with difficulty.</li>
+                <li>All dominatable enemies use the hardest surrender preset.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Super Serious
+        </th>
+        <td>
+            <ul>
+                <li>Dominating enemies gets harder with difficulty.</li>
+                <li>All dominatable enemies use the hardest surrender preset.</li>
+                <li>Enemies can only be dominated between assaults.</li>
             </ul>
         </td>
     </tr>
