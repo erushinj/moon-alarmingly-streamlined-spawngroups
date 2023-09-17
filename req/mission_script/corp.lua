@@ -1,4 +1,4 @@
-local special_chance = ASS:get_difficulty_index() * 0.05
+local special_chance = ASS:get_var("difficulty_index") * 0.05
 local dozer_chance = special_chance * 0.1
 
 local function scripted_swat_squads()
@@ -6,9 +6,6 @@ local function scripted_swat_squads()
 
 	return ASS:random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
 end
-
-local left_elevator_dozer_static = math.random() < 0.5
-local right_elevator_dozer_static = not left_elevator_dozer_static
 
 return {
 	-- security guards
@@ -96,10 +93,10 @@ return {
 	[103600] = { enemy = scripted_swat_squads() },
 
 	-- elevator dozers
-	[102384] = { enemy = left_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
-	[103016] = { enemy = left_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
-	[103017] = { enemy = left_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
-	[102385] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
-	[103025] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
-	[103026] = { enemy = right_elevator_dozer_static and ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) or ASS:random_unit("dozers_any") },
+	[102384] = { enemy = ASS:random_unit("dozers_any") },
+	[103016] = { enemy = ASS:random_unit("dozers_any") },
+	[103017] = { enemy = ASS:random_unit("dozers_any") },
+	[102385] = { enemy = ASS:random_unit("dozers_any") },
+	[103025] = { enemy = ASS:random_unit("dozers_any") },
+	[103026] = { enemy = ASS:random_unit("dozers_any") },
 }

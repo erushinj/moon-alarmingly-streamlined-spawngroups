@@ -1,23 +1,20 @@
-local replace_vault_dozer_1 = math.random(1, 5)
-local replace_vault_dozer_2 = math.random(1, 5)
-local is_overkill_145 = ASS:is_difficulty_at_least("overkill_145")
-if replace_vault_dozer_1 == replace_vault_dozer_2 then
-	repeat
-		replace_vault_dozer_1 = math.random(1, 5)
-		replace_vault_dozer_2 = math.random(1, 5)
-	until replace_vault_dozer_1 ~= replace_vault_dozer_2
-end
+local replace_vault_dozer_1, replace_vault_dozer_2
+repeat
+	replace_vault_dozer_1, replace_vault_dozer_2 = math.random(1, 5), math.random(1, 5)
+until replace_vault_dozer_1 ~= replace_vault_dozer_2
+
+local is_overkill_145 = ASS:get_var("real_difficulty_index") > 4
 
 return {
 	-- escape office dozers
-	[103603] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
-	[103390] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.LMG) },
+	[103603] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103390] = { enemy = ASS:random_unit("dozers_no_med") },
 
 	-- escape basement dozers
-	[103231] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103198] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103163] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[103162] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
+	[103231] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103198] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103163] = { enemy = ASS:random_unit("dozers_no_med") },
+	[103162] = { enemy = ASS:random_unit("dozers_no_med") },
 
 	-- vault dozers - only 4 are chosen on mh+, so although 2 are meant to be replaced, you might get 3 if youre unlucky and one of the replaced spawns isnt used
 	[104169] = { enemy = ASS:random_unit(is_overkill_145 and (replace_vault_dozer_1 == 1 or replace_vault_dozer_2 == 1) and "specials_agg" or "dozers_no_med") },

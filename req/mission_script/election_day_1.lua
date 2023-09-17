@@ -1,4 +1,7 @@
 return {
+	[100156] = { difficulty = 0.33, },  -- difficulty 0.6 (on loud)
+	[104076] = { difficulty = 0.67, },  -- difficulty 0.75 (after first assault)
+
 	-- harasser spawns on warehouse rooftops
 	-- swat heavies (n/h, should be swats)
 	[104583] = { enemy = ASS:random_unit("swats") },

@@ -1,4 +1,3 @@
-local units = ASS:base_units()
 local escape_roof_dozer_spot = math.random(1, 4)
 local escape_roof_dozer = ASS:random_unit("dozers_any")
 
@@ -29,24 +28,24 @@ return {
 
 	-- gassers
 	-- n/h
-	[103293] = { enemy = ASS:random_unit("swats") },
-	[103294] = { enemy = ASS:random_unit("swats") },
+	[103293] = { enemy = ASS:random_unit("heavys") },
+	[103294] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- vh/ovk
-	[104045] = { enemy = ASS:random_unit("heavys") },
-	[104046] = { enemy = ASS:random_unit("heavys") },
+	[104045] = { enemy = ASS:random_unit("specials_def") },
+	[104046] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- mh/dw
-	[104047] = { enemy = units.taser },
-	[104048] = { enemy = ASS:random_unit("specials_taser_medic") },
+	[104047] = { enemy = ASS:random_unit("specials_no_clk") },
+	[104048] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- ds
 	[104049] = { enemy = ASS:random_unit("dozers_any") },
 	[104050] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- escape roof dozers
-	[102433] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
-	[102434] = { enemy = ASS:get_difficulty_dozer(ASS.DOZER_TIERS.MINI) },
+	[102433] = { enemy = ASS:random_unit("dozers_no_med") },
+	[102434] = { enemy = ASS:random_unit("dozers_no_med") },
 
 	-- escape roof shields
 	[102410] = { enemy = escape_roof_dozer_spot == 1 and escape_roof_dozer },
