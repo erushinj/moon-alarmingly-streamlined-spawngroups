@@ -27,7 +27,7 @@
 	"updates" : [
 		{
 			"identifier" : "moon_alarmingly_streamlined_spawngroups",
-			"host" : { "meta" : "https://raw.githubusercontent.com/erushinj/moon-alarmingly-streamlined-spawngroups/dev/meta.json" }
+			"host" : { "meta" : "https://raw.githubusercontent.com/erushinj/moon-alarmingly-streamlined-spawngroups/master/meta.json" }
 		}
 	]
 
