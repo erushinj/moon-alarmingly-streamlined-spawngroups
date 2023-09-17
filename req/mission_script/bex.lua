@@ -1,11 +1,47 @@
--- disable reenforce in one of the server rooms
--- the others dont have reenforce, why this one ?
 return {
+	-- disable reenforce in one of the server rooms, the others dont have reenforce, why this one ?
 	[101835] = {
 		values = {
 			enabled = false
 		}
 	},
+	-- cheat spawns, replaced with reenforce
+	[102356] = {  -- enemy group 12
+		values = {
+			enabled = false
+		}
+	},
+	[102365] = {  -- enemy group 13
+		values = {
+			enabled = false
+		}
+	},
+	[100133] = {  -- enemy group 14
+		values = {
+			enabled = false
+		}
+	},
+	[102390] = {  -- enemy group 15
+		values = {
+			enabled = false
+		}
+	},
+	[102848] = {  -- enemy group 16
+		values = {
+			enabled = false
+		}
+	},
+	[100024] = {  -- enemy group 17
+		values = {
+			enabled = false
+		}
+	},
+	[100199] = {  -- enemy group 18
+		values = {
+			enabled = false
+		}
+	},
+	-- this normally activates the out of place server room reenforce
 	[101797] = {
 		reinforce = {
 			{
@@ -43,42 +79,6 @@ return {
 				force = 1,
 				position = Vector3(-853, -3125, -0)  -- spawn enemy 83
 			},
-		}
-	},
-	-- cheat spawns, replaced with reenforce
-	[102356] = {  -- enemy group 12
-		values = {
-			enabled = false
-		}
-	},
-	[102356] = {  -- enemy group 13
-		values = {
-			enabled = false
-		}
-	},
-	[100133] = {  -- enemy group 14
-		values = {
-			enabled = false
-		}
-	},
-	[102390] = {  -- enemy group 15
-		values = {
-			enabled = false
-		}
-	},
-	[102848] = {  -- enemy group 16
-		values = {
-			enabled = false
-		}
-	},
-	[100024] = {  -- enemy group 17
-		values = {
-			enabled = false
-		}
-	},
-	[100199] = {  -- enemy group 18
-		values = {
-			enabled = false
 		}
 	},
 }

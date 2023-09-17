@@ -653,13 +653,13 @@ function GroupAITweakData:_moon_original(special_weight)
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_cop_C45_R870",
+				unit = "CS_swat_MP5_R870",
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline
 			},
 			{
 				rank = 1,
-				unit = "CS_swat_MP5_R870",
+				unit = "CS_cop_C45_R870",
 				tactics = self._tactics.empty,
 				amount_max = 1,
 				freq = self._freq.common
