@@ -202,15 +202,15 @@ if not ASS then
 		friend = "FBI_overkill_145",  -- scarface mansion
 		flat = "CS_FBI_overkill",  -- panic room
 		help = "FBI_overkill_145",  -- prison nightmare
-		spa = "FBI_overkill_145",  -- brooklyn 10-10
+		spa = "CS_normal",  -- brooklyn 10-10
 		moon = "CS_normal",  -- stealing xmas
 		run = "CS_normal",  -- heat street
 		glace = "CS_FBI_overkill",  -- green bridge
 		dah = "CITY_overkill_290",  -- diamond heist
-		rvd = "CS_FBI_overkill",  -- reservoir dogs
+		rvd = "CS_normal",  -- reservoir dogs
 		hvh = "CS_FBI_overkill",  -- cursed kill room
-		wwh = "FBI_overkill_145",  -- alaskan deal
-		brb = "FBI_overkill_145",  -- brooklyn bank
+		wwh = "CS_normal",  -- alaskan deal
+		brb = "CS_normal",  -- brooklyn bank
 		des = "FBI_overkill_145",  -- henry's rock
 		nmh = "CITY_overkill_290",  -- no mercy
 		sah = "FBI_overkill_145",  -- shacklethorne auction
@@ -375,7 +375,7 @@ if not ASS then
 			self._random_unit = {
 				securitys = { security_1, security_2, security_3, },
 				securitys_light = { security_1, security_2, },
-				securitys_heavy = { units.security_2, security_3, },
+				securitys_heavy = { security_2, security_3, },
 				cops = { cop_1, cop_2, cop_3, cop_4, },
 				cops_light = { cop_1, cop_2, },
 				cops_medium = { cop_2, cop_4, },
@@ -770,10 +770,21 @@ if not ASS then
 			local security_1, security_2, security_3 = units.security_1:key(), units.security_2:key(), units.security_3:key()
 			local cop_1, cop_2, cop_3, cop_4 = units.cop_1:key(), units.cop_2:key(), units.cop_3:key(), units.cop_4:key()
 			local swat_1, swat_2, swat_3 = units.swat_1:key(), units.swat_2:key(), units.swat_3:key()
-			local cloaker = units.cloaker:key()
-			local sniper = units.sniper:key()
+			local shield, sniper, taser, cloaker, medic_1, medic_2 = units.shield:key(), units.sniper:key(), units.taser:key(), units.cloaker:key(), units.medic_1:key(), units.medic_2:key()
+			local dozer_1, dozer_2, dozer_3, dozer_4, dozer_5 = units.dozer_1:key(), units.dozer_2:key(), units.dozer_3:key(), units.dozer_4:key(), units.dozer_5:key()
 
 			self._level_enemy_replacements = {
+				pbr = {
+					[("units/payday2/characters/ene_shield_1/ene_shield_1"):key()] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"),
+					[("units/payday2/characters/ene_sniper_2/ene_sniper_2"):key()] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_sniper/ene_murkywater_sniper"),
+					[shield] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"),
+					[sniper] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_sniper/ene_murkywater_sniper"),
+					[dozer_1] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_2/ene_murkywater_bulldozer_2"),
+					[dozer_2] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_3/ene_murkywater_bulldozer_3"),
+					[dozer_3] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
+					[dozer_4] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"),
+					[dozer_5] = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"),
+				},
 				moon = {
 					[security_1] = Idstring("units/payday2/characters/ene_security_4/ene_security_4"),
 				},
@@ -789,10 +800,10 @@ if not ASS then
 					[cop_4] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4"),
 				},
 				fex = {
-					[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"),
 					[("units/payday2/characters/ene_secret_service_1/ene_secret_service_1"):key()] = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"),
 					[("units/payday2/characters/ene_secret_service_2/ene_secret_service_2"):key()] = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"),
 					[("units/pd2_dlc_fex/characters/ene_secret_service_fex/ene_secret_service_fex"):key()] = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"),
+					[security_3] = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"),
 					[swat_1] = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"),
 					[cloaker] = Idstring("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"),
 					[sniper] = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_sniper/ene_swat_policia_sniper"),
@@ -811,12 +822,37 @@ if not ASS then
 				},
 			}
 			self._level_enemy_replacements.rvd2 = self._level_enemy_replacements.rvd1
+			self._level_enemy_replacements.des = self._level_enemy_replacements.pbr  -- they also missed some snipers here, though unsure if theyre used
 			self._level_enemy_replacements.sand = self._level_enemy_replacements.chas
 			self._level_enemy_replacements.pent = self._level_enemy_replacements.chas
 			self._level_enemy_replacements.corp = self._level_enemy_replacements.ranc
 		end
 
 		return self._level_enemy_replacements
+	end
+
+	function ASS:wave_unit_categories()
+		if not self._wave_unit_categories then
+			self._wave_unit_categories = {
+				{ CS = "normal", FBI = "normal", },
+				{ CS = "normal", FBI = "normal", },
+				{ CS = "normal", FBI = "overkill_145", },
+				{ CS = "overkill_145", FBI = "overkill_145", },
+				{ CS = "overkill_145", FBI = "overkill_290", },
+				{ CS = "overkill_290", FBI = "overkill_290", },
+				{ CS = "overkill_290", FBI = "sm_wish", },
+				{ CS = "sm_wish", FBI = "sm_wish", },
+				{ CS = "sm_wish", FBI = "sm_wish", },
+			}
+
+			local max_wave_index = #self._wave_unit_categories
+
+			for i = max_wave_index + 1, 21 do
+				self._wave_unit_categories[i] = self._wave_unit_categories[max_wave_index]
+			end
+		end
+
+		return self._wave_unit_categories
 	end
 
 	-- Load settings
@@ -847,6 +883,12 @@ if not ASS then
 		local id = "ass_" .. func
 
 		Hooks:PostHook( object, func, id, post_call )
+	end
+
+	function ASS:mission_hook(element, func, id, post_call)
+		local id = "ass_" .. func .. "_" .. id
+
+		Hooks:PostHook( element, func, id, post_call )
 	end
 
 	function ASS:pre_hook(object, func, pre_call)
@@ -980,7 +1022,7 @@ if not ASS then
 
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
-	if not (sh and sh:IsEnabled() and sh:WasEnabledAtStart() and StreamHeist and true) then
+	if not (sh and sh:IsEnabled() and sh:WasEnabledAtStart()) then
 		ASS.been_there_fucked_that = false
 
 		ASS:add_hook( "MenuManagerOnOpenMenu", function()

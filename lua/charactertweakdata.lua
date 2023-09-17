@@ -11,7 +11,7 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 			local preset = presets.surrender[name]
 
 			if preset then
-				preset.significant_chance = math.lerp(0, 0.75, f)
+				preset.significant_chance = math.lerp(0, 0.65, f)
 
 				for k, v in pairs(preset.factors) do
 					preset.reasons[k] = v

@@ -54,13 +54,30 @@ local weapon_mapping = {
 		[("units/payday2/characters/ene_security_5/ene_security_5"):key()] = "mp5",
 		[("units/payday2/characters/ene_security_8/ene_security_8"):key()] = "r870",
 	},
+	short2_stage1 = {
+		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "c45",  -- loud tutorial cop, old versions reference
+	},
+	short2_stage2b = {
+		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "c45",  -- loud tutorial cop, old versions reference
+	},
 
 	-- appropriate weaponry for unique units
-	[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",
-	[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = "spas12",
-	[("units/pd2_dlc_ranc/characters/ene_male_ranchmanager_1/ene_male_ranchmanager_1"):key()] = "deagle",
-	[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = { "deagle", "ump", "benelli", },
-	[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,
+	-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "x_c45",  -- npc hox (no mask, looks funny)
+	[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- npc hox (mask)
+	[("units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1"):key()] = "raging_bull",  -- hector (stealth)
+	[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "ump",  -- locke (beneath the mountain)
+	[("units/pd2_dlc_wwh/characters/ene_locke/ene_locke"):key()] = "deagle",  -- locke (alaskan deal)
+	[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,  -- panic room dealer
+	[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = { "x_c45", "rpk_lmg", "saiga", },  -- commissar
+	[("units/pd2_mcmansion/characters/ene_male_hector_2/ene_male_hector_2"):key()] = { "m249", "saiga", "spas12" },  -- hector (loud, cant use x_c45)
+	[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = { "m249", "saiga", "spas12", },  -- biker boss
+	[("units/pd2_dlc_flat/characters/npc_chavez/npc_chavez"):key()] = { "x_c45", "rpk_lmg", "saiga", },  -- chavez
+	-- [("units/pd2_dlc_spa/characters/npc_spa/npc_spa"):key()] = "benelli",  -- charon (looks funny)
+	[("units/pd2_dlc_rvd/characters/ene_female_civ_undercover/ene_female_civ_undercover"):key()] = "raging_bull",  -- undercover civilian on reservoir dogs
+	[("units/pd2_dlc_tag/characters/ene_male_commissioner/ene_male_commissioner"):key()] = "raging_bull",  -- commissioner garrett
+	[("units/pd2_dlc_pent/characters/npc_male_yufuwang/npc_male_yufuwang"):key()] = "raging_bull",  -- yufu wang (stealth)
+	[("units/pd2_dlc_ranc/characters/ene_male_ranchmanager_1/ene_male_ranchmanager_1"):key()] = "deagle",  -- esteban santiago
+	[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = { "deagle", "ump", "benelli", },  -- gabriel santiago (stealth)
 
 	-- appropriate weaponry for special units
 	[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "mp5",
@@ -138,6 +155,11 @@ local weapon_mapping = {
 	[("units/pd2_dlc_pent/characters/ene_male_security_penthouse_2/ene_male_security_penthouse_2"):key()] = "spas12",
 	[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"):key()] = "spas12",
 	[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_2/ene_male_ranc_security_2"):key()] = "raging_bull",
+	[("units/pd2_dlc_short/characters/ene_cop_2_shr/ene_cop_2_shr"):key()] = "c45",  -- loud tutorial cop, old versions reference
+	[("units/pd2_dlc_short/characters/ene_security_1_undominatable/ene_security_1_undominatable"):key()] = "c45",  -- stealth tutorial
+	[("units/pd2_dlc_short/characters/ene_security_2_undominatable/ene_security_2_undominatable"):key()] = "mp5",  -- stealth tutorial
+	[("units/pd2_dlc_short/characters/ene_security_3_undominatable/ene_security_3_undominatable"):key()] = "r870",  -- stealth tutorial
+	[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = "mp5",  -- stealth tutorial
 
 	-- assorted gangsters
 	[("units/payday2/characters/ene_biker_1/ene_biker_1"):key()] = "mac11",
@@ -160,7 +182,7 @@ local weapon_mapping = {
 	[("units/payday2/characters/ene_gang_mobster_3/ene_gang_mobster_3"):key()] = "r870",
 	[("units/payday2/characters/ene_gang_mobster_4/ene_gang_mobster_4"):key()] = "raging_bull",
 	[("units/payday2/characters/ene_gang_russian_1/ene_gang_russian_1"):key()] = "ak47",
-	[("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"):key()] = "mac11	",
+	[("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"):key()] = "mac11",
 	[("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3"):key()] = "mossberg",
 	[("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"):key()] = "raging_bull",
 	[("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5"):key()] = "r870",

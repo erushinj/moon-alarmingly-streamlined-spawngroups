@@ -1,17 +1,7 @@
 -- Make enemy units switch difficulty factions over waves
 local enemy_replacements = ASS:enemy_replacements()
 local enemy_mapping = ASS:enemy_mapping()
-local wave_unit_categories = {
-	{ CS = "normal", FBI = "normal", },
-	{ CS = "normal", FBI = "normal", },
-	{ CS = "normal", FBI = "overkill_145", },
-	{ CS = "overkill_145", FBI = "overkill_145", },
-	{ CS = "overkill_145", FBI = "overkill_290", },
-	{ CS = "overkill_290", FBI = "overkill_290", },
-	{ CS = "overkill_290", FBI = "sm_wish", },
-	{ CS = "sm_wish", FBI = "sm_wish", },
-	{ CS = "sm_wish", FBI = "sm_wish", },
-}
+local wave_unit_categories = ASS:wave_unit_categories()
 
 local function do_swaps(index)
 	index = index or 1

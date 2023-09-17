@@ -24,10 +24,22 @@ ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 	end
 end )
 
--- TODO: look into disabling holdout scripted spawns, it looks weird having yellow heavies spawning when zeals are on the scene
+local wave_unit_categories = ASS:wave_unit_categories()
+
 local is_skirmish = tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish"
-local difficulty = is_skirmish and "normal" or ASS:get_var("difficulty")
-local level_mod = is_skirmish and "normal" or ASS:get_var("level_mod")
+local function i_hate_scripted_spawns()
+	local skm = managers.skirmish
+
+	if skm and skm:is_skirmish() then
+		local wave_categories = wave_unit_categories[skm:current_wave_number()]
+
+		if wave_categories then
+			return wave_categories.CS
+		end
+	end
+end
+local difficulty = is_skirmish and i_hate_scripted_spawns or ASS:get_var("difficulty")
+local level_mod = not is_skirmish and ASS:get_var("level_mod") or nil
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
 local enemy_replacements, enemy_mapping = ASS:enemy_replacements(), ASS:enemy_mapping()
@@ -53,7 +65,7 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 		return produce_original(self, params, ...)
 	end
 
-	local replacement = level_mod or difficulty
+	local replacement = level_mod or type(difficulty) == "function" and difficulty() or difficulty or "normal"
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	local mapped_unit_ids = mapped_unit and Idstring(mapped_unit)
 	if mapped_unit_ids and mapped_unit_ids ~= self._enemy_name then

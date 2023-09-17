@@ -113,7 +113,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 - Scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
-- Certain special enemies or unique characters are given appropriate weaponry
+- Certain special enemies and unique characters are given appropriate weaponry
 
 -----
 
@@ -296,8 +296,12 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>First World Bank</li>
                 <li>Beneath the Mountain</li>
                 <li>Counterfeit</li>
+                <li>Brooklyn 10-10</li>
                 <li>Stealing Xmas</li>
                 <li>Heat Street</li>
+                <li>Reservoir Dogs</li>
+                <li>Alaskan Deal</li>
+                <li>Brooklyn Bank</li>
                 <li>San Martin Bank</li>
                 <li>Dragon Heist</li>
             </ul>
@@ -315,7 +319,6 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Goat Simulator</li>
                 <li>Panic Room</li>
                 <li>Green Bridge</li>
-                <li>Reservoir Dogs</li>
                 <li>Cursed Kill Room</li>
                 <li>Ukrainian Prisoner</li>
                 <li>Midland Ranch</li>
@@ -351,9 +354,6 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Safehouse Raid</li>
                 <li>Scarface Mansion</li>
                 <li>Prison Nightmare</li>
-                <li>Brooklyn 10-10</li>
-                <li>Alaskan Deal</li>
-                <li>Brooklyn Bank</li>
                 <li>Henry's Rock</li>
                 <li>Shacklethorne Auction</li>
                 <li>Breakfast in Tijuana</li>
@@ -407,7 +407,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
