@@ -2,10 +2,14 @@ if Global.editor_mode then
 	return
 end
 
+local function mission_log(str, ...)
+	log("[AlarminglyStreamlinedSpawngroups] " .. str:format(...))
+end
+
 -- Add custom mission script changes and triggers for specific levels
 -- Execution of mission scripts can trigger reinforce locations (trigger that has just a name disables previously enabled reinforcement with that id)
 -- Mission script elements can be disabled or enabled
-ASS:pre_hook( MissionManager, "_activate_mission", function (self)
+ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 
 	local mission_script_elements = ASS:mission_script_patches()
 
@@ -17,13 +21,13 @@ ASS:pre_hook( MissionManager, "_activate_mission", function (self)
 		local element = self:get_element_by_id(element_id)
 
 		if not element then
-			log("[AlarminglyStreamlinedSpawngroups] Element not found! " .. element_id)
+			mission_log("Element not found! %u", element_id)
 		else
 			-- Check if this element is supposed to trigger reinforce points
 			if data.reinforce then
 				ASS:mission_hook( element, "on_executed", "reinforce_" .. element_id, function()
 					for _, v in pairs(data.reinforce) do
-						log("[AlarminglyStreamlinedSpawngroups] Reenforce " ..  v.force and "enabled: " or "disabled: " .. v.name)
+						mission_log("Reenforce %s: " .. v.name, v.force and "enabled" or "disabled")
 
 						managers.groupai:state():set_area_min_police_force(v.name, v.force, v.position)
 					end
@@ -33,7 +37,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function (self)
 			-- Check if this element is supposed to trigger a difficulty change
 			if data.difficulty then
 				ASS:mission_hook( element, "on_executed", "difficulty_" .. element_id, function()
-					log("[AlarminglyStreamlinedSpawngroups] Difficulty set to: " .. data.difficulty)
+					mission_log("Difficulty set to %u", data.difficulty)
 
 					managers.groupai:state():set_difficulty(data.difficulty)
 				end )
@@ -42,7 +46,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function (self)
 			-- Check if this element has custom values set
 			if data.values then
 				for k, v in pairs(data.values) do
-					log("[AlarminglyStreamlinedSpawngroups] " .. tostring(k) .. " set to: " .. tostring(v))
+					mission_log("Value \"" .. tostring(k) .. "\" set to \"" .. tostring(v) .. "\" for element %u", element_id)
 
 					element._values[k] = v
 				end
@@ -50,7 +54,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function (self)
 
 			if data.flashlight ~= nil then
 				ASS:mission_hook( element, "on_executed", "flashlight_" .. element_id, function()
-					log("[AlarminglyStreamlinedSpawngroups] Flashlights ".. data.flashlight and "enabled" or "disabled")
+					mission_log("Flashlights %s", data.flashlight and "enabled" or "disabled")
 
 					managers.game_play_central:set_flashlights_on(data.flashlight)
 				end )
