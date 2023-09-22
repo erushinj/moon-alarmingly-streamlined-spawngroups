@@ -5,8 +5,13 @@ if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spaw
 end
 
 ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
-	local mission_script_patches = ASS:mission_script_patches()
+	if self._values.possible_enemies then
+		self._possible_enemies = self._values.possible_enemies
 
+		self._values.possible_enemies = nil
+	end
+
+	local mission_script_patches = ASS:mission_script_patches()
 	if mission_script_patches then
 		local element_mapping = mission_script_patches[self._id]
 

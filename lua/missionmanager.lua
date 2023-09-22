@@ -71,11 +71,16 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 							if val then
 								table.remove(element._values.on_executed, i)
 							end
-						elseif val then
-							val.delay = v.delay or 0
-							val.delay_rand = v.delay_rand or 0
 						else
-							table.insert(element._values.on_executed, v)
+							v.delay = v.delay or 0
+							v.delay_rand = v.delay_rand or 0
+
+							if val then
+								val.delay = v.delay
+								val.delay_rand = v.delay_rand
+							else
+								table.insert(element._values.on_executed, v)
+							end
 						end
 					else
 					end

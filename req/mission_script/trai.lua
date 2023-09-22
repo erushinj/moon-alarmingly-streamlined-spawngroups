@@ -1,4 +1,90 @@
 return {
+	-- allow sniper respawns
+	[100368] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100369] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100370] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100371] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100372] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100373] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100374] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100375] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100376] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	[100377] = {
+		values = {
+			trigger_times = 0,
+		},
+	},
+	-- some new reenforce spots
+	[100115] = {
+		reinforce = {
+			{
+				name = "train1",
+				force = 1,
+				position = Vector3(-3350, 4775, 500)
+			},
+			{
+				name = "train2",
+				force = 1,
+				position = Vector3(-6160, 5800, 500)
+			},
+			{
+				name = "train3",
+				force = 1,
+				position = Vector3(-840, 5800, 500)
+			},
+			{
+				name = "train4",
+				force = 1,
+				position = Vector3(2140, 5800, 500)
+			},
+			{
+				name = "train5",
+				force = 1,
+				position = Vector3(-525, 7010, 500)
+			},
+			{
+				name = "train6",
+				force = 1,
+				position = Vector3(775, 8110, 500)
+			},
+		},
+	},
 	-- pre-train yard guards
 	[100670] = { enemy = ASS:random_unit("securitys_light") },
 	[101610] = { enemy = ASS:random_unit("securitys_light") },

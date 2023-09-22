@@ -9,8 +9,68 @@ local biker_female_3 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_
 -- biker 4 is the guy punching the mechanic
 local bikers_any = { biker_1, biker_2, biker_3, biker_female_1, biker_female_2, biker_female_3, }
 
--- no idea how to touch instances like the harasser spawns seem to be
 return {
+	-- WAITER !  WAITER !  MORE BIKERS PLEASE !
+	[100077] = {  -- random biker clubhouse 001
+		values = {
+			amount = 12,
+			amount_random = 0,
+		},
+	},
+	[101417] = {  -- random biker clubhouse 002
+		values = {
+			amount = 12,
+			amount_random = 0,
+		},
+	},
+	[101474] = {  -- random biker clubhouse 003
+		values = {
+			amount = 12,
+			amount_random = 0,
+		},
+	},
+	[101481] = {  -- random biker clubhouse 004
+		values = {
+			amount = 12,
+			amount_random = 0,
+		},
+	},
+	[100082] = {  -- random biker clubhouse
+		values = {
+			amount = 3,
+			amount_random = 0,
+		},
+	},
+	[100056] = {  -- random biker garage
+		values = {
+			amount = 6,
+			amount_random = 0,
+		},
+	},
+	[102475] = {  -- random biker outside
+		values = {
+			amount = 7,
+			amount_random = 0,
+		},
+	},
+	[102492] = {  -- random biker outside more
+		values = {
+			amount = 7,
+			amount_random = 0,
+		},
+	},
+	[100540] = {  -- random biker workshop
+		values = {
+			amount = 5,
+			amount_random = 0,
+		},
+	},
+	[100385] = {  -- spawn bikers reinforcements
+		values = {
+			amount = 10,
+			amount_random = 0,
+		},
+	},
 	[100024] = { enemy = { biker_3, biker_female_3, } },  -- "bartender"
 	[100026] = { enemy = bikers_any },
 	[100027] = { enemy = bikers_any },
