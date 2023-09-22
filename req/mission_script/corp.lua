@@ -8,6 +8,66 @@ local function scripted_swat_squads()
 end
 
 return {
+	[101324] = {
+		values = {
+			enabled = false
+		}
+	},
+	[101325] = {
+		values = {
+			enabled = false
+		}
+	},
+	-- some new reenforce spots
+	[100115] = {
+		reinforce = {
+			{
+				name = "showtime",
+				force = 2,
+				position = Vector3(-1550, 5950, 150)
+			},
+			{
+				name = "bam_boom_poo",
+				force = 2,
+				position = Vector3(1950, 4200, 150)
+			},
+			{
+				name = "research1",
+				force = 2,
+				position = Vector3(-700, 3300, 150)
+			},
+			{
+				name = "research2",
+				force = 2,
+				position = Vector3(4100, 1450, 150)
+			},
+			{
+				name = "main_staircase1",
+				force = 2,
+				position = Vector3(1450, 2650, 0)
+			},
+			{
+				name = "main_staircase2",
+				force = 2,
+				position = Vector3(1800, 3300, 0)
+			},
+			{
+				name = "main_staircase3",
+				force = 3,
+				position = Vector3(1850, 2850, 500)
+			},
+			{
+				name = "main_staircase4",
+				force = 3,
+				position = Vector3(1900, 2900, 900)
+			},
+			{
+				name = "fire_escape",
+				force = 2,
+				position = Vector3(6900, 2350, 0)
+			},
+		},
+	},
 	-- security guards
 	[100670] = { enemy = ASS:random_unit("securitys") },
 	[100671] = { enemy = ASS:random_unit("securitys") },
