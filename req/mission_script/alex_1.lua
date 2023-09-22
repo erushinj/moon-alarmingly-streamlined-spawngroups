@@ -6,23 +6,11 @@ local mexicans = {
 }
 
 return {
-	-- planks amount, normally always 3, now you can get anywhere from fuck-all to more than you know what to do with
+	-- planks amount, normally 2-4 in sh, now you can get anywhere from fuck-all to more than you know what to do with
 	[100822] = {
 		values = {
 			amount = 0,
 			amount_random = 6,
-		},
-	},
-	-- hurry up bain (cook chance evaluation delay, vanilla is 25s, cheat faster is 1s)
-	[100724] = {
-		on_executed = {
-			{ id = 100494, delay = 15, delay_rand = 10, },
-		},
-	},
-	-- added chance to cook each time the evaluation runs and fails, vanilla is 10%
-	[100723] = {
-		values = {
-			chance = 15,
 		},
 	},
 	-- waiter !  waiter !  more gangsters please !
@@ -50,18 +38,13 @@ return {
 			amount_random = 3,
 		},
 	},
-	-- some new reenforce spots
+	-- a new reenforce spot
 	[100941] = {
 		reinforce = {
 			{
 				name = "basement",
-				force = 1,
-				position = Vector3(2050, 975, 924.84)  -- point special objective 25
-			},
-			{
-				name = "such_a_nice_car",  -- mendoza car to the right of player spawn, near cloaker hiding spot
-				force = 1,
-				position = Vector3(675, -1197, 875.243)  -- point special objective 28
+				force = 2,
+				position = Vector3(2050, 1000, 950),
 			},
 		},
 	},

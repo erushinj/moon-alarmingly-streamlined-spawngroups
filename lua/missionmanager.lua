@@ -3,7 +3,9 @@ if Global.editor_mode then
 end
 
 local function mission_log(str, ...)
-	log("[AlarminglyStreamlinedSpawngroups] " .. str:format(...))
+	if ASS.developer then
+		log("[AlarminglyStreamlinedSpawngroups] " .. str:format(...))
+	end
 end
 
 -- Add custom mission script changes and triggers for specific levels

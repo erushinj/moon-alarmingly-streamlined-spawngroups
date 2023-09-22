@@ -3,7 +3,7 @@ if not ASS then
 	ASS = ModInstance
 	ASS.mod_path = ModPath
 	ASS.save_path = SavePath .. "alarmingly_streamlined_spawngroups.json"
-	ASS.logging = io.file_is_readable("mods/developer.txt")
+	ASS.developer = io.file_is_readable("mods/developer.txt")
 	ASS.required = {}
 	ASS.settings = {
 		is_massive = true,
