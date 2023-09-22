@@ -1,12 +1,3 @@
-local special_chance = ASS:get_var("difficulty_index") * 0.05
-local dozer_chance = special_chance * 0.1
-
-local function scripted_swat_squads()
-	local rand = math.random()
-
-	return ASS:random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
-end
-
 local triad_1 = Idstring("units/pd2_dlc_chas/characters/ene_male_triad_gang_1/ene_male_triad_gang_1")
 local triad_2 = Idstring("units/pd2_dlc_chas/characters/ene_male_triad_gang_2/ene_male_triad_gang_2")
 local triad_3 = Idstring("units/pd2_dlc_chas/characters/ene_male_triad_gang_3/ene_male_triad_gang_3")
@@ -20,6 +11,17 @@ local triads_red = { triad_2, triad_3, }
 
 -- no security 3. yay.
 return {
+	-- increase power cut delay from literally fucking 0
+	[100549] = {
+		on_executed = {
+			{ id = 103658, delay = 10, delay_rand = 10, },
+		}
+	},
+	[103827] = {
+		on_executed = {
+			{ id = 103828, delay = 10, delay_rand = 10, },
+		}
+	},
 	-- triads
 	[101782] = { enemy = triads },  -- conversation havers
 	[101768] = { enemy = triads },
@@ -30,7 +32,7 @@ return {
 	[102368] = { enemy = triads_red },  -- in warehouses
 	[102709] = { enemy = triads_red },
 	[102956] = { enemy = triads_red },
-	[104901] = { enemy = triads_red },  -- one spot for gassed guy (others instanced ?)
+	[104901] = { enemy = triads_red },  -- gassed guy
 	[104647] = { enemy = triads_light },  -- patrollers near beginning
 	[104706] = { enemy = triads_light },
 	[105626] = { enemy = triads_light },
@@ -65,70 +67,6 @@ return {
 	[102527] = { enemy = ASS:random_unit("securitys_light") },
 	[102817] = { enemy = ASS:random_unit("securitys_light") },  -- dock (end)
 	[102463] = { enemy = ASS:random_unit("securitys_light") },
-
-	-- scripted swat squads
-	-- though..this doesnt seem like it does anything ?
-	-- are these unused or set up funky ?
-	[105017] = { enemy = scripted_swat_squads() },
-	[105016] = { enemy = scripted_swat_squads() },
-	[105015] = { enemy = scripted_swat_squads() },
-	[105014] = { enemy = scripted_swat_squads() },
-	[105043] = { enemy = scripted_swat_squads() },
-	[105044] = { enemy = scripted_swat_squads() },
-	[105045] = { enemy = scripted_swat_squads() },
-	[105046] = { enemy = scripted_swat_squads() },
-	[105066] = { enemy = scripted_swat_squads() },
-	[105067] = { enemy = scripted_swat_squads() },
-	[105068] = { enemy = scripted_swat_squads() },
-	[105069] = { enemy = scripted_swat_squads() },
-	[105021] = { enemy = scripted_swat_squads() },
-	[105020] = { enemy = scripted_swat_squads() },
-	[105018] = { enemy = scripted_swat_squads() },
-	[105019] = { enemy = scripted_swat_squads() },
-	[105047] = { enemy = scripted_swat_squads() },
-	[105048] = { enemy = scripted_swat_squads() },
-	[105049] = { enemy = scripted_swat_squads() },
-	[105050] = { enemy = scripted_swat_squads() },
-	[105058] = { enemy = scripted_swat_squads() },
-	[105059] = { enemy = scripted_swat_squads() },
-	[105060] = { enemy = scripted_swat_squads() },
-	[105061] = { enemy = scripted_swat_squads() },
-	[105025] = { enemy = scripted_swat_squads() },
-	[105024] = { enemy = scripted_swat_squads() },
-	[105023] = { enemy = scripted_swat_squads() },
-	[105022] = { enemy = scripted_swat_squads() },
-	[105051] = { enemy = scripted_swat_squads() },
-	[105052] = { enemy = scripted_swat_squads() },
-	[105053] = { enemy = scripted_swat_squads() },
-	[105054] = { enemy = scripted_swat_squads() },
-	[103785] = { enemy = scripted_swat_squads() },
-	[105055] = { enemy = scripted_swat_squads() },
-	[105056] = { enemy = scripted_swat_squads() },
-	[105057] = { enemy = scripted_swat_squads() },
-	[105009] = { enemy = scripted_swat_squads() },
-	[105008] = { enemy = scripted_swat_squads() },
-	[105006] = { enemy = scripted_swat_squads() },
-	[105007] = { enemy = scripted_swat_squads() },
-	[105035] = { enemy = scripted_swat_squads() },
-	[105036] = { enemy = scripted_swat_squads() },
-	[105037] = { enemy = scripted_swat_squads() },
-	[105038] = { enemy = scripted_swat_squads() },
-	[105062] = { enemy = scripted_swat_squads() },
-	[105063] = { enemy = scripted_swat_squads() },
-	[105064] = { enemy = scripted_swat_squads() },
-	[105065] = { enemy = scripted_swat_squads() },
-	[105013] = { enemy = scripted_swat_squads() },
-	[105012] = { enemy = scripted_swat_squads() },
-	[105011] = { enemy = scripted_swat_squads() },
-	[105010] = { enemy = scripted_swat_squads() },
-	[105039] = { enemy = scripted_swat_squads() },
-	[105040] = { enemy = scripted_swat_squads() },
-	[105041] = { enemy = scripted_swat_squads() },
-	[105042] = { enemy = scripted_swat_squads() },
-	[105037] = { enemy = scripted_swat_squads() },
-	[105039] = { enemy = scripted_swat_squads() },
-	[105032] = { enemy = scripted_swat_squads() },
-	[103784] = { enemy = scripted_swat_squads() },
 
 	-- ambush dozers
 	[101764] = { enemy = ASS:random_unit("dozers_no_mini") },

@@ -127,6 +127,14 @@ if not ASS then
 			{ 9, 12, 15 },
 			{ 21, 24, 27 },
 		},
+		reenforce_interval = {
+			{ 30, 30, 30 },
+			{ 20, 20, 20 },
+			{ 20, 20, 20 },
+			{ 15, 15, 15 },
+			{ 5, 5, 5 },
+			{ 0, 0, 0 },
+		},
 		smoke_grenade_lifetime = {
 			{ 7.5, 12 },
 			{ 9, 15 },
@@ -321,6 +329,23 @@ if not ASS then
 		end
 
 		return self._mission_script_patches
+	end
+
+	function ASS:instance_script_patches()
+		if self._instance_script_patches == nil then
+			local level_id = self:get_var("level_id")
+
+			if level_id then
+				-- remove any possible endings for different variations of the same level, any variation can use the same instance script patches
+				for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+					level_id = level_id:gsub(end_pattern, "")
+				end
+
+				self._instance_script_patches = self:require("instance_script/" .. level_id) or false
+			end
+		end
+
+		return self._instance_script_patches
 	end
 
 	-- fetches a common american unit by a shorthand name

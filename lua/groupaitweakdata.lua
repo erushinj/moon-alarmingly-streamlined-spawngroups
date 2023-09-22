@@ -1471,6 +1471,7 @@ function GroupAITweakData:_moon_init_task_data()
 	local force_pool_mul = ASS:get_tweak("force_pool_mul")
 	local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
 	local break_duration_mul = ASS:get_tweak("break_duration_mul")
+	local reenforce_interval = ASS:get_tweak("reenforce_interval")
 
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_grenade_lifetime[1], smoke_grenade_lifetime[2], f)
@@ -1489,6 +1490,7 @@ function GroupAITweakData:_moon_init_task_data()
 	self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
 	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
 	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
+	self.besiege.reenforce.interval = reenforce_interval
 	self.besiege.recon.interval = { 0, 0, 0 }
 	self.besiege.recon.interval_variation = 0
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge }
