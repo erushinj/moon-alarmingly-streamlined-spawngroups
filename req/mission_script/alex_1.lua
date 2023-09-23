@@ -65,7 +65,6 @@ return {
 	[101061] = { enemy = mexicans },
 	[101293] = { enemy = mexicans },
 	[101288] = { enemy = mexicans },
-	[101294] = { enemy = mexicans },
 	[100426] = { enemy = mexicans },
 	[100431] = { enemy = mexicans },
 	[101262] = { enemy = mexicans },

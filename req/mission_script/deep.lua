@@ -10,6 +10,19 @@ local bellmead_securitys = {
 local replace_guaranteed_dozer_spot = math.random(1, 5)
 
 return {
+	-- vanilla reenforce points, seems to cause stuck enemies
+	-- same issue as on midland, reenforce seems to refuse to work on the places id like.
+	-- what the fuck were they cooking
+	[104207] = {
+		values = {
+			enabled = false,
+		},
+	},
+	[104208] = {
+		values = {
+			enabled = false,
+		},
+	},
 	-- security guards
 	[100671] = { enemy = bellmead_securitys },
 	[100670] = { enemy = bellmead_securitys },
