@@ -9,6 +9,12 @@ local securitys_heavy = { security_6, security_7, }
 local ovk_harassers = ASS:random_unit(ASS:get_var("real_difficulty_index") > 6 and "heavys" or "swats_heavys")
 
 return {
+	-- titan cams
+	[106265] = {
+		values = {
+			enabled = false,
+		},
+	},
 	-- guards
 	[100670] = { enemy = securitys_medium },  -- lobby area
 	[100671] = { enemy = securitys_medium },

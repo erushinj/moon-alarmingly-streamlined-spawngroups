@@ -27,7 +27,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 		else
 			-- Check if this element is supposed to trigger reinforce points
 			if data.reinforce then
-				ASS:mission_hook( element, "on_executed", "reinforce_" .. element_id, function()
+				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. element_id, function()
 					for _, v in pairs(data.reinforce) do
 						mission_log("Reenforce %s: " .. v.name, v.force and "enabled" or "disabled")
 
@@ -38,7 +38,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 
 			-- Check if this element is supposed to trigger a difficulty change
 			if data.difficulty then
-				ASS:mission_hook( element, "on_executed", "difficulty_" .. element_id, function()
+				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. element_id, function()
 					mission_log("Difficulty set to %u", data.difficulty)
 
 					managers.groupai:state():set_difficulty(data.difficulty)
@@ -55,7 +55,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			end
 
 			if data.flashlight ~= nil then
-				ASS:mission_hook( element, "on_executed", "flashlight_" .. element_id, function()
+				ASS:mission_post_hook( element, "on_executed", "flashlight_" .. element_id, function()
 					mission_log("Flashlights %s", data.flashlight and "enabled" or "disabled")
 
 					managers.game_play_central:set_flashlights_on(data.flashlight)
@@ -90,7 +90,11 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			end
 
 			if data.func then
-				ASS:mission_hook(element, "on_executed", "func_" .. element_id, data.func)
+				ASS:mission_post_hook( element, "on_executed", "func_" .. element_id, data.func )
+			end
+
+			if data.pre_func then
+				ASS:mission_pre_hook( element, "on_executed", "pre_func_" .. element_id, data.pre_func )
 			end
 		end
 	end
