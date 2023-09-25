@@ -5,13 +5,6 @@ return {
 			enabled = false,
 		},
 	},
-	-- guard amounts
-	[102735] = {
-		values = {
-			amount = 1,
-			amount_random = 3,
-		},
-	},
 	-- unused sniper spawn
 	[100370] = {
 		values = {
@@ -71,13 +64,6 @@ return {
 				force = 2,
 				position = Vector3(2000, -1000, 450),
 			},
-		},
-	},
-	-- guards amount
-	[100030] = {
-		values = {
-			amount = 3,
-			amount_random = 2,
 		},
 	},
 	-- cameras amount

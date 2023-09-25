@@ -1,4 +1,3 @@
-local difficulty_index = ASS:get_var("real_difficulty_index")
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -13,6 +12,25 @@ local gangsters = {
 }
 
 return {
+	-- more oppressive open door amounts
+	[103455] = {
+		values = {
+			amount = 0,
+			amount_random = 3,
+		},
+	},
+	[103490] = {
+		values = {
+			amount = 0,
+			amount_random = 2,
+		},
+	},
+	[103618] = {
+		values = {
+			amount = 0,
+			amount_random = 4,
+		},
+	},
 	-- c4 alley drop
 	[102261] = {
 		pre_func = function(self)
@@ -180,27 +198,73 @@ return {
 			amount_random = 0,
 		},
 	},
-	-- gangsters + dealer fix
-	[101797] = {
-		pre_func = function(self)
-			self._values.elements[1] = 104782
-		end,
+	-- remove planks
+	[104032] = {
+		values = {
+			amount = 0,
+		},
 	},
-	[101798] = {
-		pre_func = function(self)
-			self._values.elements[1] = 104782
-		end,
+	[104034] = {
+		values = {
+			amount = 0,
+		},
 	},
-	[101832] = {
-		pre_func = function(self)
-			self._values.elements[1] = 104782
-		end,
+	[104036] = {
+		values = {
+			amount = 0,
+		},
+	},
+	-- more loot
+	[103090] = {
+		values = {
+			amount = 8,
+			amount_random = 8,
+		},
+	},
+	[103002] = {
+		on_executed = {
+			{ id = 103014, remove = true, },
+		}
 	},
 	-- disable panic room reenforce (sh disables the other two points, and this heist doesnt really need it)
 	[103348] = {
 		values = {
 			enabled = false,
 		},
+	},
+	-- gangsters + dealer fix
+	[101797] = {
+		pre_func = function(self)
+			for i, element_id in pairs(self._values.elements) do
+				if element_id == 102456 then
+					self._values.elements[i] = 104782
+
+					break
+				end
+			end
+		end,
+	},
+	[101798] = {
+		pre_func = function(self)
+			for i, element_id in pairs(self._values.elements) do
+				if element_id == 102456 then
+					self._values.elements[i] = 104782
+
+					break
+				end
+			end
+		end,
+	},
+	[101832] = {
+		pre_func = function(self)
+			for i, element_id in pairs(self._values.elements) do
+				if element_id == 102456 then
+					self._values.elements[i] = 104782
+
+					break
+				end
+			end
+		end,
 	},
 	[104782] = { enemy = Idstring("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"), },
 	[102456] = { enemy = gangsters, },
@@ -303,4 +367,7 @@ return {
 	[100037] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100038] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100040] = { enemy = ASS:random_unit("cops_no_r870"), },
+	-- blockade cops (swarm)
+	[102020] = { enemy = ASS:random_unit("cops"), },
+	[102021] = { enemy = ASS:random_unit("cops"), },
 }
