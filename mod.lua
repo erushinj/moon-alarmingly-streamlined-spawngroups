@@ -910,7 +910,7 @@ if not ASS then
 		Hooks:PostHook( object, func, id, post_call )
 	end
 
-	function ASS:mission_hook(element, func, id, post_call)
+	function ASS:mission_post_hook(element, func, id, post_call)
 		local id = "ass_" .. func .. "_" .. id
 
 		Hooks:PostHook( element, func, id, post_call )
@@ -920,6 +920,12 @@ if not ASS then
 		local id = "ass_" .. func
 
 		Hooks:PreHook( object, func, id, pre_call )
+	end
+
+	function ASS:mission_pre_hook(element, func, id, pre_call)
+		local id = "ass_" .. func .. "_" .. id
+
+		Hooks:PreHook( element, func, id, pre_call )
 	end
 
 	function ASS:override(object, func, override)
