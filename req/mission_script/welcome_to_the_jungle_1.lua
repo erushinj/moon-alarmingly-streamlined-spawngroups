@@ -24,8 +24,8 @@ return {
 	-- planks amount (vanilla is 7)
 	[103021] = {
 		values = {
-			amount = 10,  -- 4
-			amount_random = 6,  -- 6
+			amount = 4,
+			amount_random = 6,
 		},
 	},
 	-- safes hidden
