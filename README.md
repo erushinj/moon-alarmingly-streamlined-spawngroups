@@ -6,7 +6,7 @@ Also known as ASS, since it probably is
 
 -----
 
-An enemy spawn group mod, crafted and refined for this one's tastes over the course of around a year, with two distinct sets of simple yet alarming groups
+An enemy spawn group mod, crafted and refined for this one's tastes over the course of a year, with two distinct sets of simple yet alarming groups
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
 
@@ -455,7 +455,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
