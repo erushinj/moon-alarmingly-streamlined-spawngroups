@@ -16,19 +16,32 @@ return {
 	[103455] = {
 		values = {
 			amount = 0,
-			amount_random = 3,
+			amount_random = 2,
 		},
 	},
 	[103490] = {
+		on_executed = {
+			{ id = 100517, },  -- why is opening this door part of the linked elements ?
+		},
 		values = {
 			amount = 0,
-			amount_random = 2,
+			amount_random = 1,
+		},
+	},
+	[103491] = {
+		on_executed = {
+			{ id = 100517, remove = true, },
+		},
+	},
+	[103492] = {
+		on_executed = {
+			{ id = 100517, remove = true, },
 		},
 	},
 	[103618] = {
 		values = {
 			amount = 0,
-			amount_random = 4,
+			amount_random = 3,
 		},
 	},
 	-- c4 alley drop
@@ -198,22 +211,6 @@ return {
 			amount_random = 0,
 		},
 	},
-	-- remove planks
-	[104032] = {
-		values = {
-			amount = 0,
-		},
-	},
-	[104034] = {
-		values = {
-			amount = 0,
-		},
-	},
-	[104036] = {
-		values = {
-			amount = 0,
-		},
-	},
 	-- more loot
 	[103090] = {
 		values = {
@@ -230,6 +227,18 @@ return {
 	[103348] = {
 		values = {
 			enabled = false,
+		},
+	},
+	-- ambush line fix ?  hasnt been working for me since forever
+	[100501] = {
+		values = {
+			use_play_func = true,
+		},
+	},
+	-- reduce delay on mask up when ambushed (this triggers loud)
+	[102329] = {
+		on_executed = {
+			{ id = 102332, delay = 1.5, },
 		},
 	},
 	-- gangsters + dealer fix
