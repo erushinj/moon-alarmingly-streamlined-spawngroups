@@ -20,22 +20,8 @@ return {
 		},
 	},
 	[103490] = {
-		on_executed = {
-			{ id = 100517, },  -- why is opening this door part of the linked elements ?
-		},
 		values = {
-			amount = 0,
-			amount_random = 1,
-		},
-	},
-	[103491] = {
-		on_executed = {
-			{ id = 100517, remove = true, },
-		},
-	},
-	[103492] = {
-		on_executed = {
-			{ id = 100517, remove = true, },
+			amount_random = 0,
 		},
 	},
 	[103618] = {
