@@ -393,9 +393,8 @@ if not ASS then
 			local fbi_1, fbi_2, fbi_3 = units.fbi_1, units.fbi_2, units.fbi_3
 			local swat_1, swat_2, swat_3 = units.swat_1, units.swat_2, units.swat_3
 			local heavy_1, heavy_2 = units.heavy_1, units.heavy_2
-			local shield, taser, cloaker = units.shield, units.taser, units.cloaker
-			local medic_1, medic_2 = units.medic_1, units.medic_2
-			local dozer_1, dozer_4, dozer_5 = units.dozer_1, units.dozer_4, units.dozer_5
+			local shield, taser, cloaker, medic_1, medic_2 = units.shield, units.taser, units.cloaker, units.medic_1, units.medic_2
+			local dozer_1, dozer_2, dozer_3, dozer_4, dozer_5 = units.dozer_1, units.dozer_2, units.dozer_3, units.dozer_4, units.dozer_5
 
 			self._random_unit = {
 				securitys = { security_1, security_2, security_3, },
@@ -431,6 +430,13 @@ if not ASS then
 			}
 
 			local tier_list = { 2, 4, 6, 7, 8 }
+			local dozer_list = {
+				[2] = dozer_1,
+				[4] = dozer_2,
+				[6] = dozer_3,
+				[7] = dozer_4,
+				[8] = dozer_5,
+			}
 			local difficulty_index = self:get_var("real_difficulty_index")
 			local function get_difficulty_dozer(max_tier)
 				local tier_i = 1
@@ -447,12 +453,37 @@ if not ASS then
 
 				return units["dozer_" .. tier_i] or nil
 			end
+			local function get_difficulty_dozer(max_tier)
+				for tier, diff_i in table.reverse_ipairs(tier_list) do
+					if difficulty_index >= diff_i then
+						return dozer_list[diff_i]
+					end
+				end
+			end
 
 			for i = 1, #tier_list do
 				local dozer = get_difficulty_dozer(i)
 
 				if dozer and not table.contains(self._random_unit.dozers_any, dozer) then
 					table.insert(self._random_unit.dozers_any, dozer)
+				end
+			end
+
+			if managers and managers.modifiers then
+				for modifier_class, dozer in pairs({
+					ModifierSkulldozers = dozer_3,
+					ModifierDozerMinigun = dozer_4,
+					ModifierDozerMedic = dozer_5,
+				}) do
+					for _, category in pairs(managers.modifiers._modifiers) do
+						for _, modifier in ipairs(category) do
+							if getmetatable(modifier) == _G[modifier_class] then
+								if not table.contains(self._random_unit.dozers_any, dozer) then
+									table.insert(self._random_unit.dozers_any, dozer)
+								end
+							end
+						end
+					end
 				end
 			end
 

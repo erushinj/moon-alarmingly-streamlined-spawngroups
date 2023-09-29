@@ -1395,7 +1395,9 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	assault_style_func(self, special_weight)
 
 	self.besiege.assault.groups.marshal_squad = { 0, special_weight * 0.2, special_weight * 0.4 }
+	self.besiege.assault.groups.custom_recon = { 0, 0, 0 }
 	self.besiege.recon.groups.marshal_squad = nil
+	self.besiege.recon.groups.custom_assault = { 0, 0, 0 }
 
 	self.enemy_spawn_groups.marshal_squad = {
 		amount = { 1, 2 },
