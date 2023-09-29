@@ -1,6 +1,10 @@
 local difficulty_index = ASS:get_var("real_difficulty_index")
-local rooftop_swats = difficulty_index < 5 and ASS:random_unit("swats_far") or difficulty_index < 7 and ASS:random_unit("swats_heavys_far") or ASS:units().heavy_1
-local rooftop_swats_close = difficulty_index < 5 and ASS:random_unit("swats") or difficulty_index < 7 and ASS:random_unit("swats_heavys") or ASS:random_unit("heavys")
+local normal = difficulty_index < 5
+local hard = difficulty_index < 7
+local overkill = not hard
+local rooftop_swats = normal and ASS:random_unit("swats_far") or hard and ASS:random_unit("swats_heavys_far") or ASS:units().heavy_1
+local rooftop_swats_close = normal and ASS:random_unit("swats") or hard and ASS:random_unit("swats_heavys") or ASS:random_unit("heavys")
+local taxman_code_chance = normal and 10 or hard and 7 or 5
 
 return {
 	-- multiple interrupts once more
@@ -21,17 +25,17 @@ return {
 	},
 	[102424] = {  -- which unit groups will be selected (shields, cloaker, dozer)
 		values = {
-			amount = difficulty_index < 5 and 1 or difficulty_index < 7 and 2 or 3,
+			amount = normal and 1 or hard and 2 or 3,
 		},
 	},
 	[102430] = {  -- which shield group will be selected (now both of them on high difficulties)
 		values = {
-			amount = difficulty_index < 7 and 1 or 2,
+			amount = overkill and 2 or 1,
 		},
 	},
 	[102435] = {  -- which dozer will be selected (now both of them on high difficulties)
 		values = {
-			amount = difficulty_index < 7 and 1 or 2,
+			amount = overkill and 2 or 1,
 		},
 	},
 	[102444] = {  -- escape harassers amount
@@ -72,34 +76,34 @@ return {
 	-- taxman code chances, taken from pdth
 	[102876] = {  -- n (vanilla is 15)
 		values = {
-			chance = 10,
+			chance = taxman_code_chance,
 		},
 		pre_func = function(self)
-			if self._values.chance ~= 10 then
-				self._values.chance = 10
-				self._chance = 10
+			if self._values.chance ~= taxman_code_chance then
+				self._values.chance = taxman_code_chance
+				self._chance = taxman_code_chance
 			end
 		end,
 	},
 	[102875] = {  -- h/vh (vanilla is 10)
 		values = {
-			chance = 7,
+			chance = taxman_code_chance,
 		},
 		pre_func = function(self)
-			if self._values.chance ~= 7 then
-				self._values.chance = 7
-				self._chance = 7
+			if self._values.chance ~= taxman_code_chance then
+				self._values.chance = taxman_code_chance
+				self._chance = taxman_code_chance
 			end
 		end,
 	},
 	[102864] = {  -- ovk+ (vanilla is 5)
 		values = {
-			chance = 5,
+			chance = taxman_code_chance,
 		},
 		pre_func = function(self)
-			if self._values.chance ~= 5 then
-				self._values.chance = 5
-				self._chance = 5
+			if self._values.chance ~= taxman_code_chance then
+				self._values.chance = taxman_code_chance
+				self._chance = taxman_code_chance
 			end
 		end,
 	},
@@ -115,7 +119,7 @@ return {
 		pre_func = function(self)
 			if not self._values.old_on_executed then
 				self._values.old_on_executed = deep_clone(self._values.on_executed)
-				self.default_pass_out_chance = difficulty_index < 5 and 0.1 or difficulty_index < 7 and 0.2 or 0.35
+				self.default_pass_out_chance = normal and 0.1 or hard and 0.2 or 0.35
 				self.pass_out_chance = self.default_pass_out_chance
 				self._original_value = 1
 			end
@@ -187,7 +191,7 @@ return {
 	},
 	[102171] = {  -- mh+ (vanilla is 6)
 		values = {
-			amount = difficulty_index < 7 and 6 or 9,
+			amount = overkill and 9 or 6,
 		},
 	},
 	[102160] = {  -- unused spawn points
@@ -295,10 +299,10 @@ return {
 			{ id = 101716, delay = 1.5, delay_rand = 0, },
 		},
 	},
-	[100131] = {  -- police called
+	[100131] = {  -- police called, starts dozer and cloaker spawn loops
 		on_executed = {
-			{ id = 101608, delay = difficulty_index < 5 and 480 or difficulty_index < 7 and 320 or 160, },  -- gas double dozers
-			{ id = 103791, delay = difficulty_index < 5 and 360 or difficulty_index < 7 and 240 or 120, },  -- cloakers
+			{ id = 101608, delay = normal and 240 or hard and 180 or 120, delay_rand = normal and 240 or hard and 180 or 120, },  -- dozers
+			{ id = 103791, delay = normal and 300 or hard and 240 or 180, delay_rand = normal and 240 or hard and 120 or 0, },  -- cloakers
 		},
 	},
 	[101608] = {
@@ -323,7 +327,7 @@ return {
 	[103434] = {
 		values = table.set("difficulty_easy", "difficulty_normal"),
 		on_executed = {
-			{ id = 101608, delay = 240 - (difficulty_index * 10), delay_rand = 720 - (difficulty_index * 60), },
+			{ id = 101608, delay = 120, delay_rand = normal and 720 or hard and 480 or 240, },
 		},
 	},
 
@@ -336,12 +340,12 @@ return {
 	[103792] = {
 		values = table.set("difficulty_easy", "difficulty_normal", "difficulty_hard"),
 		on_executed = {
-			{ id = 103793, delay = 240 - (difficulty_index * 10), delay_rand = 720 - (difficulty_index * 60), },
+			{ id = 103793, delay = 240, delay_rand = 240, },
 		},
 	},
 	[103793] = {
 		pre_func = function(self)
-			local amount = difficulty_index < 5 and 1 or difficulty_index < 7 and 2 or 4
+			local amount = normal and 1 or hard and 2 or 4
 
 			if self._values.amount ~= amount then
 				self._group_data.amount = amount
@@ -391,14 +395,14 @@ return {
 	},
 	[100431] = {  -- vh/ovk
 		values = {
-			amount = difficulty_index < 5 and 2 or 2,
-			amount_random = difficulty_index < 5 and 0 or 2,
+			amount = normal and 2 or 2,
+			amount_random = normal and 0 or 2,
 		},
 	},
 	[102628] = {  -- mh/dw
 		values = {
-			amount = difficulty_index < 7 and 2 or 4,
-			amount_random = difficulty_index < 7 and 2 or 0,
+			amount = overkill and 4 or 2,
+			amount_random = overkill and 0 or 2,
 		},
 	},
 	[104067] = {  -- ds
