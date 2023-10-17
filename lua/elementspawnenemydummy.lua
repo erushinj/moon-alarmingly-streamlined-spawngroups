@@ -30,13 +30,12 @@ ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 end )
 
 local wave_unit_categories = ASS:wave_unit_categories()
-
 local is_skirmish = tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish"
 local function i_hate_scripted_spawns()
 	local skm = managers.skirmish
 
 	if skm and skm:is_skirmish() then
-		local wave_categories = wave_unit_categories[skm:current_wave_number()]
+		local wave_categories = wave_unit_categories[skm:current_wave_number()] or wave_unit_categories[#wave_unit_categories]
 
 		if wave_categories then
 			return wave_categories.CS

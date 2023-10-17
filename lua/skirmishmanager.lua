@@ -6,7 +6,7 @@ local wave_unit_categories = ASS:wave_unit_categories()
 local function do_swaps(index)
 	index = index or 1
 
-	for prefix, difficulty in pairs(wave_unit_categories[index]) do
+	for prefix, difficulty in pairs(wave_unit_categories[index] or wave_unit_categories[#wave_unit_categories]) do
 		for id, data in pairs(tweak_data.group_ai.unit_categories) do
 			if id:match(prefix) then
 				local units = data.unit_types.america

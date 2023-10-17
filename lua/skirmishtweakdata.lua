@@ -15,6 +15,8 @@ local special_weights_streamlined = clone(skm_special_weights)
 
 local special_weights_default = clone(skm_special_weights)
 
+local special_weights_chicken_plate = clone(skm_special_weights)
+
 local marshal_weights = table.collect(skm_special_weights, function(val) return val * 0.4 end)
 
 local skirmish_groups = {
@@ -66,6 +68,16 @@ local skirmish_groups = {
 		tac_tazer_charge = special_weights_default,
 		tac_bull_rush = special_weights_default,
 		FBI_spoocs = special_weights_default,
+	},
+	chicken_plate = {
+		chicken_plate_hrt_b = { 15, 3, 1.5 },
+		chicken_plate_swat_b = { 6, 12, 6 },
+		chicken_plate_heavy_b = { 1.5, 7.5, 15 },
+		chicken_plate_shield = special_weights_chicken_plate,
+		chicken_plate_taser = special_weights_chicken_plate,
+		chicken_plate_tank = special_weights_chicken_plate,
+		chicken_plate_spooc = special_weights_chicken_plate,
+		chicken_plate_medic = special_weights_chicken_plate,
 	},
 }
 

@@ -1,7 +1,4 @@
-local difficulty_index = ASS:get_var("real_difficulty_index")
-local normal = difficulty_index < 5
-local hard = difficulty_index < 7
-local overkill = not hard
+local normal, hard, overkill = ASS:difficulty_groups()
 local rooftop_swats = normal and ASS:random_unit("swats_far") or hard and ASS:random_unit("swats_heavys_far") or ASS:units().heavy_1
 local rooftop_swats_close = normal and ASS:random_unit("swats") or hard and ASS:random_unit("swats_heavys") or ASS:random_unit("heavys")
 local taxman_code_chance = normal and 10 or hard and 7 or 5
@@ -16,7 +13,7 @@ return {
 	-- fence should be here more often
 	[100174] = {
 		values = {
-			chance = 100 - (difficulty_index * 10 + 20),
+			chance = normal and 70 or hard and 40 or 10,
 		},
 	},
 	-- escape units
@@ -107,18 +104,13 @@ return {
 			end
 		end,
 	},
-	[102865] = {  -- no additional chance on fail
-		on_executed = {
-			{ id = 102887, remove = true, },
-		},
-	},
 	[102872] = {  -- executed each 3 hits on taxman, reset for each hack (changed to execute every hit but behave more like pdth)
 		values = {
 			counter_target = 1,
 		},
 		pre_func = function(self)
 			if not self._values.old_on_executed then
-				self._values.old_on_executed = deep_clone(self._values.on_executed)
+				self._values.old_on_executed = self._values.on_executed
 				self.default_pass_out_chance = normal and 0.1 or hard and 0.2 or 0.35
 				self.pass_out_chance = self.default_pass_out_chance
 				self._original_value = 1
@@ -126,12 +118,10 @@ return {
 
 			if math.random() > self.pass_out_chance then
 				self.pass_out_chance = self.pass_out_chance + 0.1  -- didn't pass out, increase chance for next strike
-				self._values.on_executed = {
-					{ id = 102887, delay = 0, delay_rand = 0, },  -- chance increment, nothing else
-				}
+				self._values.on_executed = {}
 			else
 				self.pass_out_chance = self.default_pass_out_chance  -- passed out, reset pass out chance
-				self._values.on_executed = deep_clone(self._values.old_on_executed)
+				self._values.on_executed = self._values.old_on_executed
 			end
 		end,
 		func = function(self)
@@ -153,7 +143,7 @@ return {
 		end,
 	},
 
-	-- planks (vanilla is 10)
+	-- planks (vanilla is 10, pdth is 23)
 	[101661] = {
 		values = {
 			amount = 20,
@@ -301,8 +291,8 @@ return {
 	},
 	[100131] = {  -- police called, starts dozer and cloaker spawn loops
 		on_executed = {
-			{ id = 101608, delay = normal and 240 or hard and 180 or 120, delay_rand = normal and 240 or hard and 180 or 120, },  -- dozers
-			{ id = 103791, delay = normal and 300 or hard and 240 or 180, delay_rand = normal and 240 or hard and 120 or 0, },  -- cloakers
+			{ id = 101608, delay = overkill and 150 or 225, },  -- dozers
+			{ id = 103791, delay = overkill and 120 or 180, },  -- cloakers
 		},
 	},
 	[101608] = {
@@ -315,19 +305,15 @@ return {
 			{ id = 101608, remove = true, },
 		},
 	},
-	[103304] = {  -- disable gas SO after deployment
-		func = function(self)
-			local element = managers.mission:get_element_by_id(103302)
-
-			if element then
-				element._values.enabled = false
-			end
-		end,
+	[103302] = {  -- disable gas SO. its honestly worthless.
+		values = {
+			enabled = false,
+		},
 	},
 	[103434] = {
 		values = table.set("difficulty_easy", "difficulty_normal"),
 		on_executed = {
-			{ id = 101608, delay = 120, delay_rand = normal and 720 or hard and 480 or 240, },
+			{ id = 101608, delay = 240, delay_rand = overkill and 240 or 480, },
 		},
 	},
 
@@ -340,12 +326,12 @@ return {
 	[103792] = {
 		values = table.set("difficulty_easy", "difficulty_normal", "difficulty_hard"),
 		on_executed = {
-			{ id = 103793, delay = 240, delay_rand = 240, },
+			{ id = 103793, delay = overkill and 45 or 90, delay_rand = overkill and 45 or 90, },
 		},
 	},
 	[103793] = {
 		pre_func = function(self)
-			local amount = normal and 1 or hard and 2 or 4
+			local amount = 1
 
 			if self._values.amount ~= amount then
 				self._group_data.amount = amount
@@ -389,20 +375,20 @@ return {
 	-- street heli spawn amounts (it's only used one time)
 	[102629] = {  -- n/h
 		values = {
-			amount = 2,
+			amount = 4,
 			amount_random = 0,
 		},
 	},
 	[100431] = {  -- vh/ovk
 		values = {
-			amount = normal and 2 or 2,
-			amount_random = normal and 0 or 2,
+			amount = 4,
+			amount_random = 0,
 		},
 	},
 	[102628] = {  -- mh/dw
 		values = {
-			amount = overkill and 4 or 2,
-			amount_random = overkill and 0 or 2,
+			amount = 4,
+			amount_random = 0,
 		},
 	},
 	[104067] = {  -- ds
@@ -412,22 +398,22 @@ return {
 		},
 	},
 	-- chopper spawns on the street
-	[102599] = { enemy = ASS:random_unit("dozers_no_mini") },  -- n/h
-	[102600] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[102601] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[102602] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[103315] = { enemy = ASS:random_unit("dozers_no_mini") },  -- vh/ovk
-	[104051] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104052] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104053] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104054] = { enemy = ASS:random_unit("dozers_no_mini") },  -- mh/dw
-	[104055] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104056] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104057] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104058] = { enemy = ASS:random_unit("dozers_no_mini") },  -- ds
-	[104059] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104060] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104061] = { enemy = ASS:random_unit("dozers_no_mini") },
+	[102599] = { enemy = ASS:random_unit("swats") },  -- n/h
+	[102600] = { enemy = ASS:random_unit("swats") },
+	[102601] = { enemy = ASS:random_unit("swats") },
+	[102602] = { enemy = ASS:random_unit("swats") },
+	[103315] = { enemy = ASS:random_unit("swats") },  -- vh/ovk
+	[104051] = { enemy = ASS:random_unit("swats") },
+	[104052] = { enemy = ASS:random_unit("swats") },
+	[104053] = { enemy = ASS:random_unit("swats") },
+	[104054] = { enemy = ASS:random_unit("swats") },  -- mh/dw
+	[104055] = { enemy = ASS:random_unit("swats") },
+	[104056] = { enemy = ASS:random_unit("swats") },
+	[104057] = { enemy = ASS:random_unit("swats") },
+	[104058] = { enemy = ASS:random_unit("swats") },  -- ds
+	[104059] = { enemy = ASS:random_unit("swats") },
+	[104060] = { enemy = ASS:random_unit("swats") },
+	[104061] = { enemy = ASS:random_unit("swats") },
 
 	-- rooftop swats
 	[103839] = { enemy = rooftop_swats },  -- across the street
@@ -456,12 +442,12 @@ return {
 	[102434] = { enemy = ASS:random_unit("dozers_any") },
 
 	-- gassers
-	[103293] = { enemy = ASS:random_unit("dozers_any") },  -- n/h
-	[103294] = { enemy = ASS:random_unit("dozers_any") },
-	[104045] = { enemy = ASS:random_unit("dozers_any") },  -- vh/ovk
-	[104046] = { enemy = ASS:random_unit("dozers_any") },
-	[104047] = { enemy = ASS:random_unit("dozers_any") },  -- mh/dw
-	[104048] = { enemy = ASS:random_unit("dozers_any") },
-	[104049] = { enemy = ASS:random_unit("dozers_any") },  -- ds
-	[104050] = { enemy = ASS:random_unit("dozers_any") },
+	[103293] = { enemy = ASS:random_unit("dozers_no_mini") },  -- n/h
+	[103294] = { enemy = ASS:random_unit("dozers_no_mini") },
+	[104045] = { enemy = ASS:random_unit("dozers_no_mini") },  -- vh/ovk
+	[104046] = { enemy = ASS:random_unit("dozers_no_mini") },
+	[104047] = { enemy = ASS:random_unit("dozers_no_mini") },  -- mh/dw
+	[104048] = { enemy = ASS:random_unit("dozers_no_mini") },
+	[104049] = { enemy = ASS:random_unit("dozers_no_mini") },  -- ds
+	[104050] = { enemy = ASS:random_unit("dozers_no_mini") },
 }

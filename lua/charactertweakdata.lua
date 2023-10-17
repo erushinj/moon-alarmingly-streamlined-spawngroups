@@ -1,17 +1,19 @@
 local level_id = ASS:get_var("level_id")
-local dominations = ASS:get_var("dominations")
+local doms_scale, doms_all_hard = ASS:get_setting("doms_scale"), ASS:get_setting("doms_all_hard")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = math.clamp(difficulty_index - 2, 0, 6) / 6
 
 ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 	local presets = Hooks:GetReturn()
 
-	if dominations ~= "super_silly" then
-		for _, name in ipairs({ "easy", "normal", "hard", }) do
-			local preset = presets.surrender[name]
+	if doms_scale then
+		-- for _, name in ipairs({ "easy", "normal", "hard", }) do
+		for _, preset in pairs(presets.surrender) do
+			if preset.reasons and preset.factors and preset.factors.health then
+				local min, max = math.min_max(preset.significant_chance or 0, 0.5)
 
-			if preset then
-				preset.significant_chance = math.lerp(0, 0.65, f)
+				preset.significant_chance = math.lerp(min, max, f)
+				preset.base_chance = 0
 
 				for k, v in pairs(preset.factors) do
 					preset.reasons[k] = v
@@ -19,11 +21,11 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 				end
 			end
 		end
+	end
 
-		if dominations ~= "silly" then
-			presets.surrender.easy = presets.surrender.hard
-			presets.surrender.normal = presets.surrender.hard
-		end
+	if doms_all_hard then
+		presets.surrender.easy = presets.surrender.hard
+		presets.surrender.normal = presets.surrender.hard
 	end
 
 	return presets

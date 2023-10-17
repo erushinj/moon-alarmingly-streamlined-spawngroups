@@ -1,4 +1,4 @@
-local super_serious_dominations = ASS:get_var("dominations") == "super_serious"
+local super_serious_dominations = ASS:get_setting("doms_super_serious")
 local max_diff = ASS:get_setting("max_diff")
 
 -- disable dominations during assault if the setting is enabled
