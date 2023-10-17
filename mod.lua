@@ -286,8 +286,10 @@ if not ASS then
 		self._job_id = job_id
 		self._clean_level_id = level_id
 
-		for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
-			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
+		if self._clean_level_id then
+			for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+				self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
+			end
 		end
 
 		for _, valid_id in ipairs({ "CS", "FBI", "CITY", }) do
