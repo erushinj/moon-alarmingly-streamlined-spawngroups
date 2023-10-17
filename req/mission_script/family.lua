@@ -1,8 +1,17 @@
+local normal, hard, overkill = ASS:difficulty_groups()
+
 return {
 	-- titan cams
 	[102211] = {
 		values = {
 			enabled = false,
+		},
+	},
+	-- cameras amount
+	[100033] = {
+		values = {
+			amount = normal and 5 or hard and 8 or 11,
+			amount_random = 0,
 		},
 	},
 	-- unused sniper spawn
@@ -64,13 +73,6 @@ return {
 				force = 2,
 				position = Vector3(2000, -1000, 450),
 			},
-		},
-	},
-	-- cameras amount
-	[100033] = {
-		values = {
-			amount = 4,
-			amount_random = 7,
 		},
 	},
 	-- guards

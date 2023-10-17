@@ -1,7 +1,7 @@
 if not ASS then
 
 	ASS = ModInstance
-	ASS.mod_path = ModPath
+	ASS.mod_path = ASS.path
 	ASS.save_path = SavePath .. "alarmingly_streamlined_spawngroups.json"
 	ASS.developer = io.file_is_readable("mods/developer.txt")
 	ASS.required = {}
@@ -10,7 +10,10 @@ if not ASS then
 		level_mod = 2,
 		assault_style = 1,
 		skill = 2,
-		dominations = 2,
+		dmg_interval = 1,
+		doms_scale = false,
+		doms_all_hard = false,
+		doms_super_serious = false,
 		max_values = false,
 		max_diff = false,
 		max_balance_muls = false,
@@ -34,6 +37,7 @@ if not ASS then
 			"ass_assault_style_original",
 			"ass_assault_style_streamlined",
 			"ass_assault_style_default",
+			"ass_assault_style_chicken_plate",
 		},
 		skill = {
 			"ass_skill_1",
@@ -43,15 +47,17 @@ if not ASS then
 			"ass_skill_5",
 			"ass_skill_6",
 		},
-		dominations = {
-			"ass_dominations_super_silly",
-			"ass_dominations_silly",
-			"ass_dominations_serious",
-			"ass_dominations_super_serious",
+		dmg_interval = {
+			"ass_dmg_interval_default",
+			"ass_dmg_interval_0.225",
+			"ass_dmg_interval_0.2",
+			"ass_dmg_interval_0.175",
+			"ass_dmg_interval_0.15",
+			"ass_dmg_interval_0.05",
+			"ass_dmg_interval_0",
 		},
 	}
 	ASS.tweaks = {
-		spawn_cooldown_base = { 30, 30, 20, 10, 5, 0, },
 		force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2, },
 		sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250, },
 		break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0, },
@@ -254,16 +260,6 @@ if not ASS then
 		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id
 		local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
-		local indices = {
-			easy = 1,
-			normal = 2,
-			hard = 3,
-			overkill = 4,
-			overkill_145 = 5,
-			easy_wish = 6,
-			overkill_290 = 7,
-			sm_wish = 8,
-		}
 		local level_mod = self:_gsub("level_mod")
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
@@ -273,12 +269,26 @@ if not ASS then
 
 		self._assault_style = self:_gsub("assault_style")
 		self._skill = tonumber((self:_gsub("skill")))
-		self._dominations = self:_gsub("dominations")
+		self._dmg_interval = self:_gsub("dmg_interval")
 		self._difficulty = difficulty
-		self._difficulty_index = self:get_setting("max_values") and 8 or indices[difficulty] or indices.normal
-		self._real_difficulty_index = indices[difficulty] or indices.normal
+		self._real_difficulty_index = ({
+			easy = 1,
+			normal = 2,
+			hard = 3,
+			overkill = 4,
+			overkill_145 = 5,
+			easy_wish = 6,
+			overkill_290 = 7,
+			sm_wish = 8,
+		})[difficulty] or 2
+		self._difficulty_index = self:get_setting("max_values") and 8 or self._real_difficulty_index
 		self._level_id = level_id
 		self._job_id = job_id
+		self._clean_level_id = level_id
+
+		for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
+		end
 
 		for _, valid_id in ipairs({ "CS", "FBI", "CITY", }) do
 			for _, lvl_mod in ipairs(self.values.level_mod) do
@@ -316,14 +326,9 @@ if not ASS then
 
 	function ASS:mission_script_patches()
 		if self._mission_script_patches == nil then
-			local level_id = self:get_var("level_id")
+			local level_id = self:get_var("clean_level_id")
 
 			if level_id then
-				-- remove any possible endings for different variations of the same level, any variation can use the same mission script patches
-				for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
-					level_id = level_id:gsub(end_pattern, "")
-				end
-
 				self._mission_script_patches = self:require("mission_script/" .. level_id) or false
 			end
 		end
@@ -333,14 +338,9 @@ if not ASS then
 
 	function ASS:instance_script_patches()
 		if self._instance_script_patches == nil then
-			local level_id = self:get_var("level_id")
+			local level_id = self:get_var("clean_level_id")
 
 			if level_id then
-				-- remove any possible endings for different variations of the same level, any variation can use the same instance script patches
-				for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
-					level_id = level_id:gsub(end_pattern, "")
-				end
-
 				self._instance_script_patches = self:require("instance_script/" .. level_id) or false
 			end
 		end
@@ -429,43 +429,21 @@ if not ASS then
 				dozers_any = { dozer_1, },
 			}
 
-			local tier_list = { 2, 4, 6, 7, 8 }
-			local dozer_list = {
-				[2] = dozer_1,
-				[4] = dozer_2,
-				[6] = dozer_3,
-				[7] = dozer_4,
-				[8] = dozer_5,
-			}
 			local difficulty_index = self:get_var("real_difficulty_index")
-			local function get_difficulty_dozer(max_tier)
-				local tier_i = 1
+			local dozer_tier_list = {
+				{ 2, dozer_1, },
+				{ 4, dozer_2, },
+				{ 6, dozer_3, },
+				{ 7, dozer_4, },
+				{ 8, dozer_5, },
+			}
+			for i = 1, #dozer_tier_list do
+				local diff_i, dozer = unpack(dozer_tier_list[i])
 
-				for tier, diff_i in table.reverse_ipairs(tier_list) do
-					if difficulty_index >= diff_i then
-						tier_i = tier
-
-						break
+				if difficulty_index >= diff_i then
+					if not table.contains(self._random_unit.dozers_any, dozer) then
+						table.insert(self._random_unit.dozers_any, dozer)
 					end
-				end
-
-				tier_i = math.min(tier_i, max_tier)
-
-				return units["dozer_" .. tier_i] or nil
-			end
-			local function get_difficulty_dozer(max_tier)
-				for tier, diff_i in table.reverse_ipairs(tier_list) do
-					if difficulty_index >= diff_i then
-						return dozer_list[diff_i]
-					end
-				end
-			end
-
-			for i = 1, #tier_list do
-				local dozer = get_difficulty_dozer(i)
-
-				if dozer and not table.contains(self._random_unit.dozers_any, dozer) then
-					table.insert(self._random_unit.dozers_any, dozer)
 				end
 			end
 
@@ -903,15 +881,18 @@ if not ASS then
 				{ CS = "sm_wish", FBI = "sm_wish", },
 				{ CS = "sm_wish", FBI = "sm_wish", },
 			}
-
-			local max_wave_index = #self._wave_unit_categories
-
-			for i = max_wave_index + 1, 21 do
-				self._wave_unit_categories[i] = self._wave_unit_categories[max_wave_index]
-			end
 		end
 
 		return self._wave_unit_categories
+	end
+
+	function ASS:difficulty_groups()
+		local difficulty_index = self:get_var("real_difficulty_index")
+		local normal = difficulty_index < 5
+		local hard = difficulty_index < 7
+		local overkill = not hard
+
+		return normal, hard, overkill
 	end
 
 	-- Load settings
@@ -1067,11 +1048,16 @@ if not ASS then
 		add_multiple_choice("level_mod")
 		add_multiple_choice("assault_style")
 		add_multiple_choice("skill")
-		add_multiple_choice("dominations")
+		add_divider()
+		add_toggle("doms_scale")
+		add_toggle("doms_all_hard")
+		add_toggle("doms_super_serious")
 		add_divider()
 		add_toggle("max_values")
 		add_toggle("max_diff")
 		add_toggle("max_balance_muls")
+		add_divider()
+		add_multiple_choice("dmg_interval")
 		add_divider()
 		add_toggle("minigun_dozers")
 		add_toggle("captain_winters")

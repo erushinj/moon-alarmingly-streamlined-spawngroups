@@ -22,6 +22,7 @@
 		{ "hook_id" : "lib/modifiers/modifierskulldozers", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/tweak_data/charactertweakdata", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/tweak_data/groupaitweakdata", "script_path" : "mod.lua" },
+		{ "hook_id" : "lib/tweak_data/playertweakdata", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/tweak_data/skirmishtweakdata", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/enemies/cop/copbase", "script_path" : "mod.lua" }
 	],

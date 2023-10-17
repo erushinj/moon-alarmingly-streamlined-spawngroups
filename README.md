@@ -6,7 +6,7 @@ Also known as ASS, since it probably is
 
 -----
 
-An enemy spawn group mod, crafted and refined for this one's tastes over the course of a year, with two distinct sets of simple yet alarming groups
+An enemy spawn group mod, crafted and refined for this one's tastes over the course of a year, with three distinct sets of simple yet alarming groups
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
 
@@ -50,10 +50,26 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Dominations
+            Resistive Responders
         </th>
         <td>
-            Tweak the difficulty of dominating enemies.
+            All dominatable enemies are better at resisting domination on higher difficulties.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Difficult Dominations
+        </th>
+        <td>
+            All dominatable enemies are as adept at resisting domination as a heavy unit.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Super Serious Surrenders
+        </th>
+        <td>
+            All dominatable enemies will only give up between assault waves.
         </td>
     </tr>
     <tr>
@@ -78,6 +94,14 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Grace Period
+        </th>
+        <td>
+            Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.
         </td>
     </tr>
     <tr>
@@ -153,53 +177,76 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             </ul>
         </td>
     </tr>
+    <tr>
+        <th>
+            Chicken Plate
+        </th>
+        <td>
+            <ul>
+                <li>Experimental - enemies spawn solo, but faster than normal.</li>
+                <li>Higher heavy presence than normal.</li>
+            </ul>
+        </td>
+    </tr>
 </table>
 
-### Dominations:
+### Grace Period:
 
 <table>
     <tr>
         <th>
-            Super Silly
+            Little Timmy (0.25s, default)
         </th>
         <td>
             <ul>
-                <li>Unchanged.</li>
+                <li>Same as modern Streamlined Heisting.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Silly (default)
+            Toe in the Pool (0.225s)
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Seasoned Streamliner (0.2s, recommended)
         </th>
         <td>
             <ul>
-                <li>Dominating enemies gets harder with difficulty.</li>
+                <li>Same as some older versions of Streamlined Heisting.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Serious
+            No Stranger to Danger (0.175s)
         </th>
         <td>
             <ul>
-                <li>Dominating enemies gets harder with difficulty.</li>
-                <li>All dominatable enemies use the hardest surrender preset.</li>
+                <li>Enemy rifles can damage you with every shot.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Super Serious
+            Fleur-de-lis Enthusiast (0.15s)
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Super Serious (0.05s)
         </th>
         <td>
             <ul>
-                <li>Dominating enemies gets harder with difficulty.</li>
-                <li>All dominatable enemies use the hardest surrender preset.</li>
-                <li>Enemies can only be dominated between assaults.</li>
+                <li>Same as Super Serious Shooter.</li>
             </ul>
         </td>
+    </tr>
+    <tr>
+        <th>
+            Good Game Design (0s)
+        </th>
     </tr>
 </table>
 
@@ -455,7 +502,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----

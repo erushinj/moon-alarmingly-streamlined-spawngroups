@@ -1,8 +1,6 @@
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
-local is_super_serious = sss and sss:IsEnabled() and SuperSeriousShooter and true
-
+local is_super_serious = sss and sss:IsEnabled() and true
 local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
-
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = math.clamp(difficulty_index - 2, 0, 6) / 6
 
@@ -1152,6 +1150,7 @@ function GroupAITweakData:_moon_default(special_weight)
 		FBI_swat_M4 = "CS_swat_MP5",
 		FBI_swat_R870 = "CS_swat_R870",
 		FBI_heavy_M4 = "CS_heavy_MP5",
+		FBI_heavy_G36 = "CS_heavy_MP5",
 		FBI_heavy_R870 = "CS_heavy_R870",
 		FBI_suit_C45_M4 = "CS_cop_C45_MP5",
 		FBI_suit_M4_MP5 = "CS_cop_MP5_R870",
@@ -1209,6 +1208,200 @@ function GroupAITweakData:_moon_default(special_weight)
 	})
 end
 
+function GroupAITweakData:_moon_chicken_plate(special_weight)
+	self.enemy_spawn_groups.chicken_plate_hrt_a = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_cop_C45",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_cop_MP5",
+				tactics = self._tactics.chicken_plate_hrt_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_cop_stealth_R870",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_b = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_suit_C45",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_M4",
+				tactics = self._tactics.chicken_plate_hrt_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_suit_stealth_MP5",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_swat_a = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_MP5",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_R870",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_swat_b = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_swat_M4",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_R870",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_heavy_a = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_heavy_MP5",
+				tactics = self._tactics.chicken_plate_heavy_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_R870",
+				tactics = self._tactics.chicken_plate_heavy_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_heavy_b = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_M4",
+				tactics = self._tactics.chicken_plate_heavy_rifle,
+				freq = self._freq.baseline
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_R870",
+				tactics = self._tactics.chicken_plate_heavy_shotgun,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_shield = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_taser = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_tazer",
+				tactics = self._tactics.chicken_plate_taser,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_tank = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_spooc = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_spooc",
+				tactics = self._tactics.chicken_plate_spooc,
+				freq = self._freq.baseline
+			},
+		}
+	}
+	self.enemy_spawn_groups.chicken_plate_medic = {
+		amount = { 1, 1 },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_medic_M4_R870",
+				tactics = self._tactics.chicken_plate_medic,
+				freq = self._freq.baseline
+			},
+		}
+	}
+
+	set_weights(self.besiege.assault, {
+		chicken_plate_hrt_b = { 15, 3, 1.5 },
+		chicken_plate_swat_b = { 6, 12, 6 },
+		chicken_plate_heavy_b = { 1.5, 7.5, 15 },
+		chicken_plate_shield = { 0, special_weight * 0.5, special_weight },
+		chicken_plate_taser = { 0, special_weight * 0.5, special_weight },
+		chicken_plate_tank = { 0, special_weight * 0.5, special_weight },
+		chicken_plate_spooc = { 0, special_weight * 0.5, special_weight },
+		chicken_plate_medic = { 0, special_weight * 0.5, special_weight },
+	})
+
+	set_weights(self.besiege.recon, {
+		chicken_plate_swat_a = { 1, 1, 1 },
+		chicken_plate_hrt_a = { 5, 3, 1 },
+	})
+
+	set_weights(self.besiege.reenforce, {
+		chicken_plate_hrt_a = { 1, 1, 1 },
+		chicken_plate_swat_a = { 0, 1, 2 },
+		chicken_plate_heavy_a = { 0, 3, 6 },
+	})
+end
+
 function GroupAITweakData:_moon_init_unit_categories()
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
@@ -1250,20 +1443,22 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.marshal_marksman.unit_types.zombie = self.unit_categories.marshal_marksman.unit_types.america
 	self.unit_categories.marshal_shield.special_type = "marshal"
 	self.unit_categories.marshal_shield.unit_types.zombie = self.unit_categories.marshal_shield.unit_types.america
-	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
-	self.unit_categories.CS_heavy_MP5 = self.unit_categories.CS_heavy_M4
+	self.unit_categories.CS_cop_C45_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870 = self.unit_categories.CS_cop_stealth_MP5
+	self.unit_categories.CS_cop_stealth_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.russia = { Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
-	self.unit_categories.CS_cop_C45_R870.access = clone(self.unit_categories.spooc.access)
-	self.unit_categories.CS_cop_stealth_MP5.access = clone(self.unit_categories.spooc.access)
+	self.unit_categories.CS_heavy_MP5 = self.unit_categories.CS_heavy_M4
 	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"), }
 	self.unit_categories.FBI_suit_C45_M4.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), }
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
-	self.unit_categories.FBI_suit_stealth_MP5.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
+	self.unit_categories.FBI_suit_M4_R870 = self.unit_categories.FBI_suit_M4_MP5
+	self.unit_categories.FBI_suit_stealth_R870 = self.unit_categories.FBI_suit_stealth_MP5
+	self.unit_categories.FBI_suit_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
+	self.unit_categories.FBI_suit_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
+	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
 
 	-- new hrt unit categories
 	self.unit_categories.CS_cop_C45_MP5 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
@@ -1278,14 +1473,17 @@ function GroupAITweakData:_moon_init_unit_categories()
 	}
 	self.unit_categories.CS_cop_C45_MP5.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"), }
 	self.unit_categories.CS_cop_C45_MP5.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), }
-	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45_R870)
+	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.CS_cop_C45_MP5)
+	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"), }
+	self.unit_categories.CS_cop_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"), }
+	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45_MP5)
 	self.unit_categories.CS_cop_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
-	self.unit_categories.CS_cop_MP5.unit_types.russia = { Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"), }
 	self.unit_categories.CS_cop_MP5.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"), }
-	self.unit_categories.CS_cop_MP5.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"), }
-	self.unit_categories.CS_cop_MP5.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), }
-	self.unit_categories.CS_cop_MP5_R870 = deep_clone(self.unit_categories.FBI_suit_M4_MP5)
-	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_MP5)
+	self.unit_categories.CS_cop_MP5_R870 = deep_clone(self.unit_categories.FBI_suit_M4_R870)
+	self.unit_categories.FBI_suit_C45 = deep_clone(self.unit_categories.CS_cop_C45)
+	self.unit_categories.FBI_suit_C45.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"), }
+	self.unit_categories.FBI_suit_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"), }
+	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.FBI_suit_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"), }
 	self.unit_categories.FBI_suit_M4.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"), }
 
@@ -1388,6 +1586,18 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 		tank_rush = { "shield", "charge", "murder", },
 		tank_cover = { "shield_cover", "murder", },
 		spooc = { "flank", "smoke_grenade", },
+		chicken_plate_hrt_pistol = { "flank", "deathguard", "shield_cover", },
+		chicken_plate_hrt_rifle = { "flank", "flash_grenade", "shield_cover", },
+		chicken_plate_hrt_shotgun = { "flank", "smoke_grenade", "shield_cover", },
+		chicken_plate_swat_rifle = { "ranged_fire", "flash_grenade", "shield_cover", },
+		chicken_plate_swat_shotgun = { "smoke_grenade", "deathguard", "shield_cover", },
+		chicken_plate_heavy_rifle = { "flash_grenade", "deathguard", "shield_cover", },
+		chicken_plate_heavy_shotgun = { "charge", "smoke_grenade", "shield_cover", },
+		chicken_plate_shield = { "murder", "deathguard", "shield", },
+		chicken_plate_taser = { "murder", "deathguard", "shield_cover", },
+		chicken_plate_tank = { "murder", "charge", "shield", },
+		chicken_plate_spooc = { "flank", "smoke_grenade", "shield_cover", },
+		chicken_plate_medic = { "flank", "deathguard", "shield_cover", },
 	}) do
 		self._tactics[id] = data
 	end
@@ -1469,6 +1679,7 @@ function GroupAITweakData:_moon_init_task_data()
 	local cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
 	local min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
 	local no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
+	local anticipation_duration = ASS:get_tweak("anticipation_duration")
 	local spawn_cooldowns = ASS:get_tweak("spawn_cooldowns")
 	local force_pool_mul = ASS:get_tweak("force_pool_mul")
 	local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")

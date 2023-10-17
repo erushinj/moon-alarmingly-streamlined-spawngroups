@@ -21,6 +21,7 @@
 	"ass_assault_style_original" : "Original",
 	"ass_assault_style_streamlined" : "Streamlined",
 	"ass_assault_style_default" : "Default",
+	"ass_assault_style_chicken_plate" : "Chicken Plate",
 
 	"ass_menu_skill" : "Skill Level",
 	"ass_menu_skill_desc" : "Tweaks base values used for scaling.",
@@ -31,12 +32,14 @@
 	"ass_skill_5" : "Nightmare!",
 	"ass_skill_6" : "Ultra-Nightmare!!",
 
-	"ass_menu_dominations" : "Dominations",
-	"ass_menu_dominations_desc" : "Tweak the difficulty of dominating enemies.",
-	"ass_dominations_super_silly" : "Super Silly",
-	"ass_dominations_silly" : "Silly",
-	"ass_dominations_serious" : "Serious",
-	"ass_dominations_super_serious" : "Super Serious",
+	"ass_menu_doms_scale" : "Resistive Responders",
+	"ass_menu_doms_scale_desc" : "All dominatable enemies are better at resisting domination on higher difficulties.",
+
+	"ass_menu_doms_all_hard" : "Difficult Dominations",
+	"ass_menu_doms_all_hard_desc" : "All dominatable enemies are as adept at resisting domination as a heavy unit.",
+
+	"ass_menu_doms_super_serious" : "Super Serious Surrenders",
+	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves.",
 
 	"ass_menu_max_values" : "Death Sentence Values",
 	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",
@@ -46,6 +49,16 @@
 
 	"ass_menu_max_balance_muls" : "Full Lobby Spawns Always",
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
+
+	"ass_menu_dmg_interval" : "Grace Period",
+	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.",
+	"ass_dmg_interval_default" : "Little Timmy (0.25s)",
+	"ass_dmg_interval_0.225" : "Toe in the Pool (0.225s)",
+	"ass_dmg_interval_0.2" : "Seasoned Streamliner (0.2s)",
+	"ass_dmg_interval_0.175" : "No Stranger to Danger (0.175s)",
+	"ass_dmg_interval_0.15" : "Fleur-de-lis Enthusiast (0.15s)",
+	"ass_dmg_interval_0.05" : "Super Serious (0.05s)",
+	"ass_dmg_interval_0" : "Good Game Design (0s)",
 
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
@@ -66,6 +79,6 @@
 	"ass_menu_warning" : "Listen up",
 	"ass_menu_verify" : "Sure you wanna do this?",
 	"ass_menu_confirm" : "Fuck me up already",
-	"ass_menu_ignore" : "Get out of my face",
+	"ass_menu_ignore" : "Get out of my face"
 
 }
