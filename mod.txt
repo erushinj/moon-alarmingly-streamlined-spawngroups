@@ -4,7 +4,7 @@
 	"description" : "Simultaneously simplifies and complexifies enemy spawn groups\nAlso known as ASS, since it probably is",
 	"author" : "moon",
 	"contact" : "https://modworkshop.net/user/55749",
-	"version" : "4",
+	"version" : "5",
 	"color" : "218 0 78",
 	"image" : "mod.png",
 	"hooks" : [
