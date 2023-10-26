@@ -9,7 +9,7 @@ local panic_room = { "c45", "raging_bull", "mac11", "ak47", "r870", "mossberg", 
 local murkywater = { "scar_murky", "spas12", "ump", }
 local fbi_ready_team = { "m4", "spas12", }
 
-local weapon_mapping = {
+CopBase._moon_weapon_mapping = {
 	-- level mod specific overrides
 	FBI_office = {
 		[("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"):key()] = { "m4", "spas12", },
@@ -220,8 +220,8 @@ local weapon_mapping = {
 
 ASS:pre_hook( CopBase, "post_init", function(self)
 	local name = self._unit:name():key()
-	local level_swap = weapon_mapping[level_mod] or weapon_mapping[level_id]
-	local weapon_swap = level_swap and level_swap[name] or weapon_mapping[name]
+	local level_swap = self._moon_weapon_mapping[level_mod] or self._moon_weapon_mapping[level_id]
+	local weapon_swap = level_swap and level_swap[name] or self._moon_weapon_mapping[name]
 
 	if weapon_swap then
 		self._default_weapon_id = type(weapon_swap) == "table" and table.random(weapon_swap) or weapon_swap

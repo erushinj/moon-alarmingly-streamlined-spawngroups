@@ -3,7 +3,7 @@ ASS:override( ModifierSkulldozers, "init", function(self, data)
 	ModifierSkulldozers.super.init(self, data)
 
 	local categories = tweak_data.group_ai.unit_categories
-	for _, category in pairs({ "CS_tank", "FBI_tank" }) do
+	for _, category in pairs({ "CS_tank", "FBI_tank", }) do
 		local unit_types = categories[category] and categories[category].unit_types
 
 		if unit_types then

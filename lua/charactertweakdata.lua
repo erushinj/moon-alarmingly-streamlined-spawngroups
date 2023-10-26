@@ -7,7 +7,6 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 	local presets = Hooks:GetReturn()
 
 	if doms_scale then
-		-- for _, name in ipairs({ "easy", "normal", "hard", }) do
 		for _, preset in pairs(presets.surrender) do
 			if preset.reasons and preset.factors and preset.factors.health then
 				local min, max = math.min_max(preset.significant_chance or 0, 0.5)

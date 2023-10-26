@@ -86,7 +86,7 @@ return {
 	[100677] = { enemy = ASS:random_unit("securitys"), },
 	[100678] = { enemy = ASS:random_unit("securitys"), },
 	[100679] = { enemy = ASS:random_unit("securitys"), },
-	[100709] = { enemy = ASS:random_unit("securitys_heavy"), },
+	[100709] = { enemy = ASS:random_unit("securitys_heavy"), },  -- camera men
 	[100710] = { enemy = ASS:random_unit("securitys_heavy"), },
 	[100711] = { enemy = ASS:random_unit("securitys_heavy"), },
 }

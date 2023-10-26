@@ -29,7 +29,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			if data.reinforce then
 				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. element_id, function()
 					for _, v in pairs(data.reinforce) do
-						mission_log("Reenforce %s: " .. v.name, v.force and "enabled" or "disabled")
+						mission_log("Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
 
 						managers.groupai:state():set_area_min_police_force(v.name, v.force, v.position)
 					end
@@ -39,7 +39,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			-- Check if this element is supposed to trigger a difficulty change
 			if data.difficulty then
 				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. element_id, function()
-					mission_log("Difficulty set to %u", data.difficulty)
+					mission_log("Difficulty set to %.2g by element %u", data.difficulty, element_id)
 
 					managers.groupai:state():set_difficulty(data.difficulty)
 				end )
@@ -48,9 +48,17 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			-- Check if this element has custom values set
 			if data.values then
 				for k, v in pairs(data.values) do
-					mission_log("Value \"" .. tostring(k) .. "\" set to \"" .. tostring(v) .. "\" for element %u", element_id)
+					mission_log("Value \"%s\" set to \"%s\" for element %u", tostring(k), tostring(v), element_id)
 
 					element._values[k] = v
+
+					if k == "chance" then
+						if element.chance_operation_set_chance then
+							element:chance_operation_set_chance(v)
+						else
+							mission_log("Element %u lacks a \"chance_operation_set_chance\" method!", element_id)
+						end
+					end
 				end
 			end
 
@@ -67,7 +75,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 					local new_element = self:get_element_by_id(v.id)
 
 					if new_element then
-						local val, i = table.find_value(element._values.on_executed, function (val) return val.id == v.id end)
+						local val, i = table.find_value(element._values.on_executed, function(val) return val.id == v.id end)
 
 						if v.remove then
 							if val then
