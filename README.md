@@ -82,8 +82,10 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
+            Toughest Assault Always
         </th>
         <td>
+            Always uses task data corresponding to 100% heist difficulty progression.
         </td>
     </tr>
     <tr>
