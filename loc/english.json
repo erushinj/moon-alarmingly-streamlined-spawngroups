@@ -19,8 +19,8 @@
 	"ass_menu_assault_style" : "Assault Style",
 	"ass_menu_assault_style_desc" : "Choose which set of spawn groups to face.",
 	"ass_assault_style_original" : "Original",
-	"ass_assault_style_streamlined" : "Streamlined",
-	"ass_assault_style_default" : "Default",
+	"ass_assault_style_streamlined" : "Streamlined++",
+	"ass_assault_style_default" : "Default Streamlined",
 	"ass_assault_style_chicken_plate" : "Chicken Plate",
 
 	"ass_menu_skill" : "Skill Level",
@@ -51,7 +51,7 @@
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_dmg_interval" : "Grace Period",
-	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.",
+	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only - works even when not hosting, but has no effect in Super Serious Shooter.",
 	"ass_dmg_interval_default" : "Little Timmy (0.25s)",
 	"ass_dmg_interval_0.225" : "Toe in the Pool (0.225s)",
 	"ass_dmg_interval_0.2" : "Seasoned Streamliner (0.2s)",

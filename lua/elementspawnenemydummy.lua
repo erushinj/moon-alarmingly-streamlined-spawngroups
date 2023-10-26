@@ -4,6 +4,7 @@ if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spaw
 	return
 end
 
+local mission_script_patches = ASS:mission_script_patches()
 ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 	if self._values.possible_enemies then
 		self._possible_enemies = self._values.possible_enemies
@@ -11,7 +12,8 @@ ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 		self._values.possible_enemies = nil
 	end
 
-	local mission_script_patches = ASS:mission_script_patches()
+	self._original_enemy_name = self._enemy_name
+
 	if mission_script_patches then
 		local element_mapping = mission_script_patches[self._id]
 
@@ -21,64 +23,72 @@ ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 			if enemy then
 				if type(enemy) == "table" then
 					self._possible_enemies = enemy
+					self._patched_enemy_name = enemy[1]
 				else
-					self._enemy_name = enemy
+					self._patched_enemy_name = enemy
 				end
 			end
 		end
 	end
 end )
 
-local wave_unit_categories = ASS:wave_unit_categories()
-local is_skirmish = tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish"
 local function i_hate_scripted_spawns()
 	local skm = managers.skirmish
 
 	if skm and skm:is_skirmish() then
+		local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
 		local wave_categories = wave_unit_categories[skm:current_wave_number()] or wave_unit_categories[#wave_unit_categories]
 
-		if wave_categories then
-			return wave_categories.CS
-		end
+		return wave_categories and wave_categories.CS
 	end
 end
+local is_skirmish = tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish"
 local difficulty = is_skirmish and i_hate_scripted_spawns or ASS:get_var("difficulty")
 local level_mod = not is_skirmish and ASS:get_var("level_mod") or nil
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
-local enemy_replacements, enemy_mapping = ASS:enemy_replacements(), ASS:enemy_mapping()
-local level_enemy_replacements = ASS:level_enemy_replacements()[level_id] or {}
-local forbidden_enemy_replacements = table.set("hrt_1", "hrt_2", "hrt_3")
-local produce_original = ElementSpawnEnemyDummy.produce
+local enemy_replacements, enemy_mapping = tweak_data.levels:moon_enemy_replacements(), tweak_data.levels:moon_enemy_mapping()
+local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
+local forbidden_scripted_replacements = table.set("hrt_1", "hrt_2", "hrt_3")
+ElementSpawnEnemyDummy.produce_original = ElementSpawnEnemyDummy.produce
 function ElementSpawnEnemyDummy:produce(params, ...)
 	if params and params.name then
 		params.name = level_enemy_replacements[params.name:key()] or params.name
 
-		return produce_original(self, params, ...)
+		return self:produce_original(params, ...)
 	end
 
-	local original_enemy_name = self._enemy_name
 	if self._possible_enemies then
 		self._enemy_name = table.random(self._possible_enemies)
+	else
+		self._enemy_name = self._patched_enemy_name or self._enemy_name
 	end
 
-	self._enemy_name = level_enemy_replacements[self._enemy_name:key()] or self._enemy_name
+	local level_enemy_replacement = level_enemy_replacements[self._enemy_name:key()]
+	if level_enemy_replacement then
+		self._enemy_name = level_enemy_replacement
+
+		return self:_moon_produce_helper(params, ...)
+	end
 
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
-	if forbidden_enemy_replacements[mapped_name] then
-		return produce_original(self, params, ...)
+	if forbidden_scripted_replacements[mapped_name] then
+		return self:_moon_produce_helper(params, ...)
 	end
 
 	local replacement = level_mod or type(difficulty) == "function" and difficulty() or difficulty or "normal"
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
-	local mapped_unit_ids = mapped_unit and Idstring(mapped_unit)
-	if mapped_unit_ids and mapped_unit_ids ~= self._enemy_name then
-		self._enemy_name = mapped_unit_ids
+	if mapped_unit and mapped_unit ~= self._enemy_name then
+		self._enemy_name = mapped_unit
 	end
 
-	local unit = produce_original(self, params, ...)
+	return self:_moon_produce_helper(params, ...)
+end
 
-	self._enemy_name = original_enemy_name
+function ElementSpawnEnemyDummy:_moon_produce_helper(params, ...)
+	local unit = self:produce_original(params, ...)
+
+	self._enemy_name = self._original_enemy_name
 
 	return unit
 end

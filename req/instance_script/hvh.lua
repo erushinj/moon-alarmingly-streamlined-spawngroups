@@ -20,20 +20,14 @@ return {
 	["levels/instances/shared/harasser/world/world"] = function(result)
 		for _, element in ipairs(result.default.elements) do
 			if patches.harasser[element.id] then
-				element.values.possible_enemies = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1"),
-					Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2"),
-				}
+				element.values.possible_enemies = ASS:random_unit("swats_close")
 			end
 		end
 	end,
 	["levels/instances/unique/glace/glace_helicopter_swat/world/world"] = function(result)
 		for _, element in ipairs(result.default.elements) do
 			if patches.glace_helicopter_swat[element.id] then
-				element.values.possible_enemies = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1"),
-					Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2"),
-				}
+				element.values.possible_enemies = ASS:random_unit("swats_close")
 			end
 		end
 	end,

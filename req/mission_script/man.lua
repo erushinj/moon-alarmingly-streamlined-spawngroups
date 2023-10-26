@@ -1,7 +1,10 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-local rooftop_swats = normal and ASS:random_unit("swats_far") or hard and ASS:random_unit("swats_heavys_far") or ASS:units().heavy_1
-local rooftop_swats_close = normal and ASS:random_unit("swats") or hard and ASS:random_unit("swats_heavys") or ASS:random_unit("heavys")
+local rooftop_swats = normal and ASS:random_unit("swats_far") or hard and ASS:random_unit("swats_heavys_far") or ASS:random_unit("marshals_far")
+local rooftop_swats_close = ASS:random_unit("marshals_far")
+local rooftop_swats_escape = ASS:random_unit("marshals_far")
 local taxman_code_chance = normal and 10 or hard and 7 or 5
+local harassers_amount = overkill and 6 or 3
+local snipers_amount = normal and 5 or hard and 10 or 15
 
 return {
 	-- multiple interrupts once more
@@ -40,69 +43,73 @@ return {
 			amount = 8,
 		},
 	},
-
 	-- regular harasser stuff
-	-- [102269] = {
-	-- 	on_executed = {
-	-- 		{ id = 102268, delay = 15, delay_rand = 15 },
-	-- 	},
-	-- },
-	-- [102268] = {
-	-- 	values = {
-	-- 		amount = 6,
-	-- 	},
-	-- },
-	-- [103833] = {
-	-- 	on_executed = {
-	-- 		{ id = 103832, delay = 15, delay_rand = 15 },
-	-- 	},
-	-- },
-	-- [103832] = {
-	-- 	values = {
-	-- 		amount = 6,
-	-- 	},
-	-- },
-
+	[102269] = {
+		on_executed = {
+			{ id = 102268, delay = 15, delay_rand = overkill and 15 or 45, },
+		},
+	},
+	[101731] = {
+		on_executed = {
+			{ id = 102269, },
+		},
+	},
+	[102268] = {
+		values = {
+			amount = harassers_amount,
+		},
+	},
+	[103247] = {
+		values = {
+			counter_target = harassers_amount,
+		},
+	},
+	[102946] = {
+		values = {
+			counter_target = harassers_amount,
+		},
+	},
+	[103833] = {
+		on_executed = {
+			{ id = 103832, delay = 15, delay_rand = overkill and 15 or 45, },
+		},
+	},
+	[103832] = {
+		values = {
+			amount = harassers_amount,
+		},
+	},
+	[103837] = {
+		values = {
+			counter_target = harassers_amount,
+		},
+	},
+	[103835] = {
+		values = {
+			counter_target = harassers_amount,
+		},
+	},
 	-- vent cloaker group interval (default 240s)
 	[102153] = {
 		values = {
 			interval = 15,
 		},
 	},
-
 	-- taxman code chances, taken from pdth
 	[102876] = {  -- n (vanilla is 15)
 		values = {
 			chance = taxman_code_chance,
 		},
-		pre_func = function(self)
-			if self._values.chance ~= taxman_code_chance then
-				self._values.chance = taxman_code_chance
-				self._chance = taxman_code_chance
-			end
-		end,
 	},
 	[102875] = {  -- h/vh (vanilla is 10)
 		values = {
 			chance = taxman_code_chance,
 		},
-		pre_func = function(self)
-			if self._values.chance ~= taxman_code_chance then
-				self._values.chance = taxman_code_chance
-				self._chance = taxman_code_chance
-			end
-		end,
 	},
 	[102864] = {  -- ovk+ (vanilla is 5)
 		values = {
 			chance = taxman_code_chance,
 		},
-		pre_func = function(self)
-			if self._values.chance ~= taxman_code_chance then
-				self._values.chance = taxman_code_chance
-				self._chance = taxman_code_chance
-			end
-		end,
 	},
 	[102872] = {  -- executed each 3 hits on taxman, reset for each hack (changed to execute every hit but behave more like pdth)
 		values = {
@@ -142,14 +149,35 @@ return {
 			end
 		end,
 	},
-
 	-- planks (vanilla is 10, pdth is 23)
 	[101661] = {
 		values = {
 			amount = 20,
 		},
 	},
-
+	--  this disables multiple spawn points when limo lands on the balcony, which is weird, to say the least
+	[101898] = {
+		values = {
+			enabled = false,
+		},
+	},
+	--  keep close roof harassers after sawing the limo open
+	[102989] = {
+		values = {
+			enabled = false,
+		},
+	},
+	-- limo fall stuff
+	[101898] = {  -- chance for limo to land on the roof rather than the balcony
+		values = {
+			chance = normal and 20 or hard and 50 or 80,
+		},
+	},
+	[102943] = {  -- chance for limo to stay on the roof rather than fall through
+		values = {
+			chance = normal and 20 or hard and 50 or 80,
+		},
+	},
 	-- flashlights
 	[100756] = {
 		flashlight = true,
@@ -157,116 +185,72 @@ return {
 	[101801] = {
 		flashlight = false,
 	},
-
 	-- sniper stuff
 	[102167] = {  -- amount, n (vanilla is 2)
 		values = {
-			amount = 3,
+			amount = snipers_amount,
 		},
 	},
 	[102168] = {  -- h (vanilla is 3)
 		values = {
-			amount = 3,
+			amount = snipers_amount,
 		},
 	},
 	[102169] = {  -- vh (vanilla is 4)
 		values = {
-			amount = 3,
+			amount = snipers_amount,
 		},
 	},
 	[102170] = {  -- ovk (vanilla is 5)
 		values = {
-			amount = 6,
+			amount = snipers_amount,
 		},
 	},
 	[102171] = {  -- mh+ (vanilla is 6)
 		values = {
-			amount = overkill and 9 or 6,
+			amount = snipers_amount,
+		},
+	},
+	[101267] = {  -- disables 7, yes, 7 of the 15 sniper spawns when limo lands on balcony
+		values = {
+			enabled = false,
 		},
 	},
 	[102160] = {  -- unused spawn points
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102155] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102156] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102157] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102238] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102232] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
 	[102191] = {
 		values = {
 			enabled = true,
-			trigger_times = 0,
 		},
 	},
-	[102143] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102145] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102146] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102148] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102150] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102151] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102152] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102153] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-
 	-- gas heli stuff
 	[104041] = {
 		values = table.set("difficulty_normal"),
@@ -316,7 +300,6 @@ return {
 			{ id = 101608, delay = 240, delay_rand = overkill and 240 or 480, },
 		},
 	},
-
 	-- vent cloaker stuff
 	[103795] = {
 		on_executed = {
@@ -363,7 +346,6 @@ return {
 			{ id = 103794, remove = true, },
 		},
 	},
-
 	-- wall c4 stuff, allow every wall to be blown up at around the same time
 	[102088] = {
 		values = {
@@ -371,7 +353,6 @@ return {
 			trigger_times = 1,
 		},
 	},
-
 	-- street heli spawn amounts (it's only used one time)
 	[102629] = {  -- n/h
 		values = {
@@ -398,56 +379,53 @@ return {
 		},
 	},
 	-- chopper spawns on the street
-	[102599] = { enemy = ASS:random_unit("swats") },  -- n/h
-	[102600] = { enemy = ASS:random_unit("swats") },
-	[102601] = { enemy = ASS:random_unit("swats") },
-	[102602] = { enemy = ASS:random_unit("swats") },
-	[103315] = { enemy = ASS:random_unit("swats") },  -- vh/ovk
-	[104051] = { enemy = ASS:random_unit("swats") },
-	[104052] = { enemy = ASS:random_unit("swats") },
-	[104053] = { enemy = ASS:random_unit("swats") },
-	[104054] = { enemy = ASS:random_unit("swats") },  -- mh/dw
-	[104055] = { enemy = ASS:random_unit("swats") },
-	[104056] = { enemy = ASS:random_unit("swats") },
-	[104057] = { enemy = ASS:random_unit("swats") },
-	[104058] = { enemy = ASS:random_unit("swats") },  -- ds
-	[104059] = { enemy = ASS:random_unit("swats") },
-	[104060] = { enemy = ASS:random_unit("swats") },
-	[104061] = { enemy = ASS:random_unit("swats") },
-
+	[102599] = { enemy = ASS:random_unit("swats"), },  -- n/h
+	[102600] = { enemy = ASS:random_unit("swats"), },
+	[102601] = { enemy = ASS:random_unit("swats"), },
+	[102602] = { enemy = ASS:random_unit("swats"), },
+	[103315] = { enemy = ASS:random_unit("swats"), },  -- vh/ovk
+	[104051] = { enemy = ASS:random_unit("swats"), },
+	[104052] = { enemy = ASS:random_unit("swats"), },
+	[104053] = { enemy = ASS:random_unit("swats"), },
+	[104054] = { enemy = ASS:random_unit("swats"), },  -- mh/dw
+	[104055] = { enemy = ASS:random_unit("swats"), },
+	[104056] = { enemy = ASS:random_unit("swats"), },
+	[104057] = { enemy = ASS:random_unit("swats"), },
+	[104058] = { enemy = ASS:random_unit("swats"), },  -- ds
+	[104059] = { enemy = ASS:random_unit("swats"), },
+	[104060] = { enemy = ASS:random_unit("swats"), },
+	[104061] = { enemy = ASS:random_unit("swats"), },
 	-- rooftop swats
-	[103839] = { enemy = rooftop_swats },  -- across the street
-	[103841] = { enemy = rooftop_swats },
-	[103843] = { enemy = rooftop_swats },
-	[103845] = { enemy = rooftop_swats },
-	[103847] = { enemy = rooftop_swats },
-	[103849] = { enemy = rooftop_swats },
-	[103228] = { enemy = rooftop_swats_close },  -- close
-	[103237] = { enemy = rooftop_swats_close },
-	[103236] = { enemy = rooftop_swats_close },
-	[103235] = { enemy = rooftop_swats_close },
-	[102097] = { enemy = rooftop_swats_close },
-	[103234] = { enemy = rooftop_swats_close },
-	[102450] = { enemy = rooftop_swats_close },  -- escape
-	[102448] = { enemy = rooftop_swats_close },
-	[102446] = { enemy = rooftop_swats_close },
-	[102443] = { enemy = rooftop_swats_close },
-	[102436] = { enemy = rooftop_swats_close },
-	[102437] = { enemy = rooftop_swats_close },
-	[102438] = { enemy = rooftop_swats_close },
-	[102439] = { enemy = rooftop_swats_close },
-
+	[103839] = { enemy = rooftop_swats, },  -- across the street
+	[103841] = { enemy = rooftop_swats, },
+	[103843] = { enemy = rooftop_swats, },
+	[103845] = { enemy = rooftop_swats, },
+	[103847] = { enemy = rooftop_swats, },
+	[103849] = { enemy = rooftop_swats, },
+	[103228] = { enemy = rooftop_swats_close, },  -- close
+	[103237] = { enemy = rooftop_swats_close, },
+	[103236] = { enemy = rooftop_swats_close, },
+	[103235] = { enemy = rooftop_swats_close, },
+	[102097] = { enemy = rooftop_swats_close, },
+	[103234] = { enemy = rooftop_swats_close, },
+	[102450] = { enemy = rooftop_swats_escape, },  -- escape
+	[102448] = { enemy = rooftop_swats_escape, },
+	[102446] = { enemy = rooftop_swats_escape, },
+	[102443] = { enemy = rooftop_swats_escape, },
+	[102436] = { enemy = rooftop_swats_escape, },
+	[102437] = { enemy = rooftop_swats_escape, },
+	[102438] = { enemy = rooftop_swats_escape, },
+	[102439] = { enemy = rooftop_swats_escape, },
 	-- escape dozers
-	[102433] = { enemy = ASS:random_unit("dozers_any") },
-	[102434] = { enemy = ASS:random_unit("dozers_any") },
-
+	[102433] = { enemy = ASS:random_unit("dozers_any"), },
+	[102434] = { enemy = ASS:random_unit("dozers_any"), },
 	-- gassers
-	[103293] = { enemy = ASS:random_unit("dozers_no_mini") },  -- n/h
-	[103294] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104045] = { enemy = ASS:random_unit("dozers_no_mini") },  -- vh/ovk
-	[104046] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104047] = { enemy = ASS:random_unit("dozers_no_mini") },  -- mh/dw
-	[104048] = { enemy = ASS:random_unit("dozers_no_mini") },
-	[104049] = { enemy = ASS:random_unit("dozers_no_mini") },  -- ds
-	[104050] = { enemy = ASS:random_unit("dozers_no_mini") },
+	[103293] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- n/h
+	[103294] = { enemy = ASS:random_unit("dozers_no_mini"), },
+	[104045] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- vh/ovk
+	[104046] = { enemy = ASS:random_unit("dozers_no_mini"), },
+	[104047] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- mh/dw
+	[104048] = { enemy = ASS:random_unit("dozers_no_mini"), },
+	[104049] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- ds
+	[104050] = { enemy = ASS:random_unit("dozers_no_mini"), },
 }

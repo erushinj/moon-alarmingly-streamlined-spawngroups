@@ -1,3 +1,4 @@
+local normal, hard, overkill = ASS:difficulty_groups()
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -10,24 +11,62 @@ local gangsters = {
 	-- Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
 	-- Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
+local sniper_kill_target = normal and 6 or hard and 8 or 10
 
 return {
-	-- more oppressive open door amounts
-	[103455] = {
+	-- diff curve
+	[102840] = {  -- cops arrived (0.25)
 		values = {
-			amount = 0,
-			amount_random = 2,
+			difficulty = 0.5,
 		},
 	},
-	[103490] = {
+	[102840] = {  -- all saws placed (1)
 		values = {
-			amount_random = 0,
+			difficulty = 0.75,
+		},
+	},
+	[102840] = {  -- c4 dropped (0.75) if fucking 15 extremely slow-spawning snipers arent worthy of reduced diff, neither is c4
+		values = {
+			difficulty = 1,
+		},
+	},
+	[102840] = {  -- c4 boom (1)
+		values = {
+			difficulty = 1,
+		},
+	},
+	-- more oppressive open door amounts
+	-- [103616] = {  -- i seriously just give up with this particular part. likes to cause issues.
+	-- 	on_executed = {
+	-- 		{ id = 100517, },
+	-- 	},
+	-- },
+	-- [103491] = {
+	-- 	on_executed = {
+	-- 		{ id = 100517, remove = true, },
+	-- 	},
+	-- },
+	-- [103492] = {
+	-- 	on_executed = {
+	-- 		{ id = 100517, remove = true, },
+	-- 	},
+	-- },
+	-- [103490] = {
+	-- 	values = {
+	-- 		amount = overkill and 0 or 1,
+	-- 		amount_random = overkill and 1 or 0,
+	-- 	},
+	-- },
+	[103455] = {
+		values = {
+			amount = normal and 2 or hard and 1 or 0,
+			amount_random = normal and 0 or hard and 1 or 2,
 		},
 	},
 	[103618] = {
 		values = {
-			amount = 0,
-			amount_random = 3,
+			amount = normal and 2 or hard and 1 or 0,
+			amount_random = normal and 1 or hard and 2 or 3,
 		},
 	},
 	-- c4 alley drop
@@ -42,6 +81,22 @@ return {
 			table.insert(self._values.on_executed, { id = 100350, delay = 0, })
 		end,
 	},
+	-- reduce objective snipers
+	[104516] = {  -- n/h (vanilla is 7)
+		values = {
+			counter_target = sniper_kill_target ,
+		},
+	},
+	[104692] = {  -- vh/ovk (vanilla is 10)
+		values = {
+			counter_target = sniper_kill_target,
+		},
+	},
+	[104693] = {  -- mh+ (vanilla is 15)
+		values = {
+			counter_target = sniper_kill_target,
+		},
+	},
 	-- re-allow sniper respawns
 	[104556] = {
 		values = {
@@ -50,88 +105,12 @@ return {
 	},
 	[101599] = {  -- also allow a disabled sniper spawn
 		values = {
-			trigger_times = 0,
 			enabled = true,
 		},
 	},
 	[101521] = {  -- and corresponding so
 		values = {
 			enabled = true,
-		},
-	},
-	[103143] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103134] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103137] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103130] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103126] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102833] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[101801] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102614] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[102612] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103148] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103168] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[100793] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[100645] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[103111] = {
-		values = {
-			trigger_times = 0,
-		},
-	},
-	[100693] = {
-		values = {
-			trigger_times = 0,
 		},
 	},
 	-- slow down roof spawns, these are really fuckng annoying
@@ -299,7 +278,6 @@ return {
 	[102332] = { enemy = gangsters, },
 	[102333] = { enemy = gangsters, },
 	[102335] = { enemy = gangsters, },
-	-- [102456] = { enemy = gangsters, },
 	[102558] = { enemy = gangsters, },
 	[102562] = { enemy = gangsters, },
 	[102563] = { enemy = gangsters, },
@@ -316,7 +294,6 @@ return {
 	[103236] = { enemy = gangsters, },
 	[103450] = { enemy = gangsters, },
 	[104781] = { enemy = gangsters, },
-	-- [104782] = { enemy = gangsters, },
 	[104889] = { enemy = gangsters, },
 	[104930] = { enemy = gangsters, },
 	[104932] = { enemy = gangsters, },
@@ -355,14 +332,13 @@ return {
 	[100057] = { enemy = gangsters, },
 	[103703] = { enemy = gangsters, },
 	[103702] = { enemy = gangsters, },
-	-- initial cops
-	[100027] = { enemy = ASS:random_unit("cops_no_r870"), },
+	-- law
+	[100027] = { enemy = ASS:random_unit("cops_no_r870"), },  -- cops, initial
 	[100028] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100035] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100037] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100038] = { enemy = ASS:random_unit("cops_no_r870"), },
 	[100040] = { enemy = ASS:random_unit("cops_no_r870"), },
-	-- blockade cops (swarm)
-	[102020] = { enemy = ASS:random_unit("cops"), },
+	[102020] = { enemy = ASS:random_unit("cops"), },  -- "blockade" (swarm)
 	[102021] = { enemy = ASS:random_unit("cops"), },
 }

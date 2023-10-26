@@ -82,10 +82,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Toughest Assault Always
         </th>
         <td>
-            Always uses task data corresponding to 100% heist difficulty progression.
         </td>
     </tr>
     <tr>
@@ -101,7 +99,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Grace Period
         </th>
         <td>
-            Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.
+            Tweak the grace period duration for yourself only - works even when not hosting, but has no effect in Super Serious Shooter.
         </td>
     </tr>
     <tr>
@@ -131,12 +129,12 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 </table>
 
 ### Notes:
-- Only works as host
+- Majority of features only work as host
 - Values (eg, frequency of tougher units) scales with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-- Scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
+- Mission scripting for several maps has been tweaked - both to improve scripted spawn variety, and to improve game flow
 - Certain special enemies and unique characters are given appropriate weaponry
 
 -----
@@ -150,30 +148,32 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             <ul>
-                <li>Modernized and tweaked restoration of the game's original spawn groups.</li>
-                <li>Scales up shotgunner and flanker presence with difficulty.</li>
+                <li>Modernized and tweaked restoration of the game's pre-Crimefest 2016 spawn groups.</li>
+                <li>New enemy combos; riflemen and shotgunners spawn together; light and heavy units spawn separately.</li>
+                <li>Scales up shotgunner and flanker presence with difficulty; light and heavy unit presence is always approximately 1:1.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Streamlined
+            Streamlined++
         </th>
         <td>
             <ul>
                 <li>Spicier version of Streamlined Heisting's default groups.</li>
-                <li>Scales up heavy presence with difficulty.</li>
+                <li>New enemy combos; more shotgunners.</li>
+                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence - this ratio varies with the chosen Skill Level.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Default
+            Default Streamlined
         </th>
         <td>
             <ul>
-                <li>Tweaks Streamlined Heisting's default groups to work with the mod's features.</li>
-                <li>All other aspects of the mod are unchanged.</li>
+                <li>Tweaks Streamlined Heisting's default groups to work with the Level Mod and Skill Level settings.</li>
+                <li>Does not add new units to the groups; all other aspects of the mod, such as mission script tweaks, still apply.</li>
             </ul>
         </td>
     </tr>
@@ -184,7 +184,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         <td>
             <ul>
                 <li>Experimental - enemies spawn solo, but faster than normal.</li>
-                <li>Higher heavy presence than normal.</li>
+                <li>Higher heavy unit presence than normal - 5:2 heavy-to-light ratio in the toughest assault waves.</li>
             </ul>
         </td>
     </tr>
@@ -502,7 +502,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/levelstweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
