@@ -1572,6 +1572,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_suit_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"), }
 	self.unit_categories.FBI_suit_M4.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"), }
 
+	local difficulty_func = self["_moon_init_unit_categories_" .. ASS:get_var("difficulty")]
 	if difficulty_func then
 		difficulty_func(self)
 	end
