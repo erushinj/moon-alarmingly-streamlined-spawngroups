@@ -64,8 +64,7 @@ return {
 			if not self._values.old_on_executed then
 				self._values.old_on_executed = self._values.on_executed
 
-				-- local chance = normal and 0.5 or hard and 0.75 or 1
-				local chance = 1
+				local chance = normal and 0.5 or hard and 0.75 or 1
 				if chance < math.random() then
 					self._values.on_executed = {
 						{ id = 102957, delay = 0, delay_rand = 0, },
