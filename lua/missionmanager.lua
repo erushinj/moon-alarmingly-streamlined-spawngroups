@@ -2,10 +2,9 @@ if Global.editor_mode then
 	return
 end
 
-local function mission_log(str, ...)
-	if ASS.developer then
-		log("[AlarminglyStreamlinedSpawngroups] " .. str:format(...))
-	end
+local mission_log_str = ("[AlarminglyStreamlinedSpawngroups][%s]"):format((ASS:get_var("level_id")))
+local function mission_log(id, str, ...)
+	log(mission_log_str .. ("[%u] "):format(id) .. str:format(...))
 end
 
 -- Add custom mission script changes and triggers for specific levels
@@ -23,13 +22,13 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 		local element = self:get_element_by_id(element_id)
 
 		if not element then
-			mission_log("Element not found! %u", element_id)
+			mission_log(element_id, "Element not found!")
 		else
 			-- Check if this element is supposed to trigger reinforce points
 			if data.reinforce then
 				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. element_id, function()
 					for _, v in pairs(data.reinforce) do
-						mission_log("Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
+						mission_log(element_id, "Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
 
 						managers.groupai:state():set_area_min_police_force(v.name, v.force, v.position)
 					end
@@ -39,7 +38,7 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			-- Check if this element is supposed to trigger a difficulty change
 			if data.difficulty then
 				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. element_id, function()
-					mission_log("Difficulty set to %.2g by element %u", data.difficulty, element_id)
+					mission_log(element_id, "Difficulty set to %.2g", data.difficulty)
 
 					managers.groupai:state():set_difficulty(data.difficulty)
 				end )
@@ -48,23 +47,21 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			-- Check if this element has custom values set
 			if data.values then
 				for k, v in pairs(data.values) do
-					mission_log("Value \"%s\" set to \"%s\" for element %u", tostring(k), tostring(v), element_id)
+					mission_log(element_id, "Value \"%s\" set to \"%s\"", tostring(k), tostring(v))
 
 					element._values[k] = v
 
-					if k == "chance" then
-						if element.chance_operation_set_chance then
-							element:chance_operation_set_chance(v)
-						else
-							mission_log("Element %u lacks a \"chance_operation_set_chance\" method!", element_id)
-						end
+					if k == "chance" and element.chance_operation_set_chance then
+						mission_log(element_id, "Calling \"chance_operation_set_chance\" method with argument \"%u\"", v)
+
+						element:chance_operation_set_chance(v)
 					end
 				end
 			end
 
 			if data.flashlight ~= nil then
 				ASS:mission_post_hook( element, "on_executed", "flashlight_" .. element_id, function()
-					mission_log("Flashlights %s", data.flashlight and "enabled" or "disabled")
+					mission_log(element_id, "Flashlights %s", data.flashlight and "enabled" or "disabled")
 
 					managers.game_play_central:set_flashlights_on(data.flashlight)
 				end )

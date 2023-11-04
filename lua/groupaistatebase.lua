@@ -21,14 +21,20 @@ if super_serious_dominations then
 	end
 end
 
--- force diff to 1 in loud if the setting is enabled
-if max_diff then
-	GroupAIStateBase.set_difficulty_original = GroupAIStateBase.set_difficulty
-	function GroupAIStateBase:set_difficulty(value, ...)
-		value = 1
+function GroupAIStateBase:moon_set_escape_active(active)
+	self._moon_escape_active = active
 
-		return self:set_difficulty_original(value, ...)
+	if active then
+		self:set_difficulty(1)
 	end
+end
+
+-- force diff to 1 in loud if the setting is enabled or once escape is available
+GroupAIStateBase.set_difficulty_original = GroupAIStateBase.set_difficulty
+function GroupAIStateBase:set_difficulty(value, ...)
+	value = (max_diff or self._moon_escape_active) and 1 or value
+
+	return self:set_difficulty_original(value, ...)
 end
 
 -- cloaker task fuck off

@@ -1,7 +1,7 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-local rooftop_swats = normal and ASS:random_unit("swats_far") or hard and ASS:random_unit("swats_heavys_far") or ASS:random_unit("marshals_far")
-local rooftop_swats_close = ASS:random_unit("marshals_far")
-local rooftop_swats_escape = ASS:random_unit("marshals_far")
+local rooftop_swats = normal and tweak_data.levels:moon_random_unit("swats_far") or hard and tweak_data.levels:moon_random_unit("swats_heavys_far") or tweak_data.levels:moon_random_unit("marshals_far")
+local rooftop_swats_close = tweak_data.levels:moon_random_unit("marshals_far")
+local rooftop_swats_escape = tweak_data.levels:moon_random_unit("marshals_far")
 local taxman_code_chance = normal and 10 or hard and 7 or 5
 local harassers_amount = overkill and 6 or 3
 local snipers_amount = normal and 5 or hard and 10 or 15
@@ -379,22 +379,22 @@ return {
 		},
 	},
 	-- chopper spawns on the street
-	[102599] = { enemy = ASS:random_unit("swats"), },  -- n/h
-	[102600] = { enemy = ASS:random_unit("swats"), },
-	[102601] = { enemy = ASS:random_unit("swats"), },
-	[102602] = { enemy = ASS:random_unit("swats"), },
-	[103315] = { enemy = ASS:random_unit("swats"), },  -- vh/ovk
-	[104051] = { enemy = ASS:random_unit("swats"), },
-	[104052] = { enemy = ASS:random_unit("swats"), },
-	[104053] = { enemy = ASS:random_unit("swats"), },
-	[104054] = { enemy = ASS:random_unit("swats"), },  -- mh/dw
-	[104055] = { enemy = ASS:random_unit("swats"), },
-	[104056] = { enemy = ASS:random_unit("swats"), },
-	[104057] = { enemy = ASS:random_unit("swats"), },
-	[104058] = { enemy = ASS:random_unit("swats"), },  -- ds
-	[104059] = { enemy = ASS:random_unit("swats"), },
-	[104060] = { enemy = ASS:random_unit("swats"), },
-	[104061] = { enemy = ASS:random_unit("swats"), },
+	[102599] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- n/h
+	[102600] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[102601] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[102602] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[103315] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- vh/ovk
+	[104051] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104052] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104053] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104054] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- mh/dw
+	[104055] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104056] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104057] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104058] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- ds
+	[104059] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104060] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[104061] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
 	-- rooftop swats
 	[103839] = { enemy = rooftop_swats, },  -- across the street
 	[103841] = { enemy = rooftop_swats, },
@@ -417,15 +417,15 @@ return {
 	[102438] = { enemy = rooftop_swats_escape, },
 	[102439] = { enemy = rooftop_swats_escape, },
 	-- escape dozers
-	[102433] = { enemy = ASS:random_unit("dozers_any"), },
-	[102434] = { enemy = ASS:random_unit("dozers_any"), },
+	[102433] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
+	[102434] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
 	-- gassers
-	[103293] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- n/h
-	[103294] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[104045] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- vh/ovk
-	[104046] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[104047] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- mh/dw
-	[104048] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[104049] = { enemy = ASS:random_unit("dozers_no_mini"), },  -- ds
-	[104050] = { enemy = ASS:random_unit("dozers_no_mini"), },
+	[103293] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- n/h
+	[103294] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[104045] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- vh/ovk
+	[104046] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[104047] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- mh/dw
+	[104048] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[104049] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- ds
+	[104050] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
 }

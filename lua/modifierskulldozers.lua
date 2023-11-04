@@ -1,17 +1,36 @@
 -- adjust to support all factions and the CS tank unit category
-ASS:override( ModifierSkulldozers, "init", function(self, data)
-	ModifierSkulldozers.super.init(self, data)
+local random_units = tweak_data.levels:moon_random_units()
 
-	local categories = tweak_data.group_ai.unit_categories
+ModifierSkulldozers._moon_dozer_add = tweak_data.levels:moon_units().dozer_3
+ModifierSkulldozers._moon_dozer_tables = {
+	[random_units.dozers_any] = true,
+	[random_units.dozers_no_cs] = true,
+	[random_units.dozers_no_med] = true,
+	[random_units.dozers_no_mini] = true,
+}
+
+local try_insert = ASS:require("try_insert", true)
+
+function ModifierSkulldozers:moon_init(...)
+	self.super.init(self, ...)
+
+	self._moon_dozer_add = self._moon_dozer_add or Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
+
 	for _, category in pairs({ "CS_tank", "FBI_tank", }) do
-		local unit_types = categories[category] and categories[category].unit_types
+		local unit_types = (tweak_data.group_ai.unit_categories[category] or {}).unit_types
 
 		if unit_types then
-			table.insert(unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"))
-			table.insert(unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"))
-			table.insert(unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"))
-			table.insert(unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"))
-			table.insert(unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"))
+			for _, units in pairs(unit_types) do
+				try_insert(units, self._moon_dozer_add)
+			end
 		end
 	end
-end )
+
+	for tbl in pairs(self._moon_dozer_tables or {}) do
+		try_insert(tbl, self._moon_dozer_add)
+	end
+
+	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+end
+
+ASS:override( ModifierSkulldozers, "init", ModifierSkulldozers.moon_init )

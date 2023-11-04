@@ -1,5 +1,5 @@
 local function scripted_swat_squads()
-	return ASS:random_unit(math.random() < 0.1 and "dozers_any" or "specials_any")
+	return tweak_data.levels:moon_random_unit(math.random() < 0.1 and "dozers_any" or "specials_any")
 end
 
 return {

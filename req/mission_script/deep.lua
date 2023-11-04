@@ -85,28 +85,28 @@ return {
 	-- why are there so many bulldozers during the escape sequence ?
 	-- reduce to 1 on vh/ovk, 2 on mh/dw, and 4 on ds (from what appears to be 6/6/8)
 	-- TODO: find out if all of them for a given difficulty are activated, looking like all of them plus a random other dozer get activated..?
-	[104215] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },  -- vh/ovk
-	[104206] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104217] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104219] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104221] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
+	[104215] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },  -- vh/ovk
+	[104206] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104217] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104219] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104221] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
 	[104998] = { enemy = bellmead_marksman, },  -- 25/25/25/25
 	[104997] = { enemy = bellmead_marksman, },  -- 25/25/25/25
 	[104996] = { enemy = bellmead_marksman, },  -- 25/25/25/25
 	[104994] = { enemy = bellmead_marksman, },  -- 25/25/25/25
-	[104213] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },  -- mh+
-	[104214] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104216] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104218] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104220] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or ASS:random_unit("dozers_no_cs"), },
-	[104993] = { enemy = ASS:random_unit("dozers_no_med"), },  -- 50/50
-	[104999] = { enemy = ASS:random_unit("dozers_no_med"), },  -- 50/50
-	[104995] = { enemy = ASS:random_unit("dozers_any"), },  -- ds
-	[105000] = { enemy = ASS:random_unit("dozers_any"), },
+	[104213] = { enemy = replace_guaranteed_dozer_spot ~= 1 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },  -- mh+
+	[104214] = { enemy = replace_guaranteed_dozer_spot ~= 2 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104216] = { enemy = replace_guaranteed_dozer_spot ~= 3 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104218] = { enemy = replace_guaranteed_dozer_spot ~= 4 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104220] = { enemy = replace_guaranteed_dozer_spot ~= 5 and bellmead_shield or tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[104993] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- 50/50
+	[104999] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- 50/50
+	[104995] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- ds
+	[105000] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
 
 	-- "force dozers" while going up to the pipe puzzle, 50/50 chance
-	[102312] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[104519] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[104518] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[104517] = { enemy = ASS:random_unit("dozers_no_med"), },
+	[102312] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[104519] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[104518] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[104517] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
 }

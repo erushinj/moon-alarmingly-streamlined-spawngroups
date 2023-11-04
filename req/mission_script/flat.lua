@@ -333,12 +333,12 @@ return {
 	[103703] = { enemy = gangsters, },
 	[103702] = { enemy = gangsters, },
 	-- law
-	[100027] = { enemy = ASS:random_unit("cops_no_r870"), },  -- cops, initial
-	[100028] = { enemy = ASS:random_unit("cops_no_r870"), },
-	[100035] = { enemy = ASS:random_unit("cops_no_r870"), },
-	[100037] = { enemy = ASS:random_unit("cops_no_r870"), },
-	[100038] = { enemy = ASS:random_unit("cops_no_r870"), },
-	[100040] = { enemy = ASS:random_unit("cops_no_r870"), },
-	[102020] = { enemy = ASS:random_unit("cops"), },  -- "blockade" (swarm)
-	[102021] = { enemy = ASS:random_unit("cops"), },
+	[100027] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },  -- cops, initial
+	[100028] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
+	[100035] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
+	[100037] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
+	[100038] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
+	[100040] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
+	[102020] = { enemy = tweak_data.levels:moon_random_unit("cops"), },  -- "blockade" (swarm)
+	[102021] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
 }

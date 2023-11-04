@@ -1,4 +1,4 @@
-local fbis_swats_heavys = table.list_add(ASS:random_unit("fbis"), ASS:random_unit("swats_heavys"))
+local fbis_swats_heavys = table.list_add(tweak_data.levels:moon_random_unit("fbis"), tweak_data.levels:moon_random_unit("swats_heavys"))
 local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1"),
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),
@@ -36,12 +36,12 @@ return {
 	[100797] = { enemy = mexicans, },
 	[100793] = { enemy = mexicans, },
 	-- beat cops
-	[100192] = { enemy = ASS:random_unit("cops"), },
-	[100188] = { enemy = ASS:random_unit("cops"), },
-	[100054] = { enemy = ASS:random_unit("cops"), },
-	[100058] = { enemy = ASS:random_unit("cops"), },
-	[100064] = { enemy = ASS:random_unit("cops"), },
-	[100065] = { enemy = ASS:random_unit("cops"), },
+	[100192] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100188] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100054] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100058] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100064] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100065] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
 	-- fbi escort
 	[100781] = { enemy = fbis_swats_heavys, },
 	[100784] = { enemy = fbis_swats_heavys, },

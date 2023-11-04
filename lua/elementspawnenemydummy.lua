@@ -5,7 +5,7 @@ if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spaw
 end
 
 local mission_script_patches = ASS:mission_script_patches()
-ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
+function ElementSpawnEnemyDummy:moon_init_hook()
 	if self._values.possible_enemies then
 		self._possible_enemies = self._values.possible_enemies
 
@@ -30,7 +30,9 @@ ASS:post_hook( ElementSpawnEnemyDummy, "init", function(self)
 			end
 		end
 	end
-end )
+end
+
+ASS:post_hook( ElementSpawnEnemyDummy, "init", ElementSpawnEnemyDummy.moon_init_hook )
 
 local function i_hate_scripted_spawns()
 	local skm = managers.skirmish
@@ -64,28 +66,31 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 		self._enemy_name = self._patched_enemy_name or self._enemy_name
 	end
 
+	self._enemy_name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", self._enemy_name)
+
 	local level_enemy_replacement = level_enemy_replacements[self._enemy_name:key()]
 	if level_enemy_replacement then
 		self._enemy_name = level_enemy_replacement
 
-		return self:_moon_produce_helper(params, ...)
+		return self:moon_produce_helper(params, ...)
 	end
 
 	local mapped_name = enemy_mapping[self._enemy_name:key()]
 	if forbidden_scripted_replacements[mapped_name] then
-		return self:_moon_produce_helper(params, ...)
+		return self:moon_produce_helper(params, ...)
 	end
 
 	local replacement = level_mod or type(difficulty) == "function" and difficulty() or difficulty or "normal"
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
-	if mapped_unit and mapped_unit ~= self._enemy_name then
+	-- if mapped_unit and mapped_unit ~= self._enemy_name then
+	if mapped_unit then
 		self._enemy_name = mapped_unit
 	end
 
-	return self:_moon_produce_helper(params, ...)
+	return self:moon_produce_helper(params, ...)
 end
 
-function ElementSpawnEnemyDummy:_moon_produce_helper(params, ...)
+function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 	local unit = self:produce_original(params, ...)
 
 	self._enemy_name = self._original_enemy_name

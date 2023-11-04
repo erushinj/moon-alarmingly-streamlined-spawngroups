@@ -1,5 +1,5 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-local harassers = ASS:random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
+local harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
 
 return {
 	-- diff curve tweaks
@@ -39,15 +39,15 @@ return {
 	[104597] = { enemy = harassers, },
 	[104598] = { enemy = harassers, },
 	-- security guards
-	[103735] = { enemy = ASS:random_unit("securitys_heavy"), },  -- gate
-	[103734] = { enemy = ASS:random_unit("securitys_heavy"), },
-	[100478] = { enemy = ASS:random_unit("securitys_heavy"), },
-	[103733] = { enemy = ASS:random_unit("securitys_heavy"), },
-	[100168] = { enemy = ASS:random_unit("securitys"), },  -- the rest (why are there so many security 1s ?)
-	[100487] = { enemy = ASS:random_unit("securitys"), },
-	[100172] = { enemy = ASS:random_unit("securitys"), },
-	[102983] = { enemy = ASS:random_unit("securitys"), },
-	[102982] = { enemy = ASS:random_unit("securitys"), },
-	[100488] = { enemy = ASS:random_unit("securitys"), },
-	[100490] = { enemy = ASS:random_unit("securitys"), },
+	[103735] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- gate
+	[103734] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
+	[100478] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
+	[103733] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
+	[100168] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },  -- the rest (why are there so many security 1s ?)
+	[100487] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100172] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[102983] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[102982] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100488] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100490] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
 }

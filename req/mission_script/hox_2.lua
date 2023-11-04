@@ -12,7 +12,7 @@ local fbi_offices = {
 local harassers = normal and table.list_add(fbi_offices, {
 	Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
 	Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-}) or ASS:random_unit(hard and "swats_heavys" or "heavys")
+}) or tweak_data.levels:moon_random_unit(hard and "swats_heavys" or "heavys")
 
 return {
 	-- fbi offices/females

@@ -1,7 +1,7 @@
 local special_chance = ASS:get_var("real_difficulty_index") * 0.05
 
 local function scripted_swat_squads()
-	return ASS:random_unit(math.random() < special_chance and "specials_any" or "heavys")
+	return tweak_data.levels:moon_random_unit(math.random() < special_chance and "specials_any" or "heavys")
 end
 
 return {
@@ -30,29 +30,29 @@ return {
 	[101375] = { enemy = scripted_swat_squads(), },
 	[101376] = { enemy = scripted_swat_squads(), },
 	[101377] = { enemy = scripted_swat_squads(), },
-	[100496] = { enemy = ASS:random_unit("dozers_no_cs"), },  -- dozers
-	[100493] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100498] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100499] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100492] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100494] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100495] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100497] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100500] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100501] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100502] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100503] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100488] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100489] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100490] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100491] = { enemy = ASS:random_unit("dozers_no_cs"), },
-	[100351] = { enemy = ASS:random_unit("dozers_no_med"), },  -- hidden dozers
-	[100427] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100428] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100429] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100430] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100431] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100432] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100433] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[100433] = { enemy = ASS:random_unit("dozers_no_med"), },
+	[100496] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },  -- dozers
+	[100493] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100498] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100499] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100492] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100494] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100495] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100497] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100500] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100501] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100502] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100503] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100488] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100489] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100490] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100491] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100351] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- hidden dozers
+	[100427] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100428] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100429] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100430] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100431] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100432] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100433] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[100433] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
 }

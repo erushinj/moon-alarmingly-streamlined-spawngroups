@@ -2,7 +2,7 @@ local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
 local difficulty_index = ASS:get_var("difficulty_index")
-local f = math.clamp(difficulty_index - 2, 0, 6) / 6
+local f = (difficulty_index - 2) / 6
 
 function GroupAITweakData:moon_swap_units(prefixes)
 	local tweak_data = self.tweak_data
@@ -11,9 +11,7 @@ function GroupAITweakData:moon_swap_units(prefixes)
 	for prefix, difficulty in pairs(prefixes) do
 		for id, data in pairs(self.unit_categories) do
 			if id:match(prefix) then
-				local unit_types = data.unit_types
-
-				for continent, units in pairs(unit_types) do
+				for _, units in pairs(data.unit_types) do
 					for i = 1, #units do
 						local unit = units[i]
 						local mapped = enemy_mapping[unit:key()]
@@ -27,6 +25,8 @@ function GroupAITweakData:moon_swap_units(prefixes)
 			end
 		end
 	end
+
+	self.moon_last_prefixes = prefixes
 end
 
 -- deprecated name
@@ -141,7 +141,7 @@ function GroupAITweakData:_moon_set_weights(new_weights)
 		local groups = self.besiege[task].groups
 
 		for group in pairs(groups) do
-			groups[group] = { 0, 0, 0 }
+			groups[group] = { 0, 0, 0, }
 		end
 
 		for group, weights in pairs(new_groups) do
@@ -250,155 +250,155 @@ end
 
 function GroupAITweakData:_moon_original(special_weight)
 	self.enemy_spawn_groups.original_swats_a = {
-		amount = { 3, 3 },
+		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 2,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.original_rifle,
-				amount_min = 1,
-				freq = self._freq.baseline
+				-- amount_min = 1,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.original_rifle_flank,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.original_shotgun,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_C45_R870",
 				tactics = self._tactics.original_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.original_swats_b = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.original_rifle,
-				amount_min = 1,
-				freq = self._freq.baseline
+				-- amount_min = 1,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.original_rifle_flank,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.original_shotgun,
-				amount_max = 2,
-				freq = self._freq.common
+				-- amount_max = 2,
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.original_shotgun_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_M4_R870",
 				tactics = self._tactics.original_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.rare
-			}
-		}
+				freq = self._freq.rare,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_heavys_a = {
-		amount = { 3, 3 },
+		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 2,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.original_rifle,
-				amount_min = 1,
-				freq = self._freq.baseline
+				-- amount_min = 1,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.original_rifle_flank,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "CS_heavy_R870",
 				tactics = self._tactics.original_shotgun,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_MP5_R870",
 				tactics = self._tactics.original_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.original_heavys_b = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_rifle,
-				amount_min = 1,
-				freq = self._freq.baseline
+				-- amount_min = 1,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_rifle_flank,
-				amount_max = 1,
-				freq = self._freq.common
+				-- amount_max = 1,
+				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.original_shotgun,
-				amount_max = 2,
-				freq = self._freq.common
+				-- amount_max = 2,
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.original_shotgun_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_M4_R870",
 				tactics = self._tactics.original_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_shields_a = {
-		amount = { 3, 3 },
+		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 2,
@@ -406,18 +406,18 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_shield_ranged,
 				amount_min = 1,
 				amount_max = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.original_shield_ranged_cover,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_shields_b = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 3,
@@ -425,36 +425,36 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_shield_charge,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_shield_charge_cover,
-				amount_min = 1,
-				freq = self._freq.baseline
+				-- amount_min = 1,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.original_shield_charge_cover,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_M4_MP5",
 				tactics = self._tactics.original_shield_charge_cover,
 				amount_max = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.original_shield_charge_cover,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_tazers_a = {
@@ -466,18 +466,18 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_tazer,
 				amount_min = 1,
 				amount_max = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.original_tazer_shield,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_tazers_b = {
-		amount = { 2, 4 },
+		amount = { 2, 4, },
 		spawn = {
 			{
 				rank = 2,
@@ -485,32 +485,32 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_tazer,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.original_tazer_shield,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.original_tazer_shield,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.original_tazer_shield,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_tanks_a = {
-		amount = { 1, 3 },
+		amount = { 1, 3, },
 		spawn = {
 			{
 				rank = 2,
@@ -518,24 +518,24 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_tank,
 				amount_min = 1,
 				amount_max = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.original_tank_cover,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.original_tank_cover,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_tanks_b = {
-		amount = { 2, 4 },
+		amount = { 2, 4, },
 		spawn = {
 			{
 				rank = 3,
@@ -543,219 +543,212 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.original_tank,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 2,
 				unit = "FBI_tazer",
 				tactics = self._tactics.original_tank_cover,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_tank_cover,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.original_tank_cover,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_spoocs_a = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_spooc",
 				tactics = self._tactics.original_spooc,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_spoocs_b = {
-		amount = { 2, 2 },
+		amount = { 2, 2, },
 		spawn = {
 			{
 				rank = 2,
 				unit = "FBI_spooc",
 				tactics = self._tactics.original_spooc,
 				amount_min = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.original_spooc,
 				amount_max = 1,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_recon_a = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_C45_MP5",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_MP5_R870",
 				tactics = self._tactics.empty,
-				amount_max = 1,
-				freq = self._freq.common
-			}
-		}
+				-- amount_max = 1,
+				freq = self._freq.common,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_recon_b = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_MP5_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.empty,
-				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				-- amount_max = 1,
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_recon_c = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_stealth_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_tazer",
 				tactics = self._tactics.empty,
 				amount_max = 1,
-				freq = self._freq.rare
-			}
-		}
+				freq = self._freq.rare,
+			},
+		},
 	}
 	self.enemy_spawn_groups.original_recon_d = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.empty,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.original_reenforce_a = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_cop_C45_MP5",
+				unit = "CS_cop_C45_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.original_reenforce_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_MP5_R870",
+				tactics = self._tactics.empty,
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_stealth_R870",
 				tactics = self._tactics.empty,
 				amount_max = 1,
-				freq = self._freq.common
-			}
-		}
-	}
-	self.enemy_spawn_groups.original_reenforce_b = {
-		amount = { 2, 3 },
-		spawn = {
-			{
-				rank = 1,
-				unit = "CS_swat_MP5_R870",
-				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.common,
 			},
-			{
-				rank = 1,
-				unit = "CS_cop_C45_R870",
-				tactics = self._tactics.empty,
-				amount_max = 1,
-				freq = self._freq.common
-			}
-		}
+		},
 	}
 	self.enemy_spawn_groups.original_reenforce_c = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_heavy_R870",
 				tactics = self._tactics.empty,
 				amount_max = 1,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 
 	self:_moon_set_weights({
 		assault = {
-			original_swats_a = { 6.75, 3.375, 0 },
-			original_swats_b = { 6.75, 10.125, 13.5 },
-			original_heavys_a = { 6.75, 3.375, 0 },
-			original_heavys_b = { 6.75, 10.125, 13.5 },
-			original_shields_a = { 0, special_weight, 0 },
-			original_shields_b = { 0, 0, special_weight * 2 },
-			original_tazers_a = { 0, special_weight, 0 },
-			original_tazers_b = { 0, 0, special_weight * 2 },
-			original_tanks_a = { 0, special_weight * 0.5, 0 },
-			original_tanks_b = { 0, 0, special_weight },
-			original_spoocs_a = { 0, special_weight * 0.5, 0 },
-			original_spoocs_b = { 0, 0, special_weight },
-			original_recon_d = { 0, special_weight * 0.1, special_weight * 0.2 },
+			original_swats_a = { 6.75, 3.375, 0, },
+			original_swats_b = { 6.75, 10.125, 13.5, },
+			original_heavys_a = { 6.75, 3.375, 0, },
+			original_heavys_b = { 6.75, 10.125, 13.5, },
+			original_shields_a = { 0, special_weight, 0, },
+			original_shields_b = { 0, 0, special_weight * 2, },
+			original_tazers_a = { 0, special_weight, 0, },
+			original_tazers_b = { 0, 0, special_weight * 2, },
+			original_tanks_a = { 0, special_weight * 0.5, 0, },
+			original_tanks_b = { 0, 0, special_weight, },
+			original_spoocs_a = { 0, special_weight * 0.5, 0, },
+			original_spoocs_b = { 0, 0, special_weight, },
+			original_recon_d = { 0, special_weight * 0.1, special_weight * 0.2, },
 		},
 		recon = {
-			original_swats_a = { 0, 0, 0 },
-			original_swats_b = { 0, 0, 0 },
-			original_spoocs_a = { 0, 0, 0 },
-			original_spoocs_b = { 0, 0, 0 },
-			original_recon_a = { 1, 1, 0 },
-			original_recon_b = { 0, 1, 1 },
-			original_recon_c = { 0, 0, 1 },
-			original_recon_d = { 0, 0, 0 },
+			original_swats_a = { 0, 0, 0, },
+			original_swats_b = { 0, 0, 0, },
+			original_spoocs_a = { 0, 0, 0, },
+			original_spoocs_b = { 0, 0, 0, },
+			original_recon_a = { 1, 1, 0, },
+			original_recon_b = { 0, 1, 1, },
+			original_recon_c = { 0, 0, 1, },
+			original_recon_d = { 0, 0, 0, },
 		},
 		reenforce = {
-			original_reenforce_a = { 1, 1, 0 },
-			original_reenforce_b = { 0, 1, 1 },
-			original_reenforce_c = { 0, 0, 1 },
+			original_reenforce_a = { 1, 1, 0, },
+			original_reenforce_b = { 0, 1, 1, },
+			original_reenforce_c = { 0, 0, 1, },
 		},
 	})
 end
@@ -792,147 +785,147 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 	end
 
 	self.enemy_spawn_groups.tac_swat_shotgun_rush = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.swat_shotgun_rush,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.swat_shotgun_rush,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.swat_shotgun_rush,
 				amount_max = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = self._tactics.swat_shotgun_rush,
 				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 	self.enemy_spawn_groups.tac_swat_shotgun_rush_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_rush)
 
 	self.enemy_spawn_groups.tac_swat_shotgun_flank = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = self._tactics.swat_shotgun_flank,
 				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 	self.enemy_spawn_groups.tac_swat_shotgun_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_shotgun_flank)
 
 	self.enemy_spawn_groups.tac_swat_rifle = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.swat_rifle,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.swat_rifle,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = self._tactics.swat_rifle,
 				amount_max = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = self._tactics.swat_rifle,
 				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 	self.enemy_spawn_groups.tac_swat_rifle_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle)
 
 	self.enemy_spawn_groups.tac_swat_rifle_flank = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 3,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_min = 1,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.uncommon
-			}
-		}
+				freq = self._freq.uncommon,
+			},
+		},
 	}
 	self.enemy_spawn_groups.tac_swat_rifle_flank_no_medic = no_medic_group(self.enemy_spawn_groups.tac_swat_rifle_flank)
 
 	self.enemy_spawn_groups.tac_shield_wall_ranged = {
-		amount = { 4, 5 },
+		amount = { 4, 5, },
 		spawn = {
 			{
 				rank = 2,
@@ -940,34 +933,34 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.shield_wall_ranged,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.shield_support_ranged,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_C45_M4",
 				tactics = self._tactics.shield_support_ranged,
 				amount_max = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = self._tactics.shield_support_ranged,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 	self.enemy_spawn_groups.tac_shield_wall = self.enemy_spawn_groups.tac_shield_wall_ranged
 
 	self.enemy_spawn_groups.tac_shield_wall_charge = {
-		amount = { 4, 5 },
+		amount = { 4, 5, },
 		spawn = {
 			{
 				rank = 2,
@@ -975,33 +968,33 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.shield_wall_charge,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.shield_support_charge,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.shield_support_charge,
 				amount_max = 1,
-				freq = self._freq.rare
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = self._tactics.shield_support_charge,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.tac_tazer_flanking = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
@@ -1009,26 +1002,26 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.tazer_flanking,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.tazer_shield,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.tazer_shield,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.tac_tazer_charge = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
@@ -1036,26 +1029,26 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.tazer_charge,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_shield",
 				tactics = self._tactics.tazer_shield,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.tazer_shield,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.tac_bull_rush = {
-		amount = { 3, 4 },
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
@@ -1063,32 +1056,32 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.tank_rush,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.tank_cover,
 				amount_max = 1,
-				freq = self._freq.elite
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.tank_cover,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.tank_cover,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.FBI_spoocs = {
-		amount = { 1, 2 },
+		amount = { 1, 2, },
 		spawn = {
 			{
 				rank = 2,
@@ -1096,115 +1089,115 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.spooc,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.spooc,
 				amount_max = 1,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.hostage_rescue = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_C45_R870",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_min = 2,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_tazer",
 				tactics = self._tactics.swat_rifle_flank,
 				amount_max = 1,
-				freq = self._freq.elite
-			}
-		}
+				freq = self._freq.elite,
+			},
+		},
 	}
 
 	self.enemy_spawn_groups.reenforce_init = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_C45_MP5",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_stealth_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 	self.enemy_spawn_groups.reenforce_light = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 	self.enemy_spawn_groups.reenforce_heavy = {
-		amount = { 2, 3 },
+		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.empty,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_heavy_R870",
 				tactics = self._tactics.empty,
-				freq = self._freq.common
-			}
-		}
+				freq = self._freq.common,
+			},
+		},
 	}
 
 	self:_moon_set_weights({
 		assault = {
-			tac_swat_shotgun_rush = { 2, 3, 4 },
-			tac_swat_shotgun_rush_no_medic = { 2, 1, 0 },
-			tac_swat_shotgun_flank = { 1, 1.5, 2 },
-			tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0 },
-			tac_swat_rifle = { 7, 10.5, 14 },
-			tac_swat_rifle_no_medic = { 7, 3.5, 0 },
-			tac_swat_rifle_flank = { 3.5, 5.25, 7 },
-			tac_swat_rifle_flank_no_medic = { 3.5, 1.75, 0 },
-			tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight },
-			tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight },
-			tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
-			tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
-			tac_bull_rush = { 0, special_weight * 0.5, special_weight },
-			FBI_spoocs = { 0, special_weight * 0.5, special_weight },
+			tac_swat_shotgun_rush = { 2, 3, 4, },
+			tac_swat_shotgun_rush_no_medic = { 2, 1, 0, },
+			tac_swat_shotgun_flank = { 1, 1.5, 2, },
+			tac_swat_shotgun_flank_no_medic = { 1, 0.5, 0, },
+			tac_swat_rifle = { 7, 10.5, 14, },
+			tac_swat_rifle_no_medic = { 7, 3.5, 0, },
+			tac_swat_rifle_flank = { 3.5, 5.25, 7, },
+			tac_swat_rifle_flank_no_medic = { 3.5, 1.75, 0, },
+			tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight, },
+			tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight, },
+			tac_tazer_flanking = { 0, special_weight * 0.5, special_weight, },
+			tac_tazer_charge = { 0, special_weight * 0.5, special_weight, },
+			tac_bull_rush = { 0, special_weight * 0.5, special_weight, },
+			FBI_spoocs = { 0, special_weight * 0.5, special_weight, },
 		},
 		recon = {
-			hostage_rescue = { 1, 1, 1 },
-			FBI_spoocs = { 0, 0, 0 },
+			hostage_rescue = { 1, 1, 1, },
+			FBI_spoocs = { 0, 0, 0, },
 		},
 		reenforce = {
-			reenforce_init = { 1, 0, 0 },
-			reenforce_light = { 0, 1, 0 },
-			reenforce_heavy = { 0, 0, 1 },
+			reenforce_init = { 1, 0, 0, },
+			reenforce_light = { 0, 1, 0, },
+			reenforce_heavy = { 0, 0, 1, },
 		},
 	})
 end
@@ -1263,141 +1256,141 @@ function GroupAITweakData:_moon_default(special_weight)
 
 	self:_moon_set_weights({
 		assault = {
-			tac_swat_shotgun_rush = { 1, 1.5, 2 },
-			tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0 },
-			tac_swat_shotgun_flank = { 0.5, 0.75, 1 },
-			tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0 },
-			tac_swat_rifle = { 8, 12, 16 },
-			tac_swat_rifle_no_medic = { 8, 4, 0 },
-			tac_swat_rifle_flank = { 4, 6, 8 },
-			tac_swat_rifle_flank_no_medic = { 4, 2, 0 },
-			tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight },
-			tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight },
-			tac_tazer_flanking = { 0, special_weight * 0.5, special_weight },
-			tac_tazer_charge = { 0, special_weight * 0.5, special_weight },
-			tac_bull_rush = { 0, special_weight * 0.5, special_weight },
-			FBI_spoocs = { 0, special_weight * 0.5, special_weight },
+			tac_swat_shotgun_rush = { 1, 1.5, 2, },
+			tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0, },
+			tac_swat_shotgun_flank = { 0.5, 0.75, 1, },
+			tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0, },
+			tac_swat_rifle = { 8, 12, 16, },
+			tac_swat_rifle_no_medic = { 8, 4, 0, },
+			tac_swat_rifle_flank = { 4, 6, 8, },
+			tac_swat_rifle_flank_no_medic = { 4, 2, 0, },
+			tac_shield_wall_ranged = { 0, special_weight * 0.5, special_weight, },
+			tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight, },
+			tac_tazer_flanking = { 0, special_weight * 0.5, special_weight, },
+			tac_tazer_charge = { 0, special_weight * 0.5, special_weight, },
+			tac_bull_rush = { 0, special_weight * 0.5, special_weight, },
+			FBI_spoocs = { 0, special_weight * 0.5, special_weight, },
 		},
 	})
 end
 
 function GroupAITweakData:_moon_chicken_plate(special_weight)
 	self.enemy_spawn_groups.chicken_plate_hrt_a = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_cop_C45",
 				tactics = self._tactics.chicken_plate_hrt_pistol,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_MP5",
 				tactics = self._tactics.chicken_plate_hrt_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_cop_stealth_R870",
 				tactics = self._tactics.chicken_plate_hrt_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_b = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_suit_C45",
 				tactics = self._tactics.chicken_plate_hrt_pistol,
-				freq = self._freq.uncommon
+				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_M4",
 				tactics = self._tactics.chicken_plate_hrt_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_suit_stealth_R870",
 				tactics = self._tactics.chicken_plate_hrt_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_swat_a = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.chicken_plate_swat_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.chicken_plate_swat_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_swat_b = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.chicken_plate_swat_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.chicken_plate_swat_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_heavy_a = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.chicken_plate_heavy_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "CS_heavy_R870",
 				tactics = self._tactics.chicken_plate_heavy_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_heavy_b = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.chicken_plate_heavy_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.chicken_plate_heavy_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
@@ -1408,88 +1401,90 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 		}
 	}
 	self.enemy_spawn_groups.chicken_plate_taser = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.chicken_plate_taser,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_tank",
 				tactics = self._tactics.chicken_plate_tank,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_spooc = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.chicken_plate_spooc,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_medic = {
-		amount = { 1, 1 },
+		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_medic_M4",
 				tactics = self._tactics.chicken_plate_medic_rifle,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_medic_R870",
 				tactics = self._tactics.chicken_plate_medic_shotgun,
-				freq = self._freq.common
+				freq = self._freq.common,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.FBI_spoocs = self.enemy_spawn_groups.single_spooc
 
 	self:_moon_set_weights({
 		assault = {
-			chicken_plate_hrt_a = { 0, 0, 0 },
-			chicken_plate_hrt_b = { 15, 1.5, 1.5 },
-			chicken_plate_swat_a = { 0, 0, 0 },
-			chicken_plate_swat_b = { 6, 15, 6 },
-			chicken_plate_heavy_a = { 0, 0, 0 },
-			chicken_plate_heavy_b = { 1.5, 6, 15 },
-			chicken_plate_shield = { 0, special_weight * 0.5, special_weight },
-			chicken_plate_taser = { 0, special_weight * 0.5, special_weight },
-			chicken_plate_tank = { 0, special_weight * 0.5, special_weight },
-			chicken_plate_spooc = { 0, special_weight * 0.5, special_weight },
-			chicken_plate_medic = { 0, special_weight * 0.5, special_weight },
+			chicken_plate_hrt_a = { 0, 0, 0, },
+			chicken_plate_hrt_b = { 15, 1.5, 1.5, },
+			chicken_plate_swat_a = { 0, 0, 0, },
+			chicken_plate_swat_b = { 6, 15, 6, },
+			chicken_plate_heavy_a = { 0, 0, 0, },
+			chicken_plate_heavy_b = { 1.5, 6, 15, },
+			chicken_plate_shield = { 0, special_weight * 0.5, special_weight, },
+			chicken_plate_taser = { 0, special_weight * 0.5, special_weight, },
+			chicken_plate_tank = { 0, special_weight * 0.5, special_weight, },
+			chicken_plate_spooc = { 0, special_weight * 0.5, special_weight, },
+			chicken_plate_medic = { 0, special_weight * 0.5, special_weight, },
 		},
 		recon = {
-			chicken_plate_hrt_a = { 5, 3, 1 },
-			chicken_plate_hrt_b = { 0, 0, 0 },
-			chicken_plate_swat_a = { 1, 1, 1 },
-			chicken_plate_swat_b = { 0, 0, 0 },
-			chicken_plate_spooc = { 0, 0, 0 },
-			chicken_plate_medic = { 0, 0, 0 },
+			chicken_plate_hrt_a = { 5, 3, 1, },
+			chicken_plate_hrt_b = { 0, 0, 0, },
+			chicken_plate_swat_a = { 1, 1, 1, },
+			chicken_plate_swat_b = { 0, 0, 0, },
+			chicken_plate_spooc = { 0, 0, 0, },
+			chicken_plate_medic = { 0, 0, 0, },
 		},
 		reenforce = {
-			chicken_plate_hrt_a = { 1, 1, 1 },
-			chicken_plate_swat_a = { 0, 1, 2 },
-			chicken_plate_heavy_a = { 0, 3, 6 },
+			chicken_plate_hrt_a = { 1, 1, 1, },
+			chicken_plate_swat_a = { 0, 1, 2, },
+			chicken_plate_heavy_a = { 0, 3, 6, },
 		},
 	})
 end
 
 function GroupAITweakData:_moon_init_unit_categories()
+	local special_limit_mul = ASS:get_tweak("special_limit_mul")
+
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
 
@@ -1502,9 +1497,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 		return new_category
 	end
 
-	local index = math.clamp(difficulty_index, 2, 8)
-	local special_limit_mul = ASS:get_tweak("special_limit_mul")
-
 	-- new special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
 	for special, limit in pairs({
@@ -1514,7 +1506,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
 		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
 	}) do
-		self.special_unit_spawn_limits[special] = math.round(limit[index] * special_limit_mul)
+		-- self.special_unit_spawn_limits[special] = math.round(limit[difficulty_index] * special_limit_mul)
+		self.special_unit_spawn_limits[special] = math.ceil(limit[difficulty_index] * special_limit_mul)
 	end
 
 	-- these are used later to set new factions to america in the unlikely event any new ones are added
@@ -1579,7 +1572,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_suit_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"), }
 	self.unit_categories.FBI_suit_M4.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"), }
 
-	local difficulty_func = self["_moon_init_unit_categories_" .. ASS:get_var("difficulty")]
 	if difficulty_func then
 		difficulty_func(self)
 	end
@@ -1620,9 +1612,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 end
 
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
-	local assault_style = ASS:get_var("assault_style")
-	local assault_style_func = self["_moon_" .. assault_style] or self._moon_default
-
+	local assault_style_func = self["_moon_" .. (ASS:get_var("assault_style") or "")] or self._moon_default
 	local special_weight_base = ASS:get_tweak("special_weight_base")
 	local special_weight = math.lerp(special_weight_base[1], special_weight_base[2], f)
 
@@ -1700,17 +1690,17 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 				rank = 1,
 				unit = "FBI_spooc",
 				tactics = self._tactics.spooc,
-				freq = self._freq.baseline
-			}
-		}
+				freq = self._freq.baseline,
+			},
+		},
 	}
 
 	assault_style_func(self, special_weight)
 
 	self.besiege.assault.groups.marshal_squad = nil
-	self.besiege.assault.groups.custom_recon = { 0, 0, 0 }
+	self.besiege.assault.groups.custom_recon = { 0, 0, 0, }
 	self.besiege.recon.groups.marshal_squad = nil
-	self.besiege.recon.groups.custom_assault = { 0, 0, 0 }
+	self.besiege.recon.groups.custom_assault = { 0, 0, 0, }
 
 	if is_super_serious then
 		self:_moon_super_serious_tweaks()
@@ -1743,13 +1733,13 @@ function GroupAITweakData:_moon_init_task_data()
 	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * force_pool_mul end)
 	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_min, function(val) return val * sustain_duration_mul end)
 	self.besiege.assault.sustain_duration_max = self.besiege.assault.sustain_duration_min
-	self.besiege.assault.sustain_duration_balance_mul = { 1, 1, 1, 1 }
+	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
 	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
 	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
 	self.besiege.reenforce.interval = reenforce_interval
-	self.besiege.recon.interval = { 0, 0, 0 }
+	self.besiege.recon.interval = { 0, 0, 0, }
 	self.besiege.recon.interval_variation = 0
-	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge }
+	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge, }
 
 	self.street = deep_clone(self.besiege)
 	self.safehouse = deep_clone(self.besiege)

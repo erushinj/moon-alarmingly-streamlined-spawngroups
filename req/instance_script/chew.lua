@@ -59,16 +59,16 @@ return {
 					Idstring("units/pd2_dlc_born/characters/ene_biker_female_3/ene_biker_female_3"),
 				}
 			elseif patches.chew_train_car.swats[element.id] then
-				element.values.possible_enemies = ASS:random_unit("swats")
+				element.values.possible_enemies = tweak_data.levels:moon_random_unit("swats")
 			elseif patches.chew_train_car.dozers[element.id] then
-				element.values.possible_enemies = ASS:random_unit("dozers_no_cs")
+				element.values.possible_enemies = tweak_data.levels:moon_random_unit("dozers_no_cs")
 			end
 		end
 	end,
 	["levels/instances/unique/chew/chew_pursuit_car/world/world"] = function(result)
 		for _, element in ipairs(result.default.elements) do
 			if patches.chew_pursuit_car[element.id] then
-				element.values.possible_enemies = ASS:random_unit("swats_heavys_far")
+				element.values.possible_enemies = tweak_data.levels:moon_random_unit("swats_heavys_far")
 			end
 		end
 	end,

@@ -42,36 +42,36 @@ return {
 	[102897] = { enemy = triads, },
 	[101790] = { enemy = triads, },  -- triads
 	-- guards
-	[100670] = { enemy = ASS:random_unit("securitys_light"), },  -- outside/office/storehouse (beginning)
-	[102693] = { enemy = ASS:random_unit("securitys_light"), },
-	[102679] = { enemy = ASS:random_unit("securitys_light"), },
-	[102227] = { enemy = ASS:random_unit("securitys_light"), },
-	[102558] = { enemy = ASS:random_unit("securitys_light"), },
-	[102272] = { enemy = ASS:random_unit("securitys_light"), },
-	[102772] = { enemy = ASS:random_unit("securitys_light"), },
-	[100675] = { enemy = ASS:random_unit("securitys_light"), },  -- checkpoint after retrieving vlad
-	[102297] = { enemy = ASS:random_unit("securitys_light"), },  -- first fork in the road
-	[102631] = { enemy = ASS:random_unit("securitys_light"), },
-	[102424] = { enemy = ASS:random_unit("securitys_light"), },  -- leading up to office/storehouse
-	[102536] = { enemy = ASS:random_unit("securitys_light"), },
-	[102746] = { enemy = ASS:random_unit("securitys_light"), },
-	[102590] = { enemy = ASS:random_unit("securitys_light"), },
-	[102794] = { enemy = ASS:random_unit("securitys_light"), },  -- office/storehouse (middle)
-	[102480] = { enemy = ASS:random_unit("securitys_light"), },
-	[102985] = { enemy = ASS:random_unit("securitys_light"), },  -- second fork in the road
-	[102415] = { enemy = ASS:random_unit("securitys_light"), },  -- leading up to dock
-	[102927] = { enemy = ASS:random_unit("securitys_light"), },
-	[102351] = { enemy = ASS:random_unit("securitys_light"), },
-	[102527] = { enemy = ASS:random_unit("securitys_light"), },
-	[102817] = { enemy = ASS:random_unit("securitys_light"), },  -- dock (end)
-	[102463] = { enemy = ASS:random_unit("securitys_light"), },
+	[100670] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- outside/office/storehouse (beginning)
+	[102693] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102679] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102227] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102558] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102272] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102772] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[100675] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- checkpoint after retrieving vlad
+	[102297] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- first fork in the road
+	[102631] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102424] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- leading up to office/storehouse
+	[102536] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102746] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102590] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102794] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- office/storehouse (middle)
+	[102480] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102985] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- second fork in the road
+	[102415] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- leading up to dock
+	[102927] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102351] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102527] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[102817] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- dock (end)
+	[102463] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
 	-- ambush dozers
-	[101764] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101777] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101766] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101774] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101767] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101772] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101770] = { enemy = ASS:random_unit("dozers_no_mini"), },
-	[101771] = { enemy = ASS:random_unit("dozers_no_mini"), },
+	[101764] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101777] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101766] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101774] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101767] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101772] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101770] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[101771] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
 }

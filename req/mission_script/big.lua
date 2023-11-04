@@ -8,7 +8,7 @@ local securitys_light = { security_4, security_5, }
 local securitys_medium = { security_5, security_6, }
 local securitys_heavy = { security_6, security_7, }
 
-local harassers = ASS:random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
+local harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
 
 return {
 	-- titan cams
@@ -38,12 +38,12 @@ return {
 	[100709] = { enemy = securitys_heavy },
 	[100711] = { enemy = securitys_heavy },
 	-- recurring street cops
-	[101311] = { enemy = ASS:random_unit("cops"), },
-	[100184] = { enemy = ASS:random_unit("cops"), },
-	[102683] = { enemy = ASS:random_unit("cops"), },
-	[105409] = { enemy = ASS:random_unit("cops"), },
-	[105410] = { enemy = ASS:random_unit("cops"), },
-	[105412] = { enemy = ASS:random_unit("cops"), },
+	[101311] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100184] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[102683] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[105409] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[105410] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[105412] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
 	-- harassers
 	[100883] = { enemy = harassers, },  -- n
 	[100332] = { enemy = harassers, },

@@ -1,7 +1,16 @@
 local level_id = ASS:get_var("level_id")
 local doms_scale, doms_all_hard = ASS:get_setting("doms_scale"), ASS:get_setting("doms_all_hard")
 local difficulty_index = ASS:get_var("difficulty_index")
-local f = math.clamp(difficulty_index - 2, 0, 6) / 6
+local f = (difficulty_index - 2) / 6
+
+-- if you're a map maker with a level using swats as pager-less guards, add it to this table
+CharacterTweakData._moon_swat_pager_disable_map = CharacterTweakData._moon_swat_pager_disable_map or {}
+CharacterTweakData._moon_swat_pager_disable_map.sample_level_id = {
+	swat = true,
+	fbi_heavy_swat = true,
+	heavy_swat = true,
+}
+
 
 ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 	local presets = Hooks:GetReturn()
@@ -37,5 +46,14 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 
 	if level_id == "fex" then
 		self.security_mex_no_pager.has_alarm_pager = true
+	end
+
+	self._moon_swat_pager_disable_map[level_id] = self._moon_swat_pager_disable_map[level_id] or {}
+	for _, id in pairs({ "swat", "fbi_swat", "city_swat", "heavy_swat", "fbi_heavy_swat", "heavy_swat_sniper", }) do
+		local character = self[id]
+
+		if character then
+			character.has_alarm_pager = not self._moon_swat_pager_disable_map[level_id][id]
+		end
 	end
 end )

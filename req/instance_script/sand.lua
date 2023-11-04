@@ -47,7 +47,7 @@ local dozer_chance = special_chance * 0.1
 local function scripted_swat_squads()
 	local rand = math.random()
 
-	return ASS:random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
+	return tweak_data.levels:moon_random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
 end
 
 return {

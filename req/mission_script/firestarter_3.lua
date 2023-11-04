@@ -118,20 +118,20 @@ return {
 		},
 	},
 	-- security guards
-	[100294] = { enemy = ASS:random_unit("securitys"), },
-	[100296] = { enemy = ASS:random_unit("securitys"), },
-	[100297] = { enemy = ASS:random_unit("securitys"), },
-	[101063] = { enemy = ASS:random_unit("securitys"), },
-	[101219] = { enemy = ASS:random_unit("securitys_heavy"), },  -- surv guys
-	[105100] = { enemy = ASS:random_unit("securitys_heavy"), },
+	[100294] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100296] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100297] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[101063] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[101219] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- surv guys
+	[105100] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
 	-- chopper swats
-	[101432] = { enemy = ASS:random_unit("specials_no_shield"), },
-	[105621] = { enemy = ASS:random_unit("specials_no_shield"), },
+	[101432] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
+	[105621] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
 	-- chopper heavies
-	[101433] = { enemy = ASS:random_unit("specials_no_shield"), },
-	[105620] = { enemy = ASS:random_unit("specials_no_shield"), },
+	[101433] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
+	[105620] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
 	-- chopper dozers
-	[101785] = { enemy = ASS:random_unit("dozers_no_med"), },
-	[101786] = { enemy = ASS:random_unit("dozers_no_med"), },
+	[101785] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[101786] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
 }
 
