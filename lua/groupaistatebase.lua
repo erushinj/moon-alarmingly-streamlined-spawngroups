@@ -1,8 +1,6 @@
-local super_serious_dominations = ASS:get_setting("doms_super_serious")
-local max_balance_muls = ASS:get_setting("max_balance_muls")
-local max_diff = ASS:get_setting("max_diff")
+if ASS:get_setting("max_balance_muls") then
+	ASS:log("info", "Adding max balance multipliers to method \"GroupAIStateBase:_get_balancing_multiplier\"...")
 
-if max_balance_muls then
 	GroupAIStateBase._get_balancing_multiplier_original = GroupAIStateBase._get_balancing_multiplier
 	function GroupAIStateBase:_get_balancing_multiplier(balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
@@ -10,7 +8,9 @@ if max_balance_muls then
 end
 
 -- disable dominations during assault if the setting is enabled
-if super_serious_dominations then
+if ASS:get_setting("doms_super_serious") then
+	ASS:log("info", "Adding super serious dominations to method \"GroupAIStateBase:has_room_for_police_hostage\"...")
+
 	GroupAIStateBase.has_room_for_police_hostage_original = GroupAIStateBase.has_room_for_police_hostage
 	function GroupAIStateBase:has_room_for_police_hostage(...)
 		if self:get_assault_mode() then
@@ -30,6 +30,8 @@ function GroupAIStateBase:moon_set_escape_active(active)
 end
 
 -- force diff to 1 in loud if the setting is enabled or once escape is available
+local max_diff = ASS:get_setting("max_diff")
+ASS:log("info", "Tweaking method \"GroupAIStateBase:set_difficulty\", max difficulty setting %s...", max_diff and "enabled" or "disabled")
 GroupAIStateBase.set_difficulty_original = GroupAIStateBase.set_difficulty
 function GroupAIStateBase:set_difficulty(value, ...)
 	value = (max_diff or self._moon_escape_active) and 1 or value

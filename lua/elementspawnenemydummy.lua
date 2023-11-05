@@ -1,5 +1,7 @@
 -- check elementspawncivilian for all the fancy code
 if not ElementSpawnCivilian or not ElementSpawnCivilian.moon_init_hook then
+	ASS:log("error", "ElementSpawnEnemyDummy has no access to ElementSpawnCivilian!")
+
 	return
 end
 

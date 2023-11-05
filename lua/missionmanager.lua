@@ -2,9 +2,8 @@ if Global.editor_mode then
 	return
 end
 
-local mission_log_str = ("[AlarminglyStreamlinedSpawngroups][%s]"):format((ASS:get_var("level_id")))
 local function mission_log(id, str, ...)
-	log(mission_log_str .. ("[%u] "):format(id) .. str:format(...))
+	ASS:log("info", "(" .. id .. ") " .. str, ...)
 end
 
 -- Add custom mission script changes and triggers for specific levels

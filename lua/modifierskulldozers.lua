@@ -16,11 +16,9 @@ function ModifierSkulldozers:moon_init(...)
 
 	self._moon_dozer_add = self._moon_dozer_add or Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
 
-	for _, category in pairs({ "CS_tank", "FBI_tank", }) do
-		local unit_types = (tweak_data.group_ai.unit_categories[category] or {}).unit_types
-
-		if unit_types then
-			for _, units in pairs(unit_types) do
+	for _, data in pairs(tweak_data.group_ai.unit_categories) do
+		if data.special_type == "tank" then
+			for _, units in pairs(data.unit_types) do
 				try_insert(units, self._moon_dozer_add)
 			end
 		end

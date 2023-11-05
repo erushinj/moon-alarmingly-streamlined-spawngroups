@@ -518,8 +518,6 @@ function LevelsTweakData:moon_enemy_replacements()
 		self._moon_enemy_replacements.america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
 		self._moon_enemy_replacements.america.FBI_CITY_easy_wish = self._moon_enemy_replacements.america.easy_wish
 		self._moon_enemy_replacements.america.CITY_overkill_290 = self._moon_enemy_replacements.america.overkill_290
-		-- self._moon_enemy_replacements.america.CITY_ZEAL_sm_wish = self._moon_enemy_replacements.america.overkill_290
-		-- self._moon_enemy_replacements.america.ZEAL_sm_wish = self._moon_enemy_replacements.america.sm_wish
 
 		self._moon_enemy_replacements.russia.CS_normal = self._moon_enemy_replacements.russia.normal
 		self._moon_enemy_replacements.russia.CS_FBI_overkill = self._moon_enemy_replacements.russia.overkill

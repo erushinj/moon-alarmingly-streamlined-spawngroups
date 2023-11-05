@@ -54,6 +54,12 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 
 		if character then
 			character.has_alarm_pager = not self._moon_swat_pager_disable_map[level_id][id]
+
+			if not character.has_alarm_pager then
+				ASS:log("info", "Character \"%s\" has had alarm pagers disabled...", id)
+			end
+		else
+			ASS:log("warn", "Character \"%s\" is nil!", id)
 		end
 	end
 end )

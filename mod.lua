@@ -250,6 +250,22 @@ if not ASS then
 		roberts = "FBI_overkill_145",  -- go bank
 	}
 
+	function ASS:log(prefix, str, ...)
+		if not self._log then
+			self._log = {}
+
+			local level_id, difficulty = self:get_var("level_id"), self:get_var("difficulty")
+			for _, pre in pairs({ "error", "warn", "info", }) do
+				self._log[pre] = ("[ASS:%s|%s:%s] "):format(pre:upper(), level_id, difficulty)
+			end
+		end
+
+		log((self._log[prefix] or self._log.info) .. str:format(...))
+	end
+
+	-- versatile script loader
+	-- loads + caches specified file as a function, auto-detecting if it's in lua/ or req/
+	-- result can be executed on the spot if needed, and/or can be assigned to a variable
 	function ASS:require(file, load, ...)
 		if not self._require[file] then
 			local path = self._lua_path .. file .. ".lua"
