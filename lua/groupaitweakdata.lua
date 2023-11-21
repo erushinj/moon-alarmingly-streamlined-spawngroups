@@ -1543,7 +1543,10 @@ function GroupAITweakData:_moon_init_unit_categories()
 		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
 	}
-	self.unit_categories.CS_cop_C45_MP5.unit_types.russia = { Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"), }
+	self.unit_categories.CS_cop_C45_MP5.unit_types.russia = {
+		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
+		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
+	}
 	self.unit_categories.CS_cop_C45_MP5.unit_types.zombie = {
 		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
 		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
