@@ -1,6 +1,6 @@
 local v, e = ...
 
-if v and e and not table.contains(v, e) then
+if e ~= nil and v and not table.contains(v, e) then
 	table.insert(v, e)
 
 	return true
