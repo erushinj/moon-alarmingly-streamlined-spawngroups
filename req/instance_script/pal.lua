@@ -31,7 +31,7 @@ local patches = {
 			}
 		end,
 		[100003] = function(element)  -- enemy chance
-			element.values.chance = normal and 0.35 or hard and 0.5 or 0.65
+			element.values.chance = 65
 		end,
 	},
 }
