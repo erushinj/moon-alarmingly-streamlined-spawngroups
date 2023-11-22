@@ -1,31 +1,42 @@
--- adjust to support all factions and the CS tank unit category
-local random_units = tweak_data.levels:moon_random_units()
+if ASS:get_var("is_client") then
+	return
+end
 
-ModifierSkulldozers._moon_dozer_add = tweak_data.levels:moon_units().dozer_3
+-- adjust to support all factions and the CS tank unit category
+ModifierSkulldozers._moon_dozer_add = {
+	america = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+	russia = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
+	zombie = Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"),
+	murkywater = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
+	federales = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"),
+}
 ModifierSkulldozers._moon_dozer_tables = {
-	[random_units.dozers_any] = true,
-	[random_units.dozers_no_cs] = true,
-	[random_units.dozers_no_med] = true,
-	[random_units.dozers_no_mini] = true,
+	dozers_any = true,
+	dozers_no_cs = true,
+	dozers_no_med = true,
+	dozers_no_mini = true,
 }
 
+local random_units = tweak_data.levels:moon_random_units()
 local try_insert = ASS:require("try_insert", true)
 
 function ModifierSkulldozers:moon_init(...)
 	self.super.init(self, ...)
 
-	self._moon_dozer_add = self._moon_dozer_add or Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
+	self._moon_dozer_add = self._moon_dozer_add or {
+		america = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+	}
 
 	for _, data in pairs(tweak_data.group_ai.unit_categories) do
 		if data.special_type == "tank" then
-			for _, units in pairs(data.unit_types) do
-				try_insert(units, self._moon_dozer_add)
+			for continent, units in pairs(data.unit_types) do
+				try_insert(units, self._moon_dozer_add[continent] or self._moon_dozer_add.america)
 			end
 		end
 	end
 
-	for tbl in pairs(self._moon_dozer_tables or {}) do
-		try_insert(tbl, self._moon_dozer_add)
+	for tbl_name in pairs(self._moon_dozer_tables or {}) do
+		try_insert(random_units[tbl_name], self._moon_dozer_add.america)
 	end
 
 	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)

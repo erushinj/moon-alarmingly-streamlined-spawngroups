@@ -483,65 +483,75 @@ function LevelsTweakData:moon_enemy_replacements()
 			},
 		}
 
-		self._moon_enemy_replacements.america.hard = self._moon_enemy_replacements.america.normal
-		self._moon_enemy_replacements.america.overkill = self._moon_enemy_replacements.america.normal
-		self._moon_enemy_replacements.america.easy_wish = self._moon_enemy_replacements.america.overkill_145
+		local america = self._moon_enemy_replacements.america
+		america.hard = america.normal
+		america.overkill = america.normal
+		america.easy_wish = america.overkill_145
+		america.CS_normal = america.normal
+		america.CS_FBI_overkill = america.overkill
+		america.FBI_overkill_145 = america.overkill_145
+		america.FBI_office = america.overkill_145
+		america.FBI_mcmansion = clone(america.overkill_145)
+		america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
+		america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
+		america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
+		america.FBI_CITY_easy_wish = america.easy_wish
+		america.CITY_overkill_290 = america.overkill_290
+		america.CITY_ZEAL_awesome_difficulty_name = america.overkill_290
+		america.ZEAL_sm_wish = america.sm_wish
 
-		self._moon_enemy_replacements.russia.hard = self._moon_enemy_replacements.russia.normal
-		self._moon_enemy_replacements.russia.overkill = self._moon_enemy_replacements.russia.normal
-		self._moon_enemy_replacements.russia.easy_wish = self._moon_enemy_replacements.russia.overkill_145
-		self._moon_enemy_replacements.russia.sm_wish = self._moon_enemy_replacements.russia.overkill_290
+		local russia = self._moon_enemy_replacements.russia
+		russia.hard = russia.normal
+		russia.overkill = russia.normal
+		russia.easy_wish = russia.overkill_145
+		russia.sm_wish = russia.overkill_290
+		russia.CS_normal = russia.normal
+		russia.CS_FBI_overkill = russia.overkill
+		russia.FBI_overkill_145 = russia.overkill_145
+		russia.FBI_CITY_easy_wish = russia.easy_wish
+		russia.CITY_overkill_290 = russia.overkill_290
+		russia.CITY_ZEAL_awesome_difficulty_name = russia.overkill_290
+		russia.ZEAL_sm_wish = russia.sm_wish
 
-		self._moon_enemy_replacements.zombie.hard = self._moon_enemy_replacements.zombie.normal
-		self._moon_enemy_replacements.zombie.overkill = self._moon_enemy_replacements.zombie.normal
-		self._moon_enemy_replacements.zombie.easy_wish = self._moon_enemy_replacements.zombie.overkill_145
-		self._moon_enemy_replacements.zombie.overkill_290 = self._moon_enemy_replacements.zombie.overkill_145
-		self._moon_enemy_replacements.zombie.sm_wish = self._moon_enemy_replacements.zombie.overkill_145
+		local zombie = self._moon_enemy_replacements.zombie
+		zombie.hard = zombie.normal
+		zombie.overkill = zombie.normal
+		zombie.easy_wish = zombie.overkill_145
+		zombie.overkill_290 = zombie.overkill_145
+		zombie.sm_wish = zombie.overkill_145
+		zombie.CS_normal = zombie.normal
+		zombie.CS_FBI_overkill = zombie.overkill
+		zombie.FBI_overkill_145 = zombie.overkill_145
+		zombie.FBI_CITY_easy_wish = zombie.easy_wish
+		zombie.CITY_overkill_290 = zombie.overkill_290
+		zombie.CITY_ZEAL_awesome_difficulty_name = zombie.overkill_290
+		zombie.ZEAL_sm_wish = zombie.sm_wish
 
-		self._moon_enemy_replacements.murkywater.hard = self._moon_enemy_replacements.murkywater.normal
-		self._moon_enemy_replacements.murkywater.overkill = self._moon_enemy_replacements.murkywater.normal
-		self._moon_enemy_replacements.murkywater.easy_wish = self._moon_enemy_replacements.murkywater.overkill_145
-		self._moon_enemy_replacements.murkywater.sm_wish = self._moon_enemy_replacements.murkywater.overkill_290
+		local murkywater = self._moon_enemy_replacements.murkywater
+		murkywater.hard = murkywater.normal
+		murkywater.overkill = murkywater.normal
+		murkywater.easy_wish = murkywater.overkill_145
+		murkywater.sm_wish = murkywater.overkill_290
+		murkywater.CS_normal = murkywater.normal
+		murkywater.CS_FBI_overkill = murkywater.overkill
+		murkywater.FBI_overkill_145 = murkywater.overkill_145
+		murkywater.FBI_CITY_easy_wish = murkywater.easy_wish
+		murkywater.CITY_overkill_290 = murkywater.overkill_290
+		murkywater.CITY_ZEAL_awesome_difficulty_name = murkywater.overkill_290
+		murkywater.ZEAL_sm_wish = murkywater.sm_wish
 
-		self._moon_enemy_replacements.federales.hard = self._moon_enemy_replacements.federales.normal
-		self._moon_enemy_replacements.federales.overkill = self._moon_enemy_replacements.federales.normal
-		self._moon_enemy_replacements.federales.easy_wish = self._moon_enemy_replacements.federales.overkill_145
-		self._moon_enemy_replacements.federales.sm_wish = self._moon_enemy_replacements.federales.overkill_290
-
-		self._moon_enemy_replacements.america.CS_normal = self._moon_enemy_replacements.america.normal
-		self._moon_enemy_replacements.america.CS_FBI_overkill = self._moon_enemy_replacements.america.overkill
-		self._moon_enemy_replacements.america.FBI_overkill_145 = self._moon_enemy_replacements.america.overkill_145
-		self._moon_enemy_replacements.america.FBI_office = self._moon_enemy_replacements.america.overkill_145
-		self._moon_enemy_replacements.america.FBI_mcmansion = clone(self._moon_enemy_replacements.america.overkill_145)
-		self._moon_enemy_replacements.america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
-		self._moon_enemy_replacements.america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
-		self._moon_enemy_replacements.america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
-		self._moon_enemy_replacements.america.FBI_CITY_easy_wish = self._moon_enemy_replacements.america.easy_wish
-		self._moon_enemy_replacements.america.CITY_overkill_290 = self._moon_enemy_replacements.america.overkill_290
-
-		self._moon_enemy_replacements.russia.CS_normal = self._moon_enemy_replacements.russia.normal
-		self._moon_enemy_replacements.russia.CS_FBI_overkill = self._moon_enemy_replacements.russia.overkill
-		self._moon_enemy_replacements.russia.FBI_overkill_145 = self._moon_enemy_replacements.russia.overkill_145
-		self._moon_enemy_replacements.russia.FBI_CITY_easy_wish = self._moon_enemy_replacements.russia.easy_wish
-		self._moon_enemy_replacements.russia.CITY_overkill_290 = self._moon_enemy_replacements.russia.overkill_290
-
-		self._moon_enemy_replacements.zombie.CS_normal = self._moon_enemy_replacements.zombie.normal
-		self._moon_enemy_replacements.zombie.CS_FBI_overkill = self._moon_enemy_replacements.zombie.overkill
-		self._moon_enemy_replacements.zombie.FBI_overkill_145 = self._moon_enemy_replacements.zombie.overkill_145
-		self._moon_enemy_replacements.zombie.FBI_CITY_easy_wish = self._moon_enemy_replacements.zombie.easy_wish
-		self._moon_enemy_replacements.zombie.CITY_overkill_290 = self._moon_enemy_replacements.zombie.overkill_290
-
-		self._moon_enemy_replacements.murkywater.CS_normal = self._moon_enemy_replacements.murkywater.normal
-		self._moon_enemy_replacements.murkywater.CS_FBI_overkill = self._moon_enemy_replacements.murkywater.overkill
-		self._moon_enemy_replacements.murkywater.FBI_overkill_145 = self._moon_enemy_replacements.murkywater.overkill_145
-		self._moon_enemy_replacements.murkywater.FBI_CITY_easy_wish = self._moon_enemy_replacements.murkywater.easy_wish
-		self._moon_enemy_replacements.murkywater.CITY_overkill_290 = self._moon_enemy_replacements.murkywater.overkill_290
-
-		self._moon_enemy_replacements.federales.CS_normal = self._moon_enemy_replacements.federales.normal
-		self._moon_enemy_replacements.federales.CS_FBI_overkill = self._moon_enemy_replacements.federales.overkill
-		self._moon_enemy_replacements.federales.FBI_overkill_145 = self._moon_enemy_replacements.federales.overkill_145
-		self._moon_enemy_replacements.federales.FBI_CITY_easy_wish = self._moon_enemy_replacements.federales.easy_wish
-		self._moon_enemy_replacements.federales.CITY_overkill_290 = self._moon_enemy_replacements.federales.overkill_290
+		local federales = self._moon_enemy_replacements.federales
+		federales.hard = federales.normal
+		federales.overkill = federales.normal
+		federales.easy_wish = federales.overkill_145
+		federales.sm_wish = federales.overkill_290
+		federales.CS_normal = federales.normal
+		federales.CS_FBI_overkill = federales.overkill
+		federales.FBI_overkill_145 = federales.overkill_145
+		federales.FBI_CITY_easy_wish = federales.easy_wish
+		federales.CITY_overkill_290 = federales.overkill_290
+		federales.CITY_ZEAL_awesome_difficulty_name = federales.overkill_290
+		federales.ZEAL_sm_wish = federales.sm_wish
 	end
 
 	return self._moon_enemy_replacements[self:get_ai_group_type()] or self._moon_enemy_replacements.america

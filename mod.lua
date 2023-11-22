@@ -1,75 +1,87 @@
 if not ASS then
 
+	-- create table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
+	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
+
+	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
+	ASS._global = Global.alarmingly_streamlined_spawngroups
 	ASS._mod_path = ASS:GetPath()
-	ASS._req_path = ASS._mod_path  .. "req/"
+	ASS._req_path = ASS._mod_path .. "req/"
 	ASS._lua_path = ASS._mod_path .. "lua/"
 	ASS._loc_path = ASS._mod_path .. "loc/"
 	ASS._hook_prefix = "ass_"
 	ASS._hook_suffix = "AlarminglyStreamlinedSpawngroups"
 	ASS._require = {}
+	ASS._script_patches = {}
 	ASS.settings = {
-		save_version = ASS:GetVersion(),  -- hidden, may be used for adjusting saved values if necessary
-		is_massive = true,
-		level_mod = 2,
-		assault_style = 1,
-		skill = 2,
-		dmg_interval = 1,
-		doms_scale = false,
-		doms_all_hard = false,
-		doms_super_serious = false,
-		max_values = false,
-		max_diff = false,
-		max_balance_muls = false,
-		minigun_dozers = false,
-		captain_winters = false,
-		escapes = false,
+		save_version = tonumber(ASS:GetVersion()),  -- hidden, used for adjusting saved values if necessary
+		is_massive = true,  -- whether the mod is enabled or not
+		level_mod = 3,  -- index into ASS._values.level_mod
+		assault_style = 1,  -- index into ASS._values.assault_style
+		skill = 2,  -- index into ASS._values.skill
+		dmg_interval = 1,  -- index into ASS._values.dmg_interval
+		doms_scale = false,  -- whether to make dominations harder on higher difficulties
+		doms_all_hard = false,  -- whether to make all dominatable enemies use hardest preset
+		doms_super_serious = false,  -- whether to allow dominations during assault
+		max_values = false,  -- whether to use death sentence values for scaling
+		max_diff = false,  -- whether to force hardest assaults
+		max_balance_muls = false,  -- whether to force full crew spawns
+		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
+		captain_winters = false,  -- allow captain winters to spawn on maps that have him
+		escapes = false,  -- allow escapes to occur on maps that have them
 	}
 	ASS.default_settings = deep_clone(ASS.settings)
 	ASS._values = {
 		level_mod = {
-			"ass_level_mod_disable",
-			"ass_level_mod_per_level",
-			"ass_level_mod_CS_normal",
-			"ass_level_mod_CS_FBI_overkill",
-			"ass_level_mod_FBI_overkill_145",
-			"ass_level_mod_FBI_CITY_easy_wish",
-			"ass_level_mod_CITY_overkill_290",
-			"ass_level_mod_random",
+			"ass_level_mod_disable",  -- dont change units
+			"ass_level_mod_random",  -- pick any available level mod value (besides zeal)
+			"ass_level_mod_per_level",  -- depends on level/full job id
+			"ass_level_mod_CS_normal",  -- swat
+			"ass_level_mod_CS_FBI_overkill",  -- swat-fbi
+			"ass_level_mod_FBI_overkill_145",  -- fbi
+			"ass_level_mod_FBI_CITY_easy_wish",  -- fbi-gensec
+			"ass_level_mod_CITY_overkill_290",  -- gensec
+			"ass_level_mod_CITY_ZEAL_awesome_difficulty_name",  -- gensec-zeal
+			"ass_level_mod_ZEAL_sm_wish",  -- zeal
 		},
 		assault_style = {
-			"ass_assault_style_original",
-			"ass_assault_style_streamlined",
-			"ass_assault_style_default",
-			"ass_assault_style_chicken_plate",
+			"ass_assault_style_original",  -- pre-housewarming-styled
+			"ass_assault_style_streamlined",  -- spicier streamlined groups
+			"ass_assault_style_default",  -- default streamlined groups
+			"ass_assault_style_chicken_plate",  -- PDTH-styled spawns
 		},
 		skill = {
-			"ass_skill_1",
-			"ass_skill_2",
-			"ass_skill_3",
-			"ass_skill_4",
-			"ass_skill_5",
-			"ass_skill_6",
+			"ass_skill_1",  -- im too young to die
+			"ass_skill_2",  -- hey, not too rough
+			"ass_skill_3",  -- hurt me plenty
+			"ass_skill_4",  -- ultra-violence
+			"ass_skill_5",  -- nightmare
+			"ass_skill_6",  -- ultra-nightmare
 		},
 		dmg_interval = {
-			"ass_dmg_interval_default",
+			"ass_dmg_interval_0.250",  -- these are pretty self-explanatory, duration in s
 			"ass_dmg_interval_0.225",
-			"ass_dmg_interval_0.2",
+			"ass_dmg_interval_0.200",
 			"ass_dmg_interval_0.175",
-			"ass_dmg_interval_0.15",
-			"ass_dmg_interval_0.05",
-			"ass_dmg_interval_0",
+			"ass_dmg_interval_0.150",
+			"ass_dmg_interval_0.125",
+			"ass_dmg_interval_0.100",
+			"ass_dmg_interval_0.075",
+			"ass_dmg_interval_0.050",
+			"ass_dmg_interval_0.025",
+			"ass_dmg_interval_0.000",
 		},
 	}
-	ASS._tweaks = {
-		force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2, },
-		sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250, },
-		break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0, },
-		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },
-		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },
-		min_grenade_timeout = { 15, 15, 15, 12, 6, 3, },
-		no_grenade_push_delay = { 10, 8, 8, 7, 3.5, 0, },
-		freq_base = {
+	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
+		force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
+		sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase
+		break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
+		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },  -- multiplier on special limits, final limits are rounded up
+		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },  -- multiplier on delays between uses of the same grenade type
+		min_grenade_timeout = { 15, 15, 15, 12, 6, 3, },  -- delay between uses of any grenade
+		no_grenade_push_delay = { 10, 8, 8, 7, 3.5, 0, },  -- delay before most groups will push when no grenade is available
+		freq_base = {  -- enemy frequencies in spawn groups, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{
 				baseline = { 1, 1, },
 				common = { 0.2, 0.5, },
@@ -113,7 +125,7 @@ if not ASS then
 				elite = { 4, 4, },
 			},
 		},
-		spawn_cooldowns = {
+		spawn_cooldowns = {  -- multipliers on cooldowns between spawns, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{ 2.2, 1.1, },
 			{ 2, 1, },
 			{ 2, 1, },
@@ -121,7 +133,7 @@ if not ASS then
 			{ 0.5, 0.25, },
 			{ 0, 0, },
 		},
-		special_weight_base = {
+		special_weight_base = {  -- used to calculate special group weights in normal play, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{ 1.5, 5, },
 			{ 3, 5, },
 			{ 3, 5, },
@@ -129,7 +141,7 @@ if not ASS then
 			{ 8, 12, },
 			{ 27, 27, },
 		},
-		skm_special_weights = {
+		skm_special_weights = {  -- special group weights in holdout, format { X, Y, }, interpolates from X to Y based on wave number
 			{ 2, 4, 6, },
 			{ 4, 5, 6, },
 			{ 4, 5, 6, },
@@ -137,7 +149,7 @@ if not ASS then
 			{ 9, 12, 15, },
 			{ 21, 24, 27, },
 		},
-		reenforce_interval = {
+		reenforce_interval = {  -- delay between enemy groups being dispatched specifically to hold selected locations on the map, this delay is shortened the more groups are needed
 			{ 30, 30, 30, },
 			{ 20, 20, 20, },
 			{ 20, 20, 20, },
@@ -145,7 +157,7 @@ if not ASS then
 			{ 5, 5, 5, },
 			{ 0, 0, 0, },
 		},
-		smoke_grenade_lifetime = {
+		smoke_grenade_lifetime = {  -- self-explanatory, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{ 7.5, 12, },
 			{ 9, 15, },
 			{ 9, 15, },
@@ -153,7 +165,7 @@ if not ASS then
 			{ 20, 30, },
 			{ 60, 60, },
 		},
-		cs_grenade_chance_times = {
+		cs_grenade_chance_times = {  -- times for gas grenades to be allowed to replace smoke bombs under certain conditions, format { X, Y, }, interpolates from X (allowed) to Y (guaranteed) based on time spent in the same area
 			{ 60, 240, },
 			{ 60, 90, },
 			{ 60, 90, },
@@ -162,7 +174,7 @@ if not ASS then
 			{ 0, 0, },
 		},
 	}
-	ASS.level_mod_map = {
+	ASS.level_mod_map = {  -- which Level Mods are assigned to which levels/jobs, level ids are checked first, then the job id (used for multi-day heists)
 		jewelry_store = "CS_normal",  -- jewelry store
 		four_stores = "CS_normal",  -- four stores
 		nightclub = "CS_normal",  -- nightclub
@@ -281,6 +293,28 @@ if not ASS then
 		return self._require[file](...)
 	end
 
+	-- call as ASS:global() to fetch the mod's Global entry
+	-- otherwise, supply a string var to fetch the current value of said var in the Global entry
+	function ASS:global(var)
+		if var ~= nil then
+			if type(self._global[var]) == "table" then
+				return deep_clone(self._global[var])
+			end
+
+			return self._global[var]
+		end
+
+		return self._global
+	end
+
+	function ASS:get_setting(setting, default)
+		if default then
+			return self.default_settings[setting]
+		end
+
+		return self.settings[setting]
+	end
+
 	-- deprecated functions, still define them
 	ASS:require("deprecated")
 
@@ -297,6 +331,7 @@ if not ASS then
 
 	local divider = 16
 
+	-- ASS's path\req\hoplib_menu_builder.lua
 	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", "ass", ASS.settings, {
 		save_version = { hidden = true, },
 		is_massive = {
@@ -341,6 +376,7 @@ if not ASS then
 		},
 	})
 
+	-- ASS's path\req\try_insert.lua
 	local try_insert = ASS:require("try_insert", true)
 
 	function ASS:add_hook(key, func)
@@ -377,24 +413,124 @@ if not ASS then
 		Hooks:OverrideFunction( object, func, override )
 	end
 
+	function ASS:_sh_not_found()
+		self:log("error", "Streamlined Heisting not found!")
+
+		self:add_hook( "MenuManagerOnOpenMenu", function()
+			if self:global("showed_dialog") then
+				return
+			end
+
+			local global = self:global()
+			global.showed_dialog = true
+			global.invalid_sh = true
+
+			local title = managers.localization:text("ass_menu_warning")
+			local message = managers.localization:text("ass_menu_did_not_find_sh")
+			local buttons = {
+				{
+					text = managers.localization:text("ass_menu_did_not_find_sh_goto"),
+					callback = function()
+						-- im aware linux isnt supported anymore
+						if BLT:GetOS() == "linux" then
+							os.execute("open https://modworkshop.net/mod/29713")
+						else
+							os.execute("start https://modworkshop.net/mod/29713")
+						end
+					end,
+				},
+				{
+					text = managers.localization:text("ass_menu_ignore"),
+				},
+			}
+			QuickMenu:new(title, message, buttons, true)
+		end )
+	end
+
+	function ASS:_sh_outdated()
+		self:log("error", "Streamlined Heisting is out of date!")
+
+		self:add_hook( "MenuManagerOnOpenMenu", function()
+			if self:global("showed_dialog") then
+				return
+			end
+
+			local global = self:global()
+			global.showed_dialog = true
+			global.invalid_sh = true
+
+			local title = managers.localization:text("ass_menu_warning")
+			local message = managers.localization:text("ass_menu_outdated_sh")
+			local buttons = {
+				{
+					text = managers.localization:text("ass_menu_ignore"),
+				},
+			}
+			QuickMenu:new(title, message, buttons, true)
+		end )
+	end
+
+	local logged_zeal = false  -- fine to log on reload
+	function ASS:_zeals_enabled()
+		if not logged_zeal then
+			logged_zeal = true
+
+			self:log("warn", "ZEAL Level Mod enabled...")
+		end
+
+		local function show_zeal_dialog()
+			if self:global("showed_dialog") then
+				return
+			end
+
+			local global = self:global()
+			global.showed_dialog = true
+			global.zeals_enabled = true
+
+			local title = managers.localization:text("ass_menu_warning")
+			local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
+			local buttons = {
+				{
+					text = managers.localization:text("ass_menu_ignore"),
+					callback = function()
+						self:require("networkmanager")
+					end,
+				},
+			}
+			QuickMenu:new(title, message, buttons, true)
+		end
+
+		if managers.localization then
+			show_zeal_dialog()
+		else
+			self:add_hook( "MenuManagerOnOpenMenu", show_zeal_dialog )
+		end
+	end
+
 	function ASS:_gsub(str)
 		return self._values[str][self.settings[str]]:gsub("^ass_" .. str .. "_", "")
 	end
 
 	function ASS:_init_vars()
-		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or ""
-		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or ""
+		local is_editor = Global.editor_mode or false
+		local is_client = Network and Network:is_client() or false
+		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
+		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
 		local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
-		local level_mod = self:_gsub("level_mod")
+		local level_mod = self:_gsub("level_mod") or "per_level"
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
 			disable = false,
 			random = { false, },
 		}
 
-		self._assault_style = self:_gsub("assault_style")
-		self._skill = tonumber((self:_gsub("skill")))
-		self._dmg_interval = self:_gsub("dmg_interval")
+		self._is_host = not is_editor and not is_client
+		self._is_editor = is_editor
+		self._is_client = is_client
+		self._is_editor_or_client = not self._is_host
+		self._assault_style = self:_gsub("assault_style") or "default"
+		self._skill = tonumber((self:_gsub("skill"))) or 2
+		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
 		self._difficulty = difficulty
 		self._real_difficulty_index = ({
 			normal = 2,
@@ -410,17 +546,16 @@ if not ASS then
 		self._job_id = job_id
 		self._clean_level_id = level_id
 
-		if self._clean_level_id then
-			for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
-				self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
-			end
+		for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
 		end
 
+		-- no zeal for random, not going to randomly activate a matchmaking lock
 		for _, valid_id in ipairs({ "CS", "FBI", "CITY", }) do
 			for _, lvl_mod in ipairs(self._values.level_mod) do
 				local id = lvl_mod:gsub("^ass_level_mod_", "")
 
-				if id:match(valid_id) then
+				if not id:match("ZEAL") and id:match(valid_id) then
 					try_insert(redirect.random, id)
 				end
 			end
@@ -434,7 +569,19 @@ if not ASS then
 		end
 
 		if self.been_there_fucked_that == nil then
-			self.been_there_fucked_that = not Global.ass_did_not_find_sh and self:get_setting("is_massive")
+			self.been_there_fucked_that = not self:global("invalid_sh") and self:get_setting("is_massive")
+		end
+
+		if self._is_client then
+			self:log("info", "Playing as client, most tweaks disabled...")
+		end
+
+		if self._is_editor then
+			self:log("info", "Editor mode active, mission tweaks disabled...")
+		end
+
+		if self._level_mod and self._level_mod:match("ZEAL") then
+			self:_zeals_enabled()
 		end
 	end
 
@@ -442,30 +589,27 @@ if not ASS then
 		return self["_" .. var]
 	end
 
-	function ASS:get_setting(setting)
-		return self.settings[setting]
-	end
-
 	function ASS:get_tweak(tweak)
-		return self._tweaks[tweak][self:get_var("skill")]
-	end
+		local tweak_value = self._tweaks[tweak][self:get_var("skill")]
 
-	function ASS:mission_script_patches()
-		if self._mission_script_patches == nil then
-			self._mission_script_patches = self:require("mission_script/" .. self:get_var("clean_level_id")) or false
+		if type(tweak_value) == "table" then
+			return deep_clone(tweak_value)
 		end
 
-		return self._mission_script_patches
+		return tweak_value
 	end
 
-	function ASS:instance_script_patches()
-		if self._instance_script_patches == nil then
-			self._instance_script_patches = self:require("instance_script/" .. self:get_var("clean_level_id")) or false
+	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
+	function ASS:script_patches(typ)
+		if self._script_patches[typ] == nil then
+			self._script_patches[typ] = self:require(typ .. "_script/" .. self:get_var("clean_level_id")) or false
 		end
 
-		return self._instance_script_patches
+		return self._script_patches[typ]
 	end
 
+	-- difficulty groupings to use when interpolation wont do the job
+	-- Normal through VH are "normal", OVK+MH are "hard", DW+DS are "overkill"
 	function ASS:difficulty_groups()
 		local real_difficulty_index = self:get_var("real_difficulty_index")
 		local normal = real_difficulty_index < 5
@@ -485,36 +629,16 @@ if not ASS then
 
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
-	if not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart() then
+	local no_sh = not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()
+	local outdated_sh = sh and tonumber((sh:GetVersion():gsub("%.", ""))) < 480
+	if no_sh or outdated_sh then
 		ASS.been_there_fucked_that = false
 
-		ASS:add_hook( "MenuManagerOnOpenMenu", function()
-			if Global.ass_did_not_find_sh then
-				return
-			end
-
-			Global.ass_did_not_find_sh = true
-
-			local title = managers.localization:text("ass_menu_warning")
-			local message = managers.localization:text("ass_menu_did_not_find_sh")
-			local buttons = {
-				{
-					text = managers.localization:text("ass_menu_did_not_find_sh_goto"),
-					callback = function()
-						-- im aware linux isnt supported anymore
-						if BLT:GetOS() == "linux" then
-							os.execute("open https://modworkshop.net/mod/29713")
-						else
-							os.execute("start https://modworkshop.net/mod/29713")
-						end
-					end
-				},
-				{
-					text = managers.localization:text("ass_menu_ignore")
-				}
-			}
-			QuickMenu:new(title, message, buttons, true)
-		end )
+		if outdated_sh then
+			ASS:_sh_outdated()
+		else
+			ASS:_sh_not_found()
+		end
 	end
 
 	ASS:_init_vars()
@@ -527,6 +651,7 @@ if not ASS.been_there_fucked_that then
 end
 
 
+-- ASS's path\lua\RequiredScript name, the only time ASS:require checks in the lua folder
 if RequiredScript and not ASS._require[RequiredScript] then
 	ASS:require((RequiredScript:gsub(".+/(.+)", "%1")))
 end

@@ -1,4 +1,4 @@
-if Network:is_client() then
+if ASS:get_var("is_client") then
 	return
 end
 

@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 -- most vanilla reenforce points have the very weird force value of 1, while reenforce units spawn in groups (except chicken plate assault style)
 -- ensure reenforce points are populated appropriately between all assault styles
 GroupAIStateBesiege.set_area_min_police_force_original = GroupAIStateBesiege.set_area_min_police_force

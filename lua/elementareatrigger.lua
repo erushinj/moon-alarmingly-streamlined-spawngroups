@@ -1,3 +1,7 @@
+if ASS:get_var("is_editor_or_client") then
+	return
+end
+
 -- force diff to 1 on escape zone becoming available
 local function check_executed_objects(area_trigger, current, recursion_depth)
 	current = current or area_trigger

@@ -46,6 +46,21 @@ function MenuBuilder:load_settings()
 
 	if data then
 		table_replace(self._table, data, true)
+
+		if not data.save_version then
+			self._table.save_version = -1
+		end
+
+		if not ASS:global("save_checked") then
+			ASS:global().save_checked = true
+
+			if ASS:require("save_adjustment") then
+				self._table.save_version = ASS:get_setting("save_version", true)
+
+				self:save_settings()
+				self:load_settings()
+			end
+		end
 	end
 end
 
@@ -89,6 +104,10 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 
 	MenuCallbackHandler[self._id .. "_save"] = function ()
 		self:save_settings()
+
+		if ASS._values.level_mod[self._table.level_mod]:match("ZEAL") then
+			ASS:_zeals_enabled()
+		end
 	end
 
 	local function loop_tables(tbl, menu_id, hierarchy, inherited_params)

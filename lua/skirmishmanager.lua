@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 -- Make enemy units switch difficulty factions over waves
 local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
 

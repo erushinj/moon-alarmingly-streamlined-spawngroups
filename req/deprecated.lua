@@ -44,7 +44,7 @@ end
 -- moved to skirmishtweakdata / tweak_data.skirmish
 function ASS:wave_unit_categories()
 	if not self._wave_unit_categories then
-		self._wave_unit_categories = { {} }
+		self._wave_unit_categories = { {}, }
 	end
 
 	return self._wave_unit_categories

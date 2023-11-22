@@ -1,10 +1,10 @@
 -- Don't replace spawns on custom enemy spawner map
 local level_id = ASS:get_var("level_id")
-if Global.editor_mode or level_id == "modders_devmap" or level_id == "Enemy_Spawner" then
+if ASS:get_var("is_editor_or_client") or level_id == "modders_devmap" or level_id == "Enemy_Spawner" then
 	return
 end
 
-local mission_script_patches = ASS:mission_script_patches()
+local mission_script_patches = ASS:script_patches("mission")
 function ElementSpawnCivilian:moon_init_hook()
 	if self._values.possible_enemies then
 		self._possible_enemies = self._values.possible_enemies
@@ -82,7 +82,6 @@ function ElementSpawnCivilian:produce(params, ...)
 
 	local replacement = level_mod or type(difficulty) == "function" and difficulty() or difficulty or "normal"
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
-	-- if mapped_unit and mapped_unit ~= self._enemy_name then
 	if mapped_unit then
 		self._enemy_name = mapped_unit
 	end

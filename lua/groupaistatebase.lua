@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 if ASS:get_setting("max_balance_muls") then
 	ASS:log("info", "Adding max balance multipliers to method \"GroupAIStateBase:_get_balancing_multiplier\"...")
 

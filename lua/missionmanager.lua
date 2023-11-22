@@ -1,9 +1,9 @@
-if Global.editor_mode then
+if ASS:get_var("is_editor_or_client") then
 	return
 end
 
-local function mission_log(id, str, ...)
-	ASS:log("info", "(" .. id .. ") " .. str, ...)
+local function mission_log(prefix, id, str, ...)
+	ASS:log(prefix, "(" .. id .. ") " .. str, ...)
 end
 
 -- Add custom mission script changes and triggers for specific levels
@@ -11,23 +11,27 @@ end
 -- Mission script elements can be disabled or enabled
 ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 
-	local mission_script_elements = ASS:mission_script_patches()
+	local mission_script_patches = ASS:script_patches("mission")
 
-	if not mission_script_elements then
+	if not mission_script_patches then
+		ASS:log("info", "No mission script patches for current level...")
+
 		return
 	end
 
-	for element_id, data in pairs(mission_script_elements) do
-		local element = self:get_element_by_id(element_id)
+	for id, data in pairs(mission_script_patches) do
+		local element = self:get_element_by_id(id)
 
 		if not element then
-			mission_log(element_id, "Element not found!")
+			mission_log("warn", id, "Element not found!")
+		elseif type(data) ~= "table" then
+			mission_log("warn", id, "Data is not a table!")
 		else
 			-- Check if this element is supposed to trigger reinforce points
 			if data.reinforce then
-				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. element_id, function()
+				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. id, function()
 					for _, v in pairs(data.reinforce) do
-						mission_log(element_id, "Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
+						mission_log("info", id, "Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
 
 						managers.groupai:state():set_area_min_police_force(v.name, v.force, v.position)
 					end
@@ -36,8 +40,8 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 
 			-- Check if this element is supposed to trigger a difficulty change
 			if data.difficulty then
-				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. element_id, function()
-					mission_log(element_id, "Difficulty set to %.2g", data.difficulty)
+				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. id, function()
+					mission_log("info", id, "Difficulty set to %.2g", data.difficulty)
 
 					managers.groupai:state():set_difficulty(data.difficulty)
 				end )
@@ -46,12 +50,12 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			-- Check if this element has custom values set
 			if data.values then
 				for k, v in pairs(data.values) do
-					mission_log(element_id, "Value \"%s\" set to \"%s\"", tostring(k), tostring(v))
+					mission_log("info", id, "Value \"%s\" set to \"%s\"", tostring(k), tostring(v))
 
 					element._values[k] = v
 
 					if k == "chance" and element.chance_operation_set_chance then
-						mission_log(element_id, "Calling \"chance_operation_set_chance\" method with argument \"%u\"", v)
+						mission_log("info", id, "Calling \"chance_operation_set_chance\" method with argument \"%u\"", v)
 
 						element:chance_operation_set_chance(v)
 					end
@@ -59,8 +63,8 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			end
 
 			if data.flashlight ~= nil then
-				ASS:mission_post_hook( element, "on_executed", "flashlight_" .. element_id, function()
-					mission_log(element_id, "Flashlights %s", data.flashlight and "enabled" or "disabled")
+				ASS:mission_post_hook( element, "on_executed", "flashlight_" .. id, function()
+					mission_log("info", id, "Flashlights %s", data.flashlight and "enabled" or "disabled")
 
 					managers.game_play_central:set_flashlights_on(data.flashlight)
 				end )
@@ -94,11 +98,11 @@ ASS:pre_hook( MissionManager, "_activate_mission", function(self)
 			end
 
 			if data.func then
-				ASS:mission_post_hook( element, "on_executed", "func_" .. element_id, data.func )
+				ASS:mission_post_hook( element, "on_executed", "func_" .. id, data.func )
 			end
 
 			if data.pre_func then
-				ASS:mission_pre_hook( element, "on_executed", "pre_func_" .. element_id, data.pre_func )
+				ASS:mission_pre_hook( element, "on_executed", "pre_func_" .. id, data.pre_func )
 			end
 		end
 	end

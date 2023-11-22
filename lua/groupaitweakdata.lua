@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
@@ -5,20 +9,28 @@ local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 
 function GroupAITweakData:moon_swap_units(prefixes)
+	prefixes = prefixes or self.moon_last_prefixes or {}
+
 	local tweak_data = self.tweak_data
 	local enemy_replacements, enemy_mapping = tweak_data.levels:moon_enemy_replacements(), tweak_data.levels:moon_enemy_mapping()
 
 	for prefix, difficulty in pairs(prefixes) do
-		for id, data in pairs(self.unit_categories) do
-			if id:match(prefix) then
-				for _, units in pairs(data.unit_types) do
-					for i = 1, #units do
-						local unit = units[i]
-						local mapped = enemy_mapping[unit:key()]
-						local replacement = enemy_replacements[difficulty] and enemy_replacements[difficulty][mapped]
+		local difficulty_replacement = enemy_replacements[difficulty]
 
-						if replacement and unit ~= replacement then
-							units[i] = replacement
+		if not difficulty_replacement then
+			ASS:log("warn", "GroupAITweakData:moon_swap_units received invalid difficulty name %s for prefix %s!", difficulty, prefix)
+		else
+			for id, data in pairs(self.unit_categories) do
+				if id:match(prefix) then
+					for _, units in pairs(data.unit_types) do
+						for i = 1, #units do
+							local unit = units[i]
+							local mapped = enemy_mapping[unit:key()]
+							local replacement = difficulty_replacement[mapped]
+
+							if replacement and unit ~= replacement then
+								units[i] = replacement
+							end
 						end
 					end
 				end
@@ -32,6 +44,7 @@ end
 -- deprecated name
 GroupAITweakData._moon_swap_units = GroupAITweakData.moon_swap_units
 
+-- difficulty-specific functions mostly just ensure all unit categories are set properly
 function GroupAITweakData:_moon_init_unit_categories_normal()
 	self:moon_swap_units({ CS = "normal", FBI = "normal", })
 end
@@ -40,6 +53,7 @@ function GroupAITweakData:_moon_init_unit_categories_hard()
 	self:_moon_init_unit_categories_normal()
 end
 
+-- also add saiga dozers
 function GroupAITweakData:_moon_init_unit_categories_overkill()
 	self:moon_swap_units({ CS = "normal", FBI = "overkill_145", })
 
@@ -58,6 +72,7 @@ function GroupAITweakData:_moon_init_unit_categories_easy_wish()
 	self:moon_swap_units({ CS = "overkill_145", FBI = "overkill_290", })
 end
 
+-- also remove assault minigun dozers if applicable
 function GroupAITweakData:_moon_init_unit_categories_overkill_290()
 	self:moon_swap_units({ CS = "overkill_290", FBI = "overkill_290", })
 
@@ -74,6 +89,7 @@ function GroupAITweakData:_moon_init_unit_categories_sm_wish()
 	self:moon_swap_units({ CS = "sm_wish", FBI = "sm_wish", })
 end
 
+-- like the difficulty functions, but always purely cosmetic even on VH and DW
 function GroupAITweakData:_moon_level_mod_CS_normal()
 	self:moon_swap_units({ CS = "CS_normal", FBI = "CS_normal", })
 end
@@ -136,6 +152,15 @@ function GroupAITweakData:_moon_level_mod_CITY_overkill_290()
 	self:moon_swap_units({ CS = "CITY_overkill_290", FBI = "CITY_overkill_290", })
 end
 
+function GroupAITweakData:_moon_level_mod_CITY_ZEAL_awesome_difficulty_name()
+	self:moon_swap_units({ CS = "CITY_overkill_290", FBI = "ZEAL_sm_wish", })
+end
+
+function GroupAITweakData:_moon_level_mod_ZEAL_sm_wish()
+	self:moon_swap_units({ CS = "ZEAL_sm_wish", FBI = "ZEAL_sm_wish", })
+end
+
+-- set group weights for the specified task, set all others to 0 instead of overwriting the task's groups table
 function GroupAITweakData:_moon_set_weights(new_weights)
 	for task, new_groups in pairs(new_weights) do
 		local groups = self.besiege[task].groups
@@ -150,6 +175,7 @@ function GroupAITweakData:_moon_set_weights(new_weights)
 	end
 end
 
+-- replace specials with more heavies and hrts in Super Serious Shooter (most specials are disabled)
 function GroupAITweakData:_moon_super_serious_tweaks()
 	local unit_mapping = {
 		CS_tazer = {
@@ -248,6 +274,7 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 	end
 end
 
+-- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
 function GroupAITweakData:_moon_original(special_weight)
 	self.enemy_spawn_groups.original_swats_a = {
 		amount = { 3, 3, },
@@ -753,6 +780,7 @@ function GroupAITweakData:_moon_original(special_weight)
 	})
 end
 
+-- spicier version of SH's default groups, featuring more shotgunners
 function GroupAITweakData:_moon_streamlined(special_weight)
 	local unit_names_map = {
 		FBI_swat_M4 = "CS_swat_MP5",
@@ -1202,6 +1230,7 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 	})
 end
 
+-- dont do anything but make SH's default groups work with level mod and skill level
 function GroupAITweakData:_moon_default(special_weight)
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
 	local unit_names_map = {
@@ -1274,6 +1303,7 @@ function GroupAITweakData:_moon_default(special_weight)
 	})
 end
 
+-- pdth-styled spawns
 function GroupAITweakData:_moon_chicken_plate(special_weight)
 	self.enemy_spawn_groups.chicken_plate_hrt_a = {
 		amount = { 1, 1, },
@@ -1518,8 +1548,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 	end
 
 	-- misc tweaks and fixes
-	self.unit_categories.FBI_marshal_marksman = self.unit_categories.marshal_marksman
-	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 	self.unit_categories.CS_cop_C45_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870 = self.unit_categories.CS_cop_stealth_MP5
 	self.unit_categories.CS_cop_stealth_R870.access = clone(self.unit_categories.spooc.access)
@@ -1536,6 +1564,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
 	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
+	self.unit_categories.FBI_marshal_marksman = self.unit_categories.marshal_marksman
+	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 
 	-- new hrt unit categories
 	self.unit_categories.CS_cop_C45_MP5 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
@@ -1606,19 +1636,17 @@ function GroupAITweakData:_moon_init_unit_categories()
 
 	for continent in pairs(continent_reference) do
 		if not supported_continents[continent] then
-			for _, category in pairs(self.unit_categories) do
-				if category.unit_types and category.unit_types.america then
-					category.unit_types[continent] = clone(category.unit_types.america)
-				end
+			for _, data in pairs(self.unit_categories) do
+				data.unit_types[continent] = clone(data.unit_types.america)
 			end
 		end
 	end
 end
 
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
-	local assault_style_func = self["_moon_" .. (ASS:get_var("assault_style") or "")] or self._moon_default
-	local special_weight_base = ASS:get_tweak("special_weight_base")
-	local special_weight = math.lerp(special_weight_base[1], special_weight_base[2], f)
+	local assault_style_func = self["_moon_" .. ASS:get_var("assault_style")] or self._moon_default
+	local special_weight_min, special_weight_max = unpack(ASS:get_tweak("special_weight_base"))
+	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
 	if assault_style_func == self._moon_default then
 		assault_style_func(self, special_weight)
@@ -1634,10 +1662,10 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 
 	-- effectively remove preexisting timed groups
-	for _, group_data in pairs(self.enemy_spawn_groups) do
-		if group_data.max_nr_simultaneous_groups then
-			group_data.initial_spawn_delay = math.huge
-			group_data.spawn_cooldown = math.huge
+	for _, data in pairs(self.enemy_spawn_groups) do
+		if data.max_nr_simultaneous_groups then
+			data.initial_spawn_delay = math.huge
+			data.spawn_cooldown = math.huge
 		end
 	end
 
@@ -1713,24 +1741,20 @@ end
 
 function GroupAITweakData:_moon_init_task_data()
 	local grenade_cooldown_mul = ASS:get_tweak("grenade_cooldown_mul")
-	local smoke_grenade_lifetime = ASS:get_tweak("smoke_grenade_lifetime")
-	local cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
-	local min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
-	local no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
+	local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:get_tweak("smoke_grenade_lifetime"))
 	local spawn_cooldowns = ASS:get_tweak("spawn_cooldowns")
 	local force_pool_mul = ASS:get_tweak("force_pool_mul")
 	local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
 	local break_duration_mul = ASS:get_tweak("break_duration_mul")
-	local reenforce_interval = ASS:get_tweak("reenforce_interval")
 
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
-	self.smoke_grenade_lifetime = math.lerp(smoke_grenade_lifetime[1], smoke_grenade_lifetime[2], f)
+	self.smoke_grenade_lifetime = math.lerp(smoke_lifetime_min, smoke_lifetime_max, f)
 	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
-	self.cs_grenade_chance_times = cs_grenade_chance_times
-	self.min_grenade_timeout = min_grenade_timeout
-	self.no_grenade_push_delay = no_grenade_push_delay
+	self.cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
+	self.min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
+	self.no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
 	self.spawn_cooldown_mul = math.lerp(spawn_cooldowns[1], spawn_cooldowns[2], f)
 	self.spawn_kill_cooldown = spawn_cooldowns[2] * 10
 
@@ -1740,7 +1764,7 @@ function GroupAITweakData:_moon_init_task_data()
 	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
 	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
 	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
-	self.besiege.reenforce.interval = reenforce_interval
+	self.besiege.reenforce.interval = ASS:get_tweak("reenforce_interval")
 	self.besiege.recon.interval = { 0, 0, 0, }
 	self.besiege.recon.interval_variation = 0
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge, }

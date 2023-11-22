@@ -1,5 +1,5 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-local set_all_difficulties = ASS:require("set_all_difficulties", true)
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
@@ -58,8 +58,7 @@ return {
 	},
 	-- cellar, forced spawn on certain difficulties, now random below "overkill" group
 	[102925] = {
-		-- values = table.set("difficulty_easy", "difficulty_normal", "difficulty_hard"),
-		values = set_all_difficulties(true),
+		values = set_difficulty_groups("normal_above"),
 		pre_func = function(self)
 			if not self._values.old_on_executed then
 				self._values.old_on_executed = self._values.on_executed
@@ -75,7 +74,7 @@ return {
 		end,
 	},
 	[102928] = {
-		values = set_all_difficulties(false),
+		values = set_difficulty_groups("disable"),
 	},
 	-- cams
 	[104479] = {  -- no titan
@@ -84,13 +83,13 @@ return {
 		},
 	},
 	[103128] = {  -- amount filters
-		values = set_all_difficulties(false),
+		values = set_difficulty_groups("disable"),
 	},
 	[103138] = {
-		values = set_all_difficulties(false),
+		values = set_difficulty_groups("disable"),
 	},
 	[103139] = {
-		values = set_all_difficulties(true),
+		values = set_difficulty_groups("normal_above"),
 	},
 	[103138] = {  -- chance
 		values = {

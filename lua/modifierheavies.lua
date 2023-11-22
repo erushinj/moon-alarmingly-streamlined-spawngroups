@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 ModifierHeavies._moon_u_key_mapping = {
 	swat_1 = "heavy_1",
 	swat_2 = "heavy_2",

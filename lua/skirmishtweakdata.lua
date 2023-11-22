@@ -1,3 +1,7 @@
+if ASS:get_var("is_client") then
+	return
+end
+
 local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
 local special_limit_mul = ASS:get_tweak("special_limit_mul")
 local force_pool_mul = ASS:get_tweak("force_pool_mul")
