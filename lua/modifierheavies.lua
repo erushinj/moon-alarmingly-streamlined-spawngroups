@@ -4,6 +4,7 @@ ModifierHeavies._moon_u_key_mapping = {
 	swat_3 = "heavy_1",
 }
 
+ModifierHeavies.init_original = ModifierHeavies.init
 function ModifierHeavies:init(...)
 	self.super.init(self, ...)
 

@@ -713,7 +713,7 @@ function LevelsTweakData:moon_enemy_mapping()
 end
 
 -- hardcoded replacements for certain levels, primarily replacing dc beat cops with regional variants where available
--- also used in some cases to work around instances (fex security room), and used by modifierheavies
+-- also used in some cases to work around instances (fex security room)
 function LevelsTweakData:moon_level_enemy_replacements()
 	if not self._moon_level_enemy_replacements then
 		self._moon_level_enemy_replacements = {
@@ -755,9 +755,5 @@ function LevelsTweakData:moon_level_enemy_replacements()
 		self._moon_level_enemy_replacements.corp = self._moon_level_enemy_replacements.ranc
 	end
 
-	local level_id = ASS:get_var("level_id")
-
-	self._moon_level_enemy_replacements[level_id] = self._moon_level_enemy_replacements[level_id] or {}
-
-	return self._moon_level_enemy_replacements[level_id]
+	return self._moon_level_enemy_replacements[ASS:get_var("level_id")] or {}
 end
