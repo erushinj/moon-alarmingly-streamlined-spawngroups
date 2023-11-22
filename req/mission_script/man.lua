@@ -142,7 +142,7 @@ return {
 			counter_target = 1,
 		},
 		func = function(self)
-			local element = managers.mission:get_element_by_id(102872)
+			local element = self:get_mission_element(102872)
 
 			if element then
 				element.pass_out_chance = element.default_pass_out_chance
