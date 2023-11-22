@@ -414,12 +414,12 @@ if not ASS then
 	end
 
 	function ASS:_sh_not_found()
-		self:log("error", "Streamlined Heisting not found!")
-
 		self:add_hook( "MenuManagerOnOpenMenu", function()
 			if self:global("showed_dialog") then
 				return
 			end
+
+			self:log("error", "Streamlined Heisting not found!")
 
 			local global = self:global()
 			global.showed_dialog = true
@@ -448,12 +448,12 @@ if not ASS then
 	end
 
 	function ASS:_sh_outdated()
-		self:log("error", "Streamlined Heisting is out of date!")
-
 		self:add_hook( "MenuManagerOnOpenMenu", function()
 			if self:global("showed_dialog") then
 				return
 			end
+
+			self:log("error", "Streamlined Heisting is out of date!")
 
 			local global = self:global()
 			global.showed_dialog = true
@@ -470,18 +470,13 @@ if not ASS then
 		end )
 	end
 
-	local logged_zeal = false  -- fine to log on reload
 	function ASS:_zeals_enabled()
-		if not logged_zeal then
-			logged_zeal = true
-
-			self:log("warn", "ZEAL Level Mod enabled...")
-		end
-
 		local function show_zeal_dialog()
 			if self:global("showed_dialog") then
 				return
 			end
+
+			self:log("warn", "ZEAL Level Mod enabled...")
 
 			local global = self:global()
 			global.showed_dialog = true
