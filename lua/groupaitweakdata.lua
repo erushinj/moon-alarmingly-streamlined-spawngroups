@@ -1654,10 +1654,8 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 		return
 	end
 
-	local freq_base = ASS:get_tweak("freq_base")
-
 	self._freq = {}
-	for typ, val in pairs(freq_base) do
+	for typ, val in pairs(ASS:get_tweak("freq_base")) do
 		self._freq[typ] = math.lerp(val[1], val[2], f)
 	end
 

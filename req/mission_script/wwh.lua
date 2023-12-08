@@ -1,5 +1,4 @@
 local special_chance = ASS:get_var("real_difficulty_index") * 0.05
-
 local function scripted_swat_squads()
 	return tweak_data.levels:moon_random_unit(math.random() < special_chance and "specials_any" or "heavys")
 end

@@ -1,5 +1,6 @@
+local dozer_chance = ASS:get_var("real_difficulty_index") * 0.025
 local function scripted_swat_squads()
-	return tweak_data.levels:moon_random_unit(math.random() < 0.1 and "dozers_any" or "specials_any")
+	return tweak_data.levels:moon_random_unit(math.random() < dozer_chance and "dozers_any" or "specials_any")
 end
 
 return {

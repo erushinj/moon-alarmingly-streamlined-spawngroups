@@ -116,10 +116,10 @@ function LevelsTweakData:moon_random_units()
 end
 
 -- fetches a table of common american units by a shorthand name
-function LevelsTweakData:moon_random_unit(type)
+function LevelsTweakData:moon_random_unit(typ)
 	local random_units = self:moon_random_units()
 
-	return random_units[type] or random_units.cops
+	return random_units[typ] or random_units.cops
 end
 
 -- replacements based on mapped enemy key

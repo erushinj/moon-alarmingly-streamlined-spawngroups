@@ -1,5 +1,4 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-
 local fbi_offices = {
 	Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
 	Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),

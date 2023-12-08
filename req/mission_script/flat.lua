@@ -1,4 +1,5 @@
 local normal, hard, overkill = ASS:difficulty_groups()
+local sniper_kill_target = normal and 6 or hard and 8 or 10
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -11,7 +12,6 @@ local gangsters = {
 	-- Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
 	-- Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
-local sniper_kill_target = normal and 6 or hard and 8 or 10
 
 return {
 	-- diff curve

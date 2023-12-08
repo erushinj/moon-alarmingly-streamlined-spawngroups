@@ -1,15 +1,21 @@
 -- if you're a map maker with a level using swats as pager-less guards, add it to this table
-CharacterTweakData._moon_swat_pager_disable_map = CharacterTweakData._moon_swat_pager_disable_map or {}
-CharacterTweakData._moon_swat_pager_disable_map.sample_level_id = {
+CharacterTweakData.moon_swat_pager_disable_map = CharacterTweakData.moon_swat_pager_disable_map or {}
+CharacterTweakData.moon_swat_pager_disable_map.sample_level_id = {
 	swat = true,
-	fbi_heavy_swat = true,
+	fbi_swat = true,
+	city_swat = true,
+	zeal_swat = true,
 	heavy_swat = true,
+	fbi_heavy_swat = true,
+	zeal_heavy_swat = true,
+	heavy_swat_sniper = true,
 }
 
 if ASS:get_var("is_client") then
 	return
 end
 
+local swat_pager_tweak_names = clone(CharacterTweakData.moon_swat_pager_disable_map.sample_level_id)
 local level_id = ASS:get_var("level_id")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
@@ -33,12 +39,9 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 
 				preset.significant_chance = math.lerp(min, max, f)
 				preset.base_chance = 0
-				preset.old_factors = deep_clone(preset.factors)
-
-				for k, v in pairs(preset.factors) do
-					preset.reasons[k] = v
-					preset.factors[k] = nil
-				end
+				preset.old_factors = preset.factors
+				preset.reasons = table.map_append(preset.reasons, preset.factors)
+				preset.factors = {}
 			end
 		end
 	end
@@ -54,7 +57,7 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 			[self.presets.surrender.normal] = self.presets.surrender.hard,
 		}
 
-		for id, data in pairs(self) do
+		for _, data in pairs(self) do
 			if type(data) == "table" then
 				data.surrender = surrender_map[data.surrender] or data.surrender
 			end
@@ -68,15 +71,15 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 	end
 
 	-- ASS makes the heavies modifier replace scripted spawns, including the Ready Team on hox revenge, so give all swats pagers by default
-	local pager_disable_map = self._moon_swat_pager_disable_map[level_id]
+	local pager_disable_map = self.moon_swat_pager_disable_map[level_id]
 	if pager_disable_map then
-		for _, id in pairs({ "swat", "fbi_swat", "city_swat", "heavy_swat", "fbi_heavy_swat", "heavy_swat_sniper", }) do
+		for id in pairs(swat_pager_tweak_names) do
 			local character = self[id]
 
 			if not character then
 				ASS:log("warn", "Character \"%s\" is nil!", id)
 			else
-				local disable_pager = not pager_disable_map[id]
+				local disable_pager = pager_disable_map[id]
 
 				if disable_pager then
 					ASS:log("info", "Character \"%s\" has had alarm pagers disabled...", id)

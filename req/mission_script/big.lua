@@ -1,5 +1,4 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-
 local security_4 = Idstring("units/payday2/characters/ene_security_4/ene_security_4")
 local security_5 = Idstring("units/payday2/characters/ene_security_5/ene_security_5")
 local security_6 = Idstring("units/payday2/characters/ene_security_6/ene_security_6")
@@ -7,7 +6,6 @@ local security_7 = Idstring("units/payday2/characters/ene_security_7/ene_securit
 local securitys_light = { security_4, security_5, }
 local securitys_medium = { security_5, security_6, }
 local securitys_heavy = { security_6, security_7, }
-
 local harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
 
 return {

@@ -49,32 +49,26 @@ GroupAIStateBase._process_recurring_grp_SO = function() end
 
 -- sigh. u240.
 -- make marshal shields not count as normal shields
-GroupAIStateBase.on_enemy_registered_original = GroupAIStateBase.on_enemy_registered
-function GroupAIStateBase:on_enemy_registered(unit, ...)
+function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 	local special_unit_types_shield_original = self._special_unit_types.shield
 
-	if unit:base()._tweak_table == "marshal_shield" then
+	if unit:base():char_tweak_name() == "marshal_shield" then
 		self._special_unit_types.shield = false
 	end
 
-	local result = self:on_enemy_registered_original(unit, ...)
+	local result = self[func](self, unit, ...)
 
 	self._special_unit_types.shield = special_unit_types_shield_original
 
 	return result
 end
 
+GroupAIStateBase.on_enemy_registered_original = GroupAIStateBase.on_enemy_registered
+function GroupAIStateBase:on_enemy_registered(...)
+	return self:_moon_enemy_register_helper("on_enemy_registered_original", ...)
+end
+
 GroupAIStateBase.on_enemy_unregistered_original = GroupAIStateBase.on_enemy_unregistered
-function GroupAIStateBase:on_enemy_unregistered(unit, ...)
-	local special_unit_types_shield_original = self._special_unit_types.shield
-
-	if unit:base()._tweak_table == "marshal_shield" then
-		self._special_unit_types.shield = false
-	end
-
-	local result = self:on_enemy_unregistered_original(unit, ...)
-
-	self._special_unit_types.shield = special_unit_types_shield_original
-
-	return result
+function GroupAIStateBase:on_enemy_unregistered(...)
+	return self:_moon_enemy_register_helper("on_enemy_unregistered_original", ...)
 end

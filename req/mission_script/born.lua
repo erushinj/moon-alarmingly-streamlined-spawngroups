@@ -1,5 +1,4 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-
 local biker_1 = Idstring("units/payday2/characters/ene_biker_1/ene_biker_1")
 local biker_2 = Idstring("units/payday2/characters/ene_biker_2/ene_biker_2")
 local biker_3 = Idstring("units/payday2/characters/ene_biker_3/ene_biker_3")
@@ -7,9 +6,7 @@ local biker_4 = Idstring("units/payday2/characters/ene_biker_4/ene_biker_4")
 local biker_female_1 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_1/ene_biker_female_1")
 local biker_female_2 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_2/ene_biker_female_2")
 local biker_female_3 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_3/ene_biker_female_3")
-
--- biker 4 is the guy punching the mechanic
-local bikers_any = { biker_1, biker_2, biker_3, biker_female_1, biker_female_2, biker_female_3, }
+local bikers_any = { biker_1, biker_2, biker_3, biker_female_1, biker_female_2, biker_female_3, }  -- biker 4 is the guy punching the mechanic
 
 return {
 	-- WAITER !  WAITER !  MORE BIKERS PLEASE !

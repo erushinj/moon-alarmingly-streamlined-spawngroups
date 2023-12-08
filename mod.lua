@@ -141,7 +141,7 @@ if not ASS then
 			{ 8, 12, },
 			{ 27, 27, },
 		},
-		skm_special_weights = {  -- special group weights in holdout, format { X, Y, }, interpolates from X to Y based on wave number
+		skm_special_weights = {  -- special group weights in holdout, format { X, Y, Z, }, interpolates from X to Y to Z based on wave number
 			{ 2, 4, 6, },
 			{ 4, 5, 6, },
 			{ 4, 5, 6, },
@@ -293,15 +293,18 @@ if not ASS then
 		return self._require[file](...)
 	end
 
+	-- deprecated functions, still define them
+	ASS:require("deprecated")
+
+	-- ASS's path\req\try_insert.lua
+	local try_insert = ASS:require("try_insert", true)
+	local check_clone = ASS:require("check_clone", true)
+
 	-- call as ASS:global() to fetch the mod's Global entry
 	-- otherwise, supply a string var to fetch the current value of said var in the Global entry
 	function ASS:global(var)
 		if var ~= nil then
-			if type(self._global[var]) == "table" then
-				return deep_clone(self._global[var])
-			end
-
-			return self._global[var]
+			return check_clone(self._global[var])
 		end
 
 		return self._global
@@ -314,9 +317,6 @@ if not ASS then
 
 		return self.settings[setting]
 	end
-
-	-- deprecated functions, still define them
-	ASS:require("deprecated")
 
 	local last_priority = 0
 	local function priority()
@@ -375,9 +375,6 @@ if not ASS then
 			divider = divider,
 		},
 	})
-
-	-- ASS's path\req\try_insert.lua
-	local try_insert = ASS:require("try_insert", true)
 
 	function ASS:add_hook(key, func)
 		local id = key .. self._hook_suffix
@@ -585,13 +582,7 @@ if not ASS then
 	end
 
 	function ASS:get_tweak(tweak)
-		local tweak_value = self._tweaks[tweak][self:get_var("skill")]
-
-		if type(tweak_value) == "table" then
-			return deep_clone(tweak_value)
-		end
-
-		return tweak_value
+		return check_clone(self._tweaks[tweak][self:get_var("skill")])
 	end
 
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable

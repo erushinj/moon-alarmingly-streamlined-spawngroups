@@ -1,6 +1,5 @@
 local special_chance = ASS:get_var("real_difficulty_index") * 0.05
 local dozer_chance = special_chance * 0.1
-
 local function scripted_swat_squads()
 	local rand = math.random()
 
