@@ -3,7 +3,7 @@
 	"name" : "Alarmingly Streamlined Spawngroups",
 	"description" : "Simultaneously simplifies and complexifies enemy spawn groups\nAlso known as ASS, since it probably is",
 	"author" : "moon",
-	"contact" : "https://modworkshop.net/user/55749",
+	"contact" : "https://modworkshop.net/mod/41862",
 	"version" : "5",
 	"color" : "218 0 78",
 	"image" : "mod.png",
