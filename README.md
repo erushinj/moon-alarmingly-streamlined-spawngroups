@@ -234,7 +234,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             <ul>
-                <li>Enemy rifles can damage you with every shot.</li>
+                <li>Enemies with rifles can damage you with every shot.</li>
             </ul>
         </td>
     </tr>
@@ -245,6 +245,31 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
+            Shieldfucker (0.125s)
+        </th>
+        <td>
+            <ul>
+                <li>Shields with SMGs can damage you with every shot.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            A Distinctive Lack of Name (0.10s)
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Belt-Fed Target Practice (0.075s)
+        </th>
+        <td>
+            <ul>
+                <li>Bulldozers with LMGs can damage you with every shot.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
             Super Serious (0.05s)
         </th>
         <td>
@@ -252,6 +277,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Same as Super Serious Shooter.</li>
             </ul>
         </td>
+    </tr>
+    <tr>
+        <th>
+            Sequel (0.025s)
+        </th>
     </tr>
     <tr>
         <th>
@@ -510,7 +540,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
         </th>
         <td>
             <ul>
-                <li>No associated maps.</li>
+                <li>No associated maps, due to additional matchmaking lock.</li>
                 <li>The Random setting will not pick this Level Mod.</li>
             </ul>
         </td>
@@ -521,7 +551,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
         </th>
         <td>
             <ul>
-                <li>No associated maps.</li>
+                <li>No associated maps, due to additional matchmaking lock.</li>
                 <li>The Random setting will not pick this Level Mod.</li>
             </ul>
         </td>
