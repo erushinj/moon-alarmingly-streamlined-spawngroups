@@ -43,6 +43,17 @@ local staff_female = oops_all_bo or {
 	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_3/civ_female_casino_3"),
 }
 
+if oops_all_bo then
+	local civilian, bank_manager = tweak_data.character.civilian, tweak_data.character.bank_manager
+	local civilian_flee, manager_flee = civilian.flee_type, bank_manager.flee_type
+	local civilian_run_away_delay, manager_run_away_delay = civilian.run_away_delay, bank_manager.run_away_delay
+
+	civilian.flee_type = manager_flee
+	civilian.run_away_delay = manager_run_away_delay  -- nil
+	bank_manager.flee_type = civilian_flee
+	bank_manager.run_away_delay = civilian_run_away_delay
+end
+
 return {
 	-- guard amounts
 	[102024] = { group_amount = guards_downstairs_amounts, },

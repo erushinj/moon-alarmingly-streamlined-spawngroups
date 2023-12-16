@@ -67,6 +67,14 @@ local civs_female = oops_all_bo or {
 	Idstring("units/pd2_dlc_arena/characters/civ_female_party_alesso_1/civ_female_party_alesso_1"),
 }
 
+if oops_all_bo then
+	local civilian_flee = tweak_data.character.civilian.flee_type
+	local civilian_run_away_delay = tweak_data.character.civilian.run_away_delay
+
+	tweak_data.character.bank_manager.flee_type = civilian_flee
+	tweak_data.character.bank_manager.run_away_delay = civilian_run_away_delay
+end
+
 return {
 	[104391] = {  -- no titan cams
 		values = {
