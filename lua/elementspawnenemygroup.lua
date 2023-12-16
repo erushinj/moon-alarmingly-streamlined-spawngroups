@@ -55,6 +55,8 @@ for group_name, new_groups in pairs({
 	local mapping = ElementSpawnEnemyGroup.group_mapping[group_name] or {}
 	ElementSpawnEnemyGroup.group_mapping[group_name] = mapping
 
+	try_insert(mapping, group_name)
+
 	for i = 1, #new_groups do
 		local new_group_name = new_groups[i]
 

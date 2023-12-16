@@ -30,14 +30,12 @@ return {
 	},
 	[104730] = {  -- car 4 done
 		on_executed = {
-			{ id = 100370, },
+			{ id = 100370, delay = 0, },
 		},
 	},
 	-- gas heli now loops like tweaked undercover
 	[105496] = {  -- ovk and below heli chance (vanilla is 50)
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100631] = {
 		on_executed = {
@@ -81,9 +79,7 @@ return {
 	},
 	-- chance of no safe in manager's office (vanilla is 75)
 	[102194] = {
-		values = {
-			chance = normal and 5 or hard and 15 or 25,
-		},
+		chance = normal and 5 or hard and 15 or 25,
 	},
 	-- forced skylights, "overkill" difficulty group only
 	[101930] = {
@@ -93,9 +89,7 @@ return {
 		values = set_difficulty_groups("hard_below"),
 	},
 	[104324] = {  -- but raise the chance on ovk/mh
-		values = {
-			chance = normal and 20 or hard and 60 or 100,
-		},
+		chance = normal and 20 or hard and 60 or 100,
 	},
 	-- tear gas (3 locations always active, theres 3 more but only 1 of those is active based on escape location)
 	[102195] = {

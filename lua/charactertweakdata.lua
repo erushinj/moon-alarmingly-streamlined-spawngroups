@@ -39,7 +39,7 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 
 				preset.significant_chance = math.lerp(min, max, f)
 				preset.base_chance = 0
-				preset.old_factors = preset.factors
+				preset.factors_original = preset.factors
 				preset.reasons = table.map_append(preset.reasons, preset.factors)
 				preset.factors = {}
 			end

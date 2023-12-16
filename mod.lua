@@ -27,6 +27,7 @@ if not ASS then
 		max_values = false,  -- whether to use death sentence values for scaling
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
+		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
 		escapes = false,  -- allow escapes to occur on maps that have them
@@ -74,13 +75,22 @@ if not ASS then
 		},
 	}
 	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
-		force_pool_mul = { 0.85, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
-		sustain_duration_mul = { 0.85, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase
-		break_duration_mul = { 1.25, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
+		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
+		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase
+		sustain_duration_muls = {  -- multipliers on the minimum and maximum durations of the "sustain" assault phase
+			{ 1, 1, },
+			{ 1, 1.15, },
+			{ 1, 1.15, },
+			{ 1.1, 1.4, },
+			{ 1.7, 2.3, },
+			{ 1250, 1250, },
+		},
+		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
 		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },  -- multiplier on special limits, final limits are rounded up
 		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },  -- multiplier on delays between uses of the same grenade type
-		min_grenade_timeout = { 15, 15, 15, 12, 6, 3, },  -- delay between uses of any grenade
-		no_grenade_push_delay = { 10, 8, 8, 7, 3.5, 0, },  -- delay before most groups will push when no grenade is available
+		min_grenade_timeout = { 15, 13.5, 13.5, 11, 6, 3, },  -- delay between uses of any grenade
+		no_grenade_push_delay = { 10, 8, 8, 6, 3, 0, },  -- delay before most groups will push when no grenade is available
+		recon_force_mul = { 0.6, 0.8, 0.8, 1, 1, 1, },
 		freq_base = {  -- enemy frequencies in spawn groups, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{
 				baseline = { 1, 1, },
@@ -134,7 +144,7 @@ if not ASS then
 			{ 0, 0, },
 		},
 		special_weight_base = {  -- used to calculate special group weights in normal play, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
-			{ 1.5, 5, },
+			{ 2, 5, },
 			{ 3, 5, },
 			{ 3, 5, },
 			{ 4, 6, },
@@ -158,7 +168,7 @@ if not ASS then
 			{ 0, 0, 0, },
 		},
 		smoke_grenade_lifetime = {  -- self-explanatory, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
-			{ 7.5, 12, },
+			{ 9, 12, },
 			{ 9, 15, },
 			{ 9, 15, },
 			{ 15, 20, },
@@ -166,10 +176,10 @@ if not ASS then
 			{ 60, 60, },
 		},
 		cs_grenade_chance_times = {  -- times for gas grenades to be allowed to replace smoke bombs under certain conditions, format { X, Y, }, interpolates from X (allowed) to Y (guaranteed) based on time spent in the same area
-			{ 60, 240, },
-			{ 60, 90, },
-			{ 60, 90, },
-			{ 45, 75, },
+			{ 45, 90, },
+			{ 30, 60, },
+			{ 30, 60, },
+			{ 20, 40, },
 			{ 10, 20, },
 			{ 0, 0, },
 		},
@@ -368,6 +378,7 @@ if not ASS then
 			items = items("dmg_interval"),
 			divider = divider,
 		},
+		gas_grenade_ignore_hostages = { priority = priority(), },
 		minigun_dozers = { priority = priority(), },
 		captain_winters = { priority = priority(), },
 		escapes = {
@@ -388,22 +399,10 @@ if not ASS then
 		Hooks:PostHook( object, func, id, post_call )
 	end
 
-	function ASS:mission_post_hook(element, func, id, post_call)
-		local id = self._hook_prefix .. func .. "_" .. id
-
-		Hooks:PostHook( element, func, id, post_call )
-	end
-
 	function ASS:pre_hook(object, func, pre_call)
 		local id = self._hook_prefix .. func
 
 		Hooks:PreHook( object, func, id, pre_call )
-	end
-
-	function ASS:mission_pre_hook(element, func, id, pre_call)
-		local id = self._hook_prefix .. func .. "_" .. id
-
-		Hooks:PreHook( element, func, id, pre_call )
 	end
 
 	function ASS:override(object, func, override)
@@ -506,6 +505,7 @@ if not ASS then
 	function ASS:_init_vars()
 		local is_editor = Global.editor_mode or false
 		local is_client = Network and Network:is_client() or false
+		local is_host = not is_editor and not is_client
 		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
 		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
 		local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
@@ -516,10 +516,14 @@ if not ASS then
 			random = { false, },
 		}
 
-		self._is_host = not is_editor and not is_client
+		self._is_host = is_host
 		self._is_editor = is_editor
 		self._is_client = is_client
-		self._is_editor_or_client = not self._is_host
+		self._is_editor_or_client = not is_host
+		self._is_spawner = not is_host or ({
+			modders_devmap = true,
+			Enemy_Spawner = true,
+		})[level_id]
 		self._assault_style = self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
@@ -560,8 +564,14 @@ if not ASS then
 			self._level_mod = level_mod
 		end
 
+		local invalid_sh = self:global("invalid_sh")
+
 		if self.been_there_fucked_that == nil then
-			self.been_there_fucked_that = not self:global("invalid_sh") and self:get_setting("is_massive")
+			self.been_there_fucked_that = not invalid_sh and self:get_setting("is_massive")
+		end
+
+		if invalid_sh then
+			return
 		end
 
 		if self._is_client then
@@ -572,7 +582,7 @@ if not ASS then
 			self:log("info", "Editor mode active, mission tweaks disabled...")
 		end
 
-		if self._level_mod and self._level_mod:match("ZEAL") then
+		if tostring(self._level_mod):match("ZEAL") then
 			self:_zeals_enabled()
 		end
 	end

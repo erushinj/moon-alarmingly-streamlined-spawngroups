@@ -1,25 +1,7 @@
 local panic_room = { "c45", "raging_bull", "mac11", "ak47", "r870", "mossberg", }
 local murkywater = { "scar_murky", "spas12", "ump", }
-local fbi_ready_team = { "m4", "spas12", }
 
 return {
-	-- level mod specific overrides
-	FBI_office = {
-		[("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"):key()] = { "m4", "spas12", },
-		[("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"):key()] = "m4",
-		[("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"):key()] = "c45",
-		[("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"):key()] = "m4",
-		[("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"):key()] = "c45",
-		[("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"):key()] = "spas12",
-		[("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"):key()] = "m4",
-		[("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"):key()] = "spas12",
-		[("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"):key()] = "m4",
-	},
-	FBI_mcmansion = {
-		[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "m4",
-		[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "spas12",
-	},
-
 	-- level id specific overrides
 	man = {
 		[("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"):key()] = "m4",
@@ -103,15 +85,15 @@ return {
 	[("units/pd2_dlc_casino/characters/ene_secret_service_1_casino/ene_secret_service_1_casino"):key()] = "mp5",
 	[("units/payday2/characters/ene_prisonguard_male_1/ene_prisonguard_male_1"):key()] = "m4",
 	[("units/payday2/characters/ene_prisonguard_female_1/ene_prisonguard_female_1"):key()] = "spas12",
-	[("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"):key()] = "spas12",
-	[("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"):key()] = "raging_bull",
-	[("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"):key()] = "m4",
-	[("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"):key()] = "raging_bull",
-	[("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"):key()] = "m4",
+	[("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"):key()] = { "m4", "spas12", },
+	[("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"):key()] = "m4",
+	[("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"):key()] = "c45",
+	[("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"):key()] = "m4",
+	[("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"):key()] = "c45",
 	[("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"):key()] = "spas12",
-	[("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"):key()] = "raging_bull",
+	[("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"):key()] = "m4",
 	[("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"):key()] = "spas12",
-	[("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"):key()] = "raging_bull",
+	[("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"):key()] = "m4",
 	[("units/payday2/characters/ene_murkywater_1/ene_murkywater_1"):key()] = murkywater,
 	[("units/payday2/characters/ene_murkywater_2/ene_murkywater_2"):key()] = murkywater,
 	[("units/pd2_dlc_berry/characters/ene_murkywater_no_light/ene_murkywater_no_light"):key()] = murkywater,
@@ -119,8 +101,8 @@ return {
 	[("units/pd2_dlc_des/characters/ene_murkywater_not_security_2/ene_murkywater_not_security_2"):key()] = murkywater,
 	[("units/pd2_dlc_des/characters/ene_murkywater_no_light_not_security/ene_murkywater_no_light_not_security"):key()] = murkywater,
 	[("units/pd2_dlc_vit/characters/ene_murkywater_secret_service/ene_murkywater_secret_service"):key()] = murkywater,
-	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = fbi_ready_team,
-	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = fbi_ready_team,
+	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "m4",
+	[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "spas12",
 	[("units/pd2_dlc_chas/characters/ene_male_chas_police_01/ene_male_chas_police_01"):key()] = "mp5",
 	[("units/pd2_dlc_chas/characters/ene_male_chas_police_02/ene_male_chas_police_02"):key()] = "r870",
 	[("units/pd2_dlc_ranc/characters/ene_male_ranc_ranger_01/ene_male_ranc_ranger_01"):key()] = "m4",

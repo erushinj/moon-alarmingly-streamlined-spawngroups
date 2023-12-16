@@ -1,10 +1,8 @@
 -- Don't replace spawns on custom enemy spawner map
-local level_id = ASS:get_var("level_id")
-if ASS:get_var("is_editor_or_client") or level_id == "modders_devmap" or level_id == "Enemy_Spawner" then
+if ASS:get_var("is_spawner")  then
 	return
 end
 
-local mission_script_patches = ASS:script_patches("mission")
 function ElementSpawnCivilian:moon_init_hook()
 	if self._values.possible_enemies then
 		self._possible_enemies = self._values.possible_enemies
@@ -13,23 +11,6 @@ function ElementSpawnCivilian:moon_init_hook()
 	end
 
 	self._original_enemy_name = self._enemy_name
-
-	if mission_script_patches then
-		local element_mapping = mission_script_patches[self._id]
-
-		if element_mapping then
-			local enemy = element_mapping.enemy
-
-			if enemy then
-				if type(enemy) == "table" then
-					self._possible_enemies = enemy
-					self._patched_enemy_name = enemy[1]
-				else
-					self._patched_enemy_name = enemy
-				end
-			end
-		end
-	end
 end
 
 ASS:post_hook( ElementSpawnCivilian, "init", ElementSpawnCivilian.moon_init_hook )
@@ -44,7 +25,8 @@ local function i_hate_scripted_spawns()
 		return wave_categories and wave_categories.CS
 	end
 end
-local is_skirmish = tweak_data.levels[level_id] and tweak_data.levels[level_id].group_ai_state == "skirmish"
+local level = tweak_data.levels[ASS:get_var("level_id")]
+local is_skirmish = level and level.group_ai_state == "skirmish"
 local difficulty = is_skirmish and i_hate_scripted_spawns or ASS:get_var("difficulty")
 local level_mod = not is_skirmish and ASS:get_var("level_mod") or nil
 

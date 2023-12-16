@@ -94,7 +94,7 @@ return {
 	},
 	[101449] = {  -- escape signalled (it's payday)
 		on_executed = {
-			{ id = 100890, },
+			{ id = 100890, delay = 0, },
 		},
 		reinforce = {
 			{ name = "spa", },
@@ -338,7 +338,7 @@ return {
 	},
 	[102367] = {
 		on_executed = {
-			{ id = 100296, },
+			{ id = 100296, delay = 0, },
 		},
 		values = {
 			amount = normal and 1 or hard and 3 or 5,

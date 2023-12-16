@@ -38,8 +38,8 @@ return {
 	-- second office
 	[102925] = {
 		pre_func = function(self)
-			if not self._values.old_on_executed then
-				self._values.old_on_executed = self._values.on_executed
+			if not self._values.on_executed_original then
+				self._values.on_executed_original = self._values.on_executed
 
 				if normal then
 					self._values.on_executed = {
@@ -60,8 +60,8 @@ return {
 	[102925] = {
 		values = set_difficulty_groups("normal_above"),
 		pre_func = function(self)
-			if not self._values.old_on_executed then
-				self._values.old_on_executed = self._values.on_executed
+			if not self._values.on_executed_original then
+				self._values.on_executed_original = self._values.on_executed
 
 				local chance = normal and 0.5 or hard and 0.75 or 1
 				if chance < math.random() then
@@ -92,70 +92,44 @@ return {
 		values = set_difficulty_groups("normal_above"),
 	},
 	[103138] = {  -- chance
-		values = {
-			chance = normal and 50 or hard and 75 or 100,
-		},
+		chance = normal and 50 or hard and 75 or 100,
 	},
 	-- safe cocaine
 	[100703] = {  -- chance for a selected pack to spawn (they are already chosen randomly)
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100726] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100727] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100732] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100737] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100738] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100742] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100743] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100744] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100745] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100747] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100750] = {
-		values = {
-			chance = 100,
-		},
+		chance = 100,
 	},
 	[100681] = {    -- amount selected to try spawning
 		values = {

@@ -1,6 +1,5 @@
 -- Don't replace spawns on custom enemy spawner map
-local level_id = ASS:get_var("level_id")
-if ASS:get_var("is_editor_or_client") or level_id == "modders_devmap" or level_id == "Enemy_Spawner" then
+if ASS:get_var("is_spawner")  then
 	return
 end
 

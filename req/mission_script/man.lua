@@ -1,27 +1,44 @@
 local normal, hard, overkill = ASS:difficulty_groups()
-local rooftop_swats = normal and tweak_data.levels:moon_random_unit("swats_far") or hard and tweak_data.levels:moon_random_unit("swats_heavys_far") or tweak_data.levels:moon_random_unit("marshals_far")
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local rooftop_swats = tweak_data.levels:moon_random_unit(normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far")
 local rooftop_swats_close = tweak_data.levels:moon_random_unit("marshals_far")
 local rooftop_swats_escape = tweak_data.levels:moon_random_unit("marshals_far")
+local dozers_escape = tweak_data.levels:moon_random_unit("dozers_any")
+local dozers_heli = tweak_data.levels:moon_random_unit("dozers_no_mini")
+local chopper_spawns = tweak_data.levels:moon_random_unit(normal and "swats_close" or hard and "swats_heavys_close" or "heavys")
 local taxman_code_chance = normal and 10 or hard and 7 or 5
 local harassers_amount = overkill and 6 or 3
 local snipers_amount = normal and 5 or hard and 10 or 15
+local switch_undercover_agents = math.random() < 0.5
+local fbis = {
+	Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
+	Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
+	-- Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+	Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
+	Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
+	Idstring("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"),
+	Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
+	Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
+	Idstring("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"),
+	Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
+	Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
+	Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
+}
 
 return {
 	-- multiple interrupts once more
 	[102978] = {
 		on_executed = {
-			{ id = 103385, },
+			{ id = 103385, delay = 0, },
 		}
 	},
 	-- fence should be here more often
 	[100174] = {
-		values = {
-			chance = normal and 70 or hard and 40 or 10,
-		},
+		chance = normal and 70 or hard and 40 or 10,
 	},
 	-- escape units
 	[102423] = {
-		values = table.set("difficulty_easy", "difficulty_normal"),
+		values = set_difficulty_groups("normal_above"),
 	},
 	[102424] = {  -- which unit groups will be selected (shields, cloaker, dozer)
 		values = {
@@ -51,7 +68,7 @@ return {
 	},
 	[101731] = {
 		on_executed = {
-			{ id = 102269, },
+			{ id = 102269, delay = 0, },
 		},
 	},
 	[102268] = {
@@ -89,35 +106,34 @@ return {
 			counter_target = harassers_amount,
 		},
 	},
-	-- vent cloaker group interval (default 240s)
-	[102153] = {
+	-- vent cloaker group
+	[102153] = {  -- interval (default 240s)
 		values = {
 			interval = 15,
 		},
 	},
+	[103801] = {  -- disable this non-vent spawn point
+		values = {
+			enabled = false,
+		},
+	},
 	-- taxman code chances, taken from pdth
 	[102876] = {  -- n (vanilla is 15)
-		values = {
-			chance = taxman_code_chance,
-		},
+		chance = taxman_code_chance,
 	},
 	[102875] = {  -- h/vh (vanilla is 10)
-		values = {
-			chance = taxman_code_chance,
-		},
+		chance = taxman_code_chance,
 	},
 	[102864] = {  -- ovk+ (vanilla is 5)
-		values = {
-			chance = taxman_code_chance,
-		},
+		chance = taxman_code_chance,
 	},
 	[102872] = {  -- executed each 3 hits on taxman, reset for each hack (changed to execute every hit but behave more like pdth)
 		values = {
 			counter_target = 1,
 		},
 		pre_func = function(self)
-			if not self._values.old_on_executed then
-				self._values.old_on_executed = self._values.on_executed
+			if not self._values.on_executed_original then
+				self._values.on_executed_original = self._values.on_executed
 				self.default_pass_out_chance = normal and 0.1 or hard and 0.2 or 0.35
 				self.pass_out_chance = self.default_pass_out_chance
 				self._original_value = 1
@@ -128,7 +144,7 @@ return {
 				self._values.on_executed = {}
 			else
 				self.pass_out_chance = self.default_pass_out_chance  -- passed out, reset pass out chance
-				self._values.on_executed = self._values.old_on_executed
+				self._values.on_executed = self._values.on_executed_original
 			end
 		end,
 		func = function(self)
@@ -155,12 +171,6 @@ return {
 			amount = 20,
 		},
 	},
-	--  this disables multiple spawn points when limo lands on the balcony, which is weird, to say the least
-	[101898] = {
-		values = {
-			enabled = false,
-		},
-	},
 	--  keep close roof harassers after sawing the limo open
 	[102989] = {
 		values = {
@@ -168,15 +178,11 @@ return {
 		},
 	},
 	-- limo fall stuff
-	[101898] = {  -- chance for limo to land on the roof rather than the balcony
-		values = {
-			chance = normal and 20 or hard and 50 or 80,
-		},
+	[101645] = {  -- chance for limo to land on the roof rather than the balcony
+		chance = normal and 20 or hard and 50 or 80,
 	},
 	[102943] = {  -- chance for limo to stay on the roof rather than fall through
-		values = {
-			chance = normal and 20 or hard and 50 or 80,
-		},
+		chance = normal and 20 or hard and 50 or 80,
 	},
 	-- flashlights
 	[100756] = {
@@ -216,9 +222,25 @@ return {
 			enabled = false,
 		},
 	},
-	[102160] = {  -- unused spawn points
+	--  this disables multiple spawn points when limo lands on the balcony, which is weird, to say the least
+	[101898] = {
+		values = {
+			enabled = false,
+		},
+	},
+	[102160] = {  -- sniper spawn points that are usually enabled based on where the limo lands
 		values = {
 			enabled = true,
+		},
+	},
+	[101815] = {
+		values = {
+			enabled = false,
+		},
+	},
+	[101816] = {
+		values = {
+			enabled = false,
 		},
 	},
 	[102155] = {
@@ -253,12 +275,21 @@ return {
 	},
 	-- gas heli stuff
 	[104041] = {
-		values = table.set("difficulty_normal"),
+		values = set_difficulty_groups("normal_above"),
+	},
+	[104042] = {
+		values = set_difficulty_groups("disable"),
+	},
+	[104043] = {
+		values = set_difficulty_groups("disable"),
+	},
+	[104044] = {
+		values = set_difficulty_groups("disable"),
 	},
 	[103302] = {
 		pre_func = function(self)
-			if not self._values.old_SO_access then
-				self._values.old_SO_access = self._values.SO_access
+			if not self._values.SO_access_original then
+				self._values.SO_access_original = self._values.SO_access
 				self._values.SO_access = managers.navigation:convert_access_filter_to_number({ "tank", })
 			end
 		end,
@@ -273,10 +304,9 @@ return {
 			{ id = 101716, delay = 1.5, delay_rand = 0, },
 		},
 	},
-	[100131] = {  -- police called, starts dozer and cloaker spawn loops
+	[100131] = {  -- police called, starts dozer spawn loop
 		on_executed = {
 			{ id = 101608, delay = overkill and 150 or 225, },  -- dozers
-			{ id = 103791, delay = overkill and 120 or 180, },  -- cloakers
 		},
 	},
 	[101608] = {
@@ -295,46 +325,19 @@ return {
 		},
 	},
 	[103434] = {
-		values = table.set("difficulty_easy", "difficulty_normal"),
+		values = set_difficulty_groups("normal_above"),
 		on_executed = {
 			{ id = 101608, delay = 240, delay_rand = overkill and 240 or 480, },
 		},
 	},
 	-- vent cloaker stuff
-	[103795] = {
-		on_executed = {
-			{ id = 103791, remove = true, },
-		},
-	},
 	[103792] = {
-		values = table.set("difficulty_easy", "difficulty_normal", "difficulty_hard"),
-		on_executed = {
-			{ id = 103793, delay = overkill and 45 or 90, delay_rand = overkill and 45 or 90, },
-		},
-	},
-	[103793] = {
-		pre_func = function(self)
-			local amount = 1
-
-			if self._values.amount ~= amount then
-				self._group_data.amount = amount
-				self._values.amount = amount
-				self._values.preferred_spawn_groups = {}
-			end
-		end,
-		on_executed = {
-			{ id = 103792, },
-		},
+		values = set_difficulty_groups("normal_above"),
 	},
 	[103798] = {
 		func = function(self)
 			self._values.enabled = false
 		end,
-	},
-	[103801] = {
-		values = {
-			enabled = false,
-		},
 	},
 	[103366] = {  -- why do cloakers have gas masks if the masks cant handle gas ?
 		on_executed = {
@@ -378,23 +381,50 @@ return {
 			amount_random = 0,
 		},
 	},
+	-- undercover agents
+	[101609] = switch_undercover_agents and {
+		enemy = Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
+	} or nil,
+	[103078] = {
+		enemy = switch_undercover_agents and Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1") or nil,
+		values = {
+			team = "law1",
+		},
+	},
+	[101612] = switch_undercover_agents and {
+		enemy =  Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
+	} or nil,
+	[103079] = {
+		enemy = switch_undercover_agents and Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2") or nil,
+		values = {
+			team = "law1",
+		},
+	},
+	-- fbis
+	[101614] = { enemy = fbis, },
+	[102633] = { enemy = fbis, },
+	[102634] = { enemy = fbis, },
+	[102591] = { enemy = fbis, },
+	[102592] = { enemy = fbis, },
+	[102586] = { enemy = fbis, },
+	[102588] = { enemy = fbis, },
 	-- chopper spawns on the street
-	[102599] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- n/h
-	[102600] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[102601] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[102602] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103315] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- vh/ovk
-	[104051] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104052] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104053] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104054] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- mh/dw
-	[104055] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104056] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104057] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104058] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- ds
-	[104059] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104060] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[104061] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
+	[102599] = { enemy = chopper_spawns, },  -- n/h
+	[102600] = { enemy = chopper_spawns, },
+	[102601] = { enemy = chopper_spawns, },
+	[102602] = { enemy = chopper_spawns, },
+	[103315] = { enemy = chopper_spawns, },  -- vh/ovk
+	[104051] = { enemy = chopper_spawns, },
+	[104052] = { enemy = chopper_spawns, },
+	[104053] = { enemy = chopper_spawns, },
+	[104054] = { enemy = chopper_spawns, },  -- mh/dw
+	[104055] = { enemy = chopper_spawns, },
+	[104056] = { enemy = chopper_spawns, },
+	[104057] = { enemy = chopper_spawns, },
+	[104058] = { enemy = chopper_spawns, },  -- ds
+	[104059] = { enemy = chopper_spawns, },
+	[104060] = { enemy = chopper_spawns, },
+	[104061] = { enemy = chopper_spawns, },
 	-- rooftop swats
 	[103839] = { enemy = rooftop_swats, },  -- across the street
 	[103841] = { enemy = rooftop_swats, },
@@ -417,15 +447,15 @@ return {
 	[102438] = { enemy = rooftop_swats_escape, },
 	[102439] = { enemy = rooftop_swats_escape, },
 	-- escape dozers
-	[102433] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
-	[102434] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
+	[102433] = { enemy = dozers_escape, },
+	[102434] = { enemy = dozers_escape, },
 	-- gassers
-	[103293] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- n/h
-	[103294] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
-	[104045] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- vh/ovk
-	[104046] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
-	[104047] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- mh/dw
-	[104048] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
-	[104049] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },  -- ds
-	[104050] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_mini"), },
+	[103293] = { enemy = dozers_heli, },  -- n/h
+	[103294] = { enemy = dozers_heli, },
+	[104045] = { enemy = dozers_heli, },  -- vh/ovk
+	[104046] = { enemy = dozers_heli, },
+	[104047] = { enemy = dozers_heli, },  -- mh/dw
+	[104048] = { enemy = dozers_heli, },
+	[104049] = { enemy = dozers_heli, },  -- ds
+	[104050] = { enemy = dozers_heli, },
 }

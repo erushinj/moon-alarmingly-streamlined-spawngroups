@@ -38,7 +38,7 @@ return {
 	-- more oppressive open door amounts
 	-- [103616] = {  -- i seriously just give up with this particular part. likes to cause issues.
 	-- 	on_executed = {
-	-- 		{ id = 100517, },
+	-- 		{ id = 100517, delay = 0, },
 	-- 	},
 	-- },
 	-- [103491] = {

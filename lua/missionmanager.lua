@@ -2,109 +2,44 @@ if ASS:get_var("is_editor_or_client") then
 	return
 end
 
-local function mission_log(prefix, id, str, ...)
-	ASS:log(prefix, "(" .. id .. ") " .. str, ...)
+if not MissionManager.mission_script_patch_funcs then
+	ASS:_sh_outdated()
+
+	return
 end
 
--- Add custom mission script changes and triggers for specific levels
--- Execution of mission scripts can trigger reinforce locations (trigger that has just a name disables previously enabled reinforcement with that id)
--- Mission script elements can be disabled or enabled
-ASS:pre_hook( MissionManager, "_activate_mission", function(self)
+local ass_mission_script_patches = ASS:script_patches("mission")
+if not ass_mission_script_patches then
+	return
+end
 
-	local mission_script_patches = ASS:script_patches("mission")
-
-	if not mission_script_patches then
-		ASS:log("info", "No mission script patches for current level...")
-
-		return
-	end
-
-	for id, data in pairs(mission_script_patches) do
-		local element = self:get_element_by_id(id)
-
-		if not element then
-			mission_log("warn", id, "Element not found!")
-		elseif type(data) ~= "table" then
-			mission_log("warn", id, "Data is not a table!")
-		else
-			-- Check if this element is supposed to trigger reinforce points
-			if data.reinforce then
-				ASS:mission_post_hook( element, "on_executed", "reinforce_" .. id, function()
-					for _, v in pairs(data.reinforce) do
-						mission_log("info", id, "Reenforce %s: %s", v.force and "enabled" or "disabled", v.name)
-
-						managers.groupai:state():set_area_min_police_force(v.name, v.force, v.position)
-					end
-				end )
-			end
-
-			-- Check if this element is supposed to trigger a difficulty change
-			if data.difficulty then
-				ASS:mission_post_hook( element, "on_executed", "difficulty_" .. id, function()
-					mission_log("info", id, "Difficulty set to %.2g", data.difficulty)
-
-					managers.groupai:state():set_difficulty(data.difficulty)
-				end )
-			end
-
-			-- Check if this element has custom values set
-			if data.values then
-				for k, v in pairs(data.values) do
-					mission_log("info", id, "Value \"%s\" set to \"%s\"", tostring(k), tostring(v))
-
-					element._values[k] = v
-
-					if k == "chance" and element.chance_operation_set_chance then
-						mission_log("info", id, "Calling \"chance_operation_set_chance\" method with argument \"%u\"", v)
-
-						element:chance_operation_set_chance(v)
-					end
-				end
-			end
-
-			if data.flashlight ~= nil then
-				ASS:mission_post_hook( element, "on_executed", "flashlight_" .. id, function()
-					mission_log("info", id, "Flashlights %s", data.flashlight and "enabled" or "disabled")
-
-					managers.game_play_central:set_flashlights_on(data.flashlight)
-				end )
-			end
-
-			if data.on_executed then
-				for _, v in pairs(data.on_executed) do
-					local new_element = self:get_element_by_id(v.id)
-
-					if new_element then
-						local val, i = table.find_value(element._values.on_executed, function(val) return val.id == v.id end)
-
-						if v.remove then
-							if val then
-								table.remove(element._values.on_executed, i)
-							end
-						else
-							v.delay = v.delay or 0
-							v.delay_rand = v.delay_rand or 0
-
-							if val then
-								val.delay = v.delay
-								val.delay_rand = v.delay_rand
-							else
-								table.insert(element._values.on_executed, v)
-							end
-						end
-					else
-					end
-				end
-			end
-
-			if data.func then
-				ASS:mission_post_hook( element, "on_executed", "func_" .. id, data.func )
-			end
-
-			if data.pre_func then
-				ASS:mission_pre_hook( element, "on_executed", "pre_func_" .. id, data.pre_func )
+local sh_mission_script_patches = StreamHeist:mission_script_patches()
+if not sh_mission_script_patches then
+	StreamHeist._mission_script_patches = ass_mission_script_patches
+else
+	local function merge_patches(base_patch, to_merge)
+		for k, v in pairs(to_merge) do
+			if type(base_patch[k]) == "table" then
+				merge_patches(base_patch[k], v)
+			else
+				base_patch[k] = v
 			end
 		end
 	end
 
-end )
+	merge_patches(sh_mission_script_patches, ass_mission_script_patches)
+end
+
+MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
+	element._values.chance = data
+	element._chance = data
+end
+
+MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
+	if type(data) == "table" then
+		element._possible_enemies = data
+		element._patched_enemy_name = data[1]
+	else
+		element._patched_enemy_name = data
+	end
+end

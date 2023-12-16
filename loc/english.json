@@ -66,6 +66,9 @@
 	"ass_dmg_interval_0.025" : "Sequel (0.025s)",
 	"ass_dmg_interval_0.000" : "Good Game Design (0s)",
 
+	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
+	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",
+
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
 

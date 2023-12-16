@@ -106,6 +106,14 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
+            True Patriots
+        </th>
+        <td>
+            Allow police to deploy gas grenades even when hostages are in the area.
+        </td>
+    </tr>
+    <tr>
+        <th>
             Minigun Dozers
         </th>
         <td>
@@ -263,14 +271,14 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Pussy.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 4.5 minutes.</li>
-                <li>Assault breaks are 25% longer.</li>
+                <li>Assaults last up to around 5 minutes.</li>
+                <li>Assault breaks are 10% longer.</li>
                 <li>The cooldown between enemies using the same grenade type again is increased by 15%.</li>
                 <li>The cooldown between enemies using any grenade is 15 seconds.</li>
                 <li>Enemies are more hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is increased to 110%.</li>
-                <li>Smoke bombs last up to 12 seconds.</li>
-                <li>Gas grenade chance builds up much more slowly.</li>
+                <li>Smoke bombs last up to 15 seconds.</li>
+                <li>Gas grenade chance builds up more slowly.</li>
             </ul>
         </td>
     </tr>
@@ -282,8 +290,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Probably won't hurt.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 5 minutes.</li>
-                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
+                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
+                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -296,8 +304,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>May hurt.</li>
                 <li>Original values.</li>
-                <li>Assaults last up to around 5 minutes.</li>
-                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
+                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
+                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -310,11 +318,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Will hurt.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 6 minutes.</li>
+                <li>Assaults last up to around 6.5 minutes. Length varies.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using the same grenade type again is decreased by 25%.</li>
                 <li>The cooldown between enemies using any grenade is 12 seconds.</li>
-                <li>Enemies are slightly less hesitant to push when no grenade is available.</li>
+                <li>Enemies are less hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is decreased to 75%.</li>
                 <li>Smoke bombs last up to 20 seconds.</li>
                 <li>Gas grenade chance builds up faster.</li>
@@ -331,7 +339,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Doable bullshit.</li>
                 <li>Not playtested. It's just a "fuck you" thing.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 8 minutes.</li>
+                <li>Assaults last up to around 9 minutes. Length varies a lot.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using the same grenade type again is decreased by 75%.</li>
                 <li>The cooldown between enemies using any grenade is 6 seconds.</li>
@@ -352,7 +360,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Less doable bullshit.</li>
                 <li>Not playtested. It's just a "fuck you and your mother" thing.</li>
                 <li>Tougher units are exponentially more likely to spawn.</li>
-                <li>Assaults will only end by killing enough cops.</li>
+                <li>Assaults will only end by killing enough cops, or from map scripting.</li>
                 <li>Assault breaks may as well not exist.</li>
                 <li>The cooldown between enemies using the same grenade type again is removed.</li>
                 <li>The cooldown between enemies using any grenade is 3 seconds.</li>
@@ -493,6 +501,28 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Border Crystals</li>
                 <li>Buluc's Mansion</li>
                 <li>Crude Awakening</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            GenSec-ZEAL
+        </th>
+        <td>
+            <ul>
+                <li>No associated maps.</li>
+                <li>The Random setting will not pick this Level Mod.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            ZEAL
+        </th>
+        <td>
+            <ul>
+                <li>No associated maps.</li>
+                <li>The Random setting will not pick this Level Mod.</li>
             </ul>
         </td>
     </tr>
