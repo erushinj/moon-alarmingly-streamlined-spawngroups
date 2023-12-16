@@ -43,3 +43,7 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 		element._patched_enemy_name = data
 	end
 end
+
+MissionManager.mission_script_patch_funcs.group_amount = function(self, element, data)
+	element._group_data.amount = data
+end

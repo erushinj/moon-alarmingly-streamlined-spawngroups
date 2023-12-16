@@ -145,8 +145,8 @@ return {
 	[105621] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
 	[101433] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },  -- heavies
 	[105620] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },
-	[101785] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- dozers
-	[101786] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[101785] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- dozers
+	[101786] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
 	-- civs
 	[105663] = switch_dog_abusers and { enemy = Idstring("units/payday2/characters/civ_male_dog_abuser_2/civ_male_dog_abuser_2"), } or nil,  -- john wick civs
 	[105664] = switch_dog_abusers and { enemy = Idstring("units/payday2/characters/civ_male_dog_abuser_1/civ_male_dog_abuser_1"), } or nil,
