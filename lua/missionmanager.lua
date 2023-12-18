@@ -30,6 +30,23 @@ else
 	merge_patches(sh_mission_script_patches, ass_mission_script_patches)
 end
 
+local spawn_group_mapping = ASS:require("spawn_group_mapping")
+for _, data in pairs(StreamHeist._mission_script_patches) do
+	local groups = data.groups
+
+	if groups then
+		for name, enabled in pairs(groups) do
+			local mapped = spawn_group_mapping[name]
+
+			if mapped then
+				for _, v in pairs(mapped) do
+					groups[v] = enabled
+				end
+			end
+		end
+	end
+end
+
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
 	element._values.chance = data
 	element._chance = data
