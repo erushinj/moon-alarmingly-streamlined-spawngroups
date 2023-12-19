@@ -1,4 +1,28 @@
 local normal, hard, overkill = ASS:difficulty_groups()
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local get_table_index_func = ASS:require("get_table_index_func", true)
+local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local guards_amount_casino_1 = { group_amount = normal and 1 or hard and 2 or 3, }
+local guards_amount_casino_2 = { group_amount = normal and 1 or hard and 2 or 3, }
+local guards_amount_cabin_corridor_1 = { group_amount = normal and 0 or hard and 1 or 2, }
+local guards_amount_cabin_corridor_2 = { group_amount = normal and 0 or hard and 1 or 2, }
+local guards_amount_inner_courtyard = { group_amount = normal and 1 or hard and 2 or 3, }
+local guards_amount_lobby = { group_amount = normal and 1 or hard and 2 or 3, }
+local guards_amount_spa = { group_amount = normal and 1 or hard and 2 or 3, }
+local guards_amount_helipad = { group_amount = normal and 0 or hard and 1 or 2, }
+local cams_amount_casino = { values = { amount = normal and 4 or hard and 6 or 8, }, }
+local cams_amount_crew = { values = { amount = overkill and 2 or 1, }, }
+local cams_amount_hall = { values = { amount = overkill and 2 or 1, }, }
+local cams_amount_reception = { values = { amount = overkill and 2 or 1, }, }
+local cams_amount_spa = { values = { amount = normal and 1 or hard and 3 or 5, }, }
+local cams_amount_lobby = {
+	values = {
+		amount = normal and 1 or hard and 3 or 5,
+	},
+	on_executed = {
+		{ id = 100296, delay = 0, },
+	},
+}
 local cruise_triads = {
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_1/ene_triad_cruise_1"),
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_2/ene_triad_cruise_2"),
@@ -9,8 +33,94 @@ local cruise_securitys = {
 	Idstring("units/pd2_dlc_chca/characters/ene_security_cruise_2/ene_security_cruise_2"),
 	Idstring("units/pd2_dlc_chca/characters/ene_security_cruise_3/ene_security_cruise_3"),
 }
+local switch_bikini_civs = math.random() < 0.5
+local casual_male_ids = get_table_index_func({ 102188, 102189, 102174, 103010, 103008, 102173, })
+local casual_male = {
+	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),
+	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
+	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
+	Idstring("units/pd2_dlc_chas/characters/civ_male_asian_casual_2/civ_male_asian_casual_2"),
+}
+local suit_male_ids = get_table_index_func({ 102248, 102247, 102250, 102187, })
+local suit_male = {
+	Idstring("units/pd2_dlc_casino/characters/civ_male_business_casino_2/civ_male_business_casino_2"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_2/civ_male_casino_2"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_3/civ_male_casino_3"),
+}
+local spa_male_ids = get_table_index_func({ 102169, 102171, 103643, 103641, 103644, })
+local spa_male = {
+	Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_1/civ_male_bathhouse_1"),
+	Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_2/civ_male_bathhouse_2"),
+}
+local civs_female = {
+	Idstring("units/payday2/characters/civ_female_bank_1/civ_female_bank_1"),
+	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),
+	Idstring("units/payday2/characters/civ_female_casual_2/civ_female_casual_2"),
+	Idstring("units/pd2_dlc_chas/characters/civ_female_asian_casual_1/civ_female_asian_casual_1"),
+}
+local spa_female = {
+	Idstring("units/pd2_dlc_chca/characters/civ_female_bathhouse_1/civ_female_bathhouse_1"),
+	Idstring("units/pd2_dlc_chca/characters/civ_female_bathhouse_2/civ_female_bathhouse_2"),
+}
+local service = {
+	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_1/civ_female_casino_1"),
+	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_2/civ_female_casino_2"),
+	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_3/civ_female_casino_3"),
+}
+local try_pick_bob_spa, try_pick_bob_casino, try_pick_bob_casual
+local random = math.random()
+if random < 0.35 then
+	try_pick_bob_spa = try_pick_bobblehead_bob(nil, spa_male, Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_3/civ_male_bathhouse_3"))
+	try_pick_bob_casino = function() return suit_male end
+	try_pick_bob_casual = function() return casual_male end
+elseif random < 0.55 then
+	try_pick_bob_spa = function() return spa_male end
+	try_pick_bob_casino = try_pick_bobblehead_bob(nil, suit_male)
+	try_pick_bob_casual = function() return casual_male end
+else
+	try_pick_bob_spa = function() return spa_male end
+	try_pick_bob_casino = function() return suit_male end
+	try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
+end
 
 return {
+	-- spawn group intervals
+	[100312] = {  -- in casino balconies
+		values = {
+			interval = 10,
+		},
+	},
+	[100325] = {
+		values = {
+			interval = 10,
+		},
+	},
+	[100131] = {  -- outdoor spa/bar/helipad, near
+		values = {
+			interval = 10,
+		},
+	},
+	[100786] = {
+		values = {
+			interval = 10,
+		},
+	},
+	[100792] = {  -- far
+		values = {
+			interval = 10,
+		},
+	},
+	[101471] = {
+		values = {
+			interval = 10,
+		},
+	},
+	[101468] = {  -- above spa
+		values = {
+			interval = 10,
+		},
+	},
 	-- reenforce points
 	[103167] = {  -- casino back end
 		values = {
@@ -27,7 +137,7 @@ return {
 			enabled = false,
 		},
 	},
-	[103170] = { -- spa
+	[103170] = {  -- spa
 		values = {
 			enabled = false,
 		},
@@ -86,16 +196,8 @@ return {
 			},
 		},
 	},
-	-- escape reenforce/harasser stuff
-	[100918] = {
-		on_executed = {
-			{ id = 100890, remove = true, },
-		},
-	},
+	-- escape reenforce stuff
 	[101449] = {  -- escape signalled (it's payday)
-		on_executed = {
-			{ id = 100890, delay = 0, },
-		},
 		reinforce = {
 			{ name = "spa", },
 			{ name = "casino", },
@@ -137,242 +239,55 @@ return {
 		},
 	},
 	-- guards amount
-	[101945] = {  -- casino 1
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
+	[101945] = guards_amount_casino_1,
+	[101946] = guards_amount_casino_1,
+	[101947] = guards_amount_casino_1,
+	[101952] = guards_amount_casino_2,
+	[101953] = guards_amount_casino_2,
+	[101954] = guards_amount_casino_2,
+	[102064] = guards_amount_cabin_corridor_1,
+	[102068] = guards_amount_cabin_corridor_1,
+	[101927] = guards_amount_cabin_corridor_2,
+	[101930] = guards_amount_cabin_corridor_2,
+	[102069] = guards_amount_inner_courtyard,
+	[102070] = guards_amount_inner_courtyard,
+	[102071] = guards_amount_inner_courtyard,
+	[101935] = guards_amount_lobby,
+	[102072] = guards_amount_lobby,
+	[103018] = guards_amount_lobby,
+	[102073] = guards_amount_spa,
+	[102074] = guards_amount_spa,
+	[102075] = guards_amount_spa,
+	[102076] = guards_amount_helipad,
+	[102077] = guards_amount_helipad,
+	[101942] = {  -- crew corridor filter
+		values = set_difficulty_groups("hard_above"),
 	},
-	[101946] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[101947] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[101915] = {  -- casino 2
-		values = {
-			difficulty_overkill = true,
-			enabled = false,
-		},
-	},
-	[101952] = {
-		values = {
-			amount = 0,
-		},
-	},
-	[101916] = {
-		values = {
-			difficulty_overkill = false,
-			difficulty_easy_wish = true,
-		},
-	},
-	[101953] = {
-		values = {
-			amount = 1,
-		},
-	},
-	[101917] = {
-		values = {
-			difficulty_easy_wish = false,
-		},
-	},
-	[101954] = {
-		values = {
-			amount = 2,
-		},
-	},
-	[101925] = {  -- cabin corridor 1
-		values = {
-			enabled = hard and true or false,
-		},
-	},
-	[102068] = {
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[101928] = {  -- cabin corridor 2
-		values = {
-			enabled = hard and true or false,
-		},
-	},
-	[101930] = {
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102069] = {  -- inner courtyard
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102070] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102071] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[101935] = {  -- lobby
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102072] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[103018] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102073] = {  -- spa
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102074] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102075] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102076] = {  -- helipad
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102077] = {
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102076] = {  -- crew corridor
-		values = {
-			enabled = hard and true or false,
-		},
-	},
-	-- titan cams
-	[100303] = {
+	-- cams
+	[100303] = {  -- no titan
 		values = {
 			enabled = false,
 		},
 	},
-	-- cameras amount
-	[100033] = {  -- casino
-		values = {
-			amount = normal and 4 or hard and 6 or 8,
-			amount_random = 0,
-		},
-	},
-	[102348] = {
-		values = {
-			amount = normal and 4 or hard and 6 or 8,
-			amount_random = 0,
-		},
-	},
-	[102349] = {
-		values = {
-			amount = normal and 4 or hard and 6 or 8,
-			amount_random = 0,
-		},
-	},
-	[102375] = {  -- crew
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102376] = {
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102354] = {  -- hall
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102355] = {
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102356] = {
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102364] = {  -- lobby
+	[100033] = cams_amount_casino,
+	[102348] = cams_amount_casino,
+	[102349] = cams_amount_casino,
+	[102375] = cams_amount_crew,
+	[102376] = cams_amount_crew,
+	[102354] = cams_amount_hall,
+	[102355] = cams_amount_hall,
+	[102356] = cams_amount_hall,
+	[103014] = cams_amount_reception,
+	[103015] = cams_amount_reception,
+	[102372] = cams_amount_spa,
+	[102373] = cams_amount_spa,
+	[102374] = cams_amount_spa,
+	[102365] = cams_amount_lobby,
+	[102366] = cams_amount_lobby,
+	[102367] = cams_amount_lobby,
+	[102364] = {  -- lobby filter
 		on_executed = {
 			{ id = 100296, remove = true, },
-		},
-	},
-	[102365] = {
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	[102366] = {
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	[102367] = {
-		on_executed = {
-			{ id = 100296, delay = 0, },
-		},
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	[103014] = {  -- reception
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[103015] = {
-		values = {
-			amount = overkill and 2 or 1,
-			amount_random = 0,
-		},
-	},
-	[102372] = {  -- spa
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	[102373] = {
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	[102374] = {
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
 		},
 	},
 	-- enemies
@@ -410,4 +325,42 @@ return {
 	[101795] = { enemy = cruise_triads, },
 	[103016] = { enemy = cruise_triads, },
 	[101802] = { enemy = cruise_triads, },
+	-- civs
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
+	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
+	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
+	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[100678] = { enemy = civs_female, },
+	[100679] = { enemy = civs_female, },
+	[102186] = { enemy = civs_female, },
+	[103011] = { enemy = civs_female, },
+	[103009] = { enemy = civs_female, },
+	[103642] = { enemy = spa_female, },
+	[103640] = { enemy = spa_female, },
+	[102170] = { enemy = spa_female, },
+	[103007] = { enemy = service, },
+	[102201] = { enemy = service, },
+	[102202] = { enemy = service, },
+	[102203] = { enemy = service, },
+	[102204] = { enemy = service, },
+	[102205] = { enemy = service, },
+	[102206] = { enemy = service, },
+	[102213] = { enemy = service, },
+	[102214] = { enemy = service, },
+	[102215] = { enemy = service, },
+	[102216] = { enemy = service, },
+	[102217] = { enemy = service, },
+	[102218] = { enemy = service, },
+	[102172] = switch_bikini_civs and { enemy = Idstring("units/payday2/characters/civ_female_bikini_1/civ_female_bikini_1"), } or nil,
+	[102184] = switch_bikini_civs and { enemy = Idstring("units/payday2/characters/civ_female_bikini_2/civ_female_bikini_2"), } or nil,
 }

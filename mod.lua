@@ -609,8 +609,8 @@ if not ASS then
 	function ASS:difficulty_groups()
 		local real_difficulty_index = self:get_var("real_difficulty_index")
 		local normal = real_difficulty_index < 5
-		local hard = real_difficulty_index < 7
-		local overkill = not hard
+		local hard = not normal and real_difficulty_index < 7
+		local overkill = not normal and not hard
 
 		return normal, hard, overkill
 	end
@@ -626,7 +626,7 @@ if not ASS then
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
 	local no_sh = not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()
-	local outdated_sh = sh and tonumber((sh:GetVersion():gsub("%.", ""))) < 480
+	local outdated_sh = sh and tonumber((sh:GetVersion():gsub("%.", ""))) < 482
 	if no_sh or outdated_sh then
 		ASS.been_there_fucked_that = false
 

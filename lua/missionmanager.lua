@@ -13,8 +13,11 @@ if not ass_mission_script_patches then
 	return
 end
 
-local sh_mission_script_patches = StreamHeist:mission_script_patches()
-if not sh_mission_script_patches then
+-- initialize sh patches, dont bother assigning to a local as we have to
+-- access StreamHeist._mission_script_patches directly if no sh patches anyway
+StreamHeist:mission_script_patches()
+
+if not StreamHeist._mission_script_patches then
 	StreamHeist._mission_script_patches = ass_mission_script_patches
 else
 	local function merge_patches(base_patch, to_merge)
@@ -27,7 +30,7 @@ else
 		end
 	end
 
-	merge_patches(sh_mission_script_patches, ass_mission_script_patches)
+	merge_patches(StreamHeist._mission_script_patches, ass_mission_script_patches)
 end
 
 local spawn_group_mapping = ASS:require("spawn_group_mapping")
