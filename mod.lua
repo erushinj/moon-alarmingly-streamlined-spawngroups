@@ -76,21 +76,13 @@ if not ASS then
 	}
 	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
 		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
-		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase
-		sustain_duration_muls = {  -- multipliers on the minimum and maximum durations of the "sustain" assault phase
-			{ 1, 1, },
-			{ 1, 1.15, },
-			{ 1, 1.15, },
-			{ 1.1, 1.4, },
-			{ 1.7, 2.3, },
-			{ 1250, 1250, },
-		},
+		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase in holdout
 		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
 		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },  -- multiplier on special limits, final limits are rounded up
 		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },  -- multiplier on delays between uses of the same grenade type
 		min_grenade_timeout = { 15, 13.5, 13.5, 12, 6, 3, },  -- delay between uses of any grenade
 		no_grenade_push_delay = { 10, 8, 8, 6, 3, 0, },  -- delay before most groups will push when no grenade is available
-		recon_force_mul = { 0.6, 0.8, 0.8, 1, 1, 1, },
+		recon_force_mul = { 0.6, 0.8, 0.8, 1, 1, 1, },  -- recon force is expanded to assault force * recon_force_mul
 		freq_base = {  -- enemy frequencies in spawn groups, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{
 				baseline = { 1, 1, },
@@ -134,6 +126,14 @@ if not ASS then
 				rare = { 3, 3, },
 				elite = { 4, 4, },
 			},
+		},
+		sustain_duration_muls = {  -- multipliers on the minimum and maximum durations of the "sustain" assault phase
+			{ 1, 1, },
+			{ 1, 1.15, },
+			{ 1, 1.15, },
+			{ 1.1, 1.4, },
+			{ 1.7, 2.3, },
+			{ 1250, 1250, },
 		},
 		spawn_cooldowns = {  -- multipliers on cooldowns between spawns, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
 			{ 2.2, 1.1, },
