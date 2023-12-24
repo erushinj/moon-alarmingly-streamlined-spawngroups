@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
@@ -68,21 +68,9 @@ local service = {
 	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_2/civ_female_casino_2"),
 	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_3/civ_female_casino_3"),
 }
-local try_pick_bob_spa, try_pick_bob_casino, try_pick_bob_casual
-local random = math.random()
-if random < 0.35 then
-	try_pick_bob_spa = try_pick_bobblehead_bob(nil, spa_male, Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_3/civ_male_bathhouse_3"))
-	try_pick_bob_casino = function() return suit_male end
-	try_pick_bob_casual = function() return casual_male end
-elseif random < 0.55 then
-	try_pick_bob_spa = function() return spa_male end
-	try_pick_bob_casino = try_pick_bobblehead_bob(nil, suit_male)
-	try_pick_bob_casual = function() return casual_male end
-else
-	try_pick_bob_spa = function() return spa_male end
-	try_pick_bob_casino = function() return suit_male end
-	try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
-end
+local try_pick_bob_spa = try_pick_bobblehead_bob(nil, spa_male, Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_3/civ_male_bathhouse_3"))
+local try_pick_bob_casino = try_pick_bobblehead_bob(nil, suit_male)
+local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 
 return {
 	-- spawn group intervals
@@ -122,17 +110,7 @@ return {
 		},
 	},
 	-- reenforce points
-	[103167] = {  -- casino back end
-		values = {
-			amount = 2,
-		},
-	},
-	[103168] = {  -- vault
-		values = {
-			amount = 2,
-		},
-	},
-	[103169] = {  -- courtyard
+	[103169] = {  -- unneeded, courtyard
 		values = {
 			enabled = false,
 		},
@@ -152,89 +130,52 @@ return {
 			{
 				name = "courtyard",
 				force = 3,
-				position = Vector3(-9300, 7150, 0),
+				position = Vector3(-9650, 6800, 0),
 			},
 			{
-				name = "corridor1",
+				name = "casino1",
 				force = 2,
-				position = Vector3(-10950, 6800, 0),
+				position = Vector3(-8200, 4900, 0),
 			},
 			{
-				name = "corridor2",
+				name = "casino2",
 				force = 2,
-				position = Vector3(-7600, 6800, 0),
+				position = Vector3(-10750, 4900, 0),
 			},
 			{
-				name = "casino",
-				force = 4,
-				position = Vector3(-9200, 2600, 150),
-			},
-			{
-				name = "elevator1",
-				force = 2,
-				position = Vector3(-9250, 9800, 0),
-			},
-			{
-				name = "elevator2",
-				force = 2,
-				position = Vector3(-9300, 9800, 400),
-			},
-			{
-				name = "spa",
+				name = "spa_lobby",
 				force = 3,
-				position = Vector3(-9300, 11700, 400),
+				position = Vector3(-9300, 11100, 450),
 			},
 			{
-				name = "spa_balcony1",
+				name = "spa1",
 				force = 2,
-				position = Vector3(-8000, 14600, 400),
+				position = Vector3(-10500, 12400, 450),
 			},
 			{
-				name = "spa_balcony2",
+				name = "spa2",
 				force = 2,
-				position = Vector3(-11000, 14600, 400),
-			},
-		},
-	},
-	-- escape reenforce stuff
-	[101449] = {  -- escape signalled (it's payday)
-		reinforce = {
-			{ name = "spa", },
-			{ name = "casino", },
-			{ name = "spa_balcony1", },
-			{ name = "spa_balcony2", },
-			{
-				name = "helipad",
-				force = 5,
-				position = Vector3(-9300, 17000, 100),
+				position = Vector3(-8000, 12400, 450),
 			},
 			{
-				name = "spa_outside1",
-				force = 5,
-				position = Vector3(-7500, 15500, 0),
+				name = "spa_bar1",
+				force = 2,
+				position = Vector3(-8250, 14500, 0),
 			},
 			{
-				name = "spa_outside2",
-				force = 5,
-				position = Vector3(-11000, 15500, 0),
-			},
-		},
-	},
-	[102623] = {  -- alternate escape, when doing heist panic room-style
-		reinforce = {
-			{ name = "spa", },
-			{ name = "casino", },
-			{ name = "spa_balcony1", },
-			{ name = "spa_balcony2", },
-			{
-				name = "by_sec_room",
-				force = 6,
-				position = Vector3(-11000, 9700, 0),
+				name = "spa_bar2",
+				force = 2,
+				position = Vector3(-10500, 14500, 0),
 			},
 			{
-				name = "by_sec_room_stairs",
-				force = 4,
-				position = Vector3(-10450, 10350, 150),
+				name = "crew_stairs1",
+				force = 2,
+				position = Vector3(-8200, 10700, -150),
+			},
+			{
+				name = "crew_stairs2",
+				force = 2,
+				position = Vector3(-7600, 13900, -350),
 			},
 		},
 	},
@@ -327,19 +268,19 @@ return {
 	[101802] = { enemy = cruise_triads, },
 	-- civs
 	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
-	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
-	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
 	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
 	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
 	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
+	[suit_male_ids()] = { enemy = try_pick_bob_casino(), },
 	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
 	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
 	[spa_male_ids()] = { enemy = try_pick_bob_spa(), },
+	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },
 	[100678] = { enemy = civs_female, },
 	[100679] = { enemy = civs_female, },
 	[102186] = { enemy = civs_female, },

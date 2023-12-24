@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),

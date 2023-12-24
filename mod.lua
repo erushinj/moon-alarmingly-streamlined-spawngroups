@@ -1,7 +1,15 @@
 if not ASS then
 
-	-- create table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
+	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
 	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
+	Global.alarmingly_streamlined_spawngroups.picked_bob = nil
+
+	local is_editor = Global.editor_mode or false
+	local is_client = Network and Network:is_client() or false
+	local is_host = not is_editor and not is_client
+	local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
+	local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
+	local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
@@ -12,6 +20,27 @@ if not ASS then
 	ASS._loc_path = ASS._mod_path .. "loc/"
 	ASS._hook_prefix = "ass_"
 	ASS._hook_suffix = "AlarminglyStreamlinedSpawngroups"
+	ASS._is_host = is_host
+	ASS._is_editor = is_editor
+	ASS._is_client = is_client
+	ASS._is_editor_or_client = not is_host
+	ASS._is_spawner = not is_host or ({
+		modders_devmap = true,
+		Enemy_Spawner = true,
+	})[level_id]
+	ASS._difficulty = difficulty
+	ASS._real_difficulty_index = ({
+		normal = 2,
+		hard = 3,
+		overkill = 4,
+		overkill_145 = 5,
+		easy_wish = 6,
+		overkill_290 = 7,
+		sm_wish = 8,
+	})[difficulty] or 2
+	ASS._level_id = level_id
+	ASS._clean_level_id = level_id
+	ASS._job_id = job_id
 	ASS._require = {}
 	ASS._script_patches = {}
 	ASS.settings = {
@@ -272,6 +301,10 @@ if not ASS then
 		roberts = "FBI_overkill_145",  -- go bank
 	}
 
+	function ASS:get_var(var)
+		return self["_" .. var]
+	end
+
 	function ASS:log(prefix, str, ...)
 		if not self._log then
 			self._log = {}
@@ -503,44 +536,17 @@ if not ASS then
 	end
 
 	function ASS:_init_vars()
-		local is_editor = Global.editor_mode or false
-		local is_client = Network and Network:is_client() or false
-		local is_host = not is_editor and not is_client
-		local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
-		local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
-		local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 		local level_mod = self:_gsub("level_mod") or "per_level"
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
 			disable = false,
 			random = { false, },
 		}
-
-		self._is_host = is_host
-		self._is_editor = is_editor
-		self._is_client = is_client
-		self._is_editor_or_client = not is_host
-		self._is_spawner = not is_host or ({
-			modders_devmap = true,
-			Enemy_Spawner = true,
-		})[level_id]
 		self._assault_style = self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
-		self._difficulty = difficulty
-		self._real_difficulty_index = ({
-			normal = 2,
-			hard = 3,
-			overkill = 4,
-			overkill_145 = 5,
-			easy_wish = 6,
-			overkill_290 = 7,
-			sm_wish = 8,
-		})[difficulty] or 2
 		self._difficulty_index = self:get_setting("max_values") and 8 or self._real_difficulty_index
-		self._level_id = level_id
-		self._job_id = job_id
-		self._clean_level_id = level_id
+		self._clean_level_id = self._clean_level_id or level_id
 
 		for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
 			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
@@ -574,21 +580,17 @@ if not ASS then
 			return
 		end
 
-		if self._is_client then
+		if is_client then
 			self:log("info", "Playing as client, most tweaks disabled...")
 		end
 
-		if self._is_editor then
+		if is_editor then
 			self:log("info", "Editor mode active, mission tweaks disabled...")
 		end
 
 		if tostring(self._level_mod):match("ZEAL") then
 			self:_zeals_enabled()
 		end
-	end
-
-	function ASS:get_var(var)
-		return self["_" .. var]
 	end
 
 	function ASS:get_tweak(tweak)
@@ -608,11 +610,11 @@ if not ASS then
 	-- Normal through VH are "normal", OVK+MH are "hard", DW+DS are "overkill"
 	function ASS:difficulty_groups()
 		local real_difficulty_index = self:get_var("real_difficulty_index")
-		local normal = real_difficulty_index < 5
-		local hard = not normal and real_difficulty_index < 7
-		local overkill = not normal and not hard
+		local normal = real_difficulty_index < 5 and "normal" or nil
+		local hard = not normal and real_difficulty_index < 7 and "hard" or nil
+		local overkill = not normal and not hard and "overkill" or nil
 
-		return normal, hard, overkill
+		return normal and true, hard and true, overkill and true, normal or hard or overkill
 	end
 
 	ASS:add_hook( "LocalizationManagerPostInit", function(loc)

@@ -1,5 +1,9 @@
-local normal, hard, overkill = ASS:difficulty_groups()
-
+local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", nil, nil, {
+	Idstring("units/pd2_dlc_casino/characters/civ_male_business_casino_2/civ_male_business_casino_2"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_2/civ_male_casino_2"),
+	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_3/civ_male_casino_3"),
+})
 local patches = {
 	gambling_table = table.set(100008, 100010),
 	spa = table.set(100099),
@@ -51,12 +55,10 @@ end
 local function gambling_table(result)
 	for _, element in ipairs(result.default.elements) do
 		if patches.gambling_table[element.id] then
-			element.values.possible_enemies = {
-				Idstring("units/pd2_dlc_casino/characters/civ_male_business_casino_2/civ_male_business_casino_2"),
-				Idstring("units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1"),
-				Idstring("units/pd2_dlc_casino/characters/civ_male_casino_2/civ_male_casino_2"),
-				Idstring("units/pd2_dlc_casino/characters/civ_male_casino_3/civ_male_casino_3"),
-			}
+			local result = try_pick_bobblehead_bob()
+			result = type(result) ~= "table" and { result, } or result
+
+			element.values.possible_enemies = result
 		end
 	end
 end

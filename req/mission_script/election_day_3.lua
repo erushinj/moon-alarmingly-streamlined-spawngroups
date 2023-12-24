@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local low_diff_harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
 local high_diff_harassers = tweak_data.levels:moon_random_unit(normal and "swats_heavys" or "heavys")
 local units = tweak_data.levels:moon_units()

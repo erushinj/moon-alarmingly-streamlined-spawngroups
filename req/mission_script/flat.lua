@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local sniper_kill_target = normal and 6 or hard and 8 or 10
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
@@ -71,15 +71,9 @@ return {
 	},
 	-- c4 alley drop
 	[102261] = {
-		pre_func = function(self)
-			for _, v in pairs(self._values.on_executed) do
-				if v.id == 100350 then
-					return
-				end
-			end
-
-			table.insert(self._values.on_executed, { id = 100350, delay = 0, })
-		end,
+		on_executed = {
+			{ id = 100350, delay = 0, },
+		},
 	},
 	-- reduce objective snipers
 	[104516] = {  -- n/h (vanilla is 7)
@@ -113,30 +107,30 @@ return {
 			enabled = true,
 		},
 	},
-	-- slow down roof spawns, these are really fuckng annoying
+	-- slow down roof spawns, these are really fucking annoying
 	[104650] = {
 		values = {
-			interval = 40,
+			interval = 30,
 		},
 	},
 	[100504] = {
 		values = {
-			interval = 40,
+			interval = 30,
 		},
 	},
 	[100505] = {
 		values = {
-			interval = 40,
+			interval = 30,
 		},
 	},
 	[100509] = {
 		values = {
-			interval = 40,
+			interval = 30,
 		},
 	},
 	[100396] = {
 		values = {
-			interval = 40,
+			interval = 30,
 		},
 	},
 	-- gangster amounts

@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local harassers = tweak_data.levels:moon_random_unit("marshals_far")
 local dozers = tweak_data.levels:moon_random_unit("dozers_no_mini")

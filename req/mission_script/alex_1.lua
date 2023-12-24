@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1"),
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),
@@ -11,7 +11,7 @@ return {
 	[100822] = {
 		values = {
 			amount = overkill and 0 or 2,
-			amount_random = overkil and 6 or 4,
+			amount_random = overkill and 6 or 4,
 		},
 	},
 	-- waiter !  waiter !  more gangsters please !

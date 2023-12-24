@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local i = 0

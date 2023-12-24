@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local secret_service = overkill and Idstring("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") or Idstring("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
 local guard_patrol_amounts = {

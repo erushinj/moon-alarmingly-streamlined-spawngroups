@@ -53,7 +53,7 @@ function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 	local special_unit_types_shield_original = self._special_unit_types.shield
 
 	if unit:base():char_tweak_name() == "marshal_shield" then
-		self._special_unit_types.shield = false
+		self._special_unit_types.shield = nil
 	end
 
 	local result = self[func](self, unit, ...)

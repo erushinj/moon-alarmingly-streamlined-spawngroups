@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local rooftop_swats = tweak_data.levels:moon_random_unit(normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far")
 local rooftop_swats_close = tweak_data.levels:moon_random_unit("marshals_far")

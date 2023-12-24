@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local biker_1 = Idstring("units/payday2/characters/ene_biker_1/ene_biker_1")
 local biker_2 = Idstring("units/payday2/characters/ene_biker_2/ene_biker_2")
 local biker_3 = Idstring("units/payday2/characters/ene_biker_3/ene_biker_3")

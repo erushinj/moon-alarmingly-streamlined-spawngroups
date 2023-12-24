@@ -50,11 +50,14 @@ for _, data in pairs(StreamHeist._mission_script_patches) do
 	end
 end
 
+-- used for CoreElementLogicChance.ElementLogicChance, core\lib\managers\mission\coreelementlogicchance
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
 	element._values.chance = data
 	element._chance = data
 end
 
+-- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	if type(data) == "table" then
 		element._possible_enemies = data
@@ -64,6 +67,47 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	end
 end
 
+-- used for ElementSpawnCivilianGroup, lib\managers\mission\elementspawnciviliangroup
+-- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
 MissionManager.mission_script_patch_funcs.group_amount = function(self, element, data)
 	element._group_data.amount = data
+end
+
+MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
+	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
+		StreamHeist:log("%s executed, %s hunt mode", element:editor_name(), data and "enabled" or "disabled")
+
+		managers.groupai:state():set_wave_mode(data and "hunt" or "besiege")
+	end )
+end
+
+-- referenced from ElementFleePoint, lib\managers\mission\elementfleepoint
+MissionManager.mission_script_patch_funcs.loot_dropoff = function(self, element, data)
+	Hooks:PostHook( element, "on_executed", "sh_on_executed_loot_dropoff_" .. element:id(), function()
+		StreamHeist:log("%s executed, toggled %u loot dropoff point(s)", element:editor_name(), #data)
+
+		for _, v in pairs(data) do
+			if v.position then
+				managers.groupai:state():add_enemy_loot_drop_point(v.id, v.position)
+			else
+				managers.groupai:state():remove_enemy_loot_drop_point(v.id)
+			end
+		end
+	end )
+end
+
+-- referenced from ElementSmokeGrenade, lib\managers\mission\elementsmokegrenade
+MissionManager.mission_script_patch_funcs.grenade = function(self, element, data)
+	Hooks:PostHook( element, "on_executed", "sh_on_executed_grenade_" .. element:id(), function()
+		StreamHeist:log("%s executed, detonating %u grenade(s)", element:editor_name(), #data)
+
+		for _, v in pairs(data) do
+			v.id = v.id or element:id()
+			v.position = v.position or element:value("position")
+			v.duration = v.duration or tweak_data.group_ai.smoke_grenade_lifetime
+
+			managers.groupai:state():queue_smoke_grenade(v.id, v.position, nil, v.duration, true, v.flashbang)
+			managers.groupai:state():detonate_world_smoke_grenade(v.id)
+		end
+	end )
 end

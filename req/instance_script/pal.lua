@@ -1,4 +1,4 @@
-local normal, hard, overkill = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local function sewer_spawns(element)
 	element.values.amount = normal and 1 or hard and 2 or 3
 	element.values.on_executed = {
