@@ -1,13 +1,26 @@
 -- https://github.com/segabl/pd2-hoplib/blob/master/req/MenuBuilder.lua
 -- slightly tweaked. use hoplib's menu builder if you need one. i would but i dont want to add a dependency post-release.
 
-local table_replace
+local table_replace, table_union
 table_replace = table.replace or function(tbl1, tbl2, match_type)
 	for k, v in pairs(tbl2) do
 		if type(tbl1[k]) == type(v) or not match_type and tbl1[k] ~= nil then
 			if type(v) == "table" then
 				tbl1[k] = type(tbl1[k]) == "table" and tbl1[k] or {}
 				table_replace(tbl1[k], v, match_type)
+			else
+				tbl1[k] = v
+			end
+		end
+	end
+	return tbl1
+end
+table_union = table.union or function(tbl1, tbl2, match_type)
+	for k, v in pairs(tbl2) do
+		if not match_type or tbl1[k] == nil or type(tbl1[k]) == type(v) then
+			if type(v) == "table" then
+				tbl1[k] = type(tbl1[k]) == "table" and tbl1[k] or {}
+				table_union(tbl1[k], v, match_type)
 			else
 				tbl1[k] = v
 			end
@@ -123,7 +136,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 			local name_id = self._loc_id .. "_menu_" .. k
 			local desc_id = name_id .. "_desc"
 			local desc = loc and loc:exists(desc_id) and desc_id
-			local params = self._params[k] and table.union(clone(inherited_params), self._params[k]) or inherited_params
+			local params = self._params[k] and table_union(clone(inherited_params), self._params[k]) or inherited_params
 
 			if loc and not loc:exists(name_id) then
 				loc_strings[name_id] = k:pretty()
