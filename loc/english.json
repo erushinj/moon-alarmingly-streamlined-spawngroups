@@ -43,13 +43,13 @@
 	"ass_menu_doms_super_serious" : "Super Serious Surrenders",
 	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves.",
 
-	"ass_menu_max_values" : "Death Sentence Values",
+	"ass_menu_max_values" : "Absolute Values",
 	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",
 
-	"ass_menu_max_diff" : "Toughest Assault Always",
+	"ass_menu_max_diff" : "Maxed Assault Strength",
 	"ass_menu_max_diff_desc" : "Always uses task data corresponding to 100% heist difficulty progression.",
 
-	"ass_menu_max_balance_muls" : "Full Lobby Spawns Always",
+	"ass_menu_max_balance_muls" : "Maxed Law Multipliers",
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_dmg_interval" : "Grace Period",

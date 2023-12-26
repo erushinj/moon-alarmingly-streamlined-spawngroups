@@ -74,7 +74,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Death Sentence Values
+            Absolute Values
         </th>
         <td>
             Sets values that scale with chosen difficulty to use Death Sentence values.
@@ -82,7 +82,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Toughest Assault Always
+            Maxed Assault Strength
         </th>
         <td>
             Always uses task data corresponding to 100% heist difficulty progression.
@@ -90,7 +90,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Full Lobby Spawns Always
+            Maxed Law Multipliers
         </th>
         <td>
             Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.

@@ -3,7 +3,7 @@ if ASS:get_var("is_client") then
 end
 
 if ASS:get_setting("max_balance_muls") then
-	ASS:log("info", "Adding Full Lobby Spawns Always to method \"GroupAIStateBase:_get_balancing_multiplier\"...")
+	ASS:log("info", "Adding Maxed Law Multipliers to method \"GroupAIStateBase:_get_balancing_multiplier\"...")
 
 	GroupAIStateBase._get_balancing_multiplier_original = GroupAIStateBase._get_balancing_multiplier
 	function GroupAIStateBase:_get_balancing_multiplier(balance_multipliers, ...)
@@ -35,7 +35,7 @@ end
 
 -- force diff to 1 in loud if the setting is enabled or once escape is available
 local max_diff = ASS:get_setting("max_diff")
-ASS:log("info", "Tweaking method \"GroupAIStateBase:set_difficulty\", Toughest Assault Always setting %s...", max_diff and "enabled" or "disabled")
+ASS:log("info", "Tweaking method \"GroupAIStateBase:set_difficulty\", Maxed Assault Strength setting %s...", max_diff and "enabled" or "disabled")
 GroupAIStateBase.set_difficulty_original = GroupAIStateBase.set_difficulty
 function GroupAIStateBase:set_difficulty(value, ...)
 	value = (max_diff or self._moon_escape_active) and 1 or value
