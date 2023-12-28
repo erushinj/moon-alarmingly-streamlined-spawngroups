@@ -2,17 +2,17 @@ if ASS:get_var("is_editor_or_client") then
 	return
 end
 
-if not ElementSpawnEnemyGroup.group_mapping then
+local group_mapping = ElementSpawnEnemyGroup.group_mapping
+if not group_mapping then
 	ASS:_sh_outdated()
 
 	return
 end
 
-local try_insert = ASS:require("try_insert", true)
-
+local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
 for group_name, new_groups in pairs(ASS:require("spawn_group_mapping")) do
-	local mapping = ElementSpawnEnemyGroup.group_mapping[group_name] or {}
-	ElementSpawnEnemyGroup.group_mapping[group_name] = mapping
+	local mapping = group_mapping[group_name] or {}
+	group_mapping[group_name] = mapping
 
 	try_insert(mapping, group_name)
 
@@ -24,6 +24,4 @@ for group_name, new_groups in pairs(ASS:require("spawn_group_mapping")) do
 end
 
 -- allow regular cloaker groups to spawn from manholes/vents/etc, since the cloaker task has been turned off
-if ElementSpawnEnemyGroup.group_mapping.FBI_spoocs then
-	ElementSpawnEnemyGroup.group_mapping.single_spooc = clone(ElementSpawnEnemyGroup.group_mapping.FBI_spoocs)
-end
+group_mapping.single_spooc = check_clone(group_mapping.FBI_spoocs, true)

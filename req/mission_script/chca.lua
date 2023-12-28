@@ -73,41 +73,21 @@ local try_pick_bob_casino = try_pick_bobblehead_bob(nil, suit_male)
 local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 
 return {
-	-- spawn group intervals
-	[100312] = {  -- in casino balconies
-		values = {
-			interval = 10,
-		},
+	-- group spawn points
+	[100312] = {  -- in casino balconies, its easy enough to get swamped back here
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 5),
 	},
 	[100325] = {
-		values = {
-			interval = 10,
-		},
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 5),
 	},
-	[100131] = {  -- outdoor spa/bar/helipad, near
-		values = {
-			interval = 10,
-		},
+	[100758] = {  -- courtyard rappel spawns
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
 	},
-	[100786] = {
-		values = {
-			interval = 10,
-		},
+	[100757] = {
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
 	},
-	[100792] = {  -- far
-		values = {
-			interval = 10,
-		},
-	},
-	[101471] = {
-		values = {
-			interval = 10,
-		},
-	},
-	[101468] = {  -- above spa
-		values = {
-			interval = 10,
-		},
+	[100759] = {
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
 	},
 	-- reenforce points
 	[103169] = {  -- unneeded, courtyard

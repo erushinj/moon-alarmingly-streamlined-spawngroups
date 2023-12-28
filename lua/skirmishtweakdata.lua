@@ -106,7 +106,9 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 		}
 	end
 
-	for _, wave_limits in ipairs(self.special_unit_spawn_limits) do
+	for i = 1, #self.special_unit_spawn_limits do
+		local wave_limits = self.special_unit_spawn_limits[i]
+
 		for special, limit in pairs(wave_limits) do
 			wave_limits[special] = math.round(limit * special_limit_mul)
 		end

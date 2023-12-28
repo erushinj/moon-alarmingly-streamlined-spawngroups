@@ -22,17 +22,46 @@ local all_business = table.list_add(male_business, {
 })
 
 return {
-	-- cop car stuff
-	[103879] = {  -- amount per time cars pull in (vanilla is 1)
+	[103072] = {  -- logic chance operator
 		values = {
-			amount = overkill and 2 or 1,
+			chance = normal and 40 or hard and 60 or 80,
 		},
 	},
-	[104730] = {  -- car 4 done
-		on_executed = {
-			{ id = 100370, delay = 0, },
+	[105563] = {  -- player filters
+		values = {
+			player_1 = true,
 		},
 	},
+	[105574] = {
+		values = {
+			player_1 = true,
+		},
+	},
+	[105588] = {
+		values = {
+			player_1 = true,
+		},
+	},
+	[105571] = {  -- cloaker spawns
+		values = {
+			enabled = true,
+		},
+	},
+	[105584] = {
+		values = {
+			enabled = true,
+		},
+	},
+	[105607] = {
+		values = {
+			enabled = true,
+		},
+	},
+	[103879] = overkill and {  -- amount per time cop cars pull in (vanilla is 1)
+		values = {
+			amount = 2,
+		},
+	} or nil,
 	-- gas heli now loops like tweaked undercover
 	[105496] = {  -- ovk and below heli chance (vanilla is 50)
 		chance = 100,
@@ -59,16 +88,15 @@ return {
 			end
 		end,
 	},
-	-- cams amount
-	[101318] = {
-		values = {
-			amount = normal and 4 or hard and 6 or 8,
-		},
-	},
-	-- titan cams
-	[104328] = {
+	-- cams
+	[104328] = {  -- no titan
 		values = {
 			enabled = false,
+		},
+	},
+	[101318] = {  -- amount
+		values = {
+			amount = normal and 4 or hard and 6 or 8,
 		},
 	},
 	-- snipers amount
@@ -140,6 +168,10 @@ return {
 	[101063] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
 	[101219] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- surv guys
 	[105100] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
+	-- ambush dozers
+	[105280] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[102283] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[105606] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
 	-- chopper spawns
 	[101432] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },  -- swats
 	[105621] = { enemy = tweak_data.levels:moon_random_unit("specials_no_shield"), },

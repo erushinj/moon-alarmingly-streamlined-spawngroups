@@ -23,6 +23,7 @@ local try_insert = ASS:require("try_insert", true)
 function ModifierSkulldozers:moon_init(...)
 	self.super.init(self, ...)
 
+	self._moon_dozer_tables = self._moon_dozer_tables or {}
 	self._moon_dozer_add = self._moon_dozer_add or {
 		america = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 	}
@@ -35,7 +36,7 @@ function ModifierSkulldozers:moon_init(...)
 		end
 	end
 
-	for tbl_name in pairs(self._moon_dozer_tables or {}) do
+	for tbl_name in pairs(self._moon_dozer_tables) do
 		try_insert(random_units[tbl_name], self._moon_dozer_add.america)
 	end
 

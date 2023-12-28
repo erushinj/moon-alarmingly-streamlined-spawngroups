@@ -2,12 +2,48 @@ if ASS:get_var("is_client") then
 	return
 end
 
-local try_insert = ASS:require("try_insert", true)
+local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
+
+function GroupAITweakData:moon_preferred_groups(group_type, interval)
+	local preferred = self._moon_preferred_groups
+
+	if not preferred then
+		preferred = {
+			default = function(v) return true end,
+			cloakers = function(v) return v == "FBI_spoocs" end,
+			no_shields = function(v) return v ~= "tac_shield_wall" end,
+			no_dozers = function(v) return v ~= "tac_bull_rush" end,
+			no_shields_dozers = function(v) return v ~= "tac_shield_wall" and v ~= "tac_bull_rush" end,
+		}
+
+		local spawn_group_mapping = ASS:require("spawn_group_mapping")
+		for typ, func in pairs(preferred) do
+			local map = {}
+
+			for base_name, mapping in pairs(spawn_group_mapping) do
+				local enabled = func(base_name)
+
+				for _, name in pairs(mapping) do
+					map[name] = enabled
+				end
+			end
+
+			preferred[typ] = map
+		end
+
+		self._moon_preferred_groups = preferred
+	end
+
+	local result = check_clone(preferred[group_type], true) or {}
+	result.interval = interval
+
+	return result
+end
 
 function GroupAITweakData:moon_swap_units(prefixes)
 	prefixes = prefixes or self.moon_last_prefixes or {}
@@ -45,6 +81,14 @@ end
 -- deprecated name
 GroupAITweakData._moon_swap_units = GroupAITweakData.moon_swap_units
 
+function GroupAITweakData:_moon_add_tactics(tactics)
+	self._tactics = self._tactics or {}
+
+	for id, data in pairs(tactics) do
+		self._tactics[id] = data
+	end
+end
+
 -- difficulty-specific functions mostly just ensure all unit categories are set properly
 function GroupAITweakData:_moon_init_unit_categories_normal()
 	self:moon_swap_units({ CS = "normal", FBI = "normal", })
@@ -58,11 +102,11 @@ end
 function GroupAITweakData:_moon_init_unit_categories_overkill()
 	self:moon_swap_units({ CS = "normal", FBI = "overkill_145", })
 
-	try_insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"))
-	try_insert(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga"))
-	try_insert(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"))
-	try_insert(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_3/ene_murkywater_bulldozer_3"))
-	try_insert(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga"))
+	local tweak_data = self.tweak_data
+	local continent = tweak_data.levels:get_ai_group_type()
+	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()
+
+	try_insert(self.unit_categories.FBI_tank.unit_types[continent], enemy_replacements.overkill_145.dozer_2)
 end
 
 function GroupAITweakData:_moon_init_unit_categories_overkill_145()
@@ -77,12 +121,12 @@ end
 function GroupAITweakData:_moon_init_unit_categories_overkill_290()
 	self:moon_swap_units({ CS = "overkill_290", FBI = "overkill_290", })
 
+	local tweak_data = self.tweak_data
+	local continent = tweak_data.levels:get_ai_group_type()
+	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()
+
 	if not ASS:get_setting("minigun_dozers") then
-		table.delete(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.russia, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.zombie, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.murkywater, Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"))
-		table.delete(self.unit_categories.FBI_tank.unit_types.federales, Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"))
+		table.delete(self.unit_categories.FBI_tank.unit_types[continent] or {}, enemy_replacements.overkill_290.dozer_4)
 	end
 end
 
@@ -230,7 +274,7 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 			chicken_plate = "FBI_heavy_R870",
 		},
 		FBI_medic_M4_R870 = {
-			default = "FBI_suit_M4_MP5",
+			default = "FBI_suit_M4_R870",
 			chicken_plate = "FBI_heavy_M4_R870",
 		},
 		-- just in case SSS reenables marshals at any point
@@ -261,10 +305,13 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 		for name, typ in pairs(type_mapping) do
 			if id:match(name) then
 				unit_type = typ
+
+				break
 			end
 		end
 
-		for _, enemy in ipairs(data.spawn) do
+		for i = 1, #data.spawn do
+			local enemy = data.spawn[i]
 			local mapped = unit_mapping[enemy.unit]
 			local mapped_unit = mapped and (mapped[unit_type] or mapped.default)
 
@@ -277,6 +324,23 @@ end
 
 -- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
 function GroupAITweakData:_moon_original(special_weight)
+	self:_moon_add_tactics({
+		empty = {},
+		original_shotgun = { "charge", "smoke_grenade", "deathguard", },
+		original_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
+		original_rifle = { "ranged_fire", },
+		original_rifle_flank = { "flank", "flash_grenade", },
+		original_shield_ranged = { "shield", "ranged_fire", "deathguard", },
+		original_shield_ranged_cover = { "shield_cover", "ranged_fire", "smoke_grenade", "deathguard", },
+		original_shield_charge = { "shield", "charge", "deathguard", },
+		original_shield_charge_cover = { "shield_cover", "charge", "smoke_grenade", "flash_grenade", "deathguard", },
+		original_tazer = { "shield_cover", "charge", "flank", "flash_grenade", "smoke_grenade", "murder", },
+		original_tazer_shield = { "shield", "charge", "flank", "murder", },
+		original_tank = { "shield", "charge", "flash_grenade", "smoke_grenade", "murder", },
+		original_tank_cover = { "shield_cover", "charge", "murder", },
+		original_spooc = { "flank", "smoke_grenade", },
+	})
+
 	self.enemy_spawn_groups.original_swats_a = {
 		amount = { 3, 3, },
 		spawn = {
@@ -783,6 +847,24 @@ end
 
 -- spicier version of SH's default groups, featuring more shotgunners
 function GroupAITweakData:_moon_streamlined(special_weight)
+	self:_moon_add_tactics({
+		empty = {},
+		swat_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
+		swat_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
+		swat_rifle = { "ranged_fire", "smoke_grenade", },
+		swat_rifle_flank = { "flank", "flash_grenade", },
+		shield_wall_ranged = { "shield", "ranged_fire", "deathguard", },
+		shield_support_ranged = { "shield_cover", "deathguard", },
+		shield_wall_charge = { "shield", "charge", "deathguard", },
+		shield_support_charge = { "shield_cover", "deathguard", },
+		tazer_flanking = { "shield_cover", "flank", "flash_grenade", "murder", },
+		tazer_charge = { "shield_cover", "charge", "smoke_grenade", "murder", },
+		tazer_shield = { "shield", "murder", },
+		tank_rush = { "shield", "charge", "murder", },
+		tank_cover = { "shield_cover", "murder", },
+		spooc = { "flank", "smoke_grenade", },
+	})
+
 	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
 	-- and ensures a spawn point check reference is set
 	local unit_names_map = {
@@ -1306,6 +1388,23 @@ end
 
 -- pdth-styled spawns
 function GroupAITweakData:_moon_chicken_plate(special_weight)
+	self:_moon_add_tactics({
+		empty = {},
+		chicken_plate_hrt_pistol = { "flank", "deathguard", },
+		chicken_plate_hrt_rifle = { "flank", "deathguard", "ranged_fire", },
+		chicken_plate_hrt_shotgun = { "flank", "deathguard", "charge", },
+		chicken_plate_swat_rifle = { "flank", "flash_grenade", },
+		chicken_plate_swat_shotgun = { "smoke_grenade", "deathguard", },
+		chicken_plate_heavy_rifle = { "flash_grenade", "deathguard", },
+		chicken_plate_heavy_shotgun = { "charge", "smoke_grenade", },
+		chicken_plate_shield = { "murder", "deathguard", "ranged_fire", },
+		chicken_plate_taser = { "murder", "charge", "flank", },
+		chicken_plate_tank = { "murder", "charge", "smoke_grenade", },
+		chicken_plate_spooc = { "murder", "flank", "smoke_grenade", },
+		chicken_plate_medic_rifle = { "flank", "ranged_fire", "no_push", },
+		chicken_plate_medic_shotgun = { "flank", "deathguard", "no_push", },
+	})
+
 	local unit_names_map = {
 		CS_cop_C45 = "FBI_suit_C45",
 		CS_cop_MP5 = "FBI_suit_M4",
@@ -1612,12 +1711,11 @@ function GroupAITweakData:_moon_init_unit_categories()
 end
 
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
-	local fallback_func = self._moon_default
-	local assault_style_func = self["_moon_" .. ASS:get_var("assault_style")] or fallback_func
+	local assault_style_func = self["_moon_" .. ASS:get_var("assault_style")] or self._moon_default
 	local special_weight_min, special_weight_max = unpack(ASS:get_tweak("special_weight_base"))
 	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
-	if assault_style_func == fallback_func then
+	if assault_style_func == self._moon_default then
 		assault_style_func(self, special_weight)
 
 		return
@@ -1635,64 +1733,6 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 			data.spawn_cooldown = math.huge
 		end
 	end
-
-	for id, data in pairs({
-		empty = {},
-		original_shotgun = { "charge", "smoke_grenade", "deathguard", },
-		original_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
-		original_rifle = { "ranged_fire", },
-		original_rifle_flank = { "flank", "flash_grenade", },
-		original_shield_ranged = { "shield", "ranged_fire", "deathguard", },
-		original_shield_ranged_cover = { "shield_cover", "ranged_fire", "smoke_grenade", "deathguard", },
-		original_shield_charge = { "shield", "charge", "deathguard", },
-		original_shield_charge_cover = { "shield_cover", "charge", "smoke_grenade", "flash_grenade", "deathguard", },
-		original_tazer = { "shield_cover", "charge", "flank", "flash_grenade", "smoke_grenade", "murder", },
-		original_tazer_shield = { "shield", "charge", "flank", "murder", },
-		original_tank = { "shield", "charge", "flash_grenade", "smoke_grenade", "murder", },
-		original_tank_cover = { "shield_cover", "charge", "murder", },
-		original_spooc = { "flank", "smoke_grenade", },
-		swat_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
-		swat_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
-		swat_rifle = { "ranged_fire", "smoke_grenade", },
-		swat_rifle_flank = { "flank", "flash_grenade", },
-		shield_wall_ranged = { "shield", "ranged_fire", "deathguard", },
-		shield_support_ranged = { "shield_cover", "deathguard", },
-		shield_wall_charge = { "shield", "charge", "deathguard", },
-		shield_support_charge = { "shield_cover", "deathguard", },
-		tazer_flanking = { "shield_cover", "flank", "flash_grenade", "murder", },
-		tazer_charge = { "shield_cover", "charge", "smoke_grenade", "murder", },
-		tazer_shield = { "shield", "murder", },
-		tank_rush = { "shield", "charge", "murder", },
-		tank_cover = { "shield_cover", "murder", },
-		spooc = { "flank", "smoke_grenade", },
-		chicken_plate_hrt_pistol = { "flank", "deathguard", },
-		chicken_plate_hrt_rifle = { "flank", "deathguard", "ranged_fire", },
-		chicken_plate_hrt_shotgun = { "flank", "deathguard", "charge", },
-		chicken_plate_swat_rifle = { "flank", "flash_grenade", },
-		chicken_plate_swat_shotgun = { "smoke_grenade", "deathguard", },
-		chicken_plate_heavy_rifle = { "flash_grenade", "deathguard", },
-		chicken_plate_heavy_shotgun = { "charge", "smoke_grenade", },
-		chicken_plate_shield = { "murder", "deathguard", "ranged_fire", },
-		chicken_plate_taser = { "murder", "charge", "flank", },
-		chicken_plate_tank = { "murder", "charge", "smoke_grenade", },
-		chicken_plate_spooc = { "murder", "flank", "smoke_grenade", },
-		chicken_plate_medic_rifle = { "flank", "ranged_fire", "no_push", },
-		chicken_plate_medic_shotgun = { "flank", "deathguard", "no_push", },
-	}) do
-		self._tactics[id] = data
-	end
-
-	self.enemy_spawn_groups.single_spooc = {
-		amount = { 1, 1, },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_spooc",
-				tactics = self._tactics.spooc,
-				freq = self._freq.baseline,
-			},
-		},
-	}
 
 	assault_style_func(self, special_weight)
 

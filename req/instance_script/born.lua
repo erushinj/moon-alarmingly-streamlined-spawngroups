@@ -1,3 +1,4 @@
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local patches = {
 	simple_harasser_spawn = table.set(100008, 100009, 100010, 100011, 100012, 100014, 100015, 100016),
 	born_armory = table.list_to_set({
@@ -36,8 +37,7 @@ return {
 
 			-- spawn suprise cloaker
 			if element.id == 100114 then
-				element.values.difficulty_easy = true
-				element.values.difficulty_normal = true
+				table.map_append(element.values, set_difficulty_groups("normal_above"))
 			end
 		end
 	end,

@@ -26,14 +26,10 @@ local gangsters = {  -- 1 and 3 (balaclavas) not available
 return {
 	-- slow down some particularly annoying spawns
 	[104731] = {  -- roof
-		values = {
-			interval = 15,
-		},
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
 	},
 	[103174] = {  -- rappel
-		values = {
-			interval = 25,
-		},
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
 	},
 	-- second office
 	[102925] = {

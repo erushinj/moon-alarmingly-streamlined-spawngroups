@@ -508,6 +508,8 @@ function LevelsTweakData:moon_enemy_replacements()
 		russia.CS_normal = russia.normal
 		russia.CS_FBI_overkill = russia.overkill
 		russia.FBI_overkill_145 = russia.overkill_145
+		russia.FBI_office = russia.overkill_145
+		russia.FBI_mcmansion = russia.overkill_145
 		russia.FBI_CITY_easy_wish = russia.easy_wish
 		russia.CITY_overkill_290 = russia.overkill_290
 		russia.CITY_ZEAL_awesome_difficulty_name = russia.overkill_290
@@ -522,6 +524,8 @@ function LevelsTweakData:moon_enemy_replacements()
 		zombie.CS_normal = zombie.normal
 		zombie.CS_FBI_overkill = zombie.overkill
 		zombie.FBI_overkill_145 = zombie.overkill_145
+		zombie.FBI_office = zombie.overkill_145
+		zombie.FBI_mcmansion = zombie.overkill_145
 		zombie.FBI_CITY_easy_wish = zombie.easy_wish
 		zombie.CITY_overkill_290 = zombie.overkill_290
 		zombie.CITY_ZEAL_awesome_difficulty_name = zombie.overkill_290
@@ -535,6 +539,8 @@ function LevelsTweakData:moon_enemy_replacements()
 		murkywater.CS_normal = murkywater.normal
 		murkywater.CS_FBI_overkill = murkywater.overkill
 		murkywater.FBI_overkill_145 = murkywater.overkill_145
+		murkywater.FBI_office = murkywater.overkill_145
+		murkywater.FBI_mcmansion = murkywater.overkill_145
 		murkywater.FBI_CITY_easy_wish = murkywater.easy_wish
 		murkywater.CITY_overkill_290 = murkywater.overkill_290
 		murkywater.CITY_ZEAL_awesome_difficulty_name = murkywater.overkill_290
@@ -548,6 +554,8 @@ function LevelsTweakData:moon_enemy_replacements()
 		federales.CS_normal = federales.normal
 		federales.CS_FBI_overkill = federales.overkill
 		federales.FBI_overkill_145 = federales.overkill_145
+		federales.FBI_office = federales.overkill_145
+		federales.FBI_mcmansion = federales.overkill_145
 		federales.FBI_CITY_easy_wish = federales.easy_wish
 		federales.CITY_overkill_290 = federales.overkill_290
 		federales.CITY_ZEAL_awesome_difficulty_name = federales.overkill_290

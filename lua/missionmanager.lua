@@ -50,6 +50,19 @@ for _, data in pairs(StreamHeist._mission_script_patches) do
 	end
 end
 
+-- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
+MissionManager.mission_script_patch_funcs.groups_original = MissionManager.mission_script_patch_funcs.groups
+MissionManager.mission_script_patch_funcs.groups = function(self, element, data, ...)
+	data.interval = tonumber(data.interval)
+
+	if data.interval then
+		element._values.interval = data.interval
+		data.interval = nil
+	end
+
+	return self.mission_script_patch_funcs.groups_original(self, element, data, ...)
+end
+
 -- used for CoreElementLogicChance.ElementLogicChance, core\lib\managers\mission\coreelementlogicchance
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
 	element._values.chance = data
