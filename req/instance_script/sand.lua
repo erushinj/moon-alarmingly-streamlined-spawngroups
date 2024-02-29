@@ -52,14 +52,14 @@ end
 
 return {
 	["levels/instances/unique/sand/sand_spawn_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.sand_spawn_enemies[element.id] then
 				element.values.possible_enemies = scripted_swat_squads()
 			end
 		end
 	end,
 	["levels/instances/unique/sand/sand_helicopter_spawn_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.sand_helicopter_spawn_enemies[element.id] then
 				element.values.possible_enemies = scripted_swat_squads()
 			end

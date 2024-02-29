@@ -47,7 +47,7 @@ local patches = {
 
 return {
 	["levels/instances/unique/chew/chew_train_car/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.chew_train_car.bikers[element.id] then
 				element.values.possible_enemies = {
 					Idstring("units/payday2/characters/ene_biker_1/ene_biker_1"),
@@ -66,7 +66,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/chew/chew_pursuit_car/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.chew_pursuit_car[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("swats_heavys_far")
 			end

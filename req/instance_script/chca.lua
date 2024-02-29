@@ -46,14 +46,14 @@ local patches = {
 }
 
 local function control_room(result)
-	for _, element in ipairs(result.default.elements) do
+	for _, element in pairs(result.default.elements) do
 		if patches.control_room[element.id] then
 			patches.control_room[element.id](element)
 		end
 	end
 end
 local function gambling_table(result)
-	for _, element in ipairs(result.default.elements) do
+	for _, element in pairs(result.default.elements) do
 		if patches.gambling_table[element.id] then
 			local result = try_pick_bobblehead_bob()
 			result = type(result) ~= "table" and { result, } or result
@@ -63,7 +63,7 @@ local function gambling_table(result)
 	end
 end
 local function spa(result)
-	for _, element in ipairs(result.default.elements) do
+	for _, element in pairs(result.default.elements) do
 		if patches.spa[element.id] then
 			element.values.possible_enemies = {
 				Idstring("units/pd2_dlc_chca/characters/civ_female_bathhouse_1/civ_female_bathhouse_1"),
@@ -90,14 +90,14 @@ return {
 	["levels/instances/unique/chca/chca_spa_1/world/world"] = spa,
 	["levels/instances/unique/chca/chca_spa_2/world/world"] = spa,
 	["levels/instances/unique/chca/chca_helicopter_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.helicopter_enemies[element.id] then
 				element.values.possible_enemies = scripted_swat_squads()
 			end
 		end
 	end,
 	["levels/instances/shared/harasser/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.harasser[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("marshals_far")
 			end

@@ -56,6 +56,7 @@ if not ASS then
 		max_values = false,  -- whether to use death sentence values for scaling
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
+		shield_arms = 1,  -- pick shield weapon type
 		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
@@ -101,6 +102,12 @@ if not ASS then
 			"ass_dmg_interval_0.050",
 			"ass_dmg_interval_0.025",
 			"ass_dmg_interval_0.000",
+		},
+		shield_arms = {
+			"ass_shield_arms_default",  -- these are also pretty self-explanatory
+			"ass_shield_arms_pistols",
+			"ass_shield_arms_smgs",
+			"ass_shield_arms_both",
 		},
 	}
 	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
@@ -406,6 +413,10 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
+		shield_arms = {
+			priority = priority(),
+			items = items("shield_arms"),
+		},
 		dmg_interval = {
 			priority = priority(),
 			items = items("dmg_interval"),
@@ -438,8 +449,14 @@ if not ASS then
 		Hooks:PreHook( object, func, id, pre_call )
 	end
 
-	function ASS:override(object, func, override)
-		Hooks:OverrideFunction( object, func, override )
+	function ASS:override(object, func, override, use_hooks)
+		object[func .. "_original"] = object[func]
+
+		if use_hooks ~= false then
+			Hooks:OverrideFunction( object, func, override )
+		else
+			object[func] = override
+		end
 	end
 
 	function ASS:_sh_not_found()
@@ -546,15 +563,16 @@ if not ASS then
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
 		self._difficulty_index = self:get_setting("max_values") and 8 or self._real_difficulty_index
-		self._clean_level_id = self._clean_level_id or level_id
+		self._shield_arms = self:_gsub("shield_arms") or "default"
 
-		for _, end_pattern in ipairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
 			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
 		end
 
 		-- no zeal for random, not going to randomly activate a matchmaking lock
-		for _, valid_id in ipairs({ "CS", "FBI", "CITY", }) do
-			for _, lvl_mod in ipairs(self._values.level_mod) do
+		for _, valid_id in pairs({ "CS", "FBI", "CITY", }) do
+			for i = 1, #self._values.level_mod do
+				local lvl_mod = self._values.level_mod[i]
 				local id = lvl_mod:gsub("^ass_level_mod_", "")
 
 				if not id:match("ZEAL") and id:match(valid_id) then
@@ -628,7 +646,7 @@ if not ASS then
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
 	local no_sh = not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()
-	local outdated_sh = sh and tonumber((sh:GetVersion():gsub("%.", ""))) < 482
+	local outdated_sh = sh and (tonumber((sh:GetVersion():gsub("%.", ""))) or 0) < 483
 	if no_sh or outdated_sh then
 		ASS.been_there_fucked_that = false
 

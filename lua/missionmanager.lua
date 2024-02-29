@@ -51,8 +51,7 @@ for _, data in pairs(StreamHeist._mission_script_patches) do
 end
 
 -- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
-MissionManager.mission_script_patch_funcs.groups_original = MissionManager.mission_script_patch_funcs.groups
-MissionManager.mission_script_patch_funcs.groups = function(self, element, data, ...)
+ASS:override( MissionManager.mission_script_patch_funcs, "groups", function(self, element, data, ...)
 	data.interval = tonumber(data.interval)
 
 	if data.interval then
@@ -61,7 +60,7 @@ MissionManager.mission_script_patch_funcs.groups = function(self, element, data,
 	end
 
 	return self.mission_script_patch_funcs.groups_original(self, element, data, ...)
-end
+end )
 
 -- used for CoreElementLogicChance.ElementLogicChance, core\lib\managers\mission\coreelementlogicchance
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
@@ -124,3 +123,20 @@ MissionManager.mission_script_patch_funcs.grenade = function(self, element, data
 		end
 	end )
 end
+
+if not BLT.Mods:GetModByName("BeardLib") then
+	return
+end
+
+local function i_hate_beardlib()
+	if not ElementAIGroupType then
+		DelayedCalls:Add( "ass_boowomp", 1, i_hate_beardlib )
+	else
+		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
+			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+		end)
+	end
+end
+
+i_hate_beardlib()
+

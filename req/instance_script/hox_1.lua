@@ -9,21 +9,21 @@ local patches = {
 
 return {
 	["levels/instances/unique/hox_breakout_harasser001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_harasser001[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("heavys")
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_serverroom001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_serverroom001[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("dozers_no_med")
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_road001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_road001.cops[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("cops")
 			elseif patches.hox_breakout_road001.swats[element.id] then

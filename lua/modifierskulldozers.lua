@@ -2,6 +2,8 @@ if ASS:get_var("is_client") then
 	return
 end
 
+local try_insert = ASS:require("try_insert", true)
+
 -- adjust to support all factions and the CS tank unit category
 ModifierSkulldozers._moon_dozer_add = {
 	america = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
@@ -9,6 +11,7 @@ ModifierSkulldozers._moon_dozer_add = {
 	zombie = Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"),
 	murkywater = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
 	federales = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"),
+	constantine_cartel = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
 }
 ModifierSkulldozers._moon_dozer_tables = {
 	dozers_any = true,
@@ -16,9 +19,6 @@ ModifierSkulldozers._moon_dozer_tables = {
 	dozers_no_med = true,
 	dozers_no_mini = true,
 }
-
-local random_units = tweak_data.levels:moon_random_units()
-local try_insert = ASS:require("try_insert", true)
 
 function ModifierSkulldozers:moon_init(...)
 	self.super.init(self, ...)
@@ -36,6 +36,7 @@ function ModifierSkulldozers:moon_init(...)
 		end
 	end
 
+	local random_units = tweak_data.levels:moon_random_units()
 	for tbl_name in pairs(self._moon_dozer_tables) do
 		try_insert(random_units[tbl_name], self._moon_dozer_add.america)
 	end

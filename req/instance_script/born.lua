@@ -23,14 +23,14 @@ local patches = {
 
 return {
 	["levels/instances/shared/simple_harasser_spawn/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.simple_harasser_spawn[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("swats")
 			end
 		end
 	end,
 	["levels/instances/unique/born/born_armory/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.born_armory[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("swats_close")
 			end

@@ -66,6 +66,13 @@
 	"ass_dmg_interval_0.025" : "Sequel (0.025s)",
 	"ass_dmg_interval_0.000" : "Good Game Design (0s)",
 
+	"ass_menu_shield_arms" : "Shield Arms",
+	"ass_menu_shield_arms_desc" : "Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.",
+	"ass_shield_arms_default" : "Griller (Default)",
+	"ass_shield_arms_pistols" : "Conformist (Pistols)",
+	"ass_shield_arms_smgs" : "Radical (SMGs)",
+	"ass_shield_arms_both" : "Centrist (Both)",
+
 	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
 	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",
 

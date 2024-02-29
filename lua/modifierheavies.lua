@@ -9,8 +9,7 @@ local u_key_mapping = {
 }
 ModifierHeavies._moon_u_key_mapping = u_key_mapping
 
-ModifierHeavies.init_original = ModifierHeavies.init
-function ModifierHeavies:init(...)
+ASS:override( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
 	for _, difficulty in pairs(tweak_data.levels:moon_enemy_replacements()) do
@@ -25,4 +24,4 @@ function ModifierHeavies:init(...)
 	end
 
 	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
-end
+end )

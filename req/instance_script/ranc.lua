@@ -22,7 +22,6 @@ local patches = {
 
 local special_chance = ASS:get_var("difficulty_index") * 0.05
 local dozer_chance = special_chance * 0.1
-
 local function scripted_swat_squads()
 	local rand = math.random()
 
@@ -31,7 +30,7 @@ end
 
 return {
 	["levels/instances/unique/ranc/ranc_security_room/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.ranc_security_room[element.id] then
 				element.values.possible_enemies = {
 					Idstring("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"),
@@ -41,7 +40,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/ranc/ranc_helicopter_spawn_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.ranc_helicopter_spawn_enemies[element.id] then
 				element.values.possible_enemies = scripted_swat_squads()
 			end

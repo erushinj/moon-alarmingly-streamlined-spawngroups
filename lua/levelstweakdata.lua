@@ -1,5 +1,10 @@
 local try_insert = ASS:require("try_insert", true)
 
+LevelsTweakData.LevelType.ConstantineCartel = "constantine_cartel"
+ASS:post_hook( LevelsTweakData, "init", function(self)
+	self.ai_groups.constantine_cartel = "constantine_cartel"
+end )
+
 -- fetches a common american unit by a shorthand name
 function LevelsTweakData:moon_units()
 	if not self._moon_units then
@@ -87,7 +92,7 @@ function LevelsTweakData:moon_random_units()
 		}
 
 		local real_difficulty_index = ASS:get_var("real_difficulty_index")
-		for _, v in ipairs({
+		for _, v in pairs({
 			{ 2, dozer_1, },
 			{ 4, dozer_2, },
 			{ 6, dozer_3, },
@@ -122,10 +127,38 @@ function LevelsTweakData:moon_random_unit(typ)
 	return random_units[typ] or random_units.cops
 end
 
+function LevelsTweakData:moon_forbidden_scripted_replacements()
+	local forbidden_replacements = self._moon_forbidden_scripted_replacements
+
+	if not forbidden_replacements then
+		forbidden_replacements = {
+			default = {
+				hrt_1 = true,
+				hrt_2 = true,
+				hrt_3 = true,
+			},
+			constantine_fiesta_lvl = {
+				hrt_1 = true,
+				hrt_2 = true,
+				hrt_3 = true,
+				dozer_3 = true,
+			},
+		}
+		forbidden_replacements.constantine_jungle_lvl = forbidden_replacements.constantine_fiesta_lvl
+		forbidden_replacements.constantine_yacht_lvl = forbidden_replacements.constantine_fiesta_lvl
+
+		self._moon_forbidden_scripted_replacements = forbidden_replacements
+	end
+
+	return forbidden_replacements[ASS:get_var("level_id")] or forbidden_replacements.default
+end
+
 -- replacements based on mapped enemy key
 function LevelsTweakData:moon_enemy_replacements()
-	if not self._moon_enemy_replacements then
-		self._moon_enemy_replacements = {
+	local replacements = self._moon_enemy_replacements
+
+	if not replacements then
+		replacements = {
 			america = {
 				normal = {
 					hrt_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
@@ -481,88 +514,147 @@ function LevelsTweakData:moon_enemy_replacements()
 					marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
 				},
 			},
+			constantine_cartel = {
+				normal = {
+					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
+					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
+					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"),
+					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"),
+					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_3/ene_cartel_soldier_fbi_3"),
+					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_4/ene_cartel_soldier_fbi_4"),
+					heavy_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy/ene_cartel_soldier_heavy"),
+					heavy_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_shotgun/ene_cartel_soldier_heavy_shotgun"),
+					shield = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+					sniper = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy/ene_cartel_soldier_heavy"),
+					dozer_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer/ene_cartel_bulldozer"),
+					dozer_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_2/ene_cartel_bulldozer_2"),
+					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
+					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
+					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
+					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
+					cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
+					marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+				},
+				overkill_145 = {
+					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
+					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
+					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"),
+					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"),
+					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_3/ene_cartel_soldier_fbi_3"),
+					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_4/ene_cartel_soldier_fbi_4"),
+					heavy_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi/ene_cartel_soldier_heavy_fbi"),
+					heavy_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi_shotgun/ene_cartel_soldier_heavy_fbi_shotgun"),
+					shield = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+					sniper = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi/ene_cartel_soldier_heavy_fbi"),
+					dozer_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer/ene_cartel_bulldozer"),
+					dozer_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_2/ene_cartel_bulldozer_2"),
+					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
+					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
+					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
+					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
+					cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
+					marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+				},
+				overkill_290 = {
+					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
+					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
+					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"),
+					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_1/ene_cartel_soldier_city_1"),
+					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_3/ene_cartel_soldier_city_3"),
+					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_4/ene_cartel_soldier_city_4"),
+					heavy_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_city/ene_cartel_soldier_heavy_city"),
+					heavy_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi_shotgun/ene_cartel_soldier_heavy_fbi_shotgun"),
+					shield = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+					sniper = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_city/ene_cartel_soldier_heavy_city"),
+					dozer_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer/ene_cartel_bulldozer"),
+					dozer_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_2/ene_cartel_bulldozer_2"),
+					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
+					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
+					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
+					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
+					cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
+					marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+				},
+				sm_wish = {
+					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
+					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
+					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"),
+					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_1/ene_cartel_soldier_zeal_1"),
+					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_3/ene_cartel_soldier_zeal_3"),
+					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_4/ene_cartel_soldier_zeal_4"),
+					heavy_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_zeal/ene_cartel_soldier_heavy_zeal"),
+					heavy_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi_shotgun/ene_cartel_soldier_heavy_fbi_shotgun"),
+					shield = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+					sniper = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_zeal/ene_cartel_soldier_heavy_zeal"),
+					dozer_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer/ene_cartel_bulldozer"),
+					dozer_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_2/ene_cartel_bulldozer_2"),
+					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
+					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
+					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
+					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
+					cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
+					marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+					marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
+				},
+			},
 		}
 
-		local america = self._moon_enemy_replacements.america
-		america.hard = america.normal
-		america.overkill = america.normal
-		america.easy_wish = america.overkill_145
-		america.CS_normal = america.normal
-		america.CS_FBI_overkill = america.overkill
-		america.FBI_overkill_145 = america.overkill_145
-		america.FBI_office = america.overkill_145
-		america.FBI_mcmansion = clone(america.overkill_145)
-		america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
-		america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
-		america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
-		america.FBI_CITY_easy_wish = america.easy_wish
-		america.CITY_overkill_290 = america.overkill_290
-		america.CITY_ZEAL_awesome_difficulty_name = america.overkill_290
-		america.ZEAL_sm_wish = america.sm_wish
+		replacements.america.FBI_mcmansion = clone(replacements.america.overkill_145)
+		replacements.america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
+		replacements.america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
+		replacements.america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
 
-		local russia = self._moon_enemy_replacements.russia
-		russia.hard = russia.normal
-		russia.overkill = russia.normal
-		russia.easy_wish = russia.overkill_145
-		russia.sm_wish = russia.overkill_290
-		russia.CS_normal = russia.normal
-		russia.CS_FBI_overkill = russia.overkill
-		russia.FBI_overkill_145 = russia.overkill_145
-		russia.FBI_office = russia.overkill_145
-		russia.FBI_mcmansion = russia.overkill_145
-		russia.FBI_CITY_easy_wish = russia.easy_wish
-		russia.CITY_overkill_290 = russia.overkill_290
-		russia.CITY_ZEAL_awesome_difficulty_name = russia.overkill_290
-		russia.ZEAL_sm_wish = russia.sm_wish
+		for _, tbl in ipairs({
+			{
+				easy = "normal",
+				hard = "normal",
+				overkill = "normal",
+				overkill_145 = "normal",
+			},
+			{
+				CS_FBI_overkill = "overkill",
+			},
+			{
+				easy_wish = "overkill_145",
+				overkill_290 = "overkill_145",
+				FBI_overkill_145 = "overkill_145",
+				FBI_office = "overkill_145",
+				FBI_mcmansion = "overkill_145",
+			},
+			{
+				FBI_CITY_easy_wish = "easy_wish",
+			},
+			{
+				sm_wish = "overkill_290",
+				CITY_overkill_290 = "overkill_290",
+				CITY_ZEAL_awesome_difficulty_name = "overkill_290",
+			},
+			{
+				ZEAL_sm_wish = "sm_wish",
+			},
+		}) do
+			for diff, based_on in pairs(tbl) do
+				for _, v in pairs(replacements) do
+					v[diff] = v[diff] or v[based_on]
+				end
+			end
+		end
 
-		local zombie = self._moon_enemy_replacements.zombie
-		zombie.hard = zombie.normal
-		zombie.overkill = zombie.normal
-		zombie.easy_wish = zombie.overkill_145
-		zombie.overkill_290 = zombie.overkill_145
-		zombie.sm_wish = zombie.overkill_145
-		zombie.CS_normal = zombie.normal
-		zombie.CS_FBI_overkill = zombie.overkill
-		zombie.FBI_overkill_145 = zombie.overkill_145
-		zombie.FBI_office = zombie.overkill_145
-		zombie.FBI_mcmansion = zombie.overkill_145
-		zombie.FBI_CITY_easy_wish = zombie.easy_wish
-		zombie.CITY_overkill_290 = zombie.overkill_290
-		zombie.CITY_ZEAL_awesome_difficulty_name = zombie.overkill_290
-		zombie.ZEAL_sm_wish = zombie.sm_wish
-
-		local murkywater = self._moon_enemy_replacements.murkywater
-		murkywater.hard = murkywater.normal
-		murkywater.overkill = murkywater.normal
-		murkywater.easy_wish = murkywater.overkill_145
-		murkywater.sm_wish = murkywater.overkill_290
-		murkywater.CS_normal = murkywater.normal
-		murkywater.CS_FBI_overkill = murkywater.overkill
-		murkywater.FBI_overkill_145 = murkywater.overkill_145
-		murkywater.FBI_office = murkywater.overkill_145
-		murkywater.FBI_mcmansion = murkywater.overkill_145
-		murkywater.FBI_CITY_easy_wish = murkywater.easy_wish
-		murkywater.CITY_overkill_290 = murkywater.overkill_290
-		murkywater.CITY_ZEAL_awesome_difficulty_name = murkywater.overkill_290
-		murkywater.ZEAL_sm_wish = murkywater.sm_wish
-
-		local federales = self._moon_enemy_replacements.federales
-		federales.hard = federales.normal
-		federales.overkill = federales.normal
-		federales.easy_wish = federales.overkill_145
-		federales.sm_wish = federales.overkill_290
-		federales.CS_normal = federales.normal
-		federales.CS_FBI_overkill = federales.overkill
-		federales.FBI_overkill_145 = federales.overkill_145
-		federales.FBI_office = federales.overkill_145
-		federales.FBI_mcmansion = federales.overkill_145
-		federales.FBI_CITY_easy_wish = federales.easy_wish
-		federales.CITY_overkill_290 = federales.overkill_290
-		federales.CITY_ZEAL_awesome_difficulty_name = federales.overkill_290
-		federales.ZEAL_sm_wish = federales.sm_wish
+		self._moon_enemy_replacements = replacements
 	end
 
-	return self._moon_enemy_replacements[self:get_ai_group_type()] or self._moon_enemy_replacements.america
+	return replacements[self:get_ai_group_type()] or replacements.america
 end
 
 -- fetches mapped enemy keys
@@ -574,6 +666,7 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = "hrt_1",
 			[("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"):key()] = "hrt_1",
 			[("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"):key()] = "hrt_1",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"):key()] = "hrt_1",
 			[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = "hrt_2",
 			[("units/payday2/characters/ene_fbi_2/ene_fbi_2"):key()] = "hrt_2",
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"):key()] = "hrt_2",
@@ -581,6 +674,7 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"):key()] = "hrt_2",
 			[("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = "hrt_2",
 			[("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = "hrt_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"):key()] = "hrt_2",
 			[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = "hrt_3",
 			[("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = "hrt_3",
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"):key()] = "hrt_3",
@@ -588,6 +682,7 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"):key()] = "hrt_3",
 			[("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = "hrt_3",
 			[("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"):key()] = "hrt_3",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = "hrt_3",
 
 			[("units/payday2/characters/ene_swat_1/ene_swat_1"):key()] = "swat_1",
 			[("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"):key()] = "swat_1",
@@ -603,6 +698,13 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"):key()] = "swat_1",
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi"):key()] = "swat_1",
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city"):key()] = "swat_1",
+
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"):key()] = "swat_1",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_1/ene_cartel_soldier_fbi_shotgun_1"):key()] = "swat_1",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_1/ene_cartel_soldier_city_1"):key()] = "swat_1",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_1/ene_cartel_soldier_city_shotgun_1"):key()] = "swat_1",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_1/ene_cartel_soldier_zeal_1"):key()] = "swat_1",
+
 			[("units/payday2/characters/ene_swat_2/ene_swat_2"):key()] = "swat_2",
 			[("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"):key()] = "swat_2",
 			[("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"):key()] = "swat_2",
@@ -618,7 +720,25 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870"):key()] = "swat_2",
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870"):key()] = "swat_2",
 			[("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870"):key()] = "swat_2",
+
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_3/ene_cartel_soldier_fbi_shotgun_3"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_4/ene_cartel_soldier_fbi_shotgun_4"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_3/ene_cartel_soldier_fbi_3"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_4/ene_cartel_soldier_fbi_4"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_3/ene_cartel_soldier_city_3"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_4/ene_cartel_soldier_city_4"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_3/ene_cartel_soldier_city_shotgun_3"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_4/ene_cartel_soldier_city_shotgun_4"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_3/ene_cartel_soldier_zeal_3"):key()] = "swat_2",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_4/ene_cartel_soldier_zeal_4"):key()] = "swat_2",
+
 			[("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"):key()] = "swat_3",
+
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_2/ene_cartel_soldier_fbi_2"):key()] = "swat_3",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_2/ene_cartel_soldier_fbi_shotgun_2"):key()] = "swat_3",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_2/ene_cartel_soldier_city_2"):key()] = "swat_3",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_2/ene_cartel_soldier_city_shotgun_2"):key()] = "swat_3",
+			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_2/ene_cartel_soldier_zeal_2"):key()] = "swat_3",
 
 			[("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"):key()] = "heavy_1",
 			[("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"):key()] = "heavy_1",

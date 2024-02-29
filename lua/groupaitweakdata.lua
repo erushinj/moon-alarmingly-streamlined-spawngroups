@@ -5,9 +5,16 @@ end
 local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
-local supported_continents = table.set("america", "russia", "zombie", "murkywater", "federales")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
+local supported_continents = table.list_to_set({
+	"america",
+	"russia",
+	"zombie",
+	"murkywater",
+	"federales",
+	"constantine_cartel",  -- custom
+})
 
 function GroupAITweakData:moon_preferred_groups(group_type, interval)
 	local preferred = self._moon_preferred_groups
@@ -45,12 +52,24 @@ function GroupAITweakData:moon_preferred_groups(group_type, interval)
 	return result
 end
 
+function GroupAITweakData:moon_preferred_groups_instance(group_type)
+	local result = {}
+
+	for group, enabled in pairs(self:moon_preferred_groups(group_type)) do
+		if enabled then
+			try_insert(result, group)
+		end
+	end
+
+	return result
+end
+
 function GroupAITweakData:moon_swap_units(prefixes)
 	prefixes = prefixes or self.moon_last_prefixes or {}
+	self.moon_last_prefixes = prefixes
 
-	local tweak_data = self.tweak_data
-	local enemy_replacements, enemy_mapping = tweak_data.levels:moon_enemy_replacements(), tweak_data.levels:moon_enemy_mapping()
-
+	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
+	local enemy_mapping = self.tweak_data.levels:moon_enemy_mapping()
 	for prefix, difficulty in pairs(prefixes) do
 		local difficulty_replacement = enemy_replacements[difficulty]
 
@@ -74,8 +93,6 @@ function GroupAITweakData:moon_swap_units(prefixes)
 			end
 		end
 	end
-
-	self.moon_last_prefixes = prefixes
 end
 
 -- deprecated name
@@ -102,9 +119,8 @@ end
 function GroupAITweakData:_moon_init_unit_categories_overkill()
 	self:moon_swap_units({ CS = "normal", FBI = "overkill_145", })
 
-	local tweak_data = self.tweak_data
-	local continent = tweak_data.levels:get_ai_group_type()
-	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()
+	local continent = self.tweak_data.levels:get_ai_group_type()
+	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
 
 	try_insert(self.unit_categories.FBI_tank.unit_types[continent], enemy_replacements.overkill_145.dozer_2)
 end
@@ -121,9 +137,8 @@ end
 function GroupAITweakData:_moon_init_unit_categories_overkill_290()
 	self:moon_swap_units({ CS = "overkill_290", FBI = "overkill_290", })
 
-	local tweak_data = self.tweak_data
-	local continent = tweak_data.levels:get_ai_group_type()
-	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()
+	local continent = self.tweak_data.levels:get_ai_group_type()
+	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
 
 	if not ASS:get_setting("minigun_dozers") then
 		table.delete(self.unit_categories.FBI_tank.unit_types[continent] or {}, enemy_replacements.overkill_290.dozer_4)
@@ -208,14 +223,19 @@ end
 -- set group weights for the specified task, set all others to 0 instead of overwriting the task's groups table
 function GroupAITweakData:_moon_set_weights(new_weights)
 	for task, new_groups in pairs(new_weights) do
-		local groups = self.besiege[task].groups
+		local task_data = self.besiege[task]
+		local groups = task_data and task_data.groups
 
-		for group in pairs(groups) do
-			groups[group] = { 0, 0, 0, }
-		end
+		if not groups then
+			ASS:log("error", "Task name %s is invalid in GroupAITweakData:_moon_set_weights", task)
+		else
+			for group in pairs(groups) do
+				groups[group] = { 0, 0, 0, }
+			end
 
-		for group, weights in pairs(new_groups) do
-			groups[group] = weights
+			for group, weights in pairs(new_groups) do
+				groups[group] = weights
+			end
 		end
 	end
 end
@@ -242,7 +262,7 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 		FBI_spooc = {
 			rifle = "FBI_suit_M4",
 			shotgun = "FBI_suit_stealth_R870",
-			default = "FBI_suit_M4_MP5",
+			default = "FBI_suit_M4_R870",
 			chicken_plate = "FBI_heavy_M4_R870",
 		},
 		CS_tank = {
@@ -509,7 +529,7 @@ function GroupAITweakData:_moon_original(special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_shields_b = {
-		amount = { 3, 4, },
+		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 3,
@@ -534,7 +554,7 @@ function GroupAITweakData:_moon_original(special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_suit_M4_MP5",
+				unit = "FBI_suit_M4_R870",
 				tactics = self._tactics.original_shield_charge_cover,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -867,28 +887,32 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 
 	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
 	-- and ensures a spawn point check reference is set
-	local unit_names_map = {
-		FBI_swat_M4 = "CS_swat_MP5",
-		FBI_swat_R870 = "CS_swat_R870",
-		FBI_heavy_M4 = "CS_heavy_MP5",
-		FBI_heavy_G36 = "CS_heavy_MP5",
-		FBI_heavy_R870 = "CS_heavy_R870",
+	local unit_mapping = {
+		FBI_swat_M4 = { unit = "CS_swat_MP5", },
+		FBI_swat_R870 = { unit = "CS_swat_R870", },
+		FBI_heavy_M4 = { unit = "CS_heavy_MP5", heavy = true, },
+		FBI_heavy_G36 = { unit = "CS_heavy_MP5", heavy = true, },
+		FBI_heavy_R870 = { unit = "CS_heavy_R870", heavy = true, },
 	}
 	local function no_medic_group(original_group)
 		local g = deep_clone(original_group)
 
 		for i = #g.spawn, 1, -1 do
 			local enemy = g.spawn[i]
-			local mapped_unit = unit_names_map[enemy.unit]
+			local mapping = unit_mapping[enemy.unit]
 
-			if mapped_unit then
-				enemy.unit = mapped_unit
+			if not mapping or not mapping.unit then
+				table.remove(g.spawn, i)
+			else
+				if self.unit_categories[mapping.unit] then
+					enemy.unit = mapping.unit
+				else
+					ASS:log("error", "Unit %s does not exist to replace unit %s", mapping.unit, enemy.unit)
+				end
 
-				if enemy.unit:match("heavy") then
+				if mapping.heavy then
 					enemy.freq = self._freq.common
 				end
-			else
-				table.remove(g.spawn, i)
 			end
 		end
 
@@ -1316,7 +1340,7 @@ end
 -- dont do anything but make SH's default groups work with level mod and skill level
 function GroupAITweakData:_moon_default(special_weight)
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
-	local unit_names_map = {
+	local unit_mapping = {
 		FBI_swat_M4 = "CS_swat_MP5",
 		FBI_swat_R870 = "CS_swat_R870",
 		FBI_heavy_M4 = "CS_heavy_MP5",
@@ -1358,7 +1382,15 @@ function GroupAITweakData:_moon_default(special_weight)
 
 			for name in pairs(id_matches) do
 				if id:match(name) then
-					enemy.unit = unit_names_map[enemy.unit] or enemy.unit
+					local new_unit = unit_mapping[enemy.unit]
+
+					if new_unit then
+						if self.unit_categories[new_unit] then
+							enemy.unit = new_unit
+						else
+							ASS:log("error", "Unit %s does not exist to replace unit %s", new_unit, enemy.unit)
+						end
+					end
 
 					break
 				end
@@ -1405,7 +1437,7 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 		chicken_plate_medic_shotgun = { "flank", "deathguard", "no_push", },
 	})
 
-	local unit_names_map = {
+	local unit_mapping = {
 		CS_cop_C45 = "FBI_suit_C45",
 		CS_cop_MP5 = "FBI_suit_M4",
 		CS_cop_stealth_R870 = "FBI_suit_stealth_R870",
@@ -1419,8 +1451,13 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 
 		for i = #g.spawn, 1, -1 do
 			local enemy = g.spawn[i]
+			local new_unit = unit_mapping[enemy.unit]
 
-			enemy.unit = unit_names_map[enemy.unit] or enemy.unit
+			if self.unit_categories[new_unit] then
+				enemy.unit = new_unit
+			else
+				ASS:log("error", "Unit %s does not exist to replace unit %s", new_unit, enemy.unit)
+			end
 		end
 
 		return g
@@ -1579,15 +1616,14 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 	})
 end
 
+local special_limit_mul = ASS:get_tweak("special_limit_mul")
 function GroupAITweakData:_moon_init_unit_categories()
-	local special_limit_mul = ASS:get_tweak("special_limit_mul")
-
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)
 
 		for continent, units in pairs(category_2.unit_types) do
-			for _, unit in ipairs(units) do
-				table.insert(new_category.unit_types[continent], unit)
+			for i = 1, #units do
+				table.insert(new_category.unit_types[continent], units[i])
 			end
 		end
 
@@ -1603,7 +1639,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
 		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
 	}) do
-		-- self.special_unit_spawn_limits[special] = math.round(limit[difficulty_index] * special_limit_mul)
 		self.special_unit_spawn_limits[special] = math.ceil(limit[difficulty_index] * special_limit_mul)
 	end
 
@@ -1615,7 +1650,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 	end
 
 	-- misc tweaks and fixes
-	self.unit_categories.CS_cop_C45_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870 = self.unit_categories.CS_cop_stealth_MP5
 	self.unit_categories.CS_cop_stealth_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"), }
@@ -1623,52 +1657,27 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.CS_cop_stealth_R870.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
+	self.unit_categories.CS_cop_stealth_R870.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"), }
 	self.unit_categories.CS_heavy_MP5 = self.unit_categories.CS_heavy_M4
-	self.unit_categories.FBI_suit_C45_M4.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"), }
-	self.unit_categories.FBI_suit_C45_M4.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), }
-	self.unit_categories.FBI_suit_M4_R870 = self.unit_categories.FBI_suit_M4_MP5
 	self.unit_categories.FBI_suit_stealth_R870 = self.unit_categories.FBI_suit_stealth_MP5
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
+	self.unit_categories.FBI_suit_stealth_R870.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"), }
 	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
-	self.unit_categories.FBI_marshal_marksman = self.unit_categories.marshal_marksman
-	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 
 	-- new hrt unit categories
-	self.unit_categories.CS_cop_C45_MP5 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
-	self.unit_categories.CS_cop_C45_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-	}
-	self.unit_categories.CS_cop_C45_MP5.unit_types.russia = {
-		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
-		Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
-	}
-	self.unit_categories.CS_cop_C45_MP5.unit_types.zombie = {
-		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
-		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
-	}
-	self.unit_categories.CS_cop_C45_MP5.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"), }
-	self.unit_categories.CS_cop_C45_MP5.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), }
-	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.CS_cop_C45_MP5)
+	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
 	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"), }
 	self.unit_categories.CS_cop_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"), }
-	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45_MP5)
+	self.unit_categories.CS_cop_C45.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"), }
+	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.CS_cop_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
 	self.unit_categories.CS_cop_MP5.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"), }
-	self.unit_categories.CS_cop_MP5_R870 = deep_clone(self.unit_categories.FBI_suit_M4_R870)
-	self.unit_categories.CS_cop_MP5_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-	}
-	self.unit_categories.CS_cop_MP5_R870.unit_types.zombie = {
-		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
-		Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
-	}
+	self.unit_categories.CS_cop_MP5.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"), }
 	self.unit_categories.FBI_suit_C45 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.FBI_suit_C45.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"), }
 	self.unit_categories.FBI_suit_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"), }
-	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_C45)
+	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_MP5)
 	self.unit_categories.FBI_suit_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"), }
 	self.unit_categories.FBI_suit_M4.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"), }
 
@@ -1677,7 +1686,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 		difficulty_func(self)
 	end
 
-	-- for better holdout support
+	-- for better holdout/gensec-zeal level mod support
 	self.unit_categories.CS_tank = deep_clone(self.unit_categories.FBI_tank)
 	self.unit_categories.CS_spooc = deep_clone(self.unit_categories.spooc)
 	self.unit_categories.CS_medic_MP5 = deep_clone(self.unit_categories.medic_M4)
@@ -1686,6 +1695,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_spooc = self.unit_categories.spooc
 	self.unit_categories.FBI_medic_M4 = self.unit_categories.medic_M4
 	self.unit_categories.FBI_medic_R870 = self.unit_categories.medic_R870
+	self.unit_categories.FBI_marshal_marksman = self.unit_categories.marshal_marksman
+	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 
 	local level_mod_func = self["_moon_level_mod_" .. (ASS:get_var("level_mod") or "")]
 	if level_mod_func then
@@ -1693,9 +1704,14 @@ function GroupAITweakData:_moon_init_unit_categories()
 	end
 
 	-- combined categories
+	self.unit_categories.CS_cop_C45_MP5 = combined_category(self.unit_categories.CS_cop_C45, self.unit_categories.CS_cop_MP5)
+	self.unit_categories.CS_cop_MP5_R870 = combined_category(self.unit_categories.CS_cop_MP5, self.unit_categories.CS_cop_stealth_R870)
+	self.unit_categories.CS_cop_C45_R870 = combined_category(self.unit_categories.CS_cop_C45_MP5, self.unit_categories.CS_cop_stealth_R870)
 	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
 	self.unit_categories.CS_heavy_MP5_R870 = combined_category(self.unit_categories.CS_heavy_MP5, self.unit_categories.CS_heavy_R870)
 	self.unit_categories.CS_medic_MP5_R870 = combined_category(self.unit_categories.CS_medic_MP5, self.unit_categories.CS_medic_R870)
+	self.unit_categories.FBI_suit_C45_M4 = combined_category(self.unit_categories.FBI_suit_C45, self.unit_categories.FBI_suit_M4)
+	self.unit_categories.FBI_suit_M4_R870 = combined_category(self.unit_categories.FBI_suit_M4, self.unit_categories.FBI_suit_stealth_R870)
 	self.unit_categories.FBI_suit_C45_R870 = combined_category(self.unit_categories.FBI_suit_C45_M4, self.unit_categories.FBI_suit_stealth_R870)
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
 	self.unit_categories.FBI_heavy_M4_R870 = combined_category(self.unit_categories.FBI_heavy_M4, self.unit_categories.FBI_heavy_R870)
@@ -1707,6 +1723,10 @@ function GroupAITweakData:_moon_init_unit_categories()
 				data.unit_types[continent] = clone(data.unit_types.america)
 			end
 		end
+	end
+
+	for _, data in pairs(self.unit_categories) do
+		data.unit_types.constantine_cartel = data.unit_types.constantine_cartel or clone(data.unit_types.america)
 	end
 end
 
@@ -1788,9 +1808,96 @@ function GroupAITweakData:_moon_init_task_data()
 	self.safehouse = deep_clone(self.besiege)
 end
 
+-- i should not have to do this
+-- however, custom maps like to fuck unit categories
+function GroupAITweakData:moon_custom_maps_boowomp()
+	self.unit_categories.spooc.unit_types.america = { Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"), }
+	self.unit_categories.CS_cop_C45_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
+		Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+		Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
+	}
+	self.unit_categories.CS_cop_stealth_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"), }
+	self.unit_categories.CS_swat_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"), }
+	self.unit_categories.CS_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"), }
+	self.unit_categories.CS_heavy_M4.unit_types.america = { Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"), }
+	self.unit_categories.CS_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"), }
+	self.unit_categories.CS_heavy_M4_w.unit_types.america = { Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"), }
+	self.unit_categories.CS_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_2/ene_shield_2"), }
+	self.unit_categories.CS_tazer.unit_types.america = { Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"), }
+	self.unit_categories.FBI_suit_C45_M4.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
+		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
+	}
+	self.unit_categories.FBI_suit_M4_MP5.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
+		Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+	}
+	self.unit_categories.FBI_suit_stealth_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"), }
+	self.unit_categories.FBI_swat_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"), }
+	self.unit_categories.FBI_swat_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"), }
+	self.unit_categories.FBI_heavy_G36.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"), }
+	self.unit_categories.FBI_heavy_R870.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870"), }
+	self.unit_categories.FBI_heavy_G36_w.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"), }
+	self.unit_categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1"), }
+
+	if difficulty_index < 4 then
+		self.unit_categories.FBI_tank.unit_types.america = { Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"), }
+	elseif difficulty_index < 6 then
+		self.unit_categories.FBI_tank.unit_types.america = {
+			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+		}
+	elseif difficulty_index < 7 then
+		self.unit_categories.FBI_tank.unit_types.america = {
+			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+		}
+	elseif difficulty_index < 8 then
+		self.unit_categories.FBI_tank.unit_types.america = {
+			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+			Idstring("units/payday2/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+		}
+	else
+		self.unit_categories.FBI_tank.unit_types.america = {
+			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
+			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
+			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
+			Idstring("units/payday2/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+			Idstring("units/payday2/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+		}
+	end
+
+	self.unit_categories.medic_M4.unit_types.america = { Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"), }
+	self.unit_categories.medic_R870.unit_types.america = { Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"), }
+	self.unit_categories.Phalanx_minion.unit_types.america = { Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"), }
+	self.unit_categories.Phalanx_vip.unit_types.america = { Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"), }
+	self.unit_categories.marshal_marksman.unit_types.america = { Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"), }
+	self.unit_categories.marshal_shield.unit_types.america = { Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"), }
+
+	for _, data in pairs(self.unit_categories) do
+		for continent in pairs(data.unit_types) do
+			if continent ~= "america" then
+				data.unit_types[continent] = clone(data.unit_types.america)
+			end
+		end
+	end
+
+	-- shouldnt have to do this more than once but idk
+	if self.grand_theft_auto_reference then
+		self:_moon_init_unit_categories()
+	end
+
+	self.grand_theft_auto_reference = true
+end
+
 ASS:post_hook( GroupAITweakData, "init", function(self, tweak_data)
 	self.tweak_data = tweak_data
 
+	self:moon_custom_maps_boowomp()
 	self:_moon_init_unit_categories()
 	self:_moon_init_enemy_spawn_groups()
 	self:_moon_init_task_data()

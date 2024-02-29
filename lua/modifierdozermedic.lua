@@ -13,6 +13,7 @@ ModifierDozerMedic._moon_dozer_add = {
 	america = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
 	murkywater = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"),
 	federales = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"),
+	constantine_cartel = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
 }
 ModifierDozerMedic._moon_dozer_tables = {
 	dozers_any = true,

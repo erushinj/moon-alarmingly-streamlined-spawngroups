@@ -3,12 +3,12 @@ if ASS:get_var("is_client") then
 end
 
 -- Make enemy units switch difficulty factions over waves
-local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
-
 function SkirmishManager:_moon_swap_units(wave_number)
 	if not self:is_skirmish() then
 		return
 	end
+
+	local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
 
 	self._moon_unit_wave_index = wave_unit_categories[wave_number] and wave_number or self._moon_unit_wave_index or self._start_wave
 

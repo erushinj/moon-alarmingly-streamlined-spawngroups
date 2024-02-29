@@ -11,6 +11,10 @@ CharacterTweakData.moon_swat_pager_disable_map.sample_level_id = {
 	heavy_swat_sniper = true,
 }
 
+function CharacterTweakData:_init_region_constantine_cartel()
+	self:_init_region_federales()
+end
+
 if ASS:get_var("is_client") then
 	return
 end
@@ -20,19 +24,18 @@ local level_id = ASS:get_var("level_id")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 
+if ASS:get_setting("doms_scale") then
+	ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
+		local presets = Hooks:GetReturn()
 
-ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
-	local presets = Hooks:GetReturn()
+		if not presets then
+			ASS:log("warn", "CharacterTweakData:_presets unavailable, Resistive Responders not applied!")
 
-	if not presets then
-		ASS:log("warn", "CharacterTweakData:_presets unavailable%s!", ASS:get_setting("doms_scale") and ", Resistive Responders not applied" or "")
+			return
+		end
 
-		return
-	end
-
-	-- only change SH's tweaked surrender presets
-	-- allow any factor to count as a surrender reason
-	if ASS:get_setting("doms_scale") then
+		-- only change SH's tweaked surrender presets
+		-- allow any factor to count as a surrender reason
 		for _, preset in pairs(presets.surrender) do
 			if preset.reasons and preset.factors and preset.factors.health then
 				local min, max = math.min_max(preset.significant_chance or 0, 0.5)
@@ -44,13 +47,12 @@ ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 				preset.factors = {}
 			end
 		end
-	end
 
-	return presets
-end )
+		return presets
+	end )
+end
 
 ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
-
 	if ASS:get_setting("doms_all_hard") then
 		local surrender_map = {
 			[self.presets.surrender.easy] = self.presets.surrender.hard,
@@ -89,5 +91,4 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 			end
 		end
 	end
-
 end )

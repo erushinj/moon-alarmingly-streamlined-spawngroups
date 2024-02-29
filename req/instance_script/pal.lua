@@ -25,14 +25,14 @@ local patches = {
 
 return {
 	["levels/instances/unique/sub_sewer_sidespawn/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.sub_sewer_sidespawn[element.id] then
 				element.values.possible_enemies = tweak_data.levels:moon_random_unit("dozers_no_med")
 			end
 		end
 	end,
 	["levels/instances/unique/sub_sewer_grate/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		for _, element in pairs(result.default.elements) do
 			if patches.sub_sewer_grate[element.id] then
 				patches.sub_sewer_grate[element.id](element)
 			end

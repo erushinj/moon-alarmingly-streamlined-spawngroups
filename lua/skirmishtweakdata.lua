@@ -2,10 +2,6 @@ if ASS:get_var("is_client") then
 	return
 end
 
-local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
-local special_limit_mul = ASS:get_tweak("special_limit_mul")
-local force_pool_mul = ASS:get_tweak("force_pool_mul")
-
 function SkirmishTweakData:moon_wave_unit_categories()
 	if not self._moon_wave_unit_categories then
 		self._moon_wave_unit_categories = {
@@ -25,6 +21,9 @@ function SkirmishTweakData:moon_wave_unit_categories()
 end
 
 ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
+	local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
+	local special_limit_mul = ASS:get_tweak("special_limit_mul")
+	local force_pool_mul = ASS:get_tweak("force_pool_mul")
 
 	if not self._moon_skirmish_groups then
 		local skm_special_weights = ASS:get_tweak("skm_special_weights")
@@ -110,7 +109,7 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 		local wave_limits = self.special_unit_spawn_limits[i]
 
 		for special, limit in pairs(wave_limits) do
-			wave_limits[special] = math.round(limit * special_limit_mul)
+			wave_limits[special] = math.ceil(limit * special_limit_mul)
 		end
 	end
 
@@ -145,15 +144,13 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 	end
 
 	local skirmish_assault_meta = getmetatable(tweak_data.group_ai.skirmish.assault)
-	local __index_original = skirmish_assault_meta.__index
-	skirmish_assault_meta.__index = function(t, key)
+	ASS:override( skirmish_assault_meta, "__index", function(t, key)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
 
 			return { sustain_duration, sustain_duration, sustain_duration, }
-		else
-			return __index_original(t, key)
 		end
-	end
 
+		return skirmish_assault_meta.__index_original(t, key)
+	end )
 end )
