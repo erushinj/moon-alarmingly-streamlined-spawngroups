@@ -8,6 +8,21 @@ if not MissionManager.mission_script_patch_funcs then
 	return
 end
 
+if BLT.Mods:GetModByName("BeardLib") then
+	local function i_hate_beardlib()
+		if not ElementAIGroupType then
+			DelayedCalls:Add( "ass_boowomp", 1, i_hate_beardlib )
+		else
+			ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
+				tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+			end)
+		end
+	end
+
+	i_hate_beardlib()
+end
+
+
 local ass_mission_script_patches = ASS:script_patches("mission")
 if not ass_mission_script_patches then
 	return
@@ -123,20 +138,3 @@ MissionManager.mission_script_patch_funcs.grenade = function(self, element, data
 		end
 	end )
 end
-
-if not BLT.Mods:GetModByName("BeardLib") then
-	return
-end
-
-local function i_hate_beardlib()
-	if not ElementAIGroupType then
-		DelayedCalls:Add( "ass_boowomp", 1, i_hate_beardlib )
-	else
-		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
-			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
-		end)
-	end
-end
-
-i_hate_beardlib()
-

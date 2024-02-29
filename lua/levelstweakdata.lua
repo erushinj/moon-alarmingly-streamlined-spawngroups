@@ -1,9 +1,18 @@
 local try_insert = ASS:require("try_insert", true)
 
-LevelsTweakData.LevelType.ConstantineCartel = "constantine_cartel"
-ASS:post_hook( LevelsTweakData, "init", function(self)
-	self.ai_groups.constantine_cartel = "constantine_cartel"
-end )
+function LevelsTweakData:moon_custom_maps_boowomp()
+	local level = self[ASS:get_var("level_id")] or {}
+	local packages = level.package or level.custom_packages
+	packages = type(packages) ~= "table" and { packages, } or packages
+
+	for k, v in pairs({
+		["packages/levels/constantine_cartel_faction/world/world"] = { fucked = "federales", use = "constantine_cartel", },
+	}) do
+		if table.contains(packages, k) then
+			return v.fucked, v.use
+		end
+	end
+end
 
 -- fetches a common american unit by a shorthand name
 function LevelsTweakData:moon_units()
@@ -649,6 +658,12 @@ function LevelsTweakData:moon_enemy_replacements()
 					v[diff] = v[diff] or v[based_on]
 				end
 			end
+		end
+
+		local fucked, use = self:moon_custom_maps_boowomp()
+		if replacements[fucked] then
+			replacements["actual_" .. fucked] = replacements[fucked]
+			replacements[fucked] = replacements[use] or replacements[fucked]
 		end
 
 		self._moon_enemy_replacements = replacements

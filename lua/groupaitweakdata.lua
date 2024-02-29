@@ -13,7 +13,6 @@ local supported_continents = table.list_to_set({
 	"zombie",
 	"murkywater",
 	"federales",
-	"constantine_cartel",  -- custom
 })
 
 function GroupAITweakData:moon_preferred_groups(group_type, interval)
@@ -1657,23 +1656,19 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.CS_cop_stealth_R870.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.CS_cop_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
-	self.unit_categories.CS_cop_stealth_R870.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"), }
 	self.unit_categories.CS_heavy_MP5 = self.unit_categories.CS_heavy_M4
 	self.unit_categories.FBI_suit_stealth_R870 = self.unit_categories.FBI_suit_stealth_MP5
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
 	self.unit_categories.FBI_suit_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
-	self.unit_categories.FBI_suit_stealth_R870.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"), }
 	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
 
 	-- new hrt unit categories
 	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
 	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"), }
 	self.unit_categories.CS_cop_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"), }
-	self.unit_categories.CS_cop_C45.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"), }
 	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.CS_cop_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
 	self.unit_categories.CS_cop_MP5.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"), }
-	self.unit_categories.CS_cop_MP5.unit_types.constantine_cartel = { Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"), }
 	self.unit_categories.FBI_suit_C45 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.FBI_suit_C45.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"), }
 	self.unit_categories.FBI_suit_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"), }
@@ -1723,10 +1718,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 				data.unit_types[continent] = clone(data.unit_types.america)
 			end
 		end
-	end
-
-	for _, data in pairs(self.unit_categories) do
-		data.unit_types.constantine_cartel = data.unit_types.constantine_cartel or clone(data.unit_types.america)
 	end
 end
 

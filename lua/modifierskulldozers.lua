@@ -28,6 +28,12 @@ function ModifierSkulldozers:moon_init(...)
 		america = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 	}
 
+	local fucked, use = tweak_data.levels:moon_custom_maps_boowomp()
+	if self._moon_dozer_add[fucked] then
+		self._moon_dozer_add["actual_" .. fucked] = self._moon_dozer_add[fucked]
+		self._moon_dozer_add[fucked] = self._moon_dozer_add[use] or self._moon_dozer_add[fucked]
+	end
+
 	for _, data in pairs(tweak_data.group_ai.unit_categories) do
 		if data.special_type == "tank" then
 			for continent, units in pairs(data.unit_types) do

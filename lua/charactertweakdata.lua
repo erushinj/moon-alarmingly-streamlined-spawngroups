@@ -11,10 +11,6 @@ CharacterTweakData.moon_swat_pager_disable_map.sample_level_id = {
 	heavy_swat_sniper = true,
 }
 
-function CharacterTweakData:_init_region_constantine_cartel()
-	self:_init_region_federales()
-end
-
 if ASS:get_var("is_client") then
 	return
 end
