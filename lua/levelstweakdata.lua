@@ -705,6 +705,7 @@ function LevelsTweakData:moon_enemy_replacements()
 				hard = "normal",
 				overkill = "normal",
 				overkill_145 = "normal",
+				CS_normal = "normal",
 			},
 			{
 				CS_FBI_overkill = "overkill",
