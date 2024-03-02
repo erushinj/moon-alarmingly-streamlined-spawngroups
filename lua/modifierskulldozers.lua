@@ -29,9 +29,9 @@ function ModifierSkulldozers:moon_init(...)
 	}
 
 	local fucked, use = tweak_data.levels:moon_custom_maps_boowomp()
-	if self._moon_dozer_add[fucked] then
+	if self._moon_dozer_add[fucked] and self._moon_dozer_add[use] then
 		self._moon_dozer_add["actual_" .. fucked] = self._moon_dozer_add[fucked]
-		self._moon_dozer_add[fucked] = self._moon_dozer_add[use] or self._moon_dozer_add[fucked]
+		self._moon_dozer_add[fucked] = self._moon_dozer_add[use]
 	end
 
 	for _, data in pairs(tweak_data.group_ai.unit_categories) do

@@ -7,13 +7,6 @@ local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
-local supported_continents = table.list_to_set({
-	"america",
-	"russia",
-	"zombie",
-	"murkywater",
-	"federales",
-})
 
 function GroupAITweakData:moon_preferred_groups(group_type, interval)
 	local preferred = self._moon_preferred_groups
@@ -67,25 +60,21 @@ function GroupAITweakData:moon_swap_units(prefixes)
 	prefixes = prefixes or self.moon_last_prefixes or {}
 	self.moon_last_prefixes = prefixes
 
-	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
+	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements(false)
 	local enemy_mapping = self.tweak_data.levels:moon_enemy_mapping()
 	for prefix, difficulty in pairs(prefixes) do
-		local difficulty_replacement = enemy_replacements[difficulty]
+		for id, data in pairs(self.unit_categories) do
+			if id:match(prefix) then
+				for continent, units in pairs(data.unit_types) do
+					for i = 1, #units do
+						local unit = units[i]
+						local mapped = enemy_mapping[unit:key()]
+						local continent_replacement = enemy_replacements[continent]
+						local difficulty_replacement = continent_replacement and continent_replacement[difficulty]
+						local replacement = difficulty_replacement and difficulty_replacement[mapped]
 
-		if not difficulty_replacement then
-			ASS:log("warn", "GroupAITweakData:moon_swap_units received invalid difficulty name %s for prefix %s!", difficulty, prefix)
-		else
-			for id, data in pairs(self.unit_categories) do
-				if id:match(prefix) then
-					for _, units in pairs(data.unit_types) do
-						for i = 1, #units do
-							local unit = units[i]
-							local mapped = enemy_mapping[unit:key()]
-							local replacement = difficulty_replacement[mapped]
-
-							if replacement and unit ~= replacement then
-								units[i] = replacement
-							end
+						if replacement and unit ~= replacement then
+							units[i] = replacement
 						end
 					end
 				end
@@ -372,7 +361,7 @@ function GroupAITweakData:_moon_original(special_weight)
 			},
 			{
 				rank = 2,
-				unit = "CS_swat_MP5",
+				unit = "CS_swat_SMG",
 				tactics = self._tactics.original_rifle_flank,
 				-- amount_max = 1,
 				freq = self._freq.common,
@@ -405,7 +394,7 @@ function GroupAITweakData:_moon_original(special_weight)
 			},
 			{
 				rank = 2,
-				unit = "FBI_swat_M4",
+				unit = "FBI_swat_SMG",
 				tactics = self._tactics.original_rifle_flank,
 				-- amount_max = 1,
 				freq = self._freq.common,
@@ -798,7 +787,7 @@ function GroupAITweakData:_moon_original(special_weight)
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_swat_MP5_R870",
+				unit = "CS_swat_MP5_SMG",
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline,
 			},
@@ -1287,6 +1276,12 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 				tactics = self._tactics.empty,
 				freq = self._freq.common,
 			},
+			{
+				rank = 1,
+				unit = "CS_swat_SMG",
+				tactics = self._tactics.empty,
+				freq = self._freq.common,
+			},
 		},
 	}
 	self.enemy_spawn_groups.reenforce_heavy = {
@@ -1424,8 +1419,9 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 		chicken_plate_hrt_pistol = { "flank", "deathguard", },
 		chicken_plate_hrt_rifle = { "flank", "deathguard", "ranged_fire", },
 		chicken_plate_hrt_shotgun = { "flank", "deathguard", "charge", },
-		chicken_plate_swat_rifle = { "flank", "flash_grenade", },
+		chicken_plate_swat_rifle = { "ranged_fire", },
 		chicken_plate_swat_shotgun = { "smoke_grenade", "deathguard", },
+		chicken_plate_swat_smg = { "flank", "flash_grenade", },
 		chicken_plate_heavy_rifle = { "flash_grenade", "deathguard", },
 		chicken_plate_heavy_shotgun = { "charge", "smoke_grenade", },
 		chicken_plate_shield = { "murder", "deathguard", "ranged_fire", },
@@ -1442,6 +1438,7 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 		CS_cop_stealth_R870 = "FBI_suit_stealth_R870",
 		CS_swat_MP5 = "FBI_swat_M4",
 		CS_swat_R870 = "FBI_swat_R870",
+		CS_swat_SMG = "FBI_swat_SMG",
 		CS_heavy_MP5 = "FBI_heavy_M4",
 		CS_heavy_R870 = "FBI_heavy_R870",
 	}
@@ -1499,6 +1496,12 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 				rank = 1,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.common,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_SMG",
+				tactics = self._tactics.chicken_plate_swat_smg,
 				freq = self._freq.common,
 			},
 		},
@@ -1617,18 +1620,6 @@ end
 
 local special_limit_mul = ASS:get_tweak("special_limit_mul")
 function GroupAITweakData:_moon_init_unit_categories()
-	local function combined_category(category_1, category_2)
-		local new_category = deep_clone(category_1)
-
-		for continent, units in pairs(category_2.unit_types) do
-			for i = 1, #units do
-				table.insert(new_category.unit_types[continent], units[i])
-			end
-		end
-
-		return new_category
-	end
-
 	-- new special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
 	for special, limit in pairs({
@@ -1652,29 +1643,32 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.CS_cop_stealth_R870 = self.unit_categories.CS_cop_stealth_MP5
 	self.unit_categories.CS_cop_stealth_R870.access = clone(self.unit_categories.spooc.access)
 	self.unit_categories.CS_cop_stealth_R870.unit_types.america = { Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"), }
-	self.unit_categories.CS_cop_stealth_R870.unit_types.russia = { Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"), }
-	self.unit_categories.CS_cop_stealth_R870.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"), }
-	self.unit_categories.CS_cop_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
-	self.unit_categories.CS_cop_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
 	self.unit_categories.CS_heavy_MP5 = self.unit_categories.CS_heavy_M4
 	self.unit_categories.FBI_suit_stealth_R870 = self.unit_categories.FBI_suit_stealth_MP5
-	self.unit_categories.FBI_suit_stealth_R870.unit_types.murkywater = { Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"), }
-	self.unit_categories.FBI_suit_stealth_R870.unit_types.federales = { Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), }
 	self.unit_categories.FBI_heavy_M4 = self.unit_categories.FBI_heavy_G36
 
-	-- new hrt unit categories
+	-- new unit categories
 	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
 	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"), }
-	self.unit_categories.CS_cop_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"), }
 	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45)
-	self.unit_categories.CS_cop_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
-	self.unit_categories.CS_cop_MP5.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"), }
+	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
 	self.unit_categories.FBI_suit_C45 = deep_clone(self.unit_categories.CS_cop_C45)
-	self.unit_categories.FBI_suit_C45.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"), }
-	self.unit_categories.FBI_suit_C45.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"), }
 	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_MP5)
-	self.unit_categories.FBI_suit_M4.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"), }
-	self.unit_categories.FBI_suit_M4.unit_types.zombie = { Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"), }
+
+	self.unit_categories.CS_swat_SMG = deep_clone(self.unit_categories.CS_swat_MP5)
+	if ASS:get_setting("smg_units") then
+		self.unit_categories.CS_swat_SMG.unit_types.america = { Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"), }
+	end
+
+	self.unit_categories.FBI_swat_SMG = deep_clone(self.unit_categories.CS_swat_SMG)
+
+	for _, data in pairs(self.unit_categories) do
+		for continent in pairs(data.unit_types) do
+			if continent ~= "america" then
+				data.unit_types[continent] = clone(data.unit_types.america)
+			end
+		end
+	end
 
 	local difficulty_func = self["_moon_init_unit_categories_" .. ASS:get_var("difficulty")]
 	if difficulty_func then
@@ -1698,27 +1692,33 @@ function GroupAITweakData:_moon_init_unit_categories()
 		level_mod_func(self)
 	end
 
+	local function combined_category(category_1, category_2)
+		local new_category = deep_clone(category_1)
+
+		for continent, units in pairs(category_2.unit_types) do
+			for i = 1, #units do
+				table.insert(new_category.unit_types[continent], units[i])
+			end
+		end
+
+		return new_category
+	end
+
 	-- combined categories
 	self.unit_categories.CS_cop_C45_MP5 = combined_category(self.unit_categories.CS_cop_C45, self.unit_categories.CS_cop_MP5)
 	self.unit_categories.CS_cop_MP5_R870 = combined_category(self.unit_categories.CS_cop_MP5, self.unit_categories.CS_cop_stealth_R870)
 	self.unit_categories.CS_cop_C45_R870 = combined_category(self.unit_categories.CS_cop_C45_MP5, self.unit_categories.CS_cop_stealth_R870)
 	self.unit_categories.CS_swat_MP5_R870 = combined_category(self.unit_categories.CS_swat_MP5, self.unit_categories.CS_swat_R870)
+	self.unit_categories.CS_swat_MP5_SMG = combined_category(self.unit_categories.CS_swat_MP5_R870, self.unit_categories.CS_swat_SMG)
 	self.unit_categories.CS_heavy_MP5_R870 = combined_category(self.unit_categories.CS_heavy_MP5, self.unit_categories.CS_heavy_R870)
 	self.unit_categories.CS_medic_MP5_R870 = combined_category(self.unit_categories.CS_medic_MP5, self.unit_categories.CS_medic_R870)
 	self.unit_categories.FBI_suit_C45_M4 = combined_category(self.unit_categories.FBI_suit_C45, self.unit_categories.FBI_suit_M4)
 	self.unit_categories.FBI_suit_M4_R870 = combined_category(self.unit_categories.FBI_suit_M4, self.unit_categories.FBI_suit_stealth_R870)
 	self.unit_categories.FBI_suit_C45_R870 = combined_category(self.unit_categories.FBI_suit_C45_M4, self.unit_categories.FBI_suit_stealth_R870)
 	self.unit_categories.FBI_swat_M4_R870 = combined_category(self.unit_categories.FBI_swat_M4, self.unit_categories.FBI_swat_R870)
+	self.unit_categories.FBI_swat_M4_SMG = combined_category(self.unit_categories.FBI_swat_M4_R870, self.unit_categories.FBI_swat_SMG)
 	self.unit_categories.FBI_heavy_M4_R870 = combined_category(self.unit_categories.FBI_heavy_M4, self.unit_categories.FBI_heavy_R870)
 	self.unit_categories.FBI_medic_M4_R870 = combined_category(self.unit_categories.FBI_medic_M4, self.unit_categories.FBI_medic_R870)
-
-	for continent in pairs(continent_reference) do
-		if not supported_continents[continent] then
-			for _, data in pairs(self.unit_categories) do
-				data.unit_types[continent] = clone(data.unit_types.america)
-			end
-		end
-	end
 end
 
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
@@ -1869,17 +1869,17 @@ function GroupAITweakData:moon_custom_maps_boowomp()
 	self.unit_categories.marshal_marksman.unit_types.america = { Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"), }
 	self.unit_categories.marshal_shield.unit_types.america = { Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"), }
 
-	for _, data in pairs(self.unit_categories) do
-		for continent in pairs(data.unit_types) do
-			if continent ~= "america" then
-				data.unit_types[continent] = clone(data.unit_types.america)
-			end
-		end
-	end
-
 	-- shouldnt have to do this more than once but idk
 	if self.grand_theft_auto_reference then
 		self:_moon_init_unit_categories()
+	else
+		for _, data in pairs(self.unit_categories) do
+			for continent in pairs(data.unit_types) do
+				if continent ~= "america" then
+					data.unit_types[continent] = clone(data.unit_types.america)
+				end
+			end
+		end
 	end
 
 	self.grand_theft_auto_reference = true

@@ -73,14 +73,17 @@
 	"ass_shield_arms_smgs" : "Radical (SMGs)",
 	"ass_shield_arms_both" : "Centrist (Both)",
 
-	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
-	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",
+	"ass_menu_smg_units" : "Shiny Riflemen",
+	"ass_menu_smg_units_desc" : "Allow SMG SWATs for supported factions to spawn in the assault, if available.",
 
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
 
 	"ass_menu_captain_winters" : "Captain Winters",
 	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn.",
+
+	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
+	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",
 
 	"ass_menu_escapes" : "Escapes",
 	"ass_menu_escapes_desc" : "Allow escapes to occur.",

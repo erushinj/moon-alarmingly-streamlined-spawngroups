@@ -56,10 +56,13 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	end
 
 	local enemy_mapping = tweak_data.levels:moon_enemy_mapping()
-	local forbidden_scripted_replacements = tweak_data.levels:moon_forbidden_scripted_replacements()
 	local mapped_name = enemy_mapping[name_key]
-	if forbidden_scripted_replacements[mapped_name] then
-		return self:moon_produce_helper(params, ...)
+	if self._values.fixed_spawn ~= false then
+		local forbidden_scripted_replacements = tweak_data.levels:moon_forbidden_scripted_replacements()
+
+		if forbidden_scripted_replacements[mapped_name] then
+			return self:moon_produce_helper(params, ...)
+		end
 	end
 
 	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()

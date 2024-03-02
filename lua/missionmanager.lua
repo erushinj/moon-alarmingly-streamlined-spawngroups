@@ -8,19 +8,13 @@ if not MissionManager.mission_script_patch_funcs then
 	return
 end
 
-if BLT.Mods:GetModByName("BeardLib") then
-	local function i_hate_beardlib()
-		if not ElementAIGroupType then
-			DelayedCalls:Add( "ass_boowomp", 1, i_hate_beardlib )
-		else
-			ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
-				tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
-			end)
-		end
+ASS:pre_hook( MissionManager, "init", function(self)
+	if ElementAIGroupType then
+		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
+			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+		end )
 	end
-
-	i_hate_beardlib()
-end
+end )
 
 
 local ass_mission_script_patches = ASS:script_patches("mission")
@@ -86,9 +80,18 @@ end
 -- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
 -- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
-	if type(data) == "table" then
+	local typ = type_name(data)
+
+	if typ == "table" then
+		if data.fixed_spawn ~= nil then
+			element._values.fixed_spawn = data.fixed_spawn
+			data.fixed_spawn = nil
+		end
+
 		element._possible_enemies = data
 		element._patched_enemy_name = data[1]
+	elseif typ ~= "Idstring" then
+		element._values.fixed_spawn = data
 	else
 		element._patched_enemy_name = data
 	end

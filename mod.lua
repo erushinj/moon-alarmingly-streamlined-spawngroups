@@ -57,9 +57,10 @@ if not ASS then
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
 		shield_arms = 1,  -- pick shield weapon type
-		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
+		smg_units = true,  -- allow smg swats to spawn if applicable
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
+		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
 		escapes = false,  -- allow escapes to occur on maps that have them
 	}
 	ASS.default_settings = deep_clone(ASS.settings)
@@ -306,6 +307,10 @@ if not ASS then
 		corp = "FBI_CITY_easy_wish",  -- hostile takeover
 		deep = "CITY_overkill_290",  -- crude awakening
 		roberts = "FBI_overkill_145",  -- go bank
+
+		-- custom levels
+		rusd = "CS_FBI_overkill",  -- cold stones
+		-- rusdl = "CS_FBI_overkill",  -- cold stones
 	}
 
 	function ASS:get_var(var)
@@ -413,18 +418,22 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
-		shield_arms = {
-			priority = priority(),
-			items = items("shield_arms"),
-		},
 		dmg_interval = {
 			priority = priority(),
 			items = items("dmg_interval"),
 			divider = divider,
 		},
-		gas_grenade_ignore_hostages = { priority = priority(), },
+		shield_arms = {
+			priority = priority(),
+			items = items("shield_arms"),
+		},
+		smg_units = { priority = priority(), },
 		minigun_dozers = { priority = priority(), },
-		captain_winters = { priority = priority(), },
+		captain_winters = {
+			priority = priority(),
+			divider = divider,
+		},
+		gas_grenade_ignore_hostages = { priority = priority(), },
 		escapes = {
 			priority = priority(),
 			divider = divider,
