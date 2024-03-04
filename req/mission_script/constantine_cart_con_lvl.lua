@@ -25,6 +25,30 @@ return {
 			},
 		},
 	},
+	[100100] = {
+		values = {
+			difficulty = 0.5,
+		},
+		on_executed = {
+			{ id = 100101, delay = 60, },  -- 120 normally
+		},
+	},
+	[100101] = {
+		values = {
+			difficulty = 0.675,  -- 0.75 normally
+		},
+		on_executed = {
+			{ id = 100102, delay = 60, },  -- 120
+		},
+	},
+	[100102] = {
+		values = {
+			difficulty = 0.85,  -- 0.9 normally
+		},
+		on_executed = {
+			{ id = 100103, delay = 60, },  -- 120, diff 1 element
+		},
+	},
 	[100133] = { enemy = hrts_cartel, },
 	[100134] = { enemy = hrts_cartel, },
 	[100135] = { enemy = hrts_cartel, },

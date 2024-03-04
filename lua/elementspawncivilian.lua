@@ -9,27 +9,20 @@ function ElementSpawnCivilian:moon_init_hook()
 		self._values.possible_enemies = nil
 	end
 
+	if self._values.static_spawn then
+		self.static_continent = self._values.static_spawn.continent
+		self.static_tier = self._values.static_spawn.tier
+		self._values.static_spawn = nil
+	end
+
 	self._original_enemy_name = self._enemy_name
 end
 
 ASS:post_hook( ElementSpawnCivilian, "init", ElementSpawnCivilian.moon_init_hook )
 
-local function i_hate_scripted_spawns()
-	local skm = managers.skirmish
-
-	if skm and skm:is_skirmish() then
-		local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
-		local wave_categories = wave_unit_categories[skm:current_wave_number()] or wave_unit_categories[#wave_unit_categories]
-
-		return wave_categories and wave_categories.CS
-	end
-end
-local level = tweak_data.levels[ASS:get_var("level_id")]
-local is_skirmish = level and level.group_ai_state == "skirmish"
-local difficulty = is_skirmish and i_hate_scripted_spawns or ASS:get_var("difficulty")
-local level_mod = not is_skirmish and ASS:get_var("level_mod") or nil
-
 -- allow randomization of scripted spawns, even when the same element is used multiple times
+local difficulty = ASS:get_var("difficulty")
+local level_mod = ASS:get_var("level_mod")
 ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
 
@@ -55,9 +48,10 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 		return self:moon_produce_helper(params, ...)
 	end
 
+	local static_continent = self.static_continent
 	local enemy_mapping = tweak_data.levels:moon_enemy_mapping()
 	local mapped_name = enemy_mapping[name_key]
-	if self._values.fixed_spawn ~= false then
+	if not static_continent then
 		local forbidden_scripted_replacements = tweak_data.levels:moon_forbidden_scripted_replacements()
 
 		if forbidden_scripted_replacements[mapped_name] then
@@ -65,8 +59,15 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 		end
 	end
 
-	local enemy_replacements = tweak_data.levels:moon_enemy_replacements()
-	local replacement = level_mod or type(difficulty) == "function" and difficulty() or difficulty or "normal"
+	local wave_categories
+	if managers.skirmish and managers.skirmish:is_skirmish() then
+		local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
+
+		wave_categories = wave_unit_categories[managers.skirmish:current_wave_number()]
+	end
+
+	local replacement = self.static_tier or wave_categories and wave_categories.CS or level_mod or difficulty
+	local enemy_replacements = tweak_data.levels:moon_enemy_replacements(static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then
 		self._enemy_name = mapped_unit

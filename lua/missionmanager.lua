@@ -71,6 +71,32 @@ ASS:override( MissionManager.mission_script_patch_funcs, "groups", function(self
 	return self.mission_script_patch_funcs.groups_original(self, element, data, ...)
 end )
 
+MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, element, data)
+	element._values.on_executed_original = element._values.on_executed
+	element._values.on_executed = {}
+
+	local reordered_ids = {}
+	for i = 1, #data do
+		local id = data[i]
+
+		for _, v in pairs(element._values.on_executed_original) do
+			if v.id == id then
+				table.insert(element._values.on_executed, v)
+
+				reordered_ids[id] = true
+
+				break
+			end
+		end
+	end
+
+	for _, v in pairs(element._values.on_executed_original) do
+		if not reordered_ids[v.id] then
+			table.insert(element._values.on_executed, v)
+		end
+	end
+end
+
 -- used for CoreElementLogicChance.ElementLogicChance, core\lib\managers\mission\coreelementlogicchance
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
 	element._values.chance = data
@@ -79,19 +105,15 @@ end
 
 -- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
 -- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+MissionManager.mission_script_patch_funcs.static_spawn = function(self, element, data)
+	element.static_continent = data.continent
+	element.static_tier = data.tier
+end
+
 MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
-	local typ = type_name(data)
-
-	if typ == "table" then
-		if data.fixed_spawn ~= nil then
-			element._values.fixed_spawn = data.fixed_spawn
-			data.fixed_spawn = nil
-		end
-
+	if type(data) == "table" then
 		element._possible_enemies = data
 		element._patched_enemy_name = data[1]
-	elseif typ ~= "Idstring" then
-		element._values.fixed_spawn = data
 	else
 		element._patched_enemy_name = data
 	end

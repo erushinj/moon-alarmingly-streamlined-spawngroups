@@ -253,6 +253,8 @@ return {
 	[("units/pd2_mod_ttr/characters/ene_cartel_suit_1/ene_cartel_suit_1"):key()] = "ak47",  -- "suits"
 	[("units/pd2_mod_ttr/characters/ene_cartel_suit_2/ene_cartel_suit_2"):key()] = "ump",
 	[("units/pd2_mod_ttr/characters/ene_cartel_suit_3/ene_cartel_suit_3"):key()] = "r870",
+	[("units/pd2_mod_ttr/characters/ene_cartel_security_1/ene_cartel_security_1"):key()] = "beretta92",
+	[("units/pd2_mod_ttr/characters/ene_cartel_security_2/ene_cartel_security_2"):key()] = "raging_bull",
 	[("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_1/ene_cartel_bathrobe_1"):key()] = "mac11",  -- bathrobe idiots
 	[("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_2/ene_cartel_bathrobe_2"):key()] = "beretta92",
 	[("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_3/ene_cartel_bathrobe_3"):key()] = "raging_bull",
@@ -278,11 +280,11 @@ return {
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_2/ene_cartel_soldier_zeal_2"):key()] = "beretta92",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_3/ene_cartel_soldier_zeal_3"):key()] = "r870",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_4/ene_cartel_soldier_zeal_4"):key()] = "ump",
-	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_1/ene_cartel_soldier_fbi_shotgun_1"):key()] = "r870",
+	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_1/ene_cartel_soldier_fbi_shotgun_1"):key()] = "ak47",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_2/ene_cartel_soldier_fbi_shotgun_2"):key()] = "beretta92",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_3/ene_cartel_soldier_fbi_shotgun_3"):key()] = "r870",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_4/ene_cartel_soldier_fbi_shotgun_4"):key()] = "ump",
-	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_1/ene_cartel_soldier_city_shotgun_1"):key()] = "r870",
+	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_1/ene_cartel_soldier_city_shotgun_1"):key()] = "ak47",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_2/ene_cartel_soldier_city_shotgun_2"):key()] = "beretta92",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_3/ene_cartel_soldier_city_shotgun_3"):key()] = "r870",
 	[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_4/ene_cartel_soldier_city_shotgun_4"):key()] = "ump",

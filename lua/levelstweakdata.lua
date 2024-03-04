@@ -173,15 +173,7 @@ function LevelsTweakData:moon_forbidden_scripted_replacements()
 				hrt_2 = true,
 				hrt_3 = true,
 			},
-			constantine_fiesta_lvl = {
-				hrt_1 = true,
-				hrt_2 = true,
-				hrt_3 = true,
-				dozer_3 = true,
-			},
 		}
-		forbidden_replacements.constantine_jungle_lvl = forbidden_replacements.constantine_fiesta_lvl
-		forbidden_replacements.constantine_yacht_lvl = forbidden_replacements.constantine_fiesta_lvl
 
 		self._moon_forbidden_scripted_replacements = forbidden_replacements
 	end
@@ -190,7 +182,7 @@ function LevelsTweakData:moon_forbidden_scripted_replacements()
 end
 
 -- replacements based on mapped enemy key
-function LevelsTweakData:moon_enemy_replacements(all)
+function LevelsTweakData:moon_enemy_replacements(continent)
 	local replacements = self._moon_enemy_replacements
 
 	if not replacements then
@@ -745,11 +737,11 @@ function LevelsTweakData:moon_enemy_replacements(all)
 		self._moon_enemy_replacements = replacements
 	end
 
-	if all ~= false then
-		return replacements[self:get_ai_group_type()] or replacements.america
+	if continent == "all" then
+		return replacements
 	end
 
-	return replacements
+	return replacements[continent or self:get_ai_group_type()] or replacements.america
 end
 
 -- fetches mapped enemy keys

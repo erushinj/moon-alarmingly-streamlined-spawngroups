@@ -12,13 +12,15 @@ ModifierHeavies._moon_u_key_mapping = u_key_mapping
 ASS:override( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
-	for _, difficulty in pairs(tweak_data.levels:moon_enemy_replacements()) do
-		for u_key in pairs(difficulty) do
-			local new_key = u_key_mapping[u_key]
-			local mapped_unit = difficulty[new_key]
+	for _, continent in pairs(tweak_data.levels:moon_enemy_replacements("all")) do
+		for _, tier in pairs(continent) do
+			for u_key in pairs(tier) do
+				local new_key = u_key_mapping[u_key]
+				local mapped_unit = tier[new_key]
 
-			if mapped_unit then
-				difficulty[u_key] = mapped_unit
+				if mapped_unit then
+					tier[u_key] = mapped_unit
+				end
 			end
 		end
 	end

@@ -7,6 +7,7 @@ local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
+local difficulty = ASS:get_var("difficulty")
 
 function GroupAITweakData:moon_preferred_groups(group_type, interval)
 	local preferred = self._moon_preferred_groups
@@ -60,18 +61,18 @@ function GroupAITweakData:moon_swap_units(prefixes)
 	prefixes = prefixes or self.moon_last_prefixes or {}
 	self.moon_last_prefixes = prefixes
 
-	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements(false)
 	local enemy_mapping = self.tweak_data.levels:moon_enemy_mapping()
-	for prefix, difficulty in pairs(prefixes) do
+	for prefix, tier in pairs(prefixes) do
 		for id, data in pairs(self.unit_categories) do
 			if id:match(prefix) then
 				for continent, units in pairs(data.unit_types) do
+					local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements(continent)
+
 					for i = 1, #units do
 						local unit = units[i]
 						local mapped = enemy_mapping[unit:key()]
-						local continent_replacement = enemy_replacements[continent]
-						local difficulty_replacement = continent_replacement and continent_replacement[difficulty]
-						local replacement = difficulty_replacement and difficulty_replacement[mapped]
+						local tier_replacement = enemy_replacements[tier]
+						local replacement = tier_replacement and tier_replacement[mapped]
 
 						if replacement and unit ~= replacement then
 							units[i] = replacement
@@ -95,46 +96,39 @@ function GroupAITweakData:_moon_add_tactics(tactics)
 end
 
 -- difficulty-specific functions mostly just ensure all unit categories are set properly
-function GroupAITweakData:_moon_init_unit_categories_normal()
-	self:moon_swap_units({ CS = "normal", FBI = "normal", })
-end
+-- function GroupAITweakData:_moon_init_unit_categories_normal() end
 
-function GroupAITweakData:_moon_init_unit_categories_hard()
-	self:_moon_init_unit_categories_normal()
-end
+-- function GroupAITweakData:_moon_init_unit_categories_hard() end
 
 -- also add saiga dozers
 function GroupAITweakData:_moon_init_unit_categories_overkill()
-	self:moon_swap_units({ CS = "normal", FBI = "overkill_145", })
-
-	local continent = self.tweak_data.levels:get_ai_group_type()
-	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
-
-	try_insert(self.unit_categories.FBI_tank.unit_types[continent], enemy_replacements.overkill_145.dozer_2)
+	try_insert(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"))
 end
 
-function GroupAITweakData:_moon_init_unit_categories_overkill_145()
-	self:moon_swap_units({ CS = "overkill_145", FBI = "overkill_145", })
-end
+-- function GroupAITweakData:_moon_init_unit_categories_overkill_145() end
 
-function GroupAITweakData:_moon_init_unit_categories_easy_wish()
-	self:moon_swap_units({ CS = "overkill_145", FBI = "overkill_290", })
-end
+-- function GroupAITweakData:_moon_init_unit_categories_easy_wish() end
 
 -- also remove assault minigun dozers if applicable
 function GroupAITweakData:_moon_init_unit_categories_overkill_290()
-	self:moon_swap_units({ CS = "overkill_290", FBI = "overkill_290", })
-
-	local continent = self.tweak_data.levels:get_ai_group_type()
-	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements()
-
 	if not ASS:get_setting("minigun_dozers") then
-		table.delete(self.unit_categories.FBI_tank.unit_types[continent] or {}, enemy_replacements.overkill_290.dozer_4)
+		table.delete(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
 	end
 end
 
-function GroupAITweakData:_moon_init_unit_categories_sm_wish()
-	self:moon_swap_units({ CS = "sm_wish", FBI = "sm_wish", })
+-- function GroupAITweakData:_moon_init_unit_categories_sm_wish() end
+
+local prefixes_by_difficulty = {
+	normal = { CS = "normal", FBI = "normal", },
+	hard = { CS = "normal", FBI = "normal", },
+	overkill = { CS = "normal", FBI = "overkill_145", },
+	overkill_145 = { CS = "overkill_145", FBI = "overkill_145", },
+	easy_wish = { CS = "overkill_145", FBI = "overkill_290", },
+	overkill_290 = { CS = "overkill_290", FBI = "overkill_290", },
+	sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
+}
+function GroupAITweakData:_moon_level_mod_none()
+	self:moon_swap_units(prefixes_by_difficulty[difficulty])
 end
 
 -- like the difficulty functions, but always purely cosmetic even on VH and DW
@@ -1651,7 +1645,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.CS_cop_C45 = deep_clone(self.unit_categories.FBI_suit_C45_M4)
 	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"), }
 	self.unit_categories.CS_cop_MP5 = deep_clone(self.unit_categories.CS_cop_C45)
-	self.unit_categories.CS_cop_C45.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
+	self.unit_categories.CS_cop_MP5.unit_types.america = { Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"), }
 	self.unit_categories.FBI_suit_C45 = deep_clone(self.unit_categories.CS_cop_C45)
 	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_MP5)
 
@@ -1662,17 +1656,17 @@ function GroupAITweakData:_moon_init_unit_categories()
 
 	self.unit_categories.FBI_swat_SMG = deep_clone(self.unit_categories.CS_swat_SMG)
 
+	local difficulty_func = self["_moon_init_unit_categories_" .. difficulty]
+	if difficulty_func then
+		difficulty_func(self)
+	end
+
 	for _, data in pairs(self.unit_categories) do
 		for continent in pairs(data.unit_types) do
 			if continent ~= "america" then
 				data.unit_types[continent] = clone(data.unit_types.america)
 			end
 		end
-	end
-
-	local difficulty_func = self["_moon_init_unit_categories_" .. ASS:get_var("difficulty")]
-	if difficulty_func then
-		difficulty_func(self)
 	end
 
 	-- for better holdout/gensec-zeal level mod support
@@ -1690,6 +1684,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 	local level_mod_func = self["_moon_level_mod_" .. (ASS:get_var("level_mod") or "")]
 	if level_mod_func then
 		level_mod_func(self)
+	else
+		self:_moon_level_mod_none()
 	end
 
 	local function combined_category(category_1, category_2)
