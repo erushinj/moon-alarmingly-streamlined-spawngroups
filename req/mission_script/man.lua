@@ -108,7 +108,7 @@ return {
 	},
 	-- vent cloaker group
 	[102153] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 15),
+		interval = 15,
 	},
 	[103801] = {  -- disable this non-vent spawn point
 		values = {

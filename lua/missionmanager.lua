@@ -59,17 +59,9 @@ for _, data in pairs(StreamHeist._mission_script_patches) do
 	end
 end
 
--- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
-ASS:override( MissionManager.mission_script_patch_funcs, "groups", function(self, element, data, ...)
-	data.interval = tonumber(data.interval)
-
-	if data.interval then
-		element._values.interval = data.interval
-		data.interval = nil
-	end
-
-	return self.mission_script_patch_funcs.groups_original(self, element, data, ...)
-end )
+MissionManager.mission_script_patch_funcs.interval = function(self, element, data)
+	element._values.interval = data
+end
 
 MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, element, data)
 	element._values.on_executed_original = element._values.on_executed

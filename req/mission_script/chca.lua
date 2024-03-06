@@ -75,19 +75,24 @@ local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 return {
 	-- group spawn points
 	[100312] = {  -- in casino balconies, its easy enough to get swamped back here
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 5),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 5,
 	},
 	[100325] = {
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 5),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 5,
 	},
 	[100758] = {  -- courtyard rappel spawns
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 15,
 	},
 	[100757] = {
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 15,
 	},
 	[100759] = {
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 15,
 	},
 	-- reenforce points
 	[103169] = {  -- unneeded, courtyard

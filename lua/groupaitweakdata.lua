@@ -9,7 +9,7 @@ local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 local difficulty = ASS:get_var("difficulty")
 
-function GroupAITweakData:moon_preferred_groups(group_type, interval)
+function GroupAITweakData:moon_preferred_groups(group_type)
 	local preferred = self._moon_preferred_groups
 
 	if not preferred then
@@ -39,10 +39,7 @@ function GroupAITweakData:moon_preferred_groups(group_type, interval)
 		self._moon_preferred_groups = preferred
 	end
 
-	local result = check_clone(preferred[group_type], true) or {}
-	result.interval = interval
-
-	return result
+	return preferred[group_type]
 end
 
 function GroupAITweakData:moon_preferred_groups_instance(group_type)

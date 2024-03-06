@@ -29,7 +29,8 @@ return {
 		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
 	},
 	[103174] = {  -- rappel
-		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers", 15),
+		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
+		interval = 15,
 	},
 	-- second office
 	[102925] = {

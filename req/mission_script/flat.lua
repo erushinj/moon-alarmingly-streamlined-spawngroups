@@ -109,19 +109,19 @@ return {
 	},
 	-- slow down roof spawns, these are really fucking annoying
 	[104650] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 30),
+		interval = 30,
 	},
 	[100504] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 30),
+		interval = 30,
 	},
 	[100505] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 30),
+		interval = 30,
 	},
 	[100509] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 30),
+		interval = 30,
 	},
 	[100396] = {
-		groups = tweak_data.group_ai:moon_preferred_groups(nil, 30),
+		interval = 30,
 	},
 	-- gangster amounts
 	[102593] = {
