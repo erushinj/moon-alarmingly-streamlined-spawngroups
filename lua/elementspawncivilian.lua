@@ -4,6 +4,11 @@ if ASS:get_var("is_spawner")  then
 end
 
 function ElementSpawnCivilian:moon_init_hook()
+	if self._values.patched_enemy_name then
+		self._patched_enemy_name = self._values.patched_enemy_name
+		self._values.patched_enemy_name = nil
+	end
+
 	if self._values.possible_enemies then
 		self._possible_enemies = self._values.possible_enemies
 		self._values.possible_enemies = nil

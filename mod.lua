@@ -310,7 +310,8 @@ if not ASS then
 
 		-- custom levels
 		rusd = "CS_FBI_overkill",  -- cold stones
-		-- rusdl = "CS_FBI_overkill",  -- cold stones
+		constantine_penthouse_nar = "CITY_overkill_290",  -- penthouse crasher
+		constantine_resort_nar = "CITY_overkill_290",  -- scarlett resort
 	}
 
 	function ASS:get_var(var)
