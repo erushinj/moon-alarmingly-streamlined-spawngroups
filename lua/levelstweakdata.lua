@@ -1,5 +1,23 @@
 local try_insert = ASS:require("try_insert", true)
 local level_id = ASS:get_var("level_id")
+local real_difficulty_index = ASS:get_var("real_difficulty_index")
+
+function LevelsTweakData:moon_regular_custom_group()
+	 if self._moon_regular_custom_group == nil then
+		local regular_custom_group_ids = {
+			man = true,  -- dozer spawn loop, albeit unsure why the gasser spawns participate to groupai in the first place
+			dah = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+			hox_3 = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+			flat = true,  -- not really any reason NOT to
+			chca = true,  -- triads onboard
+			dinner = true,  -- murkies
+		}
+
+		self._moon_regular_custom_group = regular_custom_group_ids[level_id] or false
+	 end
+
+	 return self._moon_regular_custom_group
+end
 
 -- is it obvious enough i dont like custom maps not loading the vanilla faction for the unit type they use
 function LevelsTweakData:moon_custom_maps_boowomp()
@@ -127,7 +145,6 @@ function LevelsTweakData:moon_random_units()
 			dozers_any = { dozer_1, },
 		}
 
-		local real_difficulty_index = ASS:get_var("real_difficulty_index")
 		for _, v in pairs({
 			{ 2, dozer_1, },
 			{ 4, dozer_2, },

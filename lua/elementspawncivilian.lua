@@ -65,10 +65,12 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	end
 
 	local wave_categories
-	if managers.skirmish and managers.skirmish:is_skirmish() then
+	local skm = managers.skirmish
+	if skm and skm:is_skirmish() then
 		local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
+		local current_wave_categories = wave_unit_categories[skm:current_wave_number()]
 
-		wave_categories = wave_unit_categories[managers.skirmish:current_wave_number()]
+		wave_categories = current_wave_categories or wave_unit_categories[#wave_unit_categories]
 	end
 
 	local replacement = self.static_tier or wave_categories and wave_categories.CS or level_mod or difficulty

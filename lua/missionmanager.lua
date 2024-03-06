@@ -42,7 +42,7 @@ else
 	merge_patches(StreamHeist._mission_script_patches, ass_mission_script_patches)
 end
 
-local spawn_group_mapping = ASS:require("spawn_group_mapping")
+local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
 for _, data in pairs(StreamHeist._mission_script_patches) do
 	local groups = data.groups
 

@@ -20,13 +20,13 @@ function SkirmishTweakData:moon_wave_unit_categories()
 	return self._moon_wave_unit_categories
 end
 
+local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
+local special_limit_mul = ASS:get_tweak("special_limit_mul")
+local force_pool_mul = ASS:get_tweak("force_pool_mul")
+local skm_special_weights = ASS:get_tweak("skm_special_weights")
+local assault_style = ASS:get_var("assault_style")
 ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
-	local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
-	local special_limit_mul = ASS:get_tweak("special_limit_mul")
-	local force_pool_mul = ASS:get_tweak("force_pool_mul")
-
 	if not self._moon_skirmish_groups then
-		local skm_special_weights = ASS:get_tweak("skm_special_weights")
 		local w1, w2, w3 = unpack(skm_special_weights)
 
 		local special_weights_original_a = { w1, w2 * 0.5, 0, }
@@ -115,7 +115,7 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 
 	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * force_pool_mul end)
 
-	local base_groups = self._moon_skirmish_groups[ASS:get_var("assault_style")] or self._moon_skirmish_groups.default
+	local base_groups = self._moon_skirmish_groups[assault_style] or self._moon_skirmish_groups.default
 
 	for i = 1, #self.assault.groups do
 		local f = math.min((i - 1) / 8, 1)

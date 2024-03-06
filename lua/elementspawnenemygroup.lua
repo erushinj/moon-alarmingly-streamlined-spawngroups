@@ -10,7 +10,7 @@ if not group_mapping then
 end
 
 local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
-for group_name, new_groups in pairs(ASS:require("spawn_group_mapping")) do
+for group_name, new_groups in pairs(tweak_data.group_ai:moon_spawn_group_mapping()) do
 	local mapping = group_mapping[group_name] or {}
 	group_mapping[group_name] = mapping
 

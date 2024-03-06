@@ -9,6 +9,74 @@ local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 local difficulty = ASS:get_var("difficulty")
 
+function GroupAITweakData:moon_spawn_group_mapping()
+	if not self._moon_spawn_group_mapping then
+		self._moon_spawn_group_mapping = {
+			tac_swat_rifle_flank = {
+				"tac_swat_rifle",
+				"tac_swat_rifle_no_medic",
+				"tac_swat_rifle_flank",
+				"tac_swat_rifle_flank_no_medic",
+				"tac_swat_shotgun_rush",
+				"tac_swat_shotgun_rush_no_medic",
+				"tac_swat_shotgun_flank",
+				"tac_swat_shotgun_flank_no_medic",
+				"hostage_rescue",
+				"reenforce_init",
+				"reenforce_light",
+				"reenforce_heavy",
+				"marshal_squad",
+				"original_swats_a",
+				"original_swats_b",
+				"original_heavys_a",
+				"original_heavys_b",
+				"original_recon_a",
+				"original_recon_b",
+				"original_recon_c",
+				"original_recon_d",
+				"original_reenforce_a",
+				"original_reenforce_b",
+				"original_reenforce_c",
+				"chicken_plate_hrt_a",
+				"chicken_plate_hrt_b",
+				"chicken_plate_swat_a",
+				"chicken_plate_swat_b",
+				"chicken_plate_heavy_a",
+				"chicken_plate_heavy_b",
+			},
+			tac_shield_wall = {
+				"tac_shield_wall_ranged",
+				"tac_shield_wall_charge",
+				"original_shields_a",
+				"original_shields_b",
+				"chicken_plate_shield",
+			},
+			tac_tazer_flanking = {
+				"tac_tazer_flanking",
+				"tac_tazer_charge",
+				"original_tazers_a",
+				"original_tazers_b",
+				"chicken_plate_taser",
+				"chicken_plate_medic",
+			},
+			tac_bull_rush = {
+				"tac_bull_rush",
+				"original_tanks_a",
+				"original_tanks_b",
+				"chicken_plate_tank",
+			},
+			FBI_spoocs = {
+				"FBI_spoocs",
+				"original_spoocs_a",
+				"original_spoocs_b",
+				"chicken_plate_spooc",
+			},
+		}
+	end
+
+	return self._moon_spawn_group_mapping
+end
+
 function GroupAITweakData:moon_preferred_groups(group_type)
 	local preferred = self._moon_preferred_groups
 
@@ -21,7 +89,7 @@ function GroupAITweakData:moon_preferred_groups(group_type)
 			no_shields_dozers = function(v) return v ~= "tac_shield_wall" and v ~= "tac_bull_rush" end,
 		}
 
-		local spawn_group_mapping = ASS:require("spawn_group_mapping")
+		local spawn_group_mapping = self:moon_spawn_group_mapping()
 		for typ, func in pairs(preferred) do
 			local map = {}
 
@@ -107,8 +175,9 @@ end
 -- function GroupAITweakData:_moon_init_unit_categories_easy_wish() end
 
 -- also remove assault minigun dozers if applicable
+local minigun_dozers = ASS:get_setting("minigun_dozers")
 function GroupAITweakData:_moon_init_unit_categories_overkill_290()
-	if not ASS:get_setting("minigun_dozers") then
+	if not minigun_dozers then
 		table.delete(self.unit_categories.FBI_tank.unit_types.america, Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"))
 	end
 end
@@ -144,25 +213,6 @@ end
 function GroupAITweakData:_moon_level_mod_FBI_office()
 	self:_moon_level_mod_FBI_overkill_145()
 
-	self.unit_categories.CS_cop_C45_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
-		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
-	}
-	self.unit_categories.CS_cop_C45_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
-		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
-		Idstring("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"),
-		Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
-	}
-	self.unit_categories.CS_cop_MP5_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-		Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
-		Idstring("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"),
-		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
-		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
-	}
 	self.unit_categories.CS_cop_C45.unit_types.america = {
 		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
 		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
@@ -174,6 +224,7 @@ function GroupAITweakData:_moon_level_mod_FBI_office()
 		Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
 	}
 	self.unit_categories.CS_cop_stealth_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
 		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
 		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
 	}
@@ -1610,6 +1661,8 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 end
 
 local special_limit_mul = ASS:get_tweak("special_limit_mul")
+local smg_units = ASS:get_setting("smg_units")
+local level_mod = ASS:get_var("level_mod")
 function GroupAITweakData:_moon_init_unit_categories()
 	-- new special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
@@ -1647,7 +1700,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_suit_M4 = deep_clone(self.unit_categories.CS_cop_MP5)
 
 	self.unit_categories.CS_swat_SMG = deep_clone(self.unit_categories.CS_swat_MP5)
-	if ASS:get_setting("smg_units") then
+	if smg_units then
 		self.unit_categories.CS_swat_SMG.unit_types.america = { Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"), }
 	end
 
@@ -1678,7 +1731,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_marshal_marksman = self.unit_categories.marshal_marksman
 	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 
-	local level_mod_func = self["_moon_level_mod_" .. (ASS:get_var("level_mod") or "")]
+	local level_mod_func = self["_moon_level_mod_" .. (level_mod or "")]
 	if level_mod_func then
 		level_mod_func(self)
 	else
@@ -1714,9 +1767,11 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_medic_M4_R870 = combined_category(self.unit_categories.FBI_medic_M4, self.unit_categories.FBI_medic_R870)
 end
 
+local special_weight_min, special_weight_max = unpack(ASS:get_tweak("special_weight_base"))
+local freq_base = ASS:get_tweak("freq_base")
+local assault_style = ASS:get_var("assault_style")
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
-	local assault_style_func = self["_moon_" .. ASS:get_var("assault_style")] or self._moon_default
-	local special_weight_min, special_weight_max = unpack(ASS:get_tweak("special_weight_base"))
+	local assault_style_func = self["_moon_" .. assault_style] or self._moon_default
 	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
 	if assault_style_func == self._moon_default then
@@ -1726,7 +1781,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 
 	self._freq = {}
-	for typ, val in pairs(ASS:get_tweak("freq_base")) do
+	for typ, val in pairs(freq_base) do
 		self._freq[typ] = math.lerp(val[1], val[2], f)
 	end
 
@@ -1749,23 +1804,27 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 end
 
-function GroupAITweakData:_moon_init_task_data()
-	local grenade_cooldown_mul = ASS:get_tweak("grenade_cooldown_mul")
-	local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:get_tweak("smoke_grenade_lifetime"))
-	local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS:get_tweak("spawn_cooldowns"))
-	local force_pool_mul = ASS:get_tweak("force_pool_mul")
-	local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS:get_tweak("sustain_duration_muls"))
-	local break_duration_mul = ASS:get_tweak("break_duration_mul")
-	local recon_force_mul = ASS:get_tweak("recon_force_mul")
 
+local grenade_cooldown_mul = ASS:get_tweak("grenade_cooldown_mul")
+local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:get_tweak("smoke_grenade_lifetime"))
+local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS:get_tweak("spawn_cooldowns"))
+local force_pool_mul = ASS:get_tweak("force_pool_mul")
+local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS:get_tweak("sustain_duration_muls"))
+local break_duration_mul = ASS:get_tweak("break_duration_mul")
+local recon_force_mul = ASS:get_tweak("recon_force_mul")
+local cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
+local min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
+local no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
+local reenforce_interval = ASS:get_tweak("reenforce_interval")
+function GroupAITweakData:_moon_init_task_data()
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_lifetime_min, smoke_lifetime_max, f)
 	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
-	self.cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
-	self.min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
-	self.no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
+	self.cs_grenade_chance_times = cs_grenade_chance_times
+	self.min_grenade_timeout = min_grenade_timeout
+	self.no_grenade_push_delay = no_grenade_push_delay
 	self.spawn_cooldown_mul = math.lerp(spawn_cooldown_max, spawn_cooldown_min, f)
 	self.spawn_kill_cooldown = spawn_cooldown_min * 10
 
@@ -1776,14 +1835,14 @@ function GroupAITweakData:_moon_init_task_data()
 	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
 	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
 	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
-	self.besiege.reenforce.interval = ASS:get_tweak("reenforce_interval")
+	self.besiege.reenforce.interval = reenforce_interval
 	self.besiege.recon.force = table.collect(self.besiege.assault.force, function(val) return val * recon_force_mul end)
 	self.besiege.recon.interval = { 0, 0, 0, }
 	self.besiege.recon.interval_variation = 0
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge, }
 
 	-- make custom_task groups behave like vanilla custom group on certain maps
-	if ASS:require("regular_custom_group") then
+	if self.tweak_data.levels:moon_regular_custom_group() then
 		self.besiege.recon.groups.custom_assault = { 0, 0, 0, }
 		self.besiege.assault.groups.custom_recon = { 0, 0, 0, }
 	end
