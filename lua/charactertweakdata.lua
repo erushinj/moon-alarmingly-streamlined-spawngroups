@@ -377,11 +377,12 @@ function CharacterTweakData:moon_weapon_mapping()
 end
 
 if doms_scale then
+	ASS:log("info", "Resistive Responders setting enabled, tweaking \"CharacterTweakData:_presets\"...")
 	ASS:post_hook( CharacterTweakData, "_presets", function(self, tweak_data)
 		local presets = Hooks:GetReturn()
 
 		if not presets then
-			ASS:log("warn", "CharacterTweakData:_presets unavailable, Resistive Responders not applied!")
+			ASS:log("warn", "\"CharacterTweakData:_presets\" unavailable!")
 
 			return
 		end
@@ -406,6 +407,7 @@ end
 
 ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 	if doms_all_hard then
+		ASS:log("info", "Difficult Dominations setting enabled, changing assigned surrender presets...")
 		local surrender_map = {
 			[self.presets.surrender.easy] = self.presets.surrender.hard,
 			[self.presets.surrender.normal] = self.presets.surrender.hard,

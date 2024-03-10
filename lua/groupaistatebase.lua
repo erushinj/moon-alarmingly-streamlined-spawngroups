@@ -3,7 +3,7 @@ if ASS:get_var("is_client") then
 end
 
 if ASS:get_setting("max_balance_muls") then
-	ASS:log("info", "Adding Maxed Law Multipliers to method \"GroupAIStateBase:_get_balancing_multiplier\"...")
+	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 	ASS:override( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
 	end )
@@ -11,7 +11,7 @@ end
 
 -- disable dominations during assault if the setting is enabled
 if ASS:get_setting("doms_super_serious") then
-	ASS:log("info", "Adding Super Serious Surrenders to method \"GroupAIStateBase:has_room_for_police_hostage\"...")
+	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 	ASS:override( GroupAIStateBase, "has_room_for_police_hostage", function(self, ...)
 		return not self:get_assault_mode() and self:has_room_for_police_hostage_original(...)
 	end )
@@ -27,7 +27,7 @@ end
 
 -- force diff to 1 in loud if the setting is enabled or once escape is available
 local max_diff = ASS:get_setting("max_diff")
-ASS:log("info", "Tweaking method \"GroupAIStateBase:set_difficulty\", Maxed Assault Strength setting %s...", max_diff and "enabled" or "disabled")
+ASS:log("info", "Tweaking \"GroupAIStateBase:set_difficulty\", Maxed Assault Strength setting %s...", max_diff and "enabled" or "disabled")
 ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
 	return self:set_difficulty_original((max_diff or self._moon_escape_active) and 1 or value, ...)
 end )
