@@ -22,7 +22,7 @@ return {
 			difficulty = 0.5,
 		},
 	},
-	[100472] = {  -- "set diff 1", shortly after everyone is in airlock
+	[101144] = {  -- "set diff 1", shortly after everyone is in airlock
 		values = {
 			difficulty = 0.75,
 		},
