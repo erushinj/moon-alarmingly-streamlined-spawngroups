@@ -1902,15 +1902,15 @@ function GroupAITweakData:moon_custom_maps_boowomp()
 			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
 			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
-			Idstring("units/payday2/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+			Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 		}
 	else
 		self.unit_categories.FBI_tank.unit_types.america = {
 			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
 			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
-			Idstring("units/payday2/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
-			Idstring("units/payday2/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+			Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
+			Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
 		}
 	end
 
