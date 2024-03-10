@@ -141,6 +141,7 @@ function LevelsTweakData:moon_random_units()
 			specials_no_clk = { shield, shield, taser, taser, medic_1, medic_2, },
 			specials_no_shield = { taser, taser, cloaker, cloaker, medic_1, medic_2, },
 			specials_taser_medic = { taser, taser, medic_1, medic_2, },
+			specials_shield_clk = { shield, cloaker, },
 			specials_med = { medic_1, medic_2, },
 			dozers_any = { dozer_1, },
 		}

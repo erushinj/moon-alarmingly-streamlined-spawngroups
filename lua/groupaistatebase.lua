@@ -76,6 +76,7 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 			local tags = clone(get_tags_original(u))
 
 			tags.tank = true
+			tags.taser = nil
 
 			return tags
 		end
