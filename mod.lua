@@ -322,7 +322,6 @@ if not ASS then
 		if not self._log then
 			self._log = {}
 
-			local level_id, difficulty = self:get_var("level_id"), self:get_var("difficulty")
 			for _, pre in pairs({ "error", "warn", "info", }) do
 				self._log[pre] = ("[ASS:%s|%s:%s] "):format(pre:upper(), level_id, difficulty)
 			end

@@ -107,19 +107,31 @@ function GroupAITweakData:moon_preferred_groups(group_type)
 		self._moon_preferred_groups = preferred
 	end
 
-	return preferred[group_type]
+	return group_type and preferred[group_type] or preferred
 end
 
 function GroupAITweakData:moon_preferred_groups_instance(group_type)
-	local result = {}
+	local preferred_instance = self._moon_preferred_groups_instance
 
-	for group, enabled in pairs(self:moon_preferred_groups(group_type)) do
-		if enabled then
-			try_insert(result, group)
+	if not preferred_instance then
+		preferred_instance = {}
+
+		for typ, mapping in pairs(self:moon_preferred_groups()) do
+			local map = {}
+
+			for name, enabled in pairs(mapping) do
+				if enabled then
+					try_insert(map, name)
+				end
+			end
+
+			preferred_instance[typ] = map
 		end
+
+		self._moon_preferred_groups_instance = preferred_instance
 	end
 
-	return result
+	return preferred_instance[group_type]
 end
 
 function GroupAITweakData:moon_swap_units(prefixes)

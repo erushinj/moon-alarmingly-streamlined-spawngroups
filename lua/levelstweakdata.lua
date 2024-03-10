@@ -24,10 +24,6 @@ function LevelsTweakData:moon_custom_maps_boowomp()
 	local boowomp = self._moon_custom_maps_boowomp
 
 	if boowomp == nil then
-		local level = self[level_id] or {}
-		local packages = level.package or level.custom_packages
-		packages = type(packages) ~= "table" and { packages, } or packages
-
 		for _, func in ipairs({
 			function()  -- check level ids where package auto-detect is known not to work
 				return ({
@@ -35,11 +31,19 @@ function LevelsTweakData:moon_custom_maps_boowomp()
 				})[level_id]
 			end,
 			function()  -- then check packages if not found
-				for k, v in pairs({
-					["packages/levels/constantine_cartel_faction/world/world"] = { fucked = "federales", use = "constantine_cartel", },
-				}) do
-					if table.contains(packages, k) then
-						return v
+				local level = self[level_id] or {}
+				local packages = level.custom_packages
+				packages = packages or level.package
+				packages = type(packages) ~= "table" and { packages, } or packages
+				packages = table.list_to_set(packages)
+
+				if next(packages) then
+					for pkg, data in pairs({
+						["packages/levels/constantine_cartel_faction/world/world"] = { fucked = "federales", use = "constantine_cartel", },
+					}) do
+						if packages[pkg] then
+							return data
+						end
 					end
 				end
 			end,
