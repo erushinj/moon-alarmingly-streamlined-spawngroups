@@ -11,6 +11,7 @@ function LevelsTweakData:moon_regular_custom_group()
 			flat = true,  -- not really any reason NOT to
 			chca = true,  -- triads onboard
 			dinner = true,  -- murkies
+			pbr = true,  -- murkies
 		}
 
 		self._moon_regular_custom_group = regular_custom_group_ids[level_id] or false

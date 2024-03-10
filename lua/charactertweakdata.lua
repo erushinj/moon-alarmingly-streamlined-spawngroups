@@ -59,6 +59,11 @@ function CharacterTweakData:moon_weapon_mapping()
 
 		weapon_mapping = {
 			-- level id specific overrides
+			pbr = {
+				[("units/payday2/characters/ene_murkywater_1/ene_murkywater_1"):key()] = "ump",
+				[("units/payday2/characters/ene_murkywater_2/ene_murkywater_2"):key()] = "scar_murky",
+				[("units/pd2_dlc_berry/characters/ene_murkywater_no_light/ene_murkywater_no_light"):key()] = "spas12",
+			},
 			man = {
 				[("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"):key()] = "m4",
 				[("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"):key()] = "raging_bull",
@@ -101,7 +106,7 @@ function CharacterTweakData:moon_weapon_mapping()
 			-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "x_c45",  -- npc hox (no mask, looks funny)
 			[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- npc hox (mask)
 			[("units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1"):key()] = "raging_bull",  -- hector (stealth)
-			[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "ump",  -- locke (beneath the mountain)
+			[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "deagle",  -- locke (beneath the mountain)
 			[("units/pd2_dlc_wwh/characters/ene_locke/ene_locke"):key()] = "deagle",  -- locke (alaskan deal)
 			[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,  -- panic room dealer
 			[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = { "x_c45", "rpk_lmg", "saiga", },  -- commissar
