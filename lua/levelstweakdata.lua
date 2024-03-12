@@ -993,7 +993,7 @@ end
 -- hardcoded replacements for certain levels, primarily replacing dc beat cops with regional variants where available
 function LevelsTweakData:moon_level_enemy_replacements()
 	if not self._moon_level_enemy_replacements then
-		self._moon_level_enemy_replacements = {
+		local all_lvl_replacements = {
 			rvd1 = {
 				[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1"),
 				[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2"),
@@ -1017,11 +1017,13 @@ function LevelsTweakData:moon_level_enemy_replacements()
 				[("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"):key()] = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
 			},
 		}
-		self._moon_level_enemy_replacements.rvd2 = self._moon_level_enemy_replacements.rvd1
-		self._moon_level_enemy_replacements.sand = self._moon_level_enemy_replacements.chas
-		self._moon_level_enemy_replacements.pent = self._moon_level_enemy_replacements.chas
-		self._moon_level_enemy_replacements.corp = self._moon_level_enemy_replacements.ranc
+		all_lvl_replacements.rvd2 = all_lvl_replacements.rvd1
+		all_lvl_replacements.sand = all_lvl_replacements.chas
+		all_lvl_replacements.pent = all_lvl_replacements.chas
+		all_lvl_replacements.corp = all_lvl_replacements.ranc
+
+		self._moon_level_enemy_replacements = all_lvl_replacements[level_id] or {}
 	end
 
-	return self._moon_level_enemy_replacements[level_id] or {}
+	return self._moon_level_enemy_replacements
 end

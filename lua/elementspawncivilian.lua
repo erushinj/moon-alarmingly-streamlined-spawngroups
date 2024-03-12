@@ -78,7 +78,10 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then
 		self._enemy_name = mapped_unit
+		name_key = mapped_unit:key()
 	end
+
+	self._enemy_name = level_enemy_replacements[name_key] or self._enemy_name
 
 	return self:moon_produce_helper(params, ...)
 end )
