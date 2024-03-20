@@ -10,6 +10,15 @@ if not ASS then
 	local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
 	local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
 	local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+	local real_difficulty_index = ({
+		normal = 2,
+		hard = 3,
+		overkill = 4,
+		overkill_145 = 5,
+		easy_wish = 6,
+		overkill_290 = 7,
+		sm_wish = 8,
+	})[difficulty] or 2
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
@@ -29,15 +38,7 @@ if not ASS then
 		Enemy_Spawner = true,
 	})[level_id]
 	ASS._difficulty = difficulty
-	ASS._real_difficulty_index = ({
-		normal = 2,
-		hard = 3,
-		overkill = 4,
-		overkill_145 = 5,
-		easy_wish = 6,
-		overkill_290 = 7,
-		sm_wish = 8,
-	})[difficulty] or 2
+	ASS._real_difficulty_index = real_difficulty_index
 	ASS._level_id = level_id
 	ASS._clean_level_id = level_id
 	ASS._job_id = job_id
@@ -408,6 +409,7 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
+
 		max_values = { priority = priority(), },
 		max_diff = { priority = priority(), },
 		max_balance_muls = {
@@ -570,11 +572,19 @@ if not ASS then
 		end
 	end
 
-	function ASS:_gsub(str)
-		return self._values[str][self.settings[str]]:gsub("^ass_" .. str .. "_", "")
+	function ASS:_gsub(setting)
+		setting = tostring(setting)
+
+		local value = self._values[setting]
+		local str = value and value[self.settings[setting]]
+		if str then
+			return str:gsub("^ass_" .. setting .. "_", "")
+		end
+
+		self:log("error", "Setting %s has invalid data in ASS:_gsub", setting)
 	end
 
-	function ASS:_init_vars()
+	function ASS:init_vars()
 		local level_mod = self:_gsub("level_mod") or "per_level"
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
@@ -584,7 +594,7 @@ if not ASS then
 		self._assault_style = self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
-		self._difficulty_index = self:get_setting("max_values") and 8 or self._real_difficulty_index
+		self._difficulty_index = self:get_setting("max_values") and 8 or real_difficulty_index
 		self._shield_arms = self:_gsub("shield_arms") or "default"
 
 		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
@@ -610,8 +620,7 @@ if not ASS then
 			self._level_mod = level_mod
 		end
 
-		local invalid_sh = self:global("invalid_sh")
-
+		local invalid_sh = self:global().invalid_sh
 		if self.been_there_fucked_that == nil then
 			self.been_there_fucked_that = not invalid_sh and self:get_setting("is_massive")
 		end
@@ -649,7 +658,6 @@ if not ASS then
 	-- difficulty groupings to use when interpolation wont do the job
 	-- Normal through VH are "normal", OVK+MH are "hard", DW+DS are "overkill"
 	function ASS:difficulty_groups()
-		local real_difficulty_index = self:get_var("real_difficulty_index")
 		local normal = real_difficulty_index < 5 and "normal" or nil
 		local hard = not normal and real_difficulty_index < 7 and "hard" or nil
 		local overkill = not normal and not hard and "overkill" or nil
@@ -675,7 +683,7 @@ if not ASS then
 		ASS:message(shutdown_msg)
 	end
 
-	ASS:_init_vars()
+	ASS:init_vars()
 
 end
 
