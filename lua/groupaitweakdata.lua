@@ -228,6 +228,8 @@ function GroupAITweakData:_moon_level_mod_FBI_office()
 	self.unit_categories.CS_cop_C45.unit_types.america = {
 		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
 		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
+		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
+		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
 	}
 	self.unit_categories.CS_cop_MP5.unit_types.america = {
 		Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
@@ -236,6 +238,7 @@ function GroupAITweakData:_moon_level_mod_FBI_office()
 		Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
 	}
 	self.unit_categories.CS_cop_stealth_R870.unit_types.america = {
+		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
 		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
 		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
 		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
@@ -262,7 +265,7 @@ function GroupAITweakData:_moon_level_mod_ZEAL_sm_wish()
 	self:moon_swap_units({ CS = "ZEAL_sm_wish", FBI = "ZEAL_sm_wish", })
 end
 
--- set group weights for the specified task, set all others to 0 instead of overwriting the task's groups table
+-- set group weights for the specified tasks, set all others to 0 instead of overwriting the task's groups table
 function GroupAITweakData:_moon_set_weights(new_weights)
 	for task, new_groups in pairs(new_weights) do
 		local task_data = self.besiege[task]
