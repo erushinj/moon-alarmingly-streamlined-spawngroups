@@ -14,30 +14,37 @@ ASS:pre_hook( MissionManager, "init", function(self)
 	end
 end )
 
-
-local ass_mission_script_patches = ASS:script_patches("mission")
-if not ass_mission_script_patches then
-	return
-end
-
 -- initialize sh patches, dont bother assigning to a local as we have to
 -- access StreamHeist._mission_script_patches directly if no sh patches anyway
 StreamHeist:mission_script_patches()
 
-if not StreamHeist._mission_script_patches then
-	StreamHeist._mission_script_patches = ass_mission_script_patches
-else
-	local function merge_patches(base_patch, to_merge)
-		for k, v in pairs(to_merge) do
-			if type(base_patch[k]) == "table" then
-				merge_patches(base_patch[k], v)
-			else
-				base_patch[k] = v
+local ass_mission_script_patches = ASS:script_patches("mission")
+if ass_mission_script_patches then
+	if not StreamHeist._mission_script_patches then
+		StreamHeist._mission_script_patches = ass_mission_script_patches
+	else
+		local function merge_patches(base_patch, to_merge)
+			for id, data in pairs(to_merge) do
+				if type(base_patch[id]) == "table" and type(data) == "table" then
+					if base_patch[id][1] then
+						for _, v in pairs(data) do
+							table.insert(base_patch[id], v)
+						end
+					else
+						merge_patches(base_patch[id], data)
+					end
+				else
+					base_patch[id] = data
+				end
 			end
 		end
-	end
 
-	merge_patches(StreamHeist._mission_script_patches, ass_mission_script_patches)
+		merge_patches(StreamHeist._mission_script_patches, ass_mission_script_patches)
+	end
+end
+
+if not StreamHeist._mission_script_patches then
+	return
 end
 
 local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
