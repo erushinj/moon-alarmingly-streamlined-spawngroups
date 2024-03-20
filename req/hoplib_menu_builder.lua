@@ -64,8 +64,9 @@ function MenuBuilder:load_settings()
 			self._table.save_version = -1
 		end
 
-		if not ASS:global("save_checked") then
-			ASS:global().save_checked = true
+		local global = ASS:global()
+		if not global.save_checked then
+			global.save_checked = true
 
 			if ASS:require("save_adjustment") then
 				self._table.save_version = ASS:get_setting("save_version", true)

@@ -1,4 +1,4 @@
-if not ASS:global("zeals_enabled") then
+if not ASS:global().zeals_enabled then
 	return
 end
 

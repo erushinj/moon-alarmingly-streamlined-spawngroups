@@ -3,9 +3,7 @@ if ASS:get_var("is_editor_or_client") then
 end
 
 if not MissionManager.mission_script_patch_funcs then
-	ASS:_sh_outdated()
-
-	return
+	return ASS:message("sh_outdated")
 end
 
 ASS:pre_hook( MissionManager, "init", function(self)

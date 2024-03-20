@@ -4,9 +4,7 @@ end
 
 local group_mapping = ElementSpawnEnemyGroup.group_mapping
 if not group_mapping then
-	ASS:_sh_outdated()
-
-	return
+	return ASS:message("sh_outdated")
 end
 
 local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)

@@ -355,13 +355,7 @@ if not ASS then
 	local try_insert = ASS:require("try_insert", true)
 	local check_clone = ASS:require("check_clone", true)
 
-	-- call as ASS:global() to fetch the mod's Global entry
-	-- otherwise, supply a string var to fetch the current value of said var in the Global entry
-	function ASS:global(var)
-		if var ~= nil then
-			return check_clone(self._global[var])
-		end
-
+	function ASS:global()
 		return self._global
 	end
 
@@ -393,6 +387,7 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
+
 		level_mod = {
 			priority = priority(),
 			items = items("level_mod"),
@@ -406,6 +401,7 @@ if not ASS then
 			items = items("skill"),
 			divider = divider,
 		},
+
 		doms_scale = { priority = priority(), },
 		doms_all_hard = { priority = priority(), },
 		doms_super_serious = {
@@ -418,11 +414,13 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
+
 		dmg_interval = {
 			priority = priority(),
 			items = items("dmg_interval"),
 			divider = divider,
 		},
+
 		shield_arms = {
 			priority = priority(),
 			items = items("shield_arms"),
@@ -433,6 +431,7 @@ if not ASS then
 			priority = priority(),
 			divider = divider,
 		},
+
 		gas_grenade_ignore_hostages = { priority = priority(), },
 		escapes = {
 			priority = priority(),
@@ -468,92 +467,106 @@ if not ASS then
 		end
 	end
 
-	function ASS:_sh_not_found()
-		self:add_hook( "MenuManagerOnOpenMenu", function()
-			if self:global("showed_dialog") then
-				return
+	local messages = {
+		zeals_enabled = function(self)
+			local global = self:global()
+
+			local function show_zeal_dialog()
+				if global.showed_dialog then
+					return
+				end
+
+				self:log("warn", "ZEAL Level Mod enabled...")
+
+				global.showed_dialog = true
+				global.zeals_enabled = true
+
+				local title = managers.localization:text("ass_menu_warning")
+				local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
+				local buttons = {
+					{
+						text = managers.localization:text("ass_menu_ignore"),
+						callback = function()
+							self:require("networkmanager")
+						end,
+					},
+				}
+				QuickMenu:new(title, message, buttons, true)
 			end
 
-			self:log("error", "Streamlined Heisting not found!")
-
-			local global = self:global()
-			global.showed_dialog = true
-			global.invalid_sh = true
-
-			local title = managers.localization:text("ass_menu_warning")
-			local message = managers.localization:text("ass_menu_did_not_find_sh")
-			local buttons = {
-				{
-					text = managers.localization:text("ass_menu_did_not_find_sh_goto"),
-					callback = function()
-						-- im aware linux isnt supported anymore
-						if BLT:GetOS() == "linux" then
-							os.execute("open https://modworkshop.net/mod/29713")
-						else
-							os.execute("start https://modworkshop.net/mod/29713")
-						end
-					end,
-				},
-				{
-					text = managers.localization:text("ass_menu_ignore"),
-				},
-			}
-			QuickMenu:new(title, message, buttons, true)
-		end )
-	end
-
-	function ASS:_sh_outdated()
-		self:add_hook( "MenuManagerOnOpenMenu", function()
-			if self:global("showed_dialog") then
-				return
+			if managers.localization then
+				show_zeal_dialog()
+			else
+				self:add_hook( "MenuManagerOnOpenMenu", show_zeal_dialog )
 			end
-
-			self:log("error", "Streamlined Heisting is out of date!")
-
-			local global = self:global()
-			global.showed_dialog = true
-			global.invalid_sh = true
-
-			local title = managers.localization:text("ass_menu_warning")
-			local message = managers.localization:text("ass_menu_outdated_sh")
-			local buttons = {
-				{
-					text = managers.localization:text("ass_menu_ignore"),
-				},
-			}
-			QuickMenu:new(title, message, buttons, true)
-		end )
-	end
-
-	function ASS:_zeals_enabled()
-		local function show_zeal_dialog()
-			if self:global("showed_dialog") then
-				return
-			end
-
-			self:log("warn", "ZEAL Level Mod enabled...")
+		end,
+		sh_not_found = function(self)
+			self.been_there_fucked_that = false
 
 			local global = self:global()
-			global.showed_dialog = true
-			global.zeals_enabled = true
+			self:add_hook( "MenuManagerOnOpenMenu", function()
+				if global.showed_dialog then
+					return
+				end
 
-			local title = managers.localization:text("ass_menu_warning")
-			local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
-			local buttons = {
-				{
-					text = managers.localization:text("ass_menu_ignore"),
-					callback = function()
-						self:require("networkmanager")
-					end,
-				},
-			}
-			QuickMenu:new(title, message, buttons, true)
-		end
+				self:log("error", "Streamlined Heisting not found!")
 
-		if managers.localization then
-			show_zeal_dialog()
+				global.showed_dialog = true
+				global.invalid_sh = "missing"
+
+				local title = managers.localization:text("ass_menu_warning")
+				local message = managers.localization:text("ass_menu_did_not_find_sh")
+				local buttons = {
+					{
+						text = managers.localization:text("ass_menu_did_not_find_sh_goto"),
+						callback = function()
+							-- im aware linux isnt supported anymore
+							if BLT:GetOS() == "linux" then
+								os.execute("open https://modworkshop.net/mod/29713")
+							else
+								os.execute("start https://modworkshop.net/mod/29713")
+							end
+						end,
+					},
+					{
+						text = managers.localization:text("ass_menu_ignore"),
+					},
+				}
+				QuickMenu:new(title, message, buttons, true)
+			end )
+		end,
+		sh_outdated = function(self)
+			self.been_there_fucked_that = false
+
+			local global = self:global()
+			self:add_hook( "MenuManagerOnOpenMenu", function()
+				if global.showed_dialog then
+					return
+				end
+
+				self:log("error", "Streamlined Heisting is out of date!")
+
+				global.showed_dialog = true
+				global.invalid_sh = "outdated"
+
+				local title = managers.localization:text("ass_menu_warning")
+				local message = managers.localization:text("ass_menu_outdated_sh")
+				local buttons = {
+					{
+						text = managers.localization:text("ass_menu_ignore"),
+					},
+				}
+				QuickMenu:new(title, message, buttons, true)
+			end )
+		end,
+	}
+	function ASS:message(msg)
+		msg = tostring(msg)
+
+		if messages and messages[msg] then
+			messages[msg](self)
 		else
-			self:add_hook( "MenuManagerOnOpenMenu", show_zeal_dialog )
+			self:log("error", "Invalid msg %s in ASS:message", msg)
 		end
 	end
 
@@ -654,16 +667,12 @@ if not ASS then
 
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
-	local no_sh = not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()
-	local outdated_sh = sh and (tonumber((sh:GetVersion():gsub("%.", ""))) or 0) < 483
-	if no_sh or outdated_sh then
-		ASS.been_there_fucked_that = false
+	local no_sh = (not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()) and "sh_not_found"
+	local outdated_sh = ((sh and (tonumber((sh:GetVersion():gsub("%.", "")))) or 0) < 484) and "sh_outdated"
+	local shutdown_msg = no_sh or outdated_sh or false
 
-		if outdated_sh then
-			ASS:_sh_outdated()
-		else
-			ASS:_sh_not_found()
-		end
+	if shutdown_msg then
+		ASS:message(shutdown_msg)
 	end
 
 	ASS:_init_vars()
