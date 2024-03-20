@@ -24,7 +24,7 @@ local shield_arms = ASS:get_var("shield_arms")
 local doms_scale = ASS:get_setting("doms_scale")
 local doms_all_hard = ASS:get_setting("doms_all_hard")
 
-function CharacterTweakData:moon_weapon_mapping()
+function CharacterTweakData:moon_weapon_mapping(name)
 	local weapon_mapping = self._moon_weapon_mapping
 
 	if not weapon_mapping then
@@ -57,8 +57,8 @@ function CharacterTweakData:moon_weapon_mapping()
 		local panic_room = { "c45", "raging_bull", "mac11", "ak47", "r870", "mossberg", }
 		local murkywater = { "scar_murky", "spas12", "ump", }
 
-		weapon_mapping = {
-			-- level id specific overrides
+		-- level id specific overrides
+		local level_overrides = {
 			pbr = {
 				[("units/payday2/characters/ene_murkywater_1/ene_murkywater_1"):key()] = "ump",
 				[("units/payday2/characters/ene_murkywater_2/ene_murkywater_2"):key()] = "scar_murky",
@@ -93,15 +93,15 @@ function CharacterTweakData:moon_weapon_mapping()
 			short2_stage1 = {
 				[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "c45",  -- loud tutorial cop, old versions reference
 			},
-			short2_stage2b = {
-				[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "c45",  -- loud tutorial cop, old versions reference
-			},
 			constantine_dwtd_level = {
 				[("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"):key()] = "mossberg",
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "beretta92",
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02"):key()] = "raging_bull",
 			},
+		}
+		level_overrides.short2_stage2b = level_overrides.short2_stage1
 
+		weapon_mapping = {
 			-- appropriate weaponry for unique units
 			-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "x_c45",  -- npc hox (no mask, looks funny)
 			[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- npc hox (mask)
@@ -224,7 +224,7 @@ function CharacterTweakData:moon_weapon_mapping()
 			[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = "mp5",  -- stealth tutorial
 
 			-- assorted gangsters
-			[("units/payday2/characters/ene_biker_1/ene_biker_1"):key()] = "mac11",
+			[("units/payday2/characters/ene_biker_1/ene_biker_1"):key()] = "deagle",
 			[("units/payday2/characters/ene_biker_2/ene_biker_2"):key()] = "spas12",
 			[("units/payday2/characters/ene_biker_3/ene_biker_3"):key()] = "mossberg",
 			[("units/payday2/characters/ene_biker_4/ene_biker_4"):key()] = "m4",
@@ -378,9 +378,52 @@ function CharacterTweakData:moon_weapon_mapping()
 			[("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"):key()] = "ak47_ass",
 		}
 
-		-- TODO: implement a functioning nonexistent id check
+		local level_override = level_overrides[level_id]
+		if level_override then
+			for unit, weapon in pairs(level_override) do
+				weapon_mapping[unit] = weapon
+			end
+		end
+
+		local valid_ids = {}
+		for _, id in pairs(self.weap_ids) do
+			valid_ids[id] = true
+		end
+
+		local invalid_ids = {}
+		for unit, weapon in pairs(weapon_mapping) do
+			if type(weapon) == "table" then
+				for i = #weapon, 1, -1 do
+					local id = weapon[i]
+
+					if not valid_ids[id] then
+						invalid_ids[id] = true
+
+						table.remove(weapon, i)
+					end
+				end
+
+				if not next(weapon) then
+					weapon_mapping[unit] = nil
+				end
+			else
+				if not valid_ids[weapon] then
+					invalid_ids[weapon] = true
+
+					weapon_mapping[unit] = nil
+				end
+			end
+		end
+
+		for id in pairs(invalid_ids) do
+			ASS:log("warn", "Invalid weapon ID \"%s\" in CharacterTweakData:moon_weapon_mapping", id)
+		end
 
 		self._moon_weapon_mapping = weapon_mapping
+	end
+
+	if name then
+		return weapon_mapping[name]
 	end
 
 	return weapon_mapping
@@ -455,4 +498,6 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 			end
 		end
 	end
+
+	self:moon_weapon_mapping()
 end )

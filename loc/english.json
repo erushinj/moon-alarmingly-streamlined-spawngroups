@@ -6,7 +6,7 @@
 	"ass_menu_is_massive_desc" : "Make the mod do the thing.",
 
 	"ass_menu_level_mod" : "Level Mod",
-	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty. Disabled in Holdout.",
+	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty. Disabled in Holdout. ZEAL Level Mods activate an additional matchmaking lock.",
 	"ass_level_mod_disable" : "Disable",
 	"ass_level_mod_random" : "Random",
 	"ass_level_mod_per_level" : "Per-Level",
