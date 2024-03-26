@@ -120,7 +120,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 		self:save_settings()
 
 		if ASS._values.level_mod[self._table.level_mod]:match("ZEAL") then
-			ASS:_zeals_enabled()
+			ASS:message("zeals_enabled")
 		end
 	end
 

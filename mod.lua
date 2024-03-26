@@ -320,15 +320,9 @@ if not ASS then
 	end
 
 	function ASS:log(prefix, str, ...)
-		if not self._log then
-			self._log = {}
+		local base_str = ("[ASS:%s|%s:%s] "):format(tostring(prefix):upper(), level_id, difficulty)
 
-			for _, pre in pairs({ "error", "warn", "info", }) do
-				self._log[pre] = ("[ASS:%s|%s:%s] "):format(pre:upper(), level_id, difficulty)
-			end
-		end
-
-		log((self._log[prefix] or self._log.info) .. str:format(...))
+		log(base_str .. str:format(...))
 	end
 
 	-- versatile script loader
@@ -638,7 +632,7 @@ if not ASS then
 		end
 
 		if tostring(self._level_mod):match("ZEAL") then
-			self:_zeals_enabled()
+			self:message("zeals_enabled")
 		end
 	end
 
