@@ -97,9 +97,13 @@ return {
 			local id = element.id
 
 			if control_room.murkies[id] then
-				element.values.possible_enemies = murkies
+				element.values.moon_data = {
+					enemy = murkies,
+				}
 			elseif control_room.dozer[id] then
-				element.values.possible_enemies = dozers_no_med
+				element.values.moon_data = {
+					enemy = dozers_no_med,
+				}
 			elseif control_room.dozer_chance[id] then
 				element.values.chance = dozer_chance
 			end
@@ -116,9 +120,13 @@ return {
 			if mountain_surface.groups[id] then
 				element.values.preferred_spawn_groups = no_shields_dozers
 			elseif mountain_surface.murkies[id] then
-				element.values.possible_enemies = murkies
+				element.values.moon_data = {
+					enemy = murkies,
+				}
 			elseif mountain_surface.dozers[id] then
-				element.values.possible_enemies = dozers_any
+				element.values.moon_data = {
+					enemy = dozers_any,
+				}
 			elseif mountain_surface.snipers[id] then
 				element.values.participate_to_group_ai = false
 			end

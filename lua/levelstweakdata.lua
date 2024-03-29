@@ -5,13 +5,16 @@ local real_difficulty_index = ASS:get_var("real_difficulty_index")
 function LevelsTweakData:moon_regular_custom_group()
 	 if self._moon_regular_custom_group == nil then
 		local regular_custom_group_ids = {
-			man = true,  -- dozer spawn loop, albeit unsure why the gasser spawns participate to groupai in the first place
+			man = true,  -- dozer spawn loop + all swats
 			dah = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
 			hox_3 = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
-			flat = true,  -- not really any reason NOT to
+			flat = true,  -- all swats
 			chca = true,  -- triads onboard
-			dinner = true,  -- murkies
-			pbr = true,  -- murkies
+			dinner = true,  -- all murkies/swats
+			pbr = true,  -- all murkies
+			wwh = true,  -- all swats
+			born = true,  -- all swats
+			chew = true,  -- all swats
 		}
 
 		self._moon_regular_custom_group = regular_custom_group_ids[level_id] or false
@@ -33,9 +36,19 @@ function LevelsTweakData:moon_custom_maps_boowomp()
 			end,
 			function()  -- then check packages if not found
 				local level = self[level_id] or {}
-				local packages = level.custom_packages
-				packages = packages or level.package
-				packages = type(packages) ~= "table" and { packages, } or packages
+				local packages = {}
+
+				for _, data in pairs({
+					level.package or nil,
+					level.custom_packages or nil,
+				}) do
+					if type(data) == "table" then
+						table.list_append(packages, data)
+					else
+						table.insert(packages, data)
+					end
+				end
+
 				packages = table.list_to_set(packages)
 
 				if next(packages) then
@@ -103,7 +116,9 @@ function LevelsTweakData:moon_units()
 end
 
 function LevelsTweakData:moon_random_units()
-	if not self._moon_random_units then
+	local random_units = self._moon_random_units
+
+	if not random_units then
 		local units = self:moon_units()
 		local security_1, security_2, security_3 = units.security_1, units.security_2, units.security_3
 		local cop_1, cop_2, cop_3, cop_4 = units.cop_1, units.cop_2, units.cop_3, units.cop_4
@@ -114,7 +129,7 @@ function LevelsTweakData:moon_random_units()
 		local dozer_1, dozer_2, dozer_3, dozer_4, dozer_5 = units.dozer_1, units.dozer_2, units.dozer_3, units.dozer_4, units.dozer_5
 		local marshal_1, marshal_2 = units.marshal_1, units.marshal_2
 
-		self._moon_random_units = {
+		random_units = {
 			securitys = { security_1, security_2, security_3, },
 			securitys_light = { security_1, security_2, },
 			securitys_heavy = { security_2, security_3, },
@@ -161,50 +176,47 @@ function LevelsTweakData:moon_random_units()
 			local diff_i, dozer = unpack(v)
 
 			if real_difficulty_index >= diff_i then
-				try_insert(self._moon_random_units.dozers_any, dozer)
+				try_insert(random_units.dozers_any, dozer)
 			end
 		end
 
-		self._moon_random_units.dozers_no_mini = clone(self._moon_random_units.dozers_any)
-		table.delete(self._moon_random_units.dozers_no_mini, dozer_4)
+		random_units.dozers_no_mini = clone(random_units.dozers_any)
+		table.delete(random_units.dozers_no_mini, dozer_4)
 
-		self._moon_random_units.dozers_no_med = clone(self._moon_random_units.dozers_any)
-		table.delete(self._moon_random_units.dozers_no_med, dozer_5)
+		random_units.dozers_no_med = clone(random_units.dozers_any)
+		table.delete(random_units.dozers_no_med, dozer_5)
 
-		self._moon_random_units.dozers_no_cs = clone(self._moon_random_units.dozers_any)
-		table.delete(self._moon_random_units.dozers_no_cs, dozer_4)
-		table.delete(self._moon_random_units.dozers_no_cs, dozer_5)
+		random_units.dozers_no_cs = clone(random_units.dozers_any)
+		table.delete(random_units.dozers_no_cs, dozer_4)
+		table.delete(random_units.dozers_no_cs, dozer_5)
+
+		self._moon_random_units = random_units
 	end
 
-	return self._moon_random_units
+	return random_units
 end
 
 -- fetches a table of common american units by a shorthand name
 function LevelsTweakData:moon_random_unit(typ)
 	local random_units = self:moon_random_units()
 
-	return random_units[typ] or random_units.cops
+	return random_units[typ]
 end
 
-function LevelsTweakData:moon_forbidden_scripted_replacements()
-	local forbidden_replacements = self._moon_forbidden_scripted_replacements
-
-	if not forbidden_replacements then
-		forbidden_replacements = {
-			default = {
-				hrt_1 = true,
-				hrt_2 = true,
-				hrt_3 = true,
-			},
+function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)
+	if not self._moon_forbidden_scripted_replacements then
+		local all_forbidden = {
+			default = table.set("hrt_1", "hrt_2", "hrt_3"),
 		}
 
-		self._moon_forbidden_scripted_replacements = forbidden_replacements
+		self._moon_forbidden_scripted_replacements = all_forbidden[level_id] or all_forbidden.default
 	end
 
-	return forbidden_replacements[level_id] or forbidden_replacements.default
+	return self._moon_forbidden_scripted_replacements[mapped_name]
 end
 
 -- replacements based on mapped enemy key
+LevelsTweakData.moon_all_replacements = {}
 function LevelsTweakData:moon_enemy_replacements(continent)
 	local replacements = self._moon_enemy_replacements
 
@@ -227,6 +239,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
 					medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
 					taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
@@ -250,6 +263,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
 					medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
 					taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
@@ -273,12 +287,13 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
 					medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
 					taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
 					cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
-					marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
-					marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
+					marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
+					marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
 				},
 				sm_wish = {
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -296,6 +311,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer/ene_zeal_bulldozer"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/pd2_dlc_help/characters/ene_zeal_bulldozer_halloween/ene_zeal_bulldozer_halloween"),
 					medic_1 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4"),
 					medic_2 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870"),
 					taser = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"),
@@ -321,6 +337,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"),
 					medic_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"),
 					taser = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass"),
@@ -344,6 +361,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"),
 					medic_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"),
 					taser = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass"),
@@ -367,6 +385,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"),
 					medic_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"),
 					taser = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass"),
@@ -392,6 +411,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_hvh/characters/ene_medic_hvh_m4/ene_medic_hvh_m4"),
 					medic_2 = Idstring("units/pd2_dlc_hvh/characters/ene_medic_hvh_r870/ene_medic_hvh_r870"),
 					taser = Idstring("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1"),
@@ -415,6 +435,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_hvh/characters/ene_medic_hvh_m4/ene_medic_hvh_m4"),
 					medic_2 = Idstring("units/pd2_dlc_hvh/characters/ene_medic_hvh_r870/ene_medic_hvh_r870"),
 					taser = Idstring("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1"),
@@ -440,6 +461,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
 					dozer_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"),
 					dozer_5 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic/ene_murkywater_medic"),
 					medic_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic_r870/ene_murkywater_medic_r870"),
 					taser = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"),
@@ -463,6 +485,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
 					dozer_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"),
 					dozer_5 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic/ene_murkywater_medic"),
 					medic_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic_r870/ene_murkywater_medic_r870"),
 					taser = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"),
@@ -486,6 +509,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_4/ene_murkywater_bulldozer_4"),
 					dozer_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_1/ene_murkywater_bulldozer_1"),
 					dozer_5 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic/ene_murkywater_medic"),
 					medic_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_medic_r870/ene_murkywater_medic_r870"),
 					taser = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"),
@@ -511,6 +535,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"),
 					dozer_4 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"),
 					dozer_5 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale"),
 					medic_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale_r870/ene_swat_medic_policia_federale_r870"),
 					taser = Idstring("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"),
@@ -534,6 +559,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"),
 					dozer_4 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"),
 					dozer_5 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale"),
 					medic_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale_r870/ene_swat_medic_policia_federale_r870"),
 					taser = Idstring("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"),
@@ -557,6 +583,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"),
 					dozer_4 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"),
 					dozer_5 = Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale"),
 					medic_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale_r870/ene_swat_medic_policia_federale_r870"),
 					taser = Idstring("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"),
@@ -582,6 +609,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
 					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
 					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
 					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
@@ -605,6 +633,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
 					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
 					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
 					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
@@ -628,6 +657,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
 					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
 					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
 					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
@@ -651,6 +681,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"),
 					dozer_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"),
 					dozer_5 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"),
 					medic_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"),
 					taser = Idstring("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"),
@@ -676,6 +707,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"),
 					medic_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"),
 					taser = Idstring("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"),
@@ -699,6 +731,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					dozer_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"),
 					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
 					dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
+					dozer_hw = Idstring("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"),
 					medic_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"),
 					medic_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"),
 					taser = Idstring("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"),
@@ -708,7 +741,6 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 				},
 			},
 		}
-
 		replacements.america.FBI_mcmansion = clone(replacements.america.overkill_145)
 		replacements.america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
 		replacements.america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
@@ -760,17 +792,19 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 		self._moon_enemy_replacements = replacements
 	end
 
-	if continent == "all" then
+	if continent == self.moon_all_replacements then
 		return replacements
 	end
 
-	return replacements[continent or self:get_ai_group_type()] or replacements.america
+	return replacements[continent] or replacements[self:get_ai_group_type()] or replacements.america
 end
 
 -- fetches mapped enemy keys
-function LevelsTweakData:moon_enemy_mapping()
-	if not self._moon_enemy_mapping then
-		self._moon_enemy_mapping = {
+function LevelsTweakData:moon_enemy_mapping(name_key)
+	local enemy_mapping = self._moon_enemy_mapping
+
+	if not enemy_mapping then
+		enemy_mapping = {
 			[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "hrt_1",
 			[("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = "hrt_1",
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = "hrt_1",
@@ -795,6 +829,9 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"):key()] = "hrt_3",
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = "hrt_3",
 			[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = "hrt_3",
+
+			[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "hrt_4",  -- for mutators
+			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"):key()] = "hrt_4",
 
 			[("units/payday2/characters/ene_swat_1/ene_swat_1"):key()] = "swat_1",
 			[("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"):key()] = "swat_1",
@@ -948,6 +985,8 @@ function LevelsTweakData:moon_enemy_mapping()
 			[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"):key()] = "dozer_5",
 			[("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"):key()] = "dozer_5",
 			[("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"):key()] = "dozer_5",
+			[("units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"):key()] = "dozer_hw",
+			[("units/pd2_dlc_help/characters/ene_zeal_bulldozer_halloween/ene_zeal_bulldozer_halloween"):key()] = "dozer_hw",
 
 			[("units/payday2/characters/ene_medic_m4/ene_medic_m4"):key()] = "medic_1",
 			[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4"):key()] = "medic_1",
@@ -989,7 +1028,11 @@ function LevelsTweakData:moon_enemy_mapping()
 		}
 	end
 
-	return self._moon_enemy_mapping
+	if name_key then
+		return enemy_mapping[name_key]
+	end
+
+	return enemy_mapping
 end
 
 -- hardcoded replacements for certain levels, primarily replacing dc beat cops with regional variants where available
@@ -1029,3 +1072,10 @@ function LevelsTweakData:moon_level_enemy_replacements()
 
 	return self._moon_level_enemy_replacements
 end
+
+ASS:post_hook( LevelsTweakData, "init", function(self)
+	self:moon_enemy_mapping()
+	self:moon_enemy_replacements()
+	self:moon_level_enemy_replacements()
+	self:moon_forbidden_scripted_replacements()
+end )

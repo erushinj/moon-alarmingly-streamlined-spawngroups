@@ -1,56 +1,37 @@
 local group = select("#", ...) == 0 and "no_args" or tostring(...)
-
 local normal, hard, overkill, enabled
-local success = true
 
-local funcs = {
-	["disable"] = function()
-		normal = false
-		hard = false
-		overkill = false
-		enabled = false
-	end,
-	["normal"] = function()
-		normal = true
-		hard = false
-		overkill = false
-	end,
-	["normal_above"] = function()
-		normal = true
-		hard = true
-		overkill = true
-	end,
-	["hard"] = function()
-		normal = false
-		hard = true
-		overkill = false
-	end,
-	["hard_below"] = function()
-		normal = true
-		hard = true
-		overkill = false
-	end,
-	["hard_above"] = function()
-		normal = false
-		hard = true
-		overkill = true
-	end,
-	["overkill"] = function()
-		normal = false
-		hard = false
-		overkill = true
-	end,
-	["none"] = function()
-		ASS:log("warn", "Function set_difficulty_groups received invalid argument \"%s\"!", group)
-
-		success = false
-	end,
-}
-
-(funcs[group] or funcs.none)()
-
-if not success then
-	return nil
+if group == "disable" then
+	normal = false
+	hard = false
+	overkill = false
+	enabled = false
+elseif group == "normal" then
+	normal = true
+	hard = false
+	overkill = false
+elseif group == "normal_above" then
+	normal = true
+	hard = true
+	overkill = true
+elseif group == "hard" then
+	normal = false
+	hard = true
+	overkill = false
+elseif group == "hard_below" then
+	normal = true
+	hard = true
+	overkill = false
+elseif group == "hard_above" then
+	normal = false
+	hard = true
+	overkill = true
+elseif group == "overkill" then
+	normal = false
+	hard = false
+	overkill = true
+else
+	return nil, ASS:log("warn", "Function set_difficulty_groups received invalid argument \"%s\"!", group)
 end
 
 return {

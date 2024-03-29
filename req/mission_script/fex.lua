@@ -1,14 +1,17 @@
-local dozer_chance = ASS:get_var("real_difficulty_index") * 0.025
-local function scripted_swat_squads()
-	return tweak_data.levels:moon_random_unit(math.random() < dozer_chance and "dozers_any" or "specials_any")
-end
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local van_spawns = scripted_swat_squads({
+	hard_target = normal and 1 or hard and 2 or 3,
+	hard_spawn = "dozers_no_mini",
+	normal_spawn = "specials_any",
+})
 
 local thug_fex = Idstring("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex")
 
 return {
-	[103275] = { enemy = scripted_swat_squads(), },
-	[103276] = { enemy = scripted_swat_squads(), },
-	[103277] = { enemy = scripted_swat_squads(), },
+	[103275] = { enemy = van_spawns(), },
+	[103276] = { enemy = van_spawns(), },
+	[103277] = { enemy = van_spawns(), },
 	[101884] = { enemy = thug_fex },
 	[101865] = { enemy = thug_fex },
 	[101864] = { enemy = thug_fex },

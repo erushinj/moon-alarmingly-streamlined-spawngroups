@@ -39,6 +39,56 @@ function CharacterTweakData:moon_oops_all_bo(is_first_world_problem)
 	self.bank_manager.run_away_delay = run_away_delay
 end
 
+function CharacterTweakData:moon_access_filters(preset)
+	local access_filters = self._moon_access_filters
+
+	if not access_filters then
+		access_filters = {
+			any = {},
+			swats = {},
+			specials = {},
+			lightweight = {},  -- no shields/dozers
+			heavyweight = {},  -- only shields/dozers
+			snipers = {},
+		}
+
+		for _, data in pairs(self) do
+			if type(data) == "table" then
+				local access = data.access
+				local tags = access and data.tags and table.list_to_set(data.tags)
+
+				if tags and tags.law then
+					access_filters.any[access] = true
+
+					if tags.special then
+						access_filters.specials[access] = true
+					else
+						access_filters.swats[access] = true
+					end
+
+					if tags.shield or tags.tank then
+						access_filters.heavyweight[access] = true
+					else
+						access_filters.lightweight[access] = true
+					end
+
+					if tags.sniper or tags.marksman then
+						access_filters.snipers[access] = true
+					end
+				end
+			end
+		end
+
+		for id, data in pairs(access_filters) do
+			access_filters[id] = table.map_keys(data)
+		end
+
+		self._moon_access_filters = access_filters
+	end
+
+	return access_filters[preset]
+end
+
 function CharacterTweakData:moon_weapon_mapping(name)
 	local weapon_mapping = self._moon_weapon_mapping
 

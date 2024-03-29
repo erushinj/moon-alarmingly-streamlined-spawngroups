@@ -13,7 +13,9 @@ return {
 
 		for _, element in pairs(result.default.elements) do
 			if patches.cartel_truck[element.id] then
-				element.values.possible_enemies = hrts_cartel
+				element.values.moon_data = {
+					enemy = hrts_cartel,
+				}
 			end
 		end
 	end,

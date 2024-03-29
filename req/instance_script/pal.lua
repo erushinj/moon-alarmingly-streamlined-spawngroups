@@ -1,40 +1,45 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local function sewer_spawns(element)
-	element.values.amount = normal and 1 or hard and 2 or 3
-	element.values.on_executed = {
-		{ id = 100020, delay = 0, delay_rand = 0, },
-		{ id = 100025, delay = 0, delay_rand = 0, },
-		{ id = 100026, delay = 0, delay_rand = 0, },
-	}
-end
-
 local patches = {
 	sub_sewer_sidespawn = table.set(100009, 100010, 100019),
 	sub_sewer_grate = {
-		[100010] = function(element)  -- bulldozer
-			element.values.possible_enemies = tweak_data.levels:moon_random_unit("dozers_any")
-		end,
-		[100022] = sewer_spawns,  -- n
-		[100008] = sewer_spawns,  -- h/vh/ovk
-		[100018] = sewer_spawns,  -- mh+
-		[100003] = function(element)  -- enemy chance
-			element.values.chance = 65
-		end,
+		dozer = table.set(100010),
+		spawns = table.set(100022, 100008, 100018),
+		spawns_chance = table.set(100003),
 	},
 }
 
 return {
 	["levels/instances/unique/sub_sewer_sidespawn/world/world"] = function(result)
 		for _, element in pairs(result.default.elements) do
+			local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
+
 			if patches.sub_sewer_sidespawn[element.id] then
-				element.values.possible_enemies = tweak_data.levels:moon_random_unit("dozers_no_med")
+				element.values.moon_data = {
+					enemy = dozers_no_med,
+				}
 			end
 		end
 	end,
 	["levels/instances/unique/sub_sewer_grate/world/world"] = function(result)
+		local sub_sewer_grate = patches.sub_sewer_grate
+		local dozers_any = tweak_data.levels:moon_random_unit("dozers_any")
+
 		for _, element in pairs(result.default.elements) do
-			if patches.sub_sewer_grate[element.id] then
-				patches.sub_sewer_grate[element.id](element)
+			local id = element.id
+
+			if sub_sewer_grate.dozer[id] then
+				element.values.moon_data = {
+					enemy = dozers_any,
+				}
+			elseif sub_sewer_grate.spawns[id] then
+				element.values.amount = normal and 1 or hard and 2 or 3
+				element.values.on_executed = {
+					{ id = 100020, delay = 0, },
+					{ id = 100025, delay = 0, },
+					{ id = 100026, delay = 0, },
+				}
+			elseif sub_sewer_grate.spawns_chance[id] then
+				element.values.chance = 65
 			end
 		end
 	end,

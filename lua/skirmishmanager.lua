@@ -4,17 +4,9 @@ end
 
 -- Make enemy units switch difficulty factions over waves
 function SkirmishManager:_moon_swap_units(wave_number)
-	if not self:is_skirmish() then
-		return
+	if self:is_skirmish() then
+		tweak_data.group_ai:moon_swap_units(tweak_data.skirmish:moon_wave_unit_categories(wave_number or 1))
 	end
-
-	local wave_unit_categories = tweak_data.skirmish:moon_wave_unit_categories()
-
-	self._moon_unit_wave_index = wave_unit_categories[wave_number] and wave_number or self._moon_unit_wave_index or self._start_wave
-
-	local prefixes = wave_unit_categories[self._moon_unit_wave_index] or wave_unit_categories[#wave_unit_categories]
-
-	tweak_data.group_ai:moon_swap_units(prefixes)
 end
 
 ASS:post_hook( SkirmishManager, "init_finalize", SkirmishManager._moon_swap_units )

@@ -1,4 +1,19 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local get_table_index_func = ASS:require("get_table_index_func", true)
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local van_swat_ids = get_table_index_func({ 100826, 103257, 103260, })
+local van_swats = scripted_swat_squads({
+	hard_target = normal and 1 or hard and 2 or 3,
+	hard_spawn = "dozers_any",
+	normal_spawn = "specials_any",
+})
+local heli_swat_ids = get_table_index_func({ 101560, 101672, 101814, 101627, })
+local heli_swats = scripted_swat_squads({
+	hard_target = overkill and 2 or 1,
+	hard_spawn = "dozers_any",
+	normal_spawn = "specials_any",
+})
 local biker_1 = Idstring("units/payday2/characters/ene_biker_1/ene_biker_1")
 local biker_2 = Idstring("units/payday2/characters/ene_biker_2/ene_biker_2")
 local biker_3 = Idstring("units/payday2/characters/ene_biker_3/ene_biker_3")
@@ -6,55 +21,86 @@ local biker_4 = Idstring("units/payday2/characters/ene_biker_4/ene_biker_4")
 local biker_female_1 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_1/ene_biker_female_1")
 local biker_female_2 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_2/ene_biker_female_2")
 local biker_female_3 = Idstring("units/pd2_dlc_born/characters/ene_biker_female_3/ene_biker_female_3")
-local bikers_any = { biker_1, biker_2, biker_3, biker_female_1, biker_female_2, biker_female_3, }  -- biker 4 is the guy punching the mechanic
+local bikers_male = { biker_1, biker_2, biker_3, biker_4, }
+local lucky_punk = table.remove(bikers_male, math.random(#bikers_male))
+local bikers_any = table.list_add(bikers_male, { biker_female_1, biker_female_2, biker_female_3, })
+local biker_bartenders = {
+	biker_female_2,
+	biker_female_3,
+	lucky_punk ~= biker_1 and biker_1 or biker_3,
+}
+-- theres actually exactly 8 civ spawns and 8 civs loaded, no need for try pick bobblehead bob
+local civs_female_ids = get_table_index_func({ 100936, 100993, 101051, 101055, })
+local civs_female = get_table_index_func({
+	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),
+	Idstring("units/payday2/characters/civ_female_casual_2/civ_female_casual_2"),
+	Idstring("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"),
+	Idstring("units/payday2/characters/civ_female_wife_trophy_2/civ_female_wife_trophy_2"),
+})
+local civs_male_ids = get_table_index_func({ 100538, 100697, 100723, 100906, })
+local civs_male = get_table_index_func({
+	Idstring("units/payday2/characters/civ_male_casual_1/civ_male_casual_1"),
+	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),
+	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
+	Idstring("units/payday2/characters/civ_male_casual_9/civ_male_casual_9"),
+})
+local bikers_amount_clubhouse = {
+	values = {
+		amount = normal and 1 or hard and 2 or 3,
+		amount_random = 0,
+	},
+}
+local bikers_amount_clubhouse_1 = {
+	values = {
+		amount = overkill and 12 or 8,
+		amount_random = 0,
+	},
+}
+local bikers_amount_clubhouse_2 = bikers_amount_clubhouse_1
+local bikers_amount_clubhouse_3 = bikers_amount_clubhouse_1
+local bikers_amount_clubhouse_4 = bikers_amount_clubhouse_1
+local bikers_amount_outside = {
+	values = {
+		amount = overkill and 7 or 5,
+		amount_random = 0,
+	},
+}
+local bikers_amount_outside_more = bikers_amount_outside
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 
+-- WAITER !  WAITER !  MORE BIKERS PLEASE !
 return {
-	-- WAITER !  WAITER !  MORE BIKERS PLEASE !
-	[100077] = {  -- random biker clubhouse 001
-		values = {
-			amount = overkill and 12 or 8,
-			amount_random = 0,
+	[102549] = {
+		modify_list_value = {
+			elements = {
+				[100826] = true,
+				[103257] = true,
+				[103260] = true,
+			},
 		},
 	},
-	[101417] = {  -- random biker clubhouse 002
-		values = {
-			amount = overkill and 12 or 8,
-			amount_random = 0,
-		},
-	},
-	[101474] = {  -- random biker clubhouse 003
-		values = {
-			amount = overkill and 12 or 8,
-			amount_random = 0,
-		},
-	},
-	[101481] = {  -- random biker clubhouse 004
-		values = {
-			amount = overkill and 12 or 8,
-			amount_random = 0,
-		},
-	},
-	[100082] = {  -- random biker clubhouse
-		values = {
-			amount = overkill and 3 or 2,
-			amount_random = 0,
-		},
-	},
+	[102299] = filters_normal_above,  -- heli filters
+	[102110] = filters_disable,
+	[102513] = filters_disable,
+	[102514] = filters_disable,
+	[101176] = filters_normal_above,  -- van filters
+	[103251] = filters_disable,
+	[103252] = filters_disable,
+	[100077] = bikers_amount_clubhouse_1,  -- random biker clubhouse 001
+	[101417] = bikers_amount_clubhouse_2,  -- random biker clubhouse 002
+	[101474] = bikers_amount_clubhouse_3,  -- random biker clubhouse 003
+	[101481] = bikers_amount_clubhouse_4,  -- random biker clubhouse 004
+	[100082] = bikers_amount_clubhouse,  -- random biker clubhouse
+	[102475] = bikers_amount_outside,  -- random biker outside
+	[102492] = bikers_amount_outside_more,  -- random biker outside more
 	[100056] = {  -- random biker garage
 		values = {
 			amount = overkill and 6 or 4,
-			amount_random = 0,
-		},
-	},
-	[102475] = {  -- random biker outside
-		values = {
-			amount = overkill and 7 or 5,
-			amount_random = 0,
-		},
-	},
-	[102492] = {  -- random biker outside more
-		values = {
-			amount = overkill and 7 or 5,
 			amount_random = 0,
 		},
 	},
@@ -70,7 +116,8 @@ return {
 			amount_random = 0,
 		},
 	},
-	[100024] = { enemy = { biker_3, biker_female_3, }, },  -- "bartender"
+	[100920] = { enemy = lucky_punk, },  -- "biker beat up"
+	[100024] = { enemy = biker_bartenders, },  -- "bartender"
 	[100026] = { enemy = bikers_any, },
 	[100027] = { enemy = bikers_any, },
 	[100028] = { enemy = bikers_any, },
@@ -114,26 +161,19 @@ return {
 	[100525] = { enemy = bikers_any, },
 	[100151] = { enemy = bikers_any, },
 	[100153] = { enemy = bikers_any, },
-	-- van swats
-	[100826] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- n/h
-	[103257] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[100823] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- vh/ovk
-	[100841] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103258] = { enemy = tweak_data.levels:moon_random_unit("specials_med"), },  -- mh+
-	[103259] = { enemy = tweak_data.levels:moon_random_unit("specials_taser_medic"), },
-	-- van shields
-	[103260] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- n/h
-	-- [100821] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- vh+
-	-- van dozers
-	[103255] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- vh/ovk
-	[103256] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- mh+
-	-- heli spawns
-	[101810] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- h shield
-	[101830] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- h swat heavy
-	[101560] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- vh r870 dozer
-	[100577] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- ovk saiga dozer
-	[101672] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- vh/ovk fbi swat
-	[101814] = { enemy = tweak_data.levels:moon_random_unit("specials_no_clk"), },  -- vh+ shield
-	[101740] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- mh+ lmg dozer
-	[101740] = { enemy = tweak_data.levels:moon_random_unit("specials_no_clk"), },  -- mh+ city swat
+	[van_swat_ids()] = { enemy = van_swats(), },  -- van swats
+	[van_swat_ids()] = { enemy = van_swats(), },
+	[van_swat_ids()] = { enemy = van_swats(), },
+	[heli_swat_ids()] = { enemy = heli_swats(), },  -- heli spawns
+	[heli_swat_ids()] = { enemy = heli_swats(), },
+	[heli_swat_ids()] = { enemy = heli_swats(), },
+	[heli_swat_ids()] = { enemy = heli_swats(), },
+	[civs_female_ids()] = { enemy = civs_female(), },  -- civs
+	[civs_female_ids()] = { enemy = civs_female(), },
+	[civs_female_ids()] = { enemy = civs_female(), },
+	[civs_female_ids()] = { enemy = civs_female(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
 }

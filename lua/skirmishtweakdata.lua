@@ -2,7 +2,7 @@ if ASS:get_var("is_client") then
 	return
 end
 
-function SkirmishTweakData:moon_wave_unit_categories()
+function SkirmishTweakData:moon_wave_unit_categories(wave_number)
 	if not self._moon_wave_unit_categories then
 		self._moon_wave_unit_categories = {
 			{ CS = "normal", FBI = "normal", },
@@ -17,7 +17,7 @@ function SkirmishTweakData:moon_wave_unit_categories()
 		}
 	end
 
-	return self._moon_wave_unit_categories
+	return self._moon_wave_unit_categories[wave_number]
 end
 
 local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")

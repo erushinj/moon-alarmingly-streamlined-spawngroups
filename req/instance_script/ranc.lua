@@ -1,3 +1,8 @@
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local filters_disable = set_difficulty_groups("disable")
+local filters_normal_above = set_difficulty_groups("normal_above")
 local patches = {
 	ranc_security_room = table.set(100030),
 	ranc_helicopter_spawn_enemies = table.list_to_set({
@@ -22,27 +27,39 @@ local patches = {
 
 local special_chance = ASS:get_var("difficulty_index") * 0.05
 local dozer_chance = special_chance * 0.1
-local function scripted_swat_squads()
-	local rand = math.random()
+-- local function scripted_swat_squads()
+-- 	local rand = math.random()
 
-	return tweak_data.levels:moon_random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
-end
+-- 	return tweak_data.levels:moon_random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
+-- end
 
 return {
 	["levels/instances/unique/ranc/ranc_security_room/world/world"] = function(result)
+		local ranc_security = {
+			Idstring("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"),
+			Idstring("units/pd2_dlc_ranc/characters/ene_male_ranc_security_2/ene_male_ranc_security_2"),
+		}
+
 		for _, element in pairs(result.default.elements) do
 			if patches.ranc_security_room[element.id] then
-				element.values.possible_enemies = {
-					Idstring("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"),
-					Idstring("units/pd2_dlc_ranc/characters/ene_male_ranc_security_2/ene_male_ranc_security_2"),
+				element.values.moon_data = {
+					enemy = ranc_security,
 				}
 			end
 		end
 	end,
 	["levels/instances/unique/ranc/ranc_helicopter_spawn_enemies/world/world"] = function(result)
+		local spawns = scripted_swat_squads({
+			hard_target = overkill and 2 or 1,
+			hard_spawn = "dozers_no_cs",
+			normal_spawn = "specials_any",
+		})
+
 		for _, element in pairs(result.default.elements) do
 			if patches.ranc_helicopter_spawn_enemies[element.id] then
-				element.values.possible_enemies = scripted_swat_squads()
+				element.values.moon_data = {
+					enemy = spawns(),
+				}
 			end
 		end
 	end,

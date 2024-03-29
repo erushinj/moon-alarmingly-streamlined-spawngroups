@@ -1,22 +1,32 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
-local i = 0
-local replace_target = normal and 4 or hard and 3 or 2
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
 local vault_dozer_ids = get_table_index_func({ 104169, 104170, 100763, 104131, 104132, })
-local function vault_dozers()
-	i = i + 1
-
-	return { enemy = tweak_data.levels:moon_random_unit(i <= replace_target and "specials_agg" or "dozers_no_med"), }
-end
-local guards_downstairs_amounts = normal and 2 or hard and 4 or 6
-local guards_stationary_amounts = normal and 1 or hard and 2 or 3
-local guards_upstairs_amounts = normal and 1 or hard and 2 or 3
-local guards_vault_amounts = normal and 2 or hard and 4 or 6  -- just in case it wasnt clear this is a loud-focused mod :3
+local vault_dozers = scripted_swat_squads({
+	hard_target = normal and 1 or hard and 2 or 3,
+	hard_spawn = "dozers_any",
+	normal_spawn = "specials_agg",
+})
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
+local guards_downstairs_amounts = {
+	group_amount = normal and 2 or hard and 4 or 6,
+}
+local guards_vault_amounts = guards_downstairs_amounts  -- just in case it wasnt clear this is a loud-focused mod :3
+local guards_stationary_amounts = {
+	group_amount = normal and 1 or hard and 2 or 3,
+}
+local guards_upstairs_amounts = guards_stationary_amounts
 local civs_male_ids = get_table_index_func({ 103592, 103594, 102144, 102147, 102159, 102158, 103707, 103703, })
 local oops_all_bo = math.random() < 0.01 and Idstring("units/payday2/characters/civ_male_bank_manager_5/civ_male_bank_manager_5") or nil
 local bo_replacement = oops_all_bo and { enemy = Idstring("units/payday2/characters/civ_male_casual_1/civ_male_casual_1"), } or nil
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", nil, oops_all_bo, oops_all_bo or {
+local civs_male = try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_5/civ_male_casual_5"),
 	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
@@ -44,32 +54,33 @@ local staff_female = oops_all_bo or {
 }
 
 if oops_all_bo then
-	local civilian, bank_manager = tweak_data.character.civilian, tweak_data.character.bank_manager
-	local civilian_flee, manager_flee = civilian.flee_type, bank_manager.flee_type
-	local civilian_run_away_delay, manager_run_away_delay = civilian.run_away_delay, bank_manager.run_away_delay
-
-	civilian.flee_type = manager_flee
-	civilian.run_away_delay = manager_run_away_delay  -- nil
-	bank_manager.flee_type = civilian_flee
-	bank_manager.run_away_delay = civilian_run_away_delay
+	tweak_data.character:moon_oops_all_bo(true)
 end
 
+local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
+local heavys = tweak_data.levels:moon_random_unit("heavys")
+local specials_any = tweak_data.levels:moon_random_unit("specials_any")
+local securitys_heavy = tweak_data.levels:moon_random_unit("securitys_heavy")
+local cops = tweak_data.levels:moon_random_unit("cops")
+local cops_heavy = tweak_data.levels:moon_random_unit("cops_heavy")
+local fbis_heavy = tweak_data.levels:moon_random_unit("fbis_heavy")
+local securitys = tweak_data.levels:moon_random_unit("securitys")
+local specials_agg = tweak_data.levels:moon_random_unit("specials_agg")
+
 return {
-	-- guard amounts
-	[102024] = { group_amount = guards_downstairs_amounts, },
-	[102047] = { group_amount = guards_downstairs_amounts, },
-	[102138] = { group_amount = guards_downstairs_amounts, },
-	[105382] = { group_amount = guards_stationary_amounts, },
-	[105490] = { group_amount = guards_stationary_amounts, },
-	[105491] = { group_amount = guards_stationary_amounts, },
-	[100129] = { group_amount = guards_upstairs_amounts, },
-	[102139] = { group_amount = guards_upstairs_amounts, },
-	[102141] = { group_amount = guards_upstairs_amounts, },
-	[102900] = { group_amount = guards_vault_amounts, },
-	[102882] = { group_amount = guards_vault_amounts, },
-	[102887] = { group_amount = guards_vault_amounts, },
-	-- cams
-	[100448] = {  -- no titan
+	[102024] = guards_downstairs_amounts,  -- guard amounts
+	[102047] = guards_downstairs_amounts,
+	[102138] = guards_downstairs_amounts,
+	[105382] = guards_stationary_amounts,
+	[105490] = guards_stationary_amounts,
+	[105491] = guards_stationary_amounts,
+	[100129] = guards_upstairs_amounts,
+	[102139] = guards_upstairs_amounts,
+	[102141] = guards_upstairs_amounts,
+	[102900] = guards_vault_amounts,
+	[102882] = guards_vault_amounts,
+	[102887] = guards_vault_amounts,
+	[100448] = {  -- cams, no titan
 		values = {
 			enabled = false,
 		},
@@ -146,20 +157,13 @@ return {
 			amount_random = normal and 4 or hard and 2 or 0,
 		},
 	},
-	[105114] = { group_amount = overkill and 6 or 3, },  -- random swats
-	-- vault dozer stuff
-	[103998] = {
-		values = set_difficulty_groups("disable"),
+	[105114] = {  -- random swats
+		group_amount = overkill and 6 or 3,
 	},
-	[103377] = {
-		values = set_difficulty_groups("disable"),
-	},
-	[104041] = {
-		values = set_difficulty_groups("disable"),
-	},
-	[100114] = {
-		values = set_difficulty_groups("normal_above"),
-	},
+	[103998] = filters_disable,  -- vault dozer stuff
+	[103377] = filters_disable,
+	[104041] = filters_disable,
+	[100114] = filters_normal_above,
 	[100225] = {
 		values = {
 			amount = 5,
@@ -170,9 +174,7 @@ return {
 			{ id = 102974, delay = 0, },
 		},
 	},
-	[100811] = {
-		values = set_difficulty_groups("disable"),
-	},
+	[100811] = filters_disable,
 	[100875] = {
 		on_executed = {
 			{ id = 101616, delay = 0, },
@@ -214,83 +216,83 @@ return {
 	[vault_dozer_ids()] = vault_dozers(),
 	[vault_dozer_ids()] = vault_dozers(),
 	[vault_dozer_ids()] = vault_dozers(),
-	[103603] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- escape, office
-	[103390] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
-	[103231] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- basement
-	[103198] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
-	[103163] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
-	[103162] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
+	[103603] = { enemy = dozers_no_med, },  -- escape, office
+	[103390] = { enemy = dozers_no_med, },
+	[103231] = { enemy = dozers_no_med, },  -- basement
+	[103198] = { enemy = dozers_no_med, },
+	[103163] = { enemy = dozers_no_med, },
+	[103162] = { enemy = dozers_no_med, },
 	-- after vault
-	[104319] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- heavies
-	[104330] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[100570] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103704] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[105108] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[105110] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[104317] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- tasers
-	[104318] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
+	[104319] = { enemy = heavys, },  -- heavies
+	[104330] = { enemy = heavys, },
+	[100570] = { enemy = heavys, },
+	[103704] = { enemy = heavys, },
+	[105108] = { enemy = heavys, },
+	[105110] = { enemy = heavys, },
+	[104317] = { enemy = specials_any, },  -- tasers
+	[104318] = { enemy = specials_any, },
 	-- vault area guards
-	[102286] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- security
-	[102288] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102289] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102291] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102299] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102810] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102837] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[102881] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[104001] = { enemy = tweak_data.levels:moon_random_unit("cops"), },  -- cop inside vault
+	[102286] = { enemy = securitys_heavy, },  -- security
+	[102288] = { enemy = securitys_heavy, },
+	[102289] = { enemy = securitys_heavy, },
+	[102291] = { enemy = securitys_heavy, },
+	[102299] = { enemy = securitys_heavy, },
+	[102810] = { enemy = securitys_heavy, },
+	[102837] = { enemy = securitys_heavy, },
+	[102881] = { enemy = securitys_heavy, },
+	[104001] = { enemy = cops, },  -- cop inside vault
 	-- office
-	[106586] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },  -- cops
-	[106586] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[100686] = { enemy = tweak_data.levels:moon_random_unit("fbis_heavy"), },  -- fbis
-	[100687] = { enemy = tweak_data.levels:moon_random_unit("fbis_heavy"), },
-	[103609] = { enemy = tweak_data.levels:moon_random_unit("fbis_heavy"), },
+	[106586] = { enemy = cops_heavy, },  -- cops
+	[106586] = { enemy = cops_heavy, },
+	[100686] = { enemy = fbis_heavy, },  -- fbis
+	[100687] = { enemy = fbis_heavy, },
+	[103609] = { enemy = fbis_heavy, },
 	-- patrolling guards outside vault
-	[100863] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100753] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102045] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102054] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100743] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102053] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100672] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102058] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100628] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100863] = { enemy = securitys, },
+	[100753] = { enemy = securitys, },
+	[102045] = { enemy = securitys, },
+	[102054] = { enemy = securitys, },
+	[100743] = { enemy = securitys, },
+	[102053] = { enemy = securitys, },
+	[100672] = { enemy = securitys, },
+	[102058] = { enemy = securitys, },
+	[100628] = { enemy = securitys, },
 	-- stationary guards
-	[100614] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100646] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100661] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100663] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100787] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100671] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100920] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100872] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102059] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102046] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100752] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100694] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[105493] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[105494] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[105383] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[100614] = { enemy = securitys, },
+	[100646] = { enemy = securitys, },
+	[100661] = { enemy = securitys, },
+	[100663] = { enemy = securitys, },
+	[100787] = { enemy = securitys, },
+	[100671] = { enemy = securitys, },
+	[100920] = { enemy = securitys, },
+	[100872] = { enemy = securitys, },
+	[102059] = { enemy = securitys, },
+	[102046] = { enemy = securitys, },
+	[100752] = { enemy = securitys, },
+	[100694] = { enemy = securitys, },
+	[105493] = { enemy = securitys, },
+	[105494] = { enemy = securitys, },
+	[105383] = { enemy = securitys, },
 	-- management office window scripteed spawns
-	[102501] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },  -- left
-	[102974] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
-	[100618] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
-	[100621] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
-	[101705] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },  -- right
-	[100616] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
-	[100617] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
-	[100620] = { enemy = tweak_data.levels:moon_random_unit("specials_agg"), },
+	[102501] = { enemy = specials_agg, },  -- left
+	[102974] = { enemy = specials_agg, },
+	[100618] = { enemy = specials_agg, },
+	[100621] = { enemy = specials_agg, },
+	[101705] = { enemy = specials_agg, },  -- right
+	[100616] = { enemy = specials_agg, },
+	[100617] = { enemy = specials_agg, },
+	[100620] = { enemy = specials_agg, },
 	-- one-time cops, outside
-	[103536] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[103670] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106853] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106854] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106857] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106865] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106877] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106878] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106879] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
-	[106880] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[103536] = { enemy = cops, },
+	[103670] = { enemy = cops, },
+	[106853] = { enemy = cops, },
+	[106854] = { enemy = cops, },
+	[106857] = { enemy = cops, },
+	[106865] = { enemy = cops, },
+	[106877] = { enemy = cops, },
+	[106878] = { enemy = cops, },
+	[106879] = { enemy = cops, },
+	[106880] = { enemy = cops, },
 	-- civilians
 	[100642] = bo_replacement,  -- bo
 	[102313] = bo_replacement,
@@ -300,16 +302,16 @@ return {
 	[101333] = bo_replacement,
 	[101517] = bo_replacement,
 	[103585] = bo_replacement,
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- outside, 103592
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- 103594
+	[civs_male_ids()] = { enemy = civs_male(), },  -- outside, 103592
+	[civs_male_ids()] = { enemy = civs_male(), },  -- 103594
 	[102157] = { enemy = clients_female, },
 	[103593] = { enemy = clients_female, },
 	[103584] = { enemy = staff_male, },  -- lobby
 	[100643] = { enemy = staff_male, },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- 102144
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- 102147
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- 102159
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- 102158
+	[civs_male_ids()] = { enemy = civs_male(), },  -- 102144
+	[civs_male_ids()] = { enemy = civs_male(), },  -- 102147
+	[civs_male_ids()] = { enemy = civs_male(), },  -- 102159
+	[civs_male_ids()] = { enemy = civs_male(), },  -- 102158
 	[100381] = { enemy = staff_female, },
 	[100644] = { enemy = staff_female, },
 	[102146] = { enemy = staff_female, },
@@ -321,12 +323,12 @@ return {
 	[100418] = { enemy = staff_male, },
 	[100414] = { enemy = staff_female, },
 	[100416] = { enemy = staff_female, },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- lower left office, 103707
+	[civs_male_ids()] = { enemy = civs_male(), },  -- lower left office, 103707
 	[100388] = { enemy = staff_male, },
 	[100389] = { enemy = staff_male, },
 	[103708] = { enemy = staff_female, },
 	[100398] = { enemy = staff_female, },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- upstairs, 103703
+	[civs_male_ids()] = { enemy = civs_male(), },  -- upstairs, 103703
 	[103711] = { enemy = staff_male, },
 	[103712] = { enemy = staff_male, },
 	[100423] = { enemy = staff_male, },

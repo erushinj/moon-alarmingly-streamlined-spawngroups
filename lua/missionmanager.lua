@@ -47,6 +47,7 @@ if not StreamHeist._mission_script_patches then
 	return
 end
 
+local try_insert = ASS:require("try_insert", true)
 local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
 for _, data in pairs(StreamHeist._mission_script_patches) do
 	local groups = data.groups
@@ -64,49 +65,90 @@ for _, data in pairs(StreamHeist._mission_script_patches) do
 	end
 end
 
-MissionManager.mission_script_patch_funcs.interval = function(self, element, data)
-	element._values.interval = data
-end
+-- ElementRandom clones on_executed on init, need to handle it
+ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function(self, element, data)
+	self.mission_script_patch_funcs.on_executed_original(self, element, data)
+
+	if element._original_on_executed then
+		element._original_on_executed = clone(element._values.on_executed)
+	end
+end )
+
+-- CoreElementLogicChance.ElementLogicChance also needs to be handled
+ASS:override( MissionManager.mission_script_patch_funcs, "values", function(self, element, data)
+	self.mission_script_patch_funcs.values_original(self, element, data)
+
+	if data.chance and element._chance then
+		element._chance = data.chance
+	end
+end )
 
 MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, element, data)
 	element._values.on_executed_original = element._values.on_executed
 	element._values.on_executed = {}
 
-	local reordered_ids = {}
 	for i = 1, #data do
 		local id = data[i]
 
 		for _, v in pairs(element._values.on_executed_original) do
 			if v.id == id then
 				table.insert(element._values.on_executed, v)
-
-				reordered_ids[id] = true
-
-				break
 			end
 		end
 	end
 
 	for _, v in pairs(element._values.on_executed_original) do
-		if not reordered_ids[v.id] then
-			table.insert(element._values.on_executed, v)
+		try_insert(element._values.on_executed, v)
+	end
+
+	if element._original_on_executed then
+		element._original_on_executed = clone(element._values.on_executed)
+	end
+end
+
+-- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
+MissionManager.mission_script_patch_funcs.modify_list_value = function(self, element, data)
+	for k, v in pairs(data) do
+		if type(element._values[k]) == "table" then
+			for id, enabled in pairs(v) do
+				if enabled then
+					try_insert(element._values[k], id)
+				else
+					table.delete(element._values[k], id)
+				end
+			end
 		end
 	end
 end
 
--- used for CoreElementLogicChance.ElementLogicChance, core\lib\managers\mission\coreelementlogicchance
 MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
-	element._values.chance = data
-	element._chance = data
+	ASS:log("error", "Deprecated script patch function \"chance\" for element \"%s\" (%s)!", element:editor_name(), element:id())
 end
 
--- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
+MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
+	local access_filter = tweak_data.character:moon_access_filters(data)
+
+	if access_filter then
+		element._values.SO_access_original = element._values.SO_access
+		element._values.SO_access = managers.navigation:convert_access_filter_to_number(access_filter)
+
+		StreamHeist:log("Replaced SO access filter of element %s", element:editor_name())
+	else  -- dont point fingers at sh if i fuck up
+		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
+	end
+end
+
 -- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.static_spawn = function(self, element, data)
 	element.static_continent = data.continent
 	element.static_tier = data.tier
+
+	StreamHeist:log("Set static spawn data for element %s", element:editor_name())
 end
 
+-- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	if type(data) == "table" then
 		element._possible_enemies = data
@@ -114,19 +156,30 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	else
 		element._patched_enemy_name = data
 	end
+
+	StreamHeist:log("Modified enemy spawn in element %s", element:editor_name())
 end
 
 -- used for ElementSpawnCivilianGroup, lib\managers\mission\elementspawnciviliangroup
 -- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
 MissionManager.mission_script_patch_funcs.group_amount = function(self, element, data)
 	element._group_data.amount = data
+
+	StreamHeist:log("Modified group data in element %s", element:editor_name())
 end
 
+-- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
 		StreamHeist:log("%s executed, %s hunt mode", element:editor_name(), data and "enabled" or "disabled")
 
-		managers.groupai:state():set_wave_mode(data and "hunt" or "besiege")
+		local groupai_state = managers.groupai:state()
+		local hunt_mode = groupai_state._hunt_mode
+		if data and not hunt_mode then
+			groupai_state:set_wave_mode("hunt")
+		elseif hunt_mode and not data then
+			groupai_state:set_wave_mode("besiege")
+		end
 	end )
 end
 
@@ -135,11 +188,12 @@ MissionManager.mission_script_patch_funcs.loot_dropoff = function(self, element,
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_loot_dropoff_" .. element:id(), function()
 		StreamHeist:log("%s executed, toggled %u loot dropoff point(s)", element:editor_name(), #data)
 
+		local groupai_state = managers.groupai:state()
 		for _, v in pairs(data) do
 			if v.position then
-				managers.groupai:state():add_enemy_loot_drop_point(v.id, v.position)
+				groupai_state:add_enemy_loot_drop_point(v.id, v.position)
 			else
-				managers.groupai:state():remove_enemy_loot_drop_point(v.id)
+				groupai_state:remove_enemy_loot_drop_point(v.id)
 			end
 		end
 	end )
@@ -150,13 +204,14 @@ MissionManager.mission_script_patch_funcs.grenade = function(self, element, data
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_grenade_" .. element:id(), function()
 		StreamHeist:log("%s executed, detonating %u grenade(s)", element:editor_name(), #data)
 
+		local groupai_state = managers.groupai:state()
 		for _, v in pairs(data) do
-			v.id = v.id or element:id()
-			v.position = v.position or element:value("position")
-			v.duration = v.duration or tweak_data.group_ai.smoke_grenade_lifetime
+			local id = v.id or element:id()
+			local pos = v.position or element:value("position")
+			local duration = tweak_data.group_ai.smoke_grenade_lifetime
 
-			managers.groupai:state():queue_smoke_grenade(v.id, v.position, nil, v.duration, true, v.flashbang)
-			managers.groupai:state():detonate_world_smoke_grenade(v.id)
+			groupai_state:queue_smoke_grenade(id, pos, nil, duration, true, v.flashbang)
+			groupai_state:detonate_world_smoke_grenade(id)
 		end
 	end )
 end
