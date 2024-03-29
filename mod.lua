@@ -585,6 +585,7 @@ if not ASS then
 			disable = false,
 			random = { false, },
 		}
+
 		self._assault_style = self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
@@ -614,25 +615,24 @@ if not ASS then
 			self._level_mod = level_mod
 		end
 
-		local invalid_sh = self:global().invalid_sh
-		if self.been_there_fucked_that == nil then
-			self.been_there_fucked_that = not invalid_sh and self:get_setting("is_massive")
-		end
+		if self:global().invalid_sh then
+			self.been_there_fucked_that = false
+		else
+			if self.been_there_fucked_that == nil then
+				self.been_there_fucked_that = self:get_setting("is_massive")
+			end
 
-		if invalid_sh then
-			return
-		end
+			if is_client then
+				self:log("info", "Playing as client, most tweaks disabled...")
+			end
 
-		if is_client then
-			self:log("info", "Playing as client, most tweaks disabled...")
-		end
+			if is_editor then
+				self:log("info", "Editor mode active, mission tweaks disabled...")
+			end
 
-		if is_editor then
-			self:log("info", "Editor mode active, mission tweaks disabled...")
-		end
-
-		if tostring(self._level_mod):match("ZEAL") then
-			self:message("zeals_enabled")
+			if tostring(self._level_mod):match("ZEAL") then
+				self:message("zeals_enabled")
+			end
 		end
 	end
 

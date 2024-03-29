@@ -2,6 +2,9 @@ local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 local snipers = {  -- doesnt look like toggles are set up to allow sniper respawns
 	values = {
 		enabled = true,
@@ -81,9 +84,7 @@ return {
 			{ id = 101332, remove = true, },
 		},
 	},
-	[102759] = {  -- "overkill-" filter, spawns a civ on n-vh ?
-		values = set_difficulty_groups("hard_above"),
-	},
+	[102759] = filters_normal_above,  -- "overkill-" filter, spawns a civ on n-vh ?
 	[101333] = {  -- amounts, garage
 		values = {
 			amount = overkill and 2 or 1,
@@ -94,17 +95,13 @@ return {
 			amount = normal and 1 or hard and 2 or 3,
 		},
 	},
-	[102776] = {  -- "mid elevators" filter
-		values = set_difficulty_groups("normal_above"),
-	},
+	[102776] = filters_normal_above,  -- "mid elevators" filter
 	[101378] = {  -- "mid elevators" amount
 		values = {
 			amount = overkill and 2 or 1,
 		},
 	},
-	[103034] = {  -- bar filter
-		values = set_difficulty_groups("normal_above"),
-	},
+	[103034] = filters_normal_above,  -- bar filter
 	[103040] = {  -- bar amount
 		on_executed = {
 			{ id = 101332, delay = 0, },  -- "bar extra"

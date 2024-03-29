@@ -25,6 +25,20 @@ local shield_arms = ASS:get_var("shield_arms")
 local doms_scale = ASS:get_setting("doms_scale")
 local doms_all_hard = ASS:get_setting("doms_all_hard")
 
+function CharacterTweakData:moon_oops_all_bo(is_first_world_problem)
+	local flee_type = self.civilian.flee_type
+	local run_away_delay = self.civilian.run_away_delay
+
+	-- prevent bob from running away on fwb, since he replaces the normal bo spawn
+	if is_first_world_problem ~= false then
+		self.civilian.flee_type = self.bank_manager.flee_type
+		self.civilian.run_away_delay = self.bank_manager.run_away_delay  -- nil
+	end
+
+	self.bank_manager.flee_type = flee_type
+	self.bank_manager.run_away_delay = run_away_delay
+end
+
 function CharacterTweakData:moon_weapon_mapping(name)
 	local weapon_mapping = self._moon_weapon_mapping
 

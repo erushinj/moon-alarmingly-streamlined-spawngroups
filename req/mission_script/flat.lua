@@ -12,6 +12,11 @@ local gangsters = {
 	-- Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
 	-- Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
+local roof_spawn_interval = {
+	values = {
+		interval = 30,
+	},
+}
 
 return {
 	-- diff curve
@@ -108,21 +113,11 @@ return {
 		},
 	},
 	-- slow down roof spawns, these are really fucking annoying
-	[104650] = {
-		interval = 30,
-	},
-	[100504] = {
-		interval = 30,
-	},
-	[100505] = {
-		interval = 30,
-	},
-	[100509] = {
-		interval = 30,
-	},
-	[100396] = {
-		interval = 30,
-	},
+	[104650] = roof_spawn_interval,
+	[100504] = roof_spawn_interval,
+	[100505] = roof_spawn_interval,
+	[100509] = roof_spawn_interval,
+	[100396] = roof_spawn_interval,
 	-- gangster amounts
 	[102593] = {
 		values = {

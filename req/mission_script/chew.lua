@@ -11,16 +11,21 @@ local bikers_female = {
 }
 
 return {
+	[100136] = {  -- 0.75 diff from the start on this teeny tiny little train is fucked, actually
+		values = {
+			difficulty = 0.375,
+		},
+	},
 	-- middle wagon
 	[101136] = { enemy = bikers_male, },
 	[101143] = { enemy = bikers_male, },
 	[101144] = { enemy = bikers_male, },
 	[101145] = { enemy = bikers_male, },
-	[101146] = { enemy = bikers_male, },
-	[101147] = { enemy = bikers_male, },
-	[101148] = { enemy = bikers_male, },
+	[101146] = { enemy = bikers_female, },
+	[101147] = { enemy = bikers_female, },
+	[101148] = { enemy = bikers_female, },
 	[101149] = { enemy = bikers_male, },
-	[101150] = { enemy = bikers_male, },
+	[101150] = { enemy = bikers_female, },
 	[101151] = { enemy = bikers_male, },
 	-- last wagon
 	[101153] = { enemy = bikers_female, },

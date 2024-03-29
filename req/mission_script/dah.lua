@@ -1,5 +1,6 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
+local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
 local secret_service = overkill and Idstring("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") or Idstring("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
 local guard_patrol_amounts = {
 	values = {
@@ -35,7 +36,7 @@ local civs_male_ids = get_table_index_func({
 	104163,
 	104160,
 })
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", nil, oops_all_bo, oops_all_bo or {
+local civs_male = try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
 	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),
@@ -68,11 +69,7 @@ local civs_female = oops_all_bo or {
 }
 
 if oops_all_bo then
-	local civilian_flee = tweak_data.character.civilian.flee_type
-	local civilian_run_away_delay = tweak_data.character.civilian.run_away_delay
-
-	tweak_data.character.bank_manager.flee_type = civilian_flee
-	tweak_data.character.bank_manager.run_away_delay = civilian_run_away_delay
+	tweak_data.character:moon_oops_all_bo()
 end
 
 return {
@@ -196,30 +193,30 @@ return {
 	[104155] = { enemy = civs_female, },
 	[104164] = { enemy = civs_female, },
 	[102849] = { enemy = civs_female, },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },  -- male
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
-	[civs_male_ids()] = { enemy = try_pick_bobblehead_bob(), },
+	[civs_male_ids()] = { enemy = civs_male(), },  -- male
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
+	[civs_male_ids()] = { enemy = civs_male(), },
 }

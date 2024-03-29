@@ -1,5 +1,7 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local filters_normal_above = set_difficulty_groups("normal_above")
+local filters_disable = set_difficulty_groups("disable")
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
@@ -17,23 +19,39 @@ local female_party = {
 	Idstring("units/payday2/characters/civ_female_party_4/civ_female_party_4"),
 }
 local any_party = table.list_add(male_party, female_party)
-local gangsters = {  -- 1 and 3 (balaclavas) not available
-	Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),
-	Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
-	Idstring("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5"),
+local safe_cocaine = {
+	values = {
+		chance = 100,
+	},
+}
+local safe_cocaine_amounts = {
+	values = {
+		amount = normal and 2 or hard and 4 or 6,
+		amount_random = 6,
+	},
+}
+local gangster_spawns = {
+	enemy = {  -- 1 and 3 (balaclavas) not available
+		Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),
+		Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
+		Idstring("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5"),
+	},
+	values = {
+		trigger_times = 1,
+	},
 }
 
 return {
-	-- slow down some particularly annoying spawns
 	[104731] = {  -- roof
 		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
 	},
 	[103174] = {  -- rappel
 		groups = tweak_data.group_ai:moon_preferred_groups("no_shields_dozers"),
-		interval = 15,
+		values = {
+			interval = 15,
+		},
 	},
-	-- second office
-	[102925] = {
+	[102925] = {  -- second office
 		pre_func = function(self)
 			if not self._values.on_executed_original then
 				self._values.on_executed_original = self._values.on_executed
@@ -53,9 +71,8 @@ return {
 			end
 		end,
 	},
-	-- cellar, forced spawn on certain difficulties, now random below "overkill" group
-	[102925] = {
-		values = set_difficulty_groups("normal_above"),
+	[102925] = {  -- cellar, forced spawn on certain difficulties, now random below "overkill" group
+		values = filters_normal_above,
 		pre_func = function(self)
 			if not self._values.on_executed_original then
 				self._values.on_executed_original = self._values.on_executed
@@ -71,246 +88,74 @@ return {
 		end,
 	},
 	[102928] = {
-		values = set_difficulty_groups("disable"),
+		values = filters_disable,
 	},
-	-- cams
-	[104479] = {  -- no titan
+	[104479] = {  -- cams, no titan
 		values = {
 			enabled = false,
 		},
 	},
 	[103128] = {  -- amount filters
-		values = set_difficulty_groups("disable"),
+		values = filters_disable,
 	},
 	[103138] = {
-		values = set_difficulty_groups("disable"),
+		values = filters_disable,
 	},
 	[103139] = {
-		values = set_difficulty_groups("normal_above"),
+		values = filters_normal_above,
 	},
-	[103138] = {  -- chance
-		chance = normal and 50 or hard and 75 or 100,
-	},
-	-- safe cocaine
-	[100703] = {  -- chance for a selected pack to spawn (they are already chosen randomly)
-		chance = 100,
-	},
-	[100726] = {
-		chance = 100,
-	},
-	[100727] = {
-		chance = 100,
-	},
-	[100732] = {
-		chance = 100,
-	},
-	[100737] = {
-		chance = 100,
-	},
-	[100738] = {
-		chance = 100,
-	},
-	[100742] = {
-		chance = 100,
-	},
-	[100743] = {
-		chance = 100,
-	},
-	[100744] = {
-		chance = 100,
-	},
-	[100745] = {
-		chance = 100,
-	},
-	[100747] = {
-		chance = 100,
-	},
-	[100750] = {
-		chance = 100,
-	},
-	[100681] = {    -- amount selected to try spawning
+	[103869] = {  -- chance
 		values = {
-			amount = normal and 2 or hard and 4 or 6,
-			amount_random = 6,
+			chance = normal and 50 or hard and 75 or 100,
 		},
 	},
-	[100687] = {
-		values = {
-			amount = normal and 2 or hard and 4 or 6,
-			amount_random = 6,
-		},
-	},
-	[100687] = {
-		values = {
-			amount = normal and 2 or hard and 4 or 6,
-			amount_random = 6,
-		},
-	},
-	[100796] = {
-		values = {
-			amount = normal and 2 or hard and 4 or 6,
-			amount_random = 6,
-		},
-	},
-	-- waiter !  waiter !  more gangsters please !
-	[103065] = {  -- amount of normal guards
+	[100703] = safe_cocaine,  -- safe cocaine, chance for a selected pack to spawn (they are already chosen randomly)
+	[100726] = safe_cocaine,
+	[100727] = safe_cocaine,
+	[100732] = safe_cocaine,
+	[100737] = safe_cocaine,
+	[100738] = safe_cocaine,
+	[100742] = safe_cocaine,
+	[100743] = safe_cocaine,
+	[100744] = safe_cocaine,
+	[100745] = safe_cocaine,
+	[100747] = safe_cocaine,
+	[100750] = safe_cocaine,
+	[100681] = safe_cocaine_amounts,  -- amount selected to try spawning
+	[100687] = safe_cocaine_amounts,
+	[100687] = safe_cocaine_amounts,
+	[100796] = safe_cocaine_amounts,
+	[103065] = {  -- waiter !  waiter !  more gangsters please !
 		values = {
 			counter_target = overkill and 14 or 7,
 		},
 	},
-	-- dmitri's mob
-	[102619] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[101865] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100513] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[103452] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100532] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100518] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[101934] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102709] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100520] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100530] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[103451] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[101252] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100523] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102200] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102617] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100534] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[101927] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100517] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102708] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100528] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102202] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[103450] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[100522] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[102206] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	[101858] = {
-		enemy = gangsters,
-		values = {
-			trigger_times = 1,
-		},
-	},
-	-- civilians
-	[102087] = { enemy = female_party, },  -- dmitri's office
+	[102619] = gangster_spawns,  -- dmitri's mob
+	[101865] = gangster_spawns,
+	[100513] = gangster_spawns,
+	[103452] = gangster_spawns,
+	[100532] = gangster_spawns,
+	[100518] = gangster_spawns,
+	[101934] = gangster_spawns,
+	[102709] = gangster_spawns,
+	[100520] = gangster_spawns,
+	[100530] = gangster_spawns,
+	[103451] = gangster_spawns,
+	[101252] = gangster_spawns,
+	[100523] = gangster_spawns,
+	[102200] = gangster_spawns,
+	[102617] = gangster_spawns,
+	[100534] = gangster_spawns,
+	[101927] = gangster_spawns,
+	[100517] = gangster_spawns,
+	[102708] = gangster_spawns,
+	[100528] = gangster_spawns,
+	[102202] = gangster_spawns,
+	[103450] = gangster_spawns,
+	[100522] = gangster_spawns,
+	[102206] = gangster_spawns,
+	[101858] = gangster_spawns,
+	[102087] = { enemy = female_party, },  -- civs, dmitri's office
 	[103648] = { enemy = any_party, },  -- outside ?
 	[103649] = { enemy = any_party, },
 	[103650] = { enemy = any_party, },
