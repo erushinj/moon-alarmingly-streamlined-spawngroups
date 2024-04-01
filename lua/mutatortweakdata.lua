@@ -1,4 +1,4 @@
-function MutatorTweakData:moon_moon_replacer_groups(group)
+function MutatorTweakData:moon_replacer_groups(group)
 	if not self._moon_replacer_groups then
 		self._moon_replacer_groups = {
 			tank_hw = {
