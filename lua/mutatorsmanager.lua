@@ -20,8 +20,8 @@ ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 					if tier then
 						local unit_depth = self:get_hydra_depth(parent_unit)
 
-						self:_spawn_unit(tier[table.random(split)], parent_unit, unit_depth)
-						self:_spawn_unit(tier[table.random(split)], parent_unit, unit_depth)
+						self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
+						self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
 						self:set_hydra_depth(parent_unit, nil)
 					end
 				end
@@ -59,9 +59,8 @@ ASS:override( MutatorEnemyReplacer, "modify_unit_categories", function(self, gro
 end )
 
 ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
-	for id in pairs(group_ai.special_unit_spawn_limits) do
-		group_ai.special_unit_spawn_limits[id] = math.huge
-	end
+	group_ai.special_unit_spawn_limits.tank = math.huge
+	group_ai.special_unit_spawn_limits.medic = math.huge
 
 	local tank_group = tweak_data.mutators:moon_replacer_groups("tank")
 	local medic_group = tweak_data.mutators:moon_replacer_groups("medic")
@@ -89,9 +88,7 @@ ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_a
 end )
 
 ASS:override( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
-	for id in pairs(group_ai.special_unit_spawn_limits) do
-		group_ai.special_unit_spawn_limits[id] = math.huge
-	end
+	group_ai.special_unit_spawn_limits.tank = math.huge
 
 	local replacer_group = tweak_data.mutators:moon_replacer_groups("tank_hw")
 	if not replacer_group then

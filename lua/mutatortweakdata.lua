@@ -1,8 +1,6 @@
-function MutatorTweakData:moon_replacer_groups(group)
-	local replacer_groups = self._replacer_groups
-
-	if not replacer_groups then
-		replacer_groups = {
+function MutatorTweakData:moon_moon_replacer_groups(group)
+	if not self._moon_replacer_groups then
+		self._moon_replacer_groups = {
 			tank_hw = {
 				CS = "CS_titan",
 				FBI = "FBI_titan",
@@ -28,14 +26,11 @@ function MutatorTweakData:moon_replacer_groups(group)
 				FBI = "FBI_medic_M4_R870",
 			},
 		}
-
-		self._replacer_groups = replacer_groups
 	end
 
-	return replacer_groups[group]
+	return self._moon_replacer_groups[group]
 end
 
--- could use the weighted selector thing but this works too
 function MutatorTweakData:moon_hydra_splits(key)
 	local splits = self._moon_hydra_splits
 
@@ -71,106 +66,41 @@ function MutatorTweakData:moon_hydra_splits(key)
 				"heavy_1",
 			},
 			shield = {
-				"shield",
-				"shield",
-				"taser",
-				"taser",
-				"cloaker",
-				"cloaker",
-				"medic_1",
-				"medic_2",
-				"heavy_1",
-				"heavy_1",
-				"heavy_1",
-				"heavy_1",
-				"heavy_2",
-				"heavy_2",
-				"heavy_2",
-				"heavy_2",
+				{ "shield", 2, },
+				{ "taser", 2, },
+				{ "cloaker", 2, },
+				{ "medic_1", 1, },
+				{ "medic_2", 1, },
+				{ "heavy_1", 4, },
+				{ "heavy_2", 4, },
 			},
 			dozer_1 = {
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_1",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_2",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_3",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_4",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"dozer_5",
-				"shield",
-				"shield",
-				"shield",
-				"shield",
-				"shield",
-				"shield",
-				"shield",
-				"shield",
-				"taser",
-				"taser",
-				"taser",
-				"taser",
-				"taser",
-				"taser",
-				"taser",
-				"taser",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"cloaker",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_1",
-				"medic_2",
-				"medic_2",
-				"medic_2",
-				"medic_2",
-				"medic_2",
-				"medic_2",
-				"medic_2",
-				"medic_2",
+				{ "dozer_1", 8, },
+				{ "dozer_2", 8, },
+				{ "dozer_3", 8, },
+				{ "dozer_4", 8, },
+				{ "dozer_5", 8, },
+				{ "shield", 10, },
+				{ "taser", 10, },
+				{ "cloaker", 10, },
+				{ "medic_1", 5, },
+				{ "medic_2", 5, },
 			},
 		}
+		for key, units in pairs(splits) do
+			local selector = WeightedSelector:new()
+
+			for _, data in pairs(units) do
+				if type(data) == "table" then
+					selector:add(unpack(data))
+				else
+					selector:add(data, 1)
+				end
+			end
+
+			splits[key] = selector
+		end
+
 		splits.hrt_2 = splits.hrt_1
 		splits.hrt_3 = splits.hrt_1
 		splits.hrt_4 = splits.hrt_1

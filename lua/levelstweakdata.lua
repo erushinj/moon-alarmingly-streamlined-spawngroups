@@ -1075,7 +1075,6 @@ end
 
 ASS:post_hook( LevelsTweakData, "init", function(self)
 	self:moon_enemy_mapping()
-	self:moon_enemy_replacements()
 	self:moon_level_enemy_replacements()
 	self:moon_forbidden_scripted_replacements()
 end )

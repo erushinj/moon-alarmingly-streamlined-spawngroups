@@ -51,11 +51,6 @@ local patches = {
 	}
 }
 
-local static_spawn = {
-	continent = "america",
-	tier = "overkill_290",
-}
-
 return {
 	["levels/instances/mods/Constantine Scores/constantine_gensec_enemies_helicopter_spawn/world/world"] = function(result)
 		local chopper = patches.chopper
@@ -65,11 +60,12 @@ return {
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id
-			local wanted = chopper.swats[id] and heavys or chopper.specials[id] and specials_any or chopper.dozers[id] and dozers_no_med
+			local wanted = chopper.swats[id] and heavys or chopper.specials[id] and specials_any or chopper.dozer[id] and dozers_no_med
 
 			if wanted then
 				element.values.moon_data = {
-					static_spawn = static_spawn,
+					continent = "america",
+					tier = "overkill_290",
 					enemy = wanted,
 				}
 			elseif chopper.heli_fly_in[id] then
@@ -83,7 +79,8 @@ return {
 		for _, element in pairs(result.default.elements) do
 			if patches.assault_wave[element.id] then
 				element.values.moon_data = {
-					static_spawn = static_spawn,
+					continent = "america",
+					tier = "overkill_290",
 					enemy = swats,
 				}
 			end
@@ -98,7 +95,8 @@ return {
 
 			if sniper_chopper.sniper[id] then
 				element.values.moon_data = {
-					static_spawn = static_spawn,
+					continent = "america",
+					tier = "overkill_290",
 					enemy = marshal,
 				}
 			elseif sniper_chopper.heli_fly_in[id] then

@@ -586,7 +586,7 @@ if not ASS then
 			random = { false, },
 		}
 
-		self._assault_style = self:_gsub("assault_style") or "default"
+		self._assault_style = not is_editor and self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
 		self._difficulty_index = self:get_setting("max_values") and 8 or real_difficulty_index
@@ -627,7 +627,7 @@ if not ASS then
 			end
 
 			if is_editor then
-				self:log("info", "Editor mode active, mission tweaks disabled...")
+				self:log("info", "Editor mode active, mission tweaks disabled and using Default Streamlined groups...")
 			end
 
 			if tostring(self._level_mod):match("ZEAL") then

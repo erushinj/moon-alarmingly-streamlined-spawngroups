@@ -9,6 +9,7 @@ function ElementSpawnCivilian:moon_init_hook()
 	if moon_data then
 		if type(moon_data.enemy) == "table" then
 			self._possible_enemies = moon_data.enemy
+			self._patched_enemy_name = moon_data.enemy[1]
 		else
 			self._patched_enemy_name = moon_data.enemy
 		end
@@ -62,11 +63,8 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	local enemy_replacements = tweak_data.levels:moon_enemy_replacements(static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then
-		self._enemy_name = mapped_unit
-		name_key = mapped_unit:key()
+		self._enemy_name = level_enemy_replacements[mapped_unit:key()] or mapped_unit
 	end
-
-	self._enemy_name = level_enemy_replacements[name_key] or self._enemy_name
 
 	return self:moon_produce_helper(params, ...)
 end )
