@@ -60,7 +60,7 @@ return {
 	[100030] = patroling_guards,
 	[102163] = patroling_guards,
 	[101360] = estate_patrol_guards,
-	[101271] = estate_patrol_guards,
+	[102171] = estate_patrol_guards,
 	[101364] = { enemy = breakout_guards, },  -- ready team guards
 	[101368] = { enemy = breakout_guards, },
 	[101381] = { enemy = breakout_guards, },
