@@ -310,7 +310,12 @@ if not ASS then
 		roberts = "FBI_overkill_145",  -- go bank
 
 		-- custom levels
+		rusw = "FBI_overkill_145",  -- scorched earth
 		rusd = "CS_FBI_overkill",  -- cold stones
+		ahop = "CS_FBI_overkill",  -- a house of pleasure
+		crimepunish = "FBI_overkill_145",  -- crime and punishment
+		flatline_nar = "CS_FBI_overkill",  -- flatline
+		Hunter_narrative = "FBI_overkill_145",  -- hunter and hunted
 		constantine_penthouse_nar = "CITY_overkill_290",  -- penthouse crasher
 		constantine_resort_nar = "CITY_overkill_290",  -- scarlett resort
 	}
@@ -322,7 +327,7 @@ if not ASS then
 	function ASS:log(prefix, str, ...)
 		local base_str = ("[ASS:%s|%s:%s] "):format(tostring(prefix):upper(), level_id, difficulty)
 
-		log(base_str .. str:format(...))
+		log(base_str .. tostring(str):format(...))
 	end
 
 	-- versatile script loader

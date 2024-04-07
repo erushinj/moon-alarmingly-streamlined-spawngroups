@@ -90,14 +90,14 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	for i = 1, #data do
 		local id = data[i]
 
-		for _, v in pairs(element._values.on_executed_original) do
+		for _, v in ipairs(element._values.on_executed_original) do
 			if v.id == id then
 				table.insert(element._values.on_executed, v)
 			end
 		end
 	end
 
-	for _, v in pairs(element._values.on_executed_original) do
+	for _, v in ipairs(element._values.on_executed_original) do
 		try_insert(element._values.on_executed, v)
 	end
 
@@ -171,14 +171,26 @@ end
 -- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
-		StreamHeist:log("%s executed, %s hunt mode", element:editor_name(), data and "enabled" or "disabled")
-
 		local groupai_state = managers.groupai:state()
-		local hunt_mode = groupai_state._hunt_mode
-		if data and not hunt_mode then
-			groupai_state:set_wave_mode("hunt")
-		elseif hunt_mode and not data then
-			groupai_state:set_wave_mode("besiege")
+		local function func()
+			local hunt_mode = groupai_state._hunt_mode
+			local wanted_mode = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
+
+			if wanted_mode then
+				StreamHeist:log("%s executed, set wave mode to %s", element:editor_name(), wanted_mode)
+
+				groupai_state:set_wave_mode(wanted_mode)
+			end
+		end
+
+		if groupai_state:enemy_weapons_hot() then
+			func()
+		else
+			Hooks:PostHook( groupai_state, "on_enemy_weapons_hot", "sh_on_enemy_weapons_hot_" .. element:id(), function()
+				if groupai_state:is_AI_enabled() and groupai_state:enemy_weapons_hot() then
+					func()
+				end
+			end )
 		end
 	end )
 end

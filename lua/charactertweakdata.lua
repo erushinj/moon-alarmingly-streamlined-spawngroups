@@ -100,7 +100,7 @@ function CharacterTweakData:moon_weapon_mapping(name)
 				zeal = "deagle",
 				russia = "deagle",
 				murkywater = "deagle",
-				constantine_cartel = "deagle",
+				constantine_cartel = "beretta92",
 			},
 			smgs = {
 				swat = "mp9",
@@ -168,22 +168,23 @@ function CharacterTweakData:moon_weapon_mapping(name)
 
 		weapon_mapping = {
 			-- appropriate weaponry for unique units
-			-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "x_c45",  -- npc hox (no mask, looks funny)
+			-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "c45",  -- npc hox (no mask)
 			[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- npc hox (mask)
 			[("units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1"):key()] = "raging_bull",  -- hector (stealth)
 			[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "deagle",  -- locke (beneath the mountain)
 			[("units/pd2_dlc_wwh/characters/ene_locke/ene_locke"):key()] = "deagle",  -- locke (alaskan deal)
 			[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,  -- panic room dealer
-			[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = { "x_c45", "rpk_lmg", "saiga", },  -- commissar
-			[("units/pd2_mcmansion/characters/ene_male_hector_2/ene_male_hector_2"):key()] = { "m249", "saiga", "spas12" },  -- hector (loud, cant use x_c45)
-			[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = { "m249", "saiga", "spas12", },  -- biker boss
-			[("units/pd2_dlc_flat/characters/npc_chavez/npc_chavez"):key()] = { "x_c45", "rpk_lmg", "saiga", },  -- chavez
+			[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = "saiga",  -- commissar
+			-- [("units/pd2_mcmansion/characters/ene_male_hector_2/ene_male_hector_2"):key()] = "saiga",  -- hector (loud)
+			[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = "spas12",  -- biker boss
+			-- [("units/pd2_dlc_flat/characters/npc_chavez/npc_chavez"):key()] = "x_c45",  -- chavez
 			-- [("units/pd2_dlc_spa/characters/npc_spa/npc_spa"):key()] = "benelli",  -- charon (looks funny)
 			[("units/pd2_dlc_rvd/characters/ene_female_civ_undercover/ene_female_civ_undercover"):key()] = "raging_bull",  -- undercover civilian on reservoir dogs
 			[("units/pd2_dlc_tag/characters/ene_male_commissioner/ene_male_commissioner"):key()] = "raging_bull",  -- commissioner garrett
 			[("units/pd2_dlc_pent/characters/npc_male_yufuwang/npc_male_yufuwang"):key()] = "raging_bull",  -- yufu wang (stealth)
 			[("units/pd2_dlc_ranc/characters/ene_male_ranchmanager_1/ene_male_ranchmanager_1"):key()] = "deagle",  -- esteban santiago
-			[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = { "deagle", "ump", "benelli", },  -- gabriel santiago (stealth)
+			[("units/pd2_dlc_deep/characters/ene_gabriel/ene_gabriel"):key()] = "sko12_conc",  -- gabriel santiago (loud)
+			[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = "sko12_conc",  -- gabriel santiago (stealth)
 
 			-- appropriate weaponry for special units
 			[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "mp5",
@@ -201,7 +202,7 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/payday2/characters/ene_shield_1/ene_shield_1"):key()] = get_shield_weapon("fbi"),
 			[("units/payday2/characters/ene_city_shield/ene_city_shield"):key()] = get_shield_weapon("city"),
 			[("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield"):key()] = get_shield_weapon("zeal"),
-			[("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"):key()] = get_shield_weapon("russia"),
+			[("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"):key()] = get_shield_weapon("russia") or "deagle",
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg"):key()] = get_shield_weapon("russia"),
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"):key()] = get_shield_weapon("russia"),
 			[("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2"):key()] = get_shield_weapon("swat"),
@@ -313,8 +314,8 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3"):key()] = "mossberg",
 			[("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"):key()] = "raging_bull",
 			[("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5"):key()] = "r870",
-			[("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"):key()] = { "raging_bull", "ak47", },
-			[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "raging_bull",
+			[("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"):key()] = "raging_bull",
+			[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "mac11",
 			[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02"):key()] = "ak47",
 			[("units/pd2_dlc_friend/characters/ene_thug_indoor_01/ene_thug_indoor_01"):key()] = "ak47",
 			[("units/pd2_dlc_friend/characters/ene_thug_indoor_02/ene_thug_indoor_02"):key()] = "mossberg",
@@ -345,12 +346,12 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_4/ene_male_triad_penthouse_4"):key()] = "spas12",
 
 			-- constantine scores units
-			[("units/pd2_mod_ttr/characters/ene_friendly_backup_1/ene_friendly_backup_1"):key()] = "deagle",  -- friendly backup units
-			[("units/pd2_mod_ttr/characters/ene_friendly_backup_1_vehicle/ene_friendly_backup_1_vehicle"):key()] = "deagle",
-			[("units/pd2_mod_ttr/characters/ene_friendly_backup_2/ene_friendly_backup_2"):key()] = "deagle",
-			[("units/pd2_mod_ttr/characters/ene_friendly_backup_2_vehicle/ene_friendly_backup_2_vehicle"):key()] = "deagle",
-			[("units/pd2_mod_ttr/characters/ene_friendly_backup_diego_crew/ene_friendly_backup_diego_crew"):key()] = "deagle",
-			-- [("units/pd2_mod_ttr/characters/ene_diego_backup/ene_diego_backup"):key()] = "deagle",  -- already uses one
+			[("units/pd2_mod_ttr/characters/ene_friendly_backup_1/ene_friendly_backup_1"):key()] = "raging_bull",  -- friendly backup units
+			[("units/pd2_mod_ttr/characters/ene_friendly_backup_1_vehicle/ene_friendly_backup_1_vehicle"):key()] = "raging_bull",
+			[("units/pd2_mod_ttr/characters/ene_friendly_backup_2/ene_friendly_backup_2"):key()] = "raging_bull",
+			[("units/pd2_mod_ttr/characters/ene_friendly_backup_2_vehicle/ene_friendly_backup_2_vehicle"):key()] = "raging_bull",
+			[("units/pd2_mod_ttr/characters/ene_friendly_backup_diego_crew/ene_friendly_backup_diego_crew"):key()] = "raging_bull",
+			[("units/pd2_mod_ttr/characters/ene_diego_backup/ene_diego_backup"):key()] = "raging_bull",
 			[("units/pd2_mod_ttr/characters/ene_cartel_rebel_1/ene_cartel_rebel_1"):key()] = "ump",  -- cartel, "rebels"
 			[("units/pd2_mod_ttr/characters/ene_cartel_rebel_2/ene_cartel_rebel_2"):key()] = "r870",
 			[("units/pd2_mod_ttr/characters/ene_cartel_rebel_3/ene_cartel_rebel_3"):key()] = "beretta92",
@@ -399,7 +400,8 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_zeal/ene_cartel_soldier_heavy_zeal"):key()] = "ak47",
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_shotgun/ene_cartel_soldier_heavy_shotgun"):key()] = "r870",
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi_shotgun/ene_cartel_soldier_heavy_fbi_shotgun"):key()] = "r870",
-			[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = "ak47",  -- specials
+			[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = "sko12_conc",  -- specials
+			[("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"):key()] = "beretta92",
 			[("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"):key()] = "rpk_lmg",
 			[("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"):key()] = "ak47",  -- rough medicdozer equivalent
 			[("units/pd2_mod_ttr/characters/ene_security_resort_1/ene_security_resort_1"):key()] = "m4",  -- resort security
@@ -422,25 +424,44 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_mod_ttr/characters/ene_city_heavy_r870/ene_city_heavy_r870"):key()] = "benelli",
 			[("units/pd2_mod_ttr/characters/ene_marshal_gensec_shield/ene_marshal_gensec_shield"):key()] = { secondary = "c45", },
 
-			-- cold stones units
-			[("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"):key()] = "akmsu_smg",  -- security
+			-- constantine russia campaign units
+			[("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"):key()] = "akmsu_smg",  -- general, security
 			[("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"):key()] = "r870",
 			[("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"):key()] = "deagle",
 			[("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"):key()] = "akmsu_smg",  -- cops/hrts
 			[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = "r870",
-			[("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"):key()] = "akmsu_smg",
+			[("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"):key()] = "akmsu_smg",  -- swats
 			[("units/pd2_dlc_mad/characters/ene_rus_cop_3_r870/ene_rus_cop_3_r870"):key()] = "r870",
-			[("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"):key()] = "akmsu_smg",
-			[("units/pd2_dlc_mad/characters/ene_rus_cop_4_r870/ene_rus_cop_4_r870"):key()] = "r870",
-			[("units/pd2_dlc_mad/characters/ene_rus_fsb_m4/ene_rus_fsb_m4"):key()] = "ak47_ass",  -- swats
-			[("units/pd2_dlc_mad/characters/ene_rus_fsb_r870/ene_rus_fsb_r870"):key()] = "ak47_ass",
+			[("units/pd2_dlc_mad/characters/ene_rus_fsb_m4/ene_rus_fsb_m4"):key()] = "ak47_ass",
+			[("units/pd2_dlc_mad/characters/ene_rus_fsb_r870/ene_rus_fsb_r870"):key()] = "asval_smg",
 			[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_g36/ene_rus_fsbcity_g36"):key()] = "r870",
 			[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_r870/ene_rus_fsbcity_r870"):key()] = "r870",
-			[("units/pd2_dlc_mad/characters/ene_rus_fsbzeal_akmsu/ene_rus_fsbzeal_akmsu"):key()] = "asval_smg",
-			[("units/pd2_dlc_mad/characters/ene_rus_fsb_heavy_m4/ene_rus_fsb_heavy_m4"):key()] = "ak47_ass",  -- heavies
+			[("units/pd2_dlc_mad/characters/ene_rus_fsbzeal_akmsu/ene_rus_fsbzeal_akmsu"):key()] = "r870",
+			[("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"):key()] = "akmsu_smg",  -- heavies
+			[("units/pd2_dlc_mad/characters/ene_rus_cop_4_r870/ene_rus_cop_4_r870"):key()] = "r870",
+			[("units/pd2_dlc_mad/characters/ene_rus_fsb_heavy_m4/ene_rus_fsb_heavy_m4"):key()] = "ak47_ass",
 			[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_heavy_g36/ene_rus_fsbcity_heavy_g36"):key()] = "r870",
 			[("units/pd2_dlc_mad/characters/ene_rus_fsbzeal_heavy_ak47_ass/ene_rus_fsbzeal_heavy_ak47_ass"):key()] = "r870",
 			[("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"):key()] = "ak47_ass",
+			[("units/payday2/characters/ene_gang_mobster_1_pager/ene_gang_mobster_1_pager"):key()] = "ak47",  -- a house of pleasure mobsters
+			[("units/payday2/characters/ene_gang_mobster_2_pager/ene_gang_mobster_2_pager"):key()] = "mossberg",
+			[("units/payday2/characters/ene_gang_mobster_3_pager/ene_gang_mobster_3_pager"):key()] = "r870",
+			[("units/payday2/characters/ene_gang_mobster_4_pager/ene_gang_mobster_4_pager"):key()] = "raging_bull",
+			[("units/payday2/characters/ene_gang_mobster_5/ene_gang_mobster_5"):key()] = "deagle",
+			[("units/payday2/characters/ene_gang_mobster_5_pager/ene_gang_mobster_5_pager"):key()] = "deagle",
+			[("units/payday2/characters/ene_gang_mobster_6/ene_gang_mobster_6"):key()] = "mac11",
+			[("units/payday2/characters/ene_gang_mobster_6_pager/ene_gang_mobster_6_pager"):key()] = "mac11",
+			[("units/payday2/characters/ene_russian_club_owner_stealth/ene_russian_club_owner_stealth"):key()] = "deagle",
+			[("units/payday2/characters/ene_russian_club_vip_1/ene_russian_club_vip_1"):key()] = "raging_bull",
+			[("units/payday2/characters/ene_russian_club_vip_2/ene_russian_club_vip_2"):key()] = "mossberg",
+			[("units/payday2/characters/npc_backup_1/npc_backup_1"):key()] = "raging_bull",
+			[("units/payday2/characters/npc_backup_2/npc_backup_2"):key()] = "raging_bull",
+			[("units/payday2/characters/ene_rus_prisoner_1/ene_rus_prisoner_1"):key()] = "akmsu_smg",  -- crime and punishment rioters
+			[("units/payday2/characters/ene_rus_prisoner_2/ene_rus_prisoner_2"):key()] = "deagle",
+			[("units/payday2/characters/ene_rus_prisoner_3/ene_rus_prisoner_3"):key()] = "deagle",
+			[("units/payday2/characters/ene_rus_prisoner_4/ene_rus_prisoner_4"):key()] = "r870",
+			[("units/payday2/characters/npc_nikolai_security/npc_nikolai_security"):key()] = "deagle",  -- hunter and hunted, nikolai guards
+			[("units/payday2/characters/ene_rus_aleksandr/ene_rus_aleksandr"):key()] = "r870",  -- aleksandr
 		}
 
 		local level_override = level_overrides[level_id]
@@ -501,21 +522,19 @@ if doms_scale then
 
 		if not presets then
 			ASS:log("warn", "\"CharacterTweakData:_presets\" unavailable!")
+		else
+			-- only change SH's tweaked surrender presets
+			-- allow any factor to count as a surrender reason
+			for _, preset in pairs(presets.surrender) do
+				if preset.reasons and preset.factors and preset.factors.health then
+					local min, max = math.min_max(preset.significant_chance or 0, 0.5)
 
-			return
-		end
-
-		-- only change SH's tweaked surrender presets
-		-- allow any factor to count as a surrender reason
-		for _, preset in pairs(presets.surrender) do
-			if preset.reasons and preset.factors and preset.factors.health then
-				local min, max = math.min_max(preset.significant_chance or 0, 0.5)
-
-				preset.significant_chance = math.lerp(min, max, f)
-				preset.base_chance = 0
-				preset.factors_original = preset.factors
-				preset.reasons = table.map_append(preset.reasons, preset.factors)
-				preset.factors = {}
+					preset.significant_chance = math.lerp(min, max, f)
+					preset.base_chance = 0
+					preset.factors_original = preset.factors
+					preset.reasons = table.map_append(preset.reasons, preset.factors)
+					preset.factors = {}
+				end
 			end
 		end
 

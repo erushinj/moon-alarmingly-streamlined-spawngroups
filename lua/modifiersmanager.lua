@@ -4,12 +4,9 @@ end
 
 local try_insert = ASS:require("try_insert", true)
 
--- add missing (albeit unused anyway) heavies, just because
-for _, heavy in pairs({
-	"units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36",
-	"units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi",
-}) do
-	ModifierHeavySniper.heavy_units[heavy:key()] = true
+-- add missing vanilla and custom map heavies
+for name_key, mapped in pairs(tweak_data.levels:moon_enemy_mapping()) do
+	ModifierHeavySniper.heavy_units[name_key] = mapped == "heavy_1" or mapped == "heavy_2" or nil
 end
 
 ModifierHeavies._moon_u_key_mapping = {
