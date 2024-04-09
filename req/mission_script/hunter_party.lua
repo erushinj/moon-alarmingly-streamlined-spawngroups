@@ -1,3 +1,4 @@
+-- hunter and hunted day 1, https://modworkshop.net/mod/43578
 local get_table_index_func = ASS:require("get_table_index_func", true)
 
 local bartender_ids = get_table_index_func({ 100017, 100019, })

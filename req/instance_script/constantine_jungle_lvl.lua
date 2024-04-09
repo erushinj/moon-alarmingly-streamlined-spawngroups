@@ -1,3 +1,4 @@
+-- welcome to the jungle, https://modworkshop.net/mod/43578
 local patches = {
 	chopper = {
 		heli_fly_in = table.set(100007),

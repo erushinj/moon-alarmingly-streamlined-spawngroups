@@ -1,3 +1,4 @@
+-- hunter and hunted day 3, https://modworkshop.net/mod/43578
 local patches = {
 	hunter_crew = table.list_to_set({
 		100134,

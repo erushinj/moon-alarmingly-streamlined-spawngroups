@@ -1,3 +1,4 @@
+-- scorched earth, https://modworkshop.net/mod/43578
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local scripted_swat_squads = ASS:require("scripted_swat_squads", true)

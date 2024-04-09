@@ -6,10 +6,10 @@ ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 	local name_key = alive(parent_unit) and parent_unit:name():key()
 
 	if name_key then
-		local key = tweak_data.levels:moon_enemy_mapping(name_key)
+		local mapped = tweak_data.levels:moon_enemy_mapping(name_key)
 
-		if key then
-			local split = tweak_data.mutators:moon_hydra_splits(key)
+		if mapped then
+			local split = tweak_data.mutators:moon_hydra_splits(mapped)
 
 			if split then
 				local last_prefixes = tweak_data.group_ai.moon_last_prefixes

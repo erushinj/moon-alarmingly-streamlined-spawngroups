@@ -694,7 +694,7 @@ function GroupAITweakData:_moon_original(special_weight)
 			},
 			{
 				rank = 1,
-				unit = "CS_swat_MP5",
+				unit = "CS_swat_SMG",
 				tactics = self._tactics.empty,
 				-- amount_max = 1,
 				freq = self._freq.uncommon,
@@ -758,13 +758,6 @@ function GroupAITweakData:_moon_original(special_weight)
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline,
 			},
-			{
-				rank = 1,
-				unit = "CS_cop_stealth_R870",
-				tactics = self._tactics.empty,
-				amount_max = 1,
-				freq = self._freq.common,
-			},
 		},
 	}
 	self.enemy_spawn_groups.original_reenforce_c = {
@@ -772,16 +765,9 @@ function GroupAITweakData:_moon_original(special_weight)
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_heavy_MP5",
+				unit = "CS_heavy_MP5_R870",
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline,
-			},
-			{
-				rank = 1,
-				unit = "CS_heavy_R870",
-				tactics = self._tactics.empty,
-				amount_max = 1,
-				freq = self._freq.common,
 			},
 		},
 	}
@@ -807,15 +793,15 @@ function GroupAITweakData:_moon_original(special_weight)
 			original_swats_b = { 0, 0, 0, },
 			original_spoocs_a = { 0, 0, 0, },
 			original_spoocs_b = { 0, 0, 0, },
-			original_recon_a = { 1, 1, 0, },
-			original_recon_b = { 0, 1, 1, },
+			original_recon_a = { 1, 2, 0, },
+			original_recon_b = { 0, 1, 2, },
 			original_recon_c = { 0, 0, 1, },
 			original_recon_d = { 0, 0, 0, },
 		},
 		reenforce = {
-			original_reenforce_a = { 1, 1, 0, },
-			original_reenforce_b = { 0, 1, 1, },
-			original_reenforce_c = { 0, 0, 1, },
+			original_reenforce_a = { 2, 1, 0, },
+			original_reenforce_b = { 0, 2, 1, },
+			original_reenforce_c = { 0, 0, 2, },
 		},
 	})
 end

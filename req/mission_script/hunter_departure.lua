@@ -1,3 +1,4 @@
+-- hunter and hunted day 2, https://modworkshop.net/mod/43578
 return {
 	[100175] = {  -- spawn start enemies, remove an instance placed in..the airport
 		pre_func = function(self)  -- hunter_spawn_enemies_008

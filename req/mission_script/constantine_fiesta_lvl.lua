@@ -1,3 +1,4 @@
+-- fiesta, https://modworkshop.net/mod/43578
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local cartel_rebels = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_rebel_1/ene_cartel_rebel_1"),

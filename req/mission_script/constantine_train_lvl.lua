@@ -1,3 +1,4 @@
+-- cartel transport train, https://modworkshop.net/mod/43578
 local cartel_security = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_security_1/ene_cartel_security_1"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_security_2/ene_cartel_security_2"),

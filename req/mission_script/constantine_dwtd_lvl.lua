@@ -1,3 +1,4 @@
+-- dance with the devil, https://modworkshop.net/mod/43578
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local friends = {  -- vips
 	Idstring("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"),

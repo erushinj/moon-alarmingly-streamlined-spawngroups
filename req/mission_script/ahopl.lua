@@ -1,3 +1,4 @@
+-- a house of pleasure, https://modworkshop.net/mod/43578
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 
 local no_participate_to_group_ai = {

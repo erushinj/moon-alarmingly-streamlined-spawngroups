@@ -309,15 +309,16 @@ if not ASS then
 		deep = "CITY_overkill_290",  -- crude awakening
 		roberts = "FBI_overkill_145",  -- go bank
 
-		-- custom levels
-		rusw = "FBI_overkill_145",  -- scorched earth
-		rusd = "CS_FBI_overkill",  -- cold stones
-		ahop = "CS_FBI_overkill",  -- a house of pleasure
-		crimepunish = "FBI_overkill_145",  -- crime and punishment
-		flatline_nar = "CS_FBI_overkill",  -- flatline
-		Hunter_narrative = "FBI_overkill_145",  -- hunter and hunted
-		constantine_penthouse_nar = "CITY_overkill_290",  -- penthouse crasher
-		constantine_resort_nar = "CITY_overkill_290",  -- scarlett resort
+		-- custom heists
+		["rusw"] = "FBI_overkill_145",  -- scorched earth, this and below are at https://modworkshop.net/mod/43578
+		["rusd"] = "CS_FBI_overkill",  -- cold stones
+		["ahop"] = "CS_FBI_overkill",  -- a house of pleasure
+		["crimepunish"] = "FBI_overkill_145",  -- crime and punishment
+		["flatline_nar"] = "CS_FBI_overkill",  -- flatline
+		["Hunter_narrative"] = "FBI_overkill_145",  -- hunter and hunted
+		["constantine_penthouse_nar"] = "CITY_overkill_290",  -- penthouse crasher
+		["constantine_resort_nar"] = "CITY_overkill_290",  -- scarlett resort
+		["Avalon's Shadow"] = "CITY_overkill_290",  -- avalon's shadow, https://modworkshop.net/mod/34760
 	}
 
 	function ASS:get_var(var)

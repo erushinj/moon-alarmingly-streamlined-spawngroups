@@ -1,3 +1,4 @@
+-- cartel transport downtown, https://modworkshop.net/mod/43578
 local patches = {
 	cartel_truck = table.set(100042, 100043, 100044),
 }

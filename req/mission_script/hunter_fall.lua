@@ -1,3 +1,4 @@
+-- hunter and hunted day 3, https://modworkshop.net/mod/43578
 local mobsters = {
 	Idstring("units/payday2/characters/ene_gang_mobster_1/ene_gang_mobster_1"),
 	Idstring("units/payday2/characters/ene_gang_mobster_2/ene_gang_mobster_2"),

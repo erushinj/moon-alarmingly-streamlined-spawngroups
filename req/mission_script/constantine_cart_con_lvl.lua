@@ -1,3 +1,4 @@
+-- cartel transport construction site, https://modworkshop.net/mod/43578
 local hrts_cartel = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
