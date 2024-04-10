@@ -101,6 +101,8 @@ function CharacterTweakData:moon_weapon_mapping(name)
 				russia = "deagle",
 				murkywater = "deagle",
 				constantine_cartel = "beretta92",
+				bo = "deagle",
+				bo_ovk = "beretta92",
 			},
 			smgs = {
 				swat = "mp9",
@@ -112,6 +114,8 @@ function CharacterTweakData:moon_weapon_mapping(name)
 				russia = { "deagle", "sr2_smg", },
 				murkywater = { "deagle", "mp9", },
 				constantine_cartel = { "beretta92", "mp9", },
+				bo = { "deagle", "mp9", },
+				bo_ovk = { "beretta92", "mp9", },
 			},
 		}
 		local shield_weapons = shield_weapons_by_setting[shield_arms] or shield_weapons_by_setting.default
@@ -163,8 +167,24 @@ function CharacterTweakData:moon_weapon_mapping(name)
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "beretta92",
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02"):key()] = "raging_bull",
 			},
+			physics_citystreets = {
+				[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "deagle",
+				-- [("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "raging_bull",
+				[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = "ksg",
+				[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = "shepheard",
+				[("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = "beretta92",
+				-- [("units/payday2/characters/ene_fbi_2/ene_fbi_2"):key()] = "m4",
+				[("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = "r870",
+				[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "shepheard",
+				-- [("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = "mp5_tactical",
+				[("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"):key()] = "ksg",
+				-- [("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"):key()] = "ksg",
+				[("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = "s552",
+			},
 		}
 		level_overrides.short2_stage2b = level_overrides.short2_stage1
+		level_overrides.physics_tower = level_overrides.physics_citystreets
+		level_overrides.physics_core = level_overrides.physics_citystreets
 
 		weapon_mapping = {
 			-- appropriate weaponry for unique units
@@ -462,6 +482,45 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/payday2/characters/ene_rus_prisoner_4/ene_rus_prisoner_4"):key()] = "r870",
 			[("units/payday2/characters/npc_nikolai_security/npc_nikolai_security"):key()] = "deagle",  -- hunter and hunted, nikolai guards
 			[("units/payday2/characters/ene_rus_aleksandr/ene_rus_aleksandr"):key()] = "r870",  -- aleksandr
+
+			-- boworks units
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"):key()] = "shepheard",  -- swats
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_r870/ene_sbz_r870"):key()] = "ksg",
+			-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_m4/ene_ovk_m4"):key()] = "m4",
+			-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_r870/ene_ovk_r870"):key()] = "r870",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_g36/ene_bofa_g36"):key()] = "s552",
+			-- [("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_benelli/ene_bofa_benelli"):key()] = "benelli",
+			-- [("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_ump/ene_bofa_ump"):key()] = "ump",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_r870/ene_bofa_r870"):key()] = "benelli",
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "s552",
+
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_m4/ene_sbz_heavy_m4"):key()] = "shepheard",  -- heavies
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_r870/ene_sbz_heavy_r870"):key()] = "ksg",
+			-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_m4/ene_ovk_heavy_m4"):key()] = "m4",
+			-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_r870/ene_ovk_heavy_r870"):key()] = "r870",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_g36/ene_bofa_heavy_g36"):key()] = "s552",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_r870/ene_bofa_heavy_r870"):key()] = "benelli",
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "s552",
+
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_c45/ene_sbz_shield_c45"):key()] = get_shield_weapon("bo") or "deagle",  -- shields
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_mp9/ene_sbz_shield_mp9"):key()] = get_shield_weapon("bo") or "deagle",
+			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_c45/ene_ovk_shield_c45"):key()] = get_shield_weapon("bo_ovk") or "beretta92",
+			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = get_shield_weapon("bo_ovk") or "beretta92",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = get_shield_weapon("bo") or "mp9",
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = get_shield_weapon("bo"),
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = get_shield_weapon("bo"),
+
+			[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = "shepheard",  -- taser (seems unused)
+
+			-- [("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_m4/ene_bofa_medic_m4"):key()] = "m4",  -- medics
+			-- [("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_r870/ene_bofa_medic_r870"):key()] = "r870",
+
+			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"):key()] = "shepheard",  -- security
+			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"):key()] = "ksg",
+
+			[("units/matthelzor/characters/ford/ford"):key()] = "shepheard",  -- cocke
+			-- [("units/mainman/characters/ene_the_boss/ene_the_boss"):key()] = "mini",  -- bo boss
+			[("units/mainman/characters/ene_bo/ene_bo"):key()] = "deagle",  -- bo
 		}
 
 		local level_override = level_overrides[level_id]
