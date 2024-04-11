@@ -2,21 +2,6 @@ if ASS:get_var("is_client") then
 	return
 end
 
--- if you're a map maker with a level using swats as pager-less guards, add it to this table
--- true = pager disabled, false = pager enabled
-CharacterTweakData.moon_swat_pager_disable_map = CharacterTweakData.moon_swat_pager_disable_map or {}
-CharacterTweakData.moon_swat_pager_disable_map.sample_level_id = {
-	swat = true,
-	fbi_swat = true,
-	city_swat = true,
-	zeal_swat = true,
-	heavy_swat = true,
-	fbi_heavy_swat = true,
-	zeal_heavy_swat = true,
-	heavy_swat_sniper = true,
-}
-local swat_pager_tweak_names = clone(CharacterTweakData.moon_swat_pager_disable_map.sample_level_id)
-
 local level_id = ASS:get_var("level_id")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
@@ -623,29 +608,192 @@ ASS:post_hook( CharacterTweakData, "init", function(self, tweak_data)
 		end
 	end
 
-
 	local level_func = level_funcs[level_id]
 	if level_func then
 		level_func(self)
 	end
+end )
 
-	-- ASS makes the heavies modifier replace scripted spawns, including the Ready Team on hox revenge, so give all swats pagers by default
-	local pager_disable_map = self.moon_swat_pager_disable_map[level_id] or {}
-	for id in pairs(swat_pager_tweak_names) do
-		local character = self[id]
+-- add missing custom heist units to the character map
+-- some of them go to copbase to add materials directly, but this does not work for my purposes
+local beardlib_map = BeardLib and BeardLib.current_level and BeardLib.current_level._mod
+if not beardlib_map then
+	return
+end
 
-		if not character then
-			ASS:log("warn", "Character \"%s\" is nil!", id)
-		else
-			if not pager_disable_map[id] then
-				character.has_alarm_pager = true
-			else
-				ASS:log("info", "Character \"%s\" has had alarm pagers disabled...", id)
+local try_insert = ASS:require("try_insert", true)
+local custom_map_char_maps = {
+	["Flatline"] = {
+		basic = {
+			list = {
+				"npc_backup_2",
+			},
+		},
+	},
+	["A House of Pleasure"] = {
+		basic = {
+			list = {
+				"npc_backup_2",
+				"ene_russian_club_owner_stealth",
+			},
+		},
+	},
+	["BOWORKS"] = {  -- why.
+		bofa_misc = {
+			path = "units/pd2_mod_bofa/characters/misc_units/",
+			list = {
+				"ene_stockos_security",
+				"ene_stockos_security_head",
+			},
+		},
+		bofa_swat = {
+			path = "units/pd2_mod_bofa/characters/sbz_units/",
+			list = {
+				"ene_sbz_mp5",
+				"ene_sbz_r870",
+				"ene_sbz_heavy_m4",
+				"ene_sbz_heavy_r870",
+				"ene_sbz_shield_c45",
+				"ene_sbz_shield_mp9",
+			},
+		},
+		bofa_fbi = {
+			path = "units/pd2_mod_bofa/characters/ovk_units/",
+			list = {
+				"ene_ovk_m4",
+				"ene_ovk_r870",
+				"ene_ovk_heavy_m4",
+				"ene_ovk_heavy_r870",
+				"ene_ovk_shield_c45",
+				"ene_ovk_shield_mp9",
+			},
+		},
+		bofa_city = {
+			path = "units/pd2_mod_bofa/characters/bofa_units/",
+			list = {
+				"ene_bofa_g36",
+				"ene_bofa_benelli",
+				"ene_bofa_ump",
+				"ene_bofa_r870",
+				"ene_bofa_heavy_g36",
+				"ene_bofa_heavy_r870",
+				"ene_bofa_shield_c45",
+				"ene_bofa_shield_mp9",
+			},
+		},
+		bofa_zeal = {
+			path = "units/pd2_mod_bofa/characters/bofa_zeal_units/",
+			list = {
+				"ene_bofa_zeal",
+				"ene_bofa_zeal_heavy",
+				"ene_bofa_zeal_shield",
+			},
+		},
+		bofa_specials = {
+			path = "units/pd2_mod_bofa/characters/special_units/",
+			list = {
+				"ene_bofa_medic_m4",
+				"ene_bofa_medic_r870",
+				"ene_bofa_sniper",
+				"ene_bofa_taser",  -- unused but whatever
+			},
+		},
+	},
+	["Constantine Scores"] = {  -- dear god
+		triadyacht = {
+			path = "units/pd2_mod_ttr/characters/",
+			list = {
+				"ene_agent_soldier_2",
+				"ene_agent_soldier_3",
+				"ene_cartel_bulldozer_2",
+				"ene_cartel_bulldozer_3",
+				"ene_cartel_commando",
+				"ene_cartel_grenadier",
+				"ene_cartel_shield",
+				"ene_cartel_soldier_fbi_1",
+				"ene_cartel_soldier_city_1",
+				"ene_cartel_soldier_zeal_1",
+				"ene_cartel_soldier_shotgun_1",
+				"ene_cartel_soldier_fbi_shotgun_1",
+				"ene_cartel_soldier_city_shotgun_1",
+				"ene_cartel_soldier_2",
+				"ene_cartel_soldier_fbi_2",
+				"ene_cartel_soldier_city_2",
+				"ene_cartel_soldier_zeal_2",
+				"ene_cartel_soldier_shotgun_2",
+				"ene_cartel_soldier_fbi_shotgun_2",
+				"ene_cartel_soldier_city_shotgun_2",
+				"ene_cartel_soldier_3",
+				"ene_cartel_soldier_fbi_3",
+				"ene_cartel_soldier_city_3",
+				"ene_cartel_soldier_zeal_3",
+				"ene_cartel_soldier_shotgun_3",
+				"ene_cartel_soldier_fbi_shotgun_3",
+				"ene_cartel_soldier_city_shotgun_3",
+				"ene_cartel_soldier_4",
+				"ene_cartel_soldier_fbi_4",
+				"ene_cartel_soldier_city_4",
+				"ene_cartel_soldier_zeal_4",
+				"ene_cartel_soldier_shotgun_4",
+				"ene_cartel_soldier_fbi_shotgun_4",
+				"ene_cartel_soldier_city_shotgun_4",
+				"ene_cartel_soldier_heavy_fbi",
+				"ene_cartel_soldier_heavy_city",
+				"ene_cartel_soldier_heavy_zeal",
+				"ene_cartel_soldier_heavy_shotgun",
+				"ene_cartel_soldier_heavy_fbi_shotgun",
+				"ene_cartel_tazer_normal",
+				"ene_diego_backup",
+				"ene_friendly_backup_1_vehicle",
+				"ene_friendly_backup_2",
+				"ene_friendly_backup_2_vehicle",
+				"ene_friendly_security_winter_1",
+				"ene_gang_mobster_5_pager",
+				"ene_gang_mobster_6_pager",
+				"ene_gang_mobster_armored_2",
+				"ene_swat_gensec_1",
+				"ene_fbi_gensec_1",
+				"ene_zeal_gensec_1",
+				"ene_swat_gensec_2",
+				"ene_fbi_gensec_2",
+				"ene_swat_gensec_heavy_1",
+				"ene_fbi_gensec_heavy",
+				"ene_zeal_gensec_heavy_1",
+				"ene_swat_gensec_heavy_2",
+				"ene_fbi_gensec_heavy_r870",
+				"ene_city_heavy_r870",
+				"ene_swat_gensec_shield",
+				"ene_fbi_gensec_shield",
+				"ene_marshal_gensec_shield",
+			},
+		},
+	},
+}
+custom_map_char_maps["Hunter and Hunted"] = custom_map_char_maps["Flatline"]
 
-				character.has_alarm_pager = nil
+local custom_char_maps = custom_map_char_maps[beardlib_map.Name]
+if not custom_char_maps then
+	return
+end
+
+ASS:post_hook( CharacterTweakData, "character_map", function()
+	local char_map = Hooks:GetReturn()
+
+	if not char_map then
+		ASS:log("error", "CharacterTweakData:character_map is broken by another mod!")
+	else
+		for name, data in pairs(custom_char_maps) do
+			local map = char_map[name] or {}
+			map.path = map.path or data.path or ""
+			map.list = map.list or {}
+
+			for _, unit in pairs(data.list) do
+				try_insert(map.list, unit)
 			end
+
+			char_map[name] = map
 		end
 	end
 
-	self:moon_weapon_mapping()
+	return char_map
 end )
