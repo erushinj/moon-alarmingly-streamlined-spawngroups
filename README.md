@@ -106,10 +106,18 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            True Patriots
+            Shield Arms
         </th>
         <td>
-            Allow police to deploy gas grenades even when hostages are in the area.
+            Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Shiny Riflemen
+        </th>
+        <td>
+            Allow SMG SWATs for supported factions to spawn in the assault, if available.
         </td>
     </tr>
     <tr>
@@ -130,6 +138,14 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
+            True Patriots
+        </th>
+        <td>
+            Allow police to deploy gas grenades even when hostages are in the area.
+        </td>
+    </tr>
+    <tr>
+        <th>
             Escapes
         </th>
         <td>
@@ -140,12 +156,15 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 ### Notes:
 - Majority of features only work as host
-- Values (eg, frequency of tougher units) scales with chosen difficulty
+- Values (eg, frequency of tougher units) scale with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
-- Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
+- Marshal Marksmen are added to some scripted spawns to compensate for their removal from the assaults
+- Includes a tweaked version of [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
+- Certain special enemies are also given appropriate weaponry for faction consistency
+- Certain unique characters (bosses, friendly NPCs) are also given different weapons
 - Mission scripting for several maps has been tweaked - both to improve scripted spawn variety, and to improve game flow
-- Certain special enemies and unique characters are given appropriate weaponry
+- Some enemy-related modifiers and mutators have been tweaked to better work with the mod
 
 -----
 
@@ -280,7 +299,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Sequel (0.025s)
+            Post-Prequel Sequel (0.025s)
         </th>
     </tr>
     <tr>
@@ -404,9 +423,10 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
 </table>
 
-### Level Mods:
+### Level Mod Map:
 
-A specific Level Mod can also be forced on any level.
+These are used when the Level Mod setting is set to Per-Level.
+GenSec-ZEAL and ZEAL Level Mods require an additional matchmaking lock to function online, and thus have no associated levels and will not be picked when Level Mod is set to Random.
 For alternate factions like Murkywater, this will use their version of equivalent American units.
 
 <table>
@@ -457,6 +477,9 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Cursed Kill Room</li>
                 <li>Ukrainian Prisoner</li>
                 <li>Midland Ranch</li>
+                <li>Cold Stones (custom)</li>
+                <li>A House of Pleasure (custom)</li>
+                <li>Flatline (custom)</li>
             </ul>
         </td>
     </tr>
@@ -495,6 +518,9 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Black Cat</li>
                 <li>Lost in Transit</li>
                 <li>GO Bank</li>
+                <li>Scorched Earth (custom)</li>
+                <li>Crime and Punishment (custom)</li>
+                <li>Hunter and Hunted (custom)</li>
             </ul>
         </td>
     </tr>
@@ -507,6 +533,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Slaughterhouse</li>
                 <li>Mountain Master</li>
                 <li>Hostile Takeover</li>
+                <li>Crashing Capitol (custom)</li>
             </ul>
         </td>
     </tr>
@@ -531,28 +558,19 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Border Crystals</li>
                 <li>Buluc's Mansion</li>
                 <li>Crude Awakening</li>
+                <li>Avalon's Shadow (custom)</li>
+                <li>Penthouse Crasher (custom)</li>
+                <li>Scarlett Resort (custom)</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            GenSec-ZEAL
+            Unique
         </th>
         <td>
             <ul>
-                <li>No associated maps, due to additional matchmaking lock.</li>
-                <li>The Random setting will not pick this Level Mod.</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>
-            ZEAL
-        </th>
-        <td>
-            <ul>
-                <li>No associated maps, due to additional matchmaking lock.</li>
-                <li>The Random setting will not pick this Level Mod.</li>
+                <li>BOWORKS (custom) rotates from SWAT to FBI to GenSec tiers with each heist day - day 3 is currently incompatible with Streamlined Heisting, however</li>
             </ul>
         </td>
     </tr>
@@ -564,7 +582,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementareatrigger`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawncivilian`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/levelstweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawncivilian`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/modifiersmanager`, `lib/managers/mutatorsmanager`, `lib/managers/skirmishmanager`, `lib/network/base/networkmanager`, `lib/setups/gamesetup`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/levelstweakdata`, `lib/tweak_data/mutatortweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
