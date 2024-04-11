@@ -57,7 +57,7 @@ if not ASS then
 		max_values = false,  -- whether to use death sentence values for scaling
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
-		shield_arms = 1,  -- pick shield weapon type
+		shield_arms = 4,  -- pick shield weapon type
 		smg_units = true,  -- allow smg swats to spawn if applicable
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
