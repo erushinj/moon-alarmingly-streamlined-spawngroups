@@ -1,4 +1,4 @@
--- avalon's shadow, https://modworkshop.net/mod/34760
+-- avalon's shadow, version 12, https://modworkshop.net/mod/34760
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 

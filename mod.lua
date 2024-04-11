@@ -322,6 +322,7 @@ if not ASS then
 		["physics_citystreets"] = "CS_normal",  -- boworks day 1
 		["physics_tower"] = "FBI_overkill_145",  -- boworks day 2
 		["physics_core"] = "CITY_overkill_290",  -- boworks day 3
+		["narr_friday"] = "FBI_CITY_easy_wish",  -- crashing capitol, https://modworkshop.net/mod/44630
 	}
 
 	function ASS:get_var(var)

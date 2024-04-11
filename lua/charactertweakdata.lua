@@ -623,6 +623,19 @@ end
 
 local try_insert = ASS:require("try_insert", true)
 local custom_map_char_maps = {
+	["Mallbank"] = {  -- crashing capitol
+		friday = {
+			path = "units/pd2_mod_friday/characters/",
+			list = {
+				"npc_manager",
+				"ene_security_fri_1",
+				"ene_security_fri_2",
+				"ene_security_fri_3",
+				"ene_security_fri_4",
+				"ene_security_fri_5",
+			},
+		},
+	},
 	["Flatline"] = {
 		basic = {
 			list = {
