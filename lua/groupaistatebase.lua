@@ -17,19 +17,11 @@ if ASS:get_setting("doms_super_serious") then
 	end )
 end
 
-function GroupAIStateBase:moon_set_escape_active(active)
-	self._moon_escape_active = active
-
-	if active then
-		self:set_difficulty(1)
-	end
-end
-
 -- force diff to 1 in loud if the setting is enabled or once escape is available
 local max_diff = ASS:get_setting("max_diff")
 ASS:log("info", "Tweaking \"GroupAIStateBase:set_difficulty\", Maxed Assault Strength setting %s...", max_diff and "enabled" or "disabled")
 ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
-	return self:set_difficulty_original((max_diff or self._moon_escape_active) and 1 or value, ...)
+	return self:set_difficulty_original(max_diff and 1 or value, ...)
 end )
 
 -- cloaker task fuck off
