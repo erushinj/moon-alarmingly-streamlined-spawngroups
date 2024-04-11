@@ -1584,42 +1584,11 @@ local prefixes_by_tier = {
 	CS_normal = { CS = "CS_normal", FBI = "CS_normal", },
 	CS_FBI_overkill = { CS = "CS_normal", FBI = "FBI_overkill_145", },
 	FBI_overkill_145 = { CS = "FBI_overkill_145", FBI = "FBI_overkill_145", },
-	FBI_office = { CS = "FBI_overkill_145", FBI = "FBI_overkill_145", },
-	FBI_mcmansion = { CS = "FBI_mcmansion", FBI = "FBI_overkill_145", },
 	FBI_CITY_easy_wish = { CS = "FBI_overkill_145", FBI = "CITY_overkill_290", },
 	CITY_overkill_290 = { CS = "CITY_overkill_290", FBI = "CITY_overkill_290", },
 	CITY_ZEAL_awesome_difficulty_name = { CS = "CITY_overkill_290", FBI = "ZEAL_sm_wish", },
 	ZEAL_sm_wish = { CS = "ZEAL_sm_wish", FBI = "ZEAL_sm_wish", },
 }
-function GroupAITweakData:_moon_level_mod_by_tier(tier)
-	local prefixes = prefixes_by_tier[tier] or prefixes_by_tier[difficulty]
-
-	self:moon_swap_units(prefixes)
-end
-
-function GroupAITweakData:_moon_level_mod_FBI_office()
-	self:_moon_level_mod_by_tier("FBI_overkill_145")
-
-	self.unit_categories.CS_cop_C45.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
-		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
-		Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
-		Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
-	}
-	self.unit_categories.CS_cop_MP5.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
-		Idstring("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"),
-		Idstring("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"),
-		Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
-	}
-	self.unit_categories.CS_cop_stealth_R870.unit_types.america = {
-		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-		Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-		Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
-		Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
-	}
-end
-
 local special_limit_mul = ASS:get_tweak("special_limit_mul")
 local smg_units = ASS:get_setting("smg_units")
 local level_mod = ASS:get_var("level_mod")
@@ -1684,12 +1653,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self.unit_categories.FBI_marshal_shield = self.unit_categories.marshal_shield
 	self.unit_categories.FBI_titan = deep_clone(self.unit_categories.CS_titan)
 
-	local level_mod_func = self["_moon_level_mod_" .. (level_mod or "")]
-	if level_mod_func then
-		level_mod_func(self)
-	else
-		self:_moon_level_mod_by_tier(level_mod)
-	end
+	local prefixes = prefixes_by_tier[level_mod] or prefixes_by_tier[difficulty]
+	self:moon_swap_units(prefixes)
 
 	local function combined_category(category_1, category_2)
 		local new_category = deep_clone(category_1)

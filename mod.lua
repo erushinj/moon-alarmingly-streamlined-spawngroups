@@ -251,9 +251,8 @@ if not ASS then
 		big = "CS_FBI_overkill",  -- big bank
 		mia = "CS_normal",  -- hotline miami
 		gallery = "CS_normal",  -- art gallery
-		hox = "FBI_overkill_145",  -- hoxton breakout (day 1)
-		hox_2 = "FBI_office",  -- hoxton breakout day 2 override
-		hox_3 = "FBI_mcmansion",  -- hoxton revenge
+		hox = "FBI_overkill_145",  -- hoxton breakout
+		hox_3 = "FBI_overkill_145",  -- hoxton revenge
 		pines = "FBI_overkill_145",  -- white xmas
 		mus = "CS_FBI_overkill",  -- the diamond
 		crojob1 = "FBI_overkill_145",  -- bomb dockyard
@@ -273,7 +272,7 @@ if not ASS then
 		peta = "CS_FBI_overkill",  -- goat simulator (day 1)
 		peta2 = "FBI_overkill_145",  -- goat simulator day 2 override
 		pal = "CS_normal",  -- counterfeit
-		man = "FBI_office",  -- undercover
+		man = "FBI_overkill_145",  -- undercover
 		mad = "FBI_overkill_145",  -- boiling point
 		born = "FBI_overkill_145",  -- biker heist
 		chill_combat = "FBI_overkill_145",  -- safehouse raid

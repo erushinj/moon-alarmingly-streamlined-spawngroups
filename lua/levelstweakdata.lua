@@ -824,10 +824,6 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 				},
 			},
 		}
-		replacements.america.FBI_mcmansion = clone(replacements.america.overkill_145)
-		replacements.america.FBI_mcmansion.swat_1 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
-		replacements.america.FBI_mcmansion.swat_2 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2")
-		replacements.america.FBI_mcmansion.swat_3 = Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1")
 
 		for _, tbl in ipairs({
 			{
@@ -844,8 +840,6 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 				easy_wish = "overkill_145",
 				overkill_290 = "overkill_145",
 				FBI_overkill_145 = "overkill_145",
-				FBI_office = "overkill_145",
-				FBI_mcmansion = "overkill_145",
 			},
 			{
 				FBI_CITY_easy_wish = "easy_wish",
@@ -927,7 +921,6 @@ function LevelsTweakData:moon_enemy_mapping(name_key)
 			[("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"):key()] = "swat_1",
 			[("units/payday2/characters/ene_city_swat_1/ene_city_swat_1"):key()] = "swat_1",
 			[("units/pd2_dlc_gitgud/characters/ene_zeal_swat/ene_zeal_swat"):key()] = "swat_1",
-			[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"):key()] = "swat_1",
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"):key()] = "swat_1",
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass"):key()] = "swat_1",
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass"):key()] = "swat_1",
@@ -959,7 +952,6 @@ function LevelsTweakData:moon_enemy_mapping(name_key)
 			[("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"):key()] = "swat_2",
 			[("units/payday2/characters/ene_city_swat_r870/ene_city_swat_r870"):key()] = "swat_2",
 			[("units/pd2_dlc_gitgud/characters/ene_zeal_swat_2/ene_zeal_swat_2"):key()] = "swat_2",
-			[("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"):key()] = "swat_2",
 			[("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870"):key()] = "swat_2",
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870"):key()] = "swat_2",
 			[("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870"):key()] = "swat_2",
