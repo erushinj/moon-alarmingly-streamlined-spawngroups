@@ -1,5 +1,5 @@
-local securitys = tweak_data.levels:moon_random_unit("securitys")
-local cops = tweak_data.levels:moon_random_unit("cops")
+local securitys = tweak_data.levels:moon_units("securitys")
+local cops = tweak_data.levels:moon_units("cops")
 
 return {
 	[102437] = {  -- cams, no titan

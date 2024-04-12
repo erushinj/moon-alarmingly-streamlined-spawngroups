@@ -8,8 +8,7 @@ local mobsters_medium = { mobster_1, mobster_2, }
 local mobsters_heavy = { mobster_1, mobster_3, }
 
 return {
-	-- mobsters
-	[106480] = { enemy = mobsters_medium, },  -- starting
+	[106480] = { enemy = mobsters_medium, },  -- mobsters, starting
 	[106494] = { enemy = mobsters_medium, },
 	[106496] = { enemy = mobsters_medium, },
 	[106498] = { enemy = mobsters_medium, },

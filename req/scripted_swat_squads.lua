@@ -5,9 +5,11 @@ local normal_spawn = params.normal_spawn or "specials_any"
 local hard_count = 0
 
 return function()
-	hard_count = hard_count + 1
+	if hard_count < hard_target then
+		hard_count = hard_count + 1
 
-	local wanted = hard_count <= hard_target and hard_spawn or normal_spawn
+		return tweak_data.levels:moon_units(hard_spawn)
+	end
 
-	return tweak_data.levels:moon_random_unit(wanted) or tweak_data.levels:moon_units()[wanted]
+	return tweak_data.levels:moon_units(normal_spawn)
 end

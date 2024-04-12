@@ -6,8 +6,8 @@ local filters_disable = {
 local filters_normal_above = {
 	values = set_difficulty_groups("normal_above"),
 }
-local harassers = tweak_data.levels:moon_random_unit("marshals_far")
-local dozers = tweak_data.levels:moon_random_unit("dozers_no_mini")
+local harassers = tweak_data.levels:moon_units("marshals_far")
+local dozers = tweak_data.levels:moon_units("dozers_no_mini")
 local secret_service = overkill and Idstring("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") or Idstring("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
 local breakout_guards = {
 	Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"),

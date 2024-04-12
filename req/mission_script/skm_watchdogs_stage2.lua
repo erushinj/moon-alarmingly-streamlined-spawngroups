@@ -1,4 +1,4 @@
-local heavys = tweak_data.levels:moon_random_unit("heavys")
+local heavys = tweak_data.levels:moon_units("heavys")
 
 return {
 	[104424] = { enemy = heavys, },  -- chopper heavies

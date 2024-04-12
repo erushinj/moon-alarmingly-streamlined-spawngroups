@@ -10,7 +10,8 @@ local cartel_bathrobes = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_2/ene_cartel_bathrobe_2"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_3/ene_cartel_bathrobe_3"),
 }
-local interior_cartel = overkill and tweak_data.levels:moon_units().heavy_2 or tweak_data.levels:moon_random_unit(normal and "swats_close" or "swats_heavys_close")
+local interior_cartel = tweak_data.levels:moon_units(normal and "swats_close" or hard and "swats_heavys_close" or "heavy_2")
+local shield = overkill and { enemy = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"), } or nil
 
 return {
 	[100121] = {
@@ -93,8 +94,8 @@ return {
 	[100339] = { enemy = interior_cartel, },
 	[100340] = { enemy = interior_cartel, },
 	[100341] = { enemy = interior_cartel, },
-	[100342] = overkill and { enemy = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"), } or nil,  -- shield
-	[100343] = overkill and { enemy = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"), } or nil,  -- shield
+	[100342] = shield,  -- shield
+	[100343] = shield,  -- shield
 	[100344] = { enemy = interior_cartel, },
 	[100345] = { enemy = interior_cartel, },
 	[100439] = { enemy = interior_cartel, },

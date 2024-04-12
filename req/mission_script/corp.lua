@@ -19,8 +19,8 @@ local van_spawns = scripted_swat_squads({
 	normal_spawn = "specials_any",
 })
 
-local securitys = tweak_data.levels:moon_random_unit("securitys")
-local dozers_no_mini = tweak_data.levels:moon_random_unit("dozers_no_mini")
+local securitys = tweak_data.levels:moon_units("securitys")
+local dozers_no_mini = tweak_data.levels:moon_units("dozers_no_mini")
 
 local civs_inspector = {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),

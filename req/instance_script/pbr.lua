@@ -90,7 +90,7 @@ local murkies = table.list_add(murkies_far, {
 return {
 	["levels/instances/unique/pbr/pbr_mountain_control_room/world/world"] = function(result)
 		local control_room = patches.control_room
-		local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
+		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
 		local dozer_chance = normal and 25 or hard and 45 or 65
 
 		for _, element in pairs(result.default.elements) do
@@ -112,7 +112,7 @@ return {
 	["levels/instances/unique/pbr/pbr_mountain_surface/world/world"] = function(result)
 		local mountain_surface = patches.mountain_surface
 		local no_shields_dozers = tweak_data.group_ai:moon_preferred_groups_instance("no_shields_dozers")
-		local dozers_any = tweak_data.levels:moon_random_unit("dozers_any")
+		local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id

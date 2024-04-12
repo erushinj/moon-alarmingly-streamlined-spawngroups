@@ -8,11 +8,11 @@ local triads_light = { triad_1, triad_2, triad_3, triad_4, }
 local triads_heavy = { triad_2, triad_3, triad_5, }
 local triads_grey = { triad_1, triad_4, }
 local triads_red = { triad_2, triad_3, }
+local securitys_light = tweak_data.levels:moon_units("securitys_light")
 
 -- no security 3. yay.
 return {
-	-- triads
-	[102717] = { enemy = triads_red, },  -- near auction room
+	[102717] = { enemy = triads_red, },  -- triads, near auction room
 	[103035] = { enemy = triads_red, },
 	[102741] = { enemy = triads_grey, },  -- in auction room
 	[102744] = { enemy = triads_grey, },
@@ -26,21 +26,20 @@ return {
 	[102340] = { enemy = triads_heavy, },
 	[103224] = { enemy = triads_heavy, },
 	[103233] = { enemy = triads_heavy, },
-	-- guards
-	[101089] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- alleyway
-	[101098] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[102132] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- storefront
-	[102149] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100672] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- near "auction room" on dev plane
-	[100673] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100674] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100670] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- auction room
-	[100671] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100677] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- warehouse
-	[100678] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[102267] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[102265] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[102263] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100679] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100676] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
+	[101089] = { enemy = securitys_light, },  -- guards, alleyway
+	[101098] = { enemy = securitys_light, },
+	[102132] = { enemy = securitys_light, },  -- storefront
+	[102149] = { enemy = securitys_light, },
+	[100672] = { enemy = securitys_light, },  -- near "auction room" on dev plane
+	[100673] = { enemy = securitys_light, },
+	[100674] = { enemy = securitys_light, },
+	[100670] = { enemy = securitys_light, },  -- auction room
+	[100671] = { enemy = securitys_light, },
+	[100677] = { enemy = securitys_light, },  -- warehouse
+	[100678] = { enemy = securitys_light, },
+	[102267] = { enemy = securitys_light, },
+	[102265] = { enemy = securitys_light, },
+	[102263] = { enemy = securitys_light, },
+	[100679] = { enemy = securitys_light, },
+	[100676] = { enemy = securitys_light, },
 }

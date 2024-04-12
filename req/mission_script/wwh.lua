@@ -20,13 +20,13 @@ local intro_sniper_so = {
 	so_access_filter = "snipers",
 }
 local intro_sniper_unit = {
-	enemy = tweak_data.levels:moon_units().marshal_1,
+	enemy = tweak_data.levels:moon_units("marshal_1"),
 	values = no_participate_to_group_ai,
 }
 
 local leo_kate_static_spawn = { continent = "america", tier = "normal", }
 local leo_kate_ids = get_table_index_func({ 101243, 101244, })
-local leo_kate = get_table_index_func(clone(tweak_data.levels:moon_random_unit("cops")))
+local leo_kate = get_table_index_func(clone(tweak_data.levels:moon_units("cops")))
 local function get_leo_kate()
 	return {
 		enemy = leo_kate(),
@@ -36,7 +36,7 @@ local function get_leo_kate()
 end
 
 local ambush_shields = { values = no_participate_to_group_ai, }
-local ambush_dozers_close = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), }
+local ambush_dozers_close = { enemy = tweak_data.levels:moon_units("dozers_any"), }
 local ambush_dozers_sniper = ambush_dozers_close
 
 return {

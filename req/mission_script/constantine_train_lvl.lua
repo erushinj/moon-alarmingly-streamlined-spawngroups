@@ -58,8 +58,8 @@ return {
 			{ id = 100128, delay = 150, },  -- 60, diff 1 element
 		},
 	},
-	[100015] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
-	[100040] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"), },
+	[100015] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
+	[100040] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
 	[100130] = { enemy = cartel_security, },
 	[100131] = { enemy = cartel_security, },
 	[100132] = { enemy = cartel_security, },

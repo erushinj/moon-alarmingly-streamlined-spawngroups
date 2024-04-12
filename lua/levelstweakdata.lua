@@ -86,62 +86,53 @@ function LevelsTweakData:moon_custom_maps_boowomp()
 	end
 end
 
--- fetches a common american unit by a shorthand name
-function LevelsTweakData:moon_units()
-	if not self._moon_units then
-		self._moon_units = {
-			security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1"),
-			security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2"),
-			security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3"),
-			cop_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
-			cop_2 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
-			cop_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
-			cop_4 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
-			fbi_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-			fbi_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-			fbi_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
-			swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
-			swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"),
-			swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"),
-			heavy_1 = Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
-			heavy_2 = Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),
-			shield = Idstring("units/payday2/characters/ene_shield_2/ene_shield_2"),
-			sniper = Idstring("units/payday2/characters/ene_sniper_1/ene_sniper_1"),
-			dozer_1 = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
-			dozer_2 = Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
-			dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
-			dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"),
-			dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"),
-			medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4"),
-			medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870"),
-			taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
-			cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
-			marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
-			marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
-		}
-	end
+-- fetches common units by a shorthand name
+function LevelsTweakData:moon_units(typ)
+	local units = self._moon_units
 
-	return self._moon_units
-end
+	if not units then
+		local security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1")
+		local security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2")
+		local security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3")
+		local cop_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1")
+		local cop_2 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2")
+		local cop_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
+		local cop_4 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+		local fbi_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1")
+		local fbi_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
+		local fbi_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
+		local swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1")
+		local swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2")
+		local swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
+		local heavy_1 = Idstring("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1")
+		local heavy_2 = Idstring("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870")
+		local shield = Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+		local sniper = Idstring("units/payday2/characters/ene_sniper_1/ene_sniper_1")
+		local dozer_1 = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
+		local dozer_2 = Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2")
+		local dozer_3 = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3")
+		local dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
+		local dozer_5 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
+		local medic_1 = Idstring("units/payday2/characters/ene_medic_m4/ene_medic_m4")
+		local medic_2 = Idstring("units/payday2/characters/ene_medic_r870/ene_medic_r870")
+		local taser = Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
+		local cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
+		local marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
+		local marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1")
 
-function LevelsTweakData:moon_random_units()
-	local random_units = self._moon_random_units
-
-	if not random_units then
-		local units = self:moon_units()
-		local security_1, security_2, security_3 = units.security_1, units.security_2, units.security_3
-		local cop_1, cop_2, cop_3, cop_4 = units.cop_1, units.cop_2, units.cop_3, units.cop_4
-		local fbi_1, fbi_2, fbi_3 = units.fbi_1, units.fbi_2, units.fbi_3
-		local swat_1, swat_2, swat_3 = units.swat_1, units.swat_2, units.swat_3
-		local heavy_1, heavy_2 = units.heavy_1, units.heavy_2
-		local shield, taser, cloaker, medic_1, medic_2 = units.shield, units.taser, units.cloaker, units.medic_1, units.medic_2
-		local dozer_1, dozer_2, dozer_3, dozer_4, dozer_5 = units.dozer_1, units.dozer_2, units.dozer_3, units.dozer_4, units.dozer_5
-		local marshal_1, marshal_2 = units.marshal_1, units.marshal_2
-
-		random_units = {
+		units = {
+			security_1 = security_1,
+			security_2 = security_2,
+			security_3 = security_3,
 			securitys = { security_1, security_2, security_3, },
 			securitys_light = { security_1, security_2, },
 			securitys_heavy = { security_2, security_3, },
+			securitys_no_mp5 = { security_1, security_3, },
+
+			cop_1 = cop_1,
+			cop_2 = cop_2,
+			cop_3 = cop_3,
+			cop_4 = cop_4,
 			cops = { cop_1, cop_2, cop_3, cop_4, },
 			cops_light = { cop_1, cop_2, },
 			cops_medium = { cop_2, cop_4, },
@@ -150,18 +141,34 @@ function LevelsTweakData:moon_random_units()
 			cops_no_bronco = { cop_1, cop_3, cop_4, },
 			cops_no_r870 = { cop_1, cop_2, cop_4, },
 			cops_no_mp5 = { cop_1, cop_2, cop_3, },
+
+			fbi_1 = fbi_1,
+			fbi_2 = fbi_2,
+			fbi_3 = fbi_3,
 			fbis = { fbi_1, fbi_2, fbi_3, },
 			fbis_light = { fbi_1, fbi_2, },
 			fbis_heavy = { fbi_2, fbi_3, },
+
+			swat_1 = swat_1,
+			swat_2 = swat_2,
+			swat_3 = swat_3,
 			swats = { swat_1, swat_2, swat_3, },
 			swats_close = { swat_2, swat_3, },
 			swats_far = { swat_1, swat_3, },
+
+			heavy_1 = heavy_1,
+			heavy_2 = heavy_2,
 			heavys = { heavy_1, heavy_2, },
 			swats_heavys = { swat_1, swat_2, swat_3, heavy_1, heavy_1, heavy_2, },
 			swats_heavys_close = { swat_2, swat_3, heavy_2, heavy_2, },
 			swats_heavys_far = { swat_1, swat_3, heavy_1, heavy_1, },
-			marshals_far = { marshal_1, heavy_1, },
-			marshals_close = { marshal_2, heavy_2, },
+
+			shield = shield,
+			sniper = sniper,
+			taser = taser,
+			cloaker = cloaker,
+			medic_1 = medic_1,
+			medic_2 = medic_2,
 			specials_agg = { taser, cloaker, },
 			specials_def = { taser, shield, },
 			specials_sup = { shield, shield, medic_1, medic_2, },
@@ -172,7 +179,21 @@ function LevelsTweakData:moon_random_units()
 			specials_taser_medic = { taser, taser, medic_1, medic_2, },
 			specials_shield_clk = { shield, cloaker, },
 			specials_med = { medic_1, medic_2, },
+
+			dozer_1 = dozer_1,
+			dozer_2 = dozer_2,
+			dozer_3 = dozer_3,
+			dozer_4 = dozer_4,
+			dozer_5 = dozer_5,
 			dozers_any = { dozer_1, },
+
+			marshal_1 = marshal_1,
+			marshal_2 = marshal_2,
+			marshals = { marshal_1, marshal_2, heavy_1, heavy_2, },
+			marshals_far = { marshal_1, heavy_1, },
+			marshals_close = { marshal_2, heavy_2, },
+			marshals_no_shield = { marshal_1, marshal_1, heavy_1, heavy_2, },
+			marshals_no_marksman = { marshal_2, marshal_2, heavy_1, heavy_2, },
 		}
 
 		for _, v in pairs({
@@ -185,31 +206,34 @@ function LevelsTweakData:moon_random_units()
 			local diff_i, dozer = unpack(v)
 
 			if real_difficulty_index >= diff_i then
-				try_insert(random_units.dozers_any, dozer)
+				try_insert(units.dozers_any, dozer)
 			end
 		end
 
-		random_units.dozers_no_mini = clone(random_units.dozers_any)
-		table.delete(random_units.dozers_no_mini, dozer_4)
+		units.dozers_no_mini = clone(units.dozers_any)
+		table.delete(units.dozers_no_mini, dozer_4)
 
-		random_units.dozers_no_med = clone(random_units.dozers_any)
-		table.delete(random_units.dozers_no_med, dozer_5)
+		units.dozers_no_med = clone(units.dozers_any)
+		table.delete(units.dozers_no_med, dozer_5)
 
-		random_units.dozers_no_cs = clone(random_units.dozers_any)
-		table.delete(random_units.dozers_no_cs, dozer_4)
-		table.delete(random_units.dozers_no_cs, dozer_5)
+		units.dozers_no_cs = clone(units.dozers_any)
+		table.delete(units.dozers_no_cs, dozer_4)
+		table.delete(units.dozers_no_cs, dozer_5)
 
-		self._moon_random_units = random_units
+		self._moon_units = units
 	end
 
-	return random_units
+	if typ then
+		return units[typ]
+	end
+
+	return units
 end
 
--- fetches a table of common american units by a shorthand name
 function LevelsTweakData:moon_random_unit(typ)
-	local random_units = self:moon_random_units()
+	ASS:log("warn", "LevelsTweakData:moon_random_unit is deprecated!")
 
-	return random_units[typ]
+	return self:moon_units(typ)
 end
 
 function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)

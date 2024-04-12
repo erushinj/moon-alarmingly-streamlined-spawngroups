@@ -258,7 +258,7 @@ return {
 	[101298] = { enemy = murkies, },
 	[101299] = { enemy = murkies, },
 	[101300] = { enemy = murkies, },
-	[100371] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
-	[100372] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
-	[100373] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
+	[100371] = { enemy = tweak_data.levels:moon_units("dozers_any"), },
+	[100372] = { enemy = tweak_data.levels:moon_units("dozers_any"), },
+	[100373] = { enemy = tweak_data.levels:moon_units("dozers_any"), },
 }

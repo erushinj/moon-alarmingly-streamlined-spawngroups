@@ -10,8 +10,8 @@ local triads_grey = { triad_1, triad_4, }
 local triads_red = { triad_2, triad_3, }
 
 -- no security 3. yay.
-local securitys_light = tweak_data.levels:moon_random_unit("securitys_light")
-local dozers_no_mini = tweak_data.levels:moon_random_unit("dozers_no_mini")
+local securitys_light = tweak_data.levels:moon_units("securitys_light")
+local dozers_no_mini = tweak_data.levels:moon_units("dozers_no_mini")
 
 return {
 	[100549] = {  -- increase power cut delay from literally fucking 0

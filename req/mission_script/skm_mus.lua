@@ -1,4 +1,4 @@
-local dozers_any = tweak_data.levels:moon_random_unit("dozers_any")
+local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 -- possible scripted dozers ?  might be leftovers from the normal version, theyre lazy with these
 return {

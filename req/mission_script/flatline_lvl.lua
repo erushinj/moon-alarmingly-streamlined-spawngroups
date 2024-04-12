@@ -24,7 +24,7 @@ local securitys = {
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"),
 }
 
-local dozers_no_cs = tweak_data.levels:moon_random_unit("dozers_no_cs")
+local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
 
 local female_map = table.list_to_set({
 	("units/pd2_dlc_nmh/characters/civ_female_doctor_01/civ_female_doctor_01"):key(),

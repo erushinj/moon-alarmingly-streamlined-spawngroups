@@ -16,8 +16,7 @@ return {
 			difficulty = 0.375,
 		},
 	},
-	-- middle wagon
-	[101136] = { enemy = bikers_male, },
+	[101136] = { enemy = bikers_male, },  -- bikers, middle wagon
 	[101143] = { enemy = bikers_male, },
 	[101144] = { enemy = bikers_male, },
 	[101145] = { enemy = bikers_male, },
@@ -27,8 +26,7 @@ return {
 	[101149] = { enemy = bikers_male, },
 	[101150] = { enemy = bikers_female, },
 	[101151] = { enemy = bikers_male, },
-	-- last wagon
-	[101153] = { enemy = bikers_female, },
+	[101153] = { enemy = bikers_female, },  -- last wagon
 	[101158] = { enemy = bikers_female, },
 	[101154] = { enemy = bikers_female, },
 	[101157] = { enemy = bikers_female, },

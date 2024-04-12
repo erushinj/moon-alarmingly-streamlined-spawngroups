@@ -59,11 +59,11 @@ local street_reenforce = {
 		amount = 3,
 	},
 }
-local securitys = tweak_data.levels:moon_random_unit("securitys")
-local securitys_heavy = tweak_data.levels:moon_random_unit("securitys_heavy")
-local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
-local specials_no_shield = tweak_data.levels:moon_random_unit("specials_no_shield")
-local dozers_any = tweak_data.levels:moon_random_unit("dozers_any")
+local securitys = tweak_data.levels:moon_units("securitys")
+local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
+local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local specials_no_shield = tweak_data.levels:moon_units("specials_no_shield")
+local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 return {
 	[103072] = {

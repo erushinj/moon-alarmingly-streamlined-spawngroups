@@ -6,10 +6,6 @@ local cartel_rebels = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_rebel_3/ene_cartel_rebel_3"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_rebel_4/ene_cartel_rebel_4"),
 }
-local cartel_dozer = {
-	static_spawn = { continent = "constantine_cartel", },
-	enemy = tweak_data.levels:moon_random_unit("dozers_no_cs"),
-}
 
 return {
 	[100042] = {  -- unit type is set to federales after spawning a gazillion cartel units normally, not good
@@ -30,7 +26,7 @@ return {
 			continent = "america",
 			tier = "overkill_290",
 		},
-		enemy = Idstring("units/payday2/characters/ene_sniper_3/ene_sniper_3"),
+		enemy = tweak_data.levels:moon_units("marshal_1"),
 	},
 	[100191] = {
 		pre_func = function(self)
@@ -54,8 +50,8 @@ return {
 			values.attitude = table.get_vector_index(self._ATTITUDES, "engage")
 		end,
 	},
-	[100035] = cartel_dozer,
-	[100036] = cartel_dozer,
+	[100035] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
+	[100036] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
 	[100014] = { enemy = cartel_rebels, },
 	[100015] = { enemy = cartel_rebels, },
 	[100016] = { enemy = cartel_rebels, },

@@ -1,21 +1,19 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "marshals_far")
 local fbi_offices = {
 	Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
 	Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),
 	Idstring("units/payday2/characters/ene_fbi_office_3/ene_fbi_office_3"),
 	Idstring("units/payday2/characters/ene_fbi_office_4/ene_fbi_office_4"),
+	-- Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
 	Idstring("units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2"),
 	Idstring("units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3"),
 	Idstring("units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4"),
+	-- Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
 }
-local harassers = normal and table.list_add(fbi_offices, {
-	Idstring("units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1"),
-	Idstring("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"),
-}) or tweak_data.levels:moon_random_unit(hard and "swats_heavys" or "heavys")
 
 return {
-	-- fbi offices/females
-	[101490] = { enemy = fbi_offices, },  -- atrium
+	[101490] = { enemy = fbi_offices, },  -- fbi office, atrium
 	[101492] = { enemy = fbi_offices, },
 	[101493] = { enemy = fbi_offices, },
 	[101494] = { enemy = fbi_offices, },
@@ -44,8 +42,7 @@ return {
 	[101206] = { enemy = fbi_offices, },
 	-- [101207] = { enemy = fbi_offices, },
 	[101208] = { enemy = fbi_offices, },
-	-- harassers
-	[100803] = { enemy = harassers, },  -- n
+	[100803] = { enemy = harassers, },  -- harassers, n
 	[100332] = { enemy = harassers, },
 	[100906] = { enemy = harassers, },
 	[100922] = { enemy = harassers, },

@@ -35,9 +35,9 @@ local confined_prisoners = {
 	Idstring("units/payday2/characters/civ_rus_prisoner_special_3/civ_rus_prisoner_special_3"),
 	Idstring("units/payday2/characters/civ_rus_prisoner_special_4/civ_rus_prisoner_special_4"),
 }
-local dozers_no_cs = tweak_data.levels:moon_random_unit("dozers_no_cs")
-local specials_med = tweak_data.levels:moon_random_unit("specials_med")
-local last_ambush = tweak_data.levels:moon_random_unit("heavys")
+local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+local specials_med = tweak_data.levels:moon_units("specials_med")
+local last_ambush = tweak_data.levels:moon_units("heavys")
 local top_ambush_ids = get_table_index_func({ 101185, 101192, 101196, 101200, })
 local top_ambush = scripted_swat_squads({
 	hard_target = overkill and 4 or 2,

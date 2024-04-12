@@ -5,42 +5,34 @@ local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_3/ene_gang_mexican_3"),
 	Idstring("units/payday2/characters/ene_gang_mexican_4/ene_gang_mexican_4"),
 }
+local mexicans_amounts_2_4 = {
+	values = {
+		amount = normal and 2 or hard and 3 or 4,
+	},
+}
+local mexicans_amounts_1_3 = {
+	values = {
+		amount = normal and 1 or hard and 2 or 3,
+	},
+}
+local mexicans_amounts_1_5 = {
+	values = {
+		amount = normal and 1 or hard and 3 or 5,
+	},
+}
 
 return {
-	-- planks amount, normally 2-4 in sh
-	[100822] = {
+	[100822] = {  -- planks amount, normally 2-4 in sh
 		values = {
 			amount = overkill and 0 or 2,
 			amount_random = overkill and 6 or 4,
 		},
 	},
-	-- waiter !  waiter !  more gangsters please !
-	[101520] = {
-		values = {
-			amount = overkill and 4 or 2,
-			amount_random = 0,
-		},
-	},
-	[101266] = {
-		values = {
-			amount = overkill and 4 or 2,
-			amount_random = 0,
-		},
-	},
-	[101297] = {
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-			amount_random = 0,
-		},
-	},
-	[101010] = {
-		values = {
-			amount = normal and 1 or hard and 3 or 5,
-			amount_random = 0,
-		},
-	},
-	-- a new reenforce spot
-	[100941] = {
+	[101520] = mexicans_amounts_2_4,  -- waiter !  waiter !  more gangsters please !
+	[101266] = mexicans_amounts_2_4,
+	[101297] = mexicans_amounts_1_3,
+	[101010] = mexicans_amounts_1_5,
+	[100941] = {  -- a new reenforce point
 		reinforce = {
 			{
 				name = "basement",
@@ -49,7 +41,7 @@ return {
 			},
 		},
 	},
-	[100952] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- chopper dozer
+	[100952] = { enemy = tweak_data.levels:moon_units("dozers_any"), },  -- chopper dozer
 	[101525] = { enemy = mexicans, },  -- gangsters
 	[101527] = { enemy = mexicans, },
 	[100825] = { enemy = mexicans, },

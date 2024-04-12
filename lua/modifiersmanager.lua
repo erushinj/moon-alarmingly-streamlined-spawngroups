@@ -42,9 +42,9 @@ local function dozer_modifier_init(self, ...)
 
 	local dozer_add = self._moon_dozer_add or fallback_dozer_add
 	local dozer_tables = self._moon_dozer_tables or fallback_dozer_tables
-	local random_units = tweak_data.levels:moon_random_units()
+	local units = tweak_data.levels:moon_units()
 	for tbl_name in pairs(dozer_tables) do
-		try_insert(random_units[tbl_name], dozer_add)
+		try_insert(units[tbl_name], dozer_add)
 	end
 
 	local last_prefixes = tweak_data.group_ai.moon_last_prefixes

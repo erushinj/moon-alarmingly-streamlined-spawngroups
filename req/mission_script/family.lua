@@ -1,27 +1,25 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local securitys = tweak_data.levels:moon_units("securitys")
+local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
 
 return {
-	-- titan cams
-	[102211] = {
+	[102211] = {  -- cams, no titan
 		values = {
 			enabled = false,
 		},
 	},
-	-- cameras amount
-	[100033] = {
+	[100033] = {  -- amounts
 		values = {
 			amount = normal and 5 or hard and 8 or 11,
 			amount_random = 0,
 		},
 	},
-	-- unused sniper spawn
-	[100370] = {
+	[100370] = {  -- unused sniper spawn
 		values = {
 			enabled = true,
 		},
 	},
-	-- reenforce
-	[100324] = {
+	[100324] = {  -- reenforce
 		values = {
 			enabled = false,
 		},
@@ -75,18 +73,17 @@ return {
 			},
 		},
 	},
-	-- guards
-	[100670] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100671] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100672] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100673] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100674] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100675] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100676] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100677] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100678] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100679] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100709] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- camera men
-	[100710] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100711] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
+	[100670] = { enemy = securitys, },  -- guards
+	[100671] = { enemy = securitys, },
+	[100672] = { enemy = securitys, },
+	[100673] = { enemy = securitys, },
+	[100674] = { enemy = securitys, },
+	[100675] = { enemy = securitys, },
+	[100676] = { enemy = securitys, },
+	[100677] = { enemy = securitys, },
+	[100678] = { enemy = securitys, },
+	[100679] = { enemy = securitys, },
+	[100709] = { enemy = securitys_heavy, },  -- camera men
+	[100710] = { enemy = securitys_heavy, },
+	[100711] = { enemy = securitys_heavy, },
 }

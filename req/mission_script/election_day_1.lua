@@ -1,9 +1,10 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
+local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
+local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
+local securitys = tweak_data.levels:moon_units("securitys")
 
 return {
-	-- diff curve tweaks
-	[100156] = {  -- difficulty 0.6 (on loud)
+	[100156] = {  -- diff curve tweaks, difficulty 0.6 (on loud)
 		values = {
 			difficulty = 0.33,
 		},
@@ -13,8 +14,7 @@ return {
 			difficulty = 0.67,
 		},
 	},
-	-- harasser spawns on warehouse rooftops
-	[104583] = { enemy = harassers, },  -- swat heavies (n/h, should be swats)
+	[104583] = { enemy = harassers, },  -- harasser spawns, swat heavies (n/h)
 	[104584] = { enemy = harassers, },
 	[104585] = { enemy = harassers, },
 	[104586] = { enemy = harassers, },
@@ -38,16 +38,15 @@ return {
 	[104596] = { enemy = harassers, },
 	[104597] = { enemy = harassers, },
 	[104598] = { enemy = harassers, },
-	-- security guards
-	[103735] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- gate
-	[103734] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100478] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[103733] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100168] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },  -- the rest (why are there so many security 1s ?)
-	[100487] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100172] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102983] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[102982] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100488] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
-	[100490] = { enemy = tweak_data.levels:moon_random_unit("securitys"), },
+	[103735] = { enemy = securitys_heavy, },  -- guards, gate
+	[103734] = { enemy = securitys_heavy, },
+	[100478] = { enemy = securitys_heavy, },
+	[103733] = { enemy = securitys_heavy, },
+	[100168] = { enemy = securitys, },  -- the rest (why are there so many security 1s ?)
+	[100487] = { enemy = securitys, },
+	[100172] = { enemy = securitys, },
+	[102983] = { enemy = securitys, },
+	[102982] = { enemy = securitys, },
+	[100488] = { enemy = securitys, },
+	[100490] = { enemy = securitys, },
 }

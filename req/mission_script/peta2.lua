@@ -5,9 +5,9 @@ local mexican_4 = Idstring("units/payday2/characters/ene_gang_mexican_4/ene_gang
 local mexicans = { mexican_1, mexican_2, mexican_3, mexican_4, }
 local mexicans_light = { mexican_3, mexican_4, }
 local mexicans_heavy = { mexican_1, mexican_2, }
+local specials_any = tweak_data.levels:moon_units("specials_any")
 
 return {
-	-- thugs
 	[100428] = { enemy = mexicans_light, },  -- "sniper" spots
 	[100429] = { enemy = mexicans_light, },
 	[100430] = { enemy = mexicans_light, },
@@ -55,32 +55,31 @@ return {
 	[100214] = { enemy = mexicans, },
 	[100218] = { enemy = mexicans, },
 	[100222] = { enemy = mexicans, },
-	-- swat van spawns
-	[101900] = { enemy = tweak_data.levels:moon_random_unit("swats"), },  -- n
-	[101826] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101833] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101908] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101910] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101911] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101926] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101927] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101928] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[101892] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },  -- h/vh
-	[101893] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101894] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101912] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101913] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101914] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101929] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101930] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101931] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[101896] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- ovk+
-	[101898] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101899] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101916] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101917] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101919] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101932] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101933] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101934] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
+	[101900] = { enemy = specials_any, },  -- van spawns, n
+	[101826] = { enemy = specials_any, },
+	[101833] = { enemy = specials_any, },
+	[101908] = { enemy = specials_any, },
+	[101910] = { enemy = specials_any, },
+	[101911] = { enemy = specials_any, },
+	[101926] = { enemy = specials_any, },
+	[101927] = { enemy = specials_any, },
+	[101928] = { enemy = specials_any, },
+	[101892] = { enemy = specials_any, },  -- h/vh
+	[101893] = { enemy = specials_any, },
+	[101894] = { enemy = specials_any, },
+	[101912] = { enemy = specials_any, },
+	[101913] = { enemy = specials_any, },
+	[101914] = { enemy = specials_any, },
+	[101929] = { enemy = specials_any, },
+	[101930] = { enemy = specials_any, },
+	[101931] = { enemy = specials_any, },
+	[101896] = { enemy = specials_any, },  -- ovk+
+	[101898] = { enemy = specials_any, },
+	[101899] = { enemy = specials_any, },
+	[101916] = { enemy = specials_any, },
+	[101917] = { enemy = specials_any, },
+	[101919] = { enemy = specials_any, },
+	[101932] = { enemy = specials_any, },
+	[101933] = { enemy = specials_any, },
+	[101934] = { enemy = specials_any, },
 }

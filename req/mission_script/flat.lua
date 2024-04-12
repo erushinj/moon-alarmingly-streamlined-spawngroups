@@ -1,5 +1,5 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local sniper_kill_target = normal and 6 or hard and 8 or 10
+local cops = tweak_data.levels:moon_units("cops")
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -17,51 +17,93 @@ local roof_spawn_interval = {
 		interval = 30,
 	},
 }
+local dealer_voicelines = {
+	pre_func = function(self)
+		if not self._moon_tweaked then
+			self._moon_tweaked = true
+
+			local elements = self._values.elements
+			for i, element_id in pairs(elements) do
+				if element_id == 102456 then
+					elements[i] = 104782
+
+					break
+				end
+			end
+		end
+	end,
+}
+local disable = {
+	values = {
+		enabled = false,
+	},
+}
+local enable = {
+	values = {
+		enabled = true,
+	},
+}
+local gangsters_amounts_2 = {
+	values = {
+		amount = 2,
+		amount_random = 0,
+	},
+}
+local gangsters_amounts_3 = {
+	values = {
+		amount = 3,
+		amount_random = 0,
+	},
+}
+local sniper_kill_target = {
+	values = {
+		counter_target = normal and 8 or hard and 10 or 12,
+	},
+}
 
 return {
-	-- diff curve
-	[102840] = {  -- cops arrived (0.25)
+	[102656] = enable,  -- "link to close roof doors"
+	[100297] = enable,  -- "close roof doors"
+	[103487] = {
+		pre_func = function(self)
+			if not self._values.on_executed_original then
+				self._values.on_executed_original = deep_clone(self._values.on_executed)
+
+				local close_roof_doors_chance = normal and 0.3 or hard and 0.5 or 0.7
+				if math.random() < close_roof_doors_chance then
+					table.insert(self._values.on_executed, { id = 102656, delay = 0, })
+				end
+			end
+		end,
+	},
+	[101745] = enable,  -- reenable harassers, but remove the dumb swarm heavies
+	[100150] = disable,
+	[100385] = disable,
+	[100387] = disable,
+	[100389] = disable,
+	[100391] = disable,
+	[100392] = disable,
+	[103348] = disable,  -- disable last reenforce point, really not needed on this heist
+	[102840] = {  -- diff curve, "start diff" (0.25)
 		values = {
-			difficulty = 0.5,
+			difficulty = 0.35,
 		},
 	},
-	[102840] = {  -- all saws placed (1)
+	[102841] = {  -- "all drills" (1)
 		values = {
-			difficulty = 0.75,
+			difficulty = 0.7,
 		},
 	},
-	[102840] = {  -- c4 dropped (0.75) if fucking 15 extremely slow-spawning snipers arent worthy of reduced diff, neither is c4
+	[102842] = {  -- "bag drops" (0.75)
+		values = {
+			difficulty = 0.7,
+		},
+	},
+	[102843] = {  -- "explosion" (1)
 		values = {
 			difficulty = 1,
 		},
 	},
-	[102840] = {  -- c4 boom (1)
-		values = {
-			difficulty = 1,
-		},
-	},
-	-- more oppressive open door amounts
-	-- [103616] = {  -- i seriously just give up with this particular part. likes to cause issues.
-	-- 	on_executed = {
-	-- 		{ id = 100517, delay = 0, },
-	-- 	},
-	-- },
-	-- [103491] = {
-	-- 	on_executed = {
-	-- 		{ id = 100517, remove = true, },
-	-- 	},
-	-- },
-	-- [103492] = {
-	-- 	on_executed = {
-	-- 		{ id = 100517, remove = true, },
-	-- 	},
-	-- },
-	-- [103490] = {
-	-- 	values = {
-	-- 		amount = overkill and 0 or 1,
-	-- 		amount_random = overkill and 1 or 0,
-	-- 	},
-	-- },
 	[103455] = {
 		values = {
 			amount = normal and 2 or hard and 1 or 0,
@@ -74,92 +116,32 @@ return {
 			amount_random = normal and 1 or hard and 2 or 3,
 		},
 	},
-	-- c4 alley drop
-	[102261] = {
+	[102261] = {  -- c4 alley drop on high difficulties
 		on_executed = {
 			{ id = 100350, delay = 0, },
 		},
 	},
-	-- reduce objective snipers
-	[104516] = {  -- n/h (vanilla is 7)
-		values = {
-			counter_target = sniper_kill_target ,
-		},
-	},
-	[104692] = {  -- vh/ovk (vanilla is 10)
-		values = {
-			counter_target = sniper_kill_target,
-		},
-	},
-	[104693] = {  -- mh+ (vanilla is 15)
-		values = {
-			counter_target = sniper_kill_target,
-		},
-	},
-	-- re-allow sniper respawns
-	[104556] = {
-		values = {
-			enabled = false,
-		},
-	},
-	[101599] = {  -- also allow a disabled sniper spawn
-		values = {
-			enabled = true,
-		},
-	},
-	[101521] = {  -- and corresponding so
-		values = {
-			enabled = true,
-		},
-	},
-	-- slow down roof spawns, these are really fucking annoying
-	[104650] = roof_spawn_interval,
+	[104516] = sniper_kill_target,  -- tweak objective sniper amount, n/h (vanilla is 7)
+	[104692] = sniper_kill_target,  -- vh/ovk (vanilla is 10)
+	[104693] = sniper_kill_target,  -- mh+ (vanilla is 15)
+	[104556] = disable,  -- re-allow sniper respawns
+	[101599] = enable,  -- also allow a disabled sniper spawn
+	[101521] = enable,  -- and corresponding so
+	[104650] = roof_spawn_interval,  -- slow down roof spawns, these are really fucking annoying
 	[100504] = roof_spawn_interval,
 	[100505] = roof_spawn_interval,
 	[100509] = roof_spawn_interval,
 	[100396] = roof_spawn_interval,
-	-- gangster amounts
-	[102593] = {
-		values = {
-			amount = 3,
-			amount_random = 0,
-		},
-	},
-	[102597] = {
-		values = {
-			amount = 2,
-			amount_random = 0,
-		},
-	},
-	[102604] = {
-		values = {
-			amount = 2,
-			amount_random = 0,
-		},
-	},
-	[102612] = {
-		values = {
-			amount = 2,
-			amount_random = 0,
-		},
-	},
-	[101744] = {
-		values = {
-			amount = 2,
-			amount_random = 0,
-		},
-	},
-	[101867] = {
-		values = {
-			amount = 3,
-			amount_random = 0,
-		},
-	},
-	-- more loot
-	[103090] = {
+	[102593] = gangsters_amounts_3,  -- gangster amounts
+	[102597] = gangsters_amounts_2,
+	[102604] = gangsters_amounts_2,
+	[102612] = gangsters_amounts_2,
+	[101744] = gangsters_amounts_2,
+	[101867] = gangsters_amounts_3,
+	[103090] = {  -- more loot
 		values = {
 			amount = 8,
-			amount_random = 8,
+			amount_random = normal and 0 or hard and 4 or 8,
 		},
 	},
 	[103002] = {
@@ -167,59 +149,20 @@ return {
 			{ id = 103014, remove = true, },
 		}
 	},
-	-- disable panic room reenforce (sh disables the other two points, and this heist doesnt really need it)
-	[103348] = {
-		values = {
-			enabled = false,
-		},
-	},
-	-- ambush line fix ?  hasnt been working for me since forever
-	[100501] = {
+	[100501] = {  -- ambush line fix ?  hasnt been working for me since forever
 		values = {
 			use_play_func = true,
 		},
 	},
-	-- reduce delay on mask up when ambushed (this triggers loud)
-	[102329] = {
+	[102329] = {  -- reduce delay on mask up when ambushed (this triggers loud)
 		on_executed = {
 			{ id = 102332, delay = 1.5, },
 		},
 	},
-	-- gangsters + dealer fix
-	[101797] = {
-		pre_func = function(self)
-			for i, element_id in pairs(self._values.elements) do
-				if element_id == 102456 then
-					self._values.elements[i] = 104782
-
-					break
-				end
-			end
-		end,
-	},
-	[101798] = {
-		pre_func = function(self)
-			for i, element_id in pairs(self._values.elements) do
-				if element_id == 102456 then
-					self._values.elements[i] = 104782
-
-					break
-				end
-			end
-		end,
-	},
-	[101832] = {
-		pre_func = function(self)
-			for i, element_id in pairs(self._values.elements) do
-				if element_id == 102456 then
-					self._values.elements[i] = 104782
-
-					break
-				end
-			end
-		end,
-	},
-	[104782] = { enemy = Idstring("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"), },
+	[101797] = dealer_voicelines,  -- dealer voice fix
+	[101798] = dealer_voicelines,
+	[101832] = dealer_voicelines,
+	[104782] = { enemy = Idstring("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"), },  -- gangsters
 	[102456] = { enemy = gangsters, },
 	[100081] = { enemy = gangsters, },
 	[100085] = { enemy = gangsters, },
@@ -311,13 +254,13 @@ return {
 	[100057] = { enemy = gangsters, },
 	[103703] = { enemy = gangsters, },
 	[103702] = { enemy = gangsters, },
-	-- law
-	[100027] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },  -- cops, initial
-	[100028] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
-	[100035] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
-	[100037] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
-	[100038] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
-	[100040] = { enemy = tweak_data.levels:moon_random_unit("cops_no_r870"), },
-	[102020] = { enemy = tweak_data.levels:moon_random_unit("cops"), },  -- "blockade" (swarm)
-	[102021] = { enemy = tweak_data.levels:moon_random_unit("cops"), },
+	[100135] = { enemy = cops, },  -- "random swat 1" (not actually swat, is a bronco cop, kicks down the front door)
+	[100027] = { enemy = cops, },  -- cops, initial
+	[100028] = { enemy = cops, },
+	[100035] = { enemy = cops, },
+	[100037] = { enemy = cops, },
+	[100038] = { enemy = cops, },
+	[100040] = { enemy = cops, },
+	[102020] = { enemy = cops, },  -- "blockade" (swarm)
+	[102021] = { enemy = cops, },
 }

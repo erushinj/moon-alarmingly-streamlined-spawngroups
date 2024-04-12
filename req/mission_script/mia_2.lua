@@ -7,9 +7,14 @@ local mobsters_light = { mobster_2, mobster_4, }
 local mobsters_medium = { mobster_1, mobster_2, }
 local mobsters_heavy = { mobster_1, mobster_3, }
 
+local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local swats_close = tweak_data.levels:moon_units("swats_close")
+local specials_def = tweak_data.levels:moon_units("specials_def")
+local specials_any = tweak_data.levels:moon_units("specials_any")
+local dozers_any = tweak_data.levels:moon_units("dozers_any")
+
 return {
-	-- mobsters
-	[101407] = { enemy = mobsters, },  -- starting
+	[101407] = { enemy = mobsters, },  -- starting mobsters
 	[101408] = { enemy = mobsters, },
 	[101409] = { enemy = mobsters, },
 	[101410] = { enemy = mobsters, },
@@ -47,29 +52,28 @@ return {
 	[101497] = { enemy = mobsters_heavy, },
 	[101505] = { enemy = mobsters_heavy, },
 	[101506] = { enemy = mobsters_heavy, },
-	-- law
-	[101977] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },  -- third floor hallway, dozers
-	[102018] = { enemy = tweak_data.levels:moon_random_unit("dozers_no_med"), },
-	[101968] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },  -- swats
-	[101088] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },
-	[101969] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },
-	[102016] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },
-	[102019] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },
-	[102020] = { enemy = tweak_data.levels:moon_random_unit("swats_close"), },
-	[101976] = { enemy = tweak_data.levels:moon_random_unit("specials_def"), },  -- taser/shield groups, taser A1
-	[101970] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- shield A1
-	[101971] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- shield A2
-	[102017] = { enemy = tweak_data.levels:moon_random_unit("specials_def"), },  -- taser B1
-	[102014] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- shield B1
-	[102015] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- shield B2
-	[101133] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },  -- penthouse, dozers
-	[101137] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
-	[101141] = { enemy = tweak_data.levels:moon_random_unit("dozers_any"), },
-	[101151] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },  -- swats
-	[101156] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101158] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101159] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101160] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101164] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
-	[101166] = { enemy = tweak_data.levels:moon_random_unit("specials_any"), },
+	[101977] = { enemy = dozers_no_med, },  -- third floor hallway, dozers
+	[102018] = { enemy = dozers_no_med, },
+	[101968] = { enemy = swats_close, },  -- swats
+	[101088] = { enemy = swats_close, },
+	[101969] = { enemy = swats_close, },
+	[102016] = { enemy = swats_close, },
+	[102019] = { enemy = swats_close, },
+	[102020] = { enemy = swats_close, },
+	[101976] = { enemy = specials_def, },  -- taser/shield groups, taser A1
+	[101970] = { enemy = specials_any, },  -- shield A1
+	[101971] = { enemy = specials_any, },  -- shield A2
+	[102017] = { enemy = specials_def, },  -- taser B1
+	[102014] = { enemy = specials_any, },  -- shield B1
+	[102015] = { enemy = specials_any, },  -- shield B2
+	[101133] = { enemy = dozers_any, },  -- penthouse, dozers
+	[101137] = { enemy = dozers_any, },
+	[101141] = { enemy = dozers_any, },
+	[101151] = { enemy = specials_any, },  -- swats
+	[101156] = { enemy = specials_any, },
+	[101158] = { enemy = specials_any, },
+	[101159] = { enemy = specials_any, },
+	[101160] = { enemy = specials_any, },
+	[101164] = { enemy = specials_any, },
+	[101166] = { enemy = specials_any, },
 }

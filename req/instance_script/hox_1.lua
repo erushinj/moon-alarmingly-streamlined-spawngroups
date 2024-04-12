@@ -9,7 +9,7 @@ local patches = {
 
 return {
 	["levels/instances/unique/hox_breakout_harasser001/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_random_unit("heavys")
+		local heavys = tweak_data.levels:moon_units("heavys")
 
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_harasser001[element.id] then
@@ -20,7 +20,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/hox_breakout_serverroom001/world/world"] = function(result)
-		local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
+		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
 
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_serverroom001[element.id] then
@@ -31,8 +31,8 @@ return {
 		end
 	end,
 	["levels/instances/unique/hox_breakout_road001/world/world"] = function(result)
-		local cops = tweak_data.levels:moon_random_unit("cops")
-		local swats = tweak_data.levels:moon_random_unit("swats")
+		local cops = tweak_data.levels:moon_units("cops")
+		local swats = tweak_data.levels:moon_units("swats")
 
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_road001.cops[element.id] then

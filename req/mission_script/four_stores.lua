@@ -1,12 +1,10 @@
 return {
-	-- titan cams
-	[103683] = {
+	[103683] = {  -- cams, no titan
 		values = {
 			enabled = false,
 		},
 	},
-	-- spawn points
-	[101112] = {  -- spawn 1
+	[101112] = {  -- spawn points, spawn 1
 		on_executed = {
 			{ id = 103242, delay = 0, },
 		},

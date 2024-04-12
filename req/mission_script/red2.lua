@@ -57,15 +57,15 @@ if oops_all_bo then
 	tweak_data.character:moon_oops_all_bo(true)
 end
 
-local dozers_no_med = tweak_data.levels:moon_random_unit("dozers_no_med")
-local heavys = tweak_data.levels:moon_random_unit("heavys")
-local specials_any = tweak_data.levels:moon_random_unit("specials_any")
-local securitys_heavy = tweak_data.levels:moon_random_unit("securitys_heavy")
-local cops = tweak_data.levels:moon_random_unit("cops")
-local cops_heavy = tweak_data.levels:moon_random_unit("cops_heavy")
-local fbis_heavy = tweak_data.levels:moon_random_unit("fbis_heavy")
-local securitys = tweak_data.levels:moon_random_unit("securitys")
-local specials_agg = tweak_data.levels:moon_random_unit("specials_agg")
+local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local heavys = tweak_data.levels:moon_units("heavys")
+local specials_any = tweak_data.levels:moon_units("specials_any")
+local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
+local cops = tweak_data.levels:moon_units("cops")
+local cops_heavy = tweak_data.levels:moon_units("cops_heavy")
+local fbis_heavy = tweak_data.levels:moon_units("fbis_heavy")
+local securitys = tweak_data.levels:moon_units("securitys")
+local specials_agg = tweak_data.levels:moon_units("specials_agg")
 
 return {
 	[102024] = guards_downstairs_amounts,  -- guard amounts

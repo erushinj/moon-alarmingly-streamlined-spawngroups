@@ -6,7 +6,7 @@ local get_table_index_func = ASS:require("get_table_index_func", true)
 -- 17 to 31 is security 1, 32 is security 3
 
 local cops_ids = { 100721, 100722, 100723, 100724, 100725, 100726, }
-local cops = clone(tweak_data.levels:moon_random_unit("cops"))
+local cops = clone(tweak_data.levels:moon_units("cops"))
 local original_num_cops = #cops
 while #cops < #cops_ids do
 	table.insert(cops, cops[math.random(original_num_cops)])
@@ -15,8 +15,7 @@ end
 cops_ids = get_table_index_func(cops_ids)
 cops = get_table_index_func(cops)
 
-local securitys = clone(tweak_data.levels:moon_random_unit("securitys"))
-table.delete(securitys, tweak_data.levels:moon_units().security_2)  -- security 2 is not loaded for some reason
+local securitys_no_mp5 = tweak_data.levels:moon_units("securitys_no_mp5")  -- security 2 is not loaded for some reason
 
 local civs_worker = {
 	Idstring("units/payday2/characters/civ_male_worker_1/civ_male_worker_1"),
@@ -153,23 +152,23 @@ return {
 	[cops_ids()] = { enemy = cops(), },
 	[cops_ids()] = { enemy = cops(), },
 	[cops_ids()] = { enemy = cops(), },
-	[100747] = { enemy = securitys, },
-	[100748] = { enemy = securitys, },
-	[100749] = { enemy = securitys, },
-	[100750] = { enemy = securitys, },
-	[100751] = { enemy = securitys, },
-	[100752] = { enemy = securitys, },
-	[100753] = { enemy = securitys, },
-	[101418] = { enemy = securitys, },  -- spawn security 003
-	[101775] = { enemy = securitys, },  -- underground
-	[101776] = { enemy = securitys, },
-	[101777] = { enemy = securitys, },
-	[101778] = { enemy = securitys, },
-	[101779] = { enemy = securitys, },
-	[101780] = { enemy = securitys, },
-	[101781] = { enemy = securitys, },
-	[101925] = { enemy = securitys, },
-	[102551] = { enemy = securitys, },
+	[100747] = { enemy = securitys_no_mp5, },
+	[100748] = { enemy = securitys_no_mp5, },
+	[100749] = { enemy = securitys_no_mp5, },
+	[100750] = { enemy = securitys_no_mp5, },
+	[100751] = { enemy = securitys_no_mp5, },
+	[100752] = { enemy = securitys_no_mp5, },
+	[100753] = { enemy = securitys_no_mp5, },
+	[101418] = { enemy = securitys_no_mp5, },  -- spawn security 003
+	[101775] = { enemy = securitys_no_mp5, },  -- underground
+	[101776] = { enemy = securitys_no_mp5, },
+	[101777] = { enemy = securitys_no_mp5, },
+	[101778] = { enemy = securitys_no_mp5, },
+	[101779] = { enemy = securitys_no_mp5, },
+	[101780] = { enemy = securitys_no_mp5, },
+	[101781] = { enemy = securitys_no_mp5, },
+	[101925] = { enemy = securitys_no_mp5, },
+	[102551] = { enemy = securitys_no_mp5, },
 	[100571] = { enemy = civ_casual_female, },  -- civs, safehouse, civ group 1
 	[100597] = { enemy = civ_casual_male_pos1, },
 	[100612] = { enemy = civ_casual_male_pos2, },

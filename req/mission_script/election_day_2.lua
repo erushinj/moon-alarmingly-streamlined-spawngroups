@@ -1,34 +1,35 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local harassers = tweak_data.levels:moon_random_unit(normal and "swats" or hard and "swats_heavys" or "heavys")
+local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
+local cops_heavy = tweak_data.levels:moon_units("cops_heavy")
+local securitys_light = tweak_data.levels:moon_units("securitys_light")
+local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
 
 return {
-	-- law
-	[100178] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },  -- cops
-	[100179] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[100180] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[100829] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[100601] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },  -- outside "guards" (also cops)
-	[100602] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[102067] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[102068] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[102069] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[102070] = { enemy = tweak_data.levels:moon_random_unit("cops_heavy"), },
-	[100605] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },  -- "topside" guards
-	[100606] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100607] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100608] = { enemy = tweak_data.levels:moon_random_unit("securitys_light"), },
-	[100670] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },  -- patrolling guards
-	[100671] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100672] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100673] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100674] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100675] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100676] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100677] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100678] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	[100679] = { enemy = tweak_data.levels:moon_random_unit("securitys_heavy"), },
-	-- harassers
-	[102732] = { enemy = harassers, },  -- n (swat heavies, should be light swats)
+	[100178] = { enemy = cops_heavy, },  -- cops
+	[100179] = { enemy = cops_heavy, },
+	[100180] = { enemy = cops_heavy, },
+	[100829] = { enemy = cops_heavy, },
+	[100601] = { enemy = cops_heavy, },  -- outside "guards" (also cops)
+	[100602] = { enemy = cops_heavy, },
+	[102067] = { enemy = cops_heavy, },
+	[102068] = { enemy = cops_heavy, },
+	[102069] = { enemy = cops_heavy, },
+	[102070] = { enemy = cops_heavy, },
+	[100605] = { enemy = securitys_light, },  -- "topside" guards
+	[100606] = { enemy = securitys_light, },
+	[100607] = { enemy = securitys_light, },
+	[100608] = { enemy = securitys_light, },
+	[100670] = { enemy = securitys_heavy, },  -- patrolling guards
+	[100671] = { enemy = securitys_heavy, },
+	[100672] = { enemy = securitys_heavy, },
+	[100673] = { enemy = securitys_heavy, },
+	[100674] = { enemy = securitys_heavy, },
+	[100675] = { enemy = securitys_heavy, },
+	[100676] = { enemy = securitys_heavy, },
+	[100677] = { enemy = securitys_heavy, },
+	[100678] = { enemy = securitys_heavy, },
+	[100679] = { enemy = securitys_heavy, },
+	[102732] = { enemy = harassers, },  -- harassers, n (swat heavies, should be light swats)
 	[102428] = { enemy = harassers, },
 	[102444] = { enemy = harassers, },
 	[102460] = { enemy = harassers, },
@@ -55,31 +56,28 @@ return {
 	[102796] = { enemy = harassers, },
 	[102812] = { enemy = harassers, },
 	[102828] = { enemy = harassers, },
-	-- "spawn00X_enemy001" (blue swat)
-	[103101] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103104] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103105] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103107] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103109] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103111] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103113] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	[103115] = { enemy = tweak_data.levels:moon_random_unit("swats"), },
-	-- "spawn00X_enemy002" (fbi swat)
-	[103125] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103126] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103127] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103128] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103129] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103130] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103131] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	[103132] = { enemy = tweak_data.levels:moon_random_unit("swats_heavys"), },
-	-- "spawn00X_enemy003" (fbi heavies)
-	[103133] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103134] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103135] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103136] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103137] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103138] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103139] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
-	[103140] = { enemy = tweak_data.levels:moon_random_unit("heavys"), },
+	[103101] = { enemy = harassers, },  -- "spawn00X_enemy001" (blue swat)
+	[103104] = { enemy = harassers, },
+	[103105] = { enemy = harassers, },
+	[103107] = { enemy = harassers, },
+	[103109] = { enemy = harassers, },
+	[103111] = { enemy = harassers, },
+	[103113] = { enemy = harassers, },
+	[103115] = { enemy = harassers, },
+	[103125] = { enemy = harassers, },  -- "spawn00X_enemy002" (fbi swat)
+	[103126] = { enemy = harassers, },
+	[103127] = { enemy = harassers, },
+	[103128] = { enemy = harassers, },
+	[103129] = { enemy = harassers, },
+	[103130] = { enemy = harassers, },
+	[103131] = { enemy = harassers, },
+	[103132] = { enemy = harassers, },
+	[103133] = { enemy = harassers, },  -- "spawn00X_enemy003" (fbi heavies)
+	[103134] = { enemy = harassers, },
+	[103135] = { enemy = harassers, },
+	[103136] = { enemy = harassers, },
+	[103137] = { enemy = harassers, },
+	[103138] = { enemy = harassers, },
+	[103139] = { enemy = harassers, },
+	[103140] = { enemy = harassers, },
 }
