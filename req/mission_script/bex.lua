@@ -114,7 +114,6 @@ return {
 		reinforce = {
 			reenforce_office_1,
 			reenforce_office_3,
-			{
 		},
 	},
 	[101801] = {  -- hacking completed - server room is fair game for reenforce
