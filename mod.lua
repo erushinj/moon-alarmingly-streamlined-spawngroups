@@ -2,7 +2,6 @@ if not ASS then
 
 	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
 	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
-	Global.alarmingly_streamlined_spawngroups.picked_bob = nil
 
 	local is_editor = Global.editor_mode or false
 	local is_client = Network and Network:is_client() or false
@@ -596,13 +595,13 @@ if not ASS then
 			random = { false, },
 		}
 
-		self._assault_style = not is_editor and self:_gsub("assault_style") or "default"
+		self._assault_style = is_editor and "editor" or self:_gsub("assault_style") or "default"
 		self._skill = tonumber((self:_gsub("skill"))) or 2
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
 		self._difficulty_index = self:get_setting("max_values") and 8 or real_difficulty_index
 		self._shield_arms = self:_gsub("shield_arms") or "default"
 
-		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", "_combat$", }) do
+		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", }) do
 			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
 		end
 
@@ -651,9 +650,24 @@ if not ASS then
 	end
 
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
+	local patch_redirect = {
+		mission = {
+			branchbank = "firestarter_3",
+			jewelry_store = "ukrainian_job",
+		},
+		instance = {
+			constantine_fiesta_lvl = "constantine_jungle_lvl",
+			constantine_yacht_lvl = "constantine_jungle_lvl",
+			constantine_cart_con_lvl = "constantine_cart_dwn_lvl",
+			hunter_departure = "hunter_party",
+		},
+	}
 	function ASS:script_patches(typ)
 		if self._script_patches[typ] == nil then
-			self._script_patches[typ] = self:require(typ .. "_script/" .. self:get_var("clean_level_id")) or false
+			local clean_level_id = self:get_var("clean_level_id")
+			local file_name = patch_redirect[typ] and patch_redirect[typ][clean_level_id] or clean_level_id
+
+			self._script_patches[typ] = self:require(typ .. "_script/" .. file_name) or false
 		end
 
 		return self._script_patches[typ]

@@ -1,5 +1,6 @@
 local try_insert = ASS:require("try_insert", true)
 local level_id = ASS:get_var("level_id")
+local clean_level_id = ASS:get_var("clean_level_id")
 local real_difficulty_index = ASS:get_var("real_difficulty_index")
 
 function LevelsTweakData:moon_regular_custom_group()
@@ -13,11 +14,13 @@ function LevelsTweakData:moon_regular_custom_group()
 			dinner = true,  -- all murkies/swats
 			pbr = true,  -- all murkies
 			wwh = true,  -- all swats
-			born = true,  -- all swats
+			born = true,  -- all cops/swats
 			chew = true,  -- all swats
+			watchdogs_1 = true,  -- all cops/swats
+			watchdogs_2 = true,  -- all cops/swats
 		}
 
-		self._moon_regular_custom_group = regular_custom_group_ids[level_id] or false
+		self._moon_regular_custom_group = regular_custom_group_ids[clean_level_id] or false
 	 end
 
 	 return self._moon_regular_custom_group
@@ -242,7 +245,7 @@ function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)
 			default = table.set("hrt_1", "hrt_2", "hrt_3"),
 		}
 
-		self._moon_forbidden_scripted_replacements = all_forbidden[level_id] or all_forbidden.default
+		self._moon_forbidden_scripted_replacements = all_forbidden[clean_level_id] or all_forbidden.default
 	end
 
 	return self._moon_forbidden_scripted_replacements[mapped_name]

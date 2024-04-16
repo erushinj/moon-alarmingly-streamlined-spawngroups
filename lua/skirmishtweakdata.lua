@@ -102,6 +102,18 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 				chicken_plate_spooc = special_weights_chicken_plate,
 				chicken_plate_medic = special_weights_chicken_plate,
 			},
+			editor = {
+				tac_swat_shotgun_rush = { 1, 1, 1, },  -- in case of a custom map that supports these
+				tac_swat_shotgun_flank = { 1, 1, 1, },
+				tac_swat_rifle = { 1, 1, 1, },
+				tac_swat_rifle_flank = { 6, 6, 6, },
+				tac_shield_wall_ranged = { 1, 1, 1, },
+				tac_shield_wall_charge = { 1, 1, 1, },
+				tac_tazer_flanking = { 1, 1, 1, },
+				tac_tazer_charge = { 1, 1, 1, },
+				tac_bull_rush = { 1, 1, 1, },
+				FBI_spoocs = { 1, 1, 1, },
+			},
 		}
 	end
 

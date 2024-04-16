@@ -8,6 +8,7 @@ local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 local difficulty = ASS:get_var("difficulty")
+local is_editor = ASS:get_var("is_editor")
 
 function GroupAITweakData:moon_spawn_group_mapping()
 	if not self._moon_spawn_group_mapping then
@@ -1571,6 +1572,63 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 	})
 end
 
+-- groups for BeardLib Editor, clean up spawn group element view
+local vanilla_groups = table.list_to_set({
+	"tac_swat_shotgun_rush",
+	"tac_swat_shotgun_flank",
+	"tac_swat_rifle",
+	"tac_swat_rifle_flank",
+	"tac_shield_wall_ranged",
+	"tac_shield_wall_charge",
+	"tac_shield_wall",
+	"tac_tazer_flanking",
+	"tac_tazer_charge",
+	"tac_bull_rush",
+	"FBI_spoocs",
+	"single_spooc",
+	"Phalanx",
+})
+function GroupAITweakData:_moon_editor(special_weight)
+	for id, data in pairs(self.enemy_spawn_groups) do
+		if not vanilla_groups[id] then
+			self.enemy_spawn_groups[id] = nil
+		else
+			for i = #data.spawn, 1, -1 do
+				local enemy = data.spawn[i]
+
+				if enemy.unit:match("tazer") then
+					enemy.unit = "FBI_tazer"
+				elseif enemy.unit:match("medic") then
+					enemy.unit = enemy.unit:match("R870") and "FBI_medic_R870" or "FBI_medic_M4"
+				end
+			end
+		end
+	end
+
+	self:_moon_set_weights({
+		assault = {
+			tac_swat_shotgun_rush = { 1, 1, 1, },  -- in case of a custom map that supports these
+			tac_swat_shotgun_flank = { 1, 1, 1, },
+			tac_swat_rifle = { 1, 1, 1, },
+			tac_swat_rifle_flank = { 6, 6, 6, },
+			tac_shield_wall_ranged = { 1, 1, 1, },
+			tac_shield_wall_charge = { 1, 1, 1, },
+			tac_tazer_flanking = { 1, 1, 1, },
+			tac_tazer_charge = { 1, 1, 1, },
+			tac_bull_rush = { 1, 1, 1, },
+			FBI_spoocs = { 1, 1, 1, },
+		},
+		recon = {
+			tac_swat_shotgun_flank = { 1, 1, 1, },
+			tac_swat_rifle_flank = { 1, 1, 1, },
+		},
+		reenforce = {
+			tac_swat_shotgun_rush = { 1, 1, 1, },
+			tac_swat_rifle = { 1, 1, 1, },
+			tac_swat_rifle_flank = { 0.001, 0.001, 0.001, },
+		},
+	})
+end
 
 local prefixes_by_tier = {
 	normal = { CS = "normal", FBI = "normal", },
@@ -1692,7 +1750,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	local assault_style_func = self["_moon_" .. assault_style] or self._moon_default
 	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
-	if assault_style_func == self._moon_default then
+	if assault_style_func == self._moon_default or assault_style_func == self._moon_editor then
 		assault_style_func(self, special_weight)
 
 		return

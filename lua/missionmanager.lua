@@ -6,11 +6,121 @@ if not MissionManager.mission_script_patch_funcs then
 	return ASS:message("sh_outdated")
 end
 
+local try_insert = ASS:require("try_insert", true)
+
 ASS:pre_hook( MissionManager, "init", function(self)
 	if ElementAIGroupType then
 		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
 			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
 		end )
+	end
+end )
+
+local custom_element_ids = {}
+local last_id = 0
+function MissionManager:moon_generate_custom_id(editor_name)
+	local id = custom_element_ids[editor_name]
+
+	if not id then
+		id = last_id + 1
+
+		while self:get_element_by_id(id) do
+			id = id + 1
+		end
+
+		custom_element_ids[editor_name] = id
+		last_id = id
+	end
+
+	log(editor_name, id)
+
+	return id
+end
+
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local player_find_func = function(str) return str:begins("player_") end
+function MissionManager:moon_generate_preset_values(to_split, values)
+	local params_list = to_split:split("|")
+	local params = table.map_keys(params_list)
+	local typ, preset = params_list[1], params_list[2]
+	local result
+
+	log(typ, preset)
+
+	if typ == "SO" then
+		if preset == "sniper" then
+			result = {
+				so_action = "AI_sniper",
+				SO_access = tweak_data.character:moon_access_filters("snipers"),
+				path_style = "destination",
+			}
+		end
+
+		if result then
+			table.map_append(result, {
+				attitude = params.avoid and "avoid" or "engage",
+				path_haste = params.walk and "walk" or "run",
+				path_stance = params.cbt and "cbt" or params.ntl and "ntl" or "hos",
+				pose = params.crouch and "crouch" or "stand",
+			})
+		end
+	elseif typ == "filter" then
+		if preset:begins("difficulty_group_") then
+			result = set_difficulty_groups(preset:gsub("difficulty_group_", ""))
+		end
+
+		if result then
+			if params.mode_control ~= nil or params.mode_assault ~= nil then
+				table.map_append(result, {
+					mode_control = params.mode_control and true or false,
+					mode_assault = params.mode_assault and true or false,
+				})
+			end
+
+			if table.find_value(params_list, player_find_func) then
+				table.map_append(result, {
+					player_1 = params.player_1,
+					player_2 = params.player_2,
+					player_3 = params.player_3,
+					player_4 = params.player_4,
+				})
+			else
+				table.map_append(result, {
+					player_1 = true,
+					player_2 = true,
+					player_3 = true,
+					player_4 = true,
+				})
+			end
+		end
+	end
+
+	-- if no result, things will likely go wrong anyway
+	if result then
+		return values and table.map_append(values, result) or result
+	end
+
+	ASS:log("error", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
+end
+
+local generated = nil
+ASS:pre_hook( MissionScript, "init", function(self, data)
+	if generated == nil and data and data.name == "default" then
+		generated = false
+
+		local try_generate_elements = ASS:require("try_generate_elements")
+		local new_elements = try_generate_elements and try_generate_elements()
+		if new_elements then
+			generated = true
+
+			for i = 1, #new_elements do
+				local element = new_elements[i]
+
+				if element then
+					table.insert(data.elements, element)
+				end
+			end
+		end
 	end
 end )
 
@@ -43,22 +153,20 @@ if ass_mission_script_patches then
 	end
 end
 
-if not StreamHeist._mission_script_patches then
-	return
-end
+if StreamHeist._mission_script_patches then
+	local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
 
-local try_insert = ASS:require("try_insert", true)
-local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
-for _, data in pairs(StreamHeist._mission_script_patches) do
-	local groups = data.groups
+	for _, data in pairs(StreamHeist._mission_script_patches) do
+		local groups = data.groups
 
-	if groups then
-		for name, enabled in pairs(groups) do
-			local mapped = spawn_group_mapping[name]
+		if groups then
+			for name, enabled in pairs(groups) do
+				local mapped = spawn_group_mapping[name]
 
-			if mapped then
-				for _, v in pairs(mapped) do
-					groups[v] = enabled
+				if mapped then
+					for _, v in pairs(mapped) do
+						groups[v] = enabled
+					end
 				end
 			end
 		end
@@ -67,6 +175,24 @@ end
 
 -- ElementRandom clones on_executed on init, need to handle it
 ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function(self, element, data)
+	for i = #data, 1, -1 do
+		local v = data[i]
+
+		if v.name then
+			local generated_id = custom_element_ids[v.name]
+
+			if generated_id then
+				v.id = generated_id
+			else
+				ASS:log("warn", "No ID for custom element \"%s\" in on_executed patch on \"%s\" (%s)!", v.name, element:editor_name(), element:id())
+
+				table.remove(data, i)
+			end
+		end
+
+		v.name = nil
+	end
+
 	self.mission_script_patch_funcs.on_executed_original(self, element, data)
 
 	if element._original_on_executed then
