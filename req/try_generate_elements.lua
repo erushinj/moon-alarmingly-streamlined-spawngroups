@@ -1,6 +1,6 @@
-local mission_custom_script = ASS:script_patches("mission_custom")
+local custom_script = ASS:script_patches("custom")
 
-if not mission_custom_script then
+if not custom_script then
 	return
 end
 
@@ -253,8 +253,8 @@ end
 return function()
 	local result = {}
 
-	for i = 1, #mission_custom_script do
-		local params = mission_custom_script[i]
+	for i = 1, #custom_script do
+		local params = custom_script[i]
 		local new_element = check_clone(element_templates[params.class])
 
 		if not new_element then
