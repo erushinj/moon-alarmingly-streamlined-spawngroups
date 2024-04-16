@@ -104,19 +104,19 @@ return {
 		},
 	},
 	[101043] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 	},
 	[101044] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 	},
 	[101045] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 	},
 	[101046] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 	},
 	[101201] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 		modify_list_value = {
 			spawn_instigator_ids = {
 				[101192] = false,
@@ -125,7 +125,7 @@ return {
 		},
 	},
 	[101202] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 		modify_list_value = {
 			spawn_instigator_ids = {
 				[101185] = false,
@@ -134,7 +134,7 @@ return {
 		},
 	},
 	[101201] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 		modify_list_value = {
 			spawn_instigator_ids = {
 				[101192] = false,
@@ -143,7 +143,7 @@ return {
 		},
 	},
 	[101201] = {
-		so_access_filter = "any",
+		so_access_filter = "law",
 		modify_list_value = {
 			spawn_instigator_ids = {
 				[101192] = false,

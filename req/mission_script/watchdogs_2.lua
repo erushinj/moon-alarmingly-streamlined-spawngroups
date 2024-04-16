@@ -14,6 +14,11 @@ local enable = {
 		enabled = true,
 	},
 }
+local no_participate_to_group_ai = {
+	values = {
+		participate_to_group_ai = false,
+	},
+}
 
 local function cloaker_boowomp(id)
 	return id and {
@@ -78,27 +83,11 @@ return {
 	[103976] = cloaker_boowomp(103975),  -- ai enemy group 16
 	[103978] = cloaker_boowomp(103977),  -- ai enemy group 17
 	[103980] = cloaker_boowomp(103979),  -- ai enemy group 18
-	-- [103980] = {  -- ai enemy group 18, single spooc, none of the cloaker spawns are linked
-	-- 	modify_list_value = {
-	-- 		elements = {
-	-- 			[103961] = true,
-	-- 			[103963] = true,
-	-- 			[103965] = true,
-	-- 			[103967] = true,
-	-- 			[103969] = true,
-	-- 			[103971] = true,
-	-- 			[103973] = true,
-	-- 			[103975] = true,
-	-- 			[103977] = true,
-	-- 			[103979] = true,
-	-- 		},
-	-- 	},
-	-- },
 	[100443] = {  -- func sequence 23 (spawns first round of heli swat, modify delays)
 		on_executed = {
-			{ id = 100446, delay = 0.75, delay_rand = 0.5, },
-			{ id = 100447, delay = 1.5, delay_rand = 0.5, },
-			{ id = 100448, delay = 3, delay_rand = 2, },  -- logic link 28
+			{ id = 100446, delay = 0.5, delay_rand = 0.5, },
+			{ id = 100447, delay = 0.5, delay_rand = 0.5, },
+			{ id = 100448, delay = 2, delay_rand = 2, },  -- logic link 28
 		},
 	},
 	[100448] = {  -- logic link 28 (spawns second round of heli swat, modify delays and use it for looping)
@@ -108,13 +97,16 @@ return {
 			{ id = 100447, delay = 0, delay_rand = 1, },
 		},
 	},
-	[101212] = { enemy = cops, },
-	[101214] = { enemy = cops, },
-	[101216] = { enemy = cops, },
-	[101218] = { enemy = fbis, },
-	[101412] = { enemy = fbis, },
-	[101413] = { enemy = fbis, },
-	[101222] = { enemy = fbis, },
+	[100761] = no_participate_to_group_ai,
+	[100765] = no_participate_to_group_ai,
+	[101212] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[101214] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[101216] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[101218] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[101412] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[101413] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[101222] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[100344] = { enemy = fbis, values = no_participate_to_group_ai.values, },
 	[102374] = { enemy = dozers_any, },  -- dozer with 4 shields guarding bags
 	[102375] = { enemy = dozers_any, },
 	[100446] = { enemy = specials_med, },  -- helicopter spawn in front of the warehouse

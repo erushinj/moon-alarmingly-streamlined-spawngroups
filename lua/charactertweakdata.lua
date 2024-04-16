@@ -30,35 +30,27 @@ function CharacterTweakData:moon_access_filters(preset)
 	if not access_filters then
 		access_filters = {
 			any = {},
-			swats = {},
-			specials = {},
-			lightweight = {},  -- no shields/dozers
-			heavyweight = {},  -- only shields/dozers
-			snipers = {},
+			law = {},  -- only police
+			light_law = {},  -- police, no shields/dozers
+			heavy_law = {},  -- police, only shields/dozers
 		}
 
 		for _, data in pairs(self) do
 			if type(data) == "table" then
 				local access = data.access
-				local tags = access and data.tags and table.list_to_set(data.tags)
 
-				if tags and tags.law then
+				if access then
 					access_filters.any[access] = true
 
-					if tags.special then
-						access_filters.specials[access] = true
-					else
-						access_filters.swats[access] = true
-					end
+					local tags = data.tags and table.list_to_set(data.tags)
+					if tags and tags.law then
+						access_filters.law[access] = true
 
-					if tags.shield or tags.tank then
-						access_filters.heavyweight[access] = true
-					else
-						access_filters.lightweight[access] = true
-					end
-
-					if tags.sniper or tags.marksman then
-						access_filters.snipers[access] = true
+						if tags.shield or tags.tank then
+							access_filters.heavy_law[access] = true
+						else
+							access_filters.light_law[access] = true
+						end
 					end
 				end
 			end

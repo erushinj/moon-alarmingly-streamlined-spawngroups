@@ -24,7 +24,9 @@ local inside_cops = scripted_swat_squads({
 	hard_spawn = "dozers_no_cs",
 	normal_spawn = "heavys",
 })
-local inside_cops_so = { so_access_filter = "any", }
+local inside_cops_so = {
+	so_access_filter = "law",
+}
 
 local prisoners = {
 	Idstring("units/pd2_dlc_wwh/characters/ene_male_crew_01/ene_male_crew_01"),

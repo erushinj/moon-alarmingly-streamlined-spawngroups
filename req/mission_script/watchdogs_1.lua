@@ -5,6 +5,7 @@ local fbis = tweak_data.levels:moon_units("fbis")
 local shield = tweak_data.levels:moon_units("shield")
 local specials_agg = tweak_data.levels:moon_units("specials_agg")
 local dozers_any = tweak_data.levels:moon_units("dozers_any")
+local cloaker = tweak_data.levels:moon_units("cloaker")
 local shield_event = math.random() < 0.5 and {
 	on_executed = {
 		{ id = 102848, remove = true, },
@@ -18,10 +19,37 @@ local shield_event = math.random() < 0.5 and {
 		{ id = 101283, delay = 0, },
 	},
 }
+local no_participate_to_group_ai = {
+	values = {
+		participate_to_group_ai = false,
+	},
+}
+local participate_to_group_ai = {
+	values = {
+		participate_to_group_ai = true,
+	},
+}
+local disable = {
+	values = {
+		enabled = false,
+	},
+}
 
 return {
+	[101859] = disable,  -- enemy dummy trigger for some normally unused cops
 	[100445] = {  -- spawn start cops
-		group_amount = normal and 8 or hard and 12 or 16,  -- 19 available, 6 normally
+		group_amount = normal and 8 or hard and 12 or 16,  -- 26 (normally 19) available, 6 used normally
+		modify_list_value = {
+			elements = {
+				[100330] = true,
+				[100329] = true,
+				[100342] = true,
+				[100347] = true,
+				[100375] = true,
+				[100452] = true,
+				[100455] = true,
+			},
+		},
 		on_executed = {
 			{ name = "ambush_sniper_filter_normal", delay = 0, },
 			{ name = "ambush_sniper_filter_hard", delay = 0, },
@@ -38,20 +66,18 @@ return {
 			chance = overkill and 70 or 35,  -- 10 normally
 		},
 	},
-	[101305] = {  -- swat defend SO
-		so_access_filter = "any",
-	},
-	[101294] = {  -- swat defend SO
+	[101305] = disable,  -- swat defend SO
+	[101294] = {  -- modify van spawn delays
 		on_executed = {
 			{ id = 101291, delay = 0.5, },
 			{ id = 101292, delay = 1, },
 		},
 	},
 	[101276] = shield_event or nil,  -- shield event, use unused variation half the time
-	[102841] = { enemy = fbis, },
-	[102842] = { enemy = fbis, },
-	[102843] = { enemy = fbis, },
-	[102844] = { enemy = fbis, },
+	[102841] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[102842] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[102843] = { enemy = fbis, values = no_participate_to_group_ai.values, },
+	[102844] = { enemy = fbis, values = no_participate_to_group_ai.values, },
 	[100363] = { enemy = cops, },
 	[100436] = { enemy = cops, },
 	[100438] = { enemy = cops, },
@@ -64,33 +90,28 @@ return {
 	[100377] = { enemy = cops, },
 	[100367] = { enemy = cops, },
 	[100371] = { enemy = cops, },
-	[100361] = { enemy = cops, },
-	[100360] = { enemy = cops, },
-	[100376] = { enemy = cops, },
-	[100372] = { enemy = cops, },
-	[100373] = { enemy = cops, },
-	[100379] = { enemy = cops, },
-	[100374] = { enemy = cops, },
-	[100433] = { enemy = cops, },
-	[101600] = { enemy = cops, },
-	[101591] = { enemy = cops, },
-	[101621] = { enemy = cops, },
-	[101594] = { enemy = cops, },
-	[101854] = { enemy = cops, },
-	[101630] = { enemy = cops, },
-	[101855] = { enemy = cops, },
-	[101856] = { enemy = cops, },
-	[100330] = { enemy = cops, },
-	[100329] = { enemy = cops, },
+	[100361] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100360] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100376] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100372] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100373] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100379] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100374] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100433] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100330] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100329] = { enemy = cops, values = no_participate_to_group_ai.values, },
 	[100342] = { enemy = cops, },
-	[100347] = { enemy = cops, },
-	[100375] = { enemy = cops, },
-	[100452] = { enemy = cops, },
+	[100347] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100375] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100452] = { enemy = cops, values = no_participate_to_group_ai.values, },
+	[100455] = { enemy = cops, values = no_participate_to_group_ai.values, },
 	[101291] = { enemy = dozers_any, },  -- van swats
 	[101292] = { enemy = dozers_any, },
-	[101279] = { enemy = shield, },  -- unused shield event variation, fix enemy names
-	[101280] = { enemy = shield, },
-	[101281] = { enemy = specials_agg, },
-	[101282] = { enemy = specials_agg, },
-	[101283] = { enemy = specials_agg, },
+	[101279] = { enemy = shield, values = no_participate_to_group_ai.values, },  -- unused shield event variation, fix enemy names
+	[101280] = { enemy = shield, values = no_participate_to_group_ai.values, },
+	[101281] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
+	[101282] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
+	[101283] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
+	[102071] = { enemy = cloaker, },  -- weird scripted fbi swat in the area with bad navlink access
+	[102072] = { enemy = cloaker, },
 }

@@ -7,7 +7,6 @@ end
 local check_clone = ASS:require("check_clone", true)
 local required_values = {
 	enabled = false,
-	-- execute_on_startup = false,
 	trigger_times = 0,
 	base_delay = 0,
 	on_executed = {},
@@ -70,7 +69,7 @@ local element_templates = {
 		class = "ElementRandom",
 		module = "CoreElementRandom",
 		values = append_template_values(nil, {
-			counter_id = false,  -- number?
+			counter_id = nil,  -- number, optional
 			amount = 1,
 			amount_random = 0,
 		}),
@@ -113,7 +112,7 @@ local element_templates = {
 			force_ragdoll = false,
 			true_death = true,
 			use_instigator = false,
-			backup_so = false,  -- number?
+			backup_so = nil,  -- number, optional
 			elements = {},
 		}),
 	},
@@ -121,14 +120,14 @@ local element_templates = {
 		class = "ElementSpawnEnemyDummy",
 		values = append_template_values(true, {
 			participate_to_group_ai = true,
-			enemy = false,  -- string
+			enemy = nil,  -- string
 			force_pickup = "none",
 			spawn_action = "none",
 			accessibility = "any",
 			team = "default",
 			voice = 0,
 			interval = 0,
-			-- moon_data = {},  -- optional custom data, see elementspawncivilian hook
+			moon_data = nil,  -- table, optional, see elementspawncivilian hook
 		}),
 	},
 	{
@@ -153,7 +152,7 @@ local element_templates = {
 	{
 		class = "ElementEnemyPreferedAdd",
 		values = append_template_values(nil, {
-			-- spawn_points = false,  -- table?
+			spawn_points = nil,  -- table, optional, seems spawn_groups is preferred
 			spawn_groups = {},
 		}),
 	},
@@ -170,7 +169,7 @@ local element_templates = {
 			force_pickup = "none",
 			state = "none",
 			team = "default",
-			-- moon_data = {},  -- optional custom data, see elementspawncivilian hook
+			moon_data = nil,  -- table, optional, see elementspawncivilian hook
 		}),
 	},
 	{
@@ -182,7 +181,8 @@ local element_templates = {
 	{
 		class = "ElementCarry",
 		values = append_template_values(true, {
-			operation = false,  -- number
+			operation = nil,  -- string, required to do anything
+			type_filter = "none",
 		}),
 	},
 	{
@@ -250,30 +250,26 @@ for i = 1, #element_templates do
 	element_templates[i] = nil
 end
 
-local generated_elements = false
 return function()
-	if not generated_elements then
-		generated_elements = true
+	local result = {}
 
-		local result = {}
-		for i = 1, #mission_custom_script do
-			local params = mission_custom_script[i]
-			local new_element = check_clone(element_templates[params.class])
+	for i = 1, #mission_custom_script do
+		local params = mission_custom_script[i]
+		local new_element = check_clone(element_templates[params.class])
 
-			if not new_element then
-				ASS:log("error", "No template for element class %s", params.class)
-			else
-				new_element.editor_name = params.editor_name
-				new_element.id = params.id
+		if not new_element then
+			ASS:log("error", "No template for element class %s", params.class)
+		else
+			new_element.editor_name = params.editor_name
+			new_element.id = params.id
 
-				for k, v in pairs(params.values) do
-					new_element.values[k] = v
-				end
-
-				result[i] = new_element
+			for k, v in pairs(params.values) do
+				new_element.values[k] = v
 			end
-		end
 
-		return result
+			result[i] = new_element
+		end
 	end
+
+	return result
 end

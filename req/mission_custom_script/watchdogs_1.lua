@@ -1,5 +1,3 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-
 local sniper = {
 	enemy = tweak_data.levels:moon_units("sniper"),
 }
@@ -55,7 +53,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ambush_sniper_filter_normal,
 		id = id_ambush_sniper_filter_normal,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_normal", {
+		values = managers.mission:moon_generate_preset_values("filter|normal", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ambush_sniper_amount_normal, delay = 0, delay_rand = 0, },
@@ -77,7 +75,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ambush_sniper_filter_hard,
 		id = id_ambush_sniper_filter_hard,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_hard", {
+		values = managers.mission:moon_generate_preset_values("filter|hard", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ambush_sniper_amount_hard, delay = 0, delay_rand = 0, },
@@ -99,7 +97,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ambush_sniper_filter_overkill,
 		id = id_ambush_sniper_filter_overkill,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_overkill", {
+		values = managers.mission:moon_generate_preset_values("filter|overkill", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ambush_sniper_amount_overkill, delay = 0, delay_rand = 0, },
@@ -257,7 +255,7 @@ return {
 		}),
 	},
 
-	-- black car near crackhouse poster
+	-- black car near fence with boards on other side of the street
 	{
 		class = "ElementSpawnEnemyDummy",
 		editor_name = ambush_sniper_6,

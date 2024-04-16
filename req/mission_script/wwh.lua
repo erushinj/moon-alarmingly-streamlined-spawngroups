@@ -14,10 +14,10 @@ local rope_hunt = {
 	hunt = true,
 }
 local intro_dozer_walk_spot_so = {
-	so_access_filter = "any",
+	so_access_filter = "law",
 }
 local intro_sniper_so = {
-	so_access_filter = "snipers",
+	so_access_filter = "law",
 }
 local intro_sniper_unit = {
 	enemy = tweak_data.levels:moon_units("marshal_1"),

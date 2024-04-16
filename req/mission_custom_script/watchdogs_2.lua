@@ -1,5 +1,3 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-
 local sniper = {
 	enemy = tweak_data.levels:moon_units("sniper"),
 }
@@ -50,13 +48,11 @@ local id_ship_sniper_respawn_overkill = managers.mission:moon_generate_custom_id
 -- ground sniper
 local sniper_toggle_4 = "sniper_toggle_4"
 local sniper_4 = "sniper_4"
-local sniper_rand_so_4 = "sniper_rand_so_4"
 local sniper_so_4_1 = "sniper_so_4_1"
 local sniper_so_4_2 = "sniper_so_4_2"
 local sniper_death_4 = "sniper_death_4"
 local id_sniper_toggle_4 = managers.mission:moon_generate_custom_id(sniper_toggle_4)
 local id_sniper_4 = managers.mission:moon_generate_custom_id(sniper_4)
-local id_sniper_rand_so_4 = managers.mission:moon_generate_custom_id(sniper_rand_so_4)
 local id_sniper_so_4_1 = managers.mission:moon_generate_custom_id(sniper_so_4_1)
 local id_sniper_so_4_2 = managers.mission:moon_generate_custom_id(sniper_so_4_2)
 local id_sniper_death_4 = managers.mission:moon_generate_custom_id(sniper_death_4)
@@ -75,7 +71,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ship_sniper_respawn_normal,
 		id = id_ship_sniper_respawn_normal,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_normal", {
+		values = managers.mission:moon_generate_preset_values("filter|normal", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ship_sniper_spawn, delay = 60, delay_rand = 30, },
@@ -86,7 +82,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ship_sniper_respawn_hard,
 		id = id_ship_sniper_respawn_hard,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_hard", {
+		values = managers.mission:moon_generate_preset_values("filter|hard", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ship_sniper_spawn, delay = 45, delay_rand = 45, },
@@ -97,7 +93,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ship_sniper_respawn_overkill,
 		id = id_ship_sniper_respawn_overkill,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_overkill", {
+		values = managers.mission:moon_generate_preset_values("filter|overkill", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ship_sniper_spawn, delay = 30, delay_rand = 60, },
@@ -356,7 +352,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ground_sniper_respawn_normal,
 		id = id_ground_sniper_respawn_normal,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_normal", {
+		values = managers.mission:moon_generate_preset_values("filter|normal", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ground_sniper_spawn, delay = 60, delay_rand = 30, },
@@ -367,7 +363,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ground_sniper_respawn_hard,
 		id = id_ground_sniper_respawn_hard,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_hard", {
+		values = managers.mission:moon_generate_preset_values("filter|hard", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ground_sniper_spawn, delay = 45, delay_rand = 45, },
@@ -378,7 +374,7 @@ return {
 		class = "ElementFilter",
 		editor_name = ground_sniper_respawn_overkill,
 		id = id_ground_sniper_respawn_overkill,
-		values = managers.mission:moon_generate_preset_values("filter|difficulty_group_overkill", {
+		values = managers.mission:moon_generate_preset_values("filter|overkill", {
 			enabled = true,
 			on_executed = {
 				{ id = id_ground_sniper_spawn, delay = 30, delay_rand = 60, },
@@ -420,20 +416,7 @@ return {
 			trigger_times = 1,
 			moon_data = sniper,
 			on_executed = {
-				{ id = id_sniper_rand_so_4, delay = 0, },
-			},
-		},
-	},
-	{
-		class = "ElementRandom",
-		editor_name = sniper_rand_so_4,
-		id = id_sniper_rand_so_4,
-		values = {
-			enabled = true,
-			amount = 1,
-			on_executed = {
 				{ id = id_sniper_so_4_1, delay = 0, },
-				{ id = id_sniper_so_4_2, delay = 0, },
 			},
 		},
 	},
@@ -445,6 +428,9 @@ return {
 			enabled = true,
 			position = Vector3(-1600, -1450, 0),
 			rotation = Rotation(-90, 0, -0),
+			on_executed = {
+				{ id = id_sniper_so_4_2, delay = 30, },
+			},
 		}),
 	},
 	{
@@ -455,6 +441,9 @@ return {
 			enabled = true,
 			position = Vector3(-500, 975, 0),
 			rotation = Rotation(-90, 0, -0),
+			on_executed = {
+				{ id = id_sniper_so_4_1, delay = 30, },
+			},
 		}),
 	},
 	{
@@ -467,8 +456,10 @@ return {
 				id_sniper_4,
 			},
 			on_executed = {
-				{ id = id_sniper_toggle_4, delay = 0, delay_rand = 0, },
-				{ id = id_ground_sniper_spawn, delay = 45, delay_rand = 45, },
+				{ id = id_sniper_toggle_4, delay = 0, },
+				{ id = id_ground_sniper_respawn_normal, delay = 0, },
+				{ id = id_ground_sniper_respawn_hard, delay = 0, },
+				{ id = id_ground_sniper_respawn_overkill, delay = 0, },
 			},
 		},
 	},

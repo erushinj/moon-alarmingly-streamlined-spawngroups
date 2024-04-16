@@ -32,27 +32,28 @@ function MissionManager:moon_generate_custom_id(editor_name)
 		last_id = id
 	end
 
-	log(editor_name, id)
-
 	return id
 end
 
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local player_find_func = function(str) return str:begins("player_") end
 function MissionManager:moon_generate_preset_values(to_split, values)
 	local params_list = to_split:split("|")
 	local params = table.map_keys(params_list)
 	local typ, preset = params_list[1], params_list[2]
 	local result
 
-	log(typ, preset)
-
 	if typ == "SO" then
 		if preset == "sniper" then
 			result = {
 				so_action = "AI_sniper",
-				SO_access = tweak_data.character:moon_access_filters("snipers"),
+				SO_access = tweak_data.character:moon_access_filters("any"),
 				path_style = "destination",
+			}
+		elseif preset == "hunt" then
+			result = {
+				so_action = "AI_hunt",
+				SO_access = tweak_data.character:moon_access_filters("any"),
+				path_style = "none",
 			}
 		end
 
@@ -65,33 +66,17 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 			})
 		end
 	elseif typ == "filter" then
-		if preset:begins("difficulty_group_") then
-			result = set_difficulty_groups(preset:gsub("difficulty_group_", ""))
-		end
+		result = set_difficulty_groups(preset)
 
 		if result then
-			if params.mode_control ~= nil or params.mode_assault ~= nil then
-				table.map_append(result, {
-					mode_control = params.mode_control and true or false,
-					mode_assault = params.mode_assault and true or false,
-				})
-			end
-
-			if table.find_value(params_list, player_find_func) then
-				table.map_append(result, {
-					player_1 = params.player_1,
-					player_2 = params.player_2,
-					player_3 = params.player_3,
-					player_4 = params.player_4,
-				})
-			else
-				table.map_append(result, {
-					player_1 = true,
-					player_2 = true,
-					player_3 = true,
-					player_4 = true,
-				})
-			end
+			table.map_append(result, {
+				player_1 = not params.no_p1,
+				player_2 = not params.no_p2,
+				player_3 = not params.no_p3,
+				player_4 = not params.no_p4,
+				mode_control = not params.assault,
+				mode_assault = not params.control,
+			})
 		end
 	end
 
@@ -183,14 +168,13 @@ ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function
 
 			if generated_id then
 				v.id = generated_id
+				v.name = nil
 			else
 				ASS:log("warn", "No ID for custom element \"%s\" in on_executed patch on \"%s\" (%s)!", v.name, element:editor_name(), element:id())
 
 				table.remove(data, i)
 			end
 		end
-
-		v.name = nil
 	end
 
 	self.mission_script_patch_funcs.on_executed_original(self, element, data)
