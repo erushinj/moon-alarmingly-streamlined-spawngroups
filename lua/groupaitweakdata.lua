@@ -7,6 +7,7 @@ local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
+local real_difficulty_index = ASS:get_var("real_difficulty_index")
 local difficulty = ASS:get_var("difficulty")
 local is_editor = ASS:get_var("is_editor")
 
@@ -1779,20 +1780,20 @@ function GroupAITweakData:moon_reinit_unit_categories()
 	self.unit_categories.FBI_heavy_G36_w.unit_types.america = { Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"), }
 	self.unit_categories.FBI_shield.unit_types.america = { Idstring("units/payday2/characters/ene_shield_1/ene_shield_1"), }
 
-	if difficulty_index < 4 then
+	if real_difficulty_index < 4 then
 		self.unit_categories.FBI_tank.unit_types.america = { Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"), }
-	elseif difficulty_index < 6 then
+	elseif real_difficulty_index < 6 then
 		self.unit_categories.FBI_tank.unit_types.america = {
 			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
 		}
-	elseif difficulty_index < 7 then
+	elseif real_difficulty_index < 7 then
 		self.unit_categories.FBI_tank.unit_types.america = {
 			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
 			Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"),
 		}
-	elseif difficulty_index < 8 then
+	elseif real_difficulty_index < 8 then
 		self.unit_categories.FBI_tank.unit_types.america = {
 			Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"),
 			Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"),
