@@ -6,14 +6,18 @@ local filters_normal_above = {
 	values = set_difficulty_groups("normal_above")
 }
 local guards_amount_casino_1 = {
-	group_amount = normal and 1 or hard and 2 or 3,
+	values = {
+		amount = normal and 1 or hard and 2 or 3,
+	},
 }
 local guards_amount_casino_2 = guards_amount_casino_1
 local guards_amount_inner_courtyard = guards_amount_casino_1
 local guards_amount_lobby = guards_amount_casino_1
 local guards_amount_spa = guards_amount_casino_1
 local guards_amount_cabin_corridor_1 = {
-	group_amount = normal and 0 or hard and 1 or 2,
+	values = {
+		amount = normal and 0 or hard and 1 or 2,
+	},
 }
 local guards_amount_cabin_corridor_2 = guards_amount_cabin_corridor_1
 local guards_amount_helipad = guards_amount_cabin_corridor_1

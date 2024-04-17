@@ -11,7 +11,7 @@ local try_insert = ASS:require("try_insert", true)
 ASS:pre_hook( MissionManager, "init", function(self)
 	if ElementAIGroupType then
 		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
-			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+			tweak_data.group_ai:moon_reinit_unit_categories()
 		end )
 	end
 end )
@@ -198,6 +198,10 @@ ASS:override( MissionManager.mission_script_patch_funcs, "values", function(self
 	if data.chance and element._chance then
 		element._chance = data.chance
 	end
+
+	if data.amount and element._group_data then
+		element._group_data.amount = data.amount
+	end
 end )
 
 MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, element, data)
@@ -238,10 +242,6 @@ MissionManager.mission_script_patch_funcs.modify_list_value = function(self, ele
 	end
 end
 
-MissionManager.mission_script_patch_funcs.chance = function(self, element, data)
-	ASS:log("error", "Deprecated script patch function \"chance\" for element \"%s\" (%s)!", element:editor_name(), element:id())
-end
-
 -- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
 MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
 	local access_filter = tweak_data.character:moon_access_filters(data)
@@ -275,14 +275,6 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	end
 
 	StreamHeist:log("Modified enemy spawn in element %s", element:editor_name())
-end
-
--- used for ElementSpawnCivilianGroup, lib\managers\mission\elementspawnciviliangroup
--- used for ElementSpawnEnemyGroup, lib\managers\mission\elementspawnenemygroup
-MissionManager.mission_script_patch_funcs.group_amount = function(self, element, data)
-	element._group_data.amount = data
-
-	StreamHeist:log("Modified group data in element %s", element:editor_name())
 end
 
 -- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent

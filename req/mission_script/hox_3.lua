@@ -14,16 +14,22 @@ local breakout_guards = {
 	Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"),
 }
 local front_patrol_guards = {
-	group_amount = overkill and 2 or 1,
+	values = {
+		amount = overkill and 2 or 1,
+	},
 }
 local estate_patrol_guards = front_patrol_guards
 local extension_patrol_guards = front_patrol_guards
 local main_patrol_guards = front_patrol_guards
 local exterior_patrol_guards = {
-	group_amount = overkill and 4 or 2,
+	values = {
+		amount = overkill and 4 or 2,
+	},
 }
 local patroling_guards = {
-	group_amount = normal and 2 or hard and 4 or 6,
+	values = {
+		amount = normal and 2 or hard and 4 or 6,
+	},
 }
 
 return {

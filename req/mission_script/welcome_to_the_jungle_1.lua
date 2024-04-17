@@ -107,7 +107,9 @@ return {
 	[103220] = weapons_amount,
 	[103221] = weapons_amount,
 	[101579] = {  -- bikers amount (vanilla is 8)
-		group_amount = 8 + math.random(normal and 2 or hard and 4 or 8),
+		values = {
+			amount = 8 + math.random(normal and 2 or hard and 4 or 8),
+		},
 	},
 	[100422] = { enemy = gangsters, },  -- drug deal cobras
 	[103255] = { enemy = gangsters, },

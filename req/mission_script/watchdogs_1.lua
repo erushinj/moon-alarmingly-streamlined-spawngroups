@@ -38,7 +38,9 @@ local disable = {
 return {
 	[101859] = disable,  -- enemy dummy trigger for some normally unused cops
 	[100445] = {  -- spawn start cops
-		group_amount = normal and 8 or hard and 12 or 16,  -- 26 (normally 19) available, 6 used normally
+		values = {
+			amount = normal and 8 or hard and 12 or 16,  -- 26 (normally 19) available, 6 used normally
+		},
 		modify_list_value = {
 			elements = {
 				[100330] = true,

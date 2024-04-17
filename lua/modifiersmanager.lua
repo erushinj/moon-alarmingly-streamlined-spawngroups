@@ -47,12 +47,10 @@ local function dozer_modifier_init(self, ...)
 		try_insert(units[tbl_name], dozer_add)
 	end
 
-	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
-	tweak_data.group_ai:moon_add_func( -10, function(group_ai)
+	tweak_data.group_ai:moon_add_func( self._type, -10, function(group_ai)
 		try_insert(group_ai.unit_categories.FBI_tank.unit_types.america, dozer_add)
 	end )
 	tweak_data.group_ai:moon_reinit_unit_categories()
-	tweak_data.group_ai:moon_swap_units(last_prefixes)
 end
 
 ModifierSkulldozers._moon_dozer_add = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3")

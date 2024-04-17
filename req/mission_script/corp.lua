@@ -81,7 +81,9 @@ local floor_2_east_cams_amount = lab_cams_amount
 local floor_3_east_cams_amount = lab_cams_amount
 local floor_3_west_cams_amount = lab_cams_amount
 local office_top_guards_amount = {
-	group_amount = overkill and 2 or 1,
+	values = {
+		amount = overkill and 2 or 1,
+	},
 }
 local office_mid_guards_amount = office_top_guards_amount
 local campus_1_guards_amount = office_top_guards_amount

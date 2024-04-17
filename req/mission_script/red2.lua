@@ -16,11 +16,15 @@ local filters_normal_above = {
 	values = set_difficulty_groups("normal_above"),
 }
 local guards_downstairs_amounts = {
-	group_amount = normal and 2 or hard and 4 or 6,
+	values = {
+		amount = normal and 2 or hard and 4 or 6,
+	},
 }
 local guards_vault_amounts = guards_downstairs_amounts  -- just in case it wasnt clear this is a loud-focused mod :3
 local guards_stationary_amounts = {
-	group_amount = normal and 1 or hard and 2 or 3,
+	values = {
+		amount = normal and 1 or hard and 2 or 3,
+	},
 }
 local guards_upstairs_amounts = guards_stationary_amounts
 local civs_male_ids = get_table_index_func({ 103592, 103594, 102144, 102147, 102159, 102158, 103707, 103703, })
@@ -158,7 +162,9 @@ return {
 		},
 	},
 	[105114] = {  -- random swats
-		group_amount = overkill and 6 or 3,
+		values = {
+			amount = overkill and 6 or 3,
+		},
 	},
 	[103998] = filters_disable,  -- vault dozer stuff
 	[103377] = filters_disable,
