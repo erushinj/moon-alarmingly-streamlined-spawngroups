@@ -1,8 +1,8 @@
+-- https://github.com/segabl/pd2-hoplib/blob/master/req/TableUtils.lua
 -- https://github.com/segabl/pd2-hoplib/blob/master/req/MenuBuilder.lua
 -- slightly tweaked. use hoplib's menu builder if you need one. i would but i dont want to add a dependency post-release.
 
-local table_replace, table_union
-table_replace = table.replace or function(tbl1, tbl2, match_type)
+local function table_replace(tbl1, tbl2, match_type)
 	for k, v in pairs(tbl2) do
 		if type(tbl1[k]) == type(v) or not match_type and tbl1[k] ~= nil then
 			if type(v) == "table" then
@@ -15,7 +15,8 @@ table_replace = table.replace or function(tbl1, tbl2, match_type)
 	end
 	return tbl1
 end
-table_union = table.union or function(tbl1, tbl2, match_type)
+
+local function table_union(tbl1, tbl2, match_type)
 	for k, v in pairs(tbl2) do
 		if not match_type or tbl1[k] == nil or type(tbl1[k]) == type(v) then
 			if type(v) == "table" then
