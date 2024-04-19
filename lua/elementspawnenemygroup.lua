@@ -1,4 +1,4 @@
-if ASS:get_var("is_editor_or_client") then
+if ASS.is_editor_or_client then
 	return
 end
 

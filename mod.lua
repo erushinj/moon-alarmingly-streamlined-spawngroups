@@ -1,9 +1,13 @@
 if not ASS then
+	local load_level = Global.load_level
+	local game_settings = Global.game_settings or {}
+	local level_data = Global.level_data or {}
+	local job_manager = Global.job_manager or {}
 	local is_editor = Global.editor_mode or false
 	local is_client = Network and Network:is_client() or false
 	local is_host = not is_editor and not is_client
-	local level_id = Global.level_data and Global.level_data.level_id or Global.game_settings and Global.game_settings.level_id or "no_level"
-	local job_id = Global.job_manager and Global.job_manager.current_job and Global.job_manager.current_job.job_id or "no_job"
+	local level_id = load_level and (level_data.level_id or game_settings.level_id) or "no_level"
+	local job_id = load_level and (job_manager.current_job and job_manager.current_job.job_id) or "no_job"
 	local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 	local real_difficulty_index = ({
 		normal = 2,
@@ -15,40 +19,40 @@ if not ASS then
 		sm_wish = 8,
 	})[difficulty] or 2
 
+	local clean_level_id = level_id
+	for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", }) do
+		clean_level_id = clean_level_id:gsub(end_pattern, "")
+	end
+
 	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
 	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
-	ASS._global = Global.alarmingly_streamlined_spawngroups
-	ASS._mod_path = ASS:GetPath()
-	ASS._req_path = ASS._mod_path .. "req/"
-	ASS._lua_path = ASS._mod_path .. "lua/"
-	ASS._loc_path = ASS._mod_path .. "loc/"
-	ASS._hook_prefix = "ass_"
-	ASS._hook_suffix = "AlarminglyStreamlinedSpawngroups"
-	ASS._is_host = is_host
-	ASS._is_editor = is_editor
-	ASS._is_client = is_client
-	ASS._is_editor_or_client = not is_host
-	ASS._is_spawner = not is_host or ({
+	ASS.req_path = ASS.path .. "req/"
+	ASS.lua_path = ASS.path .. "lua/"
+	ASS.loc_path = ASS.path .. "loc/"
+	ASS.is_host = is_host
+	ASS.is_editor = is_editor
+	ASS.is_client = is_client
+	ASS.is_editor_or_client = not is_host
+	ASS.is_spawner = not is_host or ({
 		modders_devmap = true,
 		Enemy_Spawner = true,
 	})[level_id]
-	ASS._difficulty = difficulty
-	ASS._real_difficulty_index = real_difficulty_index
-	ASS._level_id = level_id
-	ASS._clean_level_id = level_id
-	ASS._job_id = job_id
-	ASS._require = {}
-	ASS._script_patches = {}
+	ASS.difficulty = difficulty
+	ASS.real_difficulty_index = real_difficulty_index
+	ASS.level_id = level_id
+	ASS.clean_level_id = clean_level_id
+	ASS.job_id = job_id
+	ASS.required = {}
 	ASS.settings = {
 		save_version = tonumber(ASS:GetVersion()),  -- hidden, used for adjusting saved values if necessary
 		is_massive = true,  -- whether the mod is enabled or not
-		level_mod = 3,  -- index into ASS._values.level_mod
-		assault_style = 1,  -- index into ASS._values.assault_style
-		skill = 2,  -- index into ASS._values.skill
-		dmg_interval = 1,  -- index into ASS._values.dmg_interval
+		level_mod = 3,  -- index into ASS.values.level_mod
+		assault_style = 1,  -- index into ASS.values.assault_style
+		skill = 2,  -- index into ASS.values.skill
+		dmg_interval = 1,  -- index into ASS.values.dmg_interval
 		doms_scale = false,  -- whether to make dominations harder on higher difficulties
 		doms_all_hard = false,  -- whether to make all dominatable enemies use hardest preset
 		doms_super_serious = false,  -- whether to allow dominations during assault
@@ -67,7 +71,7 @@ if not ASS then
 		escapes = false,  -- allow escapes to occur on maps that have them
 	}
 	ASS.default_settings = deep_clone(ASS.settings)
-	ASS._values = {
+	ASS.values = {
 		level_mod = {
 			"ass_level_mod_disable",  -- dont change units
 			"ass_level_mod_random",  -- pick any available level mod value (besides zeal)
@@ -138,7 +142,7 @@ if not ASS then
 			"ass_medical_ordinance_both",  -- randomize between both
 		},
 	}
-	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
+	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
 		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
 		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase in holdout
 		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
@@ -351,10 +355,6 @@ if not ASS then
 		["narr_friday"] = "FBI_CITY_easy_wish",  -- crashing capitol, https://modworkshop.net/mod/44630
 	}
 
-	function ASS:get_var(var)
-		return self["_" .. var]
-	end
-
 	function ASS:log(prefix, str, ...)
 		local base_str = ("[ASS:%s|%s:%s] "):format(tostring(prefix):upper(), level_id, difficulty)
 
@@ -365,18 +365,18 @@ if not ASS then
 	-- loads + caches specified file as a function, auto-detecting if it's in lua/ or req/
 	-- result can be executed on the spot if needed, and/or can be assigned to a variable
 	function ASS:require(file, load, ...)
-		if not self._require[file] then
-			local path = self._lua_path .. file .. ".lua"
-			path = io.file_is_readable(path) and path or self._req_path .. file .. ".lua"
+		if self.required[file] == nil then
+			local path = self.lua_path .. file .. ".lua"
+			path = io.file_is_readable(path) and path or self.req_path .. file .. ".lua"
 
-			self._require[file] = blt.vm.loadfile(path) or function() end
+			self.required[file] = blt.vm.loadfile(path) or false
 		end
 
 		if load then
-			return self._require[file]
+			return self.required[file]
 		end
 
-		return self._require[file](...)
+		return self.required[file] and self.required[file](...)
 	end
 
 	-- deprecated functions, still define them
@@ -387,10 +387,10 @@ if not ASS then
 	local check_clone = ASS:require("check_clone", true)
 
 	function ASS:global()
-		return self._global
+		return Global.alarmingly_streamlined_spawngroups
 	end
 
-	function ASS:get_setting(setting, default)
+	function ASS:setting(setting, default)
 		if default then
 			return self.default_settings[setting]
 		end
@@ -406,7 +406,7 @@ if not ASS then
 	end
 
 	local function items(value)
-		return ASS._values[value]
+		return ASS.values[value]
 	end
 
 	local divider = 16
@@ -495,20 +495,22 @@ if not ASS then
 		},
 	})
 
+	local suffix = "AlarminglyStreamlinedSpawngroups"
 	function ASS:add_hook(key, func)
-		local id = key .. self._hook_suffix
+		local id = key .. suffix
 
 		Hooks:AddHook( key, id, func )
 	end
 
+	local prefix = "ass_"
 	function ASS:post_hook(object, func, post_call)
-		local id = self._hook_prefix .. func
+		local id = prefix .. func
 
 		Hooks:PostHook( object, func, id, post_call )
 	end
 
 	function ASS:pre_hook(object, func, pre_call)
-		local id = self._hook_prefix .. func
+		local id = prefix .. func
 
 		Hooks:PreHook( object, func, id, pre_call )
 	end
@@ -525,7 +527,7 @@ if not ASS then
 
 	local messages = {
 		zeals_enabled = function(self)
-			if not self:get_setting("is_massive") then
+			if not self:setting("is_massive") then
 				return
 			end
 
@@ -564,7 +566,7 @@ if not ASS then
 
 			local global = self:global()
 			global.invalid_sh = "missing"
-			if self:get_setting("is_massive") then
+			if self:setting("is_massive") then
 				self:add_hook( "MenuManagerOnOpenMenu", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
@@ -599,7 +601,7 @@ if not ASS then
 
 			local global = self:global()
 			global.invalid_sh = "disabled"
-			if self:get_setting("is_massive") then
+			if self:setting("is_massive") then
 				self:add_hook( "MenuManagerOnOpenMenu", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
@@ -623,7 +625,7 @@ if not ASS then
 
 			local global = self:global()
 			global.invalid_sh = "outdated"
-			if self:get_setting("is_massive") then
+			if self:setting("is_massive") then
 				self:add_hook( "MenuManagerOnOpenMenu", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
@@ -649,39 +651,39 @@ if not ASS then
 		end
 	end
 
-	function ASS:_gsub(setting)
-		local value = self._values[setting]
+	function ASS:gsub(setting, default)
+		local value = self.values[setting]
 		local str = value and value[self.settings[setting]]
 
-		return str and str:gsub("^ass_" .. setting .. "_", "")
+		return str and str:gsub("^ass_" .. setting .. "_", "") or default
 	end
 
 	function ASS:init_vars()
-		local level_mod = self:_gsub("level_mod") or "per_level"
+		local level_mod = self:gsub("level_mod", "per_level")
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
 			disable = false,
 			random = { false, },
 		}
 
-		self._assault_style = is_editor and "editor" or self:_gsub("assault_style") or "default"
-		self._skill = tonumber((self:_gsub("skill"))) or 2
-		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
-		self._difficulty_index = self:get_setting("max_values") and 8 or real_difficulty_index
-		self._shield_arms = self:_gsub("shield_arms") or "default"
-		self._taser_dazers = self:_gsub("taser_dazers") or "default"
-		self._cloaker_balance = self:_gsub("cloaker_balance") or "default"
-		self._medic_ordnance = self:_gsub("medic_ordnance") or "default"
-		self._medical_ordinance = self:_gsub("medical_ordinance") or "default"
+		self.assault_style = is_editor and "editor" or self:gsub("assault_style", "default")
+		self.skill = tonumber((self:gsub("skill", 2))) or 2
+		self.dmg_interval = tonumber((self:gsub("dmg_interval", 0.25))) or 0.25
+		self.difficulty_index = self:setting("max_values") and 8 or real_difficulty_index
+		self.shield_arms = self:gsub("shield_arms", "default")
+		self.taser_dazers = self:gsub("taser_dazers", "default")
+		self.cloaker_balance = self:gsub("cloaker_balance", "default")
+		self.medic_ordnance = self:gsub("medic_ordnance", "default")
+		self.medical_ordinance = self:gsub("medical_ordinance", "default")
 
-		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", }) do
-			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")
+		for name, tweaks in pairs(self.tweaks) do
+			self.tweaks[name] = tweaks[self.skill] or tweaks[2]
 		end
 
 		-- no zeal for random, not going to randomly activate a matchmaking lock
 		for _, valid_id in pairs({ "CS", "FBI", "CITY", }) do
-			for i = 1, #self._values.level_mod do
-				local lvl_mod = self._values.level_mod[i]
+			for i = 1, #self.values.level_mod do
+				local lvl_mod = self.values.level_mod[i]
 				local id = lvl_mod:gsub("^ass_level_mod_", "")
 
 				if not id:match("ZEAL") and id:match(valid_id) then
@@ -692,16 +694,16 @@ if not ASS then
 		redirect.random = table.random(redirect.random)
 
 		if redirect[level_mod] ~= nil then
-			self._level_mod = redirect[level_mod]
+			self.level_mod = redirect[level_mod]
 		else
-			self._level_mod = level_mod
+			self.level_mod = level_mod
 		end
 
 		if self:global().invalid_sh then
 			self.been_there_fucked_that = false
 		else
 			if self.been_there_fucked_that == nil then
-				self.been_there_fucked_that = self:get_setting("is_massive")
+				self.been_there_fucked_that = self:setting("is_massive")
 			end
 
 			if is_client then
@@ -712,20 +714,19 @@ if not ASS then
 				self:log("info", "Editor mode active, mission tweaks disabled and using Default Streamlined groups...")
 			end
 
-			if tostring(self._level_mod):match("ZEAL") then
+			if tostring(self.level_mod):match("ZEAL") then
 				self:message("zeals_enabled")
 			end
 		end
 	end
 
-	function ASS:get_tweak(tweak)
-		local twk = self._tweaks[tweak]
-
-		return check_clone(twk and twk[self:get_var("skill")])
+	function ASS:tweak(name)
+		return check_clone(self.tweaks[name])
 	end
 
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
 	local patch_redirect = {
+		custom = {},
 		mission = {
 			branchbank = "firestarter_3",
 			jewelry_store = "ukrainian_job",
@@ -738,28 +739,26 @@ if not ASS then
 		},
 	}
 	function ASS:script_patches(typ)
-		if self._script_patches[typ] == nil then
-			local clean_level_id = self:get_var("clean_level_id")
+		if self.required[typ] == nil then
 			local file_name = patch_redirect[typ] and patch_redirect[typ][clean_level_id] or clean_level_id
 
-			self._script_patches[typ] = self:require(typ .. "_script/" .. file_name) or false
+			self.required[typ] = self:require(typ .. "_script/" .. file_name) or false
 		end
 
-		return self._script_patches[typ]
+		return self.required[typ]
 	end
 
 	-- difficulty groupings to use when interpolation wont do the job
 	-- Normal through VH are "normal", OVK+MH are "hard", DW+DS are "overkill"
+	local normal = real_difficulty_index < 5 and "normal" or nil
+	local hard = not normal and real_difficulty_index < 7 and "hard" or nil
+	local overkill = not normal and not hard and "overkill" or nil
 	function ASS:difficulty_groups()
-		local normal = real_difficulty_index < 5 and "normal" or nil
-		local hard = not normal and real_difficulty_index < 7 and "hard" or nil
-		local overkill = not normal and not hard and "overkill" or nil
-
 		return normal and true, hard and true, overkill and true, normal or hard or overkill
 	end
 
 	ASS:add_hook( "LocalizationManagerPostInit", function(loc)
-		loc:load_localization_file(ASS._loc_path .. "english.json")
+		loc:load_localization_file(ASS.loc_path .. "english.json")
 	end )
 
 	ASS:add_hook( "MenuManagerBuildCustomMenus", function(_, nodes)
@@ -788,6 +787,6 @@ if not ASS.been_there_fucked_that then
 end
 
 -- ASS's path\lua\RequiredScript name
-if RequiredScript and not ASS._require[RequiredScript] then
+if RequiredScript and not ASS.required[RequiredScript] then
 	ASS:require((RequiredScript:gsub(".+/(.+)", "%1")))
 end

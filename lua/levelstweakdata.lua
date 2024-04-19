@@ -1,7 +1,7 @@
 local try_insert = ASS:require("try_insert", true)
-local level_id = ASS:get_var("level_id")
-local clean_level_id = ASS:get_var("clean_level_id")
-local real_difficulty_index = ASS:get_var("real_difficulty_index")
+local level_id = ASS.level_id
+local clean_level_id = ASS.clean_level_id
+local real_difficulty_index = ASS.real_difficulty_index
 
 function LevelsTweakData:moon_regular_custom_group()
 	 if self._moon_regular_custom_group == nil then

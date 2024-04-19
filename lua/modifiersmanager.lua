@@ -1,4 +1,4 @@
-if ASS:get_var("is_client") then
+if ASS.is_client then
 	return
 end
 

@@ -1,13 +1,12 @@
-local dmg_interval = ASS:get_var("dmg_interval")
+local dmg_interval = ASS.dmg_interval
+local difficulty = ASS.difficulty
 
-ASS:post_hook( PlayerTweakData, "_set_" .. ASS:get_var("difficulty"), function(self)
+ASS:post_hook( PlayerTweakData, "_set_" .. difficulty, function(self)
 	if dmg_interval > self.damage.MIN_DAMAGE_INTERVAL then
 		ASS:log("warn", "Default grace period is already shorter than the grace period setting!")
+	else
+		ASS:log("info", "Setting grace period to \"%s\"...", tostring(dmg_interval))
 
-		return
+		self.damage.MIN_DAMAGE_INTERVAL = dmg_interval
 	end
-
-	ASS:log("info", "Setting grace period to \"%s\"...", tostring(dmg_interval))
-
-	self.damage.MIN_DAMAGE_INTERVAL = dmg_interval
 end )

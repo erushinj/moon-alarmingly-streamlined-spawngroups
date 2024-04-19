@@ -1,5 +1,5 @@
 -- Don't replace spawns on custom enemy spawner map
-if ASS:get_var("is_spawner")  then
+if ASS.is_spawner then
 	return
 end
 

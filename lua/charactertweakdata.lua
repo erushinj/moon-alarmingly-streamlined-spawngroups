@@ -1,20 +1,20 @@
-if ASS:get_var("is_client") then
+if ASS.is_client then
 	return
 end
 
-local level_id = ASS:get_var("level_id")
-local difficulty_index = ASS:get_var("difficulty_index")
+local level_id = ASS.level_id
+local difficulty_index = ASS.difficulty_index
 local f = (difficulty_index - 2) / 6
 
-local real_difficulty_index = ASS:get_var("real_difficulty_index")
-local shield_arms = ASS:get_var("shield_arms")
-local taser_dazers = ASS:get_var("taser_dazers")
-local cloaker_balance = ASS:get_var("cloaker_balance")
-local medic_ordnance = ASS:get_var("medic_ordnance")
-local medical_ordinance = ASS:get_var("medical_ordinance")
+local real_difficulty_index = ASS.real_difficulty_index
+local shield_arms = ASS.shield_arms
+local taser_dazers = ASS.taser_dazers
+local cloaker_balance = ASS.cloaker_balance
+local medic_ordnance = ASS.medic_ordnance
+local medical_ordinance = ASS.medical_ordinance
 
-local doms_scale = ASS:get_setting("doms_scale")
-local doms_all_hard = ASS:get_setting("doms_all_hard")
+local doms_scale = ASS:setting("doms_scale")
+local doms_all_hard = ASS:setting("doms_all_hard")
 
 function CharacterTweakData:moon_oops_all_bo(is_first_world_problem)
 	local flee_type = self.civilian.flee_type

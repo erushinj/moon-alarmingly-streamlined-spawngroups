@@ -1,15 +1,15 @@
-if ASS:get_var("is_client") then
+if ASS.is_client then
 	return
 end
 
 local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
-local difficulty_index = ASS:get_var("difficulty_index")
+local difficulty_index = ASS.difficulty_index
 local f = (difficulty_index - 2) / 6
-local real_difficulty_index = ASS:get_var("real_difficulty_index")
-local difficulty = ASS:get_var("difficulty")
-local is_editor = ASS:get_var("is_editor")
+local real_difficulty_index = ASS.real_difficulty_index
+local difficulty = ASS.difficulty
+local is_editor = ASS.is_editor
 
 function GroupAITweakData:moon_spawn_group_mapping()
 	if not self._moon_spawn_group_mapping then
@@ -1631,17 +1631,15 @@ function GroupAITweakData:_moon_editor(special_weight)
 	})
 end
 
-local special_weight_min, special_weight_max = unpack(ASS:get_tweak("special_weight_base"))
-local freq_base = ASS:get_tweak("freq_base")
-local assault_style = ASS:get_var("assault_style")
+local special_weight_min, special_weight_max = unpack(ASS:tweak("special_weight_base"))
+local freq_base = ASS:tweak("freq_base")
+local assault_style = ASS.assault_style
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	local assault_style_func = self["_moon_" .. assault_style] or self._moon_default
 	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
 	if assault_style_func == self._moon_default or assault_style_func == self._moon_editor then
-		assault_style_func(self, special_weight)
-
-		return
+		return assault_style_func(self, special_weight)
 	end
 
 	self._freq = {}
@@ -1668,17 +1666,17 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 end
 
-local grenade_cooldown_mul = ASS:get_tweak("grenade_cooldown_mul")
-local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:get_tweak("smoke_grenade_lifetime"))
-local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS:get_tweak("spawn_cooldowns"))
-local force_pool_mul = ASS:get_tweak("force_pool_mul")
-local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS:get_tweak("sustain_duration_muls"))
-local break_duration_mul = ASS:get_tweak("break_duration_mul")
-local recon_force_mul = ASS:get_tweak("recon_force_mul")
-local cs_grenade_chance_times = ASS:get_tweak("cs_grenade_chance_times")
-local min_grenade_timeout = ASS:get_tweak("min_grenade_timeout")
-local no_grenade_push_delay = ASS:get_tweak("no_grenade_push_delay")
-local reenforce_interval = ASS:get_tweak("reenforce_interval")
+local grenade_cooldown_mul = ASS:tweak("grenade_cooldown_mul")
+local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:tweak("smoke_grenade_lifetime"))
+local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS:tweak("spawn_cooldowns"))
+local force_pool_mul = ASS:tweak("force_pool_mul")
+local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS:tweak("sustain_duration_muls"))
+local break_duration_mul = ASS:tweak("break_duration_mul")
+local recon_force_mul = ASS:tweak("recon_force_mul")
+local cs_grenade_chance_times = ASS:tweak("cs_grenade_chance_times")
+local min_grenade_timeout = ASS:tweak("min_grenade_timeout")
+local no_grenade_push_delay = ASS:tweak("no_grenade_push_delay")
+local reenforce_interval = ASS:tweak("reenforce_interval")
 function GroupAITweakData:_moon_init_task_data()
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_lifetime_min, smoke_lifetime_max, f)
@@ -1731,10 +1729,10 @@ local prefixes_by_tier = {
 	CITY_ZEAL_awesome_difficulty_name = { CS = "CITY_overkill_290", FBI = "ZEAL_sm_wish", },
 	ZEAL_sm_wish = { CS = "ZEAL_sm_wish", FBI = "ZEAL_sm_wish", },
 }
-local special_limit_mul = ASS:get_tweak("special_limit_mul")
-local smg_units = ASS:get_setting("smg_units")
-local level_mod = ASS:get_var("level_mod")
-local minigun_dozers = ASS:get_setting("minigun_dozers")
+local special_limit_mul = ASS:tweak("special_limit_mul")
+local smg_units = ASS:setting("smg_units")
+local level_mod = ASS.level_mod
+local minigun_dozers = ASS:setting("minigun_dozers")
 function GroupAITweakData:moon_reinit_unit_categories()
 	-- new special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard

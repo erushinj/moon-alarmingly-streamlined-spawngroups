@@ -70,7 +70,7 @@ function MenuBuilder:load_settings()
 			global.save_checked = true
 
 			if ASS:require("save_adjustment") then
-				self._table.save_version = ASS:get_setting("save_version", true)
+				self._table.save_version = ASS:setting("save_version", true)
 
 				self:save_settings()
 				self:load_settings()
@@ -120,7 +120,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 	MenuCallbackHandler[self._id .. "_save"] = function ()
 		self:save_settings()
 
-		if ASS._values.level_mod[self._table.level_mod]:match("ZEAL") then
+		if ASS.values.level_mod[self._table.level_mod]:match("ZEAL") then
 			ASS:message("zeals_enabled")
 		end
 	end

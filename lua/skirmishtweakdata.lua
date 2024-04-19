@@ -1,4 +1,4 @@
-if ASS:get_var("is_client") then
+if ASS.is_client then
 	return
 end
 
@@ -20,11 +20,11 @@ function SkirmishTweakData:moon_wave_unit_categories(wave_number)
 	return self._moon_wave_unit_categories[wave_number]
 end
 
-local sustain_duration_mul = ASS:get_tweak("sustain_duration_mul")
-local special_limit_mul = ASS:get_tweak("special_limit_mul")
-local force_pool_mul = ASS:get_tweak("force_pool_mul")
-local skm_special_weights = ASS:get_tweak("skm_special_weights")
-local assault_style = ASS:get_var("assault_style")
+local sustain_duration_mul = ASS:tweak("sustain_duration_mul")
+local special_limit_mul = ASS:tweak("special_limit_mul")
+local force_pool_mul = ASS:tweak("force_pool_mul")
+local skm_special_weights = ASS:tweak("skm_special_weights")
+local assault_style = ASS.assault_style
 ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
 		local w1, w2, w3 = unpack(skm_special_weights)

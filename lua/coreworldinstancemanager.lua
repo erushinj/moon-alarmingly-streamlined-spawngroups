@@ -1,12 +1,10 @@
-if ASS:get_var("is_editor_or_client") then
+if ASS.is_editor_or_client then
 	return
 end
 
 local instance_script_patches = ASS:script_patches("instance")
 if not instance_script_patches then
-	ASS:log("info", "No instance script patches for current level...")
-
-	return
+	return ASS:log("info", "No instance script patches for current level...")
 end
 
 ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path)
