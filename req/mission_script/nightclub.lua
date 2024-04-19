@@ -1,7 +1,5 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local filters_normal_above = set_difficulty_groups("normal_above")
-local filters_disable = set_difficulty_groups("disable")
+
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
@@ -51,64 +49,6 @@ return {
 			interval = 15,
 		},
 	},
-	[102925] = {  -- second office
-		pre_func = function(self)
-			if not self._values.on_executed_original then
-				self._values.on_executed_original = self._values.on_executed
-
-				if normal then
-					self._values.on_executed = {
-						{ id = 100573, delay = 0, delay_rand = 0, },  -- yes
-						{ id = 100590, delay = 0, delay_rand = 0, },  -- no
-					}
-				elseif hard then
-					-- keep it as it is, 75% chance for second office
-				else
-					self._values.on_executed = {
-						{ id = 100573, delay = 0, delay_rand = 0, },  -- yes
-					}
-				end
-			end
-		end,
-	},
-	[102925] = {  -- cellar, forced spawn on certain difficulties, now random below "overkill" group
-		values = filters_normal_above,
-		pre_func = function(self)
-			if not self._values.on_executed_original then
-				self._values.on_executed_original = self._values.on_executed
-
-				local chance = normal and 0.5 or hard and 0.75 or 1
-				if chance < math.random() then
-					self._values.on_executed = {
-						{ id = 102957, delay = 0, delay_rand = 0, },
-						{ id = 102963, delay = 0, delay_rand = 0, },
-					}
-				end
-			end
-		end,
-	},
-	[102928] = {
-		values = filters_disable,
-	},
-	[104479] = {  -- cams, no titan
-		values = {
-			enabled = false,
-		},
-	},
-	[103128] = {  -- amount filters
-		values = filters_disable,
-	},
-	[103138] = {
-		values = filters_disable,
-	},
-	[103139] = {
-		values = filters_normal_above,
-	},
-	[103869] = {  -- chance
-		values = {
-			chance = normal and 50 or hard and 75 or 100,
-		},
-	},
 	[100703] = safe_cocaine,  -- safe cocaine, chance for a selected pack to spawn (they are already chosen randomly)
 	[100726] = safe_cocaine,
 	[100727] = safe_cocaine,
@@ -125,11 +65,6 @@ return {
 	[100687] = safe_cocaine_amounts,
 	[100687] = safe_cocaine_amounts,
 	[100796] = safe_cocaine_amounts,
-	[103065] = {  -- waiter !  waiter !  more gangsters please !
-		values = {
-			counter_target = overkill and 14 or 7,
-		},
-	},
 	[102619] = gangster_spawns,  -- dmitri's mob
 	[101865] = gangster_spawns,
 	[100513] = gangster_spawns,

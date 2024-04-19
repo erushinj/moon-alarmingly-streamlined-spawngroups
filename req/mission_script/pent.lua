@@ -66,107 +66,14 @@ local all_casual = table.list_add(casual_male, casual_female)
 local try_pick_bob_guests = try_pick_bobblehead_bob(nil, guests_male)
 local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 
-
+-- TODO: set up toggles for snipers ?
 return {
 	[100368] = snipers,
 	[100369] = snipers,
 	[100370] = snipers,
 	[100371] = snipers,
 	[100372] = snipers,
-	-- cams
-	[100303] = {  -- no titan
-		values = {
-			enabled = false,
-		},
-	},
-	[100025] = {  -- "bar extra" cam is now random
-		on_executed = {
-			{ id = 101332, remove = true, },
-		},
-	},
-	[102759] = filters_normal_above,  -- "overkill-" filter, spawns a civ on n-vh ?
-	[101333] = {  -- amounts, garage
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102083] = {  -- garage elevators
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102776] = filters_normal_above,  -- "mid elevators" filter
-	[101378] = {  -- "mid elevators" amount
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[103034] = filters_normal_above,  -- bar filter
-	[103040] = {  -- bar amount
-		on_executed = {
-			{ id = 101332, delay = 0, },  -- "bar extra"
-		},
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[101284] = {  -- ground floor office
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102082] = {  -- lobby corridor, past metal detectors
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102084] = {  -- penthouse elevators front
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[101921] = {  -- penthouse elevators back
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102085] = {  -- "garden" (room with the car)
-		values = {
-			amount = normal and 1 or hard and 2 or 3,
-		},
-	},
-	[102086] = {  -- balcony
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102087] = {  -- bar lounge
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[102088] = {  -- kitchen/office
-		values = {
-			amount = overkill and 2 or 1,
-		},
-	},
-	[100033] = {  -- core random
-		values = {
-			amount = normal and 5 or hard and 9 or 13,
-		},
-	},
-	[100272] = {  -- out of bounds cameras
-		values = {
-			enabled = false,
-		},
-	},
-	[100229] = {
-		values = {
-			enabled = false,
-		},
-	},
-	-- all security replaced with penthouse security + randomization for existing penthouse security
-	[100670] = { enemy = securitys, },
+	[100670] = { enemy = securitys, },  -- all security are now penthouse security
 	[100671] = { enemy = securitys, },
 	[100672] = { enemy = securitys, },
 	[100673] = { enemy = securitys, },
@@ -188,8 +95,7 @@ return {
 	[101949] = { enemy = securitys, },
 	[102464] = { enemy = securitys, },
 	[101750] = { enemy = securitys, },
-	-- randomize suit triads
-	[102729] = { enemy = triads, },
+	[102729] = { enemy = triads, },  -- suit triads
 	[103582] = { enemy = triads, },
 	[103593] = { enemy = triads, },
 	[103592] = { enemy = triads, },
@@ -209,8 +115,7 @@ return {
 	[102344] = { enemy = triads, },
 	[103591] = { enemy = triads, },
 	[103590] = { enemy = triads, },
-	-- civs
-	[guests_male_ids()] = { enemy = try_pick_bob_guests(), },
+	[guests_male_ids()] = { enemy = try_pick_bob_guests(), },  -- civs
 	[guests_male_ids()] = { enemy = try_pick_bob_guests(), },
 	[guests_male_ids()] = { enemy = try_pick_bob_guests(), },
 	[casual_male_ids()] = { enemy = try_pick_bob_casual(), },

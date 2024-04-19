@@ -18,6 +18,12 @@ local van_spawns = scripted_swat_squads({
 	hard_spawn = "dozers_no_mini",
 	normal_spawn = "specials_any",
 })
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 
 local securitys = tweak_data.levels:moon_units("securitys")
 local dozers_no_mini = tweak_data.levels:moon_units("dozers_no_mini")
@@ -31,10 +37,10 @@ local civs_inspector = {
 local civs_inspector_1 = get_table_index_func(clone(civs_inspector))
 local civs_inspector_2 = get_table_index_func(civs_inspector)
 local function inspector_group(func)
-	return { enemy = func() }
+	return { enemy = func(), }
 end
 
-local civs_male = table.list_add(civs_inspector_1, {
+local civs_male = table.list_add(civs_inspector, {
 	Idstring("units/payday2/characters/civ_male_casual_12/civ_male_casual_12"),
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
@@ -52,111 +58,19 @@ local civs_female = {
 	Idstring("units/payday2/characters/civ_female_casual_5/civ_female_casual_5"),
 }
 
-local cams_filter_disable = {
-	values = set_difficulty_groups("disable"),
-}
-local cams_filter_normal_above = {
-	values = set_difficulty_groups("normal_above"),
-}
-local van_swat_filter_disable = cams_filter_disable
-local van_swat_filter_normal_above = cams_filter_normal_above
-local guards_filter_disable = cams_filter_disable
-local guards_filter_normal_above = cams_filter_normal_above
-local campus_ne_cams_amount = {
-	values = {
-		amount = normal and 1 or hard and 2 or 3,
-	},
-}
-local campus_nw_cams_amount = campus_ne_cams_amount
-local campus_sw_cams_amount = campus_ne_cams_amount
-local campus_se_cams_amount = campus_ne_cams_amount
-local research_cams_amount = campus_ne_cams_amount
-local auditorium_cams_amount = campus_ne_cams_amount
-local lab_cams_amount = {
-	values = {
-		amount = overkill and 2 or 1,
-	},
-}
-local floor_2_east_cams_amount = lab_cams_amount
-local floor_3_east_cams_amount = lab_cams_amount
-local floor_3_west_cams_amount = lab_cams_amount
-local office_top_guards_amount = {
-	values = {
-		amount = overkill and 2 or 1,
-	},
-}
-local office_mid_guards_amount = office_top_guards_amount
-local campus_1_guards_amount = office_top_guards_amount
-local campus_2_guards_amount = office_top_guards_amount
-local campus_3_guards_amount = office_top_guards_amount
-local campus_4_guards_amount = office_top_guards_amount
-
 return {
-	[101595] = guards_filter_disable,  -- guards, filters + amounts, "guards ofice top"
-	[101594] = guards_filter_normal_above,
-	[100030] = office_top_guards_amount,
-	[101597] = guards_filter_disable,  -- "guards office mid"
-	[101599] = guards_filter_normal_above,
-	[100390] = office_mid_guards_amount,
-	[101602] = guards_filter_disable,  -- "guards campus 004"
-	[101603] = guards_filter_normal_above,
-	[101502] = campus_4_guards_amount,
-	[101605] = guards_filter_disable,  -- "guards campus 001"
-	[101606] = guards_filter_normal_above,
-	[101531] = campus_1_guards_amount,
-	[101610] = guards_filter_disable,  -- "guards campus 002"
-	[101611] = guards_filter_normal_above,
-	[101560] = campus_2_guards_amount,
-	[101614] = guards_filter_disable,  -- "guards campus 003"
-	[101615] = guards_filter_normal_above,
-	[101589] = campus_3_guards_amount,
-	[100303] = {  -- cams, no titan
-		values = {
-			enabled = false,
-		},
-	},
-	[101907] = cams_filter_disable,  -- filters + amounts, "campus NE"
-	[101908] = cams_filter_normal_above,
-	[101909] = campus_ne_cams_amount,
-	[101910] = cams_filter_disable,  -- "campus NW"
-	[101912] = cams_filter_normal_above,
-	[101913] = campus_nw_cams_amount,
-	[101914] = cams_filter_disable,  -- "campus SW"
-	[101916] = cams_filter_normal_above,
-	[101917] = campus_sw_cams_amount,
-	[101918] = cams_filter_disable,  -- "campus SE"
-	[101919] = cams_filter_normal_above,
-	[101921] = campus_se_cams_amount,
-	[101901] = cams_filter_disable,  -- "research offices"
-	[101903] = cams_filter_normal_above,
-	[101921] = research_cams_amount,
-	[101898] = cams_filter_disable,  -- "lab"
-	[101899] = cams_filter_normal_above,
-	[101900] = lab_cams_amount,
-	[101891] = cams_filter_disable,  -- "auditorium"
-	[101890] = cams_filter_normal_above,
-	[101894] = lab_cams_amount,
-	[101888] = cams_filter_disable,  -- "2nd floor east"
-	[101889] = cams_filter_normal_above,
-	[101892] = floor_2_east_cams_amount,
-	[101884] = cams_filter_disable,  -- "3nd floor east"
-	[101885] = cams_filter_normal_above,
-	[101886] = floor_3_east_cams_amount,
-	[101883] = cams_filter_disable,  -- "3nd floor west"
-	[101882] = cams_filter_normal_above,
-	[100033] = floor_3_west_cams_amount,
-	[103566] = van_swat_filter_normal_above,  -- van bullshit
-	[103567] = van_swat_filter_disable,
-	[103568] = van_swat_filter_disable,
-	[103569] = van_swat_filter_disable,
-	[103604] = van_swat_filter_normal_above,
-	[103605] = van_swat_filter_disable,
-	[103606] = van_swat_filter_disable,
-	[103607] = van_swat_filter_disable,
-	[103585] = van_swat_filter_normal_above,
-	[103586] = van_swat_filter_disable,
-	[103587] = van_swat_filter_disable,
-	[103588] = van_swat_filter_disable,
+	[103566] = filters_normal_above,  -- van bullshit
+	[103567] = filters_disable,
+	[103568] = filters_disable,
+	[103569] = filters_disable,
+	[103604] = filters_normal_above,
+	[103605] = filters_disable,
+	[103606] = filters_disable,
+	[103607] = filters_disable,
+	[103585] = filters_normal_above,
+	[103586] = filters_disable,
+	[103587] = filters_disable,
+	[103588] = filters_disable,
 	[van_swat_ids()] = { enemy = van_spawns(), },  -- swat van spawns
 	[van_swat_ids()] = { enemy = van_spawns(), },
 	[van_swat_ids()] = { enemy = van_spawns(), },

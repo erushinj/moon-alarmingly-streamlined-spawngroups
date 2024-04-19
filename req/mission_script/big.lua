@@ -1,39 +1,31 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local security_4 = Idstring("units/payday2/characters/ene_security_4/ene_security_4")
-local security_5 = Idstring("units/payday2/characters/ene_security_5/ene_security_5")
-local security_6 = Idstring("units/payday2/characters/ene_security_6/ene_security_6")
-local security_7 = Idstring("units/payday2/characters/ene_security_7/ene_security_7")
-local securitys_light = { security_4, security_5, }
-local securitys_medium = { security_5, security_6, }
-local securitys_heavy = { security_6, security_7, }
+
+local securitys = {
+	Idstring("units/payday2/characters/ene_security_4/ene_security_4"),
+	Idstring("units/payday2/characters/ene_security_5/ene_security_5"),
+	Idstring("units/payday2/characters/ene_security_6/ene_security_6"),
+	Idstring("units/payday2/characters/ene_security_7/ene_security_7"),
+}
 local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "marshals_far")
 local cops = tweak_data.levels:moon_units("cops")
 
 return {
-	[106265] = {  -- cams, no titan
-		values = {
-			enabled = false,
-		},
-	},
-	[100670] = { enemy = securitys_medium },  -- guards, lobby area
-	[100671] = { enemy = securitys_medium },
-	[103143] = { enemy = securitys_medium },  -- kitchen
-	[100672] = { enemy = securitys_light },  -- upstairs
-	[100673] = { enemy = securitys_light },
-	[100674] = { enemy = securitys_light },
-	[100675] = { enemy = securitys_light },
-	[106566] = { enemy = securitys_medium },  -- elevator
-	[106567] = { enemy = securitys_medium },
-	[101406] = { enemy = securitys_heavy },  -- vault area
-	[101402] = { enemy = securitys_heavy },
-	[105303] = { enemy = securitys_heavy },
-	[101401] = { enemy = securitys_heavy },
-	[101403] = { enemy = securitys_heavy },
-	[101404] = { enemy = securitys_heavy },
-	[101405] = { enemy = securitys_heavy },
-	[100710] = { enemy = securitys_heavy },  -- vault area surveillance guys
-	[100709] = { enemy = securitys_heavy },
-	[100711] = { enemy = securitys_heavy },
+	[100670] = { enemy = securitys },  -- guards, lobby area
+	[100671] = { enemy = securitys },
+	[103143] = { enemy = securitys },  -- kitchen
+	[100672] = { enemy = securitys },  -- upstairs
+	[100673] = { enemy = securitys },
+	[100674] = { enemy = securitys },
+	[100675] = { enemy = securitys },
+	[106566] = { enemy = securitys },  -- elevator
+	[106567] = { enemy = securitys },
+	[101406] = { enemy = securitys },  -- vault area
+	[101402] = { enemy = securitys },
+	[105303] = { enemy = securitys },
+	[101401] = { enemy = securitys },
+	[101403] = { enemy = securitys },
+	[101404] = { enemy = securitys },
+	[101405] = { enemy = securitys },
 	[101311] = { enemy = cops, },  -- recurring street cops
 	[100184] = { enemy = cops, },
 	[102683] = { enemy = cops, },

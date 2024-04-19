@@ -2,8 +2,12 @@ local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local filters_disable = set_difficulty_groups("disable")
-local filters_normal_above = set_difficulty_groups("normal_above")
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 local dog_abuser_ids = get_table_index_func({ 105663, 105664, })
 local male_casual_ids = get_table_index_func({
 	103565,
@@ -66,7 +70,7 @@ local specials_no_shield = tweak_data.levels:moon_units("specials_no_shield")
 local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 return {
-	[103072] = {
+	[103072] = {  -- ambush stuff, chance
 		values = {
 			chance = normal and 40 or hard and 60 or 80,
 		},
@@ -82,12 +86,12 @@ return {
 			amount = overkill and 2 or 1,
 		},
 	},
-	[105496] = {  -- gas heli now loops like tweaked undercover, ovk and below heli chance (vanilla is 50)
+	[105496] = {  -- gas heli now loops like tweaked undercover, ovk and below chance to have the heli active at all (vanilla is 50)
 		values = {
 			chance = 100,
 		},
 	},
-	[102299] = {
+	[102299] = {  -- chance added whenever the heli roll fails
 		values = {
 			chance = normal and 10 or hard and 15 or 30,
 		},
@@ -114,12 +118,6 @@ return {
 			end
 		end,
 	},
-	[104328] = disable,  -- cams, no titan
-	[101318] = {  -- amount
-		values = {
-			amount = normal and 4 or hard and 6 or 8,
-		},
-	},
 	[101200] = {  -- snipers amount
 		values = {
 			amount = normal and 1 or hard and 2 or 3,
@@ -130,15 +128,11 @@ return {
 			chance = normal and 5 or hard and 15 or 25,
 		},
 	},
-	[101930] = {  -- forced skylights, "overkill" difficulty group only
-		values = filters_disable,
-	},
-	[101934] = {
-		values = filters_normal_above,
-	},
-	[104324] = {  -- but raise the chance on ovk/mh
+	[101930] = filters_disable,  -- forced skylights, make it always a chance
+	[101934] = filters_normal_above,
+	[104324] = {  -- but raise the chances overall
 		values = {
-			chance = normal and 20 or hard and 60 or 100,
+			chance = overkill and 90 or 45,
 		},
 	},
 	[102195] = teargas,  -- tear gas (3 locations always active, theres 3 more but only 1 of those is active based on escape location)

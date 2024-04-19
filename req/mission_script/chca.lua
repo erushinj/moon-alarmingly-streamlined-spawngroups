@@ -1,49 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local filters_normal_above = {
-	values = set_difficulty_groups("normal_above")
-}
-local guards_amount_casino_1 = {
-	values = {
-		amount = normal and 1 or hard and 2 or 3,
-	},
-}
-local guards_amount_casino_2 = guards_amount_casino_1
-local guards_amount_inner_courtyard = guards_amount_casino_1
-local guards_amount_lobby = guards_amount_casino_1
-local guards_amount_spa = guards_amount_casino_1
-local guards_amount_cabin_corridor_1 = {
-	values = {
-		amount = normal and 0 or hard and 1 or 2,
-	},
-}
-local guards_amount_cabin_corridor_2 = guards_amount_cabin_corridor_1
-local guards_amount_helipad = guards_amount_cabin_corridor_1
-local cams_amount_casino = {
-	values = {
-		amount = normal and 4 or hard and 6 or 8,
-	},
-}
-local cams_amount_crew = {
-	values = {
-		amount = overkill and 2 or 1,
-	},
-}
-local cams_amount_hall = cams_amount_crew
-local cams_amount_reception = cams_amount_crew
-local cams_amount_spa = {
-	values = {
-		amount = normal and 1 or hard and 3 or 5,
-	},
-}
-local cams_amount_lobby = {
-	values = cams_amount_spa.values,
-	on_executed = {
-		{ id = 100296, delay = 0, },
-	},
-}
+
 local cruise_triads = {
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_1/ene_triad_cruise_1"),
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_2/ene_triad_cruise_2"),
@@ -94,54 +51,6 @@ local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 local bikini_female_ids = get_table_index_func({ 102172, 102184, })
 
 return {
-	[101945] = guards_amount_casino_1,  -- guards amounts
-	[101946] = guards_amount_casino_1,
-	[101947] = guards_amount_casino_1,
-	[101952] = guards_amount_casino_2,
-	[101953] = guards_amount_casino_2,
-	[101954] = guards_amount_casino_2,
-	[102064] = guards_amount_cabin_corridor_1,
-	[102068] = guards_amount_cabin_corridor_1,
-	[101927] = guards_amount_cabin_corridor_2,
-	[101930] = guards_amount_cabin_corridor_2,
-	[102069] = guards_amount_inner_courtyard,
-	[102070] = guards_amount_inner_courtyard,
-	[102071] = guards_amount_inner_courtyard,
-	[101935] = guards_amount_lobby,
-	[102072] = guards_amount_lobby,
-	[103018] = guards_amount_lobby,
-	[102073] = guards_amount_spa,
-	[102074] = guards_amount_spa,
-	[102075] = guards_amount_spa,
-	[102076] = guards_amount_helipad,
-	[102077] = guards_amount_helipad,
-	[101942] = filters_normal_above,  -- crew corridor filter
-	[100303] = {  -- cams, no titan
-		values = {
-			enabled = false,
-		},
-	},
-	[100033] = cams_amount_casino,
-	[102348] = cams_amount_casino,
-	[102349] = cams_amount_casino,
-	[102375] = cams_amount_crew,
-	[102376] = cams_amount_crew,
-	[102354] = cams_amount_hall,
-	[102355] = cams_amount_hall,
-	[102356] = cams_amount_hall,
-	[103014] = cams_amount_reception,
-	[103015] = cams_amount_reception,
-	[102372] = cams_amount_spa,
-	[102373] = cams_amount_spa,
-	[102374] = cams_amount_spa,
-	[102365] = cams_amount_lobby,
-	[102366] = cams_amount_lobby,
-	[102367] = cams_amount_lobby,
-	[102364] = {  -- lobby filter
-		on_executed = {
-			{ id = 100296, remove = true, },
-		},
-	},
 	[101949] = { enemy = cruise_securitys, },  -- enemies, guards
 	[101951] = { enemy = cruise_securitys, },
 	[101956] = { enemy = cruise_securitys, },
@@ -156,7 +65,7 @@ return {
 	[102104] = { enemy = cruise_securitys, },
 	[102105] = { enemy = cruise_securitys, },
 	[102109] = { enemy = cruise_securitys, },
-	[102111] = { enemy = normal and cruise_triads or cruise_securitys, },
+	[102111] = { enemy = cruise_securitys, },
 	[103509] = { enemy = cruise_securitys, },
 	[102147] = { enemy = cruise_securitys, },
 	[101534] = { enemy = cruise_securitys, },

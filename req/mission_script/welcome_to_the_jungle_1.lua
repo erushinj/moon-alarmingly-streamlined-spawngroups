@@ -1,8 +1,12 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local filters_disable = set_difficulty_groups("disable")
-local filters_normal_above = set_difficulty_groups("normal_above")
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 local bikers = {
 	Idstring("units/payday2/characters/ene_biker_1/ene_biker_1"),
 	Idstring("units/payday2/characters/ene_biker_2/ene_biker_2"),
@@ -17,13 +21,7 @@ local gangsters = {
 }
 local weapons_amount = {
 	values = {
-		amount = math.random(5, 15),
-	},
-}
-local safes_hidden_amount = {
-	values = {
-		amount = normal and 12 or hard and 11 or 10,
-		amount_random = normal and 0 or hard and 1 or 2,
+		amount = 5 + math.random(overkill and 10 or 5) - 1,
 	},
 }
 local disable = {
@@ -59,58 +57,33 @@ local function get_filtered_intel()
 		table.insert(to_remove, { id = id, remove = true, })
 	end
 
-	return to_remove
+	return {
+		on_executed = to_remove,
+	}
 end
 
--- TODO: figure out how to disable useless assets
--- found what seems to be the right elements, but removing them from the on_executed of the corresponding table does jack shit
 return {
-	[103145] = disable,  -- reenforce, placed only on top of interruptable objectives, fuck off, not interesting
+	[103145] = disable,  -- reenforce, placed only on top of interruptable objectives that already jam randomly, fuck off, not interesting
 	[103146] = disable,
 	[103149] = disable,
 	[103150] = disable,
 	[103153] = disable,
 	[103154] = disable,
 	[103157] = disable,
-	[101301] = disable,  -- cams, no titan
-	[101142] = {  -- amounts
-		values = {
-			amount = normal and 7 or hard and 10 or 13,
-		},
-	},
-	[102888] = {  -- remove some useless intel
-		on_executed = get_filtered_intel(),
-	},
-	[102938] = {
-		on_executed = get_filtered_intel(),
-	},
-	[102970] = {
-		on_executed = get_filtered_intel(),
-	},
+	[102888] = get_filtered_intel(),  -- remove some useless intel
+	[102938] = get_filtered_intel(),
+	[102970] = get_filtered_intel(),
 	[103021] = {  -- planks amount (vanilla is 7)
 		values = {
 			amount = overkill and 2 or 4,
 			amount_random = overkill and 2 or 4,
 		},
 	},
-	[100716] = {  -- safes hidden, filters
-		values = filters_disable,
-	},
-	[100719] = {
-		values = filters_normal_above,
-	},
-	[100658] = safes_hidden_amount,  -- vanilla is 12
-	[100691] = safes_hidden_amount,  -- vanilla is 11
 	[103216] = weapons_amount,  -- counter operators used for weapons amount
 	[103218] = weapons_amount,
 	[103219] = weapons_amount,
 	[103220] = weapons_amount,
 	[103221] = weapons_amount,
-	[101579] = {  -- bikers amount (vanilla is 8)
-		values = {
-			amount = 8 + math.random(normal and 2 or hard and 4 or 8),
-		},
-	},
 	[100422] = { enemy = gangsters, },  -- drug deal cobras
 	[103255] = { enemy = gangsters, },
 	[103256] = { enemy = gangsters, },

@@ -1,45 +1,11 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
 	Idstring("units/payday2/characters/ene_gang_black_3/ene_gang_black_3"),
 	Idstring("units/payday2/characters/ene_gang_black_4/ene_gang_black_4"),
 }
-local gangsters_amounts_2_3 = {
-	values = {
-		amount = overkill and 3 or 2,
-	},
-}
-local gangsters_amounts_2_4 = {
-	values = {
-		amount = normal and 2 or hard and 3 or 4,
-	},
-}
-local gangsters_amounts_2_5 = {
-	values = {
-		amount = normal and 2 or hard and 3 or 5,
-	},
-}
-local gangsters_amounts_3_5 = {
-	values = {
-		amount = normal and 3 or hard and 4 or 5,
-	},
-}
-local gangsters_amounts_4_5 = {
-	values = {
-		amount = overkill and 5 or 4,
-	},
-}
 
 return {
-	[104255] = gangsters_amounts_2_4,  -- waiter !  waiter !  more gangsters please !
-	[104254] = gangsters_amounts_2_5,
-	[104262] = gangsters_amounts_2_5,
-	[104266] = gangsters_amounts_2_3,
-	[104274] = gangsters_amounts_3_5,
-	[104278] = gangsters_amounts_2_4,
-	[104286] = gangsters_amounts_4_5,
-	[104291] = gangsters_amounts_2_3,
 	[104290] = { enemy = gangsters, },  -- gangsters
 	[104289] = { enemy = gangsters, },
 	[104288] = { enemy = gangsters, },

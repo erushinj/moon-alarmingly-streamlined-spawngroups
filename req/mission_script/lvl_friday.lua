@@ -117,8 +117,6 @@ local sniper_so = {  -- snipers randomly get stuck and dont end up in position
 }
 
 return {
-	[300519] = disable,  -- cams, no titan
-	[300578] = disable,
 	[303044] = disable,  -- "force winters new", not hooked up to anything but eh
 	[300448] = disable,  -- garbage diff elements that also dont execute anything
 	[300449] = disable,

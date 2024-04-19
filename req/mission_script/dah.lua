@@ -1,12 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local secret_service = overkill and Idstring("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") or Idstring("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
-local guard_patrol_amounts = {
-	values = {
-		amount = overkill and 2 or 1,
-	},
-}
+
 local oops_all_bo = math.random() < 0.01 and Idstring("units/payday2/characters/civ_male_bank_manager_5/civ_male_bank_manager_5") or nil
 local civs_male_ids = get_table_index_func({
 	100115,
@@ -73,11 +67,6 @@ if oops_all_bo then
 end
 
 return {
-	[104391] = {  -- no titan cams
-		values = {
-			enabled = false,
-		},
-	},
 	[103969] = {
 		reinforce = {
 			{
@@ -121,55 +110,7 @@ return {
 			},
 		},
 	},
-	-- [101616] = guard_patrol_amounts,
-	[103573] = guard_patrol_amounts,
-	[103828] = guard_patrol_amounts,
-	[103830] = guard_patrol_amounts,
-	[103575] = guard_patrol_amounts,
-	[102313] = guard_patrol_amounts,
-	[102029] = guard_patrol_amounts,
-	[102040] = guard_patrol_amounts,
-	[101260] = guard_patrol_amounts,
-	[103578] = guard_patrol_amounts,
-	[101066] = guard_patrol_amounts,
-	[102455] = guard_patrol_amounts,
-	[102459] = guard_patrol_amounts,
-	-- guard spawns
-	[102026] = { enemy = secret_service, },
-	[102028] = { enemy = secret_service, },
-	[102042] = { enemy = secret_service, },
-	[102043] = { enemy = secret_service, },
-	[101720] = { enemy = secret_service, },
-	[103561] = { enemy = secret_service, },
-	[102322] = { enemy = secret_service, },
-	[102326] = { enemy = secret_service, },
-	[102327] = { enemy = secret_service, },
-	[102328] = { enemy = secret_service, },
-	[100041] = { enemy = secret_service, },
-	[101261] = { enemy = secret_service, },
-	[101682] = { enemy = secret_service, },
-	[102323] = { enemy = secret_service, },
-	[101209] = { enemy = secret_service, },
-	[101718] = { enemy = secret_service, },
-	[100034] = { enemy = secret_service, },
-	[102325] = { enemy = secret_service, },
-	[102458] = { enemy = secret_service, },
-	[102462] = { enemy = secret_service, },
-	[103574] = { enemy = secret_service, },
-	[103576] = { enemy = secret_service, },
-	[103826] = { enemy = secret_service, },
-	[103827] = { enemy = secret_service, },
-	[103832] = { enemy = secret_service, },
-	[103834] = { enemy = secret_service, },
-	[102450] = { enemy = secret_service, },
-	[102456] = { enemy = secret_service, },
-	[100104] = { enemy = secret_service, },  -- elevator spawns, triggered on alarm
-	[102812] = { enemy = secret_service, },
-	[102813] = { enemy = secret_service, },
-	[102814] = { enemy = secret_service, },
-	[101787] = { enemy = secret_service, },
-	-- civilians
-	[100114] = { enemy = civs_female, },  -- female
+	[100114] = { enemy = civs_female, },  -- civs, female
 	[100116] = { enemy = civs_female, },
 	[100118] = { enemy = civs_female, },
 	[100120] = { enemy = civs_female, },

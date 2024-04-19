@@ -41,7 +41,7 @@
 	"ass_menu_doms_all_hard_desc" : "All dominatable enemies are as adept at resisting domination as a heavy unit.",
 
 	"ass_menu_doms_super_serious" : "Super Serious Surrenders",
-	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves.",
+	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves. Effectively always active in Super Serious Shooter.",
 
 	"ass_menu_max_values" : "Absolute Values",
 	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",
@@ -53,7 +53,7 @@
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_dmg_interval" : "Grace Period",
-	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only - works even when not hosting, but has no effect in Super Serious Shooter.",
+	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only. Has no effect in Super Serious Shooter.",
 	"ass_dmg_interval_0.250" : "Little Timmy (0.25s)",
 	"ass_dmg_interval_0.225" : "Toe in the Pool (0.225s)",
 	"ass_dmg_interval_0.200" : "Seasoned Streamliner (0.2s)",
@@ -108,7 +108,7 @@
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
 
 	"ass_menu_captain_winters" : "Captain Winters",
-	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn.",
+	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.",
 
 	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
 	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",

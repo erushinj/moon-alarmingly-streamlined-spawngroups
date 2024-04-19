@@ -73,7 +73,7 @@ return {
 	-- fence should be here more often
 	[100174] = {
 		values = {
-			chance = normal and 70 or hard and 40 or 10,
+			chance = normal and 70 or hard and 50 or 30,
 		},
 	},
 	-- escape units
@@ -170,23 +170,17 @@ return {
 			end
 		end,
 	},
-	-- planks (vanilla is 10, pdth is 23)
-	[101661] = {
-		values = {
-			amount = 20,
-		},
-	},
 	--  keep close roof harassers after sawing the limo open
 	[102989] = disable,
 	-- limo fall stuff
 	[101645] = {  -- chance for limo to land on the roof rather than the balcony
 		values = {
-			chance = normal and 20 or hard and 50 or 80,
+			chance = 67,
 		},
 	},
 	[102943] = {  -- chance for limo to stay on the roof rather than fall through
 		values = {
-			chance = normal and 20 or hard and 50 or 80,
+			chance = 50,
 		},
 	},
 	-- flashlights

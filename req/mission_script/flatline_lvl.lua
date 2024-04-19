@@ -3,11 +3,6 @@ local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 
-local cams_amount = {
-	values = {
-		amount = normal and 4 or hard and 8 or 12,
-	},
-}
 local disable = {
 	values = {
 		enabled = false,
@@ -58,10 +53,6 @@ return {
 	[100306] = {  -- mold objective - on opening correct door
 		hunt = true,
 	},
-	[100109] = disable,  -- cams, no titan
-	[100105] = cams_amount,  -- amounts
-	[100222] = cams_amount,
-	[100223] = cams_amount,
 	[100678] = disable,  -- garbage diff elements
 	[100679] = disable,
 	[100680] = disable,

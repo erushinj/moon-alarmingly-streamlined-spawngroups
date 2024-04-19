@@ -141,11 +141,6 @@ return {
 			chance = normal and 3 or hard and 5 or 10,
 		},
 	},
-	[100453] = {  -- cams, no titan
-		values = {
-			enabled = false,
-		},
-	},
 	[cops_ids()] = { enemy = cops(), },  -- guards, warehouse
 	[cops_ids()] = { enemy = cops(), },
 	[cops_ids()] = { enemy = cops(), },
