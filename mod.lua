@@ -57,6 +57,10 @@ if not ASS then
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
 		shield_arms = 4,  -- pick shield weapon type
+		taser_dazers = 1,  -- pick taser weapon type
+		cloaker_balance = 1,  -- pick cloaker weapon type
+		medic_ordnance = 1,  -- pick rifle medic weapon type
+		medical_ordinance = 1,  -- pick shotgun medic weapon type
 		smg_units = true,  -- allow smg swats to spawn if applicable
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
@@ -92,7 +96,7 @@ if not ASS then
 			"ass_skill_6",  -- ultra-nightmare
 		},
 		dmg_interval = {
-			"ass_dmg_interval_0.250",  -- these are pretty self-explanatory, duration in s
+			"ass_dmg_interval_0.250",  -- duration in s
 			"ass_dmg_interval_0.225",
 			"ass_dmg_interval_0.200",
 			"ass_dmg_interval_0.175",
@@ -105,10 +109,34 @@ if not ASS then
 			"ass_dmg_interval_0.000",
 		},
 		shield_arms = {
-			"ass_shield_arms_default",  -- these are also pretty self-explanatory
-			"ass_shield_arms_pistols",
-			"ass_shield_arms_smgs",
-			"ass_shield_arms_both",
+			"ass_shield_arms_default",  -- what the mod normally uses
+			"ass_shield_arms_pistols",  -- always pistols
+			"ass_shield_arms_smgs",  -- always smgs
+			"ass_shield_arms_both",  -- randomize between both
+		},
+		taser_dazers = {
+			"ass_taser_dazers_default",  -- what the mod normally uses
+			"ass_taser_dazers_rifles",  -- always rifles
+			"ass_taser_dazers_sko12s",  -- always sko12s
+			"ass_taser_dazers_both",  -- randomize between both
+		},
+		cloaker_balance = {
+			"ass_cloaker_balance_default",  -- what the mod normally uses
+			"ass_cloaker_balance_smgs",  -- always smgs
+			"ass_cloaker_balance_pistols",  -- always pistols
+			"ass_cloaker_balance_both",  -- randomize between both
+		},
+		medic_ordnance = {  -- rifle medics
+			"ass_medic_ordnance_default",  -- what the mod normally uses
+			"ass_medic_ordnance_rifles",  -- always rifles
+			"ass_medic_ordnance_revolvers",  -- always revolvers
+			"ass_medic_ordnance_both",  -- randomize between both
+		},
+		medical_ordinance = {  -- shotgun medics
+			"ass_medical_ordinance_default",  -- what the mod normally uses
+			"ass_medical_ordinance_shotguns",  -- always pump shotguns
+			"ass_medical_ordinance_saigas",  -- always saigas
+			"ass_medical_ordinance_both",  -- randomize between both
 		},
 	}
 	ASS._tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
@@ -430,14 +458,38 @@ if not ASS then
 			priority = priority(),
 			items = items("shield_arms"),
 		},
+		taser_dazers = {
+			priority = priority(),
+			items = items("taser_dazers"),
+		},
+		cloaker_balance = {
+			priority = priority(),
+			items = items("cloaker_balance"),
+		},
+		medic_ordnance = {
+			priority = priority(),
+			items = items("medic_ordnance"),
+		},
+		medical_ordinance = {
+			priority = priority(),
+			items = items("medical_ordinance"),
+			divider = divider,
+		},
+
 		smg_units = { priority = priority(), },
-		minigun_dozers = { priority = priority(), },
-		captain_winters = {
+		minigun_dozers = {
 			priority = priority(),
 			divider = divider,
 		},
 
-		gas_grenade_ignore_hostages = { priority = priority(), },
+		captain_winters = {
+			priority = priority(),
+		},
+		gas_grenade_ignore_hostages = {
+			priority = priority(),
+			divider = divider,
+		},
+
 		escapes = {
 			priority = priority(),
 			divider = divider,
@@ -600,6 +652,10 @@ if not ASS then
 		self._dmg_interval = tonumber((self:_gsub("dmg_interval"))) or 0.25
 		self._difficulty_index = self:get_setting("max_values") and 8 or real_difficulty_index
 		self._shield_arms = self:_gsub("shield_arms") or "default"
+		self._taser_dazers = self:_gsub("taser_dazers") or "default"
+		self._cloaker_balance = self:_gsub("cloaker_balance") or "default"
+		self._medic_ordnance = self:_gsub("medic_ordnance") or "default"
+		self._medical_ordinance = self:_gsub("medical_ordinance") or "default"
 
 		for _, end_pattern in pairs({ "_night$", "_day$", "_skip1$", "_skip2$", "_new$", }) do
 			self._clean_level_id = self._clean_level_id:gsub(end_pattern, "")

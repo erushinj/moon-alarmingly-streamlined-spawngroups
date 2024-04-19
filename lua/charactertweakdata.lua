@@ -6,7 +6,13 @@ local level_id = ASS:get_var("level_id")
 local difficulty_index = ASS:get_var("difficulty_index")
 local f = (difficulty_index - 2) / 6
 
+local real_difficulty_index = ASS:get_var("real_difficulty_index")
 local shield_arms = ASS:get_var("shield_arms")
+local taser_dazers = ASS:get_var("taser_dazers")
+local cloaker_balance = ASS:get_var("cloaker_balance")
+local medic_ordnance = ASS:get_var("medic_ordnance")
+local medical_ordinance = ASS:get_var("medical_ordinance")
+
 local doms_scale = ASS:get_setting("doms_scale")
 local doms_all_hard = ASS:get_setting("doms_all_hard")
 
@@ -70,34 +76,250 @@ function CharacterTweakData:moon_weapon_mapping(name)
 	local weapon_mapping = self._moon_weapon_mapping
 
 	if not weapon_mapping then
-		local shield_weapons_by_setting = {
-			default = {},
-			pistols = {
-				swat = "c45",
-				zeal = "deagle",
-				russia = "deagle",
-				murkywater = "deagle",
-				constantine_cartel = "beretta92",
-				bo = "deagle",
-				bo_ovk = "beretta92",
+		local special_weapons = {
+			shield = {
+				reference = shield_arms,
+				default = {
+					swat = "c45",
+					fbi = "mp9",
+					city = "mp9",
+					zeal = "mp9",
+					russia_c45 = "deagle",
+					russia_sr2 = "sr2_smg",
+					murkywater = real_difficulty_index < 4 and "deagle" or "mp9",
+					federales_c45 = nil,
+					federales_mp9 = "mp9",
+					constantine_cartel = "beretta92",
+					bo_sbz = "deagle",
+					bo_ovk = "beretta92",
+					bo_bofa = "mp9",
+				},
+				pistols = {
+					swat = "c45",
+					fbi = nil,
+					city = nil,
+					zeal = "deagle",
+					russia_c45 = "deagle",
+					russia_sr2 = "deagle",
+					murkywater = "deagle",
+					federales_c45 = nil,
+					federales_mp9 = nil,
+					constantine_cartel = "beretta92",
+					bo_sbz = "deagle",
+					bo_ovk = "beretta92",
+					bo_bofa = "deagle",
+				},
+				smgs = {
+					swat = "mp9",
+					fbi = nil,
+					city = nil,
+					zeal = nil,
+					russia_c45 = "sr2_smg",
+					russia_sr2 = "sr2_smg",
+					murkywater = nil,
+					federales_c45 = nil,
+					federales_mp9 = nil,
+					constantine_cartel = nil,
+					bo_sbz = nil,
+					bo_ovk = nil,
+					bo_bofa = nil,
+				},
+				both = {
+					swat = { "c45", "mp9", },
+					fbi = nil,
+					city = nil,
+					zeal = { "deagle", "mp9", },
+					russia_c45 = { "deagle", "sr2_smg", },
+					russia_sr2 = { "deagle", "sr2_smg", },
+					murkywater = { "deagle", "mp9", },
+					federales_c45 = nil,
+					federales_mp9 = nil,
+					constantine_cartel = { "beretta92", "mp9", },
+					bo_sbz = { "deagle", "mp9", },
+					bo_ovk = { "beretta92", "mp9", },
+					bo_bofa = { "deagle", "mp9", },
+				},
 			},
-			smgs = {
-				swat = "mp9",
-				russia = "sr2_smg",
+			taser = {
+				reference = taser_dazers,
+				default = {
+					swat = "mp5",
+					zeal = "shepheard",
+					russia = "ak47_ass",
+					murkywater = "scar_murky",
+					federales = nil,
+					constantine_cartel = "sko12_conc",
+					bo_sbz = "shepheard",
+				},
+				rifles = {
+					swat = "mp5",
+					zeal = "shepheard",
+					russia = "ak47_ass",
+					murkywater = "scar_murky",
+					federales = nil,
+					constantine_cartel = "ak47",
+					bo_sbz = "shepheard",
+				},
+				sko12s = {
+					swat = "sko12_conc",
+					zeal = nil,
+					russia = nil,
+					murkywater = nil,
+					federales = nil,
+					constantine_cartel = nil,
+					bo_sbz = nil,
+				},
+				both = {
+					swat = { "mp5", "sko12_conc", },
+					zeal = { "shepheard", "sko12_conc", },
+					russia = { "ak47_ass", "sko12_conc", },
+					murkywater = { "scar_murky", "sko12_conc", },
+					federales = nil,
+					constantine_cartel = { "ak47", "sko12_conc", },
+					bo_sbz = { "shepheard", "sko12_conc", },
+				},
 			},
-			both = {
-				swat = { "c45", "mp9", },
-				zeal = { "deagle", "mp9", },
-				russia = { "deagle", "sr2_smg", },
-				murkywater = { "deagle", "mp9", },
-				constantine_cartel = { "beretta92", "mp9", },
-				bo = { "deagle", "mp9", },
-				bo_ovk = { "beretta92", "mp9", },
+			cloaker = {
+				reference = cloaker_balance,
+				default = {
+					swat = "mp5_tactical",
+					fbi = nil,
+					zeal = nil,
+					russia = "asval_smg",
+					murkywater = "ump",
+					federales = nil,
+					constantine_cartel = "beretta92",
+					bo_ovk = nil,
+				},
+				pistols = {
+					swat = "beretta92",
+					fbi = nil,
+					zeal = nil,
+					russia = nil,
+					murkywater = nil,
+					federales = nil,
+					constantine_cartel = nil,
+					bo_ovk = nil,
+				},
+				smgs = {
+					swat = "mp5_tactical",
+					fbi = nil,
+					zeal = nil,
+					russia = "asval_smg",
+					murkywater = "ump",
+					federales = nil,
+					constantine_cartel = "ump",
+					bo_ovk = nil,
+				},
+				both = {
+					swat = { "beretta92", "mp5_tactical", },
+					fbi = nil,
+					zeal = nil,
+					russia = { "beretta92", "asval_smg", },
+					murkywater = { "beretta92", "ump", },
+					federales = nil,
+					constantine_cartel = { "beretta92", "ump", },
+					bo_ovk = nil,
+				},
+			},
+			medic_rifle = {
+				reference = medic_ordnance,
+				default = {
+					swat = "mp5",
+					fbi = "m4",
+					zeal = "shepheard",
+					russia = "ak47_ass",
+					murkywater = "scar_murky",
+					federales = nil,
+					constantine_cartel = "sg417",
+					bo_ovk = "m4",
+				},
+				revolvers = {
+					swat = "raging_bull",
+					fbi = nil,
+					zeal = nil,
+					russia = nil,
+					murkywater = nil,
+					federales = nil,
+					constantine_cartel = nil,
+					bo_ovk = nil,
+				},
+				both = {
+					swat = { "mp5", "raging_bull", },
+					fbi = { "m4", "raging_bull", },
+					zeal = { "shepheard", "raging_bull", },
+					russia = { "ak47_ass", "raging_bull", },
+					murkywater = { "scar_murky", "raging_bull", },
+					federales = nil,
+					constantine_cartel = { "sg417", "raging_bull", },
+					bo_ovk = { "m4", "raging_bull", },
+				},
+			},
+			medic_shotgun = {
+				reference = medical_ordinance,
+				default = {
+					swat = "r870",
+					fbi = "spas12",
+					zeal = "ksg",
+					murkywater = "spas12",
+					constantine_cartel = "saiga",
+				},
+				shotguns = {
+					swat = "r870",
+					fbi = "spas12",
+					zeal = "ksg",
+					russia = nil,
+					murkywater = "spas12",
+					federales = nil,
+					constantine_cartel = nil,
+					bo_ovk = nil,
+				},
+				saigas = {
+					swat = "saiga",
+					fbi = nil,
+					zeal = nil,
+					russia = nil,
+					murkywater = nil,
+					federales = nil,
+					constantine_cartel = nil,
+					bo_ovk = nil,
+				},
+				both = {
+					swat = { "r870", "saiga", },
+					fbi = { "spas12", "saiga", },
+					zeal = { "ksg", "saiga", },
+					russia = nil,
+					murkywater = { "spas12", "saiga", },
+					federales = nil,
+					constantine_cartel = nil,
+					bo_ovk = nil,
+				},
 			},
 		}
-		local shield_weapons = shield_weapons_by_setting[shield_arms] or shield_weapons_by_setting.default
-		local function get_shield_weapon(typ)
-			return shield_weapons[typ] or shield_weapons.swat
+		for special, settings in pairs(special_weapons) do
+			local reference = settings.reference
+
+			for name in pairs(settings) do
+				if name ~= "reference" and name == reference then
+					reference = nil
+					special_weapons[special] = settings[name]
+
+					break
+				end
+			end
+
+			-- didnt find weapons, fallback on default
+			if reference then
+				special_weapons[special] = settings.default
+			end
+		end
+
+		local function get_special_weapon(special, typ)
+			local weapons = special_weapons[special]
+
+			if weapons then
+				return weapons[typ] or weapons.swat
+			end
 		end
 
 		local panic_room = { "c45", "raging_bull", "mac11", "ak47", "r870", "mossberg", }
@@ -146,16 +368,13 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			},
 			physics_citystreets = {
 				[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "deagle",
-				-- [("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "raging_bull",
 				[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = "ksg",
 				[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = "shepheard",
 				[("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = "beretta92",
-				-- [("units/payday2/characters/ene_fbi_2/ene_fbi_2"):key()] = "m4",
 				[("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = "r870",
-				[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "shepheard",
-				-- [("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = "mp5_tactical",
+				[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = get_special_weapon("taser", "bo_sbz"),
+				[("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = get_special_weapon("cloaker", "bo_ovk"),
 				[("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"):key()] = "ksg",
-				-- [("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"):key()] = "ksg",
 				[("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = "s552",
 			},
 		}
@@ -183,39 +402,81 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_dlc_deep/characters/ene_gabriel/ene_gabriel"):key()] = "sko12_conc",  -- gabriel santiago (loud)
 			[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = "sko12_conc",  -- gabriel santiago (stealth)
 
-			-- appropriate weaponry for special units
-			[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = "mp5",
-			[("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"):key()] = "shepheard",
-			[("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1"):key()] = "mp5",
-			[("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"):key()] = "scar_murky",
-			[("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"):key()] = "mp5",
+			-- faction weaponry for some dozers
 			[("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"):key()] = "ksg",
 			[("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = "shepheard",
 			[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_2/ene_murkywater_bulldozer_2"):key()] = "spas12",
 			[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"):key()] = "scar_murky",
 
 			-- shields, for "Shield Arms" setting
-			[("units/payday2/characters/ene_shield_2/ene_shield_2"):key()] = get_shield_weapon("swat"),
-			[("units/payday2/characters/ene_shield_1/ene_shield_1"):key()] = get_shield_weapon("fbi"),
-			[("units/payday2/characters/ene_city_shield/ene_city_shield"):key()] = get_shield_weapon("city"),
-			[("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield"):key()] = get_shield_weapon("zeal"),
-			[("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"):key()] = get_shield_weapon("russia") or "deagle",
-			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg"):key()] = get_shield_weapon("russia"),
-			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"):key()] = get_shield_weapon("russia"),
-			[("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2"):key()] = get_shield_weapon("swat"),
-			[("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1"):key()] = get_shield_weapon("fbi"),
-			[("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"):key()] = get_shield_weapon("murkywater"),
-			[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45"):key()] = get_shield_weapon("federales"),
-			[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9"):key()] = get_shield_weapon("federales"),
+			[("units/payday2/characters/ene_shield_2/ene_shield_2"):key()] = get_special_weapon("shield", "swat"),
+			[("units/payday2/characters/ene_shield_1/ene_shield_1"):key()] = get_special_weapon("shield", "fbi"),
+			[("units/payday2/characters/ene_city_shield/ene_city_shield"):key()] = get_special_weapon("shield", "city"),
+			[("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield"):key()] = get_special_weapon("shield", "zeal"),
+			[("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"):key()] = get_special_weapon("shield", "russia_c45"),
+			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg"):key()] = get_special_weapon("shield", "russia_sr2"),
+			[("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"):key()] = get_special_weapon("shield", "russia_sr2"),
+			[("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2"):key()] = get_special_weapon("shield", "swat"),
+			[("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1"):key()] = get_special_weapon("shield", "fbi"),
+			[("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"):key()] = get_special_weapon("shield", "murkywater"),
+			[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45"):key()] = get_special_weapon("shield", "federales_c45"),
+			[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9"):key()] = get_special_weapon("shield", "federales_mp9"),
+			[("units/pd2_mod_ttr/characters/ene_swat_gensec_shield/ene_swat_gensec_shield"):key()] = get_special_weapon("shield", "swat"),  -- constantine scores
+			[("units/pd2_mod_ttr/characters/ene_fbi_gensec_shield/ene_fbi_gensec_shield"):key()] = get_special_weapon("shield", "fbi"),
+			[("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"):key()] = get_special_weapon("shield", "constantine_cartel"),
+			[("units/pd2_dlc_mad/characters/ene_rus_shield_c45/ene_rus_shield_c45"):key()] = get_special_weapon("shield", "russia_c45"),  -- constantine fsb
+			[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2/ene_rus_shield_sr2"):key()] = get_special_weapon("shield", "russia_sr2"),
+			[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2_city/ene_rus_shield_sr2_city"):key()] = get_special_weapon("shield", "russia_sr2"),
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_c45/ene_sbz_shield_c45"):key()] = get_special_weapon("shield", "bo_sbz"),  -- boworks
+			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_mp9/ene_sbz_shield_mp9"):key()] = get_special_weapon("shield", "bo_sbz"),
+			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_c45/ene_ovk_shield_c45"):key()] = get_special_weapon("shield", "bo_ovk"),
+			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = get_special_weapon("shield", "bo_ovk"),
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = get_special_weapon("shield", "bo_bofa"),
+			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = get_special_weapon("shield", "bo_bofa"),
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = get_special_weapon("shield", "bo_bofa"),
 
-			[("units/pd2_mod_ttr/characters/ene_swat_gensec_shield/ene_swat_gensec_shield"):key()] = get_shield_weapon("swat"),  -- custom shield units
-			[("units/pd2_mod_ttr/characters/ene_fbi_gensec_shield/ene_fbi_gensec_shield"):key()] = get_shield_weapon("city"),
-			[("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"):key()] = get_shield_weapon("constantine_cartel"),
-			[("units/pd2_dlc_mad/characters/ene_rus_shield_c45/ene_rus_shield_c45"):key()] = get_shield_weapon("russia") or "deagle",
-			[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2/ene_rus_shield_sr2"):key()] = get_shield_weapon("russia"),
-			[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2_city/ene_rus_shield_sr2_city"):key()] = get_shield_weapon("russia"),
+			-- tasers, for "Taser Dazers" setting
+			[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = get_special_weapon("taser", "swat"),
+			[("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"):key()] = get_special_weapon("taser", "zeal"),
+			[("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass"):key()] = get_special_weapon("taser", "russia"),
+			[("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1"):key()] = get_special_weapon("taser", "swat"),
+			[("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"):key()] = get_special_weapon("taser", "murkywater"),
+			[("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"):key()] = get_special_weapon("taser", "federales"),
+			[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = get_special_weapon("taser", "constantine_cartel"),  -- constantine scores
+			[("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"):key()] = get_special_weapon("taser", "constantine_cartel"),
+			[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = get_special_weapon("taser", "bo_sbz"),  -- boworks
+
+			-- cloakers, for "Cloaker Balance" setting
+			[("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = get_special_weapon("cloaker", "fbi"),
+			[("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"):key()] = get_special_weapon("cloaker", "zeal"),
+			[("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"):key()] = get_special_weapon("cloaker", "russia"),
+			[("units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1"):key()] = get_special_weapon("cloaker", "fbi"),
+			[("units/pd2_dlc_bph/characters/ene_murkywater_cloaker/ene_murkywater_cloaker"):key()] = get_special_weapon("cloaker", "murkywater"),
+			[("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"):key()] = get_special_weapon("cloaker", "federales"),
+			[("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"):key()] = get_special_weapon("cloaker", "constantine_cartel"),  -- constantine scores
+
+			-- rifle medics, for "Medic Ordnance" setting
+			[("units/payday2/characters/ene_medic_m4/ene_medic_m4"):key()] = get_special_weapon("medic_rifle", "fbi"),  -- rifle
+			[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4"):key()] = get_special_weapon("medic_rifle", "zeal"),
+			[("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"):key()] = get_special_weapon("medic_rifle", "russia"),
+			[("units/pd2_dlc_hvh/characters/ene_medic_hvh_m4/ene_medic_hvh_m4"):key()] = get_special_weapon("medic_rifle", "fbi"),
+			[("units/pd2_dlc_bph/characters/ene_murkywater_medic/ene_murkywater_medic"):key()] = get_special_weapon("medic_rifle", "murkywater"),
+			[("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale"):key()] = get_special_weapon("medic_rifle", "federales"),
+			[("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"):key()] = get_special_weapon("medic_rifle", "constantine_cartel"),  -- constantine scores, not actually a medic but eh
+			[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_m4/ene_bofa_medic_m4"):key()] = get_special_weapon("medic_rifle", "bo_ovk"),  -- boworks
+
+			-- shotgun medics, for "Medical Ordinance" setting
+			[("units/payday2/characters/ene_medic_r870/ene_medic_r870"):key()] = get_special_weapon("medic_shotgun", "fbi"),  -- shotgun
+			[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870"):key()] = get_special_weapon("medic_shotgun", "zeal"),
+			[("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"):key()] = get_special_weapon("medic_shotgun", "russia"),
+			[("units/pd2_dlc_hvh/characters/ene_medic_hvh_r870/ene_medic_hvh_r870"):key()] = get_special_weapon("medic_shotgun", "fbi"),
+			[("units/pd2_dlc_bph/characters/ene_murkywater_medic_r870/ene_murkywater_medic_r870"):key()] = get_special_weapon("medic_shotgun", "murkywater"),
+			[("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale_r870/ene_swat_medic_policia_federale_r870"):key()] = get_special_weapon("medic_shotgun", "federales"),
+			[("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"):key()] = get_special_weapon("medic_shotgun", "constantine_cartel"),  -- constantine scores, not actually a medic but eh
+			[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_r870/ene_bofa_medic_r870"):key()] = get_special_weapon("medic_shotgun", "bo_ovk"),  -- boworks,
 
 			-- assorted law
+			[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = "deagle",
 			[("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3"):key()] = "r870",
 			[("units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4"):key()] = "mp5",
 			[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = "c45",
@@ -271,7 +532,7 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_dlc_pex/characters/ene_male_office_cop_01/ene_male_office_cop_01"):key()] = "c45",
 			[("units/pd2_dlc_pex/characters/ene_male_office_cop_02/ene_male_office_cop_02"):key()] = "raging_bull",
 			[("units/pd2_dlc_pex/characters/ene_male_office_cop_03/ene_male_office_cop_03"):key()] = "mp5",
-			[("units/pd2_dlc_pex/characters/ene_male_office_cop_04/ene_male_office_cop_04"):key()] = "spas12",
+			[("units/pd2_dlc_pex/characters/ene_male_office_cop_04/ene_male_office_cop_04"):key()] = "r870",
 			[("units/pd2_dlc_fex/characters/ene_secret_service_fex/ene_secret_service_fex"):key()] = "mp5",
 			[("units/pd2_dlc_chca/characters/ene_security_cruise_1/ene_security_cruise_1"):key()] = "m4",
 			[("units/pd2_dlc_chca/characters/ene_security_cruise_2/ene_security_cruise_2"):key()] = "spas12",
@@ -397,8 +658,6 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_zeal/ene_cartel_soldier_heavy_zeal"):key()] = "ak47",
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_shotgun/ene_cartel_soldier_heavy_shotgun"):key()] = "r870",
 			[("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi_shotgun/ene_cartel_soldier_heavy_fbi_shotgun"):key()] = "r870",
-			[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = "sko12_conc",  -- specials
-			[("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"):key()] = "beretta92",
 			[("units/pd2_mod_ttr/characters/ene_cartel_bulldozer_3/ene_cartel_bulldozer_3"):key()] = "rpk_lmg",
 			[("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"):key()] = "ak47",  -- rough medicdozer equivalent
 			[("units/pd2_mod_ttr/characters/ene_security_resort_1/ene_security_resort_1"):key()] = "m4",  -- resort security
@@ -478,19 +737,6 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_g36/ene_bofa_heavy_g36"):key()] = "s552",
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_r870/ene_bofa_heavy_r870"):key()] = "benelli",
 			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "s552",
-
-			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_c45/ene_sbz_shield_c45"):key()] = get_shield_weapon("bo") or "deagle",  -- shields
-			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_mp9/ene_sbz_shield_mp9"):key()] = get_shield_weapon("bo") or "deagle",
-			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_c45/ene_ovk_shield_c45"):key()] = get_shield_weapon("bo_ovk") or "beretta92",
-			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = get_shield_weapon("bo_ovk") or "beretta92",
-			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = get_shield_weapon("bo") or "mp9",
-			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = get_shield_weapon("bo"),
-			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = get_shield_weapon("bo"),
-
-			[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = "shepheard",  -- taser (seems unused)
-
-			-- [("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_m4/ene_bofa_medic_m4"):key()] = "m4",  -- medics
-			-- [("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_r870/ene_bofa_medic_r870"):key()] = "r870",
 
 			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"):key()] = "shepheard",  -- security
 			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"):key()] = "ksg",

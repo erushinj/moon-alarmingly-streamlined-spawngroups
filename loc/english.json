@@ -73,6 +73,34 @@
 	"ass_shield_arms_smgs" : "Radical (SMGs)",
 	"ass_shield_arms_both" : "Centrist (Both)",
 
+	"ass_menu_taser_dazers" : "Taser Dazers",
+	"ass_menu_taser_dazers_desc" : "Determine the weapon type used by Tasers.",
+	"ass_taser_dazers_default" : "Prude (Default)",
+	"ass_taser_dazers_rifles" : "Vanilla (Rifles)",
+	"ass_taser_dazers_sko12s" : "Deviant (Concussive Auto Shotguns)",
+	"ass_taser_dazers_both" : "Experimental (Both)",
+
+	"ass_menu_cloaker_balance" : "Cloaker Balance",
+	"ass_menu_cloaker_balance_desc" : "Determine the weapon type used by Cloakers.",
+	"ass_cloaker_balance_default" : "Sober (Default)",
+	"ass_cloaker_balance_smgs" : "Sippy (SMGs)",
+	"ass_cloaker_balance_pistols" : "Tipsy (Pistols)",
+	"ass_cloaker_balance_both" : "Blackout (Both)",
+
+	"ass_menu_medic_ordnance" : "Medic Ordnance",
+	"ass_menu_medic_ordnance_desc" : "Determine the weapon type used by rifle Medics.",
+	"ass_medic_ordnance_default" : "Apathetic (Default)",
+	"ass_medic_ordnance_rifles" : "High Strung (Rifles)",
+	"ass_medic_ordnance_revolvers" : "Cracked (Revolvers)",
+	"ass_medic_ordnance_both" : "Marquez Maelstrom (Both)",
+
+	"ass_menu_medical_ordinance" : "Medical Ordinance",
+	"ass_menu_medical_ordinance_desc" : "Determine the weapon type used by shotgun Medics. Yes, those are two different words.",
+	"ass_medical_ordinance_default" : "Indifferent (Default)",
+	"ass_medical_ordinance_shotguns" : "On Edge (Pump Shotguns)",
+	"ass_medical_ordinance_saigas" : "Frenzied (Auto Shotguns)",
+	"ass_medical_ordinance_both" : "Denka Dakka (Both)",
+
 	"ass_menu_smg_units" : "Shiny Riflemen",
 	"ass_menu_smg_units_desc" : "Allow SMG SWATs for supported factions to spawn in the assault, if available.",
 
