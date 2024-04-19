@@ -1,8 +1,4 @@
 if not ASS then
-
-	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
-	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
-
 	local is_editor = Global.editor_mode or false
 	local is_client = Network and Network:is_client() or false
 	local is_host = not is_editor and not is_client
@@ -18,6 +14,9 @@ if not ASS then
 		overkill_290 = 7,
 		sm_wish = 8,
 	})[difficulty] or 2
+
+	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
+	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
@@ -526,29 +525,30 @@ if not ASS then
 
 	local messages = {
 		zeals_enabled = function(self)
+			if not self:get_setting("is_massive") then
+				return
+			end
+
 			local global = self:global()
-
+			global.zeals_enabled = true
 			local function show_zeal_dialog()
-				if global.showed_dialog then
-					return
+				if not global.showed_dialog then
+					global.showed_dialog = true
+
+					self:log("warn", "ZEAL Level Mod enabled...")
+
+					local title = managers.localization:text("ass_menu_warning")
+					local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
+					local buttons = {
+						{
+							text = managers.localization:text("ass_menu_ignore"),
+							callback = function()
+								self:require("networkmanager")
+							end,
+						},
+					}
+					QuickMenu:new(title, message, buttons, true)
 				end
-
-				self:log("warn", "ZEAL Level Mod enabled...")
-
-				global.showed_dialog = true
-				global.zeals_enabled = true
-
-				local title = managers.localization:text("ass_menu_warning")
-				local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
-				local buttons = {
-					{
-						text = managers.localization:text("ass_menu_ignore"),
-						callback = function()
-							self:require("networkmanager")
-						end,
-					},
-				}
-				QuickMenu:new(title, message, buttons, true)
 			end
 
 			if managers.localization then
@@ -560,66 +560,88 @@ if not ASS then
 		sh_not_found = function(self)
 			self.been_there_fucked_that = false
 
+			self:log("error", "Streamlined Heisting not found!")
+
 			local global = self:global()
-			self:add_hook( "MenuManagerOnOpenMenu", function()
-				if global.showed_dialog then
-					return
-				end
+			global.invalid_sh = "missing"
+			if self:get_setting("is_massive") then
+				self:add_hook( "MenuManagerOnOpenMenu", function()
+					if not global.showed_dialog then
+						global.showed_dialog = true
 
-				self:log("error", "Streamlined Heisting not found!")
+						local title = managers.localization:text("ass_menu_warning")
+						local message = managers.localization:text("ass_menu_sh_not_found")
+						local buttons = {
+							{
+								text = managers.localization:text("ass_menu_sh_not_found_goto"),
+								callback = function()
+									-- im aware linux isnt supported anymore
+									if BLT:GetOS() == "linux" then
+										os.execute("open https://modworkshop.net/mod/29713")
+									else
+										os.execute("start https://modworkshop.net/mod/29713")
+									end
+								end,
+							},
+							{
+								text = managers.localization:text("ass_menu_ignore"),
+							},
+						}
+						QuickMenu:new(title, message, buttons, true)
+					end
+				end )
+			end
+		end,
+		sh_disabled = function(self)
+			self.been_there_fucked_that = false
 
-				global.showed_dialog = true
-				global.invalid_sh = "missing"
+			self:log("error", "Streamlined Heisting is disabled!")
 
-				local title = managers.localization:text("ass_menu_warning")
-				local message = managers.localization:text("ass_menu_did_not_find_sh")
-				local buttons = {
-					{
-						text = managers.localization:text("ass_menu_did_not_find_sh_goto"),
-						callback = function()
-							-- im aware linux isnt supported anymore
-							if BLT:GetOS() == "linux" then
-								os.execute("open https://modworkshop.net/mod/29713")
-							else
-								os.execute("start https://modworkshop.net/mod/29713")
-							end
-						end,
-					},
-					{
-						text = managers.localization:text("ass_menu_ignore"),
-					},
-				}
-				QuickMenu:new(title, message, buttons, true)
-			end )
+			local global = self:global()
+			global.invalid_sh = "disabled"
+			if self:get_setting("is_massive") then
+				self:add_hook( "MenuManagerOnOpenMenu", function()
+					if not global.showed_dialog then
+						global.showed_dialog = true
+
+						local title = managers.localization:text("ass_menu_warning")
+						local message = managers.localization:text("ass_menu_sh_disabled")
+						local buttons = {
+							{
+								text = managers.localization:text("ass_menu_ignore"),
+							},
+						}
+						QuickMenu:new(title, message, buttons, true)
+					end
+				end )
+			end
 		end,
 		sh_outdated = function(self)
 			self.been_there_fucked_that = false
 
+			self:log("error", "Streamlined Heisting is out of date!")
+
 			local global = self:global()
-			self:add_hook( "MenuManagerOnOpenMenu", function()
-				if global.showed_dialog then
-					return
-				end
+			global.invalid_sh = "outdated"
+			if self:get_setting("is_massive") then
+				self:add_hook( "MenuManagerOnOpenMenu", function()
+					if not global.showed_dialog then
+						global.showed_dialog = true
 
-				self:log("error", "Streamlined Heisting is out of date!")
-
-				global.showed_dialog = true
-				global.invalid_sh = "outdated"
-
-				local title = managers.localization:text("ass_menu_warning")
-				local message = managers.localization:text("ass_menu_outdated_sh")
-				local buttons = {
-					{
-						text = managers.localization:text("ass_menu_ignore"),
-					},
-				}
-				QuickMenu:new(title, message, buttons, true)
-			end )
+						local title = managers.localization:text("ass_menu_warning")
+						local message = managers.localization:text("ass_menu_sh_outdated")
+						local buttons = {
+							{
+								text = managers.localization:text("ass_menu_ignore"),
+							},
+						}
+						QuickMenu:new(title, message, buttons, true)
+					end
+				end )
+			end
 		end,
 	}
 	function ASS:message(msg)
-		msg = tostring(msg)
-
 		if messages and messages[msg] then
 			messages[msg](self)
 		else
@@ -628,15 +650,10 @@ if not ASS then
 	end
 
 	function ASS:_gsub(setting)
-		setting = tostring(setting)
-
 		local value = self._values[setting]
 		local str = value and value[self.settings[setting]]
-		if str then
-			return str:gsub("^ass_" .. setting .. "_", "")
-		end
 
-		self:log("error", "Setting %s has invalid data in ASS:_gsub", setting)
+		return str and str:gsub("^ass_" .. setting .. "_", "")
 	end
 
 	function ASS:init_vars()
@@ -702,7 +719,9 @@ if not ASS then
 	end
 
 	function ASS:get_tweak(tweak)
-		return check_clone(self._tweaks[tweak][self:get_var("skill")])
+		local twk = self._tweaks[tweak]
+
+		return check_clone(twk and twk[self:get_var("skill")])
 	end
 
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
@@ -749,25 +768,26 @@ if not ASS then
 
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
-	local no_sh = (not sh or not sh:IsEnabled() or not sh:WasEnabledAtStart()) and "sh_not_found"
-	local outdated_sh = ((sh and (tonumber((sh:GetVersion():gsub("%.", "")))) or 0) < 484) and "sh_outdated"
-	local shutdown_msg = no_sh or outdated_sh or false
-
-	if shutdown_msg then
-		ASS:message(shutdown_msg)
+	if not sh then
+		ASS:message("sh_not_found")
+	else
+		if not sh:WasEnabledAtStart() or not sh:IsEnabled() then
+			ASS:message("sh_disabled")
+		else
+			if ((tonumber((sh:GetVersion():gsub("%.", "")))) or 0) < 484 then
+				ASS:message("sh_outdated")
+			end
+		end
 	end
 
 	ASS:init_vars()
-
 end
-
 
 if not ASS.been_there_fucked_that then
 	return
 end
 
-
--- ASS's path\lua\RequiredScript name, the only time ASS:require checks in the lua folder
+-- ASS's path\lua\RequiredScript name
 if RequiredScript and not ASS._require[RequiredScript] then
 	ASS:require((RequiredScript:gsub(".+/(.+)", "%1")))
 end
