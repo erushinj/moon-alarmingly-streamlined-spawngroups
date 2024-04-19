@@ -26,17 +26,8 @@ local securitys = {
 
 local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
 
-local female_map = table.list_to_set({
-	("units/pd2_dlc_nmh/characters/civ_female_doctor_01/civ_female_doctor_01"):key(),
-	-- ("units/pd2_dlc_nmh/characters/civ_female_hotpants/civ_female_hotpants"):key(),
-	("units/pd2_dlc_nmh/characters/civ_female_scrubs_01/civ_female_scrubs_01"):key(),
-	("units/pd2_dlc_nmh/characters/civ_female_scrubs_02/civ_female_scrubs_02"):key(),
-	("units/pd2_dlc_nmh/characters/civ_female_scrubs_03/civ_female_scrubs_03"):key(),
-	("units/pd2_dlc_nmh/characters/civ_female_scrubs_04/civ_female_scrubs_04"):key(),
-})
 local civs_female = {
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_doctor_01/civ_female_doctor_01"),
-	-- Idstring("units/pd2_dlc_nmh/characters/civ_female_hotpants/civ_female_hotpants"),
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_scrubs_01/civ_female_scrubs_01"),
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_scrubs_02/civ_female_scrubs_02"),
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_scrubs_03/civ_female_scrubs_03"),
@@ -53,28 +44,13 @@ local civs_male = {
 }
 local civs_any = table.list_add(civs_female, civs_male)
 
--- function like this could be useful for other constantine heists with poor civ setup
 local function civs()
-	local civ = table.random(civs_any)
-
 	return {
-		enemy = civ,
-		pre_func = function(self)
-			if not self._moon_tweaked then
-				self._moon_tweaked = true
-
-				local civilian_spawn = CopActionAct._act_redirects.civilian_spawn
-				if not table.get_vector_index(civilian_spawn, self._values.state) then
-					self._values.rotation = Rotation(math.rand(360), 0, 0)
-
-					local wanted = female_map[civ:key()] and "cf_sp_stand_idle_var1" or "cm_sp_standing_idle_var2"
-					local idle = table.get_vector_index(civilian_spawn, wanted)
-					if idle then
-						self._values.state = idle
-					end
-				end
-			end
-		end,
+		enemy = civs_any,
+		values = {
+			state = false,
+			rotation = Rotation(math.rand(360), 0, 0),
+		},
 	}
 end
 

@@ -72,6 +72,80 @@ function CharacterTweakData:moon_access_filters(preset)
 	return access_filters[preset]
 end
 
+-- not comprehensive (yet)
+function CharacterTweakData:moon_female_civs_map(name)
+	local female_civs_map = self._moon_female_civs_map
+
+	if not female_civs_map then
+		female_civs_map = table.list_to_set({
+			("units/payday2/characters/civ_female_bank_1/civ_female_bank_1"):key(),
+			("units/payday2/characters/civ_female_bank_manager_1/civ_female_bank_manager_1"):key(),
+			("units/payday2/characters/civ_female_hostess_jacket_1/civ_female_hostess_jacket_1"):key(),
+			("units/payday2/characters/civ_female_party_1/civ_female_party_1"):key(),
+			("units/payday2/characters/civ_female_party_2/civ_female_party_2"):key(),
+			("units/payday2/characters/civ_female_party_3/civ_female_party_3"):key(),
+			("units/payday2/characters/civ_female_party_4/civ_female_party_4"):key(),
+			("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"):key(),
+			("units/payday2/characters/civ_female_casual_2/civ_female_casual_2"):key(),
+			("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"):key(),
+			("units/payday2/characters/civ_female_casual_4/civ_female_casual_4"):key(),
+			("units/payday2/characters/civ_female_casual_5/civ_female_casual_5"):key(),
+			("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"):key(),
+			("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_doctor_01/civ_female_doctor_01"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_hotpants/civ_female_hotpants"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_scrubs_01/civ_female_scrubs_01"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_scrubs_02/civ_female_scrubs_02"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_scrubs_03/civ_female_scrubs_03"):key(),
+			("units/pd2_dlc_nmh/characters/civ_female_scrubs_04/civ_female_scrubs_04"):key(),
+			("units/payday2/characters/civ_female_stripper_asian_1/civ_female_stripper_asian_1"):key(),  -- custom heists, a house of pleasure
+			("units/payday2/characters/civ_female_stripper_asian_2/civ_female_stripper_asian_2"):key(),
+			("units/payday2/characters/civ_female_stripper_russian_1/civ_female_stripper_russian_1"):key(),
+			("units/payday2/characters/civ_female_stripper_russian_2/civ_female_stripper_russian_2"):key(),
+			("units/payday2/characters/civ_female_stripper_russian_3/civ_female_stripper_russian_3"):key(),
+			("units/payday2/characters/civ_female_stripper_russian_4/civ_female_stripper_russian_4"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_african_party_1/civ_female_african_party_1"):key(),  -- constantine scores
+			("units/pd2_mod_ttr/characters/civ_female_african_party_1/civ_female_african_party_killable_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_african_party_2/civ_female_african_party_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_african_party_2/civ_female_african_party_killable_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_african_1/civ_female_bikini_african_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_asian_1/civ_female_bikini_asian_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_asian_2/civ_female_bikini_asian_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_blonde_1/civ_female_bikini_blonde_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_blonde_2/civ_female_bikini_blonde_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_brunette_1/civ_female_bikini_brunette_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_mexican_1/civ_female_bikini_mexican_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_bikini_mexican_5/civ_female_bikini_mexican_5"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_mex_party_1/civ_female_mex_party_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_mex_party_1/civ_female_mex_party_killable_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_mex_party_2/civ_female_mex_party_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_mex_party_2/civ_female_mex_party_killable_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_african_1/civ_female_stripper_african_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_african_1/civ_female_stripper_african_killable_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_african_2/civ_female_stripper_african_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_african_2/civ_female_stripper_african_killable_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_asian_1/civ_female_stripper_asian_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_asian_2/civ_female_stripper_asian_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_blonde_1/civ_female_stripper_blonde_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_blonde_2/civ_female_stripper_blonde_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_brunette_1/civ_female_stripper_brunette_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_brunette_2/civ_female_stripper_brunette_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_mexican_1/civ_female_stripper_mexican_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_mexican_1/civ_female_stripper_mexican_killable_1"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_mexican_2/civ_female_stripper_mexican_2"):key(),
+			("units/pd2_mod_ttr/characters/civ_female_stripper_mexican_2/civ_female_stripper_mexican_killable_2"):key(),
+		})
+
+		self._moon_female_civs_map = female_civs_map
+	end
+
+	if name then
+		return female_civs_map[name] and "female" or "male"
+	end
+
+	return female_civs_map
+end
+
 function CharacterTweakData:moon_weapon_mapping(name)
 	local weapon_mapping = self._moon_weapon_mapping
 

@@ -4,8 +4,9 @@ if ASS:get_var("is_spawner")  then
 end
 
 function ElementSpawnCivilian:moon_init_hook()
-	local moon_data = self._values.moon_data
+	self._original_enemy_name = self._enemy_name
 
+	local moon_data = self._values.moon_data
 	if moon_data then
 		if type(moon_data.enemy) == "table" then
 			self._possible_enemies = moon_data.enemy
@@ -18,11 +19,36 @@ function ElementSpawnCivilian:moon_init_hook()
 		self.static_tier = moon_data.tier
 		self._values.moon_data = nil
 	end
-
-	self._original_enemy_name = self._enemy_name
 end
 
 ASS:post_hook( ElementSpawnCivilian, "init", ElementSpawnCivilian.moon_init_hook )
+
+local idles = {
+	female = {
+		{ "cf_sp_stand_idle_var1", 3, },
+		{ "cf_sp_stand_idle_var3", 3, },
+		{ "cf_sp_stand_arms_crossed", 1, },
+	},
+	male = {
+		{ "cm_sp_stand_idle", 2, },
+		{ "cm_sp_standing_idle_var2", 2, },
+		{ "cm_sp_stand_waiting", 2, },
+		{ "cm_sp_stand_arms_crossed", 1, },
+	},
+}
+for key, list in pairs(idles) do
+	local selector = WeightedSelector:new()
+
+	for _, data in pairs(list) do
+		if type(data) == "table" then
+			selector:add(unpack(data))
+		else
+			selector:add(data, 1)
+		end
+	end
+
+	idles[key] = selector
+end
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
 ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
@@ -38,6 +64,22 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 		self._enemy_name = table.random(self._possible_enemies)
 	elseif self._patched_enemy_name then
 		self._enemy_name = self._patched_enemy_name
+	end
+
+	-- everything coming after this civ check only applies to enemies
+	if getmetatable(self) == ElementSpawnCivilian then
+		if self.moon_needs_state == nil then
+			self.moon_needs_state = not self._values.state or self._values.state == "none" or false
+		end
+
+		if self.moon_needs_state then
+			local idle = idles[tweak_data.character:moon_female_civs_map(self._enemy_name:key())] or idles.male
+			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idle:select())
+
+			self._values.state = state
+		end
+
+		return self:moon_produce_helper()
 	end
 
 	self._enemy_name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", self._enemy_name)

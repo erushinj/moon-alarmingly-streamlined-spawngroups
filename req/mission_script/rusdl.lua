@@ -31,20 +31,13 @@ end
 local civs_any = {
 	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),
 	Idstring("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"),
-	Idstring("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"),
+	Idstring("units/payday2/characters/civ_female_casual_5/civ_female_casual_5"),
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
 	Idstring("units/payday2/characters/civ_male_casual_7/civ_male_casual_7"),
 	Idstring("units/payday2/characters/civ_male_casual_8/civ_male_casual_8"),
 }
-local female_map = table.list_to_set({
-	("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"):key(),
-	("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"):key(),
-	("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"):key(),
-	("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"):key(),
-})
 
--- function like this could be useful for other constantine heists with poor civ setup
 local function get_civs_function(func)
 	return function()
 		local civ = func()
@@ -55,18 +48,10 @@ local function get_civs_function(func)
 
 		return {
 			enemy = civ,
-			pre_func = function(self)
-				if not self._moon_tweaked then
-					self._moon_tweaked = true
-					self._values.rotation = Rotation(math.rand(360), 0, 0)
-
-					local wanted = female_map[civ:key()] and "cf_sp_stand_idle_var1" or "cm_sp_standing_idle_var2"
-					local idle = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, wanted)
-					if idle then
-						self._values.state = idle
-					end
-				end
-			end,
+			values = {
+				state = false,
+				rotation = Rotation(math.rand(360), 0, 0),
+			},
 		}
 	end
 end
