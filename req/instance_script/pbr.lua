@@ -111,7 +111,7 @@ return {
 	end,
 	["levels/instances/unique/pbr/pbr_mountain_surface/world/world"] = function(result)
 		local mountain_surface = patches.mountain_surface
-		local no_shields_dozers = tweak_data.group_ai:moon_preferred_groups_instance("no_shields_dozers")
+		local no_shields_dozers = tweak_data.group_ai:moon_preferred_list("no_shields_dozers")
 		local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 		for _, element in pairs(result.default.elements) do

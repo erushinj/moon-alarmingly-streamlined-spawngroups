@@ -80,8 +80,8 @@ function GroupAITweakData:moon_spawn_group_mapping()
 end
 
 GroupAITweakData.moon_all_preferred = {}
-function GroupAITweakData:moon_preferred_groups(group_type)
-	local preferred = self._moon_preferred_groups
+function GroupAITweakData:moon_preferred_map(group_type)
+	local preferred = self._moon_preferred_map
 
 	if not preferred then
 		preferred = {
@@ -107,7 +107,7 @@ function GroupAITweakData:moon_preferred_groups(group_type)
 			preferred[typ] = map
 		end
 
-		self._moon_preferred_groups = preferred
+		self._moon_preferred_map = preferred
 	end
 
 	if group_type == self.moon_all_preferred then
@@ -117,26 +117,28 @@ function GroupAITweakData:moon_preferred_groups(group_type)
 	return preferred[group_type]
 end
 
-function GroupAITweakData:moon_preferred_groups_instance(group_type)
-	local preferred_instance = self._moon_preferred_groups_instance
+function GroupAITweakData:moon_preferred_list(group_type)
+	local preferred = self._moon_preferred_list
 
-	if not preferred_instance then
-		preferred_instance = {}
+	if not preferred then
+		preferred = {}
 
-		for typ, mapping in pairs(self:moon_preferred_groups(self.moon_all_preferred)) do
-			local map = {}
+		for typ, mapping in pairs(self:moon_preferred_map(self.moon_all_preferred)) do
+			local list = {}
 
 			for name, enabled in pairs(mapping) do
-				map[name] = enabled and true or nil
+				if enabled then
+					table.insert(list, name)
+				end
 			end
 
-			preferred_instance[typ] = table.map_keys(map)
+			preferred[typ] = list
 		end
 
-		self._moon_preferred_groups_instance = preferred_instance
+		self._moon_preferred_list = preferred
 	end
 
-	return preferred_instance[group_type]
+	return preferred[group_type]
 end
 
 function GroupAITweakData:moon_swap_units(prefixes, override_continent)
