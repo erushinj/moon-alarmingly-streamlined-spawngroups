@@ -379,9 +379,6 @@ if not ASS then
 		return self.required[file] and self.required[file](...)
 	end
 
-	-- deprecated functions, still define them
-	ASS:require("deprecated")
-
 	-- ASS's path\req\try_insert.lua
 	local try_insert = ASS:require("try_insert", true)
 	local check_clone = ASS:require("check_clone", true)

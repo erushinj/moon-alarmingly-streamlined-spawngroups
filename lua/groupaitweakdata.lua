@@ -166,9 +166,6 @@ function GroupAITweakData:moon_swap_units(prefixes, override_continent)
 	end
 end
 
--- deprecated name
-GroupAITweakData._moon_swap_units = GroupAITweakData.moon_swap_units
-
 function GroupAITweakData:_moon_add_tactics(tactics)
 	self._tactics = self._tactics or {}
 

@@ -233,12 +233,6 @@ function LevelsTweakData:moon_units(typ)
 	return units
 end
 
-function LevelsTweakData:moon_random_unit(typ)
-	ASS:log("warn", "LevelsTweakData:moon_random_unit is deprecated!")
-
-	return self:moon_units(typ)
-end
-
 function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)
 	if not self._moon_forbidden_scripted_replacements then
 		local all_forbidden = {
