@@ -24,7 +24,7 @@ if not ASS then
 		clean_level_id = clean_level_id:gsub(end_pattern, "")
 	end
 
-	-- create persistent table used for save adjustment checks, SH checks, and ZEAL Level Mod checks
+	-- create persistent table used for SH checks and ZEAL Level Mod checks
 	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
@@ -47,7 +47,6 @@ if not ASS then
 	ASS.job_id = job_id
 	ASS.required = {}
 	ASS.settings = {
-		save_version = tonumber(ASS:GetVersion()),  -- hidden, used for adjusting saved values if necessary
 		is_massive = true,  -- whether the mod is enabled or not
 		level_mod = 3,  -- index into ASS.values.level_mod
 		assault_style = 1,  -- index into ASS.values.assault_style
@@ -410,7 +409,6 @@ if not ASS then
 
 	-- ASS's path\req\hoplib_menu_builder.lua
 	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", "ass", ASS.settings, {
-		save_version = { hidden = true, },
 		is_massive = {
 			priority = priority(),
 			divider = divider,

@@ -60,22 +60,6 @@ function MenuBuilder:load_settings()
 
 	if data then
 		table_replace(self._table, data, true)
-
-		if not data.save_version then
-			self._table.save_version = -1
-		end
-
-		local global = ASS:global()
-		if not global.save_checked then
-			global.save_checked = true
-
-			if ASS:require("save_adjustment") then
-				self._table.save_version = ASS:setting("save_version", true)
-
-				self:save_settings()
-				self:load_settings()
-			end
-		end
 	end
 end
 
