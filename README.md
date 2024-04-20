@@ -14,6 +14,21 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 -----
 
+### Custom Heist Support:
+
+In version 6, the mod has received improved compatibility with custom maps.
+
+Not all may work out of the box, especially if a given heist uses a custom faction, so leave a comment if needed.
+
+Custom heists that have been played from start to finish with the mod, in loud, on Death Wish difficulty:
+
+- [Avalon's Shadow v12](https://modworkshop.net/mod/34760)
+- [Crashing Capitol v1.0.2.3](https://modworkshop.net/mod/44630)
+- [Constantine Heists Archive v5](https://modworkshop.net/mod/43578): heists with the custom FSB or cartel factions; Scarlett Resort; Penthouse Crasher
+- [BOWORKS v1.5](https://modworkshop.net/mod/31560): days 1 and 2 are playable, day 3 is currently not compatible with Streamlined Heisting
+
+-----
+
 ### Settings:
 <table>
     <tr>
@@ -29,7 +44,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Level Mod
         </th>
         <td>
-            Make levels use a fixed response faction on any difficulty.
+            Make levels use a fixed response faction on any difficulty. Disabled in Holdout. ZEAL Level Mods activate an additional matchmaking lock.
         </td>
     </tr>
     <tr>
@@ -69,7 +84,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Super Serious Surrenders
         </th>
         <td>
-            All dominatable enemies will only give up between assault waves.
+            All dominatable enemies will only give up between assault waves. Effectively always active in Super Serious Shooter.
         </td>
     </tr>
     <tr>
@@ -101,7 +116,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Grace Period
         </th>
         <td>
-            Tweak the grace period duration for yourself only - works even when not hosting, but has no effect in Super Serious Shooter.
+            Tweak the grace period duration for yourself only. Has no effect in Super Serious Shooter.
         </td>
     </tr>
     <tr>
@@ -110,6 +125,38 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Taser Dazers
+        </th>
+        <td>
+            Determine the weapon type used by Tasers.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Cloaker Balance
+        </th>
+        <td>
+            Determine the weapon type used by Cloakers.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medic Ordnance
+        </th>
+        <td>
+            Determine the weapon type used by rifle Medics.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medical Ordinance
+        </th>
+        <td>
+            Determine the weapon type used by shotgun Medics. Yes, those are two different words.
         </td>
     </tr>
     <tr>
@@ -133,7 +180,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Captain Winters
         </th>
         <td>
-            Allow Captain Winters to spawn.
+            Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.
         </td>
     </tr>
     <tr>
@@ -161,7 +208,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Marshal Marksmen are added to some scripted spawns to compensate for their removal from the assaults
 - Includes a tweaked version of [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-- Certain special enemies are also given appropriate weaponry for faction consistency
+- Certain special enemies are given appropriate weaponry for faction consistency
 - Certain unique characters (bosses, friendly NPCs) are also given different weapons
 - Mission scripting for several maps has been tweaked - both to improve scripted spawn variety, and to improve game flow
 - Some enemy-related modifiers and mutators have been tweaked to better work with the mod
@@ -427,7 +474,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 These are used when the Level Mod setting is set to Per-Level.
 GenSec-ZEAL and ZEAL Level Mods require an additional matchmaking lock to function online, and thus have no associated levels and will not be picked when Level Mod is set to Random.
-For alternate factions like Murkywater, this will use their version of equivalent American units.
+For alternate factions like Murkywater, this will use their version of equivalent American units - they may not be visually different without other mods, though.
 
 <table>
     <tr>
