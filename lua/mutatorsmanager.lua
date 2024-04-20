@@ -28,7 +28,7 @@ ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 			end
 		end
 	end
-end )
+end, true )
 
 ASS:override( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
 	for id in pairs(group_ai.special_unit_spawn_limits) do
@@ -56,7 +56,7 @@ ASS:override( MutatorEnemyReplacer, "modify_unit_categories", function(self, gro
 			end
 		end
 	end
-end )
+end, true )
 
 ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
 	group_ai.special_unit_spawn_limits.tank = math.huge
@@ -85,7 +85,7 @@ ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_a
 			end
 		end
 	end
-end )
+end, true )
 
 ASS:override( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
 	group_ai.special_unit_spawn_limits.tank = math.huge
@@ -110,4 +110,4 @@ ASS:override( MutatorTitandozers, "modify_unit_categories", function(self, group
 			end
 		end
 	end
-end)
+end, true )
