@@ -1,43 +1,56 @@
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local filters_normal_above = set_difficulty_groups("normal_above")
 local patches = {
 	simple_harasser_spawn = table.set(100008, 100009, 100010, 100011, 100012, 100014, 100015, 100016),
-	born_armory = table.list_to_set({
-		100123,
-		100124,
-		100151,
-		100155,
-		100132,
-		100133,
-		100153,
-		100152,
-		100154,
-		100156,
-		100125,
-		100130,
-		100131,
-		100148,
-		100150,
-		100149,
-	}),
+	born_armory = {
+		cloaker_filter = table.set(100114),
+		swats = table.list_to_set({
+			100123,
+			100124,
+			100151,
+			100155,
+			100132,
+			100133,
+			100153,
+			100152,
+			100154,
+			100156,
+			100125,
+			100130,
+			100131,
+			100148,
+			100150,
+			100149,
+		}),
+	},
 }
 
 return {
 	["levels/instances/shared/simple_harasser_spawn/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local harassers = tweak_data.levels:moon_units(normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far")
+
+		for _, element in pairs(result.default.elements) do
 			if patches.simple_harasser_spawn[element.id] then
-				element.values.possible_enemies = ASS:random_unit("swats")
+				element.values.moon_data = {
+					enemy = harassers,
+				}
 			end
 		end
 	end,
 	["levels/instances/unique/born/born_armory/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
-			if patches.born_armory[element.id] then
-				element.values.possible_enemies = ASS:random_unit("swats_close")
-			end
+		local born_armory = patches.born_armory
+		local swats_close = tweak_data.levels:moon_units("swats_close")
 
-			-- spawn suprise cloaker
-			if element.id == 100114 then
-				element.values.difficulty_easy = true
-				element.values.difficulty_normal = true
+		for _, element in pairs(result.default.elements) do
+			local id = element.id
+
+			if born_armory.swats[id] then
+				element.values.moon_data = {
+					enemy = swats_close,
+				}
+			elseif born_armory.cloaker_filter[id] then  -- spawn suprise cloaker
+				table.map_append(element.values, filters_normal_above)
 			end
 		end
 	end,

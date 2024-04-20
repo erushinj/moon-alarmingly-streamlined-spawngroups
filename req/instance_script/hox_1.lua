@@ -9,25 +9,40 @@ local patches = {
 
 return {
 	["levels/instances/unique/hox_breakout_harasser001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local heavys = tweak_data.levels:moon_units("heavys")
+
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_harasser001[element.id] then
-				element.values.possible_enemies = ASS:random_unit("heavys")
+				element.values.moon_data = {
+					enemy = heavys,
+				}
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_serverroom001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_serverroom001[element.id] then
-				element.values.possible_enemies = ASS:random_unit("dozers_no_med")
+				element.values.moon_data = {
+					enemy = dozers_no_med,
+				}
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_road001/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local cops = tweak_data.levels:moon_units("cops")
+		local swats = tweak_data.levels:moon_units("swats")
+
+		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_road001.cops[element.id] then
-				element.values.possible_enemies = ASS:random_unit("cops")
+				element.values.moon_data = {
+					enemy = cops,
+				}
 			elseif patches.hox_breakout_road001.swats[element.id] then
-				element.values.possible_enemies = ASS:random_unit("swats")
+				element.values.moon_data = {
+					enemy = swats,
+				}
 			end
 		end
 	end,

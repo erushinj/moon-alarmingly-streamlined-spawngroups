@@ -1,52 +1,44 @@
+local dozers_any = tweak_data.levels:moon_units("dozers_any")
+local specials_def = tweak_data.levels:moon_units("specials_def")
+local heavys = tweak_data.levels:moon_units("heavys")
+
 return {
-	-- van swats
-	[100770] = { enemy = ASS:random_unit("swats") },
-	[100771] = { enemy = ASS:random_unit("swats") },
-	[100772] = { enemy = ASS:random_unit("swats") },
-	[100775] = { enemy = ASS:random_unit("swats") },
-	[100776] = { enemy = ASS:random_unit("swats") },
-
-	[100779] = { enemy = ASS:random_unit("swats") },
-	[100780] = { enemy = ASS:random_unit("swats") },
-	[100781] = { enemy = ASS:random_unit("swats") },
-	-- [100783] = { enemy = ASS:random_unit("swats") },  -- thats a cloaker ?
-	[100785] = { enemy = ASS:random_unit("swats") },
-	[100786] = { enemy = ASS:random_unit("swats") },
-
-	[100797] = { enemy = ASS:random_unit("swats") },
-	[100798] = { enemy = ASS:random_unit("swats") },
-	[100800] = { enemy = ASS:random_unit("swats") },
-	[100801] = { enemy = ASS:random_unit("swats") },
-	[100826] = { enemy = ASS:random_unit("swats") },
-
-	[100829] = { enemy = ASS:random_unit("swats") },
-	[100830] = { enemy = ASS:random_unit("swats") },
-	[100833] = { enemy = ASS:random_unit("swats") },
-	[100834] = { enemy = ASS:random_unit("swats") },
-	[100835] = { enemy = ASS:random_unit("swats") },
-
-	-- "harasser" spawns on mitchell/wilson's roofs
-	[101733] = { enemy = ASS:random_unit("swats_close") },
-	[101735] = { enemy = ASS:random_unit("swats_close") },
-	[101716] = { enemy = ASS:random_unit("swats_close") },
-	[101718] = { enemy = ASS:random_unit("swats_close") },
-
-	-- destroyed pool chopper spawns
-	[101747] = { enemy = ASS:random_unit("swats_close") },
-	[101748] = { enemy = ASS:random_unit("swats_close") },
-	[101749] = { enemy = ASS:random_unit("specials_def") },
-	[101750] = { enemy = ASS:random_unit("specials_def") },
-
-	-- crashed van shields
-	[101652] = { enemy = ASS:random_unit("specials_def") },
-	[101653] = { enemy = ASS:random_unit("specials_def") },
-	[102704] = { enemy = ASS:random_unit("specials_def") },
-	[102733] = { enemy = ASS:random_unit("specials_def") },
-	[102758] = { enemy = ASS:random_unit("specials_def") },
-	[102760] = { enemy = ASS:random_unit("specials_def") },
-
-	-- crashed van dozers
-	[101651] = { enemy = ASS:random_unit("dozers_no_med") },
-	[102703] = { enemy = ASS:random_unit("dozers_no_med") },
-	[102745] = { enemy = ASS:random_unit("dozers_no_med") },
+	[100770] = { enemy = heavys, },  -- van swats, van 1
+	[100771] = { enemy = heavys, },
+	[100772] = { enemy = heavys, },
+	[100775] = { enemy = heavys, },
+	[100776] = { enemy = heavys, },
+	[100779] = { enemy = heavys, },  -- van 2
+	[100780] = { enemy = heavys, },
+	[100781] = { enemy = heavys, },
+	-- [100783] = { enemy = heavys, },  -- thats a cloaker ?
+	[100785] = { enemy = heavys, },
+	[100786] = { enemy = heavys, },
+	[100797] = { enemy = heavys, },  -- van 3
+	[100798] = { enemy = heavys, },
+	[100800] = { enemy = heavys, },
+	[100801] = { enemy = heavys, },
+	[100826] = { enemy = heavys, },
+	[100829] = { enemy = heavys, },  -- van 4
+	[100830] = { enemy = heavys, },
+	[100833] = { enemy = heavys, },
+	[100834] = { enemy = heavys, },
+	[100835] = { enemy = heavys, },
+	[101733] = { enemy = heavys, },  -- "harasser" spawns on mitchell/wilson's roofs
+	[101735] = { enemy = heavys, },
+	[101716] = { enemy = heavys, },
+	[101718] = { enemy = heavys, },
+	[101747] = { enemy = heavys, },  -- destroyed pool chopper spawns
+	[101748] = { enemy = heavys, },
+	[101749] = { enemy = specials_def, },
+	[101750] = { enemy = specials_def, },
+	[101652] = { enemy = specials_def, },  -- crashed van, shields
+	[101653] = { enemy = specials_def, },
+	[102704] = { enemy = specials_def, },
+	[102733] = { enemy = specials_def, },
+	[102758] = { enemy = specials_def, },
+	[102760] = { enemy = specials_def, },
+	[101651] = { enemy = dozers_any, },  -- dozers
+	[102703] = { enemy = dozers_any, },
+	[102745] = { enemy = dozers_any, },
 }

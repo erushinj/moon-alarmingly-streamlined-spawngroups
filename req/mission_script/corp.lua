@@ -1,162 +1,198 @@
-local special_chance = ASS:get_var("difficulty_index") * 0.05
-local dozer_chance = special_chance * 0.1
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local get_table_index_func = ASS:require("get_table_index_func", true)
+local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local van_swat_ids = get_table_index_func({
+	103058,
+	103552,
+	103559,
+	103572,
+	103576,
+	103580,
+	103589,
+	103593,
+	103597,
+})
+local van_spawns = scripted_swat_squads({
+	hard_target = normal and 1 or hard and 2 or 3,
+	hard_spawn = "dozers_no_mini",
+	normal_spawn = "specials_any",
+})
+local filters_disable = {
+	values = set_difficulty_groups("disable"),
+}
+local filters_normal_above = {
+	values = set_difficulty_groups("normal_above"),
+}
 
-local function scripted_swat_squads()
-	local rand = math.random()
+local securitys = tweak_data.levels:moon_units("securitys")
+local dozers_no_mini = tweak_data.levels:moon_units("dozers_no_mini")
 
-	return ASS:random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
+local civs_inspector = {
+	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
+	Idstring("units/payday2/characters/civ_male_casual_13/civ_male_casual_13"),
+	Idstring("units/payday2/characters/civ_male_casual_14/civ_male_casual_14"),
+}
+local civs_inspector_1 = get_table_index_func(clone(civs_inspector))
+local civs_inspector_2 = get_table_index_func(civs_inspector)
+local function inspector_group(func)
+	return { enemy = func(), }
 end
 
+local civs_male = table.list_add(civs_inspector, {
+	Idstring("units/payday2/characters/civ_male_casual_12/civ_male_casual_12"),
+	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
+	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
+})
+local civs_lab = {
+	Idstring("units/pd2_dlc_des/characters/civ_male_des_scientist_01/civ_male_des_scientist_01"),
+	Idstring("units/pd2_dlc_des/characters/civ_male_des_scientist_02/civ_male_des_scientist_02"),
+}
+local civs_female = {
+	Idstring("units/pd2_dlc_pent/characters/civ_female_guest_penthouse_1/civ_female_guest_penthouse_1"),
+	Idstring("units/pd2_dlc_pent/characters/civ_female_guest_penthouse_2/civ_female_guest_penthouse_2"),
+	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),
+	Idstring("units/payday2/characters/civ_female_casual_2/civ_female_casual_2"),
+	Idstring("units/payday2/characters/civ_female_casual_4/civ_female_casual_4"),
+	Idstring("units/payday2/characters/civ_female_casual_5/civ_female_casual_5"),
+}
+
 return {
-	[101324] = {
-		values = {
-			enabled = false
-		}
-	},
-	[101325] = {
-		values = {
-			enabled = false
-		}
-	},
-	-- some new reenforce spots
-	[100115] = {
-		reinforce = {
-			{
-				name = "showtime",
-				force = 2,
-				position = Vector3(-1550, 5950, 150)
-			},
-			{
-				name = "bam_boom_poo",
-				force = 2,
-				position = Vector3(1950, 4200, 150)
-			},
-			{
-				name = "research1",
-				force = 2,
-				position = Vector3(-700, 3300, 150)
-			},
-			{
-				name = "research2",
-				force = 2,
-				position = Vector3(4100, 1450, 150)
-			},
-			{
-				name = "main_staircase1",
-				force = 2,
-				position = Vector3(1450, 2650, 0)
-			},
-			{
-				name = "main_staircase2",
-				force = 2,
-				position = Vector3(1800, 3300, 0)
-			},
-			{
-				name = "main_staircase3",
-				force = 3,
-				position = Vector3(1850, 2850, 500)
-			},
-			{
-				name = "main_staircase4",
-				force = 3,
-				position = Vector3(1900, 2900, 900)
-			},
-			{
-				name = "fire_escape",
-				force = 2,
-				position = Vector3(6900, 2350, 0)
-			},
-		},
-	},
-	-- security guards
-	[100670] = { enemy = ASS:random_unit("securitys") },
-	[100671] = { enemy = ASS:random_unit("securitys") },
-	[100672] = { enemy = ASS:random_unit("securitys") },
-	[100673] = { enemy = ASS:random_unit("securitys") },
-	[100674] = { enemy = ASS:random_unit("securitys") },
-	[100675] = { enemy = ASS:random_unit("securitys") },
-	[100676] = { enemy = ASS:random_unit("securitys") },
-	[100677] = { enemy = ASS:random_unit("securitys") },
-	[100678] = { enemy = ASS:random_unit("securitys") },
-	[100679] = { enemy = ASS:random_unit("securitys") },
-	[101490] = { enemy = ASS:random_unit("securitys") },
-	[101491] = { enemy = ASS:random_unit("securitys") },
-	[101493] = { enemy = ASS:random_unit("securitys") },
-	[101498] = { enemy = ASS:random_unit("securitys") },
-	[101503] = { enemy = ASS:random_unit("securitys") },
-	[101519] = { enemy = ASS:random_unit("securitys") },
-	[101520] = { enemy = ASS:random_unit("securitys") },
-	[101522] = { enemy = ASS:random_unit("securitys") },
-	[101527] = { enemy = ASS:random_unit("securitys") },
-	[101532] = { enemy = ASS:random_unit("securitys") },
-	[101548] = { enemy = ASS:random_unit("securitys") },
-	[101549] = { enemy = ASS:random_unit("securitys") },
-	[101551] = { enemy = ASS:random_unit("securitys") },
-	[101556] = { enemy = ASS:random_unit("securitys") },
-	[101561] = { enemy = ASS:random_unit("securitys") },
-	[101577] = { enemy = ASS:random_unit("securitys") },
-	[101578] = { enemy = ASS:random_unit("securitys") },
-	[101580] = { enemy = ASS:random_unit("securitys") },
-	[101585] = { enemy = ASS:random_unit("securitys") },
-	[101590] = { enemy = ASS:random_unit("securitys") },
-	[101644] = { enemy = ASS:random_unit("securitys") },
-	[101645] = { enemy = ASS:random_unit("securitys") },
-	[101646] = { enemy = ASS:random_unit("securitys") },
-	[101648] = { enemy = ASS:random_unit("securitys") },
-	[101649] = { enemy = ASS:random_unit("securitys") },
-	[101677] = { enemy = ASS:random_unit("securitys") },
-	[101678] = { enemy = ASS:random_unit("securitys") },
-	[101679] = { enemy = ASS:random_unit("securitys") },
-	[101681] = { enemy = ASS:random_unit("securitys") },
-	[101682] = { enemy = ASS:random_unit("securitys") },
-	[101710] = { enemy = ASS:random_unit("securitys") },
-	[101711] = { enemy = ASS:random_unit("securitys") },
-	[101712] = { enemy = ASS:random_unit("securitys") },
-	[101714] = { enemy = ASS:random_unit("securitys") },
-	[101715] = { enemy = ASS:random_unit("securitys") },
-
-	-- swat van spawns
-	[103058] = { enemy = scripted_swat_squads() },
-	[103491] = { enemy = scripted_swat_squads() },
-	[103550] = { enemy = scripted_swat_squads() },
-	[103551] = { enemy = scripted_swat_squads() },
-	[103552] = { enemy = scripted_swat_squads() },
-	[103553] = { enemy = scripted_swat_squads() },
-	[103557] = { enemy = scripted_swat_squads() },
-	[103558] = { enemy = scripted_swat_squads() },
-	[103559] = { enemy = scripted_swat_squads() },
-	[103560] = { enemy = scripted_swat_squads() },
-	[103561] = { enemy = scripted_swat_squads() },
-	[103562] = { enemy = scripted_swat_squads() },
-	[103576] = { enemy = scripted_swat_squads() },
-	[103575] = { enemy = scripted_swat_squads() },
-	[103574] = { enemy = scripted_swat_squads() },
-	[103573] = { enemy = scripted_swat_squads() },
-	[103580] = { enemy = scripted_swat_squads() },
-	[103579] = { enemy = scripted_swat_squads() },
-	[103577] = { enemy = scripted_swat_squads() },
-	[103572] = { enemy = scripted_swat_squads() },
-	[103571] = { enemy = scripted_swat_squads() },
-	[103570] = { enemy = scripted_swat_squads() },
-	[102763] = { enemy = scripted_swat_squads() },
-	[103589] = { enemy = scripted_swat_squads() },
-	[103590] = { enemy = scripted_swat_squads() },
-	[103591] = { enemy = scripted_swat_squads() },
-	[103592] = { enemy = scripted_swat_squads() },
-	[103593] = { enemy = scripted_swat_squads() },
-	[103594] = { enemy = scripted_swat_squads() },
-	[103595] = { enemy = scripted_swat_squads() },
-	[103596] = { enemy = scripted_swat_squads() },
-	[103597] = { enemy = scripted_swat_squads() },
-	[103598] = { enemy = scripted_swat_squads() },
-	[103599] = { enemy = scripted_swat_squads() },
-	[103600] = { enemy = scripted_swat_squads() },
-
-	-- elevator dozers
-	[102384] = { enemy = ASS:random_unit("dozers_any") },
-	[103016] = { enemy = ASS:random_unit("dozers_any") },
-	[103017] = { enemy = ASS:random_unit("dozers_any") },
-	[102385] = { enemy = ASS:random_unit("dozers_any") },
-	[103025] = { enemy = ASS:random_unit("dozers_any") },
-	[103026] = { enemy = ASS:random_unit("dozers_any") },
+	[103566] = filters_normal_above,  -- van bullshit
+	[103567] = filters_disable,
+	[103568] = filters_disable,
+	[103569] = filters_disable,
+	[103604] = filters_normal_above,
+	[103605] = filters_disable,
+	[103606] = filters_disable,
+	[103607] = filters_disable,
+	[103585] = filters_normal_above,
+	[103586] = filters_disable,
+	[103587] = filters_disable,
+	[103588] = filters_disable,
+	[van_swat_ids()] = { enemy = van_spawns(), },  -- swat van spawns
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[van_swat_ids()] = { enemy = van_spawns(), },
+	[100670] = { enemy = securitys, },  -- security guards
+	[100671] = { enemy = securitys, },
+	[100672] = { enemy = securitys, },
+	[100673] = { enemy = securitys, },
+	[100674] = { enemy = securitys, },
+	[100675] = { enemy = securitys, },
+	[100676] = { enemy = securitys, },
+	[100677] = { enemy = securitys, },
+	[100678] = { enemy = securitys, },
+	[100679] = { enemy = securitys, },
+	[101490] = { enemy = securitys, },
+	[101491] = { enemy = securitys, },
+	[101493] = { enemy = securitys, },
+	[101498] = { enemy = securitys, },
+	[101503] = { enemy = securitys, },
+	[101519] = { enemy = securitys, },
+	[101520] = { enemy = securitys, },
+	[101522] = { enemy = securitys, },
+	[101527] = { enemy = securitys, },
+	[101532] = { enemy = securitys, },
+	[101548] = { enemy = securitys, },
+	[101549] = { enemy = securitys, },
+	[101551] = { enemy = securitys, },
+	[101556] = { enemy = securitys, },
+	[101561] = { enemy = securitys, },
+	[101577] = { enemy = securitys, },
+	[101578] = { enemy = securitys, },
+	[101580] = { enemy = securitys, },
+	[101585] = { enemy = securitys, },
+	[101590] = { enemy = securitys, },
+	[101644] = { enemy = securitys, },
+	[101645] = { enemy = securitys, },
+	[101646] = { enemy = securitys, },
+	[101648] = { enemy = securitys, },
+	[101649] = { enemy = securitys, },
+	[101677] = { enemy = securitys, },
+	[101678] = { enemy = securitys, },
+	[101679] = { enemy = securitys, },
+	[101681] = { enemy = securitys, },
+	[101682] = { enemy = securitys, },
+	[101710] = { enemy = securitys, },
+	[101711] = { enemy = securitys, },
+	[101712] = { enemy = securitys, },
+	[101714] = { enemy = securitys, },
+	[101715] = { enemy = securitys, },
+	[102384] = { enemy = dozers_no_mini, },  -- elevator dozers
+	[103016] = { enemy = dozers_no_mini, },
+	[103017] = { enemy = dozers_no_mini, },
+	[102385] = { enemy = dozers_no_mini, },
+	[103025] = { enemy = dozers_no_mini, },
+	[103026] = { enemy = dozers_no_mini, },
+	[100175] = { enemy = civs_female, },
+	[100176] = { enemy = civs_female, },
+	[100177] = { enemy = civs_female, },
+	[100178] = { enemy = civs_female, },
+	[100179] = { enemy = civs_female, },
+	[100180] = { enemy = civs_male, },
+	[100181] = { enemy = civs_male, },
+	[100182] = { enemy = civs_male, },
+	[100184] = { enemy = civs_male, },
+	[100108] = { enemy = civs_male, },
+	[100169] = { enemy = civs_male, },
+	[100171] = { enemy = civs_male, },
+	[100172] = { enemy = civs_male, },
+	[100173] = { enemy = civs_female, },
+	[100174] = { enemy = civs_male, },
+	[101240] = { enemy = civs_male, },
+	[101239] = { enemy = civs_female, },
+	[101402] = { enemy = civs_male, },
+	[101241] = { enemy = civs_male, },
+	[101242] = { enemy = civs_male, },
+	[101243] = { enemy = civs_female, },
+	[101246] = { enemy = civs_male, },
+	[101247] = { enemy = civs_female, },
+	[101424] = { enemy = civs_male, },  -- normally female, however, male animations funny
+	[101425] = { enemy = civs_lab, },
+	[101426] = { enemy = civs_male, },
+	[101427] = { enemy = civs_lab, },
+	[101428] = { enemy = civs_female, },
+	[101429] = { enemy = civs_male, },
+	[101430] = { enemy = civs_female, },
+	[101431] = { enemy = civs_male, },
+	[101432] = { enemy = civs_female, },
+	[101433] = { enemy = civs_male, },
+	[101434] = { enemy = civs_female, },
+	[101435] = { enemy = civs_male, },
+	[101437] = { enemy = civs_lab, },
+	[101438] = { enemy = civs_lab, },
+	[101440] = { enemy = civs_male, },
+	[101442] = { enemy = civs_male, },
+	[101444] = { enemy = civs_male, },
+	[101420] = { enemy = civs_male, },
+	[101447] = { enemy = civs_lab, },
+	[101448] = { enemy = civs_lab, },
+	[101449] = { enemy = civs_lab, },
+	[101450] = { enemy = civs_lab, },
+	[101451] = { enemy = civs_lab, },
+	[101452] = { enemy = civs_lab, },
+	[101455] = { enemy = civs_male, },
+	[101456] = { enemy = civs_female, },
+	[101457] = { enemy = civs_male, },
+	[101458] = { enemy = civs_female, },
+	[101459] = { enemy = civs_male, },
+	[101461] = { enemy = civs_male, },
+	[101462] = { enemy = civs_female, },
+	[101466] = { enemy = civs_male, },
+	[101474] = { enemy = civs_male, },
+	[102438] = inspector_group(civs_inspector_1),
+	[102439] = inspector_group(civs_inspector_1),
+	[102440] = inspector_group(civs_inspector_1),
+	[102441] = inspector_group(civs_inspector_1),
+	[102434] = inspector_group(civs_inspector_2),
+	[102435] = inspector_group(civs_inspector_2),
+	[102436] = inspector_group(civs_inspector_2),
+	[102437] = inspector_group(civs_inspector_2),
 }

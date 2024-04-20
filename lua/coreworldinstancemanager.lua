@@ -1,32 +1,24 @@
-if Network:is_client() or Global.editor_mode then
+if ASS.is_editor_or_client then
 	return
 end
 
-local instance_script_patches = ASS:instance_script_patches()
+local instance_script_patches = ASS:script_patches("instance")
 if not instance_script_patches then
-	return
+	return ASS:log("info", "No instance script patches for current level...")
 end
 
--- local _get_instance_mission_data_original = CoreWorldInstanceManager._get_instance_mission_data
--- function CoreWorldInstanceManager:_get_instance_mission_data(path, ...)
--- 	local result = _get_instance_mission_data_original(self, path, ...)
--- 	local func = instance_script_patches[path]
-
--- 	if func then
--- 		func(result)
--- 	end
-
--- 	return result
--- end
-
-ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path, ...)
+ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path)
 	local func = instance_script_patches[path]
 
 	if func then
 		local result = Hooks:GetReturn()
 
-		func(result)
+		if not result then
+			ASS:log("warn", "Instance \"%s\" unavailable!", path)
+		else
+			func(result)
 
-		return result
+			return result
+		end
 	end
 end )

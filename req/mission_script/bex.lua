@@ -12,55 +12,37 @@ local suits = {
 	Idstring("units/pd2_dlc_bex/characters/ene_bex_security_suit_02/ene_bex_security_suit_02"),
 	Idstring("units/pd2_dlc_bex/characters/ene_bex_security_suit_03/ene_bex_security_suit_03"),
 }
+local disable = {
+	values = {
+		enabled = false,
+	},
+}
+local reenforce_office_1 = {
+	name = "office1",
+	force = 2,
+	position = Vector3(700, -6000, 0),
+}
+local reenforce_office_2 = {
+	name = "office2",
+	force = 2,
+	position = Vector3(-700, -6000, 0),
+}
+local reenforce_office_3 = {
+	name = "office3",
+	force = 2,
+	position = Vector3(1150, -4400, 0),
+}
 
 return {
-	-- disable guaranteed reenforce in one of the server rooms, the others dont have reenforce, why this one ?
-	[101835] = {  -- point area min police force 2
-		values = {
-			enabled = false,
-		},
-	},
-	-- cheat spawns, replaced with reenforce
-	[102369] = {  -- toggle cheat spawns on
-		values = {
-			enabled = false,
-		},
-	},
-	[102355] = {  -- extra preferreds 001
-		values = {
-			enabled = false,
-		},
-	},
-	[102363] = {  -- extra preferreds 002
-		values = {
-			enabled = false,
-		},
-	},
-	[100007] = {  -- extra preferreds 003
-		values = {
-			enabled = false,
-		},
-	},
-	[102388] = {  -- extra preferreds 004
-		values = {
-			enabled = false,
-		},
-	},
-	[102847] = {  -- extra preferreds 005
-		values = {
-			enabled = false,
-		},
-	},
-	[100020] = {  -- extra preferreds 006
-		values = {
-			enabled = false,
-		},
-	},
-	[100198] = {  -- extra preferreds 007
-		values = {
-			enabled = false,
-		},
-	},
+	[101835] = disable,  -- point area min police force 2
+	[102369] = disable,  -- cheat spawns, replaced with reenforce, toggle cheat spawns on
+	[102355] = disable,  -- "extra preferreds 00X"
+	[102363] = disable,
+	[100007] = disable,
+	[102388] = disable,
+	[102847] = disable,
+	[100020] = disable,
+	[100198] = disable,
 	[100109] = {  -- police, executed on alarm
 		reinforce = {
 			{
@@ -110,107 +92,62 @@ return {
 			},
 		},
 	},
-	-- add reenforce to office rooms at start
-	[101758] = {  -- server room point 1
+	[101758] = {  -- add reenforce to office rooms at start, server room point 1
 		reinforce = {
-			{
-				name = "office1",
-				force = 2,
-				position = Vector3(700, -6000, 0),
-			},
-			{
-				name = "office2",
-				force = 2,
-				position = Vector3(-700, -6000, 0),
-			},
+			reenforce_office_1,
+			reenforce_office_2,
 		},
 	},
 	[101013] = {  -- server room point 2
 		reinforce = {
-			{
-				name = "office2",
-				force = 2,
-				position = Vector3(-700, -6000, 0),
-			},
-			{
-				name = "office3",
-				force = 2,
-				position = Vector3(1150, -4400, 0),
-			},
+			reenforce_office_2,
+			reenforce_office_3,
 		},
 	},
 	[101886] = {  -- server room point 3 (same room as 1)
 		reinforce = {
-			{
-				name = "office1",
-				force = 2,
-				position = Vector3(700, -6000, 0),
-			},
-			{
-				name = "office2",
-				force = 2,
-				position = Vector3(-700, -6000, 0),
-			},
+			reenforce_office_1,
+			reenforce_office_2,
 		},
 	},
 	[101022] = {  -- server room point 4
 		reinforce = {
-			{
-				name = "office1",
-				force = 2,
-				position = Vector3(700, -6000, 0),
-			},
-			{
-				name = "office3",
-				force = 2,
-				position = Vector3(1150, -4400, 0),
-			},
+			reenforce_office_1,
+			reenforce_office_3,
 		},
 	},
 	[101801] = {  -- hacking completed - server room is fair game for reenforce
 		reinforce = {
-			{
-				name = "office1",
-				force = 2,
-				position = Vector3(700, -6000, 0),
-			},
-			{
-				name = "office2",
-				force = 2,
-				position = Vector3(-700, -6000, 0),
-			},
-			{
-				name = "office3",
-				force = 2,
-				position = Vector3(1150, -4400, 0),
-			},
+			reenforce_office_1,
+			reenforce_office_2,
+			reenforce_office_3,
 		},
 	},
-	[104687] = { enemy = securitys },  -- pre-spawned policia
-	[104688] = { enemy = securitys },
-	[100675] = { enemy = securitys },
-	[100676] = { enemy = securitys },
-	[104689] = { enemy = securitys },  -- securitys
-	[100670] = { enemy = securitys },
-	[100671] = { enemy = securitys },
-	[100672] = { enemy = securitys },
-	[100673] = { enemy = securitys },
-	[100674] = { enemy = securitys },
-	[100677] = { enemy = securitys },
-	[100678] = { enemy = securitys },
-	[100679] = { enemy = securitys },
-	[101570] = { enemy = securitys },
-	[101571] = { enemy = securitys },
-	[101574] = { enemy = securitys },
-	[101507] = { enemy = securitys },
-	[101508] = { enemy = securitys },
-	[101618] = { enemy = suits },
-	[103084] = { enemy = suits },
-	[103087] = { enemy = suits },
-	[101579] = { enemy = suits },  -- suits
-	[101587] = { enemy = suits },
-	[101599] = { enemy = suits },
-	[101625] = { enemy = suits },
-	[103092] = { enemy = suits },
-	[103103] = { enemy = suits },
+	[104687] = { enemy = securitys, },  -- pre-spawned policia
+	[104688] = { enemy = securitys, },
+	[100675] = { enemy = securitys, },
+	[100676] = { enemy = securitys, },
+	[104689] = { enemy = securitys, },  -- securitys
+	[100670] = { enemy = securitys, },
+	[100671] = { enemy = securitys, },
+	[100672] = { enemy = securitys, },
+	[100673] = { enemy = securitys, },
+	[100674] = { enemy = securitys, },
+	[100677] = { enemy = securitys, },
+	[100678] = { enemy = securitys, },
+	[100679] = { enemy = securitys, },
+	[101570] = { enemy = securitys, },
+	[101571] = { enemy = securitys, },
+	[101574] = { enemy = securitys, },
+	[101507] = { enemy = securitys, },
+	[101508] = { enemy = securitys, },
+	[101618] = { enemy = suits, },
+	[103084] = { enemy = suits, },
+	[103087] = { enemy = suits, },
+	[101579] = { enemy = suits, },  -- suits
+	[101587] = { enemy = suits, },
+	[101599] = { enemy = suits, },
+	[101625] = { enemy = suits, },
+	[103092] = { enemy = suits, },
+	[103103] = { enemy = suits, },
 }

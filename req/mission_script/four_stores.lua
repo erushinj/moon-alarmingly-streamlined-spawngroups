@@ -1,19 +1,12 @@
 return {
-	-- titan cams
-	[103683] = {
-		values = {
-			enabled = false,
-		},
-	},
-	-- spawn points
-	[101112] = {  -- spawn 1
+	[101112] = {  -- spawn points, spawn 1
 		on_executed = {
-			{ id = 103242, },
+			{ id = 103242, delay = 0, },
 		},
 	},
 	[101113] = {  -- spawn 2
 		on_executed = {
-			{ id = 103242, },
+			{ id = 103242, delay = 0, },
 		},
 		values = {
 			enabled = true,
@@ -21,7 +14,7 @@ return {
 	},
 	[101115] = {  -- spawn 4
 		on_executed = {
-			{ id = 103242, },
+			{ id = 103242, delay = 0, },
 		},
 		values = {
 			enabled = true,

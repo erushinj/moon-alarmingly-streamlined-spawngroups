@@ -1,26 +1,28 @@
 {
 
-	"ass_menu_main" : "Alarmingly Streamlined Spawngroups",
+	"ass_menu" : "Alarmingly Streamlined Spawngroups",
 
 	"ass_menu_is_massive" : "Enable the ASS",
 	"ass_menu_is_massive_desc" : "Make the mod do the thing.",
 
 	"ass_menu_level_mod" : "Level Mod",
-	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty. Disabled in Holdout.",
+	"ass_menu_level_mod_desc" : "Make levels use a fixed response faction on any difficulty. Disabled in Holdout. ZEAL Level Mods activate an additional matchmaking lock.",
 	"ass_level_mod_disable" : "Disable",
+	"ass_level_mod_random" : "Random",
 	"ass_level_mod_per_level" : "Per-Level",
 	"ass_level_mod_CS_normal" : "SWAT",
 	"ass_level_mod_CS_FBI_overkill" : "SWAT-FBI",
 	"ass_level_mod_FBI_overkill_145" : "FBI",
 	"ass_level_mod_FBI_CITY_easy_wish" : "FBI-GenSec",
 	"ass_level_mod_CITY_overkill_290" : "GenSec",
-	"ass_level_mod_random" : "Random",
+	"ass_level_mod_CITY_ZEAL_awesome_difficulty_name" : "GenSec-ZEAL",
+	"ass_level_mod_ZEAL_sm_wish" : "ZEAL",
 
 	"ass_menu_assault_style" : "Assault Style",
 	"ass_menu_assault_style_desc" : "Choose which set of spawn groups to face.",
 	"ass_assault_style_original" : "Original",
-	"ass_assault_style_streamlined" : "Streamlined",
-	"ass_assault_style_default" : "Default",
+	"ass_assault_style_streamlined" : "Streamlined++",
+	"ass_assault_style_default" : "Default Streamlined",
 	"ass_assault_style_chicken_plate" : "Chicken Plate",
 
 	"ass_menu_skill" : "Skill Level",
@@ -39,32 +41,77 @@
 	"ass_menu_doms_all_hard_desc" : "All dominatable enemies are as adept at resisting domination as a heavy unit.",
 
 	"ass_menu_doms_super_serious" : "Super Serious Surrenders",
-	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves.",
+	"ass_menu_doms_super_serious_desc" : "All dominatable enemies will only give up between assault waves. Effectively always active in Super Serious Shooter.",
 
-	"ass_menu_max_values" : "Death Sentence Values",
+	"ass_menu_max_values" : "Absolute Values",
 	"ass_menu_max_values_desc" : "Sets values that scale with chosen difficulty to use Death Sentence values.",
 
-	"ass_menu_max_diff" : "Toughest Assault Always",
+	"ass_menu_max_diff" : "Maxed Assault Strength",
 	"ass_menu_max_diff_desc" : "Always uses task data corresponding to 100% heist difficulty progression.",
 
-	"ass_menu_max_balance_muls" : "Full Lobby Spawns Always",
+	"ass_menu_max_balance_muls" : "Maxed Law Multipliers",
 	"ass_menu_max_balance_muls_desc" : "Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.",
 
 	"ass_menu_dmg_interval" : "Grace Period",
-	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.",
-	"ass_dmg_interval_default" : "Little Timmy (0.25s)",
+	"ass_menu_dmg_interval_desc" : "Tweak the grace period duration for yourself only. Has no effect in Super Serious Shooter.",
+	"ass_dmg_interval_0.250" : "Little Timmy (0.25s)",
 	"ass_dmg_interval_0.225" : "Toe in the Pool (0.225s)",
-	"ass_dmg_interval_0.2" : "Seasoned Streamliner (0.2s)",
+	"ass_dmg_interval_0.200" : "Seasoned Streamliner (0.2s)",
 	"ass_dmg_interval_0.175" : "No Stranger to Danger (0.175s)",
-	"ass_dmg_interval_0.15" : "Fleur-de-lis Enthusiast (0.15s)",
-	"ass_dmg_interval_0.05" : "Super Serious (0.05s)",
-	"ass_dmg_interval_0" : "Good Game Design (0s)",
+	"ass_dmg_interval_0.150" : "Fleur-de-lis Enthusiast (0.15s)",
+	"ass_dmg_interval_0.125" : "Shieldfucker (0.125s)",
+	"ass_dmg_interval_0.100" : "A Distinctive Lack of Name (0.10s)",
+	"ass_dmg_interval_0.075" : "Belt-Fed Target Practice (0.075s)",
+	"ass_dmg_interval_0.050" : "Super Serious (0.05s)",
+	"ass_dmg_interval_0.025" : "Post-Prequel Sequel (0.025s)",
+	"ass_dmg_interval_0.000" : "Good Game Design (0s)",
+
+	"ass_menu_shield_arms" : "Shield Arms",
+	"ass_menu_shield_arms_desc" : "Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.",
+	"ass_shield_arms_default" : "Griller (Default)",
+	"ass_shield_arms_pistols" : "Conformist (Pistols)",
+	"ass_shield_arms_smgs" : "Radical (SMGs)",
+	"ass_shield_arms_both" : "Centrist (Both)",
+
+	"ass_menu_taser_dazers" : "Taser Dazers",
+	"ass_menu_taser_dazers_desc" : "Determine the weapon type used by Tasers.",
+	"ass_taser_dazers_default" : "Prude (Default)",
+	"ass_taser_dazers_rifles" : "Vanilla (Rifles)",
+	"ass_taser_dazers_sko12s" : "Deviant (Concussive Auto Shotguns)",
+	"ass_taser_dazers_both" : "Experimental (Both)",
+
+	"ass_menu_cloaker_balance" : "Cloaker Balance",
+	"ass_menu_cloaker_balance_desc" : "Determine the weapon type used by Cloakers.",
+	"ass_cloaker_balance_default" : "Sober (Default)",
+	"ass_cloaker_balance_smgs" : "Sippy (SMGs)",
+	"ass_cloaker_balance_pistols" : "Tipsy (Pistols)",
+	"ass_cloaker_balance_both" : "Blackout (Both)",
+
+	"ass_menu_medic_ordnance" : "Medic Ordnance",
+	"ass_menu_medic_ordnance_desc" : "Determine the weapon type used by rifle Medics.",
+	"ass_medic_ordnance_default" : "Apathetic (Default)",
+	"ass_medic_ordnance_rifles" : "High Strung (Rifles)",
+	"ass_medic_ordnance_revolvers" : "Cracked (Revolvers)",
+	"ass_medic_ordnance_both" : "Marquez Maelstrom (Both)",
+
+	"ass_menu_medical_ordinance" : "Medical Ordinance",
+	"ass_menu_medical_ordinance_desc" : "Determine the weapon type used by shotgun Medics. Yes, those are two different words.",
+	"ass_medical_ordinance_default" : "Indifferent (Default)",
+	"ass_medical_ordinance_shotguns" : "On Edge (Pump Shotguns)",
+	"ass_medical_ordinance_saigas" : "Frenzied (Auto Shotguns)",
+	"ass_medical_ordinance_both" : "Denka Dakka (Both)",
+
+	"ass_menu_smg_units" : "Shiny Riflemen",
+	"ass_menu_smg_units_desc" : "Allow SMG SWATs for supported factions to spawn in the assault, if available.",
 
 	"ass_menu_minigun_dozers" : "Minigun Dozers",
 	"ass_menu_minigun_dozers_desc" : "Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.",
 
 	"ass_menu_captain_winters" : "Captain Winters",
-	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn.",
+	"ass_menu_captain_winters_desc" : "Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.",
+
+	"ass_menu_gas_grenade_ignore_hostages" : "True Patriots",
+	"ass_menu_gas_grenade_ignore_hostages_desc" : "Allow police to deploy gas grenades even when hostages are in the area.",
 
 	"ass_menu_escapes" : "Escapes",
 	"ass_menu_escapes_desc" : "Allow escapes to occur.",
@@ -73,8 +120,14 @@
 	"ass_menu_reset_settings_desc" : "Reset settings to the default for the next heist.",
 	"ass_menu_reset_settings_verify" : "Sure you wanna reset your settings?",
 
-	"ass_menu_did_not_find_sh" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
-	"ass_menu_did_not_find_sh_goto" : "Streamline my heisting",
+	"ass_menu_sh_not_found" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is installed and the game is fully restarted.",
+	"ass_menu_sh_not_found_goto" : "Streamline my heisting",
+
+	"ass_menu_sh_disabled" : "Alarmingly Streamlined Spawngroups requires Streamlined Heisting to be enabled.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is reenabled and the game is fully restarted.",
+
+	"ass_menu_sh_outdated" : "Alarmingly Streamlined Spawngroups requires a newer version of Streamlined Heisting.\n\nAlarmingly Streamlined Spawngroups will deactivate itself until Streamlined Heisting is updated and the game is fully restarted.",
+
+	"ass_menu_zeal_matchmaking_locked" : "The ZEAL Level Mods in Alarmingly Streamlined Spawngroups require an additional matchmaking lock due to technical reasons.\n\nYou will only be able to play with others who also have the mod set to use a ZEAL Level Mod.\n\nTo remove this matchmaking lock, change your Level Mod setting to one without ZEALs and fully restart your game.",
 
 	"ass_menu_warning" : "Listen up",
 	"ass_menu_verify" : "Sure you wanna do this?",

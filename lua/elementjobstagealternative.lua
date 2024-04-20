@@ -1,9 +1,11 @@
-local escapes = ASS:get_setting("escapes")
+if ASS.is_editor_or_client then
+	return
+end
 
 -- disable escapes based on settings, but still allow alternate days
-local on_executed_original = ElementJobStageAlternative.on_executed
-function ElementJobStageAlternative:on_executed(instigator, ...)
-	if escapes or not self._values.interupt or self._values.interupt == "none" then
-		return on_executed_original(self, instigator, ...)
-	end
+if not ASS:setting("escapes") then
+	ASS:log("info", "Disabling escapes in \"ElementJobStageAlternative:on_executed\"...")
+	ASS:override( ElementJobStageAlternative, "on_executed", function(self, ...)
+		return (not self._values.interupt or self._values.interupt == "none") and self:on_executed_original(...)
+	end )
 end

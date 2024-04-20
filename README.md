@@ -14,6 +14,21 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 -----
 
+### Custom Heist Support:
+
+In version 6, the mod has received improved compatibility with custom maps.
+
+Not all may work out of the box, especially if a given heist uses a custom faction, so leave a comment if needed.
+
+Custom heists that have been played from start to finish with the mod, in loud, on Death Wish difficulty:
+
+- [Avalon's Shadow v12](https://modworkshop.net/mod/34760)
+- [Crashing Capitol v1.0.2.3](https://modworkshop.net/mod/44630)
+- [Constantine Heists Archive v5](https://modworkshop.net/mod/43578): heists with the custom FSB or cartel factions; Scarlett Resort; Penthouse Crasher
+- [BOWORKS v1.5](https://modworkshop.net/mod/31560): days 1 and 2 are playable, day 3 is currently not compatible with Streamlined Heisting
+
+-----
+
 ### Settings:
 <table>
     <tr>
@@ -29,7 +44,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Level Mod
         </th>
         <td>
-            Make levels use a fixed response faction on any difficulty.
+            Make levels use a fixed response faction on any difficulty. Disabled in Holdout. ZEAL Level Mods activate an additional matchmaking lock.
         </td>
     </tr>
     <tr>
@@ -69,12 +84,12 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Super Serious Surrenders
         </th>
         <td>
-            All dominatable enemies will only give up between assault waves.
+            All dominatable enemies will only give up between assault waves. Effectively always active in Super Serious Shooter.
         </td>
     </tr>
     <tr>
         <th>
-            Death Sentence Values
+            Absolute Values
         </th>
         <td>
             Sets values that scale with chosen difficulty to use Death Sentence values.
@@ -82,7 +97,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Toughest Assault Always
+            Maxed Assault Strength
         </th>
         <td>
             Always uses task data corresponding to 100% heist difficulty progression.
@@ -90,7 +105,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
-            Full Lobby Spawns Always
+            Maxed Law Multipliers
         </th>
         <td>
             Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.
@@ -101,7 +116,55 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Grace Period
         </th>
         <td>
-            Tweak the grace period duration for yourself only - has no effect in Super Serious Shooter.
+            Tweak the grace period duration for yourself only. Has no effect in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Shield Arms
+        </th>
+        <td>
+            Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Taser Dazers
+        </th>
+        <td>
+            Determine the weapon type used by Tasers.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Cloaker Balance
+        </th>
+        <td>
+            Determine the weapon type used by Cloakers.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medic Ordnance
+        </th>
+        <td>
+            Determine the weapon type used by rifle Medics.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medical Ordinance
+        </th>
+        <td>
+            Determine the weapon type used by shotgun Medics. Yes, those are two different words.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Shiny Riflemen
+        </th>
+        <td>
+            Allow SMG SWATs for supported factions to spawn in the assault, if available.
         </td>
     </tr>
     <tr>
@@ -117,7 +180,15 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             Captain Winters
         </th>
         <td>
-            Allow Captain Winters to spawn.
+            Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            True Patriots
+        </th>
+        <td>
+            Allow police to deploy gas grenades even when hostages are in the area.
         </td>
     </tr>
     <tr>
@@ -131,13 +202,16 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 </table>
 
 ### Notes:
-- Only works as host
-- Values (eg, frequency of tougher units) scales with chosen difficulty
+- Majority of features only work as host
+- Values (eg, frequency of tougher units) scale with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
 - Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
-- Includes [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
-- Scripted spawns on several maps are tweaked for better guard, SWAT, and special variety
-- Certain special enemies and unique characters are given appropriate weaponry
+- Marshal Marksmen are added to some scripted spawns to compensate for their removal from the assaults
+- Includes a tweaked version of [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
+- Certain special enemies are given appropriate weaponry for faction consistency
+- Certain unique characters (bosses, friendly NPCs) are also given different weapons
+- Mission scripting for several maps has been tweaked - both to improve scripted spawn variety, and to improve game flow
+- Some enemy-related modifiers and mutators have been tweaked to better work with the mod
 
 -----
 
@@ -150,30 +224,32 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             <ul>
-                <li>Modernized and tweaked restoration of the game's original spawn groups.</li>
-                <li>Scales up shotgunner and flanker presence with difficulty.</li>
+                <li>Modernized and tweaked restoration of the game's pre-Crimefest 2016 spawn groups.</li>
+                <li>New enemy combos; riflemen and shotgunners spawn together; light and heavy units spawn separately.</li>
+                <li>Scales up shotgunner and flanker presence with difficulty; light and heavy unit presence is always approximately 1:1.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Streamlined
+            Streamlined++
         </th>
         <td>
             <ul>
                 <li>Spicier version of Streamlined Heisting's default groups.</li>
-                <li>Scales up heavy presence with difficulty.</li>
+                <li>New enemy combos; more shotgunners.</li>
+                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence - this ratio varies with the chosen Skill Level.</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Default
+            Default Streamlined
         </th>
         <td>
             <ul>
-                <li>Tweaks Streamlined Heisting's default groups to work with the mod's features.</li>
-                <li>All other aspects of the mod are unchanged.</li>
+                <li>Tweaks Streamlined Heisting's default groups to work with the Level Mod and Skill Level settings.</li>
+                <li>Does not add new units to the groups; all other aspects of the mod, such as mission script tweaks, still apply.</li>
             </ul>
         </td>
     </tr>
@@ -184,7 +260,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         <td>
             <ul>
                 <li>Experimental - enemies spawn solo, but faster than normal.</li>
-                <li>Higher heavy presence than normal.</li>
+                <li>Higher heavy unit presence than normal - 5:2 heavy-to-light ratio in the toughest assault waves.</li>
             </ul>
         </td>
     </tr>
@@ -224,7 +300,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
         </th>
         <td>
             <ul>
-                <li>Enemy rifles can damage you with every shot.</li>
+                <li>Enemies with rifles can damage you with every shot.</li>
             </ul>
         </td>
     </tr>
@@ -235,6 +311,31 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
     <tr>
         <th>
+            Shieldfucker (0.125s)
+        </th>
+        <td>
+            <ul>
+                <li>Shields with SMGs can damage you with every shot.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            A Distinctive Lack of Name (0.10s)
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Belt-Fed Target Practice (0.075s)
+        </th>
+        <td>
+            <ul>
+                <li>Bulldozers with LMGs can damage you with every shot.</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
             Super Serious (0.05s)
         </th>
         <td>
@@ -242,6 +343,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Same as Super Serious Shooter.</li>
             </ul>
         </td>
+    </tr>
+    <tr>
+        <th>
+            Post-Prequel Sequel (0.025s)
+        </th>
     </tr>
     <tr>
         <th>
@@ -261,14 +367,14 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Pussy.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 4.5 minutes.</li>
-                <li>Assault breaks are 25% longer.</li>
+                <li>Assaults last up to around 5 minutes.</li>
+                <li>Assault breaks are 10% longer.</li>
                 <li>The cooldown between enemies using the same grenade type again is increased by 15%.</li>
                 <li>The cooldown between enemies using any grenade is 15 seconds.</li>
                 <li>Enemies are more hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is increased to 110%.</li>
-                <li>Smoke bombs last up to 12 seconds.</li>
-                <li>Gas grenade chance builds up much more slowly.</li>
+                <li>Smoke bombs last up to 15 seconds.</li>
+                <li>Gas grenade chance builds up more slowly.</li>
             </ul>
         </td>
     </tr>
@@ -280,8 +386,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Probably won't hurt.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 5 minutes.</li>
-                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
+                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
+                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -294,8 +400,8 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>May hurt.</li>
                 <li>Original values.</li>
-                <li>Assaults last up to around 5 minutes.</li>
-                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
+                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
+                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
                 <li>Smoke bombs last up to 15 seconds.</li>
             </ul>
         </td>
@@ -308,11 +414,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
             <ul>
                 <li>Will hurt.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 6 minutes.</li>
+                <li>Assaults last up to around 6.5 minutes. Length varies.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using the same grenade type again is decreased by 25%.</li>
                 <li>The cooldown between enemies using any grenade is 12 seconds.</li>
-                <li>Enemies are slightly less hesitant to push when no grenade is available.</li>
+                <li>Enemies are less hesitant to push when no grenade is available.</li>
                 <li>Cooldown between enemy spawns is decreased to 75%.</li>
                 <li>Smoke bombs last up to 20 seconds.</li>
                 <li>Gas grenade chance builds up faster.</li>
@@ -329,7 +435,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Doable bullshit.</li>
                 <li>Not playtested. It's just a "fuck you" thing.</li>
                 <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 8 minutes.</li>
+                <li>Assaults last up to around 9 minutes. Length varies a lot.</li>
                 <li>Assault breaks are 15% shorter.</li>
                 <li>The cooldown between enemies using the same grenade type again is decreased by 75%.</li>
                 <li>The cooldown between enemies using any grenade is 6 seconds.</li>
@@ -350,7 +456,7 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
                 <li>Less doable bullshit.</li>
                 <li>Not playtested. It's just a "fuck you and your mother" thing.</li>
                 <li>Tougher units are exponentially more likely to spawn.</li>
-                <li>Assaults will only end by killing enough cops.</li>
+                <li>Assaults will only end by killing enough cops, or from map scripting.</li>
                 <li>Assault breaks may as well not exist.</li>
                 <li>The cooldown between enemies using the same grenade type again is removed.</li>
                 <li>The cooldown between enemies using any grenade is 3 seconds.</li>
@@ -364,10 +470,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
     </tr>
 </table>
 
-### Level Mods:
+### Level Mod Map:
 
-A specific Level Mod can also be forced on any level.
-For alternate factions like Murkywater, this will use their version of equivalent American units.
+These are used when the Level Mod setting is set to Per-Level.
+GenSec-ZEAL and ZEAL Level Mods require an additional matchmaking lock to function online, and thus have no associated levels and will not be picked when Level Mod is set to Random.
+For alternate factions like Murkywater, this will use their version of equivalent American units - they may not be visually different without other mods, though.
 
 <table>
     <tr>
@@ -417,6 +524,9 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Cursed Kill Room</li>
                 <li>Ukrainian Prisoner</li>
                 <li>Midland Ranch</li>
+                <li>Cold Stones (custom)</li>
+                <li>A House of Pleasure (custom)</li>
+                <li>Flatline (custom)</li>
             </ul>
         </td>
     </tr>
@@ -455,6 +565,9 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Black Cat</li>
                 <li>Lost in Transit</li>
                 <li>GO Bank</li>
+                <li>Scorched Earth (custom)</li>
+                <li>Crime and Punishment (custom)</li>
+                <li>Hunter and Hunted (custom)</li>
             </ul>
         </td>
     </tr>
@@ -467,6 +580,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Slaughterhouse</li>
                 <li>Mountain Master</li>
                 <li>Hostile Takeover</li>
+                <li>Crashing Capitol (custom)</li>
             </ul>
         </td>
     </tr>
@@ -491,6 +605,19 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Border Crystals</li>
                 <li>Buluc's Mansion</li>
                 <li>Crude Awakening</li>
+                <li>Avalon's Shadow (custom)</li>
+                <li>Penthouse Crasher (custom)</li>
+                <li>Scarlett Resort (custom)</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Unique
+        </th>
+        <td>
+            <ul>
+                <li>BOWORKS (custom) rotates from SWAT to FBI to GenSec tiers with each heist day - day 3 is currently incompatible with Streamlined Heisting, however</li>
             </ul>
         </td>
     </tr>
@@ -502,7 +629,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/skirmishmanager`, `lib/modifiers/modifierdozermedic`, `lib/modifiers/modifierdozerminigun`, `lib/modifiers/modifierheavies`, `lib/modifiers/modifierheavysniper`, `lib/modifiers/modifierskulldozers`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawncivilian`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/modifiersmanager`, `lib/managers/mutatorsmanager`, `lib/managers/skirmishmanager`, `lib/network/base/networkmanager`, `lib/setups/gamesetup`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/levelstweakdata`, `lib/tweak_data/mutatortweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----

@@ -1,3 +1,5 @@
+local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
 local patches = {
 	sand_spawn_enemies = table.list_to_set({
 		100010,
@@ -41,27 +43,34 @@ local patches = {
 	}),
 }
 
-local special_chance = ASS:get_var("difficulty_index") * 0.05
-local dozer_chance = special_chance * 0.1
-
-local function scripted_swat_squads()
-	local rand = math.random()
-
-	return ASS:random_unit(rand < dozer_chance and "dozers_no_cs" or rand < special_chance and "specials_any" or "swats")
-end
-
 return {
 	["levels/instances/unique/sand/sand_spawn_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local spawns = scripted_swat_squads({
+			hard_target = normal and 1 or hard and 3 or 5,
+			hard_spawn = "specials_any",
+			normal_spawn = "heavys",
+		})
+
+		for _, element in pairs(result.default.elements) do
 			if patches.sand_spawn_enemies[element.id] then
-				element.values.possible_enemies = scripted_swat_squads()
+				element.values.moon_data = {
+					enemy = spawns(),
+				}
 			end
 		end
 	end,
 	["levels/instances/unique/sand/sand_helicopter_spawn_enemies/world/world"] = function(result)
-		for _, element in ipairs(result.default.elements) do
+		local spawns = scripted_swat_squads({
+			hard_target = overkill and 2 or 1,
+			hard_spawn = "dozers_any",
+			normal_spawn = "specials_any",
+		})
+
+		for _, element in pairs(result.default.elements) do
 			if patches.sand_helicopter_spawn_enemies[element.id] then
-				element.values.possible_enemies = scripted_swat_squads()
+				element.values.moon_data = {
+					enemy = spawns(),
+				}
 			end
 		end
 	end,

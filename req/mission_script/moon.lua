@@ -5,12 +5,12 @@ local securitys = {
 }
 
 return {
-	[106676] = { enemy = securitys },
-	[106677] = { enemy = securitys },
-	[106678] = { enemy = securitys },
-	[103644] = { enemy = securitys },
-	[103646] = { enemy = securitys },
-	[103647] = { enemy = securitys },
-	[103714] = { enemy = securitys },
-	[103716] = { enemy = securitys },
+	[106676] = { enemy = securitys, },
+	[106677] = { enemy = securitys, },
+	[106678] = { enemy = securitys, },
+	[103644] = { enemy = securitys, },
+	[103646] = { enemy = securitys, },
+	[103647] = { enemy = securitys, },
+	[103714] = { enemy = securitys, },
+	[103716] = { enemy = securitys, },
 }
