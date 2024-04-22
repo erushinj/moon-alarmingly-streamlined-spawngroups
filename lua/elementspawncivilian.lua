@@ -25,7 +25,10 @@ function ElementSpawnCivilian:moon_init_hook()
 		local mapped = tweak_data.levels:moon_enemy_mapping(self._enemy_name:key())
 
 		if basic_dozer_mappings[mapped] then
-			self._possible_enemies = tweak_data.levels:moon_units("dozers_no_cs")
+			local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+
+			self._possible_enemies = dozers_no_cs
+			self._patched_enemy_name = dozers_no_cs[1]
 		end
 	end
 end
@@ -88,7 +91,7 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 			self._values.state = state
 		end
 
-		return self:moon_produce_helper()
+		return self:moon_produce_helper(params, ...)
 	end
 
 	self._enemy_name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", self._enemy_name)
