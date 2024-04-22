@@ -6,7 +6,7 @@ if ASS:setting("max_balance_muls") then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 	ASS:override( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
-	end )
+	end, true )
 end
 
 -- disable dominations during assault if the setting is enabled
@@ -25,7 +25,7 @@ ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
 end )
 
 -- cloaker task fuck off
-ASS:override( GroupAIStateBase, "_process_recurring_grp_SO", function() end )
+ASS:override( GroupAIStateBase, "_process_recurring_grp_SO", function() end, true )
 
 -- sigh. u240. also custom maps with incomplete custom factions.
 -- make marshal shields not count as normal shields
@@ -68,7 +68,6 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 			local tags = clone(get_tags_original(u))
 
 			tags.tank = true
-			tags.taser = nil
 
 			return tags
 		end
@@ -81,7 +80,6 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 	end,
 }
 GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier_fire = GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier
-GroupAIStateBase._moon_enemy_register_funcs.cartel_tazer = GroupAIStateBase._moon_enemy_register_funcs.cartel_commando
 
 function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 	local char_func = self._moon_enemy_register_funcs[unit:base():char_tweak_name()]
@@ -95,8 +93,8 @@ end
 
 ASS:override( GroupAIStateBase, "on_enemy_registered", function(self, ...)
 	return self:_moon_enemy_register_helper("on_enemy_registered_original", ...)
-end, false )
+end )
 
 ASS:override( GroupAIStateBase, "on_enemy_unregistered", function(self, ...)
 	return self:_moon_enemy_register_helper("on_enemy_unregistered_original", ...)
-end, false )
+end )

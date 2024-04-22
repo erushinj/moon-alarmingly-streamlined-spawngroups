@@ -46,18 +46,22 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		if preset == "sniper" then
 			result = {
 				so_action = "AI_sniper",
-				SO_access = tweak_data.character:moon_access_filters("any"),
-				path_style = "destination",
 			}
 		elseif preset == "hunt" then
 			result = {
 				so_action = "AI_hunt",
-				SO_access = tweak_data.character:moon_access_filters("any"),
 				path_style = "none",
+			}
+		elseif preset == "defend" then
+			result = {
+				so_action = "AI_defend",
 			}
 		end
 
 		if result then
+			result.SO_access = result.SO_access or tweak_data.character:moon_access_filters("any")
+			result.path_style = result.path_style or "destination"
+
 			table.map_append(result, {
 				attitude = params.avoid and "avoid" or "engage",
 				path_haste = params.walk and "walk" or "run",

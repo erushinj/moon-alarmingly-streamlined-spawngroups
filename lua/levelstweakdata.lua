@@ -5,22 +5,21 @@ local real_difficulty_index = ASS.real_difficulty_index
 
 function LevelsTweakData:moon_regular_custom_group()
 	 if self._moon_regular_custom_group == nil then
-		local regular_custom_group_ids = {
-			man = true,  -- dozer spawn loop + all swats
-			dah = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
-			hox_3 = true,  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
-			flat = true,  -- all swats
-			chca = true,  -- triads onboard
-			dinner = true,  -- all murkies/swats
-			pbr = true,  -- all murkies
-			wwh = true,  -- all swats
-			born = true,  -- all cops/swats
-			chew = true,  -- all swats
-			watchdogs_1 = true,  -- all cops/swats
-			watchdogs_2 = true,  -- all cops/swats
-		}
-
-		self._moon_regular_custom_group = regular_custom_group_ids[clean_level_id] or false
+		self._moon_regular_custom_group = table.list_to_set({
+			"man",  -- dozer spawn loop + all swats
+			"dah",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+			"hox_3",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+			"flat",  -- all swats
+			"chca",  -- triads onboard
+			"dinner",  -- all murkies/swats
+			"pbr",  -- all murkies
+			"wwh",  -- all swats
+			"born",  -- all cops/swats
+			"chew",  -- all swats
+			"watchdogs_1",  -- all cops/swats
+			"watchdogs_2",  -- all cops/swats
+			"shoutout_raid",  -- all murkies/swats
+		})[clean_level_id] or false
 	 end
 
 	 return self._moon_regular_custom_group

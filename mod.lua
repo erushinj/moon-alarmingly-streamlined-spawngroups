@@ -510,10 +510,11 @@ if not ASS then
 		Hooks:PreHook( object, func, id, pre_call )
 	end
 
+	-- only specify use_hooks = true if the cached original function is not called in the override
 	function ASS:override(object, func, override, use_hooks)
 		object[func .. "_original"] = object[func]
 
-		if use_hooks ~= false then
+		if use_hooks then
 			Hooks:OverrideFunction( object, func, override )
 		else
 			object[func] = override

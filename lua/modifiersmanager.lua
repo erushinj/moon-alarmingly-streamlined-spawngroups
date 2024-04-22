@@ -32,7 +32,7 @@ ASS:override( ModifierHeavies, "init", function(self, ...)
 	end
 
 	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
-end )
+end, true )
 
 -- adjust to support all factions and the CS tank unit category
 local fallback_dozer_add = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
@@ -55,12 +55,12 @@ end
 
 ModifierSkulldozers._moon_dozer_add = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3")
 ModifierSkulldozers._moon_dozer_tables = table.set("dozers_any", "dozers_no_cs", "dozers_no_med", "dozers_no_mini")
-ASS:override( ModifierSkulldozers, "init", dozer_modifier_init )
+ASS:override( ModifierSkulldozers, "init", dozer_modifier_init, true )
 
 ModifierDozerMinigun._moon_dozer_add = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
 ModifierDozerMinigun._moon_dozer_tables = table.set("dozers_any", "dozers_no_med")
-ASS:override( ModifierDozerMinigun, "init", dozer_modifier_init )
+ASS:override( ModifierDozerMinigun, "init", dozer_modifier_init, true )
 
 ModifierDozerMedic._moon_dozer_add = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
 ModifierDozerMedic._moon_dozer_tables = table.set("dozers_any", "dozers_no_mini")
-ASS:override( ModifierDozerMedic, "init", dozer_modifier_init )
+ASS:override( ModifierDozerMedic, "init", dozer_modifier_init, true )

@@ -26,6 +26,6 @@ end )
 
 if not ASS:setting("captain_winters") then
 	ASS:log("info", "Captain Winters setting disabled, dummying \"GroupAIStateBesiege:_check_spawn_phalanx\"...")
-	ASS:override( GroupAIStateBesiege, "_check_spawn_phalanx", function() end )
+	ASS:override( GroupAIStateBesiege, "_check_spawn_phalanx", function() end, true )
 end
 
