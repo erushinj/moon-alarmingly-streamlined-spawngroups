@@ -4,7 +4,7 @@ local clean_level_id = ASS.clean_level_id
 local real_difficulty_index = ASS.real_difficulty_index
 
 function LevelsTweakData:moon_regular_custom_group()
-	 if self._moon_regular_custom_group == nil then
+	if self._moon_regular_custom_group == nil then
 		self._moon_regular_custom_group = table.list_to_set({
 			"man",  -- dozer spawn loop + all swats
 			"dah",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
@@ -20,9 +20,9 @@ function LevelsTweakData:moon_regular_custom_group()
 			"watchdogs_2",  -- all cops/swats
 			"shoutout_raid",  -- all murkies/swats
 		})[clean_level_id] or false
-	 end
+	end
 
-	 return self._moon_regular_custom_group
+	return self._moon_regular_custom_group
 end
 
 -- is it obvious enough i dont like custom maps not loading the vanilla faction for the unit type they use
