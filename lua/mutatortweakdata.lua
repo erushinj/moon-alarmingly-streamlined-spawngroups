@@ -1,3 +1,7 @@
+if ASS.is_client then
+	return
+end
+
 function MutatorTweakData:moon_replacer_groups(group)
 	if not self._moon_replacer_groups then
 		self._moon_replacer_groups = {

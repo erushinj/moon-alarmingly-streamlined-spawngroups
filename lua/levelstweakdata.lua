@@ -1,3 +1,7 @@
+if ASS.is_client then
+	return
+end
+
 local try_insert = ASS:require("try_insert", true)
 local level_id = ASS.level_id
 local clean_level_id = ASS.clean_level_id
