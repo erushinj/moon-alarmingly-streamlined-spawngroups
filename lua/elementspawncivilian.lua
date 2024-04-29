@@ -104,16 +104,15 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 		return self:moon_produce_helper(params, ...)
 	end
 
-	local static_continent = self.static_continent
+	local static_continent, static_tier = self.static_continent, self.static_tier
 	local mapped_name = tweak_data.levels:moon_enemy_mapping(name_key)
-	if not static_continent then
+	if not static_continent and not static_tier then
 		if tweak_data.levels:moon_forbidden_scripted_replacements(mapped_name) then
 			return self:moon_produce_helper(params, ...)
 		end
 	end
 
-	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
-	local replacement = self.static_tier or last_prefixes and last_prefixes.CS
+	local replacement = static_tier or managers.groupai:state():moon_get_scripted_prefix()
 	local enemy_replacements = tweak_data.levels:moon_enemy_replacements(static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then

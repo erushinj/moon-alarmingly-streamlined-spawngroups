@@ -12,10 +12,10 @@ ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 			local split = tweak_data.mutators:moon_hydra_splits(mapped)
 
 			if split then
-				local last_prefixes = tweak_data.group_ai.moon_last_prefixes
+				local replacement = managers.groupai:state():moon_get_scripted_prefix()
 
-				if last_prefixes then
-					local tier = tweak_data.levels:moon_enemy_replacements()[last_prefixes.CS]
+				if replacement then
+					local tier = tweak_data.levels:moon_enemy_replacements()[replacement]
 
 					if tier then
 						local unit_depth = self:get_hydra_depth(parent_unit)

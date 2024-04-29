@@ -7,6 +7,28 @@ local level_id = ASS.level_id
 local clean_level_id = ASS.clean_level_id
 local real_difficulty_index = ASS.real_difficulty_index
 
+-- difficulty value threshold to use FBI-tier scripted spawns rather than CS-tier
+-- 0 means always FBI, 1 means always CS, anything between can change dynamically
+function LevelsTweakData:moon_scripted_prefix_threshold()
+	if not self._moon_scripted_prefix_threshold then
+		self._moon_scripted_prefix_threshold = ({
+			jewelry_store = 1,
+			four_stores = 1,
+			nightclub = 1,
+			mallcrasher = 1,
+			ukrainian_job_prof = 1,
+			branchbank_deposit = 1,
+			branchbank_cash = 1,
+			branchbank_prof = 1,
+			branchbank_gold_prof = 1,
+			family = 1,
+			flat = 0.75,
+		})[clean_level_id] or 0.9
+	end
+
+	return self._moon_scripted_prefix_threshold
+end
+
 function LevelsTweakData:moon_regular_custom_group()
 	if self._moon_regular_custom_group == nil then
 		self._moon_regular_custom_group = table.list_to_set({

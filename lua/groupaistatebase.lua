@@ -2,6 +2,23 @@ if ASS.is_client then
 	return
 end
 
+local get_prefix = {
+	[0] = "FBI",  -- threshold is 0
+	[1] = "CS",  -- threshold is 1
+	[true] = "FBI",  -- difficulty greater than threshold
+	[false] = "CS",  -- difficulty less than or equal to threshold
+}
+function GroupAIStateBase:moon_get_scripted_prefix()
+	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
+
+	if last_prefixes then
+		local threshold = tweak_data.levels:moon_scripted_prefix_threshold()
+		local wanted_prefix = get_prefix[threshold] or get_prefix[self._difficulty_value > threshold]
+
+		return last_prefixes[wanted_prefix] or last_prefixes.CS
+	end
+end
+
 if ASS:setting("max_balance_muls") then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 	ASS:override( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
@@ -45,8 +62,8 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 		local u_base = unit:base()
 		local get_tags_original = u_base.get_tags
 
-		u_base.get_tags = function(u)
-			local tags = clone(get_tags_original(u))
+		u_base.get_tags = function(...)
+			local tags = clone(get_tags_original(...))
 
 			tags.tank = nil
 			tags.medic = true
@@ -64,8 +81,8 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 		local u_base = unit:base()
 		local get_tags_original = u_base.get_tags
 
-		u_base.get_tags = function(u)
-			local tags = clone(get_tags_original(u))
+		u_base.get_tags = function(...)
+			local tags = clone(get_tags_original(...))
 
 			tags.tank = true
 
