@@ -231,7 +231,7 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	end
 end
 
--- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
+-- used for elements with lists in their values not containing tables
 MissionManager.mission_script_patch_funcs.modify_list_value = function(self, element, data)
 	for k, v in pairs(data) do
 		if type(element._values[k]) == "table" then
@@ -241,6 +241,27 @@ MissionManager.mission_script_patch_funcs.modify_list_value = function(self, ele
 				else
 					table.delete(element._values[k], id)
 				end
+			end
+		end
+	end
+end
+
+-- used for CoreElementInstance.ElementInstanceInputEvent, core\lib\managers\mission\coreelementinstance
+MissionManager.mission_script_patch_funcs.event_list = function(self, element, data)
+	local event_list = element._values.event_list
+
+	if event_list then
+		for instance, event in pairs(data) do
+			local val, i = table.find_value(event_list, function(val) return val.instance == instance end)
+
+			if event then
+				if val then
+					val.event = event
+				else
+					table.insert(event_list, { instance = instance, event = event, })
+				end
+			elseif val then
+				table.remove(event_list, i)
 			end
 		end
 	end

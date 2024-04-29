@@ -26,6 +26,37 @@ local element_templates = {
 		values = append_template_values(nil, {}),
 	},
 	{
+		class = "ElementPlaySound",
+		module = "CoreElementPlaySound",
+		values = append_template_values(true, {
+			interrupt = false,
+			sound_event = false,  -- string
+			use_instigator = false,
+			use_play_func = false,
+			append_prefix = false,
+			elements = {},
+		}),
+	},
+	{
+		class = "ElementInstanceInputEvent",
+		module = "CoreElementInstance",
+		values = append_template_values(nil, {
+			instance = nil,  -- string (prefer event_list)
+			event = nil,  -- string (prefer event_list)
+			event_list = {},
+		}),
+	},
+	{
+		class = "ElementSpawnUnit",
+		module = "CoreElementSpawnUnit",
+		values = append_template_values(true, {
+			unit_name = "none",  -- string (prefer event_list)
+			unit_spawn_mass = nil,  -- probably not needed ?
+			unit_spawn_dir = nil,
+			unit_spawn_velocity = nil,
+		}),
+	},
+	{
 		class = "ElementGlobalEventTrigger",
 		module = "CoreElementGlobalEventTrigger",
 		values = append_template_values(nil, {
@@ -176,6 +207,12 @@ local element_templates = {
 		class = "ElementAreaMinPoliceForce",
 		values = append_template_values(true, {
 			amount = 2,
+		}),
+	},
+	{
+		class = "ElementDisableUnit",
+		values = append_template_values(nil, {
+			unit_ids = {},
 		}),
 	},
 	{

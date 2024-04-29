@@ -12,26 +12,18 @@ local gangsters = {
 	-- Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
 	-- Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
-local roof_spawn_interval = {
-	values = {
-		interval = 30,
+local dealer_voicelines = {
+	modify_list_value = {
+		elements = {
+			[102456] = false,
+			[104782] = true,
+		},
 	},
 }
-local dealer_voicelines = {
-	pre_func = function(self)
-		if not self._moon_tweaked then
-			self._moon_tweaked = true
-
-			local elements = self._values.elements
-			for i, element_id in pairs(elements) do
-				if element_id == 102456 then
-					elements[i] = 104782
-
-					break
-				end
-			end
-		end
-	end,
+local dealer_walk_so = {
+	values = {
+		patrol_path = "inpath2",
+	},
 }
 local disable = {
 	values = {
@@ -41,6 +33,11 @@ local disable = {
 local enable = {
 	values = {
 		enabled = true,
+	},
+}
+local no_participate_to_group_ai = {
+	values = {
+		participate_to_group_ai = false,
 	},
 }
 local gangsters_amounts_2 = {
@@ -55,26 +52,90 @@ local gangsters_amounts_3 = {
 		amount_random = 0,
 	},
 }
-local sniper_kill_target = {
+local ambush_chance = {
 	values = {
-		counter_target = normal and 8 or hard and 10 or 12,
+		chance = normal and 0 or hard and 25 or 40,  -- not active on n-vh anyway but eh
+	},
+}
+local chance_slam_door = {  -- 2nd/3rd floor doors that are slammed open on approach, chance elements exist but are set to 100 for both
+	values = {
+		chance = 35,
 	},
 }
 
 return {
+	[102760] = {  -- roof doors closed disables unrelated navlinks for some reason, just keep the one thats related
+		modify_list_value = {
+			elements = {
+				[103291] = false,
+				[103283] = false,
+				[103293] = false,
+				[103292] = false,
+			},
+		},
+	},
+	[104133] = disable,  -- disable loot truck nearest spawn
+	[104731] = {  -- make cops carry stolen loot to spawn
+		values = {
+			position = Vector3(-3500, 0, 0),
+		},
+	},
+	[103487] = {  -- flat doors startup
+		on_executed = {
+			{ name = "filter_hard_above", delay = 0.5, },
+			{ name = "filter_overkill", delay = 0.5, },
+			{ name = "pick_doors_2nd_floor", delay = 1.5, },
+			{ name = "chance_close_roof_doors", delay = 1.5, },
+			{ name = "chance_block_5th_corner_doors", delay = 1.5, },
+			{ name = "chance_block_4th_corridor_doors", delay = 1.5, },
+			{ name = "chance_block_4th_objective_door", delay = 1.5, },
+		},
+	},
+	[100444] = {  -- dealer notices phoney money
+		on_executed = {
+			{ id = 101797, remove = true, },
+			{ name = "phoney_money", delay = 0, },
+		},
+	},
+	[100095] = {  -- players spawned
+		on_executed = {
+			{ name = "disable_ladders", delay = 0, },  -- ladders and planks remain interactable ?
+			{ name = "disable_planks", delay = 0, },
+			{ name = "disable_window_interaction", delay = 0, },
+			{ name = "cheese_blocker_6", delay = 0, },
+			{ name = "cheese_blocker_7", delay = 0, },
+			{ name = "cheese_blocker_8", delay = 0, },
+			{ name = "cheese_blocker_9", delay = 0, },
+		},
+	},
+	[100256] = chance_slam_door,
+	[104805] = {  -- this chavez spawn isnt used but whatever, just in case
+		on_executed = {
+			{ name = "force_slam_door_1", delay = 0, },
+		},
+	},
+	[101504] = chance_slam_door,
+	[104807] = {
+		on_executed = {
+			{ name = "force_slam_door_2", delay = 0, },
+		},
+	},
+	[101464] = disable,  -- only make the guy just around the corner peek if the ambush will happen
+	[102362] = {
+		on_executed = {
+			{ name = "toggle_ambush_peek", delay = 0, },
+		},
+	},
+	[102720] = ambush_chance,  -- tweak ambush chance (20% -> 25% ovk, 30% -> 25% mh, 30% -> 40% dw/ds)
+	[101817] = ambush_chance,
 	[102656] = enable,  -- "link to close roof doors"
-	[100297] = enable,  -- "close roof doors"
-	[103487] = {
-		pre_func = function(self)
-			if not self._values.on_executed_original then
-				self._values.on_executed_original = deep_clone(self._values.on_executed)
-
-				local close_roof_doors_chance = normal and 0.3 or hard and 0.5 or 0.7
-				if math.random() < close_roof_doors_chance then
-					table.insert(self._values.on_executed, { id = 102656, delay = 0, })
-				end
-			end
-		end,
+	[103611] = enable,
+	[100297] = {  -- "close roof doors"
+		values = enable.values,
+		on_executed = {
+			{ id = 103611, delay = 0, },  -- block ai navigation into the roof stairwell if its blocked off
+			{ name = "cheese_blocker_1", delay = 0, },
+		},
 	},
 	[101745] = enable,  -- reenable harassers, but remove the dumb swarm heavies
 	[100150] = disable,
@@ -86,34 +147,86 @@ return {
 	[103348] = disable,  -- disable last reenforce point, really not needed on this heist
 	[102840] = {  -- diff curve, "start diff" (0.25)
 		values = {
-			difficulty = 0.35,
+			difficulty = 0.5,
 		},
 	},
 	[102841] = {  -- "all drills" (1)
 		values = {
-			difficulty = 0.7,
+			difficulty = 0.75,
 		},
 	},
-	[102842] = {  -- "bag drops" (0.75)
-		values = {
-			difficulty = 0.7,
-		},
-	},
+	-- [102842] = {  -- "bag drops" (0.75)
+	-- 	values = {
+	-- 		enabled = true,
+	-- 		difficulty = 0.6,
+	-- 	},
+	-- },
 	[102843] = {  -- "explosion" (1)
 		values = {
+			enabled = true,
 			difficulty = 1,
 		},
 	},
-	[103455] = {
-		values = {
-			amount = normal and 2 or hard and 1 or 0,
-			amount_random = normal and 0 or hard and 1 or 2,
+	[103616] = {  -- tweak 4th floor front doors
+		on_executed = {
+			{ id = 100517, delay = 2, },  -- normally executed by random elements in 103490, potential softlock if not executed
 		},
 	},
-	[103618] = {
+	[103490] = {
 		values = {
-			amount = normal and 2 or hard and 1 or 0,
-			amount_random = normal and 1 or hard and 2 or 3,
+			amount = 0,
+			amount_random = overkill and 1 or 2,
+		},
+	},
+	[103491] = {
+		on_executed = {
+			{ id = 100517, remove = true, },
+		},
+	},
+	[103492] = {
+		on_executed = {
+			{ id = 100517, remove = true, },
+		},
+	},
+	[104689] = disable,
+	[102959] = {
+		event_list = {
+			["flat_door_001"] = "door_block",
+			["flat_door_002"] = "door_block",
+			["flat_door_003"] = false,
+			["flat_door_012"] = false,
+			["flat_door_013"] = false,
+			["flat_door_019"] = false,
+			["flat_door_020"] = false,
+			["flat_door_021"] = "door_block",
+			["flat_door_025"] = false,
+		},
+	},
+	[103455] = {  -- fewer open doors to the coke lab
+		values = {
+			amount = 1,  -- softlock if none
+			amount_random = normal and 2 or hard and 1 or 0,
+		},
+		on_executed = {
+			{ name = "inst_in_cokeroom_door_004", delay = 0, },
+		},
+	},
+	[103618] = {  -- fewer other open doors
+		values = {
+			amount = 1,  -- potential softlock if none
+			amount_random = normal and 2 or hard and 1 or 0,
+		},
+	},
+	[103501] = enable,  -- allow 3rd floor doors to be closed
+	[100581] = {
+		on_executed = {
+			{ name = "block_washroom_3rdfloor_doors", delay = 0, },
+		},
+	},
+	[100499] = {
+		values = {
+			amount = 0,
+			amount_random = 1,
 		},
 	},
 	[102261] = {  -- c4 alley drop on high difficulties
@@ -121,17 +234,10 @@ return {
 			{ id = 100350, delay = 0, },
 		},
 	},
-	[104516] = sniper_kill_target,  -- tweak objective sniper amount, n/h (vanilla is 7)
-	[104692] = sniper_kill_target,  -- vh/ovk (vanilla is 10)
-	[104693] = sniper_kill_target,  -- mh+ (vanilla is 15)
-	[104556] = disable,  -- re-allow sniper respawns
+	[104556] = disable,  -- dont disable objective sniper spawn points after the objective is completed
+	[104557] = disable,
 	[101599] = enable,  -- also allow a disabled sniper spawn
 	[101521] = enable,  -- and corresponding so
-	[104650] = roof_spawn_interval,  -- slow down roof spawns, these are really fucking annoying
-	[100504] = roof_spawn_interval,
-	[100505] = roof_spawn_interval,
-	[100509] = roof_spawn_interval,
-	[100396] = roof_spawn_interval,
 	[102593] = gangsters_amounts_3,  -- gangster amounts
 	[102597] = gangsters_amounts_2,
 	[102604] = gangsters_amounts_2,
@@ -144,14 +250,11 @@ return {
 			amount_random = normal and 0 or hard and 4 or 8,
 		},
 	},
-	[103002] = {
-		on_executed = {
-			{ id = 103014, remove = true, },
-		}
-	},
 	[100501] = {  -- ambush line fix ?  hasnt been working for me since forever
 		values = {
-			use_play_func = true,
+			append_prefix = false,
+			-- use_play_func = true,
+			-- use_instigator = true,
 		},
 	},
 	[102329] = {  -- reduce delay on mask up when ambushed (this triggers loud)
@@ -162,6 +265,9 @@ return {
 	[101797] = dealer_voicelines,  -- dealer voice fix
 	[101798] = dealer_voicelines,
 	[101832] = dealer_voicelines,
+	[101888] = dealer_walk_so,  -- always make dealer walk up to 4th floor
+	[101891] = dealer_walk_so,
+	[101899] = dealer_walk_so,
 	[104782] = { enemy = Idstring("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"), },  -- gangsters
 	[102456] = { enemy = gangsters, },
 	[100081] = { enemy = gangsters, },
@@ -239,21 +345,21 @@ return {
 	[100516] = { enemy = gangsters, },
 	[100407] = { enemy = gangsters, },
 	[102165] = { enemy = gangsters, },
-	[102193] = { enemy = gangsters, },
-	[100484] = { enemy = gangsters, },
-	[100025] = { enemy = gangsters, },
-	[100494] = { enemy = gangsters, },
-	[100495] = { enemy = gangsters, },
-	[100496] = { enemy = gangsters, },
-	[100039] = { enemy = gangsters, },
-	[102192] = { enemy = gangsters, },
-	[100050] = { enemy = gangsters, },
-	[102191] = { enemy = gangsters, },
-	[100055] = { enemy = gangsters, },
-	[100056] = { enemy = gangsters, },
-	[100057] = { enemy = gangsters, },
-	[103703] = { enemy = gangsters, },
-	[103702] = { enemy = gangsters, },
+	[102193] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100484] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100025] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100494] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100495] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100496] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100039] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[102192] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100050] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[102191] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100055] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100056] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[100057] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[103703] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
+	[103702] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
 	[100135] = { enemy = cops, },  -- "random swat 1" (not actually swat, is a bronco cop, kicks down the front door)
 	[100027] = { enemy = cops, },  -- cops, initial
 	[100028] = { enemy = cops, },
