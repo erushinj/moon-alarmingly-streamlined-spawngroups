@@ -855,26 +855,13 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 				hard = "normal",
 				overkill = "normal",
 				overkill_145 = "normal",
-				CS_normal = "normal",
-			},
-			{
-				CS_FBI_overkill = "overkill",
 			},
 			{
 				easy_wish = "overkill_145",
 				overkill_290 = "overkill_145",
-				FBI_overkill_145 = "overkill_145",
-			},
-			{
-				FBI_CITY_easy_wish = "easy_wish",
 			},
 			{
 				sm_wish = "overkill_290",
-				CITY_overkill_290 = "overkill_290",
-				CITY_ZEAL_awesome_difficulty_name = "overkill_290",
-			},
-			{
-				ZEAL_sm_wish = "sm_wish",
 			},
 		}) do
 			for diff, based_on in pairs(tbl) do

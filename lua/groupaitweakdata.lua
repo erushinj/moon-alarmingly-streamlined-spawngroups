@@ -1718,16 +1718,17 @@ local prefixes_by_tier = {
 	overkill_145 = { CS = "overkill_145", FBI = "overkill_145", },
 	easy_wish = { CS = "overkill_145", FBI = "overkill_290", },
 	overkill_290 = { CS = "overkill_290", FBI = "overkill_290", },
+	awesome_difficulty_name = { CS = "overkill_290", FBI = "sm_wish", },
 	sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
-
-	CS_normal = { CS = "CS_normal", FBI = "CS_normal", },
-	CS_FBI_overkill = { CS = "CS_normal", FBI = "FBI_overkill_145", },
-	FBI_overkill_145 = { CS = "FBI_overkill_145", FBI = "FBI_overkill_145", },
-	FBI_CITY_easy_wish = { CS = "FBI_overkill_145", FBI = "CITY_overkill_290", },
-	CITY_overkill_290 = { CS = "CITY_overkill_290", FBI = "CITY_overkill_290", },
-	CITY_ZEAL_awesome_difficulty_name = { CS = "CITY_overkill_290", FBI = "ZEAL_sm_wish", },
-	ZEAL_sm_wish = { CS = "ZEAL_sm_wish", FBI = "ZEAL_sm_wish", },
 }
+prefixes_by_tier.CS_normal = prefixes_by_tier.normal
+prefixes_by_tier.CS_FBI_overkill = prefixes_by_tier.overkill
+prefixes_by_tier.FBI_overkill_145 = prefixes_by_tier.overkill_145
+prefixes_by_tier.FBI_CITY_easy_wish = prefixes_by_tier.easy_wish
+prefixes_by_tier.CITY_overkill_290 = prefixes_by_tier.overkill_290
+prefixes_by_tier.CITY_ZEAL_awesome_difficulty_name = prefixes_by_tier.awesome_difficulty_name
+prefixes_by_tier.ZEAL_sm_wish = prefixes_by_tier.sm_wish
+
 local special_limit_mul = ASS:tweak("special_limit_mul")
 local smg_units = ASS:setting("smg_units")
 local level_mod = ASS.level_mod
