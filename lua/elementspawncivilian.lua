@@ -3,7 +3,13 @@ if ASS.is_spawner then
 	return
 end
 
-local basic_dozer_mappings = table.set("dozer_1", "dozer_2", "dozer_3")
+local mappings = {
+	dozer_1 = "dozers_no_cs",
+	dozer_2 = "dozers_no_cs",
+	dozer_3 = "dozers_no_cs",
+	swat_1 = "swats_far",
+	swat_3 = "swats_far",
+}
 function ElementSpawnCivilian:moon_init_hook()
 	self._original_enemy_name = self._enemy_name
 
@@ -23,12 +29,17 @@ function ElementSpawnCivilian:moon_init_hook()
 
 	if self._patched_enemy_name == nil and getmetatable(self) == ElementSpawnEnemyDummy then
 		local mapped = tweak_data.levels:moon_enemy_mapping(self._enemy_name:key())
+		local typ = mappings[mapped]
 
-		if basic_dozer_mappings[mapped] then
-			local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+		if typ then
+			local units = tweak_data.levels:moon_units(typ)
 
-			self._possible_enemies = dozers_no_cs
-			self._patched_enemy_name = dozers_no_cs[1]
+			if type(units) == "table" then
+				self._possible_enemies = units
+				self._patched_enemy_name = units[1]
+			else
+				self._patched_enemy_name = units
+			end
 		end
 	end
 end
@@ -63,13 +74,36 @@ for key, list in pairs(idles) do
 end
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
+local bad_access = table.set("cop", "fbi")
+local replace_access = "swat"
 ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
 
+	-- params.name means groupai spawn and everything after this check doesnt apply
 	if params and params.name then
 		params.name = level_enemy_replacements[params.name:key()] or params.name
 
-		return self:produce_original(params, ...)
+		-- give assault-spawned cops and fbis the same access as swat
+		local unit = self:produce_original(params, ...)
+		if alive(unit) then
+			local u_brain = unit:brain()
+			local logic_data = u_brain and u_brain._logic_data
+
+			if logic_data then
+				local u_base = unit:base()
+				local char_tweak = u_base and u_base:char_tweak()
+
+				if bad_access[char_tweak and char_tweak.access] then
+					local converted_access = managers.navigation:convert_access_flag(replace_access)
+
+					u_brain._SO_access = converted_access
+					logic_data.SO_access = converted_access
+					logic_data.SO_access_str = replace_access
+				end
+			end
+		end
+
+		return unit
 	end
 
 	if self._possible_enemies then
