@@ -30,7 +30,7 @@ local element_templates = {
 		module = "CoreElementPlaySound",
 		values = append_template_values(true, {
 			interrupt = false,
-			sound_event = false,  -- string
+			sound_event = nil,  -- string
 			use_instigator = false,
 			use_play_func = false,
 			append_prefix = false,
@@ -47,13 +47,11 @@ local element_templates = {
 		}),
 	},
 	{
-		class = "ElementSpawnUnit",
-		module = "CoreElementSpawnUnit",
+		class = "ElementUnitSequence",
+		module = "CoreElementUnitSequence",
 		values = append_template_values(true, {
-			unit_name = "none",  -- string (prefer event_list)
-			unit_spawn_mass = nil,  -- probably not needed ?
-			unit_spawn_dir = nil,
-			unit_spawn_velocity = nil,
+			only_for_local_player = false,
+			trigger_list = {},
 		}),
 	},
 	{
@@ -85,6 +83,31 @@ local element_templates = {
 		values = append_template_values(true, {
 			outcome = "success",
 			elements = {},
+		}),
+	},
+	{
+		class = "ElementTimer",
+		module = "CoreElementTimer",
+		values = append_template_values(nil, {
+			digital_gui_unit_ids = nil,  -- table
+			timer = 60,  -- can also be a table { min, max, } ?
+		}),
+	},
+	{
+		class = "ElementTimerOperator",
+		module = "CoreElementTimer",
+		values = append_template_values(true, {
+			elements = {},
+			operation = "start",
+			time = 30,  -- can also be a table { min, max, } ?
+		}),
+	},
+	{
+		class = "ElementTimerTrigger",
+		module = "CoreElementTimer",
+		values = append_template_values(true, {
+			elements = {},
+			time = 30,
 		}),
 	},
 	{

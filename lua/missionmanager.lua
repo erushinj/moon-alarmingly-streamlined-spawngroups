@@ -43,6 +43,8 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 	local result
 
 	if typ == "SO" then
+		local access = params_list[3]
+
 		if preset == "sniper" then
 			result = {
 				so_action = "AI_sniper",
@@ -56,18 +58,26 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 			result = {
 				so_action = "AI_defend",
 			}
+		elseif preset == "navlink" then
+			result = {
+				SO_access = tweak_data.character:moon_access_filters(access),
+				use_instigator = false,
+				is_navigation_link = true,
+				forced = false,
+				attitude = "none",
+				path_haste = "none",
+				path_stance = "none",
+				pose = "none",
+			}
 		end
 
 		if result then
 			result.SO_access = result.SO_access or tweak_data.character:moon_access_filters("any")
 			result.path_style = result.path_style or "destination"
-
-			table.map_append(result, {
-				attitude = params.avoid and "avoid" or "engage",
-				path_haste = params.walk and "walk" or "run",
-				path_stance = params.cbt and "cbt" or params.ntl and "ntl" or "hos",
-				pose = params.crouch and "crouch" or "stand",
-			})
+			result.attitude = result.attitude or params.avoid and "avoid" or "engage"
+			result.path_haste = result.path_haste or params.walk and "walk" or "run"
+			result.path_stance = result.path_stance or params.cbt and "cbt" or params.ntl and "ntl" or "hos"
+			result.pose = result.pose or params.crouch and "crouch" or "stand"
 		end
 	elseif typ == "filter" then
 		result = set_difficulty_groups(preset)
@@ -203,8 +213,15 @@ ASS:override( MissionManager.mission_script_patch_funcs, "values", function(self
 		element._chance = data.chance
 	end
 
-	if data.amount and element._group_data then
-		element._group_data.amount = data.amount
+	-- we love spawn group elements
+	local group_data = element._group_data
+	if group_data then
+		group_data.amount = data.amount or group_data.amount
+		group_data.spawn_type = data.spawn_type or group_data.spawn_type
+
+		if data.ignore_disabled ~= nil then
+			group_data.ignore_disabled = data.ignore_disabled
+		end
 	end
 end )
 

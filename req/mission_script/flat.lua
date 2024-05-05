@@ -1,5 +1,9 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local get_table_index_func = ASS:require("get_table_index_func", true)
 local cops = tweak_data.levels:moon_units("cops")
+local initial_cops_ids = get_table_index_func({ 100135, 100027, 100028, 100035, 100037, 100038, 100040, })
+local initial_cops = get_table_index_func(table.list_add(cops, cops))
+local dozers_any = tweak_data.levels:moon_units("dozers_any")
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -9,9 +13,150 @@ local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),
 	Idstring("units/payday2/characters/ene_gang_mexican_3/ene_gang_mexican_3"),
 	Idstring("units/payday2/characters/ene_gang_mexican_4/ene_gang_mexican_4"),
-	-- Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
-	-- Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
+	Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
+	Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
+local gangsters_outside_ids = get_table_index_func({
+	101881,
+	101395,
+	-- 101746,
+	-- 101749,
+	102330,
+	102333,
+	102335,
+	100767,
+	102717,
+	102718,
+})
+local gangsters_outside = clone(gangsters)
+local door_guy = table.remove(gangsters_outside, math.random(#gangsters_outside))
+gangsters_outside = get_table_index_func(gangsters_outside)
+
+local gangsters_1st_ids = get_table_index_func({
+	100085,
+	102456,
+	102197,
+	101375,
+	101743,
+	100169,
+	101802,
+	101804,
+})
+local gangsters_1st = get_table_index_func(clone(gangsters))
+local gangsters_2nd_ids = get_table_index_func({
+	102596,
+	102592,
+	101401,
+	101539,
+	101540,
+	101433,
+	101435,
+	102586,
+	101668,
+	101434,
+})
+local gangsters_2nd = get_table_index_func(clone(gangsters))
+local gangsters_3rd_ids = get_table_index_func({
+	104793,
+	102563,
+	101441,
+	102558,
+	101442,
+	102564,
+	101422,
+	101437,
+	103450,
+})
+local gangsters_3rd = get_table_index_func(clone(gangsters))
+local gangsters_4th_ids = get_table_index_func({
+	100431,
+	101661,
+	104889,
+	100234,
+	104930,
+	104932,
+	100496,
+	100495,
+	100494,
+	100484,
+})
+local gangsters_4th = get_table_index_func(clone(gangsters))
+local gangsters_5th_ids = get_table_index_func({
+	101425,
+	100418,
+	100081,
+	101200,
+	101438,
+	103702,  -- one of the rooms
+	103703,
+	102191,
+	102192,
+	102193,
+})
+local gangsters_5th = get_table_index_func(clone(gangsters))
+local gangsters_misc_1_ids = get_table_index_func({
+	100025,  -- other 5th floor room
+	100039,
+	100050,
+	100055,
+	100056,
+	100057,
+	101512,  -- unused 4th floor guy
+	102170,  -- 3rd floor room
+	101421,
+	102165,
+})
+local gangsters_escape_ids = get_table_index_func({
+	100253,
+	100236,
+	103102,
+	103101,
+	100305,
+	103104,
+	103180,
+	103103,
+	102562,
+	103179,
+})
+local gangsters_escape = get_table_index_func(clone(gangsters))
+local gangsters_misc_1 = get_table_index_func(clone(gangsters))
+local gangsters_misc_2_ids = get_table_index_func({
+	100513,  -- other unused 4th floor guys
+	100512,
+	100516,
+	104781,
+	100407,  -- 2nd floor room
+	100406,
+	100409,
+})
+local gangsters_misc_2 = get_table_index_func(clone(gangsters))
+local gangsters_misc_3_ids = get_table_index_func({
+	103231,  -- unused 145 room guys
+	103232,
+	103234,
+	103235,
+	103236,
+})
+local gangsters_misc_3 = get_table_index_func(gangsters)
+
+local civs_casual_ids = get_table_index_func({ 100109, 101838, 100241, 100211, 101130, })
+local civs_casual = {
+	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
+	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
+	Idstring("units/payday2/characters/civ_male_casual_5/civ_male_casual_5"),
+	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
+	Idstring("units/payday2/characters/civ_male_casual_9/civ_male_casual_9"),
+}
+local balcony_civ = table.random(civs_casual)
+civs_casual = get_table_index_func(civs_casual)
+
+local civs_hobo_ids = get_table_index_func({ 102244, 101748, 100960, 100967, })
+local civs_hobo = get_table_index_func({
+	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_1/civ_male_hobo_1"),
+	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_2/civ_male_hobo_2"),
+	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_3/civ_male_hobo_3"),
+	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_4/civ_male_hobo_4"),
+})
 local dealer_voicelines = {
 	modify_list_value = {
 		elements = {
@@ -54,16 +199,127 @@ local gangsters_amounts_3 = {
 }
 local ambush_chance = {
 	values = {
-		chance = normal and 0 or hard and 25 or 40,  -- not active on n-vh anyway but eh
+		chance = normal and 0 or hard and 15 or 25,  -- not active on n-vh anyway but eh
 	},
 }
-local chance_slam_door = {  -- 2nd/3rd floor doors that are slammed open on approach, chance elements exist but are set to 100 for both
+local trigger_unlimited = {
 	values = {
-		chance = 35,
+		enabled = true,
+		trigger_times = 0,
+	},
+}
+local toothbrush_secured = {
+	on_executed = {
+		{ id = 104319, delay = 0, },
+	},
+}
+local escape_gangsters_chance = {
+	values = {
+		chance = overkill and 100 or 50,
 	},
 }
 
 return {
+	[101853] = {  -- change cop arrival triggers, cops arrive once the red door is opened
+		on_executed = {
+			{ id = 104691, remove = true, },
+		},
+	},
+	[100450] = {
+		on_executed = {
+			{ id = 104691, delay = 0, },
+		},
+	},
+	[100809] = {  -- ..or after some time has passed since masking up without the red door being opened
+		on_executed = {
+			{ name = "start_time_until_police", delay = 0, },
+		},
+	},
+	[100907] = {  -- move an asset medic bag that can potentially be blocked off
+		values = {
+			position = Vector3(-331, 261, 1365.45),
+			rotation = Rotation(180, 0, 0),
+		},
+	},
+	[100900] = {
+		on_executed = {
+			hard and { id = 100890, remove = true, } or nil,
+			overkill and { id = 100332, remove = true, } or nil,
+		},
+	},
+	[103300] = escape_gangsters_chance,  -- ovk+ extra gangsters in the basement, vanilla is 50
+	[101698] = escape_gangsters_chance,  -- chance to spawn one (1) gangster in the basement regardless of any others, vanilla is 15
+	[104573] = {
+		on_executed = {
+			{ name = "enable_roof_sniper_respawns", delay = 0, },
+		},
+	},
+	[103143] = trigger_unlimited,  -- sniper spawns, re-enabling them are handled by other elements
+	[103134] = trigger_unlimited,
+	[103137] = trigger_unlimited,
+	[103130] = trigger_unlimited,
+	[103126] = trigger_unlimited,
+	[101599] = trigger_unlimited,
+	[102833] = trigger_unlimited,
+	[101801] = trigger_unlimited,
+	[102614] = trigger_unlimited,
+	[102612] = trigger_unlimited,
+	[103148] = trigger_unlimited,
+	[103168] = trigger_unlimited,
+	[100793] = trigger_unlimited,
+	[100645] = trigger_unlimited,
+	[103111] = trigger_unlimited,
+	[100693] = trigger_unlimited,
+	[103167] = disable,  -- sniper toggles, re-enabled and executed after sniper objective
+	[103170] = disable,
+	[103173] = disable,
+	[104532] = disable,
+	[104533] = disable,
+	[104534] = disable,
+	[104535] = disable,
+	[104536] = disable,
+	[104537] = disable,
+	[104538] = disable,
+	[104539] = disable,
+	[104540] = disable,
+	[104541] = disable,
+	[104542] = disable,
+	[104543] = disable,
+	[104544] = disable,
+
+	[101519] = disable,  -- disruptive garbage team ai SOs, checking out winch
+	[101167] = disable,  -- pointing over edge if c4 lands not on the roof
+	[101170] = disable,
+	[100535] = disable,  -- true garbage, make team ai go to lower floors when cops arrive for no reason
+	[100539] = disable,
+	[100556] = disable,
+	[100643] = disable,
+	[100644] = disable,
+	[101108] = disable,
+	[101112] = disable,
+	[102690] = {  -- heli chance (vanilla is 50, but its tweaked to loop now)
+		values = {
+			chance = 20,
+		},
+		on_executed = {
+			{ name = "heli_reset_chance", delay = 0, },
+		},
+	},
+	[101346] = {  -- safe expl area touched
+		on_executed = {
+			{ name = "heli_switch_spawns", delay = 0, },
+		},
+	},
+	[101658] = {  -- helicopter cops logic
+		on_executed = {
+			{ name = "heli_dozers", delay = 17, },  -- toggled on after explosion, replaces generic group spawn
+		},
+	},
+	[104561] = {  -- roof heli group spawn
+		values = {
+			spawn_type = "group_guaranteed",
+		},
+	},
 	[102760] = {  -- roof doors closed disables unrelated navlinks for some reason, just keep the one thats related
 		modify_list_value = {
 			elements = {
@@ -72,12 +328,6 @@ return {
 				[103293] = false,
 				[103292] = false,
 			},
-		},
-	},
-	[104133] = disable,  -- disable loot truck nearest spawn
-	[104731] = {  -- make cops carry stolen loot to spawn
-		values = {
-			position = Vector3(-3500, 0, 0),
 		},
 	},
 	[103487] = {  -- flat doors startup
@@ -91,7 +341,7 @@ return {
 			{ name = "chance_block_4th_objective_door", delay = 1.5, },
 		},
 	},
-	[100444] = {  -- dealer notices phoney money
+	[100444] = {  -- money guy notices phoney money
 		on_executed = {
 			{ id = 101797, remove = true, },
 			{ name = "phoney_money", delay = 0, },
@@ -99,25 +349,10 @@ return {
 	},
 	[100095] = {  -- players spawned
 		on_executed = {
-			{ name = "disable_ladders", delay = 0, },  -- ladders and planks remain interactable ?
-			{ name = "disable_planks", delay = 0, },
+			-- { name = "disable_ladders", delay = 0, },  -- ladders and planks remain interactable ?
+			-- { name = "disable_planks", delay = 0, },
 			{ name = "disable_window_interaction", delay = 0, },
-			{ name = "cheese_blocker_6", delay = 0, },
-			{ name = "cheese_blocker_7", delay = 0, },
-			{ name = "cheese_blocker_8", delay = 0, },
-			{ name = "cheese_blocker_9", delay = 0, },
-		},
-	},
-	[100256] = chance_slam_door,
-	[104805] = {  -- this chavez spawn isnt used but whatever, just in case
-		on_executed = {
-			{ name = "force_slam_door_1", delay = 0, },
-		},
-	},
-	[101504] = chance_slam_door,
-	[104807] = {
-		on_executed = {
-			{ name = "force_slam_door_2", delay = 0, },
+			{ name = "link_slam_doors", delay = 0, },
 		},
 	},
 	[101464] = disable,  -- only make the guy just around the corner peek if the ambush will happen
@@ -134,7 +369,6 @@ return {
 		values = enable.values,
 		on_executed = {
 			{ id = 103611, delay = 0, },  -- block ai navigation into the roof stairwell if its blocked off
-			{ name = "cheese_blocker_1", delay = 0, },
 		},
 	},
 	[101745] = enable,  -- reenable harassers, but remove the dumb swarm heavies
@@ -223,38 +457,50 @@ return {
 			{ name = "block_washroom_3rdfloor_doors", delay = 0, },
 		},
 	},
-	[100499] = {
-		values = {
-			amount = 0,
-			amount_random = 1,
-		},
-	},
 	[102261] = {  -- c4 alley drop on high difficulties
 		on_executed = {
 			{ id = 100350, delay = 0, },
 		},
 	},
-	[104556] = disable,  -- dont disable objective sniper spawn points after the objective is completed
-	[104557] = disable,
+	[104612] = disable,  -- dont kill all snipers after objective is complete
+	[103161] = {  -- speed up post-objective sniper spawns to same as during objective (from 20-40s)
+		on_executed = {
+			{ id = 103159, delay = 10, delay_rand = 5, },
+		},
+	},
 	[101599] = enable,  -- also allow a disabled sniper spawn
 	[101521] = enable,  -- and corresponding so
 	[102593] = gangsters_amounts_3,  -- gangster amounts
 	[102597] = gangsters_amounts_2,
 	[102604] = gangsters_amounts_2,
-	[102612] = gangsters_amounts_2,
+	[101612] = gangsters_amounts_2,
 	[101744] = gangsters_amounts_2,
 	[101867] = gangsters_amounts_3,
-	[103090] = {  -- more loot
+	[103090] = {  -- more loot (vanilla is fixed 7, max is 16)
 		values = {
-			amount = 8,
-			amount_random = normal and 0 or hard and 4 or 8,
+			amount = 6,
+			amount_random = normal and 0 or hard and 3 or 6,
+		},
+	},
+	[100373] = {  -- grabbing giant toothbrush should use the same logic as grabbing coke for the loot dropoff waypoint
+		on_executed = {
+			{ id = 104314, delay = 0, },
+			{ id = 104325, remove = true, },
+		},
+	},
+	[104839] = toothbrush_secured,  -- securing giant toothbrush should remove waypoint if no more bags left
+	[104900] = toothbrush_secured,
+	[104133] = disable,  -- disable loot truck nearest spawn
+	[103055] = disable,  -- also disable garbage ambush triggered by securing loot, its only set up for the far truck and doesnt really make sense anyway
+	[103557] = disable,
+	[104731] = {  -- make cops carry stolen loot to spawn
+		values = {
+			position = Vector3(-3500, 0, 0),
 		},
 	},
 	[100501] = {  -- ambush line fix ?  hasnt been working for me since forever
 		values = {
 			append_prefix = false,
-			-- use_play_func = true,
-			-- use_instigator = true,
 		},
 	},
 	[102329] = {  -- reduce delay on mask up when ambushed (this triggers loud)
@@ -269,104 +515,115 @@ return {
 	[101891] = dealer_walk_so,
 	[101899] = dealer_walk_so,
 	[104782] = { enemy = Idstring("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"), },  -- gangsters
-	[102456] = { enemy = gangsters, },
-	[100081] = { enemy = gangsters, },
-	[100085] = { enemy = gangsters, },
-	[100169] = { enemy = gangsters, },
-	[100234] = { enemy = gangsters, },
-	[100236] = { enemy = gangsters, },
-	[100253] = { enemy = gangsters, },
-	[100305] = { enemy = gangsters, },
-	[100406] = { enemy = gangsters, },
-	[100409] = { enemy = gangsters, },
-	[100418] = { enemy = gangsters, },
-	[100431] = { enemy = gangsters, },
-	[100767] = { enemy = gangsters, },
-	[101200] = { enemy = gangsters, },
-	[101375] = { enemy = gangsters, },
-	[101401] = { enemy = gangsters, },
-	[101421] = { enemy = gangsters, },
-	[101422] = { enemy = gangsters, },
-	[101425] = { enemy = gangsters, },
-	[101434] = { enemy = gangsters, },
-	[101435] = { enemy = gangsters, },
-	[101438] = { enemy = gangsters, },
-	[101441] = { enemy = gangsters, },
-	[101442] = { enemy = gangsters, },
-	[101512] = { enemy = gangsters, },
-	[101661] = { enemy = gangsters, },
-	[101668] = { enemy = gangsters, },
-	[101743] = { enemy = gangsters, },
-	[101746] = { enemy = gangsters, },
-	[101749] = { enemy = gangsters, },
-	[101881] = { enemy = gangsters, },
-	[102170] = { enemy = gangsters, },
-	[102197] = { enemy = gangsters, },
-	[102330] = { enemy = gangsters, },
-	[102332] = { enemy = gangsters, },
-	[102333] = { enemy = gangsters, },
-	[102335] = { enemy = gangsters, },
-	[102558] = { enemy = gangsters, },
-	[102562] = { enemy = gangsters, },
-	[102563] = { enemy = gangsters, },
-	[102564] = { enemy = gangsters, },
-	[102586] = { enemy = gangsters, },
-	[102592] = { enemy = gangsters, },
-	[102596] = { enemy = gangsters, },
-	[102718] = { enemy = gangsters, },
-	[103061] = { enemy = gangsters, },
-	[103231] = { enemy = gangsters, },
-	[103232] = { enemy = gangsters, },
-	[103234] = { enemy = gangsters, },
-	[103235] = { enemy = gangsters, },
-	[103236] = { enemy = gangsters, },
-	[103450] = { enemy = gangsters, },
-	[104781] = { enemy = gangsters, },
-	[104889] = { enemy = gangsters, },
-	[104930] = { enemy = gangsters, },
-	[104932] = { enemy = gangsters, },
-	[103103] = { enemy = gangsters, },
-	[103102] = { enemy = gangsters, },
-	[103103] = { enemy = gangsters, },
-	[103104] = { enemy = gangsters, },
-	[103179] = { enemy = gangsters, },
-	[103180] = { enemy = gangsters, },
-	[101540] = { enemy = gangsters, },
-	[101395] = { enemy = gangsters, },
-	[101433] = { enemy = gangsters, },
-	[101437] = { enemy = gangsters, },
-	[101539] = { enemy = gangsters, },
-	[101802] = { enemy = gangsters, },
-	[101804] = { enemy = gangsters, },
-	[104793] = { enemy = gangsters, },
-	[102717] = { enemy = gangsters, },
-	[100512] = { enemy = gangsters, },
-	[100513] = { enemy = gangsters, },
-	[100516] = { enemy = gangsters, },
-	[100407] = { enemy = gangsters, },
-	[102165] = { enemy = gangsters, },
-	[102193] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100484] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100025] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100494] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100495] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100496] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100039] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[102192] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100050] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[102191] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100055] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100056] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100057] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[103703] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[103702] = { enemy = gangsters, values = no_participate_to_group_ai.values, },
-	[100135] = { enemy = cops, },  -- "random swat 1" (not actually swat, is a bronco cop, kicks down the front door)
-	[100027] = { enemy = cops, },  -- cops, initial
-	[100028] = { enemy = cops, },
-	[100035] = { enemy = cops, },
-	[100037] = { enemy = cops, },
-	[100038] = { enemy = cops, },
-	[100040] = { enemy = cops, },
+	[102332] = { enemy = door_guy, },
+	[101749] = { enemy = door_guy, },
+	[101746] = { enemy = door_guy, },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_outside_ids()] = { enemy = gangsters_outside(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_1st_ids()] = { enemy = gangsters_1st(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_2nd_ids()] = { enemy = gangsters_2nd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_3rd_ids()] = { enemy = gangsters_3rd(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_4th_ids()] = { enemy = gangsters_4th(), },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_5th_ids()] = { enemy = gangsters_5th(), values = no_participate_to_group_ai.values, },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_escape_ids()] = { enemy = gangsters_escape(), },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_1_ids()] = { enemy = gangsters_misc_1(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_2_ids()] = { enemy = gangsters_misc_2(), values = no_participate_to_group_ai.values, },
+	[gangsters_misc_3_ids()] = { enemy = gangsters_misc_3(), },
+	[gangsters_misc_3_ids()] = { enemy = gangsters_misc_3(), },
+	[gangsters_misc_3_ids()] = { enemy = gangsters_misc_3(), },
+	[gangsters_misc_3_ids()] = { enemy = gangsters_misc_3(), },
+	[gangsters_misc_3_ids()] = { enemy = gangsters_misc_3(), },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
+	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
 	[102020] = { enemy = cops, },  -- "blockade" (swarm)
 	[102021] = { enemy = cops, },
+	[101005] = { enemy = dozers_any, },  -- heli swats, hijacked to dozers after roof explosion
+	[101911] = { enemy = dozers_any, },
+	[101515] = { enemy = balcony_civ, },
+	[civs_casual_ids()] = { enemy = civs_casual(), },
+	[civs_casual_ids()] = { enemy = civs_casual(), },
+	[civs_casual_ids()] = { enemy = civs_casual(), },
+	[civs_casual_ids()] = { enemy = civs_casual(), },
+	[civs_casual_ids()] = { enemy = civs_casual(), },
+	[civs_hobo_ids()] = { enemy = civs_hobo(), },
+	[civs_hobo_ids()] = { enemy = civs_hobo(), },
+	[civs_hobo_ids()] = { enemy = civs_hobo(), },
+	[civs_hobo_ids()] = { enemy = civs_hobo(), },
 }
