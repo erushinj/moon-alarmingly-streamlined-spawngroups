@@ -347,6 +347,7 @@ if not ASS then
 		["constantine_penthouse_nar"] = "CITY_overkill_290",  -- penthouse crasher
 		["constantine_resort_nar"] = "CITY_overkill_290",  -- scarlett resort
 		["Avalon's Shadow"] = "CITY_overkill_290",  -- avalon's shadow, https://modworkshop.net/mod/34760
+		["thechase"] = "CS_FBI_overkill",  -- stalk fraud, https://modworkshop.net/mod/24638
 		["physics"] = "CITY_overkill_290",  -- boworks, https://modworkshop.net/mod/31560
 		["physics_citystreets"] = "CS_normal",  -- boworks day 1
 		["physics_tower"] = "FBI_overkill_145",  -- boworks day 2

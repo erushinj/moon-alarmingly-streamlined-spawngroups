@@ -440,7 +440,7 @@ function CharacterTweakData:moon_weapon_mapping(name)
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "beretta92",
 				[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02"):key()] = "raging_bull",
 			},
-			physics_citystreets = {
+			thechase = {
 				[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "deagle",
 				[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = "ksg",
 				[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = "shepheard",
@@ -453,8 +453,9 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			},
 		}
 		level_overrides.short2_stage2b = level_overrides.short2_stage1
-		level_overrides.physics_tower = level_overrides.physics_citystreets
-		level_overrides.physics_core = level_overrides.physics_citystreets
+		level_overrides.physics_citystreets = level_overrides.thechase
+		level_overrides.physics_tower = level_overrides.thechase
+		level_overrides.physics_core = level_overrides.thechase
 
 		weapon_mapping = {
 			-- appropriate weaponry for unique units
@@ -1096,6 +1097,7 @@ local custom_map_char_maps = {
 	},
 }
 custom_map_char_maps["Hunter and Hunted"] = custom_map_char_maps["Flatline"]
+custom_map_char_maps["Stalk Fraud"] = custom_map_char_maps["BOWORKS"]
 
 local custom_char_maps = custom_map_char_maps[beardlib_map.Name]
 if not custom_char_maps then

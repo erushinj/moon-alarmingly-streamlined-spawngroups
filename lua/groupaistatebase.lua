@@ -2,6 +2,15 @@ if ASS.is_client then
 	return
 end
 
+-- fix for Stalk Fraud, why the fuck are there criminal1 team civilians
+ASS:override( GroupAIStateBase, "_determine_objective_for_criminal_AI", function(self, unit, ...)
+	local u_key = unit:key()
+
+	if self._ai_criminals[u_key] or self._police[u_key] then
+		return self:_determine_objective_for_criminal_AI_original(unit, ...)
+	end
+end )
+
 local get_prefix = {
 	[0] = "FBI",  -- threshold is 0
 	[1] = "CS",  -- threshold is 1

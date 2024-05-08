@@ -25,6 +25,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
 - [Avalon's Shadow v12](https://modworkshop.net/mod/34760)
 - [Crashing Capitol v1.0.2.3](https://modworkshop.net/mod/44630)
 - [Constantine Heists Archive v5](https://modworkshop.net/mod/43578): heists with the custom FSB or cartel factions; Scarlett Resort; Penthouse Crasher
+- [Stalk Fraud v3.4](https://modworkshop.net/mod/24638): a fix is included for the `[string "lib/managers/group_ai_states/groupaistatebase..."]:3552: attempt to index a nil value` crash the map has in SH; also uses the Bo-force faction at all times
 - [BOWORKS v1.5](https://modworkshop.net/mod/31560): day 3 requires [Custom Heist Fixes](https://modworkshop.net/mod/41562)
 
 -----
@@ -527,6 +528,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Cold Stones (custom)</li>
                 <li>A House of Pleasure (custom)</li>
                 <li>Flatline (custom)</li>
+                <li>Stalk Fraud (custom)</li>
             </ul>
         </td>
     </tr>

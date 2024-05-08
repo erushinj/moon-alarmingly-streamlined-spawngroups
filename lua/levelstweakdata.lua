@@ -47,6 +47,7 @@ function LevelsTweakData:moon_regular_custom_group()
 			"shoutout_raid",  -- all murkies/swats
 
 			-- custom heists
+			"thechase",  -- corporate bullshit
 			"physics_citystreets",  -- corporate bullshit
 			"physics_tower",  -- corporate bullshit
 			"physics_core",  -- corporate bullshit
