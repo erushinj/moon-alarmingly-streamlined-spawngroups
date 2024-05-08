@@ -507,7 +507,6 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = get_special_weapon("shield", "bo_ovk"),
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = get_special_weapon("shield", "bo_bofa"),
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = get_special_weapon("shield", "bo_bofa"),
-			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = get_special_weapon("shield", "bo_bofa"),
 
 			-- tasers, for "Taser Dazers" setting
 			[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = get_special_weapon("taser", "swat"),
@@ -802,7 +801,6 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			-- [("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_benelli/ene_bofa_benelli"):key()] = "benelli",
 			-- [("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_ump/ene_bofa_ump"):key()] = "ump",
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_r870/ene_bofa_r870"):key()] = "benelli",
-			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "s552",
 
 			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_m4/ene_sbz_heavy_m4"):key()] = "shepheard",  -- heavies
 			[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_r870/ene_sbz_heavy_r870"):key()] = "ksg",
@@ -810,7 +808,10 @@ function CharacterTweakData:moon_weapon_mapping(name)
 			-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_r870/ene_ovk_heavy_r870"):key()] = "r870",
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_g36/ene_bofa_heavy_g36"):key()] = "s552",
 			[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_r870/ene_bofa_heavy_r870"):key()] = "benelli",
-			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "s552",
+
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "mini",  -- zeal tier, scripted spawn exclusive in ASS, they get to be mean
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "mini",
+			[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = "mini",
 
 			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"):key()] = "shepheard",  -- security
 			[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"):key()] = "ksg",

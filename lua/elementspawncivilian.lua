@@ -138,9 +138,10 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 		return self:moon_produce_helper(params, ...)
 	end
 
+	-- static_tier = false means scripted cops/fbis can be replaced depending on level mod
 	local static_continent, static_tier = self.static_continent, self.static_tier
 	local mapped_name = tweak_data.levels:moon_enemy_mapping(name_key)
-	if not static_continent and not static_tier then
+	if not static_continent and static_tier == nil then
 		if tweak_data.levels:moon_forbidden_scripted_replacements(mapped_name) then
 			return self:moon_produce_helper(params, ...)
 		end

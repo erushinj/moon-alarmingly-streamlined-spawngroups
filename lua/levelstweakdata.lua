@@ -45,6 +45,11 @@ function LevelsTweakData:moon_regular_custom_group()
 			"watchdogs_1",  -- all cops/swats
 			"watchdogs_2",  -- all cops/swats
 			"shoutout_raid",  -- all murkies/swats
+
+			-- custom heists
+			"physics_citystreets",  -- corporate bullshit
+			"physics_tower",  -- corporate bullshit
+			"physics_core",  -- corporate bullshit
 		})[clean_level_id] or false
 	end
 
@@ -261,7 +266,7 @@ end
 function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)
 	if not self._moon_forbidden_scripted_replacements then
 		local all_forbidden = {
-			default = table.set("hrt_1", "hrt_2", "hrt_3"),
+			default = table.set("hrt_1", "hrt_2", "hrt_3", "hrt_4"),
 		}
 
 		self._moon_forbidden_scripted_replacements = all_forbidden[clean_level_id] or all_forbidden.default
@@ -282,6 +287,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
 					hrt_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
 					swat_1 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
 					swat_2 = Idstring("units/payday2/characters/ene_swat_2/ene_swat_2"),
 					swat_3 = Idstring("units/payday2/characters/ene_swat_1/ene_swat_1"),
@@ -306,6 +312,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
 					hrt_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
 					swat_1 = Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"),
 					swat_2 = Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"),
 					swat_3 = Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1"),
@@ -330,6 +337,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
 					hrt_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
 					swat_1 = Idstring("units/payday2/characters/ene_city_swat_1/ene_city_swat_1"),
 					swat_2 = Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
 					swat_3 = Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3"),
@@ -354,6 +362,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
 					hrt_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
 					swat_1 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat/ene_zeal_swat"),
 					swat_2 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_2/ene_zeal_swat_2"),
 					swat_3 = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat/ene_zeal_swat"),
@@ -380,6 +389,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
 					hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
 					hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"),
 					swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"),
 					swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_r870/ene_akan_cs_swat_r870"),
 					swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass"),
@@ -404,6 +414,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
 					hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
 					hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"),
 					swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass"),
 					swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870"),
 					swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass"),
@@ -428,6 +439,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
 					hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg"),
 					hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"),
 					swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass"),
 					swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870"),
 					swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass/ene_akan_fbi_swat_dw_ak47_ass"),
@@ -454,6 +466,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_1/ene_cop_hvh_1"),
 					hrt_2 = Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_4/ene_cop_hvh_4"),
 					hrt_3 = Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_3/ene_cop_hvh_3"),
+					hrt_4 = Idstring("units/pd2_dlc_hvh/characters/ene_cop_hvh_2/ene_cop_hvh_2"),
 					swat_1 = Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1"),
 					swat_2 = Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_2/ene_swat_hvh_2"),
 					swat_3 = Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1"),
@@ -478,6 +491,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
 					hrt_2 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"),
 					hrt_3 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"),
+					hrt_4 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3"),
 					swat_1 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1"),
 					swat_2 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_2/ene_fbi_swat_hvh_2"),
 					swat_3 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1"),
@@ -504,6 +518,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
 					swat_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi"),
 					swat_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi"),
@@ -528,6 +543,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
 					swat_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi"),
 					swat_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi_r870/ene_murkywater_light_fbi_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_fbi/ene_murkywater_light_fbi"),
@@ -552,6 +568,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
 					hrt_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
+					hrt_4 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"),
 					swat_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city/ene_murkywater_light_city"),
 					swat_2 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city_r870/ene_murkywater_light_city_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light_city/ene_murkywater_light_city"),
@@ -578,6 +595,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_2 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_3 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
+					hrt_4 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
 					swat_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"),
 					swat_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_r870/ene_swat_policia_federale_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale/ene_swat_policia_federale"),
@@ -602,6 +620,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_2 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_3 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
+					hrt_4 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
 					swat_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi"),
 					swat_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi"),
@@ -626,6 +645,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_2 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
 					hrt_3 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
+					hrt_4 = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
 					swat_1 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city"),
 					swat_2 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870"),
 					swat_3 = Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city"),
@@ -652,6 +672,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
 					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
 					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"),
+					hrt_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"),
 					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"),
 					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_3/ene_cartel_soldier_fbi_shotgun_3"),
 					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_4/ene_cartel_soldier_fbi_4"),
@@ -676,6 +697,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
 					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
 					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"),
+					hrt_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"),
 					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"),
 					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_3/ene_cartel_soldier_fbi_shotgun_3"),
 					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_4/ene_cartel_soldier_fbi_4"),
@@ -700,6 +722,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
 					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
 					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"),
+					hrt_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"),
 					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_1/ene_cartel_soldier_city_1"),
 					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_3/ene_cartel_soldier_city_shotgun_3"),
 					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_4/ene_cartel_soldier_city_4"),
@@ -724,6 +747,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
 					hrt_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"),
 					hrt_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"),
+					hrt_4 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"),
 					swat_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_1/ene_cartel_soldier_zeal_1"),
 					swat_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_3/ene_cartel_soldier_zeal_3"),
 					swat_3 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_4/ene_cartel_soldier_zeal_4"),
@@ -750,6 +774,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
 					hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
 					hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
+					hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
 					swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"),  -- apparently this is a light swat.
 					swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_r870/ene_rus_cop_3_r870"),
 					swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"),
@@ -774,6 +799,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
 					hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
 					hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
+					hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
 					swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_fsb_m4/ene_rus_fsb_m4"),
 					swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_fsbcity_r870/ene_rus_fsbcity_r870"),
 					swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_fsb_r870/ene_rus_fsb_r870"),
@@ -800,6 +826,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_cop_1/ene_cop_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_cop_4/ene_cop_4"),
 					hrt_3 = Idstring("units/payday2/characters/ene_cop_3/ene_cop_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),
 					swat_1 = Idstring("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"),
 					swat_2 = Idstring("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_r870/ene_sbz_r870"),
 					swat_3 = Idstring("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"),
@@ -824,6 +851,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
 					hrt_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
 					swat_1 = Idstring("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_m4/ene_ovk_m4"),
 					swat_2 = Idstring("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_r870/ene_ovk_r870"),
 					swat_3 = Idstring("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_m4/ene_ovk_m4"),
@@ -848,6 +876,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					hrt_2 = Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
 					hrt_3 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
+					hrt_4 = Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3"),
 					swat_1 = Idstring("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_g36/ene_bofa_g36"),
 					swat_2 = Idstring("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_benelli/ene_bofa_benelli"),
 					swat_3 = Idstring("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_ump/ene_bofa_ump"),
@@ -867,6 +896,22 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 					cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 					marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 					marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				},
+			},
+			bo_scripted = {  -- bo-force scripted spawns, not to be used for unit categories
+				normal = {
+					hrt_1 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"),
+					hrt_2 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"),
+					hrt_3 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"),
+					hrt_4 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),  -- boworks day 3 friendly unit
+					swat_1 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+					swat_2 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+					swat_3 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+					heavy_1 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+					heavy_2 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+					shield = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"),
+					sniper = Idstring("units/payday2/characters/ene_sniper_2/ene_sniper_2"),  -- boworks day 3 friendly unit
+					dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun"),  -- boworks day 3 friendly unit
 				},
 			},
 		}

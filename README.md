@@ -16,16 +16,16 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 ### Custom Heist Support:
 
-In version 6, the mod has received improved compatibility with custom maps.
+In version 6, the mod has received improved compatibility with custom heists.
 
-Not all may work out of the box, especially if a given heist uses a custom faction, so leave a comment if needed.
+Not all may work out of the box, mostly if a given heist uses a custom faction, so leave a comment if needed.
 
 Custom heists that have been played from start to finish with the mod, in loud, on Death Wish difficulty:
 
 - [Avalon's Shadow v12](https://modworkshop.net/mod/34760)
 - [Crashing Capitol v1.0.2.3](https://modworkshop.net/mod/44630)
 - [Constantine Heists Archive v5](https://modworkshop.net/mod/43578): heists with the custom FSB or cartel factions; Scarlett Resort; Penthouse Crasher
-- [BOWORKS v1.5](https://modworkshop.net/mod/31560): days 1 and 2 are playable, day 3 is currently not compatible with Streamlined Heisting
+- [BOWORKS v1.5](https://modworkshop.net/mod/31560): day 3 requires [Custom Heist Fixes](https://modworkshop.net/mod/41562)
 
 -----
 
@@ -617,7 +617,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
         </th>
         <td>
             <ul>
-                <li>BOWORKS (custom) rotates from SWAT to FBI to GenSec tiers with each heist day - day 3 is currently incompatible with Streamlined Heisting, however</li>
+                <li>BOWORKS (custom) rotates from SWAT to FBI to GenSec tiers with each heist day</li>
             </ul>
         </td>
     </tr>
