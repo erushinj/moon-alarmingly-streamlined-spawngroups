@@ -6,6 +6,7 @@ if not MissionManager.mission_script_patch_funcs then
 	return ASS:message("sh_outdated")
 end
 
+local level_id = ASS.level_id
 local try_insert = ASS:require("try_insert", true)
 
 ASS:pre_hook( MissionManager, "init", function(self)
@@ -127,6 +128,17 @@ local merged = nil
 ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 	if merged == nil then
 		merged = false
+
+		if not self._mission_script_patches then
+			local remap = ({
+				branchbank_russia = "branchbank",
+				firestarter_3 = "branchbank",
+			})[level_id]
+
+			if remap then
+				self._mission_script_patches = self:require("mission_script/" .. remap) or false
+			end
+		end
 
 		local ass_mission_script_patches = ASS:script_patches("mission")
 		if ass_mission_script_patches then

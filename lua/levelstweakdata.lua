@@ -67,6 +67,7 @@ function LevelsTweakData:moon_custom_maps_boowomp()
 		for _, func in ipairs({
 			function()  -- check level ids where package auto-detect is known not to work
 				return ({
+					branchbank_russia = constantine_fsb,
 					ruswl = constantine_fsb,
 					rusdl = constantine_fsb,
 					ahopl = constantine_fsb,
@@ -1273,6 +1274,13 @@ function LevelsTweakData:moon_level_enemy_replacements()
 			deep = {
 				[("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"):key()] = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				[("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"):key()] = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+			},
+
+			-- custom heists
+			branchbank_russia = {
+				[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"),
+				[("units/payday2/characters/ene_security_2/ene_security_2"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"),
+				[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"),
 			},
 		}
 		all_lvl_replacements.rvd2 = all_lvl_replacements.rvd1

@@ -2,7 +2,6 @@ if ASS.is_client then
 	return
 end
 
-local try_insert, check_clone = ASS:require("try_insert", true), ASS:require("check_clone", true)
 local sss = BLT.Mods:GetModByName("Super Serious Shooter")
 local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS.difficulty_index

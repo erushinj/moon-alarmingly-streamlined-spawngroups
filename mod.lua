@@ -338,6 +338,7 @@ if not ASS then
 		roberts = "FBI_overkill_145",  -- go bank
 
 		-- custom heists
+		["branchbank_russia"] = "CS_FBI_overkill",  -- bank heist russia, https://modworkshop.net/mod/30389
 		["rusw"] = "FBI_overkill_145",  -- scorched earth, this and below are at https://modworkshop.net/mod/43578
 		["rusd"] = "CS_FBI_overkill",  -- cold stones
 		["ahop"] = "CS_FBI_overkill",  -- a house of pleasure
@@ -353,6 +354,7 @@ if not ASS then
 		["physics_tower"] = "FBI_overkill_145",  -- boworks day 2
 		["physics_core"] = "CITY_overkill_290",  -- boworks day 3
 		["narr_friday"] = "FBI_CITY_easy_wish",  -- crashing capitol, https://modworkshop.net/mod/44630
+		["bnktower"] = "CITY_overkill_290",  -- gensec hive, https://modworkshop.net/mod/36368
 	}
 
 	function ASS:log(prefix, str, ...)
@@ -726,6 +728,7 @@ if not ASS then
 		custom = {},
 		mission = {
 			branchbank = "firestarter_3",
+			branchbank_russia = "firestarter_3",
 			jewelry_store = "ukrainian_job",
 		},
 		instance = {

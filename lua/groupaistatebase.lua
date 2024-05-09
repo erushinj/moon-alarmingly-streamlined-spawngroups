@@ -43,12 +43,13 @@ if ASS:setting("doms_super_serious") then
 	end )
 end
 
--- force diff to 1 in loud if the setting is enabled or once escape is available
-local max_diff = ASS:setting("max_diff")
-ASS:log("info", "Tweaking \"GroupAIStateBase:set_difficulty\", Maxed Assault Strength setting %s...", max_diff and "enabled" or "disabled")
-ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
-	return self:set_difficulty_original(max_diff and 1 or value, ...)
-end )
+-- force diff to 1 in loud if the setting is enabled
+if ASS:setting("max_diff") then
+	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:set_difficulty\"...")
+	ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
+		return self:set_difficulty_original(1, ...)
+	end )
+end
 
 -- cloaker task fuck off
 ASS:override( GroupAIStateBase, "_process_recurring_grp_SO", function() end, true )
