@@ -27,7 +27,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
 - [GenSec H.I.V.E. Heist v1.5](https://modworkshop.net/mod/36368): requires [Custom Heist Fixes](https://modworkshop.net/mod/41562)
 - [Bank Heist: Russia v2](https://modworkshop.net/mod/30389): requires [Custom Heist Fixes](https://modworkshop.net/mod/41562)
 - [Constantine Heists Archive v5](https://modworkshop.net/mod/43578): heists with the custom FSB or cartel factions; Scarlett Resort; Penthouse Crasher
-- [Stalk Fraud v3.4](https://modworkshop.net/mod/24638): a fix is included for the `[string "lib/managers/group_ai_states/groupaistatebase..."]:3552: attempt to index a nil value` crash the map has in SH; also uses the Bo-force faction at all times
+- [Stalk Fraud v3.4](https://modworkshop.net/mod/24638): uses the Bo-force faction at all times
 - [BOWORKS v1.5](https://modworkshop.net/mod/31560): day 3 requires [Custom Heist Fixes](https://modworkshop.net/mod/41562)
 
 -----

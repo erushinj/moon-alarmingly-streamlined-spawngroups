@@ -132,7 +132,6 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 		if not self._mission_script_patches then
 			local remap = ({
 				branchbank_russia = "branchbank",
-				firestarter_3 = "branchbank",
 			})[level_id]
 
 			if remap then
