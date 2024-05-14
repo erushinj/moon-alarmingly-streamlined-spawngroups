@@ -1273,7 +1273,11 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 			FBI_spoocs = { 0, special_weight * 0.5, special_weight, },
 		},
 		recon = {
-			hostage_rescue = { 1, 1, 1, },
+			hostage_rescue = { 1, 2, 3, },
+			tac_swat_shotgun_flank = { 0, 0, 0, },
+			tac_swat_shotgun_flank_no_medic = { 0, 0, 1, },
+			tac_swat_rifle_flank = { 0, 0, 0, },
+			tac_swat_rifle_flank_no_medic = { 0, 0, 1, },
 			FBI_spoocs = { 0, 0, 0, },
 		},
 		reenforce = {
