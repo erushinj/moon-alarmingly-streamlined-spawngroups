@@ -149,6 +149,8 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 				local function merge_patches(base_patch, to_merge)
 					for id, data in pairs(to_merge) do
 						if type(base_patch[id]) == "table" and type(data) == "table" then
+							base_patch[id] = deep_clone(base_patch[id])
+
 							if base_patch[id][1] then
 								for _, v in pairs(data) do
 									table.insert(base_patch[id], v)
