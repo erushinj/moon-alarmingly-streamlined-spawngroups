@@ -92,6 +92,26 @@ local id_heli_roll_failed = managers.mission:moon_generate_custom_id(heli_roll_f
 local id_heli_switch_spawns = managers.mission:moon_generate_custom_id(heli_switch_spawns)
 local id_heli_dozers = managers.mission:moon_generate_custom_id(heli_dozers)
 
+-- misc sos
+local so_stairwell_to_ground = "so_stairwell_to_ground"
+local so_corner_to_ground = "so_corner_to_ground"
+local so_ground_to_2nd = "so_ground_to_2nd"
+local so_ground_to_3rd = "so_ground_to_3rd"
+local so_2nd_to_ground = "so_2nd_to_ground"
+local so_3rd_to_ground = "so_3rd_to_ground"
+local so_3rd_to_2nd = "so_3rd_to_2nd"
+local so_4th_to_3rd = "so_4th_to_3rd"
+local so_4th_balcony_to_3rd = "so_4th_balcony_to_3rd"
+local id_so_stairwell_to_ground = managers.mission:moon_generate_custom_id(so_stairwell_to_ground)
+local id_so_corner_to_ground = managers.mission:moon_generate_custom_id(so_corner_to_ground)
+local id_so_ground_to_2nd = managers.mission:moon_generate_custom_id(so_ground_to_2nd)
+local id_so_ground_to_3rd = managers.mission:moon_generate_custom_id(so_ground_to_3rd)
+local id_so_2nd_to_ground = managers.mission:moon_generate_custom_id(so_2nd_to_ground)
+local id_so_3rd_to_ground = managers.mission:moon_generate_custom_id(so_3rd_to_ground)
+local id_so_3rd_to_2nd = managers.mission:moon_generate_custom_id(so_3rd_to_2nd)
+local id_so_4th_to_3rd = managers.mission:moon_generate_custom_id(so_4th_to_3rd)
+local id_so_4th_balcony_to_3rd = managers.mission:moon_generate_custom_id(so_4th_balcony_to_3rd)
+
 -- misc stuff
 local enable_roof_sniper_respawns = "enable_roof_sniper_respawns"
 local disable_ladders = "disable_ladders"
@@ -99,19 +119,132 @@ local disable_planks = "disable_planks"
 local disable_window_interaction = "disable_window_interaction"
 local phoney_money = "phoney_money"
 local toggle_ambush_peek = "toggle_ambush_peek"
-local turn_off_so_1 = "turn_off_so_1"
-local turn_off_so_2 = "turn_off_so_2"
 local id_enable_roof_sniper_respawns = managers.mission:moon_generate_custom_id(enable_roof_sniper_respawns)
 local id_disable_ladders = managers.mission:moon_generate_custom_id(disable_ladders)
 local id_disable_planks = managers.mission:moon_generate_custom_id(disable_planks)
 local id_disable_window_interaction = managers.mission:moon_generate_custom_id(disable_window_interaction)
 local id_phoney_money = managers.mission:moon_generate_custom_id(phoney_money)
 local id_toggle_ambush_peek = managers.mission:moon_generate_custom_id(toggle_ambush_peek)
-local id_turn_off_so_1 = managers.mission:moon_generate_custom_id(turn_off_so_1)
-local id_turn_off_so_2 = managers.mission:moon_generate_custom_id(turn_off_so_2)
 
--- TODO: figure out how to prevent cheese, previous add blinds solution doesnt work clientside
 return {
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_stairwell_to_ground,
+		id = id_so_stairwell_to_ground,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(408, 1026, 1350),
+			search_position = Vector3(703, 1064, 0),
+			rotation = Rotation(-90, 0, 0),
+			so_action = "e_nl_over_1m_dwn_13m",  -- 13m is a bit short and 15m is a bit far, but theres no 14m ones
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_corner_to_ground,
+		id = id_so_corner_to_ground,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(408, 1338, 1350),
+			search_position = Vector3(703, 1376, 0),
+			rotation = Rotation(-90, 0, 0),
+			so_action = "e_nl_over_1m_dwn_13m",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_ground_to_2nd,
+		id = id_so_ground_to_2nd,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(691, 197, -10.312),
+			search_position = Vector3(423, 133, 387),
+			rotation = Rotation(90, 0, 0),
+			so_action = "e_nl_up_4_4m_dwn_0_5m",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_ground_to_3rd,
+		id = id_so_ground_to_3rd,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(565, 265, -22.477),
+			search_position = Vector3(396, 199, 700),
+			rotation = Rotation(90, 0, 0),
+			so_action = "e_nl_up_8m_dwn_0_8m_left",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_2nd_to_ground,
+		id = id_so_2nd_to_ground,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(390, 180, 377.93),
+			search_position = Vector3(677, 194, 10),
+			rotation = Rotation(-90, 0, 0),
+			so_action = "e_nl_up_1_down_4_8m",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_3rd_to_ground,
+		id = id_so_3rd_to_ground,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(397, 170, 700),
+			search_position = Vector3(550, 180, 0),
+			rotation = Rotation(-90, 0, 0),
+			so_action = "e_nl_up_0_3m_dwn_7m",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_3rd_to_2nd,
+		id = id_so_3rd_to_2nd,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(393, 178, 725),
+			search_position = Vector3(356, 182, 400),
+			rotation = Rotation(180, 0, 0),
+			so_action = "e_nl_up_1m_down_4_3m_swing",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_4th_to_3rd,
+		id = id_so_4th_to_3rd,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(403, 178, 1025),
+			search_position = Vector3(366, 182, 700),
+			rotation = Rotation(180, 0, 0),
+			so_action = "e_nl_up_1m_down_4_3m_swing",
+			interval = 1.5,
+		}),
+	},
+	{
+		class = "ElementSpecialObjective",
+		editor_name = so_4th_balcony_to_3rd,
+		id = id_so_4th_balcony_to_3rd,
+		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+			enabled = true,
+			position = Vector3(-84, -314, 1025),
+			search_position = Vector3(-65, -310, 723),
+			rotation = Rotation(90, 0, 0),
+			so_action = "e_nl_up_1m_down_4_3m_swing",
+			interval = 1.5,
+		}),
+	},
+
 	{
 		class = "ElementToggle",
 		editor_name = enable_roof_sniper_respawns,
@@ -269,32 +402,6 @@ return {
 	},
 
 	{
-		class = "ElementOperator",
-		editor_name = turn_off_so_1,
-		id = id_turn_off_so_1,
-		values = {
-			enabled = true,
-			operation = "remove",
-			elements = {
-				101063,
-			},
-		},
-	},
-
-	{
-		class = "ElementOperator",
-		editor_name = turn_off_so_2,
-		id = id_turn_off_so_2,
-		values = {
-			enabled = true,
-			operation = "remove",
-			elements = {
-				101257,
-			},
-		},
-	},
-
-	{
 		class = "ElementLogicChanceOperator",
 		editor_name = link_slam_doors,
 		id = id_link_slam_doors,
@@ -334,6 +441,11 @@ return {
 				100256,  -- chance
 				104805,  -- (unused) chavez spawn
 			},
+			on_executed = {
+				{ id = id_so_3rd_to_2nd, delay = 0, },
+				{ id = id_so_ground_to_2nd, delay = 0, },
+				{ id = id_so_2nd_to_ground, delay = 0, },
+			},
 		},
 	},
 
@@ -358,6 +470,12 @@ return {
 			elements = {
 				101504,  -- chance
 				104807,  -- chavez spawn
+			},
+			on_executed = {
+				{ id = id_so_4th_to_3rd, delay = 0, },
+				{ id = id_so_4th_balcony_to_3rd, delay = 0, },
+				{ id = id_so_ground_to_3rd, delay = 0, },
+				{ id = id_so_3rd_to_ground, delay = 0, },
 			},
 		},
 	},
@@ -411,6 +529,9 @@ return {
 			event_list = {
 				{ instance = "flat_door_019", event = "door_block", },
 				{ instance = "flat_door_020", event = "door_block", },
+			},
+			on_executed = {
+				{ id = id_so_corner_to_ground, delay = 0, },
 			},
 		},
 	},

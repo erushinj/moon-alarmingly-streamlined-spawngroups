@@ -237,14 +237,14 @@ return {
 	},
 	[100907] = {  -- move an asset medic bag that can potentially be blocked off
 		values = {
-			position = Vector3(-331, 261, 1365.45),
-			rotation = Rotation(180, 0, 0),
+			position = Vector3(336, 470, 1429.99),
+			rotation = Rotation(-90, 0, 0),
 		},
 	},
 	[100900] = {
 		on_executed = {
-			hard and { id = 100890, remove = true, } or nil,
-			overkill and { id = 100332, remove = true, } or nil,
+			{ id = 100890, remove = not normal or nil, delay = 0, },
+			{ id = 100332, remove = overkill or nil, delay = 0, },
 		},
 	},
 	[103300] = escape_gangsters_chance,  -- ovk+ extra gangsters in the basement, vanilla is 50
@@ -320,16 +320,7 @@ return {
 			spawn_type = "group_guaranteed",
 		},
 	},
-	[102760] = {  -- roof doors closed disables unrelated navlinks for some reason, just keep the one thats related
-		modify_list_value = {
-			elements = {
-				[103291] = false,
-				[103283] = false,
-				[103293] = false,
-				[103292] = false,
-			},
-		},
-	},
+	[102760] = disable,  -- roof doors closed disables mostly unrelated navlinks
 	[103487] = {  -- flat doors startup
 		on_executed = {
 			{ name = "filter_hard_above", delay = 0.5, },
@@ -365,10 +356,16 @@ return {
 	[101817] = ambush_chance,
 	[102656] = enable,  -- "link to close roof doors"
 	[103611] = enable,
+	[103648] = {
+		on_executed = {
+			{ id = 103611, remove = true, },  -- dont block roof stairwell navigation by default
+		},
+	},
 	[100297] = {  -- "close roof doors"
 		values = enable.values,
 		on_executed = {
 			{ id = 103611, delay = 0, },  -- block ai navigation into the roof stairwell if its blocked off
+			{ name = "so_stairwell_to_ground", delay = 0, },
 		},
 	},
 	[101745] = enable,  -- reenable harassers, but remove the dumb swarm heavies
@@ -457,25 +454,21 @@ return {
 			{ name = "block_washroom_3rdfloor_doors", delay = 0, },
 		},
 	},
-	[102261] = {  -- c4 alley drop on high difficulties
-		on_executed = {
-			{ id = 100350, delay = 0, },
-		},
-	},
 	[104612] = disable,  -- dont kill all snipers after objective is complete
 	[103161] = {  -- speed up post-objective sniper spawns to same as during objective (from 20-40s)
 		on_executed = {
 			{ id = 103159, delay = 10, delay_rand = 5, },
 		},
 	},
-	[101599] = enable,  -- also allow a disabled sniper spawn
-	[101521] = enable,  -- and corresponding so
 	[102593] = gangsters_amounts_3,  -- gangster amounts
 	[102597] = gangsters_amounts_2,
 	[102604] = gangsters_amounts_2,
 	[101612] = gangsters_amounts_2,
 	[101744] = gangsters_amounts_2,
 	[101867] = gangsters_amounts_3,
+	[102557] = not normal and disable or nil,  -- in panic room, 2
+	[102554] = overkill and disable or nil,  -- 3
+	[102556] = normal and disable or nil,  -- 4
 	[103090] = {  -- more loot (vanilla is fixed 7, max is 16)
 		values = {
 			amount = 6,

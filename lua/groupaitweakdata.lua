@@ -1306,29 +1306,20 @@ function GroupAITweakData:_moon_default(special_weight)
 		flank = difficulty_index / 20,
 		shield = difficulty_index / 32,
 	}
+	local function get_medic_freq(id)
+		for n, freq in pairs(medic_freq) do
+			if id:match(n) then
+				return freq
+			end
+		end
+	end
 
 	for id, data in pairs(self.enemy_spawn_groups) do
-		for i = #data.spawn, 1, -1 do
-			local enemy = data.spawn[i]
-
-			if enemy.unit:match("tazer") then
+		for _, enemy in pairs(data.spawn) do
+			if enemy.unit == "CS_tazer" then
 				enemy.unit = "FBI_tazer"
 			elseif enemy.unit:match("medic") then
-				enemy.unit = enemy.unit:match("R870") and "FBI_medic_R870" or "FBI_medic_M4"
-
-				local freq_set = false
-				for n, freq in pairs(medic_freq) do
-					if id:match(n) then
-						enemy.freq = freq
-						freq_set = true
-
-						break
-					end
-				end
-
-				if not freq_set then
-					enemy.freq = default_medic_freq
-				end
+				enemy.freq = get_medic_freq(id) or default_medic_freq
 			end
 
 			for name in pairs(id_matches) do
@@ -1596,13 +1587,9 @@ function GroupAITweakData:_moon_editor(special_weight)
 		if not vanilla_groups[id] then
 			self.enemy_spawn_groups[id] = nil
 		else
-			for i = #data.spawn, 1, -1 do
-				local enemy = data.spawn[i]
-
-				if enemy.unit:match("tazer") then
+			for _, enemy in pairs(data.spawn) do
+				if enemy.unit == "CS_tazer" then
 					enemy.unit = "FBI_tazer"
-				elseif enemy.unit:match("medic") then
-					enemy.unit = enemy.unit:match("R870") and "FBI_medic_R870" or "FBI_medic_M4"
 				end
 			end
 		end

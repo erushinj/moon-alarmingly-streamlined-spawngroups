@@ -710,7 +710,7 @@ if not ASS then
 			end
 
 			if is_editor then
-				self:log("info", "Editor mode active, mission tweaks disabled and using Default Streamlined groups...")
+				self:log("info", "Editor mode active, mission tweaks disabled and using vanilla groups...")
 			end
 
 			if tostring(self.level_mod):match("ZEAL") then
