@@ -20,7 +20,7 @@ end )
 local custom_element_ids = {}
 local last_id = 0
 ASS:override( MissionScript, "add_save_state_cb", function(self, id, ...)
-	if not custom_element_ids[id] then
+	if not table.contains(custom_element_ids, id) then
 		return self:add_save_state_cb_original(id, ...)
 	end
 end )
