@@ -19,6 +19,12 @@ end )
 
 local custom_element_ids = {}
 local last_id = 0
+ASS:override( MissionScript, "add_save_state_cb", function(self, id, ...)
+	if not custom_element_ids[id] then
+		return self:add_save_state_cb_original(id, ...)
+	end
+end )
+
 function MissionManager:moon_generate_custom_id(editor_name)
 	local id = custom_element_ids[editor_name]
 
@@ -97,7 +103,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 
 	-- if no result, things will likely go wrong anyway
 	if result then
-		return values and table.map_append(values, result) or result
+		return values and table.map_append(result, values) or result
 	end
 
 	ASS:log("error", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
