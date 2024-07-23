@@ -4,7 +4,9 @@ end
 
 local instance_script_patches = ASS:script_patches("instance")
 if not instance_script_patches then
-	return ASS:log("info", "No instance script patches for current level...")
+	ASS:log("info", "No instance script patches for current level...")
+
+	return
 end
 
 ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path)

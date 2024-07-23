@@ -1893,7 +1893,9 @@ local sort_func = function(a, b) return a.priority < b.priority end
 function GroupAITweakData:moon_add_func(id, priority, func)
 	for _, v in pairs(self._moon_funcs) do
 		if v.id == id then
-			return ASS:log("warn", "Duplicate registration for ID \"%s\" in tweak_data.group_ai:moon_add_func", id)
+			ASS:log("warn", "Duplicate registration for ID \"%s\" in tweak_data.group_ai:moon_add_func", id)
+
+			return
 		end
 	end
 

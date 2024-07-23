@@ -3,7 +3,9 @@ if ASS.is_editor_or_client then
 end
 
 if not MissionManager.mission_script_patch_funcs then
-	return ASS:message("sh_outdated")
+	ASS:message("sh_outdated")
+
+	return
 end
 
 local level_id = ASS.level_id
