@@ -340,6 +340,20 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	StreamHeist:log("Modified enemy spawn in element %s", element:editor_name())
 end
 
+-- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+MissionManager.mission_script_patch_funcs.run_func_on_unit = function(self, element, data)
+	if not element.produce then
+		ASS:log("warn", "Element %s (%s) has no produce function!", element:editor_name(), element:id())
+	else
+		Hooks:PostHook( element, "produce", "sh_produce_run_func_on_unit_" .. element:id(), function()
+			data(Hooks:GetReturn())
+		end )
+
+		StreamHeist:log("%s hooked as run function on unit trigger", element:editor_name())
+	end
+end
+
 -- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
