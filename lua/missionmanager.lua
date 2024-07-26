@@ -12,8 +12,8 @@ local level_id = ASS.level_id
 local try_insert = ASS:require("try_insert", true)
 
 ASS:pre_hook( MissionManager, "init", function(self)
-	if ElementAIGroupType then
-		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
+	if ElementAIGroupType then  -- beardlib custom element type
+		ASS:post_hook( ElementAIGroupType, "on_executed", function()
 			tweak_data.group_ai:moon_reinit_unit_categories()
 		end )
 	end
@@ -108,7 +108,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		return values and table.map_append(result, values) or result
 	end
 
-	ASS:log("error", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
+	ASS:log("warn", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
 end
 
 local generated = nil
@@ -157,7 +157,9 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 				local function merge_patches(base_patch, to_merge)
 					for id, data in pairs(to_merge) do
 						if type(base_patch[id]) == "table" and type(data) == "table" then
-							base_patch[id] = deep_clone(base_patch[id])
+							if base_patch == self._mission_script_patches then
+								base_patch[id] = deep_clone(base_patch[id])
+							end
 
 							if base_patch[id][1] then
 								for _, v in pairs(data) do
@@ -227,9 +229,7 @@ ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function
 end )
 
 -- CoreElementLogicChance.ElementLogicChance also needs to be handled
-ASS:override( MissionManager.mission_script_patch_funcs, "values", function(self, element, data)
-	self.mission_script_patch_funcs.values_original(self, element, data)
-
+ASS:post_hook( MissionManager.mission_script_patch_funcs, "values", function(self, element, data)
 	if data.chance and element._chance then
 		element._chance = data.chance
 	end
