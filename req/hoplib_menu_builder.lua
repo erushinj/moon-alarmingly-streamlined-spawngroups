@@ -104,7 +104,8 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 	MenuCallbackHandler[self._id .. "_save"] = function ()
 		self:save_settings()
 
-		if ASS.values.level_mod[self._table.level_mod]:match("ZEAL") then
+		local level_mod = ASS.values.level_mod[self._table.level_mod]
+		if tostring(level_mod):match("ZEAL") then
 			ASS:message("zeals_enabled")
 		end
 	end
@@ -138,6 +139,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = self._id .. "_toggle",
+					disabled = params.disabled,
 					value = v,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
@@ -149,6 +151,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 						title = name_id,
 						desc = desc,
 						callback = self._id .. "_value",
+						disabled = params.disabled,
 						value = v,
 						items = params.items,
 						menu_id = menu_id,
@@ -160,6 +163,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 						title = name_id,
 						desc = desc,
 						callback = self._id .. "_value",
+						disabled = params.disabled,
 						value = v,
 						min = params.min or 0,
 						max = params.max or 1,
@@ -175,6 +179,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = self._id .. "_value",
+					disabled = params.disabled,
 					value = v,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
@@ -187,6 +192,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = callback_name,
+					disabled = params.disabled,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
 				})
@@ -196,6 +202,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					id = hierarchy .. k,
 					title = name_id,
 					desc = desc,
+					disabled = params.disabled,
 					next_node = node_id,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
