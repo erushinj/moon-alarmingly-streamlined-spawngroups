@@ -101,6 +101,13 @@
 	"ass_medical_ordinance_saigas" : "Frenzied (Auto Shotguns)",
 	"ass_medical_ordinance_both" : "Denka Dakka (Both)",
 
+	"ass_menu_geneva_suggestion" : "Geneva Suggestion",
+	"ass_menu_geneva_suggestion_desc" : "Determine the weapon type used by Medic Dozers.",
+	"ass_geneva_suggestion_default" : "Aloof (Default)",
+	"ass_geneva_suggestion_rifles" : "Squeaky Clean (Rifles)",
+	"ass_geneva_suggestion_sawed_offs" : "Scarred (Sawed-Off Shotguns)",
+	"ass_geneva_suggestion_both" : "Balls Out (Both)",
+
 	"ass_menu_smg_units" : "Shiny Riflemen",
 	"ass_menu_smg_units_desc" : "Allow SMG SWATs for supported factions to spawn in the assault, if available.",
 

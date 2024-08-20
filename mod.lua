@@ -8,7 +8,7 @@ if not ASS then
 	local is_host = not is_editor and not is_client
 	local level_id = load_level and (level_data.level_id or game_settings.level_id) or "no_level"
 	local job_id = load_level and (job_manager.current_job and job_manager.current_job.job_id) or "no_job"
-	local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+	local difficulty = game_settings.difficulty or "normal"
 	local real_difficulty_index = ({
 		normal = 2,
 		hard = 3,
@@ -63,6 +63,7 @@ if not ASS then
 		cloaker_balance = 1,  -- pick cloaker weapon type
 		medic_ordnance = 1,  -- pick rifle medic weapon type
 		medical_ordinance = 1,  -- pick shotgun medic weapon type
+		geneva_suggestion = 1,  -- pick medic dozer weapon type
 		smg_units = true,  -- allow smg swats to spawn if applicable
 		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
@@ -140,8 +141,14 @@ if not ASS then
 			"ass_medical_ordinance_saigas",  -- always saigas
 			"ass_medical_ordinance_both",  -- randomize between both
 		},
+		geneva_suggestion = {  -- medic dozers
+			"ass_geneva_suggestion_default",  -- what the mod normally uses
+			"ass_geneva_suggestion_rifles",  -- always rifles
+			"ass_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
+			"ass_geneva_suggestion_both",  -- randomize between both
+		},
 	}
-	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched base on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
+	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched based on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
 		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
 		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase in holdout
 		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
@@ -470,6 +477,10 @@ if not ASS then
 		medical_ordinance = {
 			priority = priority(),
 			items = items("medical_ordinance"),
+		},
+		geneva_suggestion = {
+			priority = priority(),
+			items = items("geneva_suggestion"),
 			divider = divider,
 		},
 
@@ -669,11 +680,12 @@ if not ASS then
 		self.skill = tonumber((self:gsub("skill", 2))) or 2
 		self.dmg_interval = tonumber((self:gsub("dmg_interval", 0.25))) or 0.25
 		self.difficulty_index = self:setting("max_values") and 8 or real_difficulty_index
-		self.shield_arms = self:gsub("shield_arms", "default")
+		self.shield_arms = self:gsub("shield_arms", "both")
 		self.taser_dazers = self:gsub("taser_dazers", "default")
 		self.cloaker_balance = self:gsub("cloaker_balance", "default")
 		self.medic_ordnance = self:gsub("medic_ordnance", "default")
 		self.medical_ordinance = self:gsub("medical_ordinance", "default")
+		self.geneva_suggestion = self:gsub("geneva_suggestion", "default")
 
 		for name, tweaks in pairs(self.tweaks) do
 			self.tweaks[name] = tweaks[self.skill] or tweaks[2]
