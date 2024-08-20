@@ -9,10 +9,8 @@ return {
 				if not event_list then
 					ASS:log("error", "Element 100175 is missing event list data!")
 				else
-					for i = #event_list, 1, -1 do
-						local data = event_list[i]
-
-						if data and data.instance == "hunter_spawn_enemies_008" then
+					for i, data in table.reverse_ipairs(event_list) do
+						if data.instance == "hunter_spawn_enemies_008" then
 							table.remove(event_list, i)
 						end
 					end

@@ -6,6 +6,7 @@ local try_insert = ASS:require("try_insert", true)
 local level_id = ASS.level_id
 local clean_level_id = ASS.clean_level_id
 local real_difficulty_index = ASS.real_difficulty_index
+local dozer_rainbow = clone(ASS.dozer_rainbow)
 
 -- difficulty value threshold to use FBI-tier scripted spawns rather than CS-tier
 -- 0 means always FBI, 1 means always CS, anything between can change dynamically
@@ -231,17 +232,24 @@ function LevelsTweakData:moon_units(typ)
 			marshals_no_marksman = { marshal_2, marshal_2, heavy_1, heavy_2, },
 		}
 
-		for _, v in pairs({
-			{ 2, dozer_1, },
-			{ 4, dozer_2, },
-			{ 6, dozer_3, },
-			{ 7, dozer_4, },
-			{ 8, dozer_5, },
-		}) do
-			local diff_i, dozer = unpack(v)
+		local function dozer_difficulty_threshold(typ)
+			local threshold = tonumber(dozer_rainbow[typ]) or 1
 
-			if real_difficulty_index >= diff_i then
-				try_insert(units.dozers_any, dozer)
+			-- minidozers can start appearing in scripted spawns on dw even if set not to appear until ds
+			if typ == "dozer_4" then
+				threshold = math.min(threshold, 7)
+			end
+
+			return threshold
+		end
+		for dozer, threshold in pairs({
+			dozer_2 = dozer_difficulty_threshold("dozer_2"),
+			dozer_3 = dozer_difficulty_threshold("dozer_3"),
+			dozer_4 = dozer_difficulty_threshold("dozer_4"),
+			dozer_5 = dozer_difficulty_threshold("dozer_5"),
+		}) do
+			if real_difficulty_index >= threshold then
+				table.insert(units.dozers_any, units[dozer])
 			end
 		end
 
@@ -278,7 +286,6 @@ function LevelsTweakData:moon_forbidden_scripted_replacements(mapped_name)
 end
 
 -- replacements based on mapped enemy key
-LevelsTweakData.moon_all_replacements = {}
 function LevelsTweakData:moon_enemy_replacements(continent)
 	local replacements = self._moon_enemy_replacements
 
@@ -949,7 +956,7 @@ function LevelsTweakData:moon_enemy_replacements(continent)
 		self._moon_enemy_replacements = replacements
 	end
 
-	if continent == self.moon_all_replacements then
+	if continent == true then
 		return replacements
 	end
 

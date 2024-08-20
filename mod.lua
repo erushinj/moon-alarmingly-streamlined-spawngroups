@@ -65,7 +65,13 @@ if not ASS then
 		medical_ordinance = 1,  -- pick shotgun medic weapon type
 		geneva_suggestion = 1,  -- pick medic dozer weapon type
 		smg_units = true,  -- allow smg swats to spawn if applicable
-		minigun_dozers = false,  -- allow assault-spawned minigun dozers on DW difficulty
+		dozer_rainbow = {  -- allow given dozer varieties to spawn on lower difficulties than normal
+			r870 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
+			saiga = 3,
+			lmg = 5,
+			mini = 7,
+			medic = 7,
+		},
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
 		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
 		escapes = false,  -- allow escapes to occur on maps that have them
@@ -396,11 +402,22 @@ if not ASS then
 		return Global.alarmingly_streamlined_spawngroups
 	end
 
-	function ASS:setting(setting, default)
-		if default then
-			return self.default_settings[setting]
+	function ASS:setting(...)
+		if select("#", ...) > 1 then
+			local chain = self.settings
+
+			for _, key in ipairs({ ... }) do
+				if type(chain) ~= "table" then
+					break
+				end
+
+				chain = chain[key]
+			end
+
+			return chain ~= self.settings and chain or nil
 		end
 
+		local setting = ...
 		return self.settings[setting]
 	end
 
@@ -484,15 +501,63 @@ if not ASS then
 			divider = divider,
 		},
 
-		smg_units = { priority = priority(), },
-		minigun_dozers = {
+		dozer_rainbow = {
 			priority = priority(),
+			items = items("dozer_rainbow"),
 			divider = divider,
 		},
-
-		captain_winters = {
+		r870 = {
 			priority = priority(),
+			disabled = true,
+			items = {
+				"menu_difficulty_normal",
+			},
 		},
+		saiga = {
+			priority = priority(),
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+			},
+		},
+		lmg = {
+			priority = priority(),
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+			},
+		},
+		mini = {
+			priority = priority(),
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+				"menu_difficulty_apocalypse",
+				"menu_difficulty_sm_wish",
+			},
+		},
+		medic = {
+			priority = priority(),
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+				"menu_difficulty_apocalypse",
+				"menu_difficulty_sm_wish",
+			},
+		},
+
+		smg_units = { priority = priority(), },
+		captain_winters = { priority = priority(), },
 		gas_grenade_ignore_hostages = {
 			priority = priority(),
 			divider = divider,
@@ -654,7 +719,7 @@ if not ASS then
 		end,
 	}
 	function ASS:message(msg)
-		if messages and messages[msg] then
+		if messages[msg] then
 			messages[msg](self)
 		else
 			self:log("error", "Invalid msg %s in ASS:message", msg)
@@ -664,8 +729,13 @@ if not ASS then
 	function ASS:gsub(setting, default)
 		local value = self.values[setting]
 		local str = value and value[self.settings[setting]]
+		local result = str and str:gsub("^ass_" .. setting .. "_", "") or nil
 
-		return str and str:gsub("^ass_" .. setting .. "_", "") or default
+		if type(default) == "number" then
+			return tonumber(result) or default
+		end
+
+		return result or default
 	end
 
 	function ASS:init_vars()
@@ -673,12 +743,19 @@ if not ASS then
 		local redirect = {
 			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
 			disable = false,
-			random = { false, },
+			random = table.random({  -- no zeal for random, not going to randomly activate a matchmaking lock
+				"CS_normal",
+				"CS_FBI_overkill",
+				"FBI_overkill_145",
+				"FBI_CITY_easy_wish",
+				"CITY_overkill_290",
+				false,
+			}),
 		}
 
 		self.assault_style = is_editor and "editor" or self:gsub("assault_style", "default")
-		self.skill = tonumber((self:gsub("skill", 2))) or 2
-		self.dmg_interval = tonumber((self:gsub("dmg_interval", 0.25))) or 0.25
+		self.skill = self:gsub("skill", 2)
+		self.dmg_interval = self:gsub("dmg_interval", 0.25)
 		self.difficulty_index = self:setting("max_values") and 8 or real_difficulty_index
 		self.shield_arms = self:gsub("shield_arms", "both")
 		self.taser_dazers = self:gsub("taser_dazers", "default")
@@ -687,22 +764,26 @@ if not ASS then
 		self.medical_ordinance = self:gsub("medical_ordinance", "default")
 		self.geneva_suggestion = self:gsub("geneva_suggestion", "default")
 
+		local function get_dozer_rainbow_type(typ, default)
+			local val = self:setting("dozer_rainbow", typ)
+
+			if tonumber(val) then
+				return val + 1  -- account for easy being missing
+			end
+
+			return default
+		end
+		self.dozer_rainbow = {
+			dozer_1 = get_dozer_rainbow_type("r870", 2),  -- not actually used, always present
+			dozer_2 = get_dozer_rainbow_type("saiga", 4),
+			dozer_3 = get_dozer_rainbow_type("lmg", 6),
+			dozer_4 = get_dozer_rainbow_type("mini", 8),
+			dozer_5 = get_dozer_rainbow_type("medic", 8),
+		}
+
 		for name, tweaks in pairs(self.tweaks) do
 			self.tweaks[name] = tweaks[self.skill] or tweaks[2]
 		end
-
-		-- no zeal for random, not going to randomly activate a matchmaking lock
-		for _, valid_id in pairs({ "CS", "FBI", "CITY", }) do
-			for i = 1, #self.values.level_mod do
-				local lvl_mod = self.values.level_mod[i]
-				local id = lvl_mod:gsub("^ass_level_mod_", "")
-
-				if not id:match("ZEAL") and id:match(valid_id) then
-					try_insert(redirect.random, id)
-				end
-			end
-		end
-		redirect.random = table.random(redirect.random)
 
 		if redirect[level_mod] ~= nil then
 			self.level_mod = redirect[level_mod]
@@ -737,7 +818,6 @@ if not ASS then
 
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
 	local patch_redirect = {
-		custom = {},
 		mission = {
 			branchbank = "firestarter_3",
 			branchbank_russia = "firestarter_3",
@@ -782,10 +862,16 @@ if not ASS then
 	if not sh then
 		ASS:message("sh_not_found")
 	else
-		if not sh:WasEnabledAtStart() or not sh:IsEnabled() then
+		local sh_enabled = sh:WasEnabledAtStart() and sh:IsEnabled()
+
+		if not sh_enabled then
 			ASS:message("sh_disabled")
 		else
-			if ((tonumber((sh:GetVersion():gsub("%.", "")))) or 0) < 484 then
+			local sh_version = tostring(sh:GetVersion())
+			sh_version = sh_version:gsub("%.", "")
+			sh_version = tonumber(sh_version) or 0
+
+			if sh_version < 488 then
 				ASS:message("sh_outdated")
 			end
 		end

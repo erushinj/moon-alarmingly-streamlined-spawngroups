@@ -204,9 +204,7 @@ end )
 
 -- ElementRandom clones on_executed on init, need to handle it
 ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function(self, element, data)
-	for i = #data, 1, -1 do
-		local v = data[i]
-
+	for i, v in table.reverse_ipairs(data) do
 		if v.name then
 			local generated_id = custom_element_ids[v.name]
 
