@@ -154,6 +154,139 @@ if not ASS then
 			"ass_geneva_suggestion_both",  -- randomize between both
 		},
 	}
+	ASS.menu_builder_params = {
+		is_massive = {
+			priority = 696969,
+			divider = 16,
+		},
+
+		level_mod = {
+			priority = 10000,
+			items = ASS.values.level_mod,
+		},
+		assault_style = {
+			priority = 9900,
+			items = ASS.values.assault_style,
+		},
+		skill = {
+			priority = 9800,
+			items = ASS.values.skill,
+			divider = 16,
+		},
+
+		doms_scale = { priority = 9700, },
+		doms_all_hard = { priority = 9680, },
+		doms_super_serious = {
+			priority = 9660,
+			divider = 16,
+		},
+
+		max_values = { priority = 9600, },
+		max_diff = { priority = 9580, },
+		max_balance_muls = {
+			priority = 9560,
+			divider = 16,
+		},
+
+		dmg_interval = {
+			priority = 9500,
+			items = ASS.values.dmg_interval,
+			divider = 16,
+		},
+
+		shield_arms = {
+			priority = 9400,
+			items = ASS.values.shield_arms,
+		},
+		taser_dazers = {
+			priority = 9390,
+			items = ASS.values.taser_dazers,
+		},
+		cloaker_balance = {
+			priority = 9380,
+			items = ASS.values.cloaker_balance,
+		},
+		medic_ordnance = {
+			priority = 9370,
+			items = ASS.values.medic_ordnance,
+		},
+		medical_ordinance = {
+			priority = 9360,
+			items = ASS.values.medical_ordinance,
+		},
+		geneva_suggestion = {
+			priority = 9350,
+			items = ASS.values.geneva_suggestion,
+			divider = 16,
+		},
+
+		dozer_rainbow = {
+			priority = 9300,
+			items = ASS.values.dozer_rainbow,
+			divider = 16,
+		},
+		r870 = {
+			priority = 9290,
+			disabled = true,
+			items = {
+				"menu_difficulty_normal",
+			},
+		},
+		saiga = {
+			priority = 9280,
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+			},
+		},
+		lmg = {
+			priority = 9270,
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+			},
+		},
+		mini = {
+			priority = 9260,
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+				"menu_difficulty_apocalypse",
+				"menu_difficulty_sm_wish",
+			},
+		},
+		medic = {
+			priority = 9250,
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+				"menu_difficulty_apocalypse",
+				"menu_difficulty_sm_wish",
+			},
+		},
+
+		smg_units = { priority = 9200, },
+		captain_winters = { priority = 9180, },
+		gas_grenade_ignore_hostages = {
+			priority = 9160,
+			divider = 16,
+		},
+
+		escapes = {
+			priority = 9100,
+			divider = 16,
+		},
+	}
 	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched based on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
 		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
 		sustain_duration_mul = { 0.9, 1, 1, 1.25, 2, 1250, },  -- multiplier on the duration of the "sustain" assault phase in holdout
@@ -421,184 +554,9 @@ if not ASS then
 		return self.settings[setting]
 	end
 
-	local last_priority = 0
-	local function priority()
-		last_priority = last_priority - 1
-
-		return last_priority
-	end
-
-	local function items(value)
-		return ASS.values[value]
-	end
-
-	local divider = 16
 
 	-- ASS's path\req\hoplib_menu_builder.lua
-	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", "ass", ASS.settings, {
-		is_massive = {
-			priority = priority(),
-			divider = divider,
-		},
-
-		level_mod = {
-			priority = priority(),
-			items = items("level_mod"),
-		},
-		assault_style = {
-			priority = priority(),
-			items = items("assault_style"),
-		},
-		skill = {
-			priority = priority(),
-			items = items("skill"),
-			divider = divider,
-		},
-
-		doms_scale = { priority = priority(), },
-		doms_all_hard = { priority = priority(), },
-		doms_super_serious = {
-			priority = priority(),
-			divider = divider,
-		},
-
-		max_values = { priority = priority(), },
-		max_diff = { priority = priority(), },
-		max_balance_muls = {
-			priority = priority(),
-			divider = divider,
-		},
-
-		dmg_interval = {
-			priority = priority(),
-			items = items("dmg_interval"),
-			divider = divider,
-		},
-
-		shield_arms = {
-			priority = priority(),
-			items = items("shield_arms"),
-		},
-		taser_dazers = {
-			priority = priority(),
-			items = items("taser_dazers"),
-		},
-		cloaker_balance = {
-			priority = priority(),
-			items = items("cloaker_balance"),
-		},
-		medic_ordnance = {
-			priority = priority(),
-			items = items("medic_ordnance"),
-		},
-		medical_ordinance = {
-			priority = priority(),
-			items = items("medical_ordinance"),
-		},
-		geneva_suggestion = {
-			priority = priority(),
-			items = items("geneva_suggestion"),
-			divider = divider,
-		},
-
-		dozer_rainbow = {
-			priority = priority(),
-			items = items("dozer_rainbow"),
-			divider = divider,
-		},
-		r870 = {
-			priority = priority(),
-			disabled = true,
-			items = {
-				"menu_difficulty_normal",
-			},
-		},
-		saiga = {
-			priority = priority(),
-			items = {
-				"menu_difficulty_normal",
-				"menu_difficulty_hard",
-				"menu_difficulty_very_hard",
-			},
-		},
-		lmg = {
-			priority = priority(),
-			items = {
-				"menu_difficulty_normal",
-				"menu_difficulty_hard",
-				"menu_difficulty_very_hard",
-				"menu_difficulty_overkill",
-				"menu_difficulty_easy_wish",
-			},
-		},
-		mini = {
-			priority = priority(),
-			items = {
-				"menu_difficulty_normal",
-				"menu_difficulty_hard",
-				"menu_difficulty_very_hard",
-				"menu_difficulty_overkill",
-				"menu_difficulty_easy_wish",
-				"menu_difficulty_apocalypse",
-				"menu_difficulty_sm_wish",
-			},
-		},
-		medic = {
-			priority = priority(),
-			items = {
-				"menu_difficulty_normal",
-				"menu_difficulty_hard",
-				"menu_difficulty_very_hard",
-				"menu_difficulty_overkill",
-				"menu_difficulty_easy_wish",
-				"menu_difficulty_apocalypse",
-				"menu_difficulty_sm_wish",
-			},
-		},
-
-		smg_units = { priority = priority(), },
-		captain_winters = { priority = priority(), },
-		gas_grenade_ignore_hostages = {
-			priority = priority(),
-			divider = divider,
-		},
-
-		escapes = {
-			priority = priority(),
-			divider = divider,
-		},
-	})
-
-	local suffix = "AlarminglyStreamlinedSpawngroups"
-	function ASS:add_hook(key, func)
-		local id = key .. suffix
-
-		Hooks:AddHook( key, id, func )
-	end
-
-	local prefix = "ass_"
-	function ASS:post_hook(object, func, post_call)
-		local id = prefix .. func
-
-		Hooks:PostHook( object, func, id, post_call )
-	end
-
-	function ASS:pre_hook(object, func, pre_call)
-		local id = prefix .. func
-
-		Hooks:PreHook( object, func, id, pre_call )
-	end
-
-	-- only specify use_hooks = true if the cached original function is not called in the override
-	function ASS:override(object, func, override, use_hooks)
-		object[func .. "_original"] = object[func]
-
-		if use_hooks then
-			Hooks:OverrideFunction( object, func, override )
-		else
-			object[func] = override
-		end
-	end
+	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", "ass", ASS.settings, ASS.menu_builder_params)
 
 	local messages = {
 		zeals_enabled = function(self)
@@ -631,7 +589,7 @@ if not ASS then
 			if managers.localization then
 				show_zeal_dialog()
 			else
-				self:add_hook( "MenuManagerOnOpenMenu", show_zeal_dialog )
+				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsZEALsEnabled", show_zeal_dialog )
 			end
 		end,
 		sh_not_found = function(self)
@@ -642,7 +600,7 @@ if not ASS then
 			local global = self:global()
 			global.invalid_sh = "missing"
 			if self:setting("is_massive") then
-				self:add_hook( "MenuManagerOnOpenMenu", function()
+				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
@@ -677,7 +635,7 @@ if not ASS then
 			local global = self:global()
 			global.invalid_sh = "disabled"
 			if self:setting("is_massive") then
-				self:add_hook( "MenuManagerOnOpenMenu", function()
+				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
@@ -701,7 +659,7 @@ if not ASS then
 			local global = self:global()
 			global.invalid_sh = "outdated"
 			if self:setting("is_massive") then
-				self:add_hook( "MenuManagerOnOpenMenu", function()
+				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
@@ -849,11 +807,11 @@ if not ASS then
 		return normal and true, hard and true, overkill and true, normal or hard or overkill
 	end
 
-	ASS:add_hook( "LocalizationManagerPostInit", function(loc)
+	Hooks:AddHook( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
 		loc:load_localization_file(ASS.loc_path .. "english.json")
 	end )
 
-	ASS:add_hook( "MenuManagerBuildCustomMenus", function(_, nodes)
+	Hooks:AddHook( "MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusAlarminglyStreamlinedSpawngroups", function(_, nodes)
 		ASS.menu_builder:create_menu(nodes)
 	end )
 

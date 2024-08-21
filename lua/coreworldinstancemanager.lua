@@ -9,7 +9,7 @@ if not instance_script_patches then
 	return
 end
 
-ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path)
+Hooks:PostHook( CoreWorldInstanceManager, "_get_instance_mission_data", "ass__get_instance_mission_data", function(self, path)
 	local func = instance_script_patches[path]
 
 	if func then

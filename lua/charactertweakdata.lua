@@ -909,7 +909,8 @@ end
 
 if doms_scale then
 	ASS:log("info", "Resistive Responders setting enabled, tweaking \"CharacterTweakData:_presets\"...")
-	ASS:post_hook( CharacterTweakData, "_presets", function()
+
+	Hooks:PostHook( CharacterTweakData, "_presets", "ass__presets", function()
 		local presets = Hooks:GetReturn()
 
 		if not presets then
@@ -939,14 +940,14 @@ CharacterTweakData.moon_level_funcs = {
 		self.security_mex_no_pager.has_alarm_pager = true
 	end,
 }
-ASS:post_hook( CharacterTweakData, "init", function(self)
+Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 	if doms_all_hard then
 		ASS:log("info", "Difficult Dominations setting enabled, changing assigned surrender presets...")
+
 		local surrender_map = {
 			[self.presets.surrender.easy] = self.presets.surrender.hard,
 			[self.presets.surrender.normal] = self.presets.surrender.hard,
 		}
-
 		for _, data in pairs(self) do
 			if type(data) == "table" then
 				data.surrender = surrender_map[data.surrender] or data.surrender
@@ -1136,7 +1137,7 @@ if not custom_char_maps then
 	return
 end
 
-ASS:post_hook( CharacterTweakData, "character_map", function()
+Hooks:PostHook( CharacterTweakData, "character_map", "ass_character_map", function()
 	local char_map = Hooks:GetReturn()
 
 	if not char_map then

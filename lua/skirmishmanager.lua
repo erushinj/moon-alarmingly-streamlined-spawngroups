@@ -9,5 +9,5 @@ function SkirmishManager:_moon_swap_units(wave_number)
 	end
 end
 
-ASS:post_hook( SkirmishManager, "init_finalize", SkirmishManager._moon_swap_units )
-ASS:post_hook( SkirmishManager, "_apply_modifiers_for_wave", SkirmishManager._moon_swap_units )
+Hooks:PostHook( SkirmishManager, "init_finalize", "ass_init_finalize", SkirmishManager._moon_swap_units )
+Hooks:PostHook( SkirmishManager, "_apply_modifiers_for_wave", "ass__apply_modifiers_for_wave", SkirmishManager._moon_swap_units )

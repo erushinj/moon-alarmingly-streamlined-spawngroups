@@ -2,7 +2,7 @@ if ASS.is_client then
 	return
 end
 
-ASS:pre_hook( CopBase, "post_init", function(self)
+Hooks:PreHook( CopBase, "post_init", "ass_post_init", function(self)
 	local weapon_swap = tweak_data.character:moon_weapon_mapping(self._unit:name():key())
 
 	if not weapon_swap then

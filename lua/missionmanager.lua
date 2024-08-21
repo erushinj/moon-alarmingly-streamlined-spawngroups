@@ -11,9 +11,9 @@ end
 local level_id = ASS.level_id
 local try_insert = ASS:require("try_insert", true)
 
-ASS:pre_hook( MissionManager, "init", function(self)
+Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
 	if ElementAIGroupType then  -- beardlib custom element type
-		ASS:post_hook( ElementAIGroupType, "on_executed", function()
+		Hooks:PostHook( ElementAIGroupType, "on_executed", "ass_on_executed", function()
 			tweak_data.group_ai:moon_reinit_unit_categories()
 		end )
 	end
@@ -21,11 +21,12 @@ end )
 
 local custom_element_ids = {}
 local last_id = 0
-ASS:override( MissionScript, "add_save_state_cb", function(self, id, ...)
+local add_save_state_cb_original = MissionScript.add_save_state_cb
+function MissionScript:add_save_state_cb(id, ...)
 	if not table.contains(custom_element_ids, id) then
-		return self:add_save_state_cb_original(id, ...)
+		return add_save_state_cb_original(self, id, ...)
 	end
-end )
+end
 
 function MissionManager:moon_generate_custom_id(editor_name)
 	local id = custom_element_ids[editor_name]
@@ -112,7 +113,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 end
 
 local generated = nil
-ASS:pre_hook( MissionScript, "init", function(self, data)
+Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
 	if generated == nil and data and data.name == "default" then
 		generated = false
 
@@ -133,7 +134,7 @@ ASS:pre_hook( MissionScript, "init", function(self, data)
 end )
 
 local merged = nil
-ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
+Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
 	if merged == nil then
 		merged = false
 
@@ -203,7 +204,8 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 end )
 
 -- ElementRandom clones on_executed on init, need to handle it
-ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function(self, element, data)
+local mission_script_patch_funcs_on_executed_original = MissionManager.mission_script_patch_funcs.on_executed
+function MissionManager.mission_script_patch_funcs.on_executed(self, element, data)
 	for i, v in table.reverse_ipairs(data) do
 		if v.name then
 			local generated_id = custom_element_ids[v.name]
@@ -219,15 +221,15 @@ ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function
 		end
 	end
 
-	self.mission_script_patch_funcs.on_executed_original(self, element, data)
+	mission_script_patch_funcs_on_executed_original(self, element, data)
 
 	if element._original_on_executed then
 		element._original_on_executed = clone(element._values.on_executed)
 	end
-end )
+end
 
 -- CoreElementLogicChance.ElementLogicChance also needs to be handled
-ASS:post_hook( MissionManager.mission_script_patch_funcs, "values", function(self, element, data)
+Hooks:PostHook( MissionManager.mission_script_patch_funcs, "values", "ass_values", function(self, element, data)
 	if data.chance and element._chance then
 		element._chance = data.chance
 	end

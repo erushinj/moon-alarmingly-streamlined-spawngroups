@@ -2,7 +2,7 @@ if ASS.is_client then
 	return
 end
 
-ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
+Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 	local name_key = alive(parent_unit) and parent_unit:name():key()
 
 	if name_key then
@@ -28,9 +28,9 @@ ASS:override( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 			end
 		end
 	end
-end, true )
+end )
 
-ASS:override( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
 	for id in pairs(group_ai.special_unit_spawn_limits) do
 		group_ai.special_unit_spawn_limits[id] = math.huge
 	end
@@ -56,9 +56,9 @@ ASS:override( MutatorEnemyReplacer, "modify_unit_categories", function(self, gro
 			end
 		end
 	end
-end, true )
+end )
 
-ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
 	group_ai.special_unit_spawn_limits.tank = math.huge
 	group_ai.special_unit_spawn_limits.medic = math.huge
 
@@ -85,9 +85,9 @@ ASS:override( MutatorMediDozer, "modify_unit_categories", function(self, group_a
 			end
 		end
 	end
-end, true )
+end )
 
-ASS:override( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
 	group_ai.special_unit_spawn_limits.tank = math.huge
 
 	local replacer_group = tweak_data.mutators:moon_replacer_groups("tank_hw")
@@ -110,4 +110,4 @@ ASS:override( MutatorTitandozers, "modify_unit_categories", function(self, group
 			end
 		end
 	end
-end, true )
+end )

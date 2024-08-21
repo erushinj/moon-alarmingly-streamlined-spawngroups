@@ -25,7 +25,7 @@ local special_limit_mul = ASS:tweak("special_limit_mul")
 local force_pool_mul = ASS:tweak("force_pool_mul")
 local skm_special_weights = ASS:tweak("skm_special_weights")
 local assault_style = ASS.assault_style
-ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
+Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
 		local w1, w2, w3 = unpack(skm_special_weights)
 
@@ -156,13 +156,14 @@ ASS:post_hook( SkirmishTweakData, "init", function(self, tweak_data)
 	end
 
 	local skirmish_assault_meta = getmetatable(tweak_data.group_ai.skirmish.assault)
-	ASS:override( skirmish_assault_meta, "__index", function(t, key)
+	local __index_original = skirmish_assault_meta.__index
+	function skirmish_assault_meta.__index(t, key)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
 
 			return { sustain_duration, sustain_duration, sustain_duration, }
 		end
 
-		return skirmish_assault_meta.__index_original(t, key)
-	end )
+		return __index_original(t, key)
+	end
 end )

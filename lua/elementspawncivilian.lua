@@ -44,7 +44,7 @@ function ElementSpawnCivilian:moon_init_hook()
 	end
 end
 
-ASS:post_hook( ElementSpawnCivilian, "init", ElementSpawnCivilian.moon_init_hook )
+Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
 
 local idles = {
 	female = {
@@ -76,7 +76,8 @@ end
 -- allow randomization of scripted spawns, even when the same element is used multiple times
 local bad_access = table.set("cop", "fbi")
 local replace_access = "swat"
-ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
+ElementSpawnCivilian.produce_original = ElementSpawnCivilian.produce
+function ElementSpawnCivilian:produce(params, ...)
 	local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
 
 	-- params.name means groupai spawn and everything after this check doesnt apply
@@ -155,7 +156,7 @@ ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
 	end
 
 	return self:moon_produce_helper(params, ...)
-end )
+end
 
 function ElementSpawnCivilian:moon_produce_helper(params, ...)
 	local unit = self:produce_original(params, ...)

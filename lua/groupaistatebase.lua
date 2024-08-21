@@ -21,29 +21,34 @@ end
 
 if ASS:setting("max_balance_muls") then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
-	ASS:override( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
+
+	Hooks:OverrideFunction( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
-	end, true )
+	end )
 end
 
 -- disable dominations during assault if the setting is enabled
 if ASS:setting("doms_super_serious") then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
-	ASS:override( GroupAIStateBase, "has_room_for_police_hostage", function(self, ...)
-		return not self:get_assault_mode() and self:has_room_for_police_hostage_original(...)
-	end )
+
+	local has_room_for_police_hostage_original = GroupAIStateBase.has_room_for_police_hostage
+	function GroupAIStateBase:has_room_for_police_hostage(...)
+		return not self:get_assault_mode() and has_room_for_police_hostage_original(self, ...)
+	end
 end
 
 -- force diff to 1 in loud if the setting is enabled
 if ASS:setting("max_diff") then
 	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:set_difficulty\"...")
-	ASS:override( GroupAIStateBase, "set_difficulty", function(self, value, ...)
-		return self:set_difficulty_original(1, ...)
-	end )
+
+	local set_difficulty_original = GroupAIStateBase.set_difficulty
+	function GroupAIStateBase:set_difficulty(value, ...)
+		return set_difficulty_original(self, 1, ...)
+	end
 end
 
 -- cloaker task fuck off
-ASS:override( GroupAIStateBase, "_process_recurring_grp_SO", function() end, true )
+Hooks:OverrideFunction( GroupAIStateBase, "_process_recurring_grp_SO", function() end )
 
 -- sigh. u240. also custom maps with incomplete custom factions.
 -- make marshal shields not count as normal shields
@@ -53,7 +58,7 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 
 		self._special_unit_types.shield = nil
 
-		local result = self[func](self, unit, ...)
+		local result = func(self, unit, ...)
 
 		self._special_unit_types.shield = special_unit_types_shield_original
 
@@ -72,7 +77,7 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 			return tags
 		end
 
-		local result = self[func](self, unit, ...)
+		local result = func(self, unit, ...)
 
 		u_base.get_tags = get_tags_original
 
@@ -90,7 +95,7 @@ GroupAIStateBase._moon_enemy_register_funcs = {
 			return tags
 		end
 
-		local result = self[func](self, unit, ...)
+		local result = func(self, unit, ...)
 
 		u_base.get_tags = get_tags_original
 
@@ -106,13 +111,15 @@ function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 		return char_func(self, func, unit, ...)
 	end
 
-	return self[func](self, unit, ...)
+	return func(self, unit, ...)
 end
 
-ASS:override( GroupAIStateBase, "on_enemy_registered", function(self, ...)
-	return self:_moon_enemy_register_helper("on_enemy_registered_original", ...)
-end )
+local on_enemy_registered_original = GroupAIStateBase.on_enemy_registered
+function GroupAIStateBase:on_enemy_registered(...)
+	return self:_moon_enemy_register_helper(on_enemy_registered_original, ...)
+end
 
-ASS:override( GroupAIStateBase, "on_enemy_unregistered", function(self, ...)
-	return self:_moon_enemy_register_helper("on_enemy_unregistered_original", ...)
-end )
+local on_enemy_unregistered_original = GroupAIStateBase.on_enemy_unregistered
+function GroupAIStateBase:on_enemy_unregistered(...)
+	return self:_moon_enemy_register_helper(on_enemy_unregistered_original, ...)
+end

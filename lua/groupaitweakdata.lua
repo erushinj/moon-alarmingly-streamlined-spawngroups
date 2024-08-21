@@ -1777,7 +1777,7 @@ function GroupAITweakData:moon_unit_category_params()
 		local access_all = table.set("walk", "acrobatic")
 		local access_walk = table.set("walk")
 		local function dozer_difficulty_threshold(typ)
-			local threshold = ASS.dozer_rainbow[typ] or 1
+			local threshold = dozer_rainbow[typ] or 1
 
 			return real_difficulty_index >= threshold and 1 or 0
 		end
@@ -2050,7 +2050,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self:moon_swap_units(prefixes)
 end
 
-ASS:post_hook( GroupAITweakData, "init", function(self, tweak_data)
+Hooks:PostHook( GroupAITweakData, "init", "ass_init", function(self, tweak_data)
 	self.tweak_data = tweak_data
 	self.moon_add_unit_data = self.moon_add_unit_data or {}
 
