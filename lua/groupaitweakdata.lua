@@ -859,7 +859,6 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 
 	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
 	-- and ensures a spawn point check reference is set
-	-- nil -> remove, false -> valid, true -> valid and is heavy
 	local unit_mapping = {
 		FBI_swat_M4 = "light",
 		FBI_swat_R870 = "light",
@@ -875,13 +874,7 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 			if not unit_type then
 				table.remove(g.spawn, i)
 			else
-				local equivalent = self:moon_get_equivalent_unit_category(enemy.unit)
-
-				if equivalent then
-					enemy.unit = equivalent
-				else
-					ASS:log("error", "Unit %s does not exist to replace unit %s", equivalent, enemy.unit)
-				end
+				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
 
 				if unit_type == "heavy" then
 					enemy.freq = self._freq.common
@@ -1323,20 +1316,11 @@ end
 -- dont do anything but make SH's default groups work with level mod and skill level
 function GroupAITweakData:_moon_default(special_weight)
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
-	local unit_mapping = {
-		FBI_swat_M4 = "CS_swat_MP5",
-		FBI_swat_R870 = "CS_swat_R870",
-		FBI_heavy_M4 = "CS_heavy_MP5",
-		FBI_heavy_G36 = "CS_heavy_MP5",
-		FBI_heavy_R870 = "CS_heavy_R870",
-		FBI_suit_C45_M4 = "CS_cop_C45_MP5",
-		FBI_suit_M4_MP5 = "CS_cop_MP5_R870",
-		FBI_suit_M4_R870 = "CS_cop_MP5_R870",
-	}
 	local default_medic_freq = difficulty_index / 16
 	local medic_freq = {
 		flank = difficulty_index / 20,
 		shield = difficulty_index / 32,
+		bull = difficulty_index / 64,
 	}
 	local function get_medic_freq(id)
 		for n, freq in pairs(medic_freq) do
@@ -1356,15 +1340,7 @@ function GroupAITweakData:_moon_default(special_weight)
 
 			for name in pairs(id_matches) do
 				if id:match(name) then
-					local new_unit = unit_mapping[enemy.unit]
-
-					if new_unit then
-						if self.unit_categories[new_unit] then
-							enemy.unit = new_unit
-						else
-							ASS:log("error", "Unit %s does not exist to replace unit %s", new_unit, enemy.unit)
-						end
-					end
+					enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
 
 					break
 				end
@@ -1386,8 +1362,7 @@ function GroupAITweakData:_moon_default(special_weight)
 			tac_shield_wall_charge = { 0, special_weight * 0.5, special_weight, },
 			tac_tazer_flanking = { 0, special_weight * 0.5, special_weight, },
 			tac_tazer_charge = { 0, special_weight * 0.5, special_weight, },
-			-- tac_bull_rush = { 0, special_weight * 0.5, special_weight, },
-			tac_bull_rush = { 999, 999, 999, },
+			tac_bull_rush = { 0, special_weight * 0.5, special_weight, },
 			FBI_spoocs = { 0, special_weight * 0.5, special_weight, },
 		},
 	})
@@ -1413,27 +1388,11 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 		chicken_plate_medic_shotgun = { "flank", "deathguard", "no_push", },
 	})
 
-	local unit_mapping = {
-		CS_cop_C45 = "FBI_suit_C45",
-		CS_cop_MP5 = "FBI_suit_M4",
-		CS_cop_stealth_R870 = "FBI_suit_stealth_R870",
-		CS_swat_MP5 = "FBI_swat_M4",
-		CS_swat_R870 = "FBI_swat_R870",
-		CS_swat_SMG = "FBI_swat_SMG",
-		CS_heavy_MP5 = "FBI_heavy_M4",
-		CS_heavy_R870 = "FBI_heavy_R870",
-	}
 	local function b_group(original_group)
 		local g = deep_clone(original_group)
 
-		for i, enemy in table.reverse_ipairs(g.spawn) do
-			local new_unit = unit_mapping[enemy.unit]
-
-			if self.unit_categories[new_unit] then
-				enemy.unit = new_unit
-			else
-				ASS:log("error", "Unit %s does not exist to replace unit %s", new_unit, enemy.unit)
-			end
+		for i, enemy in pairs(g.spawn) do
+			enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
 		end
 
 		return g
