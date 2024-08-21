@@ -1978,22 +1978,17 @@ function GroupAITweakData:moon_unit_category_params()
 end
 
 function GroupAITweakData:moon_get_equivalent_unit_category(typ, return_data)
-	local categories = self.unit_categories
-	local category = categories and categories[typ]
+	local equivalent = self.unit_categories[typ] and self.unit_categories[typ].moon_equivalent
 
-	if category then
-		for id, data in pairs(categories) do
-			if id == category.equivalent then
+	if equivalent then
+		for id, data in pairs(self.unit_categories) do
+			if id == equivalent then
 				return return_data and data or id
 			end
 		end
 	end
 
-	if not categories then
-		ASS:log("error", "Unit categories not initialized yet!")
-	else
-		ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", typ)
-	end
+	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", typ)
 end
 
 function GroupAITweakData:_moon_init_unit_categories()
