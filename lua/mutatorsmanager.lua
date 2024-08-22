@@ -31,22 +31,18 @@ Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit,
 end )
 
 Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
-	for id in pairs(group_ai.special_unit_spawn_limits) do
-		group_ai.special_unit_spawn_limits[id] = math.huge
-	end
-
 	local override_enemy = self:get_override_enemy()
 	local replacer_group = tweak_data.mutators:moon_replacer_groups(override_enemy)
+
 	if not replacer_group then
 		ASS:log("error", "MutatorEnemyReplacer is missing replacer group \"%s\"!", override_enemy)
 	else
-		local enemy_spawn_groups = group_ai.enemy_spawn_groups
-		local unit_categories = group_ai.unit_categories
+		group_ai.special_unit_spawn_limits[override_enemy] = math.huge
 
-		for _, data in pairs(enemy_spawn_groups) do
+		for _, data in pairs(group_ai.enemy_spawn_groups) do
 			for _, enemy in pairs(data.spawn) do
 				local unit = enemy.unit
-				local category = unit_categories[unit]
+				local category = group_ai.unit_categories[unit]
 
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
@@ -59,21 +55,19 @@ Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function
 end )
 
 Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
-	group_ai.special_unit_spawn_limits.tank = math.huge
-	group_ai.special_unit_spawn_limits.medic = math.huge
-
 	local tank_group = tweak_data.mutators:moon_replacer_groups("tank")
 	local medic_group = tweak_data.mutators:moon_replacer_groups("medic")
+
 	if not tank_group or not medic_group then
 		ASS:log("error", "MutatorMediDozer is missing replacer groups!")
 	else
-		local enemy_spawn_groups = group_ai.enemy_spawn_groups
-		local unit_categories = group_ai.unit_categories
+		group_ai.special_unit_spawn_limits.tank = math.huge
+		group_ai.special_unit_spawn_limits.medic = math.huge
 
-		for _, data in pairs(enemy_spawn_groups) do
+		for _, data in pairs(group_ai.enemy_spawn_groups) do
 			for _, enemy in pairs(data.spawn) do
 				local unit = enemy.unit
-				local category = unit_categories[unit]
+				local category = group_ai.unit_categories[unit]
 
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
@@ -88,19 +82,17 @@ Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(sel
 end )
 
 Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
-	group_ai.special_unit_spawn_limits.tank = math.huge
-
 	local replacer_group = tweak_data.mutators:moon_replacer_groups("tank_hw")
+
 	if not replacer_group then
 		ASS:log("error", "MutatorTitandozers is missing replacer groups!")
 	else
-		local enemy_spawn_groups = group_ai.enemy_spawn_groups
-		local unit_categories = group_ai.unit_categories
+		group_ai.special_unit_spawn_limits.tank = math.huge
 
-		for _, data in pairs(enemy_spawn_groups) do
+		for _, data in pairs(group_ai.enemy_spawn_groups) do
 			for _, enemy in pairs(data.spawn) do
 				local unit = enemy.unit
-				local category = unit_categories[unit]
+				local category = group_ai.unit_categories[unit]
 
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
