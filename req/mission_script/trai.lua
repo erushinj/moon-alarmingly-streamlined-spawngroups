@@ -5,7 +5,6 @@ local snipers = {
 	},
 }
 
--- TODO: maybe set up custom toggles for snipers ?
 return {
 	[100368] = snipers,  -- allow sniper respawns (no toggles are set up)
 	[100369] = snipers,

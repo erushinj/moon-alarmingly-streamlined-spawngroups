@@ -66,7 +66,6 @@ local all_casual = table.list_add(casual_male, casual_female)
 local try_pick_bob_guests = try_pick_bobblehead_bob(nil, guests_male)
 local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
 
--- TODO: set up toggles for snipers ?
 return {
 	[100368] = snipers,
 	[100369] = snipers,

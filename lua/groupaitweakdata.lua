@@ -1728,7 +1728,6 @@ local smg_units = ASS:setting("smg_units")
 local level_mod = ASS.level_mod
 local minigun_dozers = ASS:setting("minigun_dozers")
 
--- TODO: rename unit categories (eg, CS_swat_MP5_SMG) for clarity
 function GroupAITweakData:moon_unit_category_params()
 	local params = self._moon_unit_category_params
 

@@ -1,0 +1,7 @@
+External - players (like you) can feel these changes
+- set up toggles for snipers on Mountain Master and Lost in Transit
+- set up a toggle to disable certain sniper spawns with Ukrainian Job's vantage point purchased (maybe add new spawns ?)
+- overhaul and re-enable hiding Cloakers (the vanilla system is incredibly wasteful for less benefit than an assaulting Cloaker)
+
+Internal - backend only, players won't really feel it
+- rename unit categories for clarity

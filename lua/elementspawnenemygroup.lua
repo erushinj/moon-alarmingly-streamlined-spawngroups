@@ -24,5 +24,4 @@ for group_name, new_groups in pairs(tweak_data.group_ai:moon_spawn_group_mapping
 end
 
 -- allow regular cloaker groups to spawn from manholes/vents/etc, since the cloaker task has been turned off
--- TODO: overhaul cloaker task to be less terrible ?
 group_mapping.single_spooc = check_clone(group_mapping.FBI_spoocs, true)
