@@ -24,7 +24,6 @@ local sustain_duration_mul = ASS:tweak("sustain_duration_mul")
 local special_limit_mul = ASS:tweak("special_limit_mul")
 local force_pool_mul = ASS:tweak("force_pool_mul")
 local skm_special_weights = ASS:tweak("skm_special_weights")
-local assault_style = ASS.assault_style
 Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
 		local w1, w2, w3 = unpack(skm_special_weights)
@@ -41,7 +40,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 
 		local special_weights_chicken_plate = clone(skm_special_weights)
 
-		self._moon_skirmish_groups = {
+		local all_skm_groups = {
 			original = {
 				original_swats_a = { 6.75, 3.375, 0, },
 				original_swats_b = { 6.75, 10.125, 13.5, },
@@ -115,6 +114,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 				FBI_spoocs = { 1, 1, 1, },
 			},
 		}
+		self._moon_skirmish_groups = all_skm_groups[tweak_data.group_ai.moon_assault_style] or all_skm_groups.default
 	end
 
 	for i = 1, #self.special_unit_spawn_limits do
@@ -126,8 +126,6 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 	end
 
 	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * force_pool_mul end)
-
-	local base_groups = self._moon_skirmish_groups[assault_style] or self._moon_skirmish_groups.default
 
 	for i = 1, #self.assault.groups do
 		local f = math.min((i - 1) / 8, 1)
@@ -143,7 +141,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 			w2 = 3
 		end
 
-		local groups = deep_clone(base_groups)
+		local groups = deep_clone(self._moon_skirmish_groups)
 		for _, weights in pairs(groups) do
 			local w = math.lerp(weights[w1], weights[w2], f)
 

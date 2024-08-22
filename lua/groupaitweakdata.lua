@@ -328,8 +328,10 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 	end
 end
 
+GroupAITweakData._moon_assault_styles = {}
+
 -- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
-function GroupAITweakData:_moon_original(special_weight)
+function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		original_shotgun = { "charge", "smoke_grenade", "deathguard", },
@@ -838,7 +840,7 @@ function GroupAITweakData:_moon_original(special_weight)
 end
 
 -- spicier version of SH's default groups, featuring more shotgunners
-function GroupAITweakData:_moon_streamlined(special_weight)
+function GroupAITweakData._moon_assault_styles.streamlined(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		swat_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
@@ -1314,7 +1316,7 @@ function GroupAITweakData:_moon_streamlined(special_weight)
 end
 
 -- dont do anything but make SH's default groups work with level mod and skill level
-function GroupAITweakData:_moon_default(special_weight)
+function GroupAITweakData._moon_assault_styles.default(self, special_weight)
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
 	local default_medic_freq = difficulty_index / 16
 	local medic_freq = {
@@ -1369,7 +1371,7 @@ function GroupAITweakData:_moon_default(special_weight)
 end
 
 -- pdth-styled spawns
-function GroupAITweakData:_moon_chicken_plate(special_weight)
+function GroupAITweakData._moon_assault_styles.chicken_plate(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		chicken_plate_hrt_pistol = { "flank", "deathguard", },
@@ -1558,7 +1560,7 @@ function GroupAITweakData:_moon_chicken_plate(special_weight)
 end
 
 -- groups for BeardLib Editor, clean up spawn group element view
-function GroupAITweakData:_moon_editor(special_weight)
+function GroupAITweakData._moon_assault_styles.editor(self, special_weight)
 	local vanilla_groups = table.list_to_set({
 		"tac_swat_shotgun_rush",
 		"tac_swat_shotgun_flank",
@@ -1616,10 +1618,14 @@ local special_weight_min, special_weight_max = unpack(ASS:tweak("special_weight_
 local freq_base = ASS:tweak("freq_base")
 local assault_style = ASS.assault_style
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
-	local assault_style_func = self["_moon_" .. assault_style] or self._moon_default
+	local assault_styles = self._moon_assault_styles
+	local wanted_assault_style = assault_styles[assault_style] and assault_style or "default"
+	local assault_style_func = assault_styles[wanted_assault_style]
 	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
 
-	if assault_style_func == self._moon_default or assault_style_func == self._moon_editor then
+	self.moon_assault_style = wanted_assault_style
+
+	if assault_style_func == assault_styles.default or assault_style_func == assault_styles.editor then
 		assault_style_func(self, special_weight)
 
 		return

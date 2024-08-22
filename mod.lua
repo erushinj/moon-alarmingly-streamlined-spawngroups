@@ -76,7 +76,6 @@ if not ASS then
 		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
 		escapes = false,  -- allow escapes to occur on maps that have them
 	}
-	ASS.default_settings = deep_clone(ASS.settings)
 	ASS.values = {
 		level_mod = {
 			"ass_level_mod_disable",  -- dont change units
