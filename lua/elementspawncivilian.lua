@@ -22,6 +22,13 @@ function ElementSpawnCivilian:moon_init_hook()
 			self._patched_enemy_name = moon_data.enemy
 		end
 
+		local run_func_on_unit = moon_data.run_func_on_unit
+		if run_func_on_unit then
+			Hooks:PostHook( self, "produce", "sh_produce_run_func_on_unit_" .. self._id, function()
+				run_func_on_unit(Hooks:GetReturn())
+			end )
+		end
+
 		self.static_continent = moon_data.continent
 		self.static_tier = moon_data.tier
 		self._values.moon_data = nil

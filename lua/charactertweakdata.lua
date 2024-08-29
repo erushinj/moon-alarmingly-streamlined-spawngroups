@@ -2,7 +2,6 @@ if ASS.is_client then
 	return
 end
 
-local level_id = ASS.level_id
 local difficulty_index = ASS.difficulty_index
 local f = (difficulty_index - 2) / 6
 
@@ -48,12 +47,6 @@ if ASS:setting("doms_scale") then
 	end )
 end
 
-CharacterTweakData.moon_level_funcs = {
-	fex = function(self)  -- replaced secret service with the more fitting outdoor guards, but they lack pagers, so give them pagers
-		self.security_mex_no_pager.has_alarm_pager = true
-	end,
-}
-
 local doms_all_hard = ASS:setting("doms_all_hard")
 Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 	if doms_all_hard then
@@ -68,11 +61,6 @@ Hooks:PostHook( CharacterTweakData, "init", "ass_init", function(self)
 				data.surrender = surrender_map[data.surrender] or data.surrender
 			end
 		end
-	end
-
-	local level_func = self.moon_level_funcs[level_id]
-	if level_func then
-		level_func(self)
 	end
 end )
 

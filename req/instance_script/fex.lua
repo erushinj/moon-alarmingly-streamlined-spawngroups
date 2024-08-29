@@ -4,6 +4,13 @@ local function fex_security_room(result)
 		if element.id == 100030 then
 			element.values.moon_data = {
 				enemy = thug_outdoor_fex,
+				run_func_on_unit = function(unit)
+					local unit_data = alive(unit) and unit:unit_data()
+
+					if unit_data then
+						unit_data.has_alarm_pager = true
+					end
+				end,
 			}
 		end
 	end

@@ -19,8 +19,16 @@ local dozers_no_cs = tweak_data.moon.units.dozers_no_cs
 local staff_ids = { 100064, 100065, 100062, 100063, 100066, 100089, 100077, 100078, 100083, 100080, 100079, 100081, 100082, 100084, }
 local staff = {
 	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
 	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
+	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 }
 local original_num_staff = #staff
