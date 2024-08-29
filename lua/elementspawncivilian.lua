@@ -46,32 +46,6 @@ end
 
 Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
 
-local idles = {
-	female = {
-		{ "cf_sp_stand_idle_var1", 3, },
-		{ "cf_sp_stand_idle_var3", 3, },
-		{ "cf_sp_stand_arms_crossed", 1, },
-	},
-	male = {
-		{ "cm_sp_stand_idle", 2, },
-		{ "cm_sp_standing_idle_var2", 2, },
-		{ "cm_sp_stand_waiting", 2, },
-		{ "cm_sp_stand_arms_crossed", 1, },
-	},
-}
-for key, list in pairs(idles) do
-	local selector = WeightedSelector:new()
-
-	for _, data in pairs(list) do
-		if type(data) == "table" then
-			selector:add(unpack(data))
-		else
-			selector:add(data, 1)
-		end
-	end
-
-	idles[key] = selector
-end
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
 local bad_access = table.set("cop", "fbi")
@@ -121,7 +95,8 @@ function ElementSpawnCivilian:produce(params, ...)
 
 		if self.moon_needs_state then
 			local anim_set = tweak_data.moon.female_civs_map[self._enemy_name:key()] and "female" or "male"
-			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idles[anim_set]:select())
+			local idles = tweak_data.moon.civ_idles[anim_set]
+			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idles:select())
 
 			self._values.state = state
 		end

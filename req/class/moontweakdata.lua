@@ -704,6 +704,35 @@ function MoonTweakData:init_hydra_splits()
 	self.hydra_splits = splits
 end
 
+function MoonTweakData:init_civ_idles()
+	if rawget(self, "civ_idles") then
+		return
+	end
+
+	self.civ_idles = {
+		female = {
+			["cf_sp_stand_idle_var1"] = 3,
+			["cf_sp_stand_idle_var3"] = 3,
+			["cf_sp_stand_arms_crossed"] = 1,
+		},
+		male = {
+			["cm_sp_stand_idle"] = 2,
+			["cm_sp_standing_idle_var2"] = 2,
+			["cm_sp_stand_waiting"] = 2,
+			["cm_sp_stand_arms_crossed"] = 1,
+		},
+	}
+	for key, anims in pairs(self.civ_idles) do
+		local selector = WeightedSelector:new()
+
+		for k, wgt in pairs(anims) do
+			selector:add(k, wgt)
+		end
+
+		self.civ_idles[key] = selector
+	end
+end
+
 function MoonTweakData:init_access_filters()
 	if rawget(self, "access_filters") then
 		return
