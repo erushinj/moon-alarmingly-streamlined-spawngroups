@@ -24,6 +24,29 @@ function MoonTweakData:init(tweak_data)
 	end
 end
 
+function MoonTweakData:init_vanilla_category_translations()
+	self.vanilla_category_translations = rawget(self, "vanilla_category_translations") or {
+		spooc = "FBI_spooc",
+		CS_cop_C45_R870 = "CS_hrt_1_2_3",
+		CS_cop_stealth_MP5 = "CS_hrt_3",
+		CS_swat_MP5 = "CS_swat_1",
+		CS_swat_R870 = "CS_swat_2",
+		CS_heavy_M4 = "CS_heavy_1",
+		CS_heavy_R870 = "CS_heavy_2",
+		FBI_suit_C45_M4 = "FBI_hrt_1_2",
+		FBI_suit_M4_MP5 = "FBI_hrt_2_3",
+		FBI_suit_stealth_MP5 = "FBI_hrt_3",
+		FBI_swat_M4 = "FBI_swat_1",
+		FBI_swat_R870 = "FBI_swat_2",
+		FBI_heavy_G36 = "FBI_heavy_1",
+		FBI_heavy_R870 = "FBI_heavy_1",
+		medic_M4 = "FBI_medic_1",
+		medic_R870 = "FBI_medic_2",
+		marshal_marksman = "FBI_marshal_marksman",
+		marshal_shield = "FBI_marshal_shield",
+	}
+end
+
 function MoonTweakData:init_spawn_group_type_mapping()
 	self.spawn_group_type_mapping = rawget(self, "spawn_group_type_mapping") or {
 		spooc = "shotgun",
@@ -65,6 +88,18 @@ function MoonTweakData:init_spawn_group_mapping()
 			"original_reenforce_a",
 			"original_reenforce_b",
 			"original_reenforce_c",
+			"streamlined_shotgun_rush_a",
+			"streamlined_shotgun_rush_b",
+			"streamlined_shotgun_flank_a",
+			"streamlined_shotgun_flank_b",
+			"streamlined_rifle_ranged_a",
+			"streamlined_rifle_ranged_b",
+			"streamlined_rifle_flank_a",
+			"streamlined_rifle_flank_b",
+			"streamlined_hostage_rescue",
+			"streamlined_reenforce_a",
+			"streamlined_reenforce_b",
+			"streamlined_reenforce_c",
 			"chicken_plate_hrt_a",
 			"chicken_plate_hrt_b",
 			"chicken_plate_swat_a",
@@ -77,6 +112,8 @@ function MoonTweakData:init_spawn_group_mapping()
 			"tac_shield_wall_charge",
 			"original_shields_a",
 			"original_shields_b",
+			"streamlined_shield_ranged",
+			"streamlined_shield_charge",
 			"chicken_plate_shield",
 		},
 		tac_tazer_flanking = {
@@ -84,6 +121,8 @@ function MoonTweakData:init_spawn_group_mapping()
 			"tac_tazer_charge",
 			"original_tazers_a",
 			"original_tazers_b",
+			"streamlined_tazer_flank",
+			"streamlined_tazer_charge",
 			"chicken_plate_taser",
 			"chicken_plate_medic",
 		},
@@ -91,12 +130,14 @@ function MoonTweakData:init_spawn_group_mapping()
 			"tac_bull_rush",
 			"original_tanks_a",
 			"original_tanks_b",
+			"streamlined_tank",
 			"chicken_plate_tank",
 		},
 		FBI_spoocs = {
 			"FBI_spoocs",
 			"original_spoocs_a",
 			"original_spoocs_b",
+			"streamlined_spooc",
 			"chicken_plate_spooc",
 		},
 	}
@@ -104,8 +145,8 @@ end
 
 -- difficulty value threshold to use FBI-tier scripted spawns rather than CS-tier
 -- 0 means always FBI, 1 means always CS, anything between can change dynamically
-function MoonTweakData:init_scripted_prefix_threshold()
-	self.scripted_prefix_threshold = rawget(self, "scripted_prefix_threshold") or ({
+function MoonTweakData:init_swap_scripted_prefix_threshold()
+	self.swap_scripted_prefix_threshold = rawget(self, "swap_scripted_prefix_threshold") or ({
 		jewelry_store = 1,
 		four_stores = 1,
 		nightclub = 1,
@@ -121,8 +162,8 @@ function MoonTweakData:init_scripted_prefix_threshold()
 end
 
 -- level mod data for each wave in holdout up to 9
-function MoonTweakData:init_wave_unit_categories()
-	self.wave_unit_categories = rawget(self, "wave_unit_categories") or {
+function MoonTweakData:init_skirmish_wave_tiers()
+	self.skirmish_wave_tiers = rawget(self, "skirmish_wave_tiers") or {
 		{ CS = "normal", FBI = "normal", },
 		{ CS = "normal", FBI = "normal", },
 		{ CS = "normal", FBI = "overkill_145", },
@@ -136,32 +177,14 @@ function MoonTweakData:init_wave_unit_categories()
 end
 
 -- replacement unit category names for enemy replacer mutators
-function MoonTweakData:init_replacer_groups()
-	self.replacer_groups = rawget(self, "replacer_groups") or {
-		tank_hw = {
-			CS = "CS_titan",
-			FBI = "FBI_titan",
-		},
-		tank = {
-			CS = "CS_tank",
-			FBI = "FBI_tank",
-		},
-		taser = {
-			CS = "CS_tazer",
-			FBI = "FBI_tazer",
-		},
-		shield = {
-			CS = "CS_shield",
-			FBI = "FBI_shield",
-		},
-		spooc = {
-			CS = "CS_spooc",
-			FBI = "FBI_spooc",
-		},
-		medic = {
-			CS = "CS_medic_MP5_R870",
-			FBI = "FBI_medic_M4_R870",
-		},
+function MoonTweakData:init_replacement_category_names()
+	self.replacement_category_names = rawget(self, "replacement_category_names") or {
+		tank_hw = "titan",
+		tank = "tank",
+		taser = "tazer",
+		shield = "shield",
+		spooc = "spooc",
+		medic = "medic_1_2",
 	}
 end
 

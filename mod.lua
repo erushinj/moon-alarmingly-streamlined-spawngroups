@@ -29,6 +29,7 @@ if not ASS then
 
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
+	ASS.global = Global.alarmingly_streamlined_spawngroups
 	ASS.req_path = ASS.path .. "req/"
 	ASS.lua_path = ASS.path .. "lua/"
 	ASS.loc_path = ASS.path .. "loc/"
@@ -530,10 +531,6 @@ if not ASS then
 	local try_insert = ASS:require("try_insert", true)
 	local check_clone = ASS:require("check_clone", true)
 
-	function ASS:global()
-		return Global.alarmingly_streamlined_spawngroups
-	end
-
 	function ASS:setting(...)
 		if select("#", ...) > 1 then
 			local chain = self.settings
@@ -563,7 +560,7 @@ if not ASS then
 				return
 			end
 
-			local global = self:global()
+			local global = self.global
 			global.zeals_enabled = true
 			local function show_zeal_dialog()
 				if not global.showed_dialog then
@@ -596,7 +593,7 @@ if not ASS then
 
 			self:log("error", "Streamlined Heisting not found!")
 
-			local global = self:global()
+			local global = self.global
 			global.invalid_sh = "missing"
 			if self:setting("is_massive") then
 				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
@@ -631,7 +628,7 @@ if not ASS then
 
 			self:log("error", "Streamlined Heisting is disabled!")
 
-			local global = self:global()
+			local global = self.global
 			global.invalid_sh = "disabled"
 			if self:setting("is_massive") then
 				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
@@ -655,7 +652,7 @@ if not ASS then
 
 			self:log("error", "Streamlined Heisting is out of date!")
 
-			local global = self:global()
+			local global = self.global
 			global.invalid_sh = "outdated"
 			if self:setting("is_massive") then
 				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
@@ -696,17 +693,26 @@ if not ASS then
 	end
 
 	function ASS:init_vars()
+		local level_mod_to_difficulty = {
+			CS_normal = "normal",
+			CS_FBI_overkill = "overkill",
+			FBI_overkill_145 = "overkill_145",
+			FBI_CITY_easy_wish = "easy_wish",
+			CITY_overkill_290 = "overkill_290",
+			CITY_ZEAL_awesome_difficulty_name = "awesome_difficulty_name",
+			ZEAL_sm_wish = "sm_wish",
+		}
 		local level_mod = self:gsub("level_mod", "per_level")
 		local redirect = {
-			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or false,
-			disable = false,
-			random = table.random({  -- no zeal for random, not going to randomly activate a matchmaking lock
+			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or difficulty,
+			disable = difficulty,
+			random = table.random({  -- no zeal for random below ds, not going to randomly activate a matchmaking lock
 				"CS_normal",
 				"CS_FBI_overkill",
 				"FBI_overkill_145",
 				"FBI_CITY_easy_wish",
 				"CITY_overkill_290",
-				false,
+				difficulty,
 			}),
 		}
 
@@ -750,25 +756,29 @@ if not ASS then
 			self.level_mod = level_mod
 		end
 
-		if self:global().invalid_sh then
+		if self.global.invalid_sh then
 			self.been_there_fucked_that = false
 		else
 			if self.been_there_fucked_that == nil then
 				self.been_there_fucked_that = self:setting("is_massive")
 			end
 
-			if is_client then
-				self:log("info", "Playing as client, most tweaks disabled...")
-			end
+			if self.been_there_fucked_that then
+				if is_client then
+					self:log("info", "Playing as client, most tweaks disabled...")
+				end
 
-			if is_editor then
-				self:log("info", "Editor mode active, mission tweaks disabled and using vanilla groups...")
-			end
+				if is_editor then
+					self:log("info", "Editor mode active, mission tweaks disabled and using vanilla groups...")
+				end
 
-			if tostring(self.level_mod):match("ZEAL") then
-				self:message("zeals_enabled")
+				if tostring(self.level_mod):match("ZEAL") then
+					self:message("zeals_enabled")
+				end
 			end
 		end
+
+		self.level_mod = level_mod_to_difficulty[self.level_mod] or difficulty
 	end
 
 	function ASS:tweak(name)

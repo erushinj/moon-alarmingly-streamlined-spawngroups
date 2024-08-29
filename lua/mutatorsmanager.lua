@@ -3,27 +3,23 @@ if ASS.is_client then
 end
 
 Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
-	local name_key = alive(parent_unit) and parent_unit:name():key()
+	local mapped = tweak_data.moon.enemy_mapping[parent_unit:name():key()]
 
-	if name_key then
-		local mapped = tweak_data.moon.enemy_mapping[name_key]
+	if mapped then
+		local split = tweak_data.moon.hydra_splits[mapped]
 
-		if mapped then
-			local split = tweak_data.moon.hydra_splits[mapped]
+		if split then
+			local replacement = managers.groupai:state():moon_get_scripted_tier()
 
-			if split then
-				local replacement = managers.groupai:state():moon_get_scripted_prefix()
+			if replacement then
+				local tier = tweak_data.moon:enemy_replacements()[replacement]
 
-				if replacement then
-					local tier = tweak_data.moon:enemy_replacements()[replacement]
+				if tier then
+					local unit_depth = self:get_hydra_depth(parent_unit)
 
-					if tier then
-						local unit_depth = self:get_hydra_depth(parent_unit)
-
-						self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
-						self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
-						self:set_hydra_depth(parent_unit, nil)
-					end
+					self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
+					self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
+					self:set_hydra_depth(parent_unit, nil)
 				end
 			end
 		end
@@ -32,9 +28,9 @@ end )
 
 Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
 	local override_enemy = self:get_override_enemy()
-	local replacer_group = tweak_data.moon.replacer_groups[override_enemy]
+	local replacement_name = tweak_data.moon.replacement_category_names[override_enemy]
 
-	if not replacer_group then
+	if not replacement_name then
 		ASS:log("error", "MutatorEnemyReplacer is missing replacer group \"%s\"!", override_enemy)
 	else
 		group_ai.special_unit_spawn_limits[override_enemy] = math.huge
@@ -47,7 +43,9 @@ Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
 				elseif not category.is_captain then
-					enemy.unit = replacer_group[unit:match("CS") and "CS" or "FBI"] or unit
+					local prefix = unit:match("CS") and "CS_" or "FBI_"
+
+					enemy.unit = prefix .. replacement_name
 				end
 			end
 		end
@@ -55,10 +53,10 @@ Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function
 end )
 
 Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
-	local tank_group = tweak_data.moon.replacer_groups.tank
-	local medic_group = tweak_data.moon.replacer_groups.medic
+	local tank_name = tweak_data.moon.replacement_category_names.tank
+	local medic_name = tweak_data.moon.replacement_category_names.medic
 
-	if not tank_group or not medic_group then
+	if not tank_name or not medic_name then
 		ASS:log("error", "MutatorMediDozer is missing replacer groups!")
 	else
 		group_ai.special_unit_spawn_limits.tank = math.huge
@@ -72,9 +70,10 @@ Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(sel
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
 				elseif not category.is_captain then
-					local replacer_group = category.special_type and tank_group or medic_group
+					local replacement_name = category.special_type and tank_name or medic_name
+					local prefix = unit:match("CS") and "CS_" or "FBI_"
 
-					enemy.unit = replacer_group[unit:match("CS") and "CS" or "FBI"] or unit
+					enemy.unit = prefix .. replacement_name
 				end
 			end
 		end
@@ -82,9 +81,9 @@ Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(sel
 end )
 
 Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
-	local replacer_group = tweak_data.moon.replacer_groups.tank_hw
+	local replacement_name = tweak_data.moon.replacement_category_names.tank_hw
 
-	if not replacer_group then
+	if not replacement_name then
 		ASS:log("error", "MutatorTitandozers is missing replacer groups!")
 	else
 		group_ai.special_unit_spawn_limits.tank = math.huge
@@ -97,7 +96,9 @@ Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(s
 				if not category then
 					ASS:log("error", "Nonexistent unit category \"%s\"!", unit)
 				elseif not category.is_captain and category.special_type == "tank" then
-					enemy.unit = replacer_group[unit:match("CS") and "CS" or "FBI"] or unit
+					local prefix = unit:match("CS") and "CS_" or "FBI_"
+
+					enemy.unit = prefix .. replacement_name
 				end
 			end
 		end

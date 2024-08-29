@@ -14,7 +14,7 @@ local try_insert = ASS:require("try_insert", true)
 Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
 	if ElementAIGroupType then  -- beardlib custom element type
 		Hooks:PostHook( ElementAIGroupType, "on_executed", "ass_on_executed", function()
-			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 		end )
 	end
 end )

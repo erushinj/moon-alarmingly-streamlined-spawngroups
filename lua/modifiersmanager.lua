@@ -30,7 +30,7 @@ Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 		end
 	end
 
-	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 end )
 
 -- adjust to support all factions and the CS tank unit category
@@ -46,7 +46,7 @@ local function dozer_modifier_init(self, ...)
 	local FBI_tank_u_keys = tweak_data.group_ai.unit_categories.FBI_tank.moon_u_keys
 	FBI_tank_u_keys[self.moon_dozer_key] = math.max(FBI_tank_u_keys[self.moon_dozer_key] or 0, 1)
 
-	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
+	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 end
 
 ModifierSkulldozers.moon_dozer_key = "dozer_3"

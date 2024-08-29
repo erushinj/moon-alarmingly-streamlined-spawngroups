@@ -123,7 +123,7 @@ function ElementSpawnCivilian:produce(params, ...)
 		end
 	end
 
-	local replacement = static_tier or managers.groupai:state():moon_get_scripted_prefix()
+	local replacement = static_tier or managers.groupai:state():moon_get_scripted_tier()
 	local enemy_replacements = tweak_data.moon:enemy_replacements(static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then

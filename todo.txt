@@ -35,6 +35,3 @@
 |
 |> Ukrainian Job
 |-> disable sniper spawns on the vantage point area when players are near
-|
-|> Backend
-|-> rename unit categories for clarity

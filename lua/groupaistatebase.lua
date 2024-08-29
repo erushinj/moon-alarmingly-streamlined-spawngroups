@@ -8,14 +8,14 @@ local get_prefix = {
 	[true] = "FBI",  -- difficulty greater than threshold
 	[false] = "CS",  -- difficulty less than or equal to threshold
 }
-function GroupAIStateBase:moon_get_scripted_prefix()
-	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
+function GroupAIStateBase:moon_get_scripted_tier()
+	local last_tiers = tweak_data.group_ai.moon_last_tiers
 
-	if last_prefixes then
-		local threshold = tweak_data.moon.scripted_prefix_threshold
+	if last_tiers then
+		local threshold = tweak_data.moon.swap_scripted_prefix_threshold
 		local wanted_prefix = get_prefix[threshold] or get_prefix[self._difficulty_value > threshold]
 
-		return last_prefixes[wanted_prefix] or last_prefixes.CS
+		return last_tiers[wanted_prefix] or last_tiers.CS
 	end
 end
 
