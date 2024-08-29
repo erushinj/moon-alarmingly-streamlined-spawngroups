@@ -1,4 +1,4 @@
-local securitys = tweak_data.levels:moon_units("securitys")
+local securitys = tweak_data.moon.units.securitys
 local snipers = {
 	values = {
 		trigger_times = 0,

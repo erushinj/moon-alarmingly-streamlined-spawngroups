@@ -1,5 +1,5 @@
 local sniper = {
-	enemy = tweak_data.levels:moon_units("sniper"),
+	enemy = tweak_data.moon.units.sniper,
 }
 
 -- ship/dock snipers

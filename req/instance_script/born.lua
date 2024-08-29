@@ -28,7 +28,7 @@ local patches = {
 
 return {
 	["levels/instances/shared/simple_harasser_spawn/world/world"] = function(result)
-		local harassers = tweak_data.levels:moon_units(normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far")
+		local harassers = tweak_data.moon.units[normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far"]
 
 		for _, element in pairs(result.default.elements) do
 			if patches.simple_harasser_spawn[element.id] then
@@ -40,14 +40,13 @@ return {
 	end,
 	["levels/instances/unique/born/born_armory/world/world"] = function(result)
 		local born_armory = patches.born_armory
-		local swats_close = tweak_data.levels:moon_units("swats_close")
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id
 
 			if born_armory.swats[id] then
 				element.values.moon_data = {
-					enemy = swats_close,
+					enemy = tweak_data.moon.units.swats_close,
 				}
 			elseif born_armory.cloaker_filter[id] then  -- spawn suprise cloaker
 				table.map_append(element.values, filters_normal_above)

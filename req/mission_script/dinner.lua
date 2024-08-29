@@ -1,5 +1,5 @@
-local harassers = tweak_data.levels:moon_units("marshals_far")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local harassers = tweak_data.moon.units.marshals_far
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
 
 return {
 	[104446] = { enemy = harassers, },  -- container top harassers, swat

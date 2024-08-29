@@ -2,8 +2,8 @@ local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
 local get_table_index_func = ASS:require("get_table_index_func", true)
 
-local securitys = tweak_data.levels:moon_units("securitys")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
+local securitys = tweak_data.moon.units.securitys
+local securitys_heavy = tweak_data.moon.units.securitys_heavy
 
 local casual_female = {
 	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),

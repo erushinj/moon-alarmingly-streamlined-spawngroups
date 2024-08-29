@@ -1,9 +1,8 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
-local cops = tweak_data.levels:moon_units("cops")
+local cops = tweak_data.moon.units.cops
 local initial_cops_ids = get_table_index_func({ 100135, 100027, 100028, 100035, 100037, 100038, 100040, })
 local initial_cops = get_table_index_func(table.list_add(cops, cops))
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -607,8 +606,8 @@ return {
 	[initial_cops_ids()] = { enemy = initial_cops(), values = no_participate_to_group_ai.values, },
 	[102020] = { enemy = cops, },  -- "blockade" (swarm)
 	[102021] = { enemy = cops, },
-	[101005] = { enemy = dozers_any, },  -- heli swats, hijacked to dozers after roof explosion
-	[101911] = { enemy = dozers_any, },
+	[101005] = { enemy = tweak_data.moon.units.dozers_any, },  -- heli swats, hijacked to dozers after roof explosion
+	[101911] = { enemy = tweak_data.moon.units.dozers_any, },
 	[101515] = { enemy = balcony_civ, },
 	[civs_casual_ids()] = { enemy = civs_casual(), },
 	[civs_casual_ids()] = { enemy = civs_casual(), },

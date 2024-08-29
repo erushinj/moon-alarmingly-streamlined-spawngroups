@@ -55,9 +55,9 @@ local patches = {
 return {
 	["levels/instances/mods/Constantine Scores/constantine_gensec_enemies_helicopter_spawn/world/world"] = function(result)
 		local chopper = patches.chopper
-		local heavys = tweak_data.levels:moon_units("heavys")
-		local specials_any = tweak_data.levels:moon_units("specials_any")
-		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+		local heavys = tweak_data.moon.units.heavys
+		local specials_any = tweak_data.moon.units.specials_any
+		local dozers_no_med = tweak_data.moon.units.dozers_no_med
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id
@@ -75,20 +75,17 @@ return {
 		end
 	end,
 	["levels/instances/mods/Constantine Scores/gensec_spawn_enemies_assault_wave/world/world"] = function(result)
-		local swats = tweak_data.levels:moon_units("swats")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.assault_wave[element.id] then
 				element.values.moon_data = {
 					continent = "america",
 					tier = "overkill_290",
-					enemy = swats,
+					enemy = tweak_data.moon.units.swats,
 				}
 			end
 		end
 	end,
 	["levels/instances/mods/Constantine Scores/constantine_gensec_sniper_helicopter/world/world"] = function(result)
-		local marshal = tweak_data.levels:moon_units("marshal_1")
 		local sniper_chopper = patches.sniper_chopper
 
 		for _, element in pairs(result.default.elements) do
@@ -98,7 +95,7 @@ return {
 				element.values.moon_data = {
 					continent = "america",
 					tier = "overkill_290",
-					enemy = marshal,
+					enemy = tweak_data.moon.units.marshal_1,
 				}
 			elseif sniper_chopper.heli_fly_in[id] then
 				element.values.base_delay_rand = 2

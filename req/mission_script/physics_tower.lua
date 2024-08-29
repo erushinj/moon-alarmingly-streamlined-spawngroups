@@ -1,7 +1,7 @@
 -- boworks day 2, https://modworkshop.net/mod/31560
 local bofa_zeal_spawns = {
-	enemy = table.list_add(tweak_data.levels:moon_units("swats"), tweak_data.levels:moon_units("heavys"), {
-		tweak_data.levels:moon_units("shield"),
+	enemy = table.list_add(tweak_data.moon.units.swats, tweak_data.moon.units.heavys, {
+		tweak_data.moon.units.shield,
 	}),
 	static_spawn = {
 		continent = "bo_scripted",

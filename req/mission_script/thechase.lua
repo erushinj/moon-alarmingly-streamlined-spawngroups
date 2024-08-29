@@ -1,20 +1,20 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 
 local swats_heavys = {
-	enemy = tweak_data.levels:moon_units("swats_heavys"),
+	enemy = tweak_data.moon.units.swats_heavys,
 	static_spawn = {
 		continent = "bo_scripted",
 	},
 }
 local shield = {
-	enemy = tweak_data.levels:moon_units("shield"),
+	enemy = tweak_data.moon.units.shield,
 	static_spawn = swats_heavys.static_spawn,
 }
 local dozers_any = {
-	enemy = tweak_data.levels:moon_units("dozers_any"),
+	enemy = tweak_data.moon.units.dozers_any,
 }
 local dozers_no_med = {
-	enemy = tweak_data.levels:moon_units("dozers_no_med"),
+	enemy = tweak_data.moon.units.dozers_no_med,
 }
 local diff = {
 	values = {

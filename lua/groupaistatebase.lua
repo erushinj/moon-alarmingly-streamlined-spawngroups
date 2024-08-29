@@ -12,7 +12,7 @@ function GroupAIStateBase:moon_get_scripted_prefix()
 	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
 
 	if last_prefixes then
-		local threshold = tweak_data.levels:moon_scripted_prefix_threshold()
+		local threshold = tweak_data.moon.scripted_prefix_threshold
 		local wanted_prefix = get_prefix[threshold] or get_prefix[self._difficulty_value > threshold]
 
 		return last_prefixes[wanted_prefix] or last_prefixes.CS

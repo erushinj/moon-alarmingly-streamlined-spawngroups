@@ -3,7 +3,7 @@ local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 local get_table_index_func = ASS:require("get_table_index_func", true)
 local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
 
-local outside_cops = tweak_data.levels:moon_units("swats_heavys")
+local outside_cops = tweak_data.moon.units.swats_heavys
 local inside_cops_ids = get_table_index_func({
 	100821,
 	100822,
@@ -41,7 +41,7 @@ local prisoners_ids_2 = get_table_index_func({ 101077, 101078, })
 local prisoners_ids_3 = get_table_index_func({ 101079, 101080, })
 local prisoners_ids_4 = get_table_index_func({ 101081, 101082, })
 local constantine_backup = {
-	enemy = tweak_data.levels:moon_units("heavys"),
+	enemy = tweak_data.moon.units.heavys,
 	static_spawn = {
 		continent = "actual_russia",
 		tier = "normal",

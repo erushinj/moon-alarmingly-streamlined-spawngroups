@@ -63,11 +63,10 @@ local street_reenforce = {
 		amount = 3,
 	},
 }
-local securitys = tweak_data.levels:moon_units("securitys")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local specials_no_shield = tweak_data.levels:moon_units("specials_no_shield")
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
+local securitys = tweak_data.moon.units.securitys
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local specials_no_shield = tweak_data.moon.units.specials_no_shield
+local dozers_any = tweak_data.moon.units.dozers_any
 
 return {
 	[103072] = {  -- ambush stuff, chance
@@ -147,8 +146,8 @@ return {
 	[100296] = { enemy = securitys, },
 	[100297] = { enemy = securitys, },
 	[101063] = { enemy = securitys, },
-	[101219] = { enemy = securitys_heavy, },  -- surv guys
-	[105100] = { enemy = securitys_heavy, },
+	[101219] = { enemy = tweak_data.moon.units.securitys_heavy, },  -- surv guys
+	[105100] = { enemy = tweak_data.moon.units.securitys_heavy, },
 	[105280] = { enemy = dozers_no_med, },  -- ambush dozers
 	[102283] = { enemy = dozers_no_med, },
 	[105606] = { enemy = dozers_no_med, },

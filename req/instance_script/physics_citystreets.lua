@@ -13,14 +13,13 @@ local patches = {
 return {
 	["levels/instances/mods/physics_instance_d1_ticketmachine/world/world"] = function(result)
 		local ticketmachine = patches.ticketmachine
-		local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id
 
 			if ticketmachine.dozers[id] then
 				element.values.moon_data = {
-					enemy = dozers_any,
+					enemy = tweak_data.moon.units.dozers_any,
 				}
 			elseif ticketmachine.bad_filters_randoms[id] then  -- difficulty level check elements are bad and should be removed from the game, actually
 				element.values.enabled = false

@@ -26,7 +26,7 @@ return {
 			continent = "america",
 			tier = "overkill_290",
 		},
-		enemy = tweak_data.levels:moon_units("marshal_1"),
+		enemy = tweak_data.moon.units.marshal_1,
 	},
 	[100191] = {
 		pre_func = function(self)
@@ -50,8 +50,8 @@ return {
 			values.attitude = table.get_vector_index(self._ATTITUDES, "engage")
 		end,
 	},
-	[100035] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
-	[100036] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
+	[100035] = { enemy = tweak_data.moon.units.dozers_no_cs, },
+	[100036] = { enemy = tweak_data.moon.units.dozers_no_cs, },
 	[100014] = { enemy = cartel_rebels, },
 	[100015] = { enemy = cartel_rebels, },
 	[100016] = { enemy = cartel_rebels, },

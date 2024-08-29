@@ -5,7 +5,7 @@ end
 local try_insert = ASS:require("try_insert", true)
 
 -- add missing vanilla and custom map heavies
-for name_key, mapped in pairs(tweak_data.levels:moon_enemy_mapping()) do
+for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
 	ModifierHeavySniper.heavy_units[name_key] = mapped == "heavy_1" or mapped == "heavy_2" or nil
 end
 
@@ -17,7 +17,7 @@ ModifierHeavies.moon_u_key_mapping = {
 Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
-	for _, continent in pairs(tweak_data.levels:moon_enemy_replacements(true)) do
+	for _, continent in pairs(tweak_data.moon:enemy_replacements(true)) do
 		for _, tier in pairs(continent) do
 			for u_key in pairs(tier) do
 				local new_key = self.moon_u_key_mapping[u_key]
@@ -37,7 +37,7 @@ end )
 local function dozer_modifier_init(self, ...)
 	self.super.init(self, ...)
 
-	local units = tweak_data.levels:moon_units()
+	local units = tweak_data.moon.units
 	local dozer_add = units[self.moon_dozer_key]
 	for tbl_name in pairs(self.moon_dozer_tables) do
 		try_insert(units[tbl_name], dozer_add)

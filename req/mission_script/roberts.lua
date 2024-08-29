@@ -1,6 +1,6 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local specials_any = tweak_data.levels:moon_units("specials_any")
-local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "marshals_far")
+local specials_any = tweak_data.moon.units.specials_any
+local harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "marshals_far"]
 
 return {
 	[106462] = { enemy = specials_any, },  -- sewer specials, cloakers

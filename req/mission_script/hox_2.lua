@@ -1,5 +1,5 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "marshals_far")
+local harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "marshals_far"]
 local fbi_offices = {
 	Idstring("units/payday2/characters/ene_fbi_office_1/ene_fbi_office_1"),
 	Idstring("units/payday2/characters/ene_fbi_office_2/ene_fbi_office_2"),

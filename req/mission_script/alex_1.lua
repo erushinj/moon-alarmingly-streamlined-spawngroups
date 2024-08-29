@@ -41,7 +41,7 @@ return {
 			},
 		},
 	},
-	[100952] = { enemy = tweak_data.levels:moon_units("dozers_any"), },  -- chopper dozer
+	[100952] = { enemy = tweak_data.moon.units.dozers_any, },  -- chopper dozer
 	[101525] = { enemy = mexicans, },  -- gangsters
 	[101527] = { enemy = mexicans, },
 	[100825] = { enemy = mexicans, },

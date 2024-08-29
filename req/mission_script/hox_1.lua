@@ -1,4 +1,4 @@
-local cops = tweak_data.levels:moon_units("cops")
+local cops = tweak_data.moon.units.cops
 
 return {
 	[102029] = { enemy = cops, },  -- cop spawns on routes the truck doesnt go

@@ -28,11 +28,11 @@ function ElementSpawnCivilian:moon_init_hook()
 	end
 
 	if self._patched_enemy_name == nil and getmetatable(self) == ElementSpawnEnemyDummy then
-		local mapped = tweak_data.levels:moon_enemy_mapping(self._enemy_name:key())
+		local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
 		local typ = mappings[mapped]
 
 		if typ then
-			local units = tweak_data.levels:moon_units(typ)
+			local units = tweak_data.moon.units[typ]
 
 			if type(units) == "table" then
 				self._possible_enemies = units
@@ -78,7 +78,7 @@ local bad_access = table.set("cop", "fbi")
 local replace_access = "swat"
 ElementSpawnCivilian.produce_original = ElementSpawnCivilian.produce
 function ElementSpawnCivilian:produce(params, ...)
-	local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
+	local level_enemy_replacements = tweak_data.moon.level_enemy_replacements
 
 	-- params.name means groupai spawn and everything after this check doesnt apply
 	if params and params.name then
@@ -120,8 +120,8 @@ function ElementSpawnCivilian:produce(params, ...)
 		end
 
 		if self.moon_needs_state then
-			local idle = idles[tweak_data.character:moon_female_civs_map(self._enemy_name:key())] or idles.male
-			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idle:select())
+			local anim_set = tweak_data.moon.female_civs_map[self._enemy_name:key()] and "female" or "male"
+			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idles[anim_set]:select())
 
 			self._values.state = state
 		end
@@ -141,15 +141,15 @@ function ElementSpawnCivilian:produce(params, ...)
 
 	-- static_tier = false means scripted cops/fbis can be replaced depending on level mod
 	local static_continent, static_tier = self.static_continent, self.static_tier
-	local mapped_name = tweak_data.levels:moon_enemy_mapping(name_key)
+	local mapped_name = tweak_data.moon.enemy_mapping[name_key]
 	if not static_continent and static_tier == nil then
-		if tweak_data.levels:moon_forbidden_scripted_replacements(mapped_name) then
+		if tweak_data.moon.forbidden_scripted_replacements[mapped_name] then
 			return self:moon_produce_helper(params, ...)
 		end
 	end
 
 	local replacement = static_tier or managers.groupai:state():moon_get_scripted_prefix()
-	local enemy_replacements = tweak_data.levels:moon_enemy_replacements(static_continent)
+	local enemy_replacements = tweak_data.moon:enemy_replacements(static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then
 		self._enemy_name = level_enemy_replacements[mapped_unit:key()] or mapped_unit

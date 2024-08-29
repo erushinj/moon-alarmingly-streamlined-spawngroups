@@ -1,6 +1,6 @@
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
-local specials_def = tweak_data.levels:moon_units("specials_def")
-local heavys = tweak_data.levels:moon_units("heavys")
+local dozers_any = tweak_data.moon.units.dozers_any
+local specials_def = tweak_data.moon.units.specials_def
+local heavys = tweak_data.moon.units.heavys
 
 return {
 	[100770] = { enemy = heavys, },  -- van swats, van 1

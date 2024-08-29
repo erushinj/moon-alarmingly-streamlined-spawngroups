@@ -8,8 +8,8 @@ return function()
 	if hard_count < hard_target then
 		hard_count = hard_count + 1
 
-		return tweak_data.levels:moon_units(hard_spawn)
+		return tweak_data.moon.units[hard_spawn]
 	end
 
-	return tweak_data.levels:moon_units(normal_spawn)
+	return tweak_data.moon.units[normal_spawn]
 end

@@ -16,10 +16,6 @@ local patches = {
 			100048,
 			100021,
 			100034,
-			-- 100013,
-			-- 100049,
-			-- 100020,
-			-- 100035,
 			100009,
 			100014,
 			100015,
@@ -31,8 +27,8 @@ local patches = {
 return {
 	["levels/instances/mods/Flatline/flatline_spawn_enemies/world/world"] = function(result)
 		local spawn_enemies = patches.spawn_enemies
-		local spawns = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
-		local specials_med = tweak_data.levels:moon_units("specials_med")
+		local spawns = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
+		local specials_med = tweak_data.moon.units.specials_med
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id

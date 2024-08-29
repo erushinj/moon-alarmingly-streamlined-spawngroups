@@ -1,5 +1,5 @@
-local harassers = tweak_data.levels:moon_units("marshals_far")
-local dozers = tweak_data.levels:moon_units("dozers_no_mini")
+local harassers = tweak_data.moon.units.marshals_far
+local dozers = tweak_data.moon.units.dozers_no_mini
 local breakout_guards = {
 	Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1"),
 	Idstring("units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_2/ene_hoxton_breakout_guard_2"),

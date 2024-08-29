@@ -49,8 +49,8 @@ local patches = {
 return {
 	["levels/instances/unique/chew/chew_train_car/world/world"] = function(result)
 		local chew_train_car = patches.chew_train_car
-		local heavys = tweak_data.levels:moon_units("heavys")
-		local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+		local heavys = tweak_data.moon.units.heavys
+		local dozers_no_cs = tweak_data.moon.units.dozers_no_cs
 		local bikers_any = {
 			Idstring("units/payday2/characters/ene_biker_1/ene_biker_1"),
 			Idstring("units/payday2/characters/ene_biker_2/ene_biker_2"),
@@ -80,7 +80,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/chew/chew_pursuit_car/world/world"] = function(result)
-		local enemy = tweak_data.levels:moon_units(normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far")
+		local enemy = tweak_data.moon.units[normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far"]
 
 		for _, element in pairs(result.default.elements) do
 			if patches.chew_pursuit_car[element.id] then

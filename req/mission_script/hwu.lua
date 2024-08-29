@@ -6,7 +6,7 @@ local get_table_index_func = ASS:require("get_table_index_func", true)
 -- 17 to 31 is security 1, 32 is security 3
 
 local cops_ids = { 100721, 100722, 100723, 100724, 100725, 100726, }
-local cops = clone(tweak_data.levels:moon_units("cops"))
+local cops = clone(tweak_data.moon.units.cops)
 local original_num_cops = #cops
 while #cops < #cops_ids do
 	table.insert(cops, cops[math.random(original_num_cops)])
@@ -15,7 +15,7 @@ end
 cops_ids = get_table_index_func(cops_ids)
 cops = get_table_index_func(cops)
 
-local securitys_no_mp5 = tweak_data.levels:moon_units("securitys_no_mp5")  -- security 2 is not loaded for some reason
+local securitys_no_mp5 = tweak_data.moon.units.securitys_no_mp5  -- security 2 is not loaded for some reason
 
 local civs_worker = {
 	Idstring("units/payday2/characters/civ_male_worker_1/civ_male_worker_1"),

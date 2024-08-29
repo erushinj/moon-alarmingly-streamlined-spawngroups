@@ -9,144 +9,7 @@ local f = (difficulty_index - 2) / 6
 local real_difficulty_index = ASS.real_difficulty_index
 local difficulty = ASS.difficulty
 local is_editor = ASS.is_editor
-local dozer_rainbow = clone(ASS.dozer_rainbow)
-
-function GroupAITweakData:moon_spawn_group_mapping()
-	if not self._moon_spawn_group_mapping then
-		self._moon_spawn_group_mapping = {
-			tac_swat_rifle_flank = {
-				"tac_swat_rifle",
-				"tac_swat_rifle_no_medic",
-				"tac_swat_rifle_flank",
-				"tac_swat_rifle_flank_no_medic",
-				"tac_swat_shotgun_rush",
-				"tac_swat_shotgun_rush_no_medic",
-				"tac_swat_shotgun_flank",
-				"tac_swat_shotgun_flank_no_medic",
-				"hostage_rescue",
-				"reenforce_init",
-				"reenforce_light",
-				"reenforce_heavy",
-				"marshal_squad",
-				"original_swats_a",
-				"original_swats_b",
-				"original_heavys_a",
-				"original_heavys_b",
-				"original_recon_a",
-				"original_recon_b",
-				"original_recon_c",
-				"original_recon_d",
-				"original_reenforce_a",
-				"original_reenforce_b",
-				"original_reenforce_c",
-				"chicken_plate_hrt_a",
-				"chicken_plate_hrt_b",
-				"chicken_plate_swat_a",
-				"chicken_plate_swat_b",
-				"chicken_plate_heavy_a",
-				"chicken_plate_heavy_b",
-			},
-			tac_shield_wall = {
-				"tac_shield_wall_ranged",
-				"tac_shield_wall_charge",
-				"original_shields_a",
-				"original_shields_b",
-				"chicken_plate_shield",
-			},
-			tac_tazer_flanking = {
-				"tac_tazer_flanking",
-				"tac_tazer_charge",
-				"original_tazers_a",
-				"original_tazers_b",
-				"chicken_plate_taser",
-				"chicken_plate_medic",
-			},
-			tac_bull_rush = {
-				"tac_bull_rush",
-				"original_tanks_a",
-				"original_tanks_b",
-				"chicken_plate_tank",
-			},
-			FBI_spoocs = {
-				"FBI_spoocs",
-				"original_spoocs_a",
-				"original_spoocs_b",
-				"chicken_plate_spooc",
-			},
-		}
-	end
-
-	return self._moon_spawn_group_mapping
-end
-
-function GroupAITweakData:moon_preferred_map(group_type)
-	local preferred = self._moon_preferred_map
-
-	if not preferred then
-		preferred = {
-			default = function(v) return true end,
-			cloakers = function(v) return v == "FBI_spoocs" end,
-			swats = function(v) return v == "tac_swat_rifle_flank" end,
-			no_swats = function(v) return v ~= "tac_swat_rifle_flank" end,
-			no_shields = function(v) return v ~= "tac_shield_wall" end,
-			no_dozers = function(v) return v ~= "tac_bull_rush" end,
-			no_shields_dozers = function(v) return v ~= "tac_shield_wall" and v ~= "tac_bull_rush" end,
-		}
-
-		local spawn_group_mapping = self:moon_spawn_group_mapping()
-		for typ, func in pairs(preferred) do
-			local map = {}
-
-			for base_name, mapping in pairs(spawn_group_mapping) do
-				local enabled = func(base_name)
-
-				for _, name in pairs(mapping) do
-					map[name] = enabled
-				end
-			end
-
-			preferred[typ] = map
-		end
-
-		self._moon_preferred_map = preferred
-	end
-
-	-- all wanted (eg, in tweak_data.group_ai:moon_preferred_list)
-	if group_type == true then
-		return preferred
-	end
-
-	return preferred[group_type]
-end
-
-function GroupAITweakData:moon_preferred_list(group_type)
-	local preferred = self._moon_preferred_list
-
-	if not preferred then
-		preferred = {}
-
-		for typ, mapping in pairs(self:moon_preferred_map(true)) do
-			local list = {}
-
-			for name, enabled in pairs(mapping) do
-				if enabled then
-					table.insert(list, name)
-				end
-			end
-
-			preferred[typ] = list
-		end
-
-		self._moon_preferred_list = preferred
-	end
-
-	-- all wanted
-	if group_type == true then
-		return preferred
-	end
-
-	return preferred[group_type]
-end
+local clean_level_id = ASS.clean_level_id
 
 local ignore_unit_categories = table.list_to_set({
 	"CS_heavy_M4_w",
@@ -160,8 +23,8 @@ function GroupAITweakData:moon_swap_units(prefixes)
 	prefixes = prefixes or self.moon_last_prefixes or {}
 	self.moon_last_prefixes = prefixes
 
-	local enemy_mapping = self.tweak_data.levels:moon_enemy_mapping()
-	local enemy_replacements = self.tweak_data.levels:moon_enemy_replacements(true)
+	local enemy_mapping = self.tweak_data.moon.enemy_mapping
+	local enemy_replacements = self.tweak_data.moon:enemy_replacements(true)
 	for prefix, tier in pairs(prefixes) do
 		for id, data in pairs(self.unit_categories) do
 			if ignore_unit_categories[id] then
@@ -195,8 +58,6 @@ function GroupAITweakData:moon_swap_units(prefixes)
 end
 
 function GroupAITweakData:_moon_add_tactics(tactics)
-	self._tactics = self._tactics or {}
-
 	for id, data in pairs(tactics) do
 		self._tactics[id] = data
 	end
@@ -209,7 +70,7 @@ function GroupAITweakData:_moon_set_weights(new_weights)
 		local groups = task_data and task_data.groups
 
 		if not groups then
-			ASS:log("error", "Task name %s is invalid in GroupAITweakData:_moon_set_weights", task)
+			ASS:log("error", "Task name \"%s\" is invalid in GroupAITweakData:_moon_set_weights!", task)
 		else
 			for group in pairs(groups) do
 				groups[group] = { 0, 0, 0, }
@@ -284,27 +145,18 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 			chicken_plate = "FBI_heavy_M4_R870",
 		},
 		-- just in case SSS reenables marshals at any point
-		marshal_marksman = { default = "FBI_heavy_M4", },
-		marshal_shield = { default = "FBI_shield", },
+		CS_marshal_marksman = { default = "CS_heavy_MP5", },
+		CS_marshal_shield = { default = "CS_shield", },
+		FBI_marshal_marksman = { default = "FBI_heavy_M4", },
+		FBI_marshal_shield = { default = "FBI_shield", },
 	}
 	unit_mapping.medic_M4 = unit_mapping.FBI_medic_M4
 	unit_mapping.medic_R870 = unit_mapping.FBI_medic_R870
 	unit_mapping.spooc = unit_mapping.FBI_spooc
-	unit_mapping.FBI_marshal_marksman = unit_mapping.marshal_marksman
-	unit_mapping.FBI_marshal_shield = unit_mapping.marshal_shield
+	unit_mapping.marshal_marksman = unit_mapping.FBI_marshal_marksman
+	unit_mapping.marshal_shield = unit_mapping.FBI_marshal_shield
 
-	local type_mapping = {
-		spooc = "shotgun",
-		shotgun = "shotgun",
-		charge = "shotgun",
-		recon = "shotgun",
-		rifle = "rifle",
-		ranged = "rifle",
-		flank = "rifle",
-		rescue = "rifle",
-		chicken_plate = "chicken_plate",
-	}
-
+	local type_mapping = self.tweak_data.moon.spawn_group_type_mapping
 	for id, data in pairs(self.enemy_spawn_groups) do
 		local unit_type = nil
 
@@ -331,7 +183,7 @@ end
 GroupAITweakData._moon_assault_styles = {}
 
 -- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
-function GroupAITweakData._moon_assault_styles.original(self, special_weight)
+GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		original_shotgun = { "charge", "smoke_grenade", "deathguard", },
@@ -356,21 +208,18 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 2,
 				unit = "CS_swat_MP5",
 				tactics = self._tactics.original_rifle,
-				-- amount_min = 1,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "CS_swat_SMG",
 				tactics = self._tactics.original_rifle_flank,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "CS_swat_R870",
 				tactics = self._tactics.original_shotgun,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
@@ -389,21 +238,18 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 2,
 				unit = "FBI_swat_M4",
 				tactics = self._tactics.original_rifle,
-				-- amount_min = 1,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_SMG",
 				tactics = self._tactics.original_rifle_flank,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "FBI_swat_R870",
 				tactics = self._tactics.original_shotgun,
-				-- amount_max = 2,
 				freq = self._freq.common,
 			},
 			{
@@ -430,21 +276,18 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 2,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.original_rifle,
-				-- amount_min = 1,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "CS_heavy_MP5",
 				tactics = self._tactics.original_rifle_flank,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "CS_heavy_R870",
 				tactics = self._tactics.original_shotgun,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
@@ -463,21 +306,18 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_rifle,
-				-- amount_min = 1,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_rifle_flank,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 			{
 				rank = 2,
 				unit = "FBI_heavy_R870",
 				tactics = self._tactics.original_shotgun,
-				-- amount_max = 2,
 				freq = self._freq.common,
 			},
 			{
@@ -531,7 +371,6 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 2,
 				unit = "FBI_heavy_M4",
 				tactics = self._tactics.original_shield_charge_cover,
-				-- amount_min = 1,
 				freq = self._freq.baseline,
 			},
 			{
@@ -711,7 +550,6 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 1,
 				unit = "CS_cop_MP5_R870",
 				tactics = self._tactics.empty,
-				-- amount_max = 1,
 				freq = self._freq.common,
 			},
 		},
@@ -729,7 +567,6 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 				rank = 1,
 				unit = "CS_swat_SMG",
 				tactics = self._tactics.empty,
-				-- amount_max = 1,
 				freq = self._freq.uncommon,
 			},
 		},
@@ -840,7 +677,7 @@ function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 end
 
 -- spicier version of SH's default groups, featuring more shotgunners
-function GroupAITweakData._moon_assault_styles.streamlined(self, special_weight)
+GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		swat_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
@@ -1316,7 +1153,7 @@ function GroupAITweakData._moon_assault_styles.streamlined(self, special_weight)
 end
 
 -- dont do anything but make SH's default groups work with level mod and skill level
-function GroupAITweakData._moon_assault_styles.default(self, special_weight)
+GroupAITweakData._moon_assault_styles.default = function(self, special_weight)
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
 	local default_medic_freq = difficulty_index / 16
 	local medic_freq = {
@@ -1371,7 +1208,7 @@ function GroupAITweakData._moon_assault_styles.default(self, special_weight)
 end
 
 -- pdth-styled spawns
-function GroupAITweakData._moon_assault_styles.chicken_plate(self, special_weight)
+GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
 		chicken_plate_hrt_pistol = { "flank", "deathguard", },
@@ -1560,7 +1397,7 @@ function GroupAITweakData._moon_assault_styles.chicken_plate(self, special_weigh
 end
 
 -- groups for BeardLib Editor, clean up spawn group element view
-function GroupAITweakData._moon_assault_styles.editor(self, special_weight)
+GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 	local vanilla_groups = table.list_to_set({
 		"tac_swat_shotgun_rush",
 		"tac_swat_shotgun_flank",
@@ -1697,9 +1534,30 @@ end
 
 -- make custom_task groups behave like vanilla custom group on certain maps
 -- may be expanded to allow switching whether to use this behaviour mid-heist
+local regular_custom_group = table.list_to_set({
+	"man",  -- dozer spawn loop + all swats
+	"dah",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+	"hox_3",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
+	"flat",  -- all swats
+	"chca",  -- triads onboard
+	"dinner",  -- all murkies/swats
+	"pbr",  -- all murkies
+	"wwh",  -- all swats
+	"born",  -- all cops/swats
+	"chew",  -- all swats
+	"watchdogs_1",  -- all cops/swats
+	"watchdogs_2",  -- all cops/swats
+	"shoutout_raid",  -- all murkies/swats
+
+	-- custom heists
+	"thechase",  -- corporate bullshit
+	"physics_citystreets",  -- corporate bullshit
+	"physics_tower",  -- corporate bullshit
+	"physics_core",  -- corporate bullshit
+})[clean_level_id] or false
 function GroupAITweakData:moon_regular_custom_group(enable)
 	if enable == nil then
-		enable = self.tweak_data.levels:moon_regular_custom_group()
+		enable = regular_custom_group
 	end
 
 	if enable then
@@ -1709,236 +1567,6 @@ function GroupAITweakData:moon_regular_custom_group(enable)
 		self.besiege.recon.groups.custom_assault = nil
 		self.besiege.assault.groups.custom_recon = nil
 	end
-end
-
-local prefixes_by_tier = {
-	normal = { CS = "normal", FBI = "normal", },
-	hard = { CS = "normal", FBI = "normal", },
-	overkill = { CS = "normal", FBI = "overkill_145", },
-	overkill_145 = { CS = "overkill_145", FBI = "overkill_145", },
-	easy_wish = { CS = "overkill_145", FBI = "overkill_290", },
-	overkill_290 = { CS = "overkill_290", FBI = "overkill_290", },
-	awesome_difficulty_name = { CS = "overkill_290", FBI = "sm_wish", },
-	sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
-}
-prefixes_by_tier.CS_normal = prefixes_by_tier.normal
-prefixes_by_tier.CS_FBI_overkill = prefixes_by_tier.overkill
-prefixes_by_tier.FBI_overkill_145 = prefixes_by_tier.overkill_145
-prefixes_by_tier.FBI_CITY_easy_wish = prefixes_by_tier.easy_wish
-prefixes_by_tier.CITY_overkill_290 = prefixes_by_tier.overkill_290
-prefixes_by_tier.CITY_ZEAL_awesome_difficulty_name = prefixes_by_tier.awesome_difficulty_name
-prefixes_by_tier.ZEAL_sm_wish = prefixes_by_tier.sm_wish
-
-local special_limit_mul = ASS:tweak("special_limit_mul")
-local smg_units = ASS:setting("smg_units")
-local level_mod = ASS.level_mod
-local minigun_dozers = ASS:setting("minigun_dozers")
-
-function GroupAITweakData:moon_unit_category_params()
-	local params = self._moon_unit_category_params
-
-	if not params then
-		local access_all = table.set("walk", "acrobatic")
-		local access_walk = table.set("walk")
-		local function dozer_difficulty_threshold(typ)
-			local threshold = dozer_rainbow[typ] or 1
-
-			return real_difficulty_index >= threshold and 1 or 0
-		end
-
-		params = {
-			CS_spooc = {
-				special_type = "spooc",
-				u_keys = {
-					cloaker = 1,
-				},
-			},
-			CS_cop_C45 = {
-				u_keys = {
-					hrt_1 = 1,
-				},
-			},
-			CS_cop_MP5 = {
-				u_keys = {
-					hrt_2 = 1,
-				},
-			},
-			CS_cop_C45_MP5 = {
-				u_keys = {
-					hrt_1 = 1,
-					hrt_2 = 1,
-				},
-			},
-			CS_cop_MP5_R870 = {
-				u_keys = {
-					hrt_2 = 1,
-					hrt_3 = 1,
-				},
-			},
-			CS_cop_C45_R870 = {
-				u_keys = {
-					hrt_1 = 1,
-					hrt_2 = 1,
-					hrt_3 = 1,
-				},
-			},
-			CS_cop_stealth_R870 = {
-				u_keys = {
-					hrt_3 = 1,
-				},
-			},
-			CS_swat_MP5 = {
-				u_keys = {
-					swat_1 = 1,
-				},
-			},
-			CS_swat_R870 = {
-				u_keys = {
-					swat_2 = 1,
-				},
-			},
-			CS_swat_SMG = {
-				u_keys = {
-					swat_1 = smg_units and 0 or 1,
-					swat_3 = smg_units and 1 or 0,
-				},
-			},
-			CS_swat_MP5_R870 = {
-				u_keys = {
-					swat_1 = 1,
-					swat_2 = 1,
-				},
-			},
-			CS_swat_MP5_SMG = {
-				u_keys = {
-					swat_1 = smg_units and 1 or 2,
-					swat_2 = 1,
-					swat_3 = smg_units and 1 or 0,
-				},
-			},
-			CS_swat_R870_SMG = {
-				u_keys = {
-					swat_1 = smg_units and 0 or 1,
-					swat_2 = 1,
-					swat_3 = smg_units and 1 or 0,
-				},
-			},
-			CS_heavy_MP5 = {
-				u_keys = {
-					heavy_1 = 1,
-				},
-			},
-			CS_heavy_R870 = {
-				u_keys = {
-					heavy_2 = 1,
-				},
-			},
-			CS_heavy_MP5_R870 = {
-				u_keys = {
-					heavy_1 = 1,
-					heavy_2 = 1,
-				},
-			},
-			CS_shield = {
-				access = access_walk,
-				special_type = "shield",
-				u_keys = {
-					shield = 1,
-				},
-			},
-			CS_tazer = {
-				special_type = "taser",
-				u_keys = {
-					taser = 1,
-				},
-			},
-			CS_tank = {
-				special_type = "tank",
-				u_keys = {
-					dozer_1 = 1,  -- always present
-					dozer_2 = dozer_difficulty_threshold("dozer_2"),
-					dozer_3 = dozer_difficulty_threshold("dozer_3"),
-					dozer_4 = dozer_difficulty_threshold("dozer_4"),
-					dozer_5 = dozer_difficulty_threshold("dozer_5"),
-				},
-			},
-			CS_titan = {
-				special_type = "tank",
-				u_keys = {
-					dozer_hw = 1,
-				},
-			},
-			CS_medic_MP5 = {
-				special_type = "medic",
-				u_keys = {
-					medic_1 = 1,
-				},
-			},
-			CS_medic_R870 = {
-				special_type = "medic",
-				u_keys = {
-					medic_2 = 1,
-				},
-			},
-			CS_medic_MP5_R870 = {
-				special_type = "medic",
-				u_keys = {
-					medic_1 = 1,
-					medic_2 = 1,
-				},
-			},
-			CS_marshal_marksman = {
-				u_keys = {
-					marshal_1 = 1,
-				},
-			},
-			CS_marshal_shield = {
-				access = access_walk,
-				u_keys = {
-					marshal_2 = 1,
-				},
-			},
-		}
-		for _, data in pairs(params) do
-			data.access = data.access or access_all
-		end
-
-		for id, based_on in pairs({
-			FBI_spooc = "CS_spooc",
-			FBI_suit_C45 = "CS_cop_C45",
-			FBI_suit_M4 = "CS_cop_MP5",
-			FBI_suit_stealth_R870 = "CS_cop_stealth_R870",
-			FBI_suit_C45_M4 = "CS_cop_C45_MP5",
-			FBI_suit_C45_R870 = "CS_cop_C45_R870",
-			FBI_suit_M4_R870 = "CS_cop_MP5_R870",
-			FBI_swat_M4 = "CS_swat_MP5",
-			FBI_swat_R870 = "CS_swat_R870",
-			FBI_swat_SMG = "CS_swat_SMG",
-			FBI_swat_M4_R870 = "CS_swat_MP5_R870",
-			FBI_swat_M4_SMG = "CS_swat_MP5_SMG",
-			FBI_swat_R870_SMG = "CS_swat_R870_SMG",
-			FBI_heavy_M4 = "CS_heavy_MP5",
-			FBI_heavy_R870 = "CS_heavy_R870",
-			FBI_heavy_M4_R870 = "CS_heavy_MP5_R870",
-			FBI_shield = "CS_shield",
-			FBI_tazer = "CS_tazer",
-			FBI_tank = "CS_tank",
-			FBI_titan = "CS_titan",
-			FBI_medic_M4 = "CS_medic_MP5",
-			FBI_medic_R870 = "CS_medic_R870",
-			FBI_medic_M4_R870 = "CS_medic_MP5_R870",
-			FBI_marshal_marksman = "CS_marshal_marksman",
-			FBI_marshal_shield = "CS_marshal_shield",
-		}) do
-			params[id] = clone(params[based_on])
-			params[id].equivalent = based_on
-			params[based_on].equivalent = id
-		end
-
-		self._moon_unit_category_params = params
-	end
-
-	return params
 end
 
 function GroupAITweakData:moon_get_equivalent_unit_category(typ, return_data)
@@ -1955,6 +1583,10 @@ function GroupAITweakData:moon_get_equivalent_unit_category(typ, return_data)
 	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", typ)
 end
 
+local special_limit_mul = ASS:tweak("special_limit_mul")
+local smg_units = ASS:setting("smg_units")
+local level_mod = ASS.level_mod
+local dozer_rainbow = clone(ASS.dozer_rainbow)
 function GroupAITweakData:_moon_init_unit_categories()
 	-- special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
@@ -1979,7 +1611,204 @@ function GroupAITweakData:_moon_init_unit_categories()
 
 	unit_types = unit_types or { "america", "russia", "zombie", "murkywater", "federales", }
 
-	for id, data in pairs(self:moon_unit_category_params()) do
+	local access_all = table.set("walk", "acrobatic")
+	local access_walk = table.set("walk")
+	local function dozer_difficulty_threshold(typ)
+		local threshold = dozer_rainbow[typ] or 1
+
+		return real_difficulty_index >= threshold and 1 or 0
+	end
+
+	local unit_category_params = {
+		CS_spooc = {
+			special_type = "spooc",
+			u_keys = {
+				cloaker = 1,
+			},
+		},
+		CS_cop_C45 = {
+			u_keys = {
+				hrt_1 = 1,
+			},
+		},
+		CS_cop_MP5 = {
+			u_keys = {
+				hrt_2 = 1,
+			},
+		},
+		CS_cop_C45_MP5 = {
+			u_keys = {
+				hrt_1 = 1,
+				hrt_2 = 1,
+			},
+		},
+		CS_cop_MP5_R870 = {
+			u_keys = {
+				hrt_2 = 1,
+				hrt_3 = 1,
+			},
+		},
+		CS_cop_C45_R870 = {
+			u_keys = {
+				hrt_1 = 1,
+				hrt_2 = 1,
+				hrt_3 = 1,
+			},
+		},
+		CS_cop_stealth_R870 = {
+			u_keys = {
+				hrt_3 = 1,
+			},
+		},
+		CS_swat_MP5 = {
+			u_keys = {
+				swat_1 = 1,
+			},
+		},
+		CS_swat_R870 = {
+			u_keys = {
+				swat_2 = 1,
+			},
+		},
+		CS_swat_SMG = {
+			u_keys = {
+				swat_1 = smg_units and 0 or 1,
+				swat_3 = smg_units and 1 or 0,
+			},
+		},
+		CS_swat_MP5_R870 = {
+			u_keys = {
+				swat_1 = 1,
+				swat_2 = 1,
+			},
+		},
+		CS_swat_MP5_SMG = {
+			u_keys = {
+				swat_1 = smg_units and 1 or 2,
+				swat_2 = 1,
+				swat_3 = smg_units and 1 or 0,
+			},
+		},
+		CS_swat_R870_SMG = {
+			u_keys = {
+				swat_1 = smg_units and 0 or 1,
+				swat_2 = 1,
+				swat_3 = smg_units and 1 or 0,
+			},
+		},
+		CS_heavy_MP5 = {
+			u_keys = {
+				heavy_1 = 1,
+			},
+		},
+		CS_heavy_R870 = {
+			u_keys = {
+				heavy_2 = 1,
+			},
+		},
+		CS_heavy_MP5_R870 = {
+			u_keys = {
+				heavy_1 = 1,
+				heavy_2 = 1,
+			},
+		},
+		CS_shield = {
+			access = access_walk,
+			special_type = "shield",
+			u_keys = {
+				shield = 1,
+			},
+		},
+		CS_tazer = {
+			special_type = "taser",
+			u_keys = {
+				taser = 1,
+			},
+		},
+		CS_tank = {
+			special_type = "tank",
+			u_keys = {
+				dozer_1 = 1,  -- always present
+				dozer_2 = dozer_difficulty_threshold("dozer_2"),
+				dozer_3 = dozer_difficulty_threshold("dozer_3"),
+				dozer_4 = dozer_difficulty_threshold("dozer_4"),
+				dozer_5 = dozer_difficulty_threshold("dozer_5"),
+			},
+		},
+		CS_titan = {
+			special_type = "tank",
+			u_keys = {
+				dozer_hw = 1,
+			},
+		},
+		CS_medic_MP5 = {
+			special_type = "medic",
+			u_keys = {
+				medic_1 = 1,
+			},
+		},
+		CS_medic_R870 = {
+			special_type = "medic",
+			u_keys = {
+				medic_2 = 1,
+			},
+		},
+		CS_medic_MP5_R870 = {
+			special_type = "medic",
+			u_keys = {
+				medic_1 = 1,
+				medic_2 = 1,
+			},
+		},
+		CS_marshal_marksman = {
+			u_keys = {
+				marshal_1 = 1,
+			},
+		},
+		CS_marshal_shield = {
+			access = access_walk,
+			u_keys = {
+				marshal_2 = 1,
+			},
+		},
+	}
+	for _, data in pairs(unit_category_params) do
+		data.access = data.access or access_all
+	end
+
+	for id, based_on in pairs({
+		FBI_spooc = "CS_spooc",
+		FBI_suit_C45 = "CS_cop_C45",
+		FBI_suit_M4 = "CS_cop_MP5",
+		FBI_suit_stealth_R870 = "CS_cop_stealth_R870",
+		FBI_suit_C45_M4 = "CS_cop_C45_MP5",
+		FBI_suit_C45_R870 = "CS_cop_C45_R870",
+		FBI_suit_M4_R870 = "CS_cop_MP5_R870",
+		FBI_swat_M4 = "CS_swat_MP5",
+		FBI_swat_R870 = "CS_swat_R870",
+		FBI_swat_SMG = "CS_swat_SMG",
+		FBI_swat_M4_R870 = "CS_swat_MP5_R870",
+		FBI_swat_M4_SMG = "CS_swat_MP5_SMG",
+		FBI_swat_R870_SMG = "CS_swat_R870_SMG",
+		FBI_heavy_M4 = "CS_heavy_MP5",
+		FBI_heavy_R870 = "CS_heavy_R870",
+		FBI_heavy_M4_R870 = "CS_heavy_MP5_R870",
+		FBI_shield = "CS_shield",
+		FBI_tazer = "CS_tazer",
+		FBI_tank = "CS_tank",
+		FBI_titan = "CS_titan",
+		FBI_medic_M4 = "CS_medic_MP5",
+		FBI_medic_R870 = "CS_medic_R870",
+		FBI_medic_M4_R870 = "CS_medic_MP5_R870",
+		FBI_marshal_marksman = "CS_marshal_marksman",
+		FBI_marshal_shield = "CS_marshal_shield",
+	}) do
+		unit_category_params[id] = clone(unit_category_params[based_on])
+		unit_category_params[id].equivalent = based_on
+		unit_category_params[based_on].equivalent = id
+	end
+
+	for id, data in pairs(unit_category_params) do
 		local category = {
 			moon_u_keys = data.u_keys,
 			moon_equivalent = data.equivalent,
@@ -2010,13 +1839,35 @@ function GroupAITweakData:_moon_init_unit_categories()
 		self.unit_categories[id] = self.unit_categories[based_on]
 	end
 
+	local prefixes_by_tier = {
+		normal = { CS = "normal", FBI = "normal", },
+		hard = { CS = "normal", FBI = "normal", },
+		overkill = { CS = "normal", FBI = "overkill_145", },
+		overkill_145 = { CS = "overkill_145", FBI = "overkill_145", },
+		easy_wish = { CS = "overkill_145", FBI = "overkill_290", },
+		overkill_290 = { CS = "overkill_290", FBI = "overkill_290", },
+		awesome_difficulty_name = { CS = "overkill_290", FBI = "sm_wish", },
+		sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
+	}
+	prefixes_by_tier.CS_normal = prefixes_by_tier.normal
+	prefixes_by_tier.CS_FBI_overkill = prefixes_by_tier.overkill
+	prefixes_by_tier.FBI_overkill_145 = prefixes_by_tier.overkill_145
+	prefixes_by_tier.FBI_CITY_easy_wish = prefixes_by_tier.easy_wish
+	prefixes_by_tier.CITY_overkill_290 = prefixes_by_tier.overkill_290
+	prefixes_by_tier.CITY_ZEAL_awesome_difficulty_name = prefixes_by_tier.awesome_difficulty_name
+	prefixes_by_tier.ZEAL_sm_wish = prefixes_by_tier.sm_wish
+
 	local prefixes = self.moon_last_prefixes or prefixes_by_tier[level_mod] or prefixes_by_tier[difficulty]
 	self:moon_swap_units(prefixes)
 end
 
+-- only run ASS hooks during the set difficulty functions
 Hooks:PostHook( GroupAITweakData, "init", "ass_init", function(self, tweak_data)
+	if not tweak_data.moon then
+		return
+	end
+
 	self.tweak_data = tweak_data
-	self.moon_add_unit_data = self.moon_add_unit_data or {}
 
 	self:_moon_init_unit_categories()
 	self:_moon_init_enemy_spawn_groups()

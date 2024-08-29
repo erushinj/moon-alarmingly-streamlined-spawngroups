@@ -50,15 +50,15 @@ if oops_all_bo then
 	tweak_data.character:moon_oops_all_bo(true)
 end
 
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local heavys = tweak_data.levels:moon_units("heavys")
-local specials_any = tweak_data.levels:moon_units("specials_any")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
-local cops = tweak_data.levels:moon_units("cops")
-local cops_heavy = tweak_data.levels:moon_units("cops_heavy")
-local fbis_heavy = tweak_data.levels:moon_units("fbis_heavy")
-local securitys = tweak_data.levels:moon_units("securitys")
-local specials_agg = tweak_data.levels:moon_units("specials_agg")
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local heavys = tweak_data.moon.units.heavys
+local specials_any = tweak_data.moon.units.specials_any
+local securitys_heavy = tweak_data.moon.units.securitys_heavy
+local cops = tweak_data.moon.units.cops
+local cops_heavy = tweak_data.moon.units.cops_heavy
+local fbis_heavy = tweak_data.moon.units.fbis_heavy
+local securitys = tweak_data.moon.units.securitys
+local specials_agg = tweak_data.moon.units.specials_agg
 
 return {
 	[103996] = {  -- cloaker ambush on entering the vault area in loud

@@ -18,23 +18,19 @@ local patches = {
 
 return {
 	["levels/instances/shared/harasser/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_units("heavys")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.harasser[element.id] then
 				element.values.moon_data = {
-					enemy = heavys,
+					enemy = tweak_data.moon.units.heavys,
 				}
 			end
 		end
 	end,
 	["levels/instances/unique/glace/glace_helicopter_swat/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_units("heavys")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.glace_helicopter_swat[element.id] then
 				element.values.moon_data = {
-					enemy = heavys,
+					enemy = tweak_data.moon.units.heavys,
 				}
 			end
 		end

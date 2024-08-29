@@ -10,7 +10,7 @@ local cartel_bathrobes = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_2/ene_cartel_bathrobe_2"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_3/ene_cartel_bathrobe_3"),
 }
-local interior_cartel = tweak_data.levels:moon_units(normal and "swats_close" or hard and "swats_heavys_close" or "heavy_2")
+local interior_cartel = tweak_data.moon.units[normal and "swats_close" or hard and "swats_heavys_close" or "heavy_2"]
 local shield = overkill and { enemy = Idstring("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"), } or nil
 
 return {

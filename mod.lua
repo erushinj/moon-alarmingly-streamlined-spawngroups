@@ -714,12 +714,14 @@ if not ASS then
 		self.skill = self:gsub("skill", 2)
 		self.dmg_interval = self:gsub("dmg_interval", 0.25)
 		self.difficulty_index = self:setting("max_values") and 8 or real_difficulty_index
-		self.shield_arms = self:gsub("shield_arms", "both")
-		self.taser_dazers = self:gsub("taser_dazers", "default")
-		self.cloaker_balance = self:gsub("cloaker_balance", "default")
-		self.medic_ordnance = self:gsub("medic_ordnance", "default")
-		self.medical_ordinance = self:gsub("medical_ordinance", "default")
-		self.geneva_suggestion = self:gsub("geneva_suggestion", "default")
+		self.wanted_special_weapons = {
+			shield = self:gsub("shield_arms", "both"),
+			taser = self:gsub("taser_dazers", "default"),
+			cloaker = self:gsub("cloaker_balance", "default"),
+			medic_rifle = self:gsub("medic_ordnance", "default"),
+			medic_shotgun = self:gsub("medical_ordinance", "default"),
+			medic_dozer = self:gsub("geneva_suggestion", "default"),
+		}
 
 		local function get_dozer_rainbow_type(typ, default)
 			local val = self:setting("dozer_rainbow", typ)

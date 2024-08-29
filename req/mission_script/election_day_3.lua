@@ -1,12 +1,10 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local low_diff_harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
-local high_diff_harassers = tweak_data.levels:moon_units(normal and "swats_heavys" or hard and "heavys" or "marshals_no_shield")
-local cop_1 = tweak_data.levels:moon_units("cop_1")
-local cop_2 = tweak_data.levels:moon_units("cop_2")
-local cops = tweak_data.levels:moon_units("cops")
-local securitys = tweak_data.levels:moon_units("securitys")
-local heavys = tweak_data.levels:moon_units("heavys")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local low_diff_harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
+local high_diff_harassers = tweak_data.moon.units[normal and "swats_heavys" or hard and "heavys" or "marshals"]
+local cops = tweak_data.moon.units.cops
+local securitys = tweak_data.moon.units.securitys
+local heavys = tweak_data.moon.units.heavys
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
 
 return {
 	[100082] = {  -- prevent sniper respawn delays becoming ridiculously small as more assaults pass
@@ -45,11 +43,11 @@ return {
 	[103626] = { enemy = securitys, },
 	[103553] = { enemy = securitys, },
 	[100386] = { enemy = securitys, },
-	[104279] = { enemy = tweak_data.levels:moon_units("securitys_heavy"), },  -- camera man
-	[102627] = { enemy = cop_1, },  -- cop cars with baked-in cop models
-	[102629] = { enemy = cop_2, },
-	[102630] = { enemy = cop_1, },
-	[102626] = { enemy = cop_2, },
+	[104279] = { enemy = tweak_data.moon.units.securitys_heavy, },  -- camera man
+	[102627] = { enemy = tweak_data.moon.units.cop_1, },  -- cop cars with baked-in cop models
+	[102629] = { enemy = tweak_data.moon.units.cop_2, },
+	[102630] = { enemy = tweak_data.moon.units.cop_1, },
+	[102626] = { enemy = tweak_data.moon.units.cop_2, },
 	[100119] = { enemy = low_diff_harassers, },  -- balcony harassers, normal, low diff
 	[100132] = { enemy = low_diff_harassers, },
 	[100145] = { enemy = low_diff_harassers, },

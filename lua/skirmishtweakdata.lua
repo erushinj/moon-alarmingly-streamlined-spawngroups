@@ -2,24 +2,6 @@ if ASS.is_client then
 	return
 end
 
-function SkirmishTweakData:moon_wave_unit_categories(wave_number)
-	if not self._moon_wave_unit_categories then
-		self._moon_wave_unit_categories = {
-			{ CS = "normal", FBI = "normal", },
-			{ CS = "normal", FBI = "normal", },
-			{ CS = "normal", FBI = "overkill_145", },
-			{ CS = "overkill_145", FBI = "overkill_145", },
-			{ CS = "overkill_145", FBI = "overkill_290", },
-			{ CS = "overkill_290", FBI = "overkill_290", },
-			{ CS = "overkill_290", FBI = "sm_wish", },
-			{ CS = "sm_wish", FBI = "sm_wish", },
-			{ CS = "sm_wish", FBI = "sm_wish", },
-		}
-	end
-
-	return self._moon_wave_unit_categories[wave_number]
-end
-
 local sustain_duration_mul = ASS:tweak("sustain_duration_mul")
 local special_limit_mul = ASS:tweak("special_limit_mul")
 local force_pool_mul = ASS:tweak("force_pool_mul")

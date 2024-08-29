@@ -27,7 +27,7 @@ local patches = {
 
 return {
 	["levels/instances/mods/Hunter and Hunted/hunter_spawn_enemies/world/world"] = function(result)
-		local spawns = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
+		local spawns = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
 
 		for _, element in pairs(result.default.elements) do
 			if patches.spawn_enemies[element.id] then

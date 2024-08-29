@@ -41,10 +41,10 @@ local gangster_spawns = {
 
 return {
 	[104731] = {  -- roof
-		groups = tweak_data.group_ai:moon_preferred_map("no_shields_dozers"),
+		groups = tweak_data.moon.preferred_groups_map.no_shields_dozers,
 	},
 	[103174] = {  -- rappel
-		groups = tweak_data.group_ai:moon_preferred_map("no_shields_dozers"),
+		groups = tweak_data.moon.preferred_groups_map.no_shields_dozers,
 		values = {
 			interval = 15,
 		},

@@ -5,11 +5,8 @@ local filters_normal_above = {
 local filters_disable = {
 	values = set_difficulty_groups("disable"),
 }
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local bellmead_marksman = tweak_data.levels:moon_units("marshal_1")
-local bellmead_shield = tweak_data.levels:moon_units("marshal_2")
-local bellmead_specials = tweak_data.levels:moon_units("marshals")
+local dozers_any = tweak_data.moon.units.dozers_any
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
 local bellmead_securitys = {
 	Idstring("units/pd2_dlc_deep/characters/ene_deep_security_1/ene_deep_security_1"),
 	Idstring("units/pd2_dlc_deep/characters/ene_deep_security_2/ene_deep_security_2"),

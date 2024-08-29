@@ -128,12 +128,10 @@ return {
 		end
 	end,
 	["levels/instances/shared/harasser/world/world"] = function(result)
-		local marshals_far = tweak_data.levels:moon_units("marshals_far")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.harasser[element.id] then
 				element.values.moon_data = {
-					enemy = marshals_far,
+					enemy = tweak_data.moon.units.marshals_far,
 				}
 			end
 		end

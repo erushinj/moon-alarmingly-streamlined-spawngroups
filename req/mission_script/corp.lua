@@ -25,8 +25,8 @@ local filters_normal_above = {
 	values = set_difficulty_groups("normal_above"),
 }
 
-local securitys = tweak_data.levels:moon_units("securitys")
-local dozers_no_mini = tweak_data.levels:moon_units("dozers_no_mini")
+local securitys = tweak_data.moon.units.securitys
+local dozers_no_mini = tweak_data.moon.units.dozers_no_mini
 
 local civs_inspector = {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),

@@ -14,7 +14,7 @@ local securitys_3 = get_table_index_func(securitys)
 local securitys_ids_1 = get_table_index_func({ 100660, 100709, 100710, })
 local securitys_ids_2 = get_table_index_func({ 100711, 100712, })
 local securitys_ids_3 = get_table_index_func({ 100713, 100714, })
-local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+local dozers_no_cs = tweak_data.moon.units.dozers_no_cs
 
 local staff_ids = { 100064, 100065, 100062, 100063, 100066, 100089, 100077, 100078, 100083, 100080, 100079, 100081, 100082, 100084, }
 local staff = {

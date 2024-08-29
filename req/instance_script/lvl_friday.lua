@@ -17,13 +17,11 @@ local patches = {
 
 return {
 	["levels/instances/unique/glace/glace_helicopter_swat/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_units("heavys")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.glace_helicopter_swat[element.id] then
 				element.values.participate_to_group_ai = true
 				element.values.moon_data = {
-					enemy = heavys,
+					enemy = tweak_data.moon.units.heavys,
 				}
 			end
 		end

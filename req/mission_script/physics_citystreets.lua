@@ -2,15 +2,15 @@
 local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
 
 local bofa_zeal_spawns = {
-	enemy = table.list_add(tweak_data.levels:moon_units("swats"), tweak_data.levels:moon_units("heavys"), {
-		tweak_data.levels:moon_units("shield"),
+	enemy = table.list_add(tweak_data.moon.units.swats, tweak_data.moon.units.heavys, {
+		tweak_data.moon.units.shield,
 	}),
 	static_spawn = {
 		continent = "bo_scripted",
 	},
 }
 local security_spawns = {
-	enemy = tweak_data.levels:moon_units("fbis_heavy"),
+	enemy = tweak_data.moon.units.fbis_heavy,
 	static_spawn = bofa_zeal_spawns.static_spawn,
 }
 

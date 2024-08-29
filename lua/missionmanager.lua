@@ -14,7 +14,7 @@ local try_insert = ASS:require("try_insert", true)
 Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
 	if ElementAIGroupType then  -- beardlib custom element type
 		Hooks:PostHook( ElementAIGroupType, "on_executed", "ass_on_executed", function()
-			tweak_data.group_ai:moon_reinit_unit_categories()
+			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
 		end )
 	end
 end )
@@ -70,7 +70,6 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 			}
 		elseif preset == "navlink" then
 			result = {
-				SO_access = tweak_data.character:moon_access_filters(access),
 				use_instigator = false,
 				is_navigation_link = true,
 				forced = false,
@@ -82,7 +81,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		end
 
 		if result then
-			result.SO_access = result.SO_access or tweak_data.character:moon_access_filters("any")
+			result.SO_access = tweak_data.moon.access_filters[access] or tweak_data.moon.access_filters.any
 			result.path_style = result.path_style or "destination"
 			result.attitude = result.attitude or params.avoid and "avoid" or "engage"
 			result.path_haste = result.path_haste or params.walk and "walk" or "run"
@@ -180,7 +179,7 @@ Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patch
 		end
 
 		if self._mission_script_patches then
-			local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
+			local spawn_group_mapping = tweak_data.moon.spawn_group_mapping
 
 			for _, data in pairs(self._mission_script_patches) do
 				local groups = data.groups
@@ -307,7 +306,7 @@ end
 
 -- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
 MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
-	local access_filter = tweak_data.character:moon_access_filters(data)
+	local access_filter = tweak_data.moon.access_filters[data]
 
 	if access_filter then
 		element._values.SO_access_original = element._values.SO_access
