@@ -79,79 +79,79 @@ if not ASS then
 	}
 	ASS.values = {
 		level_mod = {
-			"ass_level_mod_disable",  -- dont change units
-			"ass_level_mod_random",  -- pick any available level mod value (besides zeal)
-			"ass_level_mod_per_level",  -- depends on level/full job id
-			"ass_level_mod_CS_normal",  -- swat
-			"ass_level_mod_CS_FBI_overkill",  -- swat-fbi
-			"ass_level_mod_FBI_overkill_145",  -- fbi
-			"ass_level_mod_FBI_CITY_easy_wish",  -- fbi-gensec
-			"ass_level_mod_CITY_overkill_290",  -- gensec
-			"ass_level_mod_CITY_ZEAL_awesome_difficulty_name",  -- gensec-zeal
-			"ass_level_mod_ZEAL_sm_wish",  -- zeal
+			"alarmingly_streamlined_spawngroups_level_mod_disable",  -- dont change units
+			"alarmingly_streamlined_spawngroups_level_mod_random",  -- pick any available level mod value (besides zeal)
+			"alarmingly_streamlined_spawngroups_level_mod_per_level",  -- depends on level/full job id
+			"alarmingly_streamlined_spawngroups_level_mod_CS_normal",  -- swat
+			"alarmingly_streamlined_spawngroups_level_mod_CS_FBI_overkill",  -- swat-fbi
+			"alarmingly_streamlined_spawngroups_level_mod_FBI_overkill_145",  -- fbi
+			"alarmingly_streamlined_spawngroups_level_mod_FBI_CITY_easy_wish",  -- fbi-gensec
+			"alarmingly_streamlined_spawngroups_level_mod_CITY_overkill_290",  -- gensec
+			"alarmingly_streamlined_spawngroups_level_mod_CITY_ZEAL_awesome_difficulty_name",  -- gensec-zeal
+			"alarmingly_streamlined_spawngroups_level_mod_ZEAL_sm_wish",  -- zeal
 		},
 		assault_style = {
-			"ass_assault_style_original",  -- pre-housewarming-styled
-			"ass_assault_style_streamlined",  -- spicier streamlined groups
-			"ass_assault_style_default",  -- default streamlined groups
-			"ass_assault_style_chicken_plate",  -- PDTH-styled spawns
+			"alarmingly_streamlined_spawngroups_assault_style_original",  -- pre-housewarming-styled
+			"alarmingly_streamlined_spawngroups_assault_style_streamlined",  -- spicier streamlined groups
+			"alarmingly_streamlined_spawngroups_assault_style_default",  -- default streamlined groups
+			"alarmingly_streamlined_spawngroups_assault_style_chicken_plate",  -- PDTH-styled spawns
 		},
 		skill = {
-			"ass_skill_1",  -- im too young to die
-			"ass_skill_2",  -- hey, not too rough
-			"ass_skill_3",  -- hurt me plenty
-			"ass_skill_4",  -- ultra-violence
-			"ass_skill_5",  -- nightmare
-			"ass_skill_6",  -- ultra-nightmare
+			"alarmingly_streamlined_spawngroups_skill_1",  -- im too young to die
+			"alarmingly_streamlined_spawngroups_skill_2",  -- hey, not too rough
+			"alarmingly_streamlined_spawngroups_skill_3",  -- hurt me plenty
+			"alarmingly_streamlined_spawngroups_skill_4",  -- ultra-violence
+			"alarmingly_streamlined_spawngroups_skill_5",  -- nightmare
+			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
 		},
 		dmg_interval = {
-			"ass_dmg_interval_0.250",  -- duration in s
-			"ass_dmg_interval_0.225",
-			"ass_dmg_interval_0.200",
-			"ass_dmg_interval_0.175",
-			"ass_dmg_interval_0.150",
-			"ass_dmg_interval_0.125",
-			"ass_dmg_interval_0.100",
-			"ass_dmg_interval_0.075",
-			"ass_dmg_interval_0.050",
-			"ass_dmg_interval_0.025",
-			"ass_dmg_interval_0.000",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.250",  -- duration in s
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.225",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.200",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.175",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.150",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.125",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.100",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.075",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.050",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.025",
+			"alarmingly_streamlined_spawngroups_dmg_interval_0.000",
 		},
 		shield_arms = {
-			"ass_shield_arms_default",  -- what the mod normally uses
-			"ass_shield_arms_pistols",  -- always pistols
-			"ass_shield_arms_smgs",  -- always smgs
-			"ass_shield_arms_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_shield_arms_pistols",  -- always pistols
+			"alarmingly_streamlined_spawngroups_shield_arms_smgs",  -- always smgs
+			"alarmingly_streamlined_spawngroups_shield_arms_both",  -- randomize between both
 		},
 		taser_dazers = {
-			"ass_taser_dazers_default",  -- what the mod normally uses
-			"ass_taser_dazers_rifles",  -- always rifles
-			"ass_taser_dazers_sko12s",  -- always sko12s
-			"ass_taser_dazers_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_taser_dazers_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_taser_dazers_rifles",  -- always rifles
+			"alarmingly_streamlined_spawngroups_taser_dazers_sko12s",  -- always sko12s
+			"alarmingly_streamlined_spawngroups_taser_dazers_both",  -- randomize between both
 		},
 		cloaker_balance = {
-			"ass_cloaker_balance_default",  -- what the mod normally uses
-			"ass_cloaker_balance_smgs",  -- always smgs
-			"ass_cloaker_balance_pistols",  -- always pistols
-			"ass_cloaker_balance_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_cloaker_balance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_cloaker_balance_smgs",  -- always smgs
+			"alarmingly_streamlined_spawngroups_cloaker_balance_pistols",  -- always pistols
+			"alarmingly_streamlined_spawngroups_cloaker_balance_both",  -- randomize between both
 		},
 		medic_ordnance = {  -- rifle medics
-			"ass_medic_ordnance_default",  -- what the mod normally uses
-			"ass_medic_ordnance_rifles",  -- always rifles
-			"ass_medic_ordnance_revolvers",  -- always revolvers
-			"ass_medic_ordnance_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_medic_ordnance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_medic_ordnance_rifles",  -- always rifles
+			"alarmingly_streamlined_spawngroups_medic_ordnance_revolvers",  -- always revolvers
+			"alarmingly_streamlined_spawngroups_medic_ordnance_both",  -- randomize between both
 		},
 		medical_ordinance = {  -- shotgun medics
-			"ass_medical_ordinance_default",  -- what the mod normally uses
-			"ass_medical_ordinance_shotguns",  -- always pump shotguns
-			"ass_medical_ordinance_saigas",  -- always saigas
-			"ass_medical_ordinance_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_medical_ordinance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_medical_ordinance_shotguns",  -- always pump shotguns
+			"alarmingly_streamlined_spawngroups_medical_ordinance_saigas",  -- always saigas
+			"alarmingly_streamlined_spawngroups_medical_ordinance_both",  -- randomize between both
 		},
 		geneva_suggestion = {  -- medic dozers
-			"ass_geneva_suggestion_default",  -- what the mod normally uses
-			"ass_geneva_suggestion_rifles",  -- always rifles
-			"ass_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
-			"ass_geneva_suggestion_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_rifles",  -- always rifles
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- randomize between both
 		},
 	}
 	ASS.menu_builder_params = {
@@ -552,7 +552,7 @@ if not ASS then
 
 
 	-- ASS's path\req\hoplib_menu_builder.lua
-	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", "ass", ASS.settings, ASS.menu_builder_params)
+	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", ASS.settings, ASS.menu_builder_params)
 
 	local messages = {
 		zeals_enabled = function(self)
@@ -568,11 +568,11 @@ if not ASS then
 
 					self:log("warn", "ZEAL Level Mod enabled...")
 
-					local title = managers.localization:text("ass_menu_warning")
-					local message = managers.localization:text("ass_menu_zeal_matchmaking_locked")
+					local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
+					local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_zeal_matchmaking_locked")
 					local buttons = {
 						{
-							text = managers.localization:text("ass_menu_ignore"),
+							text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
 							callback = function()
 								self:require("networkmanager")
 							end,
@@ -600,11 +600,11 @@ if not ASS then
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
-						local title = managers.localization:text("ass_menu_warning")
-						local message = managers.localization:text("ass_menu_sh_not_found")
+						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
+						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_not_found")
 						local buttons = {
 							{
-								text = managers.localization:text("ass_menu_sh_not_found_goto"),
+								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_not_found_goto"),
 								callback = function()
 									-- im aware linux isnt supported anymore
 									if BLT:GetOS() == "linux" then
@@ -615,7 +615,7 @@ if not ASS then
 								end,
 							},
 							{
-								text = managers.localization:text("ass_menu_ignore"),
+								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
 							},
 						}
 						QuickMenu:new(title, message, buttons, true)
@@ -635,11 +635,11 @@ if not ASS then
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
-						local title = managers.localization:text("ass_menu_warning")
-						local message = managers.localization:text("ass_menu_sh_disabled")
+						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
+						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_disabled")
 						local buttons = {
 							{
-								text = managers.localization:text("ass_menu_ignore"),
+								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
 							},
 						}
 						QuickMenu:new(title, message, buttons, true)
@@ -659,11 +659,11 @@ if not ASS then
 					if not global.showed_dialog then
 						global.showed_dialog = true
 
-						local title = managers.localization:text("ass_menu_warning")
-						local message = managers.localization:text("ass_menu_sh_outdated")
+						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
+						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_outdated")
 						local buttons = {
 							{
-								text = managers.localization:text("ass_menu_ignore"),
+								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
 							},
 						}
 						QuickMenu:new(title, message, buttons, true)
@@ -683,7 +683,7 @@ if not ASS then
 	function ASS:gsub(setting, default)
 		local value = self.values[setting]
 		local str = value and value[self.settings[setting]]
-		local result = str and str:gsub("^ass_" .. setting .. "_", "") or nil
+		local result = str and str:gsub("^alarmingly_streamlined_spawngroups_" .. setting .. "_", "") or nil
 
 		if type(default) == "number" then
 			return tonumber(result) or default
