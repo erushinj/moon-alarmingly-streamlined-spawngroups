@@ -1,9 +1,8 @@
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local dozers_any = tweak_data.moon.units.dozers_any
 local dozers_no_med = tweak_data.moon.units.dozers_no_med

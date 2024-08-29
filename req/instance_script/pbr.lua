@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	control_room = {
 		murkies = table.set(100103, 100104),

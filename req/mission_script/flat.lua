@@ -1,8 +1,8 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+
 local cops = tweak_data.moon.units.cops
-local initial_cops_ids = get_table_index_func({ 100135, 100027, 100028, 100035, 100037, 100038, 100040, })
-local initial_cops = get_table_index_func(table.list_add(cops, cops))
+local initial_cops_ids = ASS.utils.gen_remove_random_value({ 100135, 100027, 100028, 100035, 100037, 100038, 100040, })
+local initial_cops = ASS.utils.gen_remove_random_value(table.list_add(cops, cops))
 local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1"),
 	Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2"),
@@ -15,7 +15,7 @@ local gangsters = {
 	Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2"),  -- why are they using russians ?
 	Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4"),
 }
-local gangsters_outside_ids = get_table_index_func({
+local gangsters_outside_ids = ASS.utils.gen_remove_random_value({
 	101881,
 	101395,
 	-- 101746,
@@ -29,9 +29,9 @@ local gangsters_outside_ids = get_table_index_func({
 })
 local gangsters_outside = clone(gangsters)
 local door_guy = table.remove(gangsters_outside, math.random(#gangsters_outside))
-gangsters_outside = get_table_index_func(gangsters_outside)
+gangsters_outside = ASS.utils.gen_remove_random_value(gangsters_outside)
 
-local gangsters_1st_ids = get_table_index_func({
+local gangsters_1st_ids = ASS.utils.gen_remove_random_value({
 	100085,
 	102456,
 	102197,
@@ -41,8 +41,8 @@ local gangsters_1st_ids = get_table_index_func({
 	101802,
 	101804,
 })
-local gangsters_1st = get_table_index_func(clone(gangsters))
-local gangsters_2nd_ids = get_table_index_func({
+local gangsters_1st = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_2nd_ids = ASS.utils.gen_remove_random_value({
 	102596,
 	102592,
 	101401,
@@ -54,8 +54,8 @@ local gangsters_2nd_ids = get_table_index_func({
 	101668,
 	101434,
 })
-local gangsters_2nd = get_table_index_func(clone(gangsters))
-local gangsters_3rd_ids = get_table_index_func({
+local gangsters_2nd = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_3rd_ids = ASS.utils.gen_remove_random_value({
 	104793,
 	102563,
 	101441,
@@ -66,8 +66,8 @@ local gangsters_3rd_ids = get_table_index_func({
 	101437,
 	103450,
 })
-local gangsters_3rd = get_table_index_func(clone(gangsters))
-local gangsters_4th_ids = get_table_index_func({
+local gangsters_3rd = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_4th_ids = ASS.utils.gen_remove_random_value({
 	100431,
 	101661,
 	104889,
@@ -79,8 +79,8 @@ local gangsters_4th_ids = get_table_index_func({
 	100494,
 	100484,
 })
-local gangsters_4th = get_table_index_func(clone(gangsters))
-local gangsters_5th_ids = get_table_index_func({
+local gangsters_4th = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_5th_ids = ASS.utils.gen_remove_random_value({
 	101425,
 	100418,
 	100081,
@@ -92,8 +92,8 @@ local gangsters_5th_ids = get_table_index_func({
 	102192,
 	102193,
 })
-local gangsters_5th = get_table_index_func(clone(gangsters))
-local gangsters_misc_1_ids = get_table_index_func({
+local gangsters_5th = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_misc_1_ids = ASS.utils.gen_remove_random_value({
 	100025,  -- other 5th floor room
 	100039,
 	100050,
@@ -105,7 +105,7 @@ local gangsters_misc_1_ids = get_table_index_func({
 	101421,
 	102165,
 })
-local gangsters_escape_ids = get_table_index_func({
+local gangsters_escape_ids = ASS.utils.gen_remove_random_value({
 	100253,
 	100236,
 	103102,
@@ -117,9 +117,9 @@ local gangsters_escape_ids = get_table_index_func({
 	102562,
 	103179,
 })
-local gangsters_escape = get_table_index_func(clone(gangsters))
-local gangsters_misc_1 = get_table_index_func(clone(gangsters))
-local gangsters_misc_2_ids = get_table_index_func({
+local gangsters_escape = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_misc_1 = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_misc_2_ids = ASS.utils.gen_remove_random_value({
 	100513,  -- other unused 4th floor guys
 	100512,
 	100516,
@@ -128,17 +128,17 @@ local gangsters_misc_2_ids = get_table_index_func({
 	100406,
 	100409,
 })
-local gangsters_misc_2 = get_table_index_func(clone(gangsters))
-local gangsters_misc_3_ids = get_table_index_func({
+local gangsters_misc_2 = ASS.utils.gen_remove_random_value(clone(gangsters))
+local gangsters_misc_3_ids = ASS.utils.gen_remove_random_value({
 	103231,  -- unused 145 room guys
 	103232,
 	103234,
 	103235,
 	103236,
 })
-local gangsters_misc_3 = get_table_index_func(gangsters)
+local gangsters_misc_3 = ASS.utils.gen_remove_random_value(gangsters)
 
-local civs_casual_ids = get_table_index_func({ 100109, 101838, 100241, 100211, 101130, })
+local civs_casual_ids = ASS.utils.gen_remove_random_value({ 100109, 101838, 100241, 100211, 101130, })
 local civs_casual = {
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
@@ -147,10 +147,10 @@ local civs_casual = {
 	Idstring("units/payday2/characters/civ_male_casual_9/civ_male_casual_9"),
 }
 local balcony_civ = table.random(civs_casual)
-civs_casual = get_table_index_func(civs_casual)
+civs_casual = ASS.utils.gen_remove_random_value(civs_casual)
 
-local civs_hobo_ids = get_table_index_func({ 102244, 101748, 100960, 100967, })
-local civs_hobo = get_table_index_func({
+local civs_hobo_ids = ASS.utils.gen_remove_random_value({ 102244, 101748, 100960, 100967, })
+local civs_hobo = ASS.utils.gen_remove_random_value({
 	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_1/civ_male_hobo_1"),
 	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_2/civ_male_hobo_2"),
 	Idstring("units/pd2_dlc_holly/characters/civ_male_hobo_3/civ_male_hobo_3"),

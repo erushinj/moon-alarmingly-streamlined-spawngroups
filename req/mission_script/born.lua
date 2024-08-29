@@ -1,15 +1,12 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local van_swat_ids = get_table_index_func({ 100826, 103257, 103260, })
-local van_swats = scripted_swat_squads({
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local van_swat_ids = ASS.utils.gen_remove_random_value({ 100826, 103257, 103260, })
+local van_swats = ASS.utils.scripted_swat_squads({
 	hard_target = normal and 1 or hard and 2 or 3,
 	hard_spawn = "dozers_any",
 	normal_spawn = "specials_any",
 })
-local heli_swat_ids = get_table_index_func({ 101560, 101672, 101814, 101627, })
-local heli_swats = scripted_swat_squads({
+local heli_swat_ids = ASS.utils.gen_remove_random_value({ 101560, 101672, 101814, 101627, })
+local heli_swats = ASS.utils.scripted_swat_squads({
 	hard_target = overkill and 2 or 1,
 	hard_spawn = "dozers_any",
 	normal_spawn = "specials_any",
@@ -30,15 +27,15 @@ local biker_bartenders = {
 	lucky_punk ~= biker_1 and biker_1 or biker_3,
 }
 -- theres actually exactly 8 civ spawns and 8 civs loaded, no need for try pick bobblehead bob
-local civs_female_ids = get_table_index_func({ 100936, 100993, 101051, 101055, })
-local civs_female = get_table_index_func({
+local civs_female_ids = ASS.utils.gen_remove_random_value({ 100936, 100993, 101051, 101055, })
+local civs_female = ASS.utils.gen_remove_random_value({
 	Idstring("units/payday2/characters/civ_female_casual_1/civ_female_casual_1"),
 	Idstring("units/payday2/characters/civ_female_casual_2/civ_female_casual_2"),
 	Idstring("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"),
 	Idstring("units/payday2/characters/civ_female_wife_trophy_2/civ_female_wife_trophy_2"),
 })
-local civs_male_ids = get_table_index_func({ 100538, 100697, 100723, 100906, })
-local civs_male = get_table_index_func({
+local civs_male_ids = ASS.utils.gen_remove_random_value({ 100538, 100697, 100723, 100906, })
+local civs_male = ASS.utils.gen_remove_random_value({
 	Idstring("units/payday2/characters/civ_male_casual_1/civ_male_casual_1"),
 	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),
 	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
@@ -67,10 +64,10 @@ local bikers_amount_outside = {
 }
 local bikers_amount_outside_more = bikers_amount_outside
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 
 -- WAITER !  WAITER !  MORE BIKERS PLEASE !

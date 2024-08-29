@@ -1,9 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 local snipers = {  -- doesnt look like toggles are set up to allow sniper respawns
 	values = {
@@ -21,7 +18,7 @@ local triads = {
 	Idstring("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_3/ene_male_triad_penthouse_3"),
 	Idstring("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_4/ene_male_triad_penthouse_4"),
 }
-local casual_male_ids = get_table_index_func({
+local casual_male_ids = ASS.utils.gen_remove_random_value({
 	102325,
 	102230,
 	101233,
@@ -40,7 +37,7 @@ local casual_male = {
 	Idstring("units/pd2_dlc_chas/characters/civ_male_asian_casual_2/civ_male_asian_casual_2"),
 	Idstring("units/pd2_dlc_chas/characters/civ_male_asian_casual_3/civ_male_asian_casual_3"),
 }
-local guests_male_ids = get_table_index_func({ 102068, 102483, 102484, })
+local guests_male_ids = ASS.utils.gen_remove_random_value({ 102068, 102483, 102484, })
 local guests_male = {
 	Idstring("units/pd2_dlc_pent/characters/civ_male_guest_penthouse_1/civ_male_guest_penthouse_1"),
 	Idstring("units/pd2_dlc_pent/characters/civ_male_guest_penthouse_2/civ_male_guest_penthouse_2"),
@@ -63,8 +60,8 @@ local guests_female = {
 	Idstring("units/pd2_dlc_pent/characters/civ_female_guest_penthouse_2/civ_female_guest_penthouse_2"),
 }
 local all_casual = table.list_add(casual_male, casual_female)
-local try_pick_bob_guests = try_pick_bobblehead_bob(nil, guests_male)
-local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
+local try_pick_bob_guests = ASS.utils.try_pick_bobblehead_bob(nil, guests_male)
+local try_pick_bob_casual = ASS.utils.try_pick_bobblehead_bob(nil, casual_male)
 
 return {
 	[100368] = snipers,

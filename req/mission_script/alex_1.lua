@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1"),
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),

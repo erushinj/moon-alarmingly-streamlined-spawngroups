@@ -30,9 +30,6 @@ if not ASS then
 	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
 	ASS.global = Global.alarmingly_streamlined_spawngroups
-	ASS.req_path = ASS.path .. "req/"
-	ASS.lua_path = ASS.path .. "lua/"
-	ASS.loc_path = ASS.path .. "loc/"
 	ASS.is_host = is_host
 	ASS.is_editor = is_editor
 	ASS.is_client = is_client
@@ -503,33 +500,25 @@ if not ASS then
 		["bnktower"] = "CITY_overkill_290",  -- gensec hive, https://modworkshop.net/mod/36368
 	}
 
+	-- versatile script loader
+	-- loads + caches file at specified path as a function and executes it
+	function ASS:require(path, ...)
+		if self.required[path] == nil then
+			self.required[path] = blt.vm.loadfile(self.path .. path .. ".lua") or false
+		end
+
+		return self.required[path] and self.required[path](...)
+	end
+
+	ASS.utils = ASS:require("req/utils")
+	ASS.menu_builder = ASS:require("req/hoplib_menu_builder", "alarmingly_streamlined_spawngroups", ASS.settings, ASS.menu_builder_params)
+	ASS.message = ASS:require("req/message")
+
 	function ASS:log(prefix, str, ...)
 		local base_str = ("[ASS:%s|%s:%s] "):format(tostring(prefix):upper(), level_id, difficulty)
 
 		log(base_str .. tostring(str):format(...))
 	end
-
-	-- versatile script loader
-	-- loads + caches specified file as a function, auto-detecting if it's in lua/ or req/
-	-- result can be executed on the spot if needed, and/or can be assigned to a variable
-	function ASS:require(file, load, ...)
-		if self.required[file] == nil then
-			local path = self.lua_path .. file .. ".lua"
-			path = io.file_is_readable(path) and path or self.req_path .. file .. ".lua"
-
-			self.required[file] = blt.vm.loadfile(path) or false
-		end
-
-		if load then
-			return self.required[file]
-		end
-
-		return self.required[file] and self.required[file](...)
-	end
-
-	-- ASS's path\req\try_insert.lua
-	local try_insert = ASS:require("try_insert", true)
-	local check_clone = ASS:require("check_clone", true)
 
 	function ASS:setting(...)
 		if select("#", ...) > 1 then
@@ -550,241 +539,6 @@ if not ASS then
 		return self.settings[setting]
 	end
 
-
-	-- ASS's path\req\hoplib_menu_builder.lua
-	ASS.menu_builder = ASS:require("hoplib_menu_builder", nil, "alarmingly_streamlined_spawngroups", ASS.settings, ASS.menu_builder_params)
-
-	local messages = {
-		zeals_enabled = function(self)
-			if not self:setting("is_massive") then
-				return
-			end
-
-			local global = self.global
-			global.zeals_enabled = true
-			local function show_zeal_dialog()
-				if not global.showed_dialog then
-					global.showed_dialog = true
-
-					self:log("warn", "ZEAL Level Mod enabled...")
-
-					local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
-					local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_zeal_matchmaking_locked")
-					local buttons = {
-						{
-							text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
-							callback = function()
-								self:require("networkmanager")
-							end,
-						},
-					}
-					QuickMenu:new(title, message, buttons, true)
-				end
-			end
-
-			if managers.localization then
-				show_zeal_dialog()
-			else
-				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsZEALsEnabled", show_zeal_dialog )
-			end
-		end,
-		sh_not_found = function(self)
-			self.been_there_fucked_that = false
-
-			self:log("error", "Streamlined Heisting not found!")
-
-			local global = self.global
-			global.invalid_sh = "missing"
-			if self:setting("is_massive") then
-				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
-					if not global.showed_dialog then
-						global.showed_dialog = true
-
-						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
-						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_not_found")
-						local buttons = {
-							{
-								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_not_found_goto"),
-								callback = function()
-									-- im aware linux isnt supported anymore
-									if BLT:GetOS() == "linux" then
-										os.execute("open https://modworkshop.net/mod/29713")
-									else
-										os.execute("start https://modworkshop.net/mod/29713")
-									end
-								end,
-							},
-							{
-								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
-							},
-						}
-						QuickMenu:new(title, message, buttons, true)
-					end
-				end )
-			end
-		end,
-		sh_disabled = function(self)
-			self.been_there_fucked_that = false
-
-			self:log("error", "Streamlined Heisting is disabled!")
-
-			local global = self.global
-			global.invalid_sh = "disabled"
-			if self:setting("is_massive") then
-				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
-					if not global.showed_dialog then
-						global.showed_dialog = true
-
-						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
-						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_disabled")
-						local buttons = {
-							{
-								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
-							},
-						}
-						QuickMenu:new(title, message, buttons, true)
-					end
-				end )
-			end
-		end,
-		sh_outdated = function(self)
-			self.been_there_fucked_that = false
-
-			self:log("error", "Streamlined Heisting is out of date!")
-
-			local global = self.global
-			global.invalid_sh = "outdated"
-			if self:setting("is_massive") then
-				Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
-					if not global.showed_dialog then
-						global.showed_dialog = true
-
-						local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
-						local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_sh_outdated")
-						local buttons = {
-							{
-								text = managers.localization:text("alarmingly_streamlined_spawngroups_menu_ignore"),
-							},
-						}
-						QuickMenu:new(title, message, buttons, true)
-					end
-				end )
-			end
-		end,
-	}
-	function ASS:message(msg)
-		if messages[msg] then
-			messages[msg](self)
-		else
-			self:log("error", "Invalid msg %s in ASS:message", msg)
-		end
-	end
-
-	function ASS:gsub(setting, default)
-		local value = self.values[setting]
-		local str = value and value[self.settings[setting]]
-		local result = str and str:gsub("^alarmingly_streamlined_spawngroups_" .. setting .. "_", "") or nil
-
-		if type(default) == "number" then
-			return tonumber(result) or default
-		end
-
-		return result or default
-	end
-
-	function ASS:init_vars()
-		local level_mod_to_difficulty = {
-			CS_normal = "normal",
-			CS_FBI_overkill = "overkill",
-			FBI_overkill_145 = "overkill_145",
-			FBI_CITY_easy_wish = "easy_wish",
-			CITY_overkill_290 = "overkill_290",
-			CITY_ZEAL_awesome_difficulty_name = "awesome_difficulty_name",
-			ZEAL_sm_wish = "sm_wish",
-		}
-		local level_mod = self:gsub("level_mod", "per_level")
-		local redirect = {
-			per_level = self.level_mod_map[level_id] or self.level_mod_map[job_id] or difficulty,
-			disable = difficulty,
-			random = table.random({  -- no zeal for random below ds, not going to randomly activate a matchmaking lock
-				"CS_normal",
-				"CS_FBI_overkill",
-				"FBI_overkill_145",
-				"FBI_CITY_easy_wish",
-				"CITY_overkill_290",
-				difficulty,
-			}),
-		}
-
-		self.assault_style = is_editor and "editor" or self:gsub("assault_style", "default")
-		self.skill = self:gsub("skill", 2)
-		self.dmg_interval = self:gsub("dmg_interval", 0.25)
-		self.difficulty_index = self:setting("max_values") and 8 or real_difficulty_index
-		self.wanted_special_weapons = {
-			shield = self:gsub("shield_arms", "both"),
-			taser = self:gsub("taser_dazers", "default"),
-			cloaker = self:gsub("cloaker_balance", "default"),
-			medic_rifle = self:gsub("medic_ordnance", "default"),
-			medic_shotgun = self:gsub("medical_ordinance", "default"),
-			medic_dozer = self:gsub("geneva_suggestion", "default"),
-		}
-
-		local function get_dozer_rainbow_type(typ, default)
-			local val = self:setting("dozer_rainbow", typ)
-
-			if tonumber(val) then
-				return val + 1  -- account for easy being missing
-			end
-
-			return default
-		end
-		self.dozer_rainbow = {
-			dozer_1 = get_dozer_rainbow_type("r870", 2),  -- not actually used, always present
-			dozer_2 = get_dozer_rainbow_type("saiga", 4),
-			dozer_3 = get_dozer_rainbow_type("lmg", 6),
-			dozer_4 = get_dozer_rainbow_type("mini", 8),
-			dozer_5 = get_dozer_rainbow_type("medic", 8),
-		}
-
-		for name, tweaks in pairs(self.tweaks) do
-			self.tweaks[name] = tweaks[self.skill] or tweaks[2]
-		end
-
-		if redirect[level_mod] ~= nil then
-			self.level_mod = redirect[level_mod]
-		else
-			self.level_mod = level_mod
-		end
-
-		if self.global.invalid_sh then
-			self.been_there_fucked_that = false
-		else
-			if self.been_there_fucked_that == nil then
-				self.been_there_fucked_that = self:setting("is_massive")
-			end
-
-			if self.been_there_fucked_that then
-				if is_client then
-					self:log("info", "Playing as client, most tweaks disabled...")
-				end
-
-				if is_editor then
-					self:log("info", "Editor mode active, mission tweaks disabled and using vanilla groups...")
-				end
-
-				if tostring(self.level_mod):match("ZEAL") then
-					self:message("zeals_enabled")
-				end
-			end
-		end
-
-		self.level_mod = level_mod_to_difficulty[self.level_mod] or difficulty
-	end
-
-	function ASS:tweak(name)
-		return check_clone(self.tweaks[name])
-	end
-
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
 	local patch_redirect = {
 		mission = {
@@ -800,31 +554,10 @@ if not ASS then
 		},
 	}
 	function ASS:script_patches(typ)
-		if self.required[typ] == nil then
-			local file_name = patch_redirect[typ] and patch_redirect[typ][clean_level_id] or clean_level_id
+		local file_name = patch_redirect[typ] and patch_redirect[typ][clean_level_id] or clean_level_id
 
-			self.required[typ] = self:require(typ .. "_script/" .. file_name) or false
-		end
-
-		return self.required[typ]
+		return self:require("req/" .. typ .. "_script/" .. file_name)
 	end
-
-	-- difficulty groupings to use when interpolation wont do the job
-	-- Normal through VH are "normal", OVK+MH are "hard", DW+DS are "overkill"
-	local normal = real_difficulty_index < 5 and "normal" or nil
-	local hard = not normal and real_difficulty_index < 7 and "hard" or nil
-	local overkill = not normal and not hard and "overkill" or nil
-	function ASS:difficulty_groups()
-		return normal and true, hard and true, overkill and true, normal or hard or overkill
-	end
-
-	Hooks:AddHook( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
-		loc:load_localization_file(ASS.loc_path .. "english.json")
-	end )
-
-	Hooks:AddHook( "MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenusAlarminglyStreamlinedSpawngroups", function(_, nodes)
-		ASS.menu_builder:create_menu(nodes)
-	end )
 
 	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
@@ -846,14 +579,108 @@ if not ASS then
 		end
 	end
 
-	ASS:init_vars()
+	local function ass_gsub(setting, default)
+		local value = ASS.values[setting]
+		local str = value and value[ASS.settings[setting]]
+		local result = str and str:gsub("^alarmingly_streamlined_spawngroups_" .. setting .. "_", "") or nil
+
+		if type(default) == "number" then
+			return tonumber(result) or default
+		end
+
+		return result or default
+	end
+
+	local level_mod_to_difficulty = {
+		CS_normal = "normal",
+		CS_FBI_overkill = "overkill",
+		FBI_overkill_145 = "overkill_145",
+		FBI_CITY_easy_wish = "easy_wish",
+		CITY_overkill_290 = "overkill_290",
+		CITY_ZEAL_awesome_difficulty_name = "awesome_difficulty_name",
+		ZEAL_sm_wish = "sm_wish",
+	}
+	local level_mod = ass_gsub("level_mod", "per_level")
+	local redirect = {
+		per_level = ASS.level_mod_map[level_id] or ASS.level_mod_map[job_id] or difficulty,
+		disable = difficulty,
+		random = table.random({  -- no zeal for random below ds, not going to randomly activate a matchmaking lock
+			"CS_normal",
+			"CS_FBI_overkill",
+			"FBI_overkill_145",
+			"FBI_CITY_easy_wish",
+			"CITY_overkill_290",
+			difficulty,
+		}),
+	}
+
+	ASS.assault_style = is_editor and "editor" or ass_gsub("assault_style", "default")
+	ASS.skill = ass_gsub("skill", 2)
+	ASS.dmg_interval = ass_gsub("dmg_interval", 0.25)
+	ASS.difficulty_index = ASS:setting("max_values") and 8 or real_difficulty_index
+	ASS.wanted_special_weapons = {
+		shield = ass_gsub("shield_arms", "both"),
+		taser = ass_gsub("taser_dazers", "default"),
+		cloaker = ass_gsub("cloaker_balance", "default"),
+		medic_rifle = ass_gsub("medic_ordnance", "default"),
+		medic_shotgun = ass_gsub("medical_ordinance", "default"),
+		medic_dozer = ass_gsub("geneva_suggestion", "default"),
+	}
+
+	local function get_dozer_rainbow_type(typ, default)
+		local val = ASS:setting("dozer_rainbow", typ)
+
+		if tonumber(val) then
+			return val + 1  -- account for easy being missing
+		end
+
+		return default
+	end
+	ASS.dozer_rainbow = {
+		dozer_1 = get_dozer_rainbow_type("r870", 2),  -- not actually used, always present
+		dozer_2 = get_dozer_rainbow_type("saiga", 4),
+		dozer_3 = get_dozer_rainbow_type("lmg", 6),
+		dozer_4 = get_dozer_rainbow_type("mini", 8),
+		dozer_5 = get_dozer_rainbow_type("medic", 8),
+	}
+
+	for name, tweaks in pairs(ASS.tweaks) do
+		ASS.tweaks[name] = tweaks[ASS.skill] or tweaks[2]
+	end
+
+	if redirect[level_mod] ~= nil then
+		ASS.level_mod = redirect[level_mod]
+	else
+		ASS.level_mod = level_mod
+	end
+
+	if ASS.global.invalid_sh then
+		ASS.been_there_fucked_that = false
+	else
+		if ASS.been_there_fucked_that == nil then
+			ASS.been_there_fucked_that = ASS:setting("is_massive")
+		end
+
+		if ASS.been_there_fucked_that then
+			if is_client then
+				ASS:log("info", "Playing as client, most tweaks disabled...")
+			end
+
+			if is_editor then
+				ASS:log("info", "Editor mode active, mission tweaks disabled and using vanilla groups...")
+			end
+
+			if tostring(ASS.level_mod):match("ZEAL") then
+				ASS:message("zeals_enabled")
+			end
+		end
+	end
+
+	ASS.level_mod = level_mod_to_difficulty[ASS.level_mod] or difficulty
+
+	ASS:message("on_init")
 end
 
-if not ASS.been_there_fucked_that then
-	return
-end
-
--- ASS's path\lua\RequiredScript name
-if RequiredScript and not ASS.required[RequiredScript] then
-	ASS:require((RequiredScript:gsub(".+/(.+)", "%1")))
+if ASS.been_there_fucked_that and RequiredScript and not ASS.required[RequiredScript] then
+	ASS:require("lua/" .. (RequiredScript:gsub(".+/(.+)", "%1")))
 end

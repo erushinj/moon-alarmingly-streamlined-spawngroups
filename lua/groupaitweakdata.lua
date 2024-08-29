@@ -1424,8 +1424,8 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 	})
 end
 
-local special_weight_min, special_weight_max = unpack(ASS:tweak("special_weight_base"))
-local freq_base = ASS:tweak("freq_base")
+local special_weight_min, special_weight_max = unpack(ASS.tweaks.special_weight_base)
+local freq_base = ASS.tweaks.freq_base
 local assault_style = ASS.assault_style
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	local assault_styles = self._moon_assault_styles
@@ -1500,17 +1500,17 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	self:_moon_super_serious_tweaks()
 end
 
-local grenade_cooldown_mul = ASS:tweak("grenade_cooldown_mul")
-local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS:tweak("smoke_grenade_lifetime"))
-local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS:tweak("spawn_cooldowns"))
-local force_pool_mul = ASS:tweak("force_pool_mul")
-local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS:tweak("sustain_duration_muls"))
-local break_duration_mul = ASS:tweak("break_duration_mul")
-local recon_force_mul = ASS:tweak("recon_force_mul")
-local cs_grenade_chance_times = ASS:tweak("cs_grenade_chance_times")
-local min_grenade_timeout = ASS:tweak("min_grenade_timeout")
-local no_grenade_push_delay = ASS:tweak("no_grenade_push_delay")
-local reenforce_interval = ASS:tweak("reenforce_interval")
+local grenade_cooldown_mul = ASS.tweaks.grenade_cooldown_mul
+local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS.tweaks.smoke_grenade_lifetime)
+local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS.tweaks.spawn_cooldowns)
+local force_pool_mul = ASS.tweaks.force_pool_mul
+local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS.tweaks.sustain_duration_muls)
+local break_duration_mul = ASS.tweaks.break_duration_mul
+local recon_force_mul = ASS.tweaks.recon_force_mul
+local cs_grenade_chance_times = ASS.tweaks.cs_grenade_chance_times
+local min_grenade_timeout = ASS.tweaks.min_grenade_timeout
+local no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay
+local reenforce_interval = ASS.tweaks.reenforce_interval
 function GroupAITweakData:_moon_init_task_data()
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
 	self.smoke_grenade_lifetime = math.lerp(smoke_lifetime_min, smoke_lifetime_max, f)
@@ -1600,7 +1600,7 @@ function GroupAITweakData:moon_get_equivalent_unit_category(id, return_data)
 	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", id)
 end
 
-local special_limit_mul = ASS:tweak("special_limit_mul")
+local special_limit_mul = ASS.tweaks.special_limit_mul
 local smg_units = ASS:setting("smg_units")
 local level_mod = ASS.level_mod
 local dozer_rainbow = clone(ASS.dozer_rainbow)

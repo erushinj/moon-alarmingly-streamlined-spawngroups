@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local cops = tweak_data.moon.units.cops
 local fbis = tweak_data.moon.units.fbis

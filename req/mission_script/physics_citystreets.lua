@@ -1,5 +1,5 @@
 -- boworks day 1, https://modworkshop.net/mod/31560
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local bofa_zeal_spawns = {
 	enemy = table.list_add(tweak_data.moon.units.swats, tweak_data.moon.units.heavys, {

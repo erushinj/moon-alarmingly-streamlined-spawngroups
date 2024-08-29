@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),

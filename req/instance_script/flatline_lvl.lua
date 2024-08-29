@@ -1,5 +1,5 @@
 -- flatline, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	spawn_enemies = {
 		medic = table.set(100013, 100049, 100020, 100035),

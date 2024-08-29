@@ -2,14 +2,7 @@ if ASS.is_editor_or_client then
 	return
 end
 
-if not MissionManager.mission_script_patch_funcs then
-	ASS:message("sh_outdated")
-
-	return
-end
-
 local level_id = ASS.level_id
-local try_insert = ASS:require("try_insert", true)
 
 Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
 	if ElementAIGroupType then  -- beardlib custom element type
@@ -45,7 +38,6 @@ function MissionManager:moon_generate_custom_id(editor_name)
 	return id
 end
 
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 function MissionManager:moon_generate_preset_values(to_split, values)
 	local params_list = to_split:split("|")
 	local params = table.map_keys(params_list)
@@ -89,7 +81,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 			result.pose = result.pose or params.crouch and "crouch" or "stand"
 		end
 	elseif typ == "filter" then
-		result = set_difficulty_groups(preset)
+		result = ASS.utils.set_difficulty_groups(preset)
 
 		if result then
 			table.map_append(result, {
@@ -116,7 +108,7 @@ Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
 	if generated == nil and data and data.name == "default" then
 		generated = false
 
-		local try_generate_elements = ASS:require("try_generate_elements")
+		local try_generate_elements = ASS:require("req/try_generate_elements")
 		local new_elements = try_generate_elements and try_generate_elements()
 		if new_elements then
 			generated = true
@@ -260,7 +252,7 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	end
 
 	for _, v in ipairs(element._values.on_executed_original) do
-		try_insert(element._values.on_executed, v)
+		ASS.utils.try_insert(element._values.on_executed, v)
 	end
 
 	if element._original_on_executed then
@@ -274,7 +266,7 @@ MissionManager.mission_script_patch_funcs.modify_list_value = function(self, ele
 		if type(element._values[k]) == "table" then
 			for id, enabled in pairs(v) do
 				if enabled then
-					try_insert(element._values[k], id)
+					ASS.utils.try_insert(element._values[k], id)
 				else
 					table.delete(element._values[k], id)
 				end

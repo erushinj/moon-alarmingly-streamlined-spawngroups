@@ -1,8 +1,5 @@
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-
 local oops_all_bo = math.random() < 0.01 and Idstring("units/payday2/characters/civ_male_bank_manager_5/civ_male_bank_manager_5") or nil
-local civs_male_ids = get_table_index_func({
+local civs_male_ids = ASS.utils.gen_remove_random_value({
 	100115,
 	100117,
 	100119,
@@ -30,7 +27,7 @@ local civs_male_ids = get_table_index_func({
 	104163,
 	104160,
 })
-local civs_male = try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
+local civs_male = ASS.utils.try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
 	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),

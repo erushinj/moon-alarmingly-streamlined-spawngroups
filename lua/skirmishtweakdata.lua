@@ -2,10 +2,10 @@ if ASS.is_client then
 	return
 end
 
-local sustain_duration_mul = ASS:tweak("sustain_duration_mul")
-local special_limit_mul = ASS:tweak("special_limit_mul")
-local force_pool_mul = ASS:tweak("force_pool_mul")
-local skm_special_weights = ASS:tweak("skm_special_weights")
+local sustain_duration_mul = ASS.tweaks.sustain_duration_mul
+local special_limit_mul = ASS.tweaks.special_limit_mul
+local force_pool_mul = ASS.tweaks.force_pool_mul
+local skm_special_weights = ASS.tweaks.skm_special_weights
 Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
 		local w1, w2, w3 = unpack(skm_special_weights)

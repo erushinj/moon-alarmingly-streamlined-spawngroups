@@ -1,7 +1,5 @@
 -- early birds, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local cartel_suits = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_suit_1/ene_cartel_suit_1"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_suit_2/ene_cartel_suit_2"),
@@ -12,8 +10,8 @@ local cartel_bathrobes = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_2/ene_cartel_bathrobe_2"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_3/ene_cartel_bathrobe_3"),
 }
-local specials_ids = get_table_index_func({ 100071, 100079, 100078, 100189, 100070, 100072, })
-local specials = scripted_swat_squads({
+local specials_ids = ASS.utils.gen_remove_random_value({ 100071, 100079, 100078, 100189, 100070, 100072, })
+local specials = ASS.utils.scripted_swat_squads({
 	hard_target = overkill and 4 or 2,
 	hard_spawn = "dozers_no_cs",
 	normal_spawn = "specials_any",

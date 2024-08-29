@@ -46,7 +46,6 @@ end
 
 Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
 
-
 -- allow randomization of scripted spawns, even when the same element is used multiple times
 local bad_access = table.set("cop", "fbi")
 local replace_access = "swat"

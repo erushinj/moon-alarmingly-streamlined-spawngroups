@@ -1,6 +1,5 @@
 -- avalon's shadow, version 12, https://modworkshop.net/mod/34760
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 -- "spawn guard X" 1 to 10 are secret service, 11 to 16 are cops
 -- 17 to 31 is security 1, 32 is security 3
@@ -12,8 +11,8 @@ while #cops < #cops_ids do
 	table.insert(cops, cops[math.random(original_num_cops)])
 end
 
-cops_ids = get_table_index_func(cops_ids)
-cops = get_table_index_func(cops)
+cops_ids = ASS.utils.gen_remove_random_value(cops_ids)
+cops = ASS.utils.gen_remove_random_value(cops)
 
 local securitys_no_mp5 = tweak_data.moon.units.securitys_no_mp5  -- security 2 is not loaded for some reason
 
@@ -22,12 +21,12 @@ local civs_worker = {
 	Idstring("units/payday2/characters/civ_male_worker_3/civ_male_worker_3"),
 }
 local warehouse_worker = table.random(civs_worker)
-civs_worker = get_table_index_func(civs_worker)
+civs_worker = ASS.utils.gen_remove_random_value(civs_worker)
 
 local cameraman_worker = civs_worker()
 local smoker_worker = civs_worker()
 
-local civs_casual_male = get_table_index_func({
+local civs_casual_male = ASS.utils.gen_remove_random_value({
 	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
 	Idstring("units/payday2/characters/civ_male_casual_14/civ_male_casual_14"),
 })

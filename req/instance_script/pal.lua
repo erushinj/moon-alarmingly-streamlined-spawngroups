@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	sub_sewer_sidespawn = table.set(100009, 100010, 100019),
 	sub_sewer_grate = {

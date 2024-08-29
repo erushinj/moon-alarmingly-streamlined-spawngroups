@@ -1,6 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local securitys = tweak_data.moon.units.securitys
 local securitys_heavy = tweak_data.moon.units.securitys_heavy
@@ -28,7 +26,7 @@ local civs_male = {
 	Idstring("units/payday2/characters/civ_male_casual_9/civ_male_casual_9"),
 }
 local walkers = table.list_add(casual_female, civs_male)
-local civs_male_ids = get_table_index_func({
+local civs_male_ids = ASS.utils.gen_remove_random_value({
 	100170,  -- outside
 	100171,
 	100172,
@@ -51,7 +49,7 @@ local civs_male_ids = get_table_index_func({
 	104017,
 
 })
-civs_male = try_pick_bobblehead_bob(nil, civs_male)
+civs_male = ASS.utils.try_pick_bobblehead_bob(nil, civs_male)
 
 local all_staff = {
 	Idstring("units/payday2/characters/civ_male_bank_1/civ_male_bank_1"),
@@ -60,7 +58,7 @@ local all_staff = {
 	Idstring("units/payday2/characters/civ_female_hostess_jacket_1/civ_female_hostess_jacket_1"),
 }
 
-local staff_ids = get_table_index_func({ 101308, 101309, 101310, 101311, })
+local staff_ids = ASS.utils.gen_remove_random_value({ 101308, 101309, 101310, 101311, })
 local function staff(override)
 	local staffer = override or table.remove(all_staff, math.random(#all_staff))
 

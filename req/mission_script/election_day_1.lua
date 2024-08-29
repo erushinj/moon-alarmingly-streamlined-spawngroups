@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
 local securitys_heavy = tweak_data.moon.units.securitys_heavy
 local securitys = tweak_data.moon.units.securitys

@@ -1,6 +1,5 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local filters_normal_above = set_difficulty_groups("normal_above")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
 local patches = {
 	simple_harasser_spawn = table.set(100008, 100009, 100010, 100011, 100012, 100014, 100015, 100016),
 	born_armory = {

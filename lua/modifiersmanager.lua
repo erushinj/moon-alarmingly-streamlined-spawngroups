@@ -2,8 +2,6 @@ if ASS.is_client then
 	return
 end
 
-local try_insert = ASS:require("try_insert", true)
-
 -- add missing vanilla and custom map heavies
 for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
 	ModifierHeavySniper.heavy_units[name_key] = mapped == "heavy_1" or mapped == "heavy_2" or nil
@@ -40,7 +38,7 @@ local function dozer_modifier_init(self, ...)
 	local units = tweak_data.moon.units
 	local dozer_add = units[self.moon_dozer_key]
 	for tbl_name in pairs(self.moon_dozer_tables) do
-		try_insert(units[tbl_name], dozer_add)
+		ASS.utils.try_insert(units[tbl_name], dozer_add)
 	end
 
 	local FBI_tank_u_keys = tweak_data.group_ai.unit_categories.FBI_tank.moon_u_keys

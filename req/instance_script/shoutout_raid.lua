@@ -1,5 +1,5 @@
 -- harassers and heli swat are now heavies on any difficulty
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	harasser = table.set(100017, 100016, 100018),
 	helicopter_swat = table.list_to_set({

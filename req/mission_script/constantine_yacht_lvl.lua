@@ -1,5 +1,5 @@
 -- showdown, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local cartel_suits = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_suit_1/ene_cartel_suit_1"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_suit_2/ene_cartel_suit_2"),

@@ -1,15 +1,12 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
-local dog_abuser_ids = get_table_index_func({ 105663, 105664, })
-local male_casual_ids = get_table_index_func({
+local dog_abuser_ids = ASS.utils.gen_remove_random_value({ 105663, 105664, })
+local male_casual_ids = ASS.utils.gen_remove_random_value({
 	103565,
 	100706,
 	100710,
@@ -27,7 +24,7 @@ local male_casual = {
 	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
 	Idstring("units/payday2/characters/civ_male_trucker_1/civ_male_trucker_1"),
 }
-local get_male_casual = try_pick_bobblehead_bob(nil, male_casual)
+local get_male_casual = ASS.utils.try_pick_bobblehead_bob(nil, male_casual)
 local male_business = {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
 	Idstring("units/payday2/characters/civ_male_bank_2/civ_male_bank_2"),

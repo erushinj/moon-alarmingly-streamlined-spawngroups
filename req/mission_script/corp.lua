@@ -1,8 +1,5 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local van_swat_ids = get_table_index_func({
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local van_swat_ids = ASS.utils.gen_remove_random_value({
 	103058,
 	103552,
 	103559,
@@ -13,16 +10,16 @@ local van_swat_ids = get_table_index_func({
 	103593,
 	103597,
 })
-local van_spawns = scripted_swat_squads({
+local van_spawns = ASS.utils.scripted_swat_squads({
 	hard_target = normal and 1 or hard and 2 or 3,
 	hard_spawn = "dozers_no_mini",
 	normal_spawn = "specials_any",
 })
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 
 local securitys = tweak_data.moon.units.securitys
@@ -34,8 +31,8 @@ local civs_inspector = {
 	Idstring("units/payday2/characters/civ_male_casual_13/civ_male_casual_13"),
 	Idstring("units/payday2/characters/civ_male_casual_14/civ_male_casual_14"),
 }
-local civs_inspector_1 = get_table_index_func(clone(civs_inspector))
-local civs_inspector_2 = get_table_index_func(civs_inspector)
+local civs_inspector_1 = ASS.utils.gen_remove_random_value(clone(civs_inspector))
+local civs_inspector_2 = ASS.utils.gen_remove_random_value(civs_inspector)
 local function inspector_group(func)
 	return { enemy = func(), }
 end

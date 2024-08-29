@@ -63,7 +63,6 @@ if not beardlib_map then
 	return
 end
 
-local try_insert = ASS:require("try_insert", true)
 local custom_map_char_maps = {
 	["Mallbank"] = {  -- crashing capitol
 		friday = {
@@ -244,7 +243,7 @@ Hooks:PostHook( CharacterTweakData, "character_map", "ass_character_map", functi
 			map.list = map.list or {}
 
 			for _, unit in pairs(data.list) do
-				try_insert(map.list, unit)
+				ASS.utils.try_insert(map.list, unit)
 			end
 
 			char_map[name] = map

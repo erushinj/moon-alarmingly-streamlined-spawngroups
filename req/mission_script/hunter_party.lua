@@ -1,7 +1,5 @@
 -- hunter and hunted day 1, https://modworkshop.net/mod/43578
-local get_table_index_func = ASS:require("get_table_index_func", true)
-
-local bartender_ids = get_table_index_func({ 100017, 100019, })
+local bartender_ids = ASS.utils.gen_remove_random_value({ 100017, 100019, })
 local civs_male = {
 	Idstring("units/pd2_dlc_sah/characters/civ_male_gala_guest_03/civ_male_gala_guest_03"),
 	Idstring("units/pd2_dlc_sah/characters/civ_male_gala_guest_04/civ_male_gala_guest_04"),

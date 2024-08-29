@@ -1,10 +1,8 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local undercover_agents_normal = get_table_index_func({ 101609, 101612, })
-local undercover_agents_early_loud = get_table_index_func({ 103078, 103079, })
-local filters_normal_above = set_difficulty_groups("normal_above")
-local filters_disable = set_difficulty_groups("disable")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local undercover_agents_normal = ASS.utils.gen_remove_random_value({ 101609, 101612, })
+local undercover_agents_early_loud = ASS.utils.gen_remove_random_value({ 103078, 103079, })
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
+local filters_disable = ASS.utils.set_difficulty_groups("disable")
 local rooftop_swats = tweak_data.moon.units[normal and "swats_far" or hard and "swats_heavys_far" or "marshals_far"]
 local rooftop_swats_close = tweak_data.moon.units.marshals_far
 local rooftop_swats_escape = tweak_data.moon.units.marshals_far

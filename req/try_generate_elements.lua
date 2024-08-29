@@ -4,7 +4,6 @@ if not custom_script then
 	return
 end
 
-local check_clone = ASS:require("check_clone", true)
 local required_values = {
 	enabled = false,
 	trigger_times = 0,
@@ -315,7 +314,7 @@ return function()
 
 	for i = 1, #custom_script do
 		local params = custom_script[i]
-		local new_element = check_clone(element_templates[params.class])
+		local new_element = ASS.utils.check_clone(element_templates[params.class])
 
 		if not new_element then
 			ASS:log("error", "No template for element class %s", params.class)

@@ -1,6 +1,5 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local van_spawns = scripted_swat_squads({
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local van_spawns = ASS.utils.scripted_swat_squads({
 	hard_target = normal and 1 or hard and 2 or 3,
 	hard_spawn = "dozers_no_mini",
 	normal_spawn = "specials_any",
