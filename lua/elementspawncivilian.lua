@@ -3,13 +3,6 @@ if ASS.is_spawner then
 	return
 end
 
-local mappings = {
-	dozer_1 = "dozers_no_cs",
-	dozer_2 = "dozers_no_cs",
-	dozer_3 = "dozers_no_cs",
-	swat_1 = "swats_far",
-	swat_3 = "swats_far",
-}
 function ElementSpawnCivilian:moon_init_hook()
 	self._original_enemy_name = self._enemy_name
 
@@ -36,7 +29,7 @@ function ElementSpawnCivilian:moon_init_hook()
 
 	if self._patched_enemy_name == nil and getmetatable(self) == ElementSpawnEnemyDummy then
 		local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
-		local typ = mappings[mapped]
+		local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
 
 		if typ then
 			local units = tweak_data.moon.units[typ]

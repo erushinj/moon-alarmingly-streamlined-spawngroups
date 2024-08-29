@@ -7,6 +7,7 @@ local dozer_rainbow = clone(ASS.dozer_rainbow)
 
 MoonTweakData = MoonTweakData or class()
 
+-- initialize stuff only when accessed
 function MoonTweakData:init(tweak_data)
 	self.tweak_data = tweak_data
 
@@ -24,6 +25,18 @@ function MoonTweakData:init(tweak_data)
 	end
 end
 
+-- used to give randomization to scripted spawns automatically, even if not patched
+function MoonTweakData:init_default_scripted_spawn_mappings()
+	self.default_scripted_spawn_mappings = rawget(self, "default_scripted_spawn_mappings") or {
+		dozer_1 = "dozers_no_cs",
+		dozer_2 = "dozers_no_cs",
+		dozer_3 = "dozers_no_cs",
+		swat_1 = "swats_far",
+		swat_3 = "swats_far",
+	}
+end
+
+-- used to replace vanilla unit categories with ASS's own
 function MoonTweakData:init_vanilla_category_translations()
 	self.vanilla_category_translations = rawget(self, "vanilla_category_translations") or {
 		spooc = "FBI_spooc",
@@ -47,6 +60,7 @@ function MoonTweakData:init_vanilla_category_translations()
 	}
 end
 
+-- used to determine which common units to replace specials with in Super Serious Shooter
 function MoonTweakData:init_spawn_group_type_mapping()
 	self.spawn_group_type_mapping = rawget(self, "spawn_group_type_mapping") or {
 		spooc = "shotgun",
@@ -61,6 +75,7 @@ function MoonTweakData:init_spawn_group_type_mapping()
 	}
 end
 
+-- used to add ASS's groups to spawn points, and generate preferred groups presets
 function MoonTweakData:init_spawn_group_mapping()
 	self.spawn_group_mapping = rawget(self, "spawn_group_mapping") or {
 		tac_swat_rifle_flank = {
@@ -535,6 +550,7 @@ function MoonTweakData:init_enemy_mapping()
 end
 
 -- mapping of preferred groups
+-- used for mission script patches
 function MoonTweakData:init_preferred_groups_map()
 	if rawget(self, "preferred_groups_map") then
 		return
@@ -564,6 +580,8 @@ function MoonTweakData:init_preferred_groups_map()
 	end
 end
 
+-- list of preferred groups
+-- used for instance script patches/custom script
 function MoonTweakData:init_preferred_groups_list()
 	if rawget(self, "preferred_groups_list") then
 		return
@@ -583,6 +601,7 @@ function MoonTweakData:init_preferred_groups_list()
 	end
 end
 
+-- mapped unit keys that are not dynamically replaced with the current tier (cops, fbis by default)
 function MoonTweakData:init_forbidden_scripted_replacements()
 	if rawget(self, "forbidden_scripted_replacements") then
 		return
@@ -727,6 +746,8 @@ function MoonTweakData:init_hydra_splits()
 	self.hydra_splits = splits
 end
 
+-- used to get a random civilian idle if they dont have a spawn state
+-- civs spawned without a state seem to behave weirdly
 function MoonTweakData:init_civ_idles()
 	if rawget(self, "civ_idles") then
 		return
@@ -756,6 +777,8 @@ function MoonTweakData:init_civ_idles()
 	end
 end
 
+-- special objective access filters
+-- used in script patches
 function MoonTweakData:init_access_filters()
 	if rawget(self, "access_filters") then
 		return
@@ -793,6 +816,8 @@ function MoonTweakData:init_access_filters()
 	self.access_filters = access_filters
 end
 
+-- weapon swaps for a great many units
+-- can be static or random
 function MoonTweakData:init_weapon_mapping()
 	if rawget(self, "weapon_mapping") then
 		return
@@ -1545,9 +1570,8 @@ function MoonTweakData:init_weapon_mapping()
 	self.weapon_mapping = weapon_mapping
 end
 
--- levels
-
 -- fetches common units by a shorthand name
+-- also includes tables of random common units
 function MoonTweakData:init_units()
 	if rawget(self, "units") then
 		return
