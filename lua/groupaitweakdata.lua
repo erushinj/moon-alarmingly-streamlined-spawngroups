@@ -841,7 +841,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 2,
-				unit = "FBI_swat_1",
+				unit = "FBI_swat_3",
 				tactics = self._tactics.streamlined_rifle_flank,
 				amount_min = 1,
 				freq = self._freq.baseline,
@@ -952,7 +952,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "FBI_swat_1",
+				unit = "FBI_swat_3",
 				tactics = self._tactics.streamlined_tazer_support_flank,
 				freq = self._freq.baseline,
 			},
@@ -1283,9 +1283,9 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 				rank = 1,
 				unit = "FBI_shield",
 				tactics = self._tactics.chicken_plate_shield,
-				freq = self._freq.baseline
+				freq = self._freq.baseline,
 			},
-		}
+		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser = {
 		amount = { 1, 1, },
