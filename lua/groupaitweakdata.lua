@@ -1636,6 +1636,21 @@ function GroupAITweakData:_moon_init_unit_categories()
 		return real_difficulty_index >= threshold and 1 or 0
 	end
 
+	local function generate_category(data)
+		local category = {
+			moon_u_keys = data.u_keys,
+			special_type = data.special_type or nil,
+			access = data.access or access_all,
+			unit_types = {},
+		}
+
+		for _, continent in pairs(unit_types) do
+			category.unit_types[continent] = {}
+		end
+
+		return category
+	end
+
 	for id, data in pairs({
 		spooc = {
 			special_type = "spooc",
@@ -1789,19 +1804,8 @@ function GroupAITweakData:_moon_init_unit_categories()
 			},
 		},
 	}) do
-		local category = {
-			moon_u_keys = data.u_keys,
-			special_type = data.special_type or nil,
-			access = clone(data.access or access_all),
-			unit_types = {},
-		}
-
-		for _, continent in pairs(unit_types) do
-			category.unit_types[continent] = {}
-		end
-
-		self.unit_categories["CS_" .. id] = deep_clone(category)
-		self.unit_categories["FBI_" .. id] = category
+		self.unit_categories["CS_" .. id] = generate_category(data)
+		self.unit_categories["FBI_" .. id] = generate_category(data)
 	end
 
 	for id, based_on in pairs(self.tweak_data.moon.vanilla_category_translations) do
