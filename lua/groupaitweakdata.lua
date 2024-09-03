@@ -701,6 +701,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	local unit_mapping = {
 		FBI_swat_1 = "light",
 		FBI_swat_2 = "light",
+		FBI_swat_3 = "light",
 		FBI_heavy_1 = "heavy",
 		FBI_heavy_2 = "heavy",
 	}
@@ -995,26 +996,26 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 				tactics = self._tactics.streamlined_tank,
 				amount_min = 1,
 				amount_max = 2,
-				freq = self._freq.uncommon,
+				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_tazer",
 				tactics = self._tactics.streamlined_tank_support,
 				amount_max = 1,
-				freq = self._freq.elite,
+				freq = self._freq.rare,
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_1",
+				unit = "FBI_swat_1_2_3",
 				tactics = self._tactics.streamlined_tank_support,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
-				unit = "FBI_heavy_2",
+				unit = "FBI_heavy_1_2",
 				tactics = self._tactics.streamlined_tank_support,
-				freq = self._freq.baseline,
+				freq = self._freq.common,
 			},
 		},
 	}
