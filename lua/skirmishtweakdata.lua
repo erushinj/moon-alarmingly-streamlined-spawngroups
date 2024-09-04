@@ -2,12 +2,9 @@ if ASS.is_client then
 	return
 end
 
-local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS.tweaks.sustain_duration_muls)
-local special_limit_mul = ASS.tweaks.special_limit_mul
-local force_pool_mul = ASS.tweaks.force_pool_mul
-local skm_special_weights = ASS.tweaks.skm_special_weights
 Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
+		local skm_special_weights = ASS.tweaks.skm_special_weights
 		local w1, w2, w3 = unpack(skm_special_weights)
 
 		local special_weights_original_a = { w1, w2 * 0.5, 0, }
@@ -103,11 +100,11 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 		local wave_limits = self.special_unit_spawn_limits[i]
 
 		for special, limit in pairs(wave_limits) do
-			wave_limits[special] = math.ceil(limit * special_limit_mul)
+			wave_limits[special] = math.ceil(limit * ASS.tweaks.special_limit_mul)
 		end
 	end
 
-	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * force_pool_mul end)
+	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
 
 	for i = 1, #self.assault.groups do
 		local f = math.min((i - 1) / 8, 1)
@@ -139,7 +136,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 	local __index_original = skirmish_assault_meta.__index
 	function skirmish_assault_meta.__index(t, key)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
-			local sustain_duration_mul = math.lerp(sustain_duration_mul_min, sustain_duration_mul_max, math.random())
+			local sustain_duration_mul = math.lerp(ASS.tweaks.sustain_duration_muls[1], ASS.tweaks.sustain_duration_muls[2], math.random())
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
 
 			return { sustain_duration, sustain_duration, sustain_duration, }

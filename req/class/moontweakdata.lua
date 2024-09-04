@@ -1,8 +1,6 @@
 local level_id = ASS.level_id
 local clean_level_id = ASS.clean_level_id
 local real_difficulty_index = ASS.real_difficulty_index
-local wanted_special_weapons = clone(ASS.wanted_special_weapons)
-local dozer_rainbow = clone(ASS.dozer_rainbow)
 
 MoonTweakData = MoonTweakData or class()
 
@@ -51,7 +49,7 @@ function MoonTweakData:init_vanilla_category_translations()
 		FBI_swat_M4 = "FBI_swat_1",
 		FBI_swat_R870 = "FBI_swat_2",
 		FBI_heavy_G36 = "FBI_heavy_1",
-		FBI_heavy_R870 = "FBI_heavy_1",
+		FBI_heavy_R870 = "FBI_heavy_2",
 		medic_M4 = "FBI_medic_1",
 		medic_R870 = "FBI_medic_2",
 		marshal_marksman = "FBI_marshal_marksman",
@@ -618,7 +616,7 @@ function MoonTweakData:init_level_enemy_replacements()
 		return
 	end
 
-	self.level_enemy_replacements = {
+	local all_lvl_replacements = {
 		rvd1 = {
 			[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1"),
 			[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2"),
@@ -649,10 +647,12 @@ function MoonTweakData:init_level_enemy_replacements()
 			[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"),
 		},
 	}
-	self.level_enemy_replacements.rvd2 = self.level_enemy_replacements.rvd1
-	self.level_enemy_replacements.sand = self.level_enemy_replacements.chas
-	self.level_enemy_replacements.pent = self.level_enemy_replacements.chas
-	self.level_enemy_replacements.corp = self.level_enemy_replacements.ranc
+	all_lvl_replacements.rvd2 = all_lvl_replacements.rvd1
+	all_lvl_replacements.sand = all_lvl_replacements.chas
+	all_lvl_replacements.pent = all_lvl_replacements.chas
+	all_lvl_replacements.corp = all_lvl_replacements.ranc
+
+	self.level_enemy_replacements = all_lvl_replacements[clean_level_id] or {}
 end
 
 -- hydra splits for hydras mutator
@@ -1075,7 +1075,7 @@ function MoonTweakData:init_weapon_mapping()
 		},
 	}
 	for special, settings in pairs(special_weapons) do
-		local reference = wanted_special_weapons[special]
+		local reference = ASS.wanted_special_weapons[special]
 
 		for name in pairs(settings) do
 			if name == reference then
@@ -1682,7 +1682,7 @@ function MoonTweakData:init_units()
 	}
 
 	local function dozer_difficulty_threshold(typ)
-		local threshold = tonumber(dozer_rainbow[typ]) or 1
+		local threshold = tonumber(ASS.dozer_rainbow[typ]) or 1
 
 		-- minidozers can start appearing in scripted spawns on dw even if set not to appear until ds
 		if typ == "dozer_4" then

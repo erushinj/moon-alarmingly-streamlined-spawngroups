@@ -7,8 +7,6 @@ local is_super_serious = sss and sss:IsEnabled() and true
 local difficulty_index = ASS.difficulty_index
 local f = (difficulty_index - 2) / 6
 local real_difficulty_index = ASS.real_difficulty_index
-local difficulty = ASS.difficulty
-local is_editor = ASS.is_editor
 local clean_level_id = ASS.clean_level_id
 
 local ignore_unit_categories = table.list_to_set({
@@ -1391,12 +1389,6 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 	for id, data in pairs(self.enemy_spawn_groups) do
 		if not vanilla_groups[id] then
 			self.enemy_spawn_groups[id] = nil
-		else
-			for _, enemy in pairs(data.spawn) do
-				if enemy.unit == "CS_tazer" then
-					enemy.unit = "FBI_tazer"
-				end
-			end
 		end
 	end
 
@@ -1425,19 +1417,17 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 	})
 end
 
-local special_weight_min, special_weight_max = unpack(ASS.tweaks.special_weight_base)
-local freq_base = ASS.tweaks.freq_base
-local assault_style = ASS.assault_style
 function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	local assault_styles = self._moon_assault_styles
-	local wanted_assault_style = assault_styles[assault_style] and assault_style or "default"
+	local wanted_assault_style = assault_styles[ASS.assault_style] and ASS.assault_style or "default"
 	local assault_style_func = assault_styles[wanted_assault_style]
-	local special_weight = math.lerp(special_weight_min, special_weight_max, f)
+	local special_weight = math.lerp(ASS.tweaks.special_weight_base[1], ASS.tweaks.special_weight_base[2], f)
 
 	self.moon_assault_style = wanted_assault_style
 
 	local id_matches = table.set("no_medic", "rescue", "reenforce")
 	local default_medic_freq = difficulty_index / 16
+	local default_shield_freq = default_medic_freq
 	local medic_freq = {
 		flank = difficulty_index / 20,
 		shield = difficulty_index / 32,
@@ -1461,6 +1451,8 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 
 			if enemy.unit:match("medic") then
 				enemy.freq = get_medic_freq(id) or default_medic_freq
+			elseif enemy.unit:match("shield") then
+				enemy.freq = default_shield_freq
 			end
 
 			for name in pairs(id_matches) do
@@ -1480,7 +1472,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 
 	self._freq = {}
-	for typ, val in pairs(freq_base) do
+	for typ, val in pairs(ASS.tweaks.freq_base) do
 		self._freq[typ] = math.lerp(val[1], val[2], f)
 	end
 
@@ -1501,38 +1493,30 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	self:_moon_super_serious_tweaks()
 end
 
-local grenade_cooldown_mul = ASS.tweaks.grenade_cooldown_mul
-local smoke_lifetime_min, smoke_lifetime_max = unpack(ASS.tweaks.smoke_grenade_lifetime)
-local spawn_cooldown_max, spawn_cooldown_min = unpack(ASS.tweaks.spawn_cooldowns)
-local force_pool_mul = ASS.tweaks.force_pool_mul
-local sustain_duration_mul_min, sustain_duration_mul_max = unpack(ASS.tweaks.sustain_duration_muls)
-local break_duration_mul = ASS.tweaks.break_duration_mul
-local recon_force_mul = ASS.tweaks.recon_force_mul
-local cs_grenade_chance_times = ASS.tweaks.cs_grenade_chance_times
-local min_grenade_timeout = ASS.tweaks.min_grenade_timeout
-local no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay
-local reenforce_interval = ASS.tweaks.reenforce_interval
 function GroupAITweakData:_moon_init_task_data()
-	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
-	self.smoke_grenade_lifetime = math.lerp(smoke_lifetime_min, smoke_lifetime_max, f)
-	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
-	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, function(val) return val * grenade_cooldown_mul end)
-	self.cs_grenade_lifetime = math.lerp(20, 40, f)
-	self.cs_grenade_chance_times = cs_grenade_chance_times
-	self.min_grenade_timeout = min_grenade_timeout
-	self.no_grenade_push_delay = no_grenade_push_delay
-	self.spawn_cooldown_mul = math.lerp(spawn_cooldown_max, spawn_cooldown_min, f)
-	self.spawn_kill_cooldown = spawn_cooldown_min * 10
+	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end
+	local break_duration_func = function(val) return val * ASS.tweaks.break_duration_mul end
 
-	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * force_pool_mul end)
+	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, grenade_cooldown_func)
+	self.smoke_grenade_lifetime = math.lerp(ASS.tweaks.smoke_grenade_lifetime[1], ASS.tweaks.smoke_grenade_lifetime[2], f)
+	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, grenade_cooldown_func)
+	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, grenade_cooldown_func)
+	self.cs_grenade_lifetime = math.lerp(20, 40, f)
+	self.cs_grenade_chance_times = clone(ASS.tweaks.cs_grenade_chance_times)
+	self.min_grenade_timeout = ASS.tweaks.min_grenade_timeout
+	self.no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay
+	self.spawn_cooldown_mul = math.lerp(ASS.tweaks.spawn_cooldowns[1], ASS.tweaks.spawn_cooldowns[2], f)
+	self.spawn_kill_cooldown = ASS.tweaks.spawn_cooldowns[2] * 10
+
+	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
 	self.besiege.assault.sustain_duration_base = clone(self.besiege.assault.sustain_duration_min)
-	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * sustain_duration_mul_min end)
-	self.besiege.assault.sustain_duration_max = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * sustain_duration_mul_max end)
+	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[1] end)
+	self.besiege.assault.sustain_duration_max = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[2] end)
 	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
-	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * break_duration_mul end)
-	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * break_duration_mul end)
-	self.besiege.reenforce.interval = reenforce_interval
-	self.besiege.recon.force = table.collect(self.besiege.assault.force, function(val) return val * recon_force_mul end)
+	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, break_duration_func)
+	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, break_duration_func)
+	self.besiege.reenforce.interval = clone(ASS.tweaks.reenforce_interval)
+	self.besiege.recon.force = table.collect(self.besiege.assault.force, function(val) return val * ASS.tweaks.recon_force_mul end)
 	self.besiege.recon.interval = { 0, 0, 0, }
 	self.besiege.recon.interval_variation = 0
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge, }
@@ -1601,10 +1585,6 @@ function GroupAITweakData:moon_get_equivalent_unit_category(id, return_data)
 	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", id)
 end
 
-local special_limit_mul = ASS.tweaks.special_limit_mul
-local smg_units = ASS:setting("smg_units")
-local level_mod = ASS.level_mod
-local dozer_rainbow = clone(ASS.dozer_rainbow)
 function GroupAITweakData:_moon_init_unit_categories()
 	-- special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
@@ -1615,7 +1595,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
 		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
 	}) do
-		self.special_unit_spawn_limits[special] = math.ceil(limit[difficulty_index] * special_limit_mul)
+		self.special_unit_spawn_limits[special] = math.ceil(limit[difficulty_index] * ASS.tweaks.special_limit_mul)
 	end
 
 	local unit_types
@@ -1631,8 +1611,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 
 	local access_all = table.set("walk", "acrobatic")
 	local access_walk = table.set("walk")
+	local smg_units = ASS:setting("smg_units")
 	local function dozer_difficulty_threshold(typ)
-		local threshold = dozer_rainbow[typ] or 1
+		local threshold = ASS.dozer_rainbow[typ] or 1
 
 		return real_difficulty_index >= threshold and 1 or 0
 	end
@@ -1824,7 +1805,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 		sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
 	}
 
-	self:moon_swap_units(tiers_by_difficulty[level_mod])
+	self:moon_swap_units(tiers_by_difficulty[ASS.level_mod])
 end
 
 -- only run ASS hooks during the set difficulty functions
