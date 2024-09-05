@@ -349,58 +349,24 @@ end
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
 		local groupai_state = managers.groupai:state()
-		local function func()
-			local hunt_mode = groupai_state._hunt_mode
-			local wanted_mode = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
+		local hunt_mode = groupai_state._hunt_mode
+		local flag = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
 
-			if wanted_mode then
-				StreamHeist:log("%s executed, set wave mode to %s", element:editor_name(), wanted_mode)
+		if flag then
+			StreamHeist:log("%s executed, setting wave mode to %s", element:editor_name(), flag)
 
-				groupai_state:set_wave_mode(wanted_mode)
-			end
-		end
-
-		if groupai_state:enemy_weapons_hot() then
-			func()
-		else
-			Hooks:PostHook( groupai_state, "on_enemy_weapons_hot", "sh_on_enemy_weapons_hot_" .. element:id(), function()
-				if groupai_state:is_AI_enabled() and groupai_state:enemy_weapons_hot() then
-					func()
-				end
-			end )
-		end
-	end )
-end
-
--- referenced from ElementFleePoint, lib\managers\mission\elementfleepoint
-MissionManager.mission_script_patch_funcs.loot_dropoff = function(self, element, data)
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_loot_dropoff_" .. element:id(), function()
-		StreamHeist:log("%s executed, toggled %u loot dropoff point(s)", element:editor_name(), #data)
-
-		local groupai_state = managers.groupai:state()
-		for _, v in pairs(data) do
-			if v.position then
-				groupai_state:add_enemy_loot_drop_point(v.id, v.position)
+			if groupai_state:enemy_weapons_hot() then
+				groupai_state:set_wave_mode(flag)
 			else
-				groupai_state:remove_enemy_loot_drop_point(v.id)
+				local key = "moon_script_patch_hunt_" .. element:id()
+				local events = { "enemy_weapons_hot", }
+				local function clbk()
+					groupai_state:set_wave_mode(flag)
+					groupai_state:remove_listener(key)
+				end
+
+				groupai_state:add_listener(key, events, clbk)
 			end
-		end
-	end )
-end
-
--- referenced from ElementSmokeGrenade, lib\managers\mission\elementsmokegrenade
-MissionManager.mission_script_patch_funcs.grenade = function(self, element, data)
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_grenade_" .. element:id(), function()
-		StreamHeist:log("%s executed, detonating %u grenade(s)", element:editor_name(), #data)
-
-		local groupai_state = managers.groupai:state()
-		for _, v in pairs(data) do
-			local id = v.id or element:id()
-			local pos = v.position or element:value("position")
-			local duration = tweak_data.group_ai.smoke_grenade_lifetime
-
-			groupai_state:queue_smoke_grenade(id, pos, nil, duration, true, v.flashbang)
-			groupai_state:detonate_world_smoke_grenade(id)
 		end
 	end )
 end

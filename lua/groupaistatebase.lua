@@ -31,20 +31,22 @@ end
 if ASS:setting("doms_super_serious") then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 
-	local has_room_for_police_hostage_original = GroupAIStateBase.has_room_for_police_hostage
-	function GroupAIStateBase:has_room_for_police_hostage(...)
-		return not self:get_assault_mode() and has_room_for_police_hostage_original(self, ...)
-	end
+	Hooks:PostHook( GroupAIStateBase, "has_room_for_police_hostage", "ass_has_room_for_police_hostage", function(self)
+		if self:get_assault_mode() then
+			return false
+		end
+	end )
 end
 
 -- force diff to 1 in loud if the setting is enabled
 if ASS:setting("max_diff") then
-	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:set_difficulty\"...")
+	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:_calculate_difficulty_ratio\"...")
 
-	local set_difficulty_original = GroupAIStateBase.set_difficulty
-	function GroupAIStateBase:set_difficulty(value, ...)
-		return set_difficulty_original(self, 1, ...)
-	end
+	Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)
+		self._difficulty_point_index = #tweak_data.group_ai.difficulty_curve_points + 1
+		self._difficulty_value = 1
+		self._difficulty_ramp = 1
+	end )
 end
 
 -- cloaker task fuck off
