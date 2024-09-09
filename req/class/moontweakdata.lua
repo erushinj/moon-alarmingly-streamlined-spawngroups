@@ -57,21 +57,6 @@ function MoonTweakData:init_vanilla_category_translations()
 	}
 end
 
--- used to determine which common units to replace specials with in Super Serious Shooter
-function MoonTweakData:init_spawn_group_type_mapping()
-	self.spawn_group_type_mapping = rawget(self, "spawn_group_type_mapping") or {
-		spooc = "shotgun",
-		shotgun = "shotgun",
-		charge = "shotgun",
-		recon = "shotgun",
-		rifle = "rifle",
-		ranged = "rifle",
-		flank = "rifle",
-		rescue = "rifle",
-		chicken_plate = "chicken_plate",
-	}
-end
-
 -- used to add ASS's groups to spawn points, and generate preferred groups presets
 function MoonTweakData:init_spawn_group_mapping()
 	self.spawn_group_mapping = rawget(self, "spawn_group_mapping") or {

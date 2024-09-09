@@ -3,6 +3,7 @@ if ASS.is_spawner then
 	return
 end
 
+local patched_sss_replacements
 function ElementSpawnCivilian:moon_init_hook()
 	self._original_enemy_name = self._enemy_name
 
@@ -27,18 +28,41 @@ function ElementSpawnCivilian:moon_init_hook()
 		self._values.moon_data = nil
 	end
 
-	if self._patched_enemy_name == nil and getmetatable(self) == ElementSpawnEnemyDummy then
-		local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
-		local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
+	if getmetatable(self) == ElementSpawnEnemyDummy then
+		if self._patched_enemy_name == nil then
+			local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
+			local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
 
-		if typ then
-			local units = tweak_data.moon.units[typ]
+			if typ then
+				local units = tweak_data.moon.units[typ]
 
-			if type(units) == "table" then
-				self._possible_enemies = units
-				self._patched_enemy_name = units[1]
-			else
-				self._patched_enemy_name = units
+				if type(units) == "table" then
+					self._possible_enemies = units
+					self._patched_enemy_name = units[1]
+				else
+					self._patched_enemy_name = units
+				end
+			end
+		end
+
+		if not patched_sss_replacements then
+			patched_sss_replacements = true
+
+			if self.sss_replacements then
+				local tank_replacement = self.sss_replacements[("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"):key()] or { "tank", 1, "FBI_heavy_R870" }
+				local sniper_replacement = self.sss_replacements[("units/payday2/characters/ene_sniper_1/ene_sniper_1"):key()] or { "sniper", 2, "FBI_swat_M4", "sniper" }
+				local mapped_replacements = {
+					dozer_1 = tank_replacement,
+					dozer_2 = tank_replacement,
+					dozer_3 = tank_replacement,
+					dozer_4 = tank_replacement,
+					dozer_5 = tank_replacement,
+					sniper = sniper_replacement,
+				}
+
+				for unit, mapped in pairs(tweak_data.moon.enemy_mapping) do
+					self.sss_replacements[unit] = mapped_replacements[mapped] or nil
+				end
 			end
 		end
 	end
@@ -60,14 +84,14 @@ function ElementSpawnCivilian:produce(params, ...)
 		-- give assault-spawned cops and fbis the same access as swat
 		local unit = self:produce_original(params, ...)
 		if alive(unit) then
-			local u_brain = unit:brain()
-			local logic_data = u_brain and u_brain._logic_data
+			local u_base = unit:base()
+			local char_tweak = u_base and u_base:char_tweak()
 
-			if logic_data then
-				local u_base = unit:base()
-				local char_tweak = u_base and u_base:char_tweak()
+			if bad_access[char_tweak and char_tweak.access] then
+				local u_brain = unit:brain()
+				local logic_data = u_brain and u_brain._logic_data
 
-				if bad_access[char_tweak and char_tweak.access] then
+				if logic_data then
 					local converted_access = managers.navigation:convert_access_flag(replace_access)
 
 					u_brain._SO_access = converted_access

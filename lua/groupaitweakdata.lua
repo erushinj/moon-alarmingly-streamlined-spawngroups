@@ -8,6 +8,7 @@ local difficulty_index = ASS.difficulty_index
 local f = (difficulty_index - 2) / 6
 local real_difficulty_index = ASS.real_difficulty_index
 local clean_level_id = ASS.clean_level_id
+local one_down = ASS.one_down
 
 local ignore_unit_categories = table.list_to_set({
 	"CS_heavy_M4_w",
@@ -20,7 +21,6 @@ local ignore_unit_categories = table.list_to_set({
 function GroupAITweakData:moon_swap_units(tiers)
 	self.moon_last_tiers = tiers or self.moon_last_tiers or {}
 
-	local enemy_mapping = self.tweak_data.moon.enemy_mapping
 	local enemy_replacements = self.tweak_data.moon:enemy_replacements(true)
 	for prefix, tier in pairs(self.moon_last_tiers) do
 		for id, data in pairs(self.unit_categories) do
@@ -30,8 +30,8 @@ function GroupAITweakData:moon_swap_units(tiers)
 				ASS:log("warn", "Unit category \"%s\" has no associated unit keys!", id)
 			elseif id:match(prefix) then
 				for continent in pairs(data.unit_types) do
-					local continent_data = enemy_replacements[continent]
-					local tier_data = continent_data and continent_data[tier]
+					local continent_data = enemy_replacements[continent] or enemy_replacements.america
+					local tier_data = continent_data[tier]
 
 					if not tier_data then
 						ASS:log("warn", "Missing data for tier \"%s\" and/or continent \"%s\"!", tier, continent)
@@ -80,80 +80,79 @@ function GroupAITweakData:_moon_set_weights(new_weights)
 	end
 end
 
--- replace specials with more heavies and hrts in Super Serious Shooter (most specials are disabled)
+-- replace disabled specials with more heavies and hrts during standard play in Super Serious Shooter
 function GroupAITweakData:_moon_super_serious_tweaks()
 	if not is_super_serious then
 		return
 	end
 
-	local unit_mapping = {
-		CS_tazer = {
-			rifle = "CS_heavy_1",
-			shotgun = "CS_heavy_2",
-			default = "CS_shield",
-		},
-		FBI_tazer = {
-			rifle = "FBI_heavy_1",
-			shotgun = "FBI_heavy_2",
-			default = "FBI_shield",
-		},
-		CS_spooc = {
-			rifle = "CS_hrt_2",
-			shotgun = "CS_hrt_3",
-			default = "CS_hrt_2_3",
-			chicken_plate = "CS_heavy_1_2",
-		},
-		FBI_spooc = {
-			rifle = "FBI_hrt_2",
-			shotgun = "FBI_hrt_3",
-			default = "FBI_hrt_2_3",
-			chicken_plate = "FBI_heavy_1_2",
-		},
-		CS_tank = {
-			default = "CS_heavy_1_2",
-			chicken_plate = "CS_shield",
-		},
-		FBI_tank = {
-			default = "FBI_heavy_1_2",
-			chicken_plate = "FBI_shield",
-		},
-		CS_medic_1 = {
-			default = "CS_hrt_2",
-			chicken_plate = "CS_heavy_1",
-		},
-		CS_medic_2 = {
-			default = "CS_hrt_3",
-			chicken_plate = "CS_heavy_2",
-		},
-		CS_medic_1_2 = {
-			default = "CS_hrt_2_3",
-			chicken_plate = "CS_heavy_1_2",
-		},
-		FBI_medic_1 = {
-			default = "FBI_hrt_2",
-			chicken_plate = "FBI_heavy_1",
-		},
-		FBI_medic_2 = {
-			default = "FBI_hrt_3",
-			chicken_plate = "FBI_heavy_2",
-		},
-		FBI_medic_1_2 = {
-			default = "FBI_hrt_2_3",
-			chicken_plate = "FBI_heavy_1_2",
-		},
-		-- just in case SSS reenables marshals at any point
-		CS_marshal_marksman = { default = "CS_heavy_1", },
-		CS_marshal_shield = { default = "CS_shield", },
-		FBI_marshal_marksman = { default = "FBI_heavy_1", },
-		FBI_marshal_shield = { default = "FBI_shield", },
-	}
+	-- specials are re-enabled with "Special Operation" enabled
+	local unit_mapping
+	if one_down then
+		unit_mapping = {}
+	else
+		unit_mapping = {
+			CS_tazer = {
+				rifle = "CS_heavy_1",
+				shotgun = "CS_heavy_2",
+				default = "CS_shield",
+			},
+			CS_spooc = {
+				rifle = "CS_hrt_2",
+				shotgun = "CS_hrt_3",
+				default = "CS_hrt_2_3",
+				chicken_plate = "CS_heavy_1_2",
+			},
+			CS_tank = {
+				default = "CS_heavy_1_2",
+				chicken_plate = "CS_shield",
+			},
+			CS_medic_1 = {
+				default = "CS_hrt_2",
+				chicken_plate = "CS_heavy_1",
+			},
+			CS_medic_2 = {
+				default = "CS_hrt_3",
+				chicken_plate = "CS_heavy_2",
+			},
+			CS_medic_1_2 = {
+				default = "CS_hrt_2_3",
+				chicken_plate = "CS_heavy_1_2",
+			},
+		}
+	end
+
+	-- just in case SSS reenables marshals at any point
+	unit_mapping.CS_marshal_marksman = { default = "CS_heavy_1", }
+	unit_mapping.CS_marshal_shield = { default = "CS_shield", }
+
+	for unit, cs_mapping in pairs(unit_mapping) do
+		local fbi_mapping = clone(cs_mapping)
+
+		for name, mapped in pairs(fbi_mapping) do
+			fbi_mapping[name] = self:moon_get_equivalent_unit_category(mapped) or nil
+		end
+
+		unit_mapping[self:moon_get_equivalent_unit_category(unit) or false] = fbi_mapping
+	end
+
 	unit_mapping.medic_M4 = unit_mapping.FBI_medic_1
 	unit_mapping.medic_R870 = unit_mapping.FBI_medic_2
 	unit_mapping.spooc = unit_mapping.FBI_spooc
 	unit_mapping.marshal_marksman = unit_mapping.FBI_marshal_marksman
 	unit_mapping.marshal_shield = unit_mapping.FBI_marshal_shield
 
-	local type_mapping = self.tweak_data.moon.spawn_group_type_mapping
+	local type_mapping = {
+		spooc = "shotgun",
+		shotgun = "shotgun",
+		charge = "shotgun",
+		recon = "shotgun",
+		rifle = "rifle",
+		ranged = "rifle",
+		flank = "rifle",
+		rescue = "rifle",
+		chicken_plate = "chicken_plate",
+	}
 	for id, data in pairs(self.enemy_spawn_groups) do
 		local unit_type = nil
 
@@ -165,13 +164,13 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 			end
 		end
 
-		for i = 1, #data.spawn do
-			local enemy = data.spawn[i]
+		for _, enemy in pairs(data.spawn) do
 			local mapped = unit_mapping[enemy.unit]
 			local mapped_unit = mapped and (mapped[unit_type] or mapped.default)
 
 			if mapped_unit then
 				enemy.unit = mapped_unit
+				enemy.random_unit = nil
 			end
 		end
 	end
@@ -1459,9 +1458,11 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 		for _, enemy in pairs(data.spawn) do
 			enemy.unit = vanilla_category_translations[enemy.unit] or enemy.unit
 
-			if enemy.unit:match("medic") then
+			local category = self.unit_categories[enemy.unit]
+			local special_type = category and not category.is_captain and category.special_type
+			if special_type == "medic" then
 				enemy.freq = get_medic_freq(id) or default_medic_freq
-			elseif enemy.unit:match("shield") then
+			elseif special_type == "shield" then
 				enemy.freq = default_shield_freq
 			end
 
@@ -1487,18 +1488,24 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 
 	-- effectively remove preexisting timed groups
-	for _, data in pairs(self.enemy_spawn_groups) do
+	-- this means no marshals
+	local ignore_log_groups = table.set("marshal_squad")
+	for id, data in pairs(self.enemy_spawn_groups) do
 		if data.max_nr_simultaneous_groups then
+			if not ignore_log_groups[id] then
+				ASS:log("warn", "Found unknown timed group \"%s\"!", id)
+			end
+
 			data.initial_spawn_delay = math.huge
 			data.spawn_cooldown = math.huge
+
+			self.besiege.assault.groups[id] = nil
+			self.besiege.recon.groups[id] = nil
+			self.besiege.reenforce.groups[id] = nil
 		end
 	end
 
 	assault_style_func(self, special_weight)
-
-	-- no marshals
-	self.besiege.assault.groups.marshal_squad = nil
-	self.besiege.recon.groups.marshal_squad = nil
 
 	self:_moon_super_serious_tweaks()
 end

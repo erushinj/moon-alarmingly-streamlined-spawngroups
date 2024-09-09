@@ -8,6 +8,7 @@ if not ASS then
 	local is_host = not is_editor and not is_client
 	local level_id = load_level and (level_data.level_id or game_settings.level_id) or "no_level"
 	local job_id = load_level and (job_manager.current_job and job_manager.current_job.job_id) or "no_job"
+	local one_down = game_settings.one_down or false
 	local difficulty = game_settings.difficulty or "normal"
 	local real_difficulty_index = ({
 		normal = 2,
@@ -38,6 +39,7 @@ if not ASS then
 		modders_devmap = true,
 		Enemy_Spawner = true,
 	})[level_id]
+	ASS.one_down = one_down
 	ASS.difficulty = difficulty
 	ASS.real_difficulty_index = real_difficulty_index
 	ASS.level_id = level_id

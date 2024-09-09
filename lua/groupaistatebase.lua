@@ -32,7 +32,7 @@ if ASS:setting("doms_super_serious") then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 
 	Hooks:PostHook( GroupAIStateBase, "has_room_for_police_hostage", "ass_has_room_for_police_hostage", function(self)
-		if self:get_assault_mode() then
+		if not self._rescue_allowed then
 			return false
 		end
 	end )

@@ -46,3 +46,7 @@
 |
 |> Ukrainian Job
 |-> disable sniper spawns on the vantage point area when players are near
+|
+|> Backend
+|-> separate ElementSpawnCivilian/ElementSpawnEnemyDummy code
+|--> right now they share hooks, but there's getting to be a lot of code exclusive to one or the other
