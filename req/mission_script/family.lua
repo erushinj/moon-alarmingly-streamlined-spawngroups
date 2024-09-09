@@ -93,25 +93,16 @@ return {
 		},
 	},
 	[102125] = {  -- turret roll succeeded, disable escapes clearly in its line of sight
-		func = function(self)
-			for _, id in pairs({ 100754, 100755, }) do
-				local element = self:get_mission_element(id)
-
-				if element then
-					element:set_enabled(false)
-				end
-			end
-		end,
+		toggle = {
+			[100754] = { enabled = false, },
+			[100755] = { enabled = false, },
+		},
 	},
 	[100752] = disable,  -- to offset turret changes, disable back alley escape if the outside security room door spawns
 	[104843] = {  -- outside security room door didnt spawn, re-enable back alley escape
-		func = function(self)
-			local element = self:get_mission_element(100752)
-
-			if element then
-				element:set_enabled(true)
-			end
-		end,
+		toggle = {
+			[100752] = { enabled = true, },
+		},
 	},
 	[100324] = disable,  -- reenforce
 	[100022] = {

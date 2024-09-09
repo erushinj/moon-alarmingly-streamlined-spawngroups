@@ -302,31 +302,28 @@ local element_templates = {
 		}),
 	},
 }
-for i = 1, #element_templates do
-	local template = element_templates[i]
-
-	element_templates[template.class] = template
+for i, template in pairs(element_templates) do
 	element_templates[i] = nil
+	element_templates[template.class] = template
 end
 
 return function()
 	local result = {}
 
-	for i = 1, #custom_script do
-		local params = custom_script[i]
-		local new_element = ASS.utils.check_clone(element_templates[params.class])
+	for _, params in pairs(custom_script) do
+		local element = ASS.utils.check_clone(element_templates[params.class])
 
-		if not new_element then
-			ASS:log("error", "No template for element class %s", params.class)
+		if not element then
+			ASS:log("error", "No template for element class \"%s\"!", params.class)
 		else
-			new_element.editor_name = params.editor_name
-			new_element.id = params.id
+			element.editor_name = params.editor_name
+			element.id = params.id
 
 			for k, v in pairs(params.values) do
-				new_element.values[k] = v
+				element.values[k] = v
 			end
 
-			result[i] = new_element
+			result[element] = element
 		end
 	end
 

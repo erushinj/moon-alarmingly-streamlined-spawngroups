@@ -113,12 +113,8 @@ Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
 		if new_elements then
 			generated = true
 
-			for i = 1, #new_elements do
-				local element = new_elements[i]
-
-				if element then
-					table.insert(data.elements, element)
-				end
+			for element in pairs(new_elements) do
+				table.insert(data.elements, element)
 			end
 		end
 	end
@@ -241,9 +237,7 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	element._values.on_executed_original = element._values.on_executed
 	element._values.on_executed = {}
 
-	for i = 1, #data do
-		local id = data[i]
-
+	for _, id in ipairs(data) do
 		for _, v in ipairs(element._values.on_executed_original) do
 			if v.id == id then
 				table.insert(element._values.on_executed, v)
@@ -260,10 +254,42 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	end
 end
 
+MissionManager.mission_script_patch_funcs.toggle = function(self, element, data)
+	StreamHeist:log("%s hooked as toggle trigger for %u element(s)", element:editor_name(), #data)
+
+	Hooks:PostHook( element, "on_executed", "sh_on_executed_toggle_" .. element:id(), function()
+		StreamHeist:log("%s executed, toggled %u element(s)", element:editor_name(), #data)
+
+		for id, toggle_data in pairs(data) do
+			local elmt = element:get_mission_element(id)
+
+			if elmt then
+				local enabled = toggle_data.enabled
+				local trigger_times = toggle_data.trigger_times
+
+				if enabled ~= nil then
+					if enabled == "toggle" then
+						enabled = not elmt:value("enabled")
+					end
+
+					elmt:set_enabled(enabled)
+					elmt:on_toggle(elmt:value("enabled"))
+				end
+
+				if trigger_times and trigger_times > -1 then
+					elmt:set_trigger_times(trigger_times)
+				end
+			end
+		end
+	end )
+end
+
 -- used for elements with lists in their values not containing tables
 MissionManager.mission_script_patch_funcs.modify_list_value = function(self, element, data)
 	for k, v in pairs(data) do
-		if type(element._values[k]) == "table" then
+		if type(element._values[k]) ~= "table" then
+			ASS:log("warn", "Invalid modify list value name \"%s\" on element \"%s\" (%s)!", k, element:editor_name(), element:id())
+		else
 			for id, enabled in pairs(v) do
 				if enabled then
 					ASS.utils.try_insert(element._values[k], id)
@@ -279,7 +305,11 @@ end
 MissionManager.mission_script_patch_funcs.event_list = function(self, element, data)
 	local event_list = element._values.event_list
 
-	if event_list then
+	if not event_list then
+		ASS:log("warn", "No event list on element \"%s\" (%s)!", element:editor_name(), element:id())
+	else
+		StreamHeist:log("Changed %u event(s) in event list of %s", table.size(data), element:editor_name())
+
 		for instance, event in pairs(data) do
 			local val, i = table.find_value(event_list, function(val) return val.instance == instance end)
 
@@ -300,13 +330,13 @@ end
 MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
 	local access_filter = tweak_data.moon.access_filters[data]
 
-	if access_filter then
+	if not access_filter then  -- dont point fingers at sh if i fuck up
+		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
+	else
 		element._values.SO_access_original = element._values.SO_access
 		element._values.SO_access = managers.navigation:convert_access_filter_to_number(access_filter)
 
 		StreamHeist:log("Replaced SO access filter of element %s", element:editor_name())
-	else  -- dont point fingers at sh if i fuck up
-		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
 	end
 end
 

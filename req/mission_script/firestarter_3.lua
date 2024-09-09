@@ -106,13 +106,9 @@ return {
 		},
 	},
 	[102297] = {  -- disable gas SO after deployment
-		func = function(self)
-			local element = self:get_mission_element(102296)
-
-			if element then
-				element:set_enabled(false)
-			end
-		end,
+		toggle = {
+			[102296] = { enabled = false, },
+		},
 	},
 	[101200] = {  -- snipers amount
 		values = {
