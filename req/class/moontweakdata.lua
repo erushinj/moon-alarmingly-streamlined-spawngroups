@@ -5,6 +5,7 @@ local real_difficulty_index = ASS.real_difficulty_index
 MoonTweakData = MoonTweakData or class()
 
 -- initialize stuff only when accessed
+-- WeightedSelector isnt available on class init
 function MoonTweakData:init(tweak_data)
 	self.tweak_data = tweak_data
 
@@ -24,7 +25,7 @@ end
 
 -- used to give randomization to scripted spawns automatically, even if not patched
 function MoonTweakData:init_default_scripted_spawn_mappings()
-	self.default_scripted_spawn_mappings = rawget(self, "default_scripted_spawn_mappings") or {
+	self.default_scripted_spawn_mappings = {
 		dozer_1 = "dozers_no_cs",
 		dozer_2 = "dozers_no_cs",
 		dozer_3 = "dozers_no_cs",
@@ -35,7 +36,7 @@ end
 
 -- used to replace vanilla unit categories with ASS's own
 function MoonTweakData:init_vanilla_category_translations()
-	self.vanilla_category_translations = rawget(self, "vanilla_category_translations") or {
+	self.vanilla_category_translations = {
 		spooc = "FBI_spooc",
 		CS_cop_C45_R870 = "CS_hrt_1_2_3",
 		CS_cop_stealth_MP5 = "CS_hrt_3",
@@ -59,7 +60,7 @@ end
 
 -- used to add ASS's groups to spawn points, and generate preferred groups presets
 function MoonTweakData:init_spawn_group_mapping()
-	self.spawn_group_mapping = rawget(self, "spawn_group_mapping") or {
+	self.spawn_group_mapping = {
 		tac_swat_rifle_flank = {
 			"tac_swat_rifle",
 			"tac_swat_rifle_no_medic",
@@ -143,7 +144,7 @@ end
 -- difficulty value threshold to use FBI-tier scripted spawns rather than CS-tier
 -- 0 means always FBI, 1 means always CS, anything between can change dynamically
 function MoonTweakData:init_swap_scripted_prefix_threshold()
-	self.swap_scripted_prefix_threshold = rawget(self, "swap_scripted_prefix_threshold") or ({
+	self.swap_scripted_prefix_threshold = ({
 		jewelry_store = 1,
 		four_stores = 1,
 		nightclub = 1,
@@ -160,7 +161,7 @@ end
 
 -- level mod data for each wave in holdout up to 9
 function MoonTweakData:init_skirmish_wave_tiers()
-	self.skirmish_wave_tiers = rawget(self, "skirmish_wave_tiers") or {
+	self.skirmish_wave_tiers = {
 		{ CS = "normal", FBI = "normal", },
 		{ CS = "normal", FBI = "normal", },
 		{ CS = "normal", FBI = "overkill_145", },
@@ -175,7 +176,7 @@ end
 
 -- replacement unit category names for enemy replacer mutators
 function MoonTweakData:init_replacement_category_names()
-	self.replacement_category_names = rawget(self, "replacement_category_names") or {
+	self.replacement_category_names = {
 		tank_hw = "titan",
 		tank = "tank",
 		taser = "tazer",
@@ -188,7 +189,7 @@ end
 -- unit names for various female civilians
 -- not comprehensive (yet)
 function MoonTweakData:init_female_civs_map()
-	self.female_civs_map = rawget(self, "female_civs_map") or table.list_to_set({
+	self.female_civs_map = table.list_to_set({
 		("units/payday2/characters/civ_female_bank_1/civ_female_bank_1"):key(),
 		("units/payday2/characters/civ_female_bank_manager_1/civ_female_bank_manager_1"):key(),
 		("units/payday2/characters/civ_female_hostess_jacket_1/civ_female_hostess_jacket_1"):key(),
@@ -250,7 +251,7 @@ end
 
 -- unit key mappings for supported enemies
 function MoonTweakData:init_enemy_mapping()
-	self.enemy_mapping = rawget(self, "enemy_mapping") or {
+	self.enemy_mapping = {
 		[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "hrt_1",
 		[("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = "hrt_1",
 		[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"):key()] = "hrt_1",
@@ -534,10 +535,6 @@ end
 -- mapping of preferred groups
 -- used for mission script patches
 function MoonTweakData:init_preferred_groups_map()
-	if rawget(self, "preferred_groups_map") then
-		return
-	end
-
 	self.preferred_groups_map = {
 		default = function(v) return true end,
 		cloakers = function(v) return v == "FBI_spoocs" end,
@@ -547,6 +544,7 @@ function MoonTweakData:init_preferred_groups_map()
 		no_dozers = function(v) return v ~= "tac_bull_rush" end,
 		no_shields_dozers = function(v) return v ~= "tac_shield_wall" and v ~= "tac_bull_rush" end,
 	}
+
 	for typ, func in pairs(self.preferred_groups_map) do
 		local map = {}
 
@@ -565,11 +563,8 @@ end
 -- list of preferred groups
 -- used for instance script patches/custom script
 function MoonTweakData:init_preferred_groups_list()
-	if rawget(self, "preferred_groups_list") then
-		return
-	end
-
 	self.preferred_groups_list = {}
+
 	for typ, mapping in pairs(self.preferred_groups_map) do
 		local list = {}
 
@@ -585,22 +580,15 @@ end
 
 -- mapped unit keys that are not dynamically replaced with the current tier (cops, fbis by default)
 function MoonTweakData:init_forbidden_scripted_replacements()
-	if rawget(self, "forbidden_scripted_replacements") then
-		return
-	end
-
 	local all_forbidden = {
 		default = table.set("hrt_1", "hrt_2", "hrt_3", "hrt_4"),
 	}
+
 	self.forbidden_scripted_replacements = all_forbidden[clean_level_id] or all_forbidden.default
 end
 
 -- hardcoded enemy replacements for certain levels, primarily replacing dc beat cops with regional variants where available
 function MoonTweakData:init_level_enemy_replacements()
-	if rawget(self, "level_enemy_replacements") then
-		return
-	end
-
 	local all_lvl_replacements = {
 		rvd1 = {
 			[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1"),
@@ -642,10 +630,6 @@ end
 
 -- hydra splits for hydras mutator
 function MoonTweakData:init_hydra_splits()
-	if rawget(self, "hydra_splits") then
-		return
-	end
-
 	local splits = {
 		marshal_1 = {
 			["marshal_1"] = 1,
@@ -733,10 +717,6 @@ end
 -- used to get a random civilian idle if they dont have a spawn state
 -- civs spawned without a state seem to behave weirdly
 function MoonTweakData:init_civ_idles()
-	if rawget(self, "civ_idles") then
-		return
-	end
-
 	self.civ_idles = {
 		female = {
 			["cf_sp_stand_idle_var1"] = 3,
@@ -750,6 +730,7 @@ function MoonTweakData:init_civ_idles()
 			["cm_sp_stand_arms_crossed"] = 1,
 		},
 	}
+
 	for key, anims in pairs(self.civ_idles) do
 		local selector = WeightedSelector:new()
 
@@ -764,16 +745,13 @@ end
 -- special objective access filters
 -- used in script patches
 function MoonTweakData:init_access_filters()
-	if rawget(self, "access_filters") then
-		return
-	end
-
 	local access_filters = {
 		any = {},
 		law = {},  -- only police
 		light_law = {},  -- police, no shields/dozers
 		heavy_law = {},  -- police, only shields/dozers
 	}
+
 	for _, data in pairs(self.tweak_data.character) do
 		local access = type(data) == "table" and data.access
 
@@ -803,10 +781,6 @@ end
 -- weapon swaps for a great many units
 -- can be static or random
 function MoonTweakData:init_weapon_mapping()
-	if rawget(self, "weapon_mapping") then
-		return
-	end
-
 	local special_weapons = {
 		shield = {
 			default = {
@@ -1059,6 +1033,7 @@ function MoonTweakData:init_weapon_mapping()
 			},
 		},
 	}
+
 	for special, settings in pairs(special_weapons) do
 		local reference = ASS.wanted_special_weapons[special]
 
@@ -1557,10 +1532,6 @@ end
 -- fetches common units by a shorthand name
 -- also includes tables of random common units
 function MoonTweakData:init_units()
-	if rawget(self, "units") then
-		return
-	end
-
 	local security_1 = Idstring("units/payday2/characters/ene_security_1/ene_security_1")
 	local security_2 = Idstring("units/payday2/characters/ene_security_2/ene_security_2")
 	local security_3 = Idstring("units/payday2/characters/ene_security_3/ene_security_3")
@@ -1589,7 +1560,6 @@ function MoonTweakData:init_units()
 	local cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
 	local marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
 	local marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1")
-
 	local units = {
 		security_1 = security_1,
 		security_2 = security_2,
