@@ -16,7 +16,7 @@ function CharacterTweakData:moon_oops_all_bo(is_first_world_problem)
 	self.bank_manager.run_away_delay = run_away_delay
 end
 
-if ASS:setting("doms_scale") then
+if ASS.settings.doms_scale then
 	ASS:log("info", "Resistive Responders setting enabled, tweaking \"CharacterTweakData:_presets\"...")
 
 	-- only change SH's tweaked surrender presets
@@ -37,7 +37,7 @@ if ASS:setting("doms_scale") then
 	end )
 end
 
-if ASS:setting("doms_all_hard") then
+if ASS.settings.doms_all_hard then
 	ASS:log("info", "Difficult Dominations setting enabled, changing assigned surrender presets...")
 
 	-- swap easy and normal preset for hard preset

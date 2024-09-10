@@ -3,7 +3,7 @@ if ASS.is_client then
 end
 
 -- remove "no nearby hostages" requirement to use gas grenades if the setting is on
-if ASS:setting("gas_grenade_ignore_hostages") then
+if ASS.settings.gas_grenade_ignore_hostages then
 	ASS:log("info", "True Patriots setting enabled, removing no hostages check from \"GroupAIStateBesiege:_chk_group_use_grenade\"...")
 
 	local _chk_group_use_grenade_original = GroupAIStateBesiege._chk_group_use_grenade
@@ -27,7 +27,7 @@ function GroupAIStateBesiege:set_area_min_police_force(id, force, ...)
 	return set_area_min_police_force_original(self, id, force and math.max(force, 2), ...)
 end
 
-if not ASS:setting("captain_winters") then
+if not ASS.settings.captain_winters then
 	ASS:log("info", "Captain Winters setting disabled, dummying \"GroupAIStateBesiege:_check_spawn_phalanx\"...")
 
 	Hooks:OverrideFunction( GroupAIStateBesiege, "_check_spawn_phalanx", function() end )

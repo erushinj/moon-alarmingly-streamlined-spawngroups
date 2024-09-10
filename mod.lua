@@ -507,25 +507,6 @@ if not ASS then
 		log(base_str .. tostring(str):format(...))
 	end
 
-	function ASS:setting(...)
-		if select("#", ...) > 1 then
-			local chain = self.settings
-
-			for _, key in ipairs({ ... }) do
-				if type(chain) ~= "table" then
-					break
-				end
-
-				chain = chain[key]
-			end
-
-			return chain ~= self.settings and chain or nil
-		end
-
-		local setting = ...
-		return self.settings[setting]
-	end
-
 	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
 	local patch_redirect = {
 		mission = {
@@ -603,7 +584,7 @@ if not ASS then
 
 	ASS.assault_style = is_editor and "editor" or ass_gsub("assault_style", "default")
 	ASS.skill = ass_gsub("skill", 2)
-	ASS.difficulty_index = ASS:setting("max_values") and 8 or real_difficulty_index
+	ASS.difficulty_index = ASS.settings.max_values and 8 or real_difficulty_index
 	ASS.wanted_special_weapons = {
 		shield = ass_gsub("shield_arms", "both"),
 		taser = ass_gsub("taser_dazers", "default"),
@@ -614,7 +595,7 @@ if not ASS then
 	}
 
 	local function get_dozer_rainbow_type(typ, default)
-		local val = ASS:setting("dozer_rainbow", typ)
+		local val = ASS.settings.dozer_rainbow[typ]
 
 		if tonumber(val) then
 			return val + 1  -- account for easy being missing
@@ -644,7 +625,7 @@ if not ASS then
 		ASS.been_there_fucked_that = false
 	else
 		if ASS.been_there_fucked_that == nil then
-			ASS.been_there_fucked_that = ASS:setting("is_massive")
+			ASS.been_there_fucked_that = ASS.settings.is_massive
 		end
 
 		if ASS.been_there_fucked_that then

@@ -19,7 +19,7 @@ function GroupAIStateBase:moon_get_scripted_tier()
 	end
 end
 
-if ASS:setting("max_balance_muls") then
+if ASS.settings.max_balance_muls then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 
 	Hooks:OverrideFunction( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
@@ -28,7 +28,7 @@ if ASS:setting("max_balance_muls") then
 end
 
 -- disable dominations during assault if the setting is enabled
-if ASS:setting("doms_super_serious") then
+if ASS.settings.doms_super_serious then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 
 	Hooks:PostHook( GroupAIStateBase, "has_room_for_police_hostage", "ass_has_room_for_police_hostage", function(self)
@@ -39,7 +39,7 @@ if ASS:setting("doms_super_serious") then
 end
 
 -- force diff to 1 in loud if the setting is enabled
-if ASS:setting("max_diff") then
+if ASS.settings.max_diff then
 	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:_calculate_difficulty_ratio\"...")
 
 	Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)

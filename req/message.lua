@@ -19,7 +19,7 @@ return setmetatable({
 		end )
 	end,
 	zeals_enabled = function(self)
-		if not self:setting("is_massive") then
+		if not self.settings.is_massive then
 			return
 		end
 
@@ -58,7 +58,7 @@ return setmetatable({
 
 		local global = self.global
 		global.invalid_sh = "missing"
-		if self:setting("is_massive") then
+		if self.settings.is_massive then
 			Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 				if not global.showed_dialog then
 					global.showed_dialog = true
@@ -93,7 +93,7 @@ return setmetatable({
 
 		local global = self.global
 		global.invalid_sh = "disabled"
-		if self:setting("is_massive") then
+		if self.settings.is_massive then
 			Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 				if not global.showed_dialog then
 					global.showed_dialog = true
@@ -117,7 +117,7 @@ return setmetatable({
 
 		local global = self.global
 		global.invalid_sh = "outdated"
-		if self:setting("is_massive") then
+		if self.settings.is_massive then
 			Hooks:AddHook( "MenuManagerOnOpenMenu", "MenuManagerOnOpenMenuAlarminglyStreamlinedSpawngroupsInvalidStreamlined", function()
 				if not global.showed_dialog then
 					global.showed_dialog = true

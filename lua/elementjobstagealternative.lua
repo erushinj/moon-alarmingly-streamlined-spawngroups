@@ -3,7 +3,7 @@ if ASS.is_editor_or_client then
 end
 
 -- disable escapes based on settings, but still allow alternate days
-if not ASS:setting("escapes") then
+if not ASS.settings.escapes then
 	ASS:log("info", "Disabling escapes in \"ElementJobStageAlternative:on_executed\"...")
 
 	local on_executed_original = ElementJobStageAlternative.on_executed
