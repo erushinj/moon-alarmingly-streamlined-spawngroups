@@ -51,7 +51,6 @@ if not ASS then
 		level_mod = 3,  -- index into ASS.values.level_mod
 		assault_style = 1,  -- index into ASS.values.assault_style
 		skill = 2,  -- index into ASS.values.skill
-		dmg_interval = 1,  -- index into ASS.values.dmg_interval
 		doms_scale = false,  -- whether to make dominations harder on higher difficulties
 		doms_all_hard = false,  -- whether to make all dominatable enemies use hardest preset
 		doms_super_serious = false,  -- whether to allow dominations during assault
@@ -102,19 +101,6 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_skill_4",  -- ultra-violence
 			"alarmingly_streamlined_spawngroups_skill_5",  -- nightmare
 			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
-		},
-		dmg_interval = {
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.250",  -- duration in s
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.225",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.200",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.175",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.150",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.125",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.100",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.075",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.050",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.025",
-			"alarmingly_streamlined_spawngroups_dmg_interval_0.000",
 		},
 		shield_arms = {
 			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- what the mod normally uses
@@ -617,7 +603,6 @@ if not ASS then
 
 	ASS.assault_style = is_editor and "editor" or ass_gsub("assault_style", "default")
 	ASS.skill = ass_gsub("skill", 2)
-	ASS.dmg_interval = ass_gsub("dmg_interval", 0.25)
 	ASS.difficulty_index = ASS:setting("max_values") and 8 or real_difficulty_index
 	ASS.wanted_special_weapons = {
 		shield = ass_gsub("shield_arms", "both"),
