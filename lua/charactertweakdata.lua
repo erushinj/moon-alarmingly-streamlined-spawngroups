@@ -249,6 +249,4 @@ Hooks:PostHook( CharacterTweakData, "character_map", "ass_character_map", functi
 			char_map[name] = map
 		end
 	end
-
-	return char_map
 end )

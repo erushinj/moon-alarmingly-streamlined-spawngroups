@@ -100,18 +100,18 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		return values and table.map_append(result, values) or result
 	end
 
-	ASS:log("warn", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
+	ASS:log("warn", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values!", to_split)
 end
 
-local generated = nil
+local generated
 Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
-	if generated == nil and data and data.name == "default" then
-		generated = false
+	if not generated and data and data.name == "default" then
+		generated = true
 
 		local try_generate_elements = ASS:require("req/try_generate_elements")
 		local new_elements = try_generate_elements and try_generate_elements()
 		if new_elements then
-			generated = true
+			ASS:log("info", "Current level has custom script patches...")
 
 			for element in pairs(new_elements) do
 				table.insert(data.elements, element)
@@ -120,10 +120,10 @@ Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
 	end
 end )
 
-local merged = nil
+local merged
 Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
-	if merged == nil then
-		merged = false
+	if not merged then
+		merged = true
 
 		if not self._mission_script_patches then
 			local remap = ({
@@ -137,7 +137,7 @@ Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patch
 
 		local ass_mission_script_patches = ASS:script_patches("mission")
 		if ass_mission_script_patches then
-			merged = true
+			ASS:log("info", "Current level has mission script patches...")
 
 			if not self._mission_script_patches then
 				self._mission_script_patches = ass_mission_script_patches

@@ -29,7 +29,7 @@ return setmetatable({
 			if not global.showed_dialog then
 				global.showed_dialog = true
 
-				self:log("warn", "ZEAL Level Mod enabled...")
+				self:log("warn", "ZEAL Level Mod enabled!")
 
 				local title = managers.localization:text("alarmingly_streamlined_spawngroups_menu_warning")
 				local message = managers.localization:text("alarmingly_streamlined_spawngroups_menu_zeal_matchmaking_locked")

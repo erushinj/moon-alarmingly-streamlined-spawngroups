@@ -1618,7 +1618,7 @@ function MoonTweakData:init_weapon_mapping()
 	end
 
 	for id in pairs(invalid_ids) do
-		ASS:log("warn", "Invalid weapon ID \"%s\" in CharacterTweakData:weapon_mapping", id)
+		ASS:log("warn", "Invalid weapon ID \"%s\" in CharacterTweakData:weapon_mapping!", id)
 	end
 
 	self.weapon_mapping = weapon_mapping
