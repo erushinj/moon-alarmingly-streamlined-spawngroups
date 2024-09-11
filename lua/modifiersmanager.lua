@@ -3,9 +3,12 @@ if ASS.is_client then
 end
 
 -- add missing vanilla and custom map heavies
-for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
-	ModifierHeavySniper.heavy_units[name_key] = mapped == "heavy_1" or mapped == "heavy_2" or nil
-end
+ModifierHeavySniper.moon_heavy_mappings = table.set("heavy_1", "heavy_2", "heavy_3")
+Hooks:PreHook( ModifierHeavySniper, "init", "moon_init", function(self)
+	for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
+		self.heavy_units[name_key] = self.moon_heavy_mappings[mapped] or nil
+	end
+end )
 
 ModifierHeavies.moon_u_key_mapping = {
 	swat_1 = "heavy_1",
