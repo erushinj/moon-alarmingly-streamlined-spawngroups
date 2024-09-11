@@ -57,19 +57,23 @@ if not ASS then
 		max_values = false,  -- whether to use death sentence values for scaling
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
-		shield_arms = 4,  -- pick shield weapon type
-		taser_dazers = 1,  -- pick taser weapon type
-		cloaker_balance = 1,  -- pick cloaker weapon type
-		medic_ordnance = 1,  -- pick rifle medic weapon type
-		medical_ordinance = 1,  -- pick shotgun medic weapon type
-		geneva_suggestion = 1,  -- pick medic dozer weapon type
-		smg_units = true,  -- allow smg swats to spawn if applicable
+		smg_units = 4,  -- allow smg swats to spawn if applicable
+		raging_cops = true,  -- allow bronco cops/hrt_4 mapped units in assault spawns
+		unit_weapons = {  -- pick weapon type used by certain units
+			shield_arms = 4,  -- pick shield weapon type
+			taser_dazers = 1,  -- pick taser weapon type
+			cloaker_balance = 1,  -- pick cloaker weapon type
+			medic_ordnance = 1,  -- pick rifle medic weapon type
+			medical_ordinance = 1,  -- pick shotgun medic weapon type
+			geneva_suggestion = 1,  -- pick medic dozer weapon type
+			police_funding = 1,  -- when a faction only has two hrts, pick whether a pistol or rifle hrt should exist alongside a shotgun hrt
+		},
 		dozer_rainbow = {  -- allow given dozer varieties to spawn on lower difficulties than normal
-			r870 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
-			saiga = 3,
-			lmg = 5,
-			mini = 7,
-			medic = 7,
+			dozer_1 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
+			dozer_2 = 3,
+			dozer_3 = 5,
+			dozer_4 = 7,
+			dozer_5 = 7,
 		},
 		captain_winters = false,  -- allow captain winters to spawn on maps that have him
 		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
@@ -101,6 +105,12 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_skill_4",  -- ultra-violence
 			"alarmingly_streamlined_spawngroups_skill_5",  -- nightmare
 			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
+		},
+		smg_units = {
+			"alarmingly_streamlined_spawngroups_smg_units_neither",
+			"alarmingly_streamlined_spawngroups_smg_units_lights",
+			"alarmingly_streamlined_spawngroups_smg_units_heavies",
+			"alarmingly_streamlined_spawngroups_smg_units_both",
 		},
 		shield_arms = {
 			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- what the mod normally uses
@@ -138,117 +148,134 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- randomize between both
 		},
+		police_funding = {  -- rifle hrts for factions with only 2 hrts
+			"alarmingly_streamlined_spawngroups_police_funding_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_police_funding_pistols",  -- always pistols
+			"alarmingly_streamlined_spawngroups_police_funding_rifles",  -- always rifles
+			"alarmingly_streamlined_spawngroups_police_funding_both",  -- randomize between both
+		},
 	}
+
+	local divider = 16
+	local last_priority = 696970
+	local function priority()
+		last_priority = last_priority - 1
+
+		return last_priority
+	end
+
 	ASS.menu_builder_params = {
 		is_massive = {
-			priority = 696969,
-			divider = 16,
+			priority = priority(),
+			divider = divider,
 		},
 
 		level_mod = {
-			priority = 10000,
+			priority = priority(),
 			items = ASS.values.level_mod,
 		},
 		assault_style = {
-			priority = 9900,
+			priority = priority(),
 			items = ASS.values.assault_style,
 		},
 		skill = {
-			priority = 9800,
+			priority = priority(),
 			items = ASS.values.skill,
-			divider = 16,
+			divider = divider,
 		},
 
-		doms_scale = { priority = 9700, },
-		doms_all_hard = { priority = 9680, },
+		doms_scale = { priority = priority(), },
+		doms_all_hard = { priority = priority(), },
 		doms_super_serious = {
-			priority = 9660,
-			divider = 16,
+			priority = priority(),
+			divider = divider,
 		},
 
-		max_values = { priority = 9600, },
-		max_diff = { priority = 9580, },
+		max_values = { priority = priority(), },
+		max_diff = { priority = priority(), },
 		max_balance_muls = {
-			priority = 9560,
-			divider = 16,
+			priority = priority(),
+			divider = divider,
 		},
 
-		dmg_interval = {
-			priority = 9500,
-			items = ASS.values.dmg_interval,
-			divider = 16,
+		gas_grenade_ignore_hostages = { priority = priority(), },
+		escapes = {
+			priority = priority(),
+			divider = divider,
 		},
 
+		captain_winters = { priority = priority(), },
+		smg_units = {
+			priority = priority(),
+			items = ASS.values.smg_units,
+		},
+		raging_cops = {
+			priority = priority(),
+			divider = divider,
+		},
+
+		unit_weapons = { priority = priority(), },
 		shield_arms = {
-			priority = 9400,
+			priority = priority(),
 			items = ASS.values.shield_arms,
 		},
 		taser_dazers = {
-			priority = 9390,
+			priority = priority(),
 			items = ASS.values.taser_dazers,
 		},
 		cloaker_balance = {
-			priority = 9380,
+			priority = priority(),
 			items = ASS.values.cloaker_balance,
 		},
 		medic_ordnance = {
-			priority = 9370,
+			priority = priority(),
 			items = ASS.values.medic_ordnance,
 		},
 		medical_ordinance = {
-			priority = 9360,
+			priority = priority(),
 			items = ASS.values.medical_ordinance,
 		},
 		geneva_suggestion = {
-			priority = 9350,
+			priority = priority(),
 			items = ASS.values.geneva_suggestion,
-			divider = 16,
+		},
+		police_funding = {
+			priority = priority(),
+			items = ASS.values.police_funding,
+			divider = divider,
 		},
 
 		dozer_rainbow = {
-			priority = 9300,
-			items = ASS.values.dozer_rainbow,
-			divider = 16,
+			priority = priority(),
+			divider = divider,
 		},
-		r870 = {
-			priority = 9290,
+		dozer_1 = {
+			priority = priority(),
 			disabled = true,
 			items = {
 				"menu_difficulty_normal",
 			},
 		},
-		saiga = {
-			priority = 9280,
+		dozer_2 = {
+			priority = priority(),
 			items = {
 				"menu_difficulty_normal",
 				"menu_difficulty_hard",
 				"menu_difficulty_very_hard",
 			},
 		},
-		lmg = {
-			priority = 9270,
-			items = {
-				"menu_difficulty_normal",
-				"menu_difficulty_hard",
-				"menu_difficulty_very_hard",
-				"menu_difficulty_overkill",
-				"menu_difficulty_easy_wish",
-			},
-		},
-		mini = {
-			priority = 9260,
+		dozer_3 = {
+			priority = priority(),
 			items = {
 				"menu_difficulty_normal",
 				"menu_difficulty_hard",
 				"menu_difficulty_very_hard",
 				"menu_difficulty_overkill",
 				"menu_difficulty_easy_wish",
-				"menu_difficulty_apocalypse",
-				"menu_difficulty_sm_wish",
 			},
 		},
-		medic = {
-			priority = 9250,
+		dozer_4 = {
+			priority = priority(),
 			items = {
 				"menu_difficulty_normal",
 				"menu_difficulty_hard",
@@ -259,17 +286,17 @@ if not ASS then
 				"menu_difficulty_sm_wish",
 			},
 		},
-
-		smg_units = { priority = 9200, },
-		captain_winters = { priority = 9180, },
-		gas_grenade_ignore_hostages = {
-			priority = 9160,
-			divider = 16,
-		},
-
-		escapes = {
-			priority = 9100,
-			divider = 16,
+		dozer_5 = {
+			priority = priority(),
+			items = {
+				"menu_difficulty_normal",
+				"menu_difficulty_hard",
+				"menu_difficulty_very_hard",
+				"menu_difficulty_overkill",
+				"menu_difficulty_easy_wish",
+				"menu_difficulty_apocalypse",
+				"menu_difficulty_sm_wish",
+			},
 		},
 	}
 	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched based on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
@@ -547,11 +574,25 @@ if not ASS then
 		end
 	end
 
-	local function ass_gsub(setting, default)
-		local value = ASS.values[setting]
-		local str = value and value[ASS.settings[setting]]
-		local result = str and str:gsub("^alarmingly_streamlined_spawngroups_" .. setting .. "_", "") or nil
+	local function ass_gsub(default, ...)
+		local last = select(-1, ...)
+		local value = ASS.values[last]
+		local setting = ASS.settings[last] or ASS.settings
 
+		if setting == ASS.settings then
+			for _, key in ipairs({ ... }) do
+				if type(setting) ~= "table" then
+					break
+				end
+
+				setting = setting[key]
+			end
+
+			setting = setting ~= ASS.settings and tonumber(setting) or nil
+		end
+
+		local str = value and value[setting]
+		local result = str and str:gsub("^alarmingly_streamlined_spawngroups_" .. last .. "_", "") or nil
 		if type(default) == "number" then
 			return tonumber(result) or default
 		end
@@ -568,7 +609,7 @@ if not ASS then
 		CITY_ZEAL_awesome_difficulty_name = "awesome_difficulty_name",
 		ZEAL_sm_wish = "sm_wish",
 	}
-	local level_mod = ass_gsub("level_mod", "per_level")
+	local level_mod = ass_gsub("per_level", "level_mod")
 	local redirect = {
 		per_level = ASS.level_mod_map[level_id] or ASS.level_mod_map[job_id] or difficulty,
 		disable = difficulty,
@@ -582,16 +623,18 @@ if not ASS then
 		}),
 	}
 
-	ASS.assault_style = is_editor and "editor" or ass_gsub("assault_style", "default")
-	ASS.skill = ass_gsub("skill", 2)
+	ASS.assault_style = is_editor and "editor" or ass_gsub("default", "assault_style")
+	ASS.skill = ass_gsub(2, "skill")
 	ASS.difficulty_index = ASS.settings.max_values and 8 or real_difficulty_index
-	ASS.wanted_special_weapons = {
-		shield = ass_gsub("shield_arms", "both"),
-		taser = ass_gsub("taser_dazers", "default"),
-		cloaker = ass_gsub("cloaker_balance", "default"),
-		medic_rifle = ass_gsub("medic_ordnance", "default"),
-		medic_shotgun = ass_gsub("medical_ordinance", "default"),
-		medic_dozer = ass_gsub("geneva_suggestion", "default"),
+	ASS.smg_units = ass_gsub("both", "smg_units")
+	ASS.wanted_enemy_weapon_tweaks = {
+		shield = ass_gsub("both", "unit_weapons", "shield_arms"),
+		taser = ass_gsub("default", "unit_weapons", "taser_dazers"),
+		cloaker = ass_gsub("default", "unit_weapons", "cloaker_balance"),
+		medic_rifle = ass_gsub("default", "unit_weapons", "medic_ordnance"),
+		medic_shotgun = ass_gsub("default", "unit_weapons", "medical_ordinance"),
+		medic_dozer = ass_gsub("default", "unit_weapons", "geneva_suggestion"),
+		pistol_rifle_hrts = ass_gsub("default", "unit_weapons", "police_funding"),
 	}
 
 	local function get_dozer_rainbow_type(typ, default)
@@ -604,11 +647,11 @@ if not ASS then
 		return default
 	end
 	ASS.dozer_rainbow = {
-		dozer_1 = get_dozer_rainbow_type("r870", 2),  -- not actually used, always present
-		dozer_2 = get_dozer_rainbow_type("saiga", 4),
-		dozer_3 = get_dozer_rainbow_type("lmg", 6),
-		dozer_4 = get_dozer_rainbow_type("mini", 8),
-		dozer_5 = get_dozer_rainbow_type("medic", 8),
+		dozer_1 = get_dozer_rainbow_type("dozer_1", 2),  -- not actually used, always present
+		dozer_2 = get_dozer_rainbow_type("dozer_2", 4),
+		dozer_3 = get_dozer_rainbow_type("dozer_3", 6),
+		dozer_4 = get_dozer_rainbow_type("dozer_4", 8),
+		dozer_5 = get_dozer_rainbow_type("dozer_5", 8),
 	}
 
 	for name, tweaks in pairs(ASS.tweaks) do

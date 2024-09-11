@@ -10,7 +10,7 @@ end
 ModifierHeavies.moon_u_key_mapping = {
 	swat_1 = "heavy_1",
 	swat_2 = "heavy_2",
-	swat_3 = "heavy_1",
+	swat_3 = "heavy_3",
 }
 Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
