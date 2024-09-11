@@ -38,6 +38,8 @@ function MoonTweakData:init_default_scripted_spawn_mappings()
 		dozer_3 = "dozers_no_cs",
 		swat_1 = "swats_far",
 		swat_3 = "swats_far",
+		heavy_1 = "heavys_far",
+		heavy_3 = "heavys_far",
 	}
 end
 
@@ -649,22 +651,26 @@ end
 function MoonTweakData:init_hydra_splits()
 	local splits = {
 		marshal_1 = {
-			["marshal_1"] = 1,
+			["marshal_1"] = 2,
 			["heavy_1"] = 1,
+			["heavy_3"] = 1,
 		},
 		marshal_2 = {
-			["marshal_2"] = 1,
+			["marshal_2"] = 2,
 			["heavy_2"] = 1,
+			["heavy_3"] = 1,
 		},
 		hrt_1 = {
 			["hrt_1"] = 1,
 			["hrt_2"] = 1,
 			["hrt_3"] = 1,
+			["hrt_4"] = 1,
 		},
 		swat_1 = {
 			["hrt_1"] = 1,
 			["hrt_2"] = 1,
 			["hrt_3"] = 1,
+			["hrt_4"] = 1,
 			["swat_1"] = 1,
 			["swat_2"] = 1,
 			["swat_3"] = 1,
@@ -673,8 +679,9 @@ function MoonTweakData:init_hydra_splits()
 			["swat_1"] = 1,
 			["swat_2"] = 1,
 			["swat_3"] = 1,
-			["heavy_1"] = 2,
+			["heavy_1"] = 1,
 			["heavy_2"] = 1,
+			["heavy_3"] = 1,
 		},
 		shield = {
 			["shield"] = 2,
@@ -682,8 +689,9 @@ function MoonTweakData:init_hydra_splits()
 			["cloaker"] = 2,
 			["medic_1"] = 1,
 			["medic_2"] = 1,
-			["heavy_1"] = 4,
-			["heavy_2"] = 4,
+			["heavy_1"] = 3,
+			["heavy_2"] = 3,
+			["heavy_3"] = 3,
 		},
 		dozer_1 = {
 			["dozer_1"] = 8,

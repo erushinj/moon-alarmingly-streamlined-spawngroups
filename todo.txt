@@ -10,7 +10,6 @@
 |---> unsure if this is doable ASS-side, need to check if it syncs
 |
 |> Hydras mutator
-|-> support spawning hrt_4 mapped units (Bronco cops) in Hydras mutator
 |-> tier tracking for Hydras mutator instead of always using lower tier
 |--> eg, FBIs won't split into cops with SWAT-FBI Level Mod
 |
