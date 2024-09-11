@@ -103,10 +103,10 @@
 
 	"alarmingly_streamlined_spawngroups_menu_smg_units" : "Shiny Riflemen",
 	"alarmingly_streamlined_spawngroups_menu_smg_units_desc" : "Allow SMG units for supported factions to spawn as part of the assault.",
-	"alarmingly_streamlined_spawngroups_smg_units_neither" : "Creative Name (None)",
+	"alarmingly_streamlined_spawngroups_smg_units_neither" : "Oops! All Boring (None)",
 	"alarmingly_streamlined_spawngroups_smg_units_lights" : "Goldfarb Approved (Lights)",
-	"alarmingly_streamlined_spawngroups_smg_units_heavies" : "Creative Name (Heavies)",
-	"alarmingly_streamlined_spawngroups_smg_units_both" : "Loosey-Goosey (Both)",
+	"alarmingly_streamlined_spawngroups_smg_units_heavies" : "Armament Mixup (Heavies)",
+	"alarmingly_streamlined_spawngroups_smg_units_both" : "Sequel Inspired (Both)",
 
 	"alarmingly_streamlined_spawngroups_menu_raging_cops" : "Raging Cops",
 	"alarmingly_streamlined_spawngroups_menu_raging_cops_desc" : "Allow Bronco cops for supported factions to spawn as part of the assault.",
