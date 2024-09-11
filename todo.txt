@@ -11,7 +11,6 @@
 |
 |> Hydras mutator
 |-> support spawning hrt_4 mapped units (Bronco cops) in Hydras mutator
-|--> potentially as an option for normal play too
 |-> tier tracking for Hydras mutator instead of always using lower tier
 |--> eg, FBIs won't split into cops with SWAT-FBI Level Mod
 |
@@ -26,7 +25,6 @@
 |--> still pretty easy to move around even if RNG isn't on your side
 |
 |> Slaughterhouse
-|-> more variation in pig amounts
 |-> more Murkies
 |
 |> Undercover
@@ -46,7 +44,3 @@
 |
 |> Ukrainian Job
 |-> disable sniper spawns on the vantage point area when players are near
-|
-|> Backend
-|-> separate ElementSpawnCivilian/ElementSpawnEnemyDummy code
-|--> right now they share hooks, but there's getting to be a lot of code exclusive to one or the other
