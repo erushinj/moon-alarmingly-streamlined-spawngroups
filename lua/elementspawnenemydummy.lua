@@ -55,22 +55,18 @@ function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 end
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
-local bad_access = table.set("cop", "fbi")
-local replace_access = "swat"
 function ElementSpawnEnemyDummy:produce(params, ...)
-	local level_enemy_replacements = tweak_data.moon.level_enemy_replacements
-
-	-- params.name means groupai spawn
-	if params and params.name then
-		params.name = level_enemy_replacements[params.name:key()] or params.name
+	if params and params.name then  -- params.name means groupai spawn
+		params.name = tweak_data.moon.level_enemy_replacements[params.name:key()] or params.name
 
 		-- give assault-spawned cops and fbis the same access as swat
 		local unit = produce_original(self, params, ...)
 		if alive(unit) then
 			local u_base = unit:base()
 			local char_tweak = u_base and u_base:char_tweak()
+			local replace_access = tweak_data.moon.replace_access[char_tweak and char_tweak.access]
 
-			if bad_access[char_tweak and char_tweak.access] then
+			if replace_access then
 				local u_brain = unit:brain()
 				local logic_data = u_brain and u_brain._logic_data
 
@@ -96,7 +92,7 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 	self._enemy_name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", self._enemy_name)
 
 	local name_key = self._enemy_name:key()
-	local level_enemy_replacement = level_enemy_replacements[name_key]
+	local level_enemy_replacement = tweak_data.moon.level_enemy_replacements[name_key]
 	if level_enemy_replacement then
 		self._enemy_name = level_enemy_replacement
 
@@ -104,19 +100,18 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 	end
 
 	-- static_tier = false means scripted cops/fbis can be replaced depending on level mod
-	local static_continent, static_tier = self.static_continent, self.static_tier
 	local mapped_name = tweak_data.moon.enemy_mapping[name_key]
-	if not static_continent and static_tier == nil then
+	if not self.static_continent and self.static_tier == nil then
 		if tweak_data.moon.forbidden_scripted_replacements[mapped_name] then
 			return self:moon_produce_helper(params, ...)
 		end
 	end
 
-	local replacement = static_tier or managers.groupai:state():moon_get_scripted_tier()
-	local enemy_replacements = tweak_data.moon:enemy_replacements(static_continent)
+	local replacement = self.static_tier or managers.groupai:state():moon_get_scripted_tier()
+	local enemy_replacements = tweak_data.moon:enemy_replacements(self.static_continent)
 	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
 	if mapped_unit then
-		self._enemy_name = level_enemy_replacements[mapped_unit:key()] or mapped_unit
+		self._enemy_name = tweak_data.moon.level_enemy_replacements[mapped_unit:key()] or mapped_unit
 	end
 
 	return self:moon_produce_helper(params, ...)

@@ -23,6 +23,13 @@ function MoonTweakData:init(tweak_data)
 	end
 end
 
+function MoonTweakData:init_replace_access()
+	self.replace_access = {
+		cop = "swat",
+		fbi = "swat",
+	}
+end
+
 -- used to give randomization to scripted spawns automatically, even if not patched
 function MoonTweakData:init_default_scripted_spawn_mappings()
 	self.default_scripted_spawn_mappings = {
