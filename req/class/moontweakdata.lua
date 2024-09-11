@@ -549,6 +549,39 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"):key()] = "marshal_2",
 		[("units/pd2_mod_ttr/characters/ene_marshal_gensec_shield/ene_marshal_gensec_shield"):key()] = "marshal_2",
 	}
+
+	for key, mapping in pairs(self.dummy_mapping) do
+		self.enemy_mapping[key] = mapping
+	end
+end
+
+function MoonTweakData:init_dummy_mapping()
+	self.dummy_mapping = {}
+
+	for _, mapping in pairs({
+		"swat_1",
+		"swat_2",
+		"swat_3",
+		"heavy_1",
+		"heavy_2",
+		"heavy_3",
+		"shield",
+		"sniper",
+		"dozer_1",
+		"dozer_2",
+		"dozer_3",
+		"dozer_4",
+		"dozer_5",
+		"dozer_hw",
+		"medic_1",
+		"medic_2",
+		"taser",
+		"cloaker",
+		"marshal_1",
+		"marshal_2",
+	}) do
+		self.dummy_mapping[mapping:key()] = mapping
+	end
 end
 
 -- mapping of preferred groups

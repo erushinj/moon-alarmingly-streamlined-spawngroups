@@ -47,6 +47,14 @@ end )
 
 local produce_original = ElementSpawnEnemyDummy.produce
 function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
+	local dummy_mapping = tweak_data.moon.dummy_mapping[self._enemy_name:key()]
+
+	if dummy_mapping then
+		ASS:log("error", "Element \"%s\" (%s) tried spawning a dummy unit \"%s\"!", self._editor_name, self._id, dummy_mapping)
+
+		self._enemy_name = self._original_enemy_name
+	end
+
 	local unit = produce_original(self, params, ...)
 
 	self._enemy_name = self._original_enemy_name
