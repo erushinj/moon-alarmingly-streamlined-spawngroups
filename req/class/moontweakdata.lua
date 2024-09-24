@@ -427,7 +427,6 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_r870/ene_ovk_heavy_r870"):key()] = "heavy_2",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_r870/ene_bofa_heavy_r870"):key()] = "heavy_2",
 
-		[("heavy_3"):key()] = "heavy_3",  -- dummy name
 		[("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy"):key()] = "heavy_3",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36"):key()] = "heavy_3",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi"):key()] = "heavy_3",
@@ -639,7 +638,7 @@ function MoonTweakData:init_forbidden_scripted_replacements()
 	self.forbidden_scripted_replacements = all_forbidden[clean_level_id] or all_forbidden.default
 end
 
--- hardcoded enemy replacements for certain levels, primarily replacing dc beat cops with regional variants where available
+-- forced enemy replacements for certain levels, primarily replacing dc beat cops with regional variants where available
 function MoonTweakData:init_level_enemy_replacements()
 	local all_lvl_replacements = {
 		rvd1 = {
@@ -675,7 +674,7 @@ function MoonTweakData:init_level_enemy_replacements()
 	all_lvl_replacements.rvd2 = all_lvl_replacements.rvd1
 	all_lvl_replacements.sand = all_lvl_replacements.chas
 	all_lvl_replacements.pent = all_lvl_replacements.chas
-	all_lvl_replacements.corp = all_lvl_replacements.ranc
+	all_lvl_replacements.corp = ASS.utils.map_add(all_lvl_replacements.ranc, all_lvl_replacements.deep)
 
 	self.level_enemy_replacements = all_lvl_replacements[clean_level_id] or {}
 end

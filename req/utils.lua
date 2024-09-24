@@ -22,6 +22,19 @@ return {
 		return v
 	end,
 
+	-- table.list_add but for maps
+	map_add = function(...)
+		local result = {}
+
+		for _, tbl in ipairs({ ... }) do
+			for k, v in pairs(tbl) do
+				result[k] = v
+			end
+		end
+
+		return result
+	end,
+
 	-- used to allow one and only one of a given civilian (usually bobblehead bob)
 	try_pick_bobblehead_bob = function(override, civs_table, bob)
 		ASS.picked_bob = override or ASS.picked_bob
