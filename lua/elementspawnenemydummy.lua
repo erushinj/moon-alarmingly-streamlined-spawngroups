@@ -69,23 +69,15 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 
 		-- give assault-spawned cops and fbis the same access as swat
 		local unit = produce_original(self, params, ...)
-		if alive(unit) then
-			local u_base = unit:base()
-			local char_tweak = u_base and u_base:char_tweak()
-			local replace_access = tweak_data.moon.replace_access[char_tweak and char_tweak.access]
+		local u_brain = alive(unit) and unit:brain()
+		local logic_data = u_brain and u_brain._logic_data
+		local replace_access = tweak_data.moon.replace_access[logic_data and logic_data.SO_access_str]
+		local converted_access = replace_access and managers.navigation:convert_access_flag(replace_access)
 
-			if replace_access then
-				local u_brain = unit:brain()
-				local logic_data = u_brain and u_brain._logic_data
-
-				if logic_data then
-					local converted_access = managers.navigation:convert_access_flag(replace_access)
-
-					u_brain._SO_access = converted_access
-					logic_data.SO_access = converted_access
-					logic_data.SO_access_str = replace_access
-				end
-			end
+		if converted_access then
+			u_brain._SO_access = converted_access
+			logic_data.SO_access = converted_access
+			logic_data.SO_access_str = replace_access
 		end
 
 		return unit
