@@ -7,25 +7,29 @@ function ElementSpawnCivilian:moon_init_hook()
 	self._original_enemy_name = self._enemy_name
 
 	local moon_data = self._values.moon_data
-	if moon_data then
-		if type(moon_data.enemy) == "table" then
-			self._possible_enemies = moon_data.enemy
-			self._patched_enemy_name = moon_data.enemy[1]
-		else
-			self._patched_enemy_name = moon_data.enemy
+	local patch_funcs = managers.mission and managers.mission.mission_script_patch_funcs
+	if not patch_funcs then
+		ASS:log("error", "managers.mission.mission_script_patch_funcs unavailable!")
+	elseif moon_data then
+		if moon_data.continent or moon_data.tier then
+			moon_data.static_spawn = {
+				continent = moon_data.continent,
+				tier = moon_data.tier,
+			}
+			moon_data.continent = nil
+			moon_data.tier = nil
 		end
 
-		local run_func_on_unit = moon_data.run_func_on_unit
-		if run_func_on_unit then
-			Hooks:PostHook( self, "produce", "sh_produce_run_func_on_unit_" .. self._id, function()
-				run_func_on_unit(Hooks:GetReturn())
-			end )
+		for id, data in pairs(moon_data) do
+			if patch_funcs[id] then
+				patch_funcs[id](managers.mission, self, data)
+			else
+				ASS:log("warn", "Mission script patch func \"%s\" does not exist!", id)
+			end
 		end
-
-		self.static_continent = moon_data.continent
-		self.static_tier = moon_data.tier
-		self._values.moon_data = nil
 	end
+
+	self._values.moon_data = nil
 end
 
 Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
