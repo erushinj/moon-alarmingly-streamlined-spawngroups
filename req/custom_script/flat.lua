@@ -25,18 +25,32 @@ local chance_block_4th_corridor_doors = "chance_block_4th_corridor_doors"
 local trigger_open_4th_corridor_doors = "trigger_open_4th_corridor_doors"
 local block_4th_corridor_doors = "block_4th_corridor_doors"
 local open_4th_corridor_doors = "open_4th_corridor_doors"
-local trigger_destroy_4th_corridor_window = "trigger_destroy_4th_corridor_window"
-local destroy_4th_corridor_window = "destroy_4th_corridor_window"
 local so_4th_corridor_window_in = "so_4th_corridor_window_in"
 local so_4th_corridor_window_out = "so_4th_corridor_window_out"
 local id_chance_block_4th_corridor_doors = managers.mission:moon_generate_custom_id(chance_block_4th_corridor_doors)
 local id_trigger_open_4th_corridor_doors = managers.mission:moon_generate_custom_id(trigger_open_4th_corridor_doors)
 local id_block_4th_corridor_doors = managers.mission:moon_generate_custom_id(block_4th_corridor_doors)
 local id_open_4th_corridor_doors = managers.mission:moon_generate_custom_id(open_4th_corridor_doors)
-local id_trigger_destroy_4th_corridor_window = managers.mission:moon_generate_custom_id(trigger_destroy_4th_corridor_window)
-local id_destroy_4th_corridor_window = managers.mission:moon_generate_custom_id(destroy_4th_corridor_window)
 local id_so_4th_corridor_window_in = managers.mission:moon_generate_custom_id(so_4th_corridor_window_in)
 local id_so_4th_corridor_window_out = managers.mission:moon_generate_custom_id(so_4th_corridor_window_out)
+
+-- window break garbage
+local trigger_destroy_2nd_room_window = "trigger_destroy_2nd_room_window"
+local destroy_2nd_room_window = "destroy_2nd_room_window"
+local trigger_destroy_3rd_room_window_side = "trigger_destroy_3rd_room_window_side"
+local destroy_3rd_room_window_side = "destroy_3rd_room_window_side"
+local trigger_destroy_3rd_room_window_front = "trigger_destroy_3rd_room_window_front"
+local destroy_3rd_room_window_front = "destroy_3rd_room_window_front"
+local trigger_destroy_4th_corridor_window = "trigger_destroy_4th_corridor_window"
+local destroy_4th_corridor_window = "destroy_4th_corridor_window"
+local id_trigger_destroy_2nd_room_window = managers.mission:moon_generate_custom_id(trigger_destroy_2nd_room_window)
+local id_destroy_2nd_room_window = managers.mission:moon_generate_custom_id(destroy_2nd_room_window)
+local id_trigger_destroy_3rd_room_window_side = managers.mission:moon_generate_custom_id(trigger_destroy_3rd_room_window_side)
+local id_destroy_3rd_room_window_side = managers.mission:moon_generate_custom_id(destroy_3rd_room_window_side)
+local id_trigger_destroy_3rd_room_window_front = managers.mission:moon_generate_custom_id(trigger_destroy_3rd_room_window_front)
+local id_destroy_3rd_room_window_front = managers.mission:moon_generate_custom_id(destroy_3rd_room_window_front)
+local id_trigger_destroy_4th_corridor_window = managers.mission:moon_generate_custom_id(trigger_destroy_4th_corridor_window)
+local id_destroy_4th_corridor_window = managers.mission:moon_generate_custom_id(destroy_4th_corridor_window)
 
 -- front door to 4th floor c4 room
 local chance_block_4th_objective_door = "chance_block_4th_objective_door"
@@ -126,12 +140,137 @@ local id_disable_window_interaction = managers.mission:moon_generate_custom_id(d
 local id_phoney_money = managers.mission:moon_generate_custom_id(phoney_money)
 local id_toggle_ambush_peek = managers.mission:moon_generate_custom_id(toggle_ambush_peek)
 
+-- roof cloaker group
+local add_cloaker_groups = "add_cloaker_groups"
+local cloaker_group_roof = "cloaker_group_roof"
+local cloaker_group_ground = "cloaker_group_ground"
+local id_add_cloaker_groups = managers.mission:moon_generate_custom_id(add_cloaker_groups)
+local id_cloaker_group_roof = managers.mission:moon_generate_custom_id(cloaker_group_roof)
+local id_cloaker_group_ground = managers.mission:moon_generate_custom_id(cloaker_group_ground)
+
 return {
+	{
+		class = "ElementAreaTrigger",
+		editor_name = trigger_destroy_2nd_room_window,
+		id = id_trigger_destroy_2nd_room_window,
+		values = {
+			enabled = true,
+			position = Vector3(489, 173, 520),
+			rotation = Rotation(180, 0, 0),
+			interval = 0.1,
+			width = 30,
+			depth = 109,
+			height = 141,
+			trigger_times = 1,
+			on_executed = {
+				{ id = id_destroy_2nd_room_window, delay = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementUnitSequence",
+		editor_name = destroy_2nd_room_window,
+		id = id_destroy_2nd_room_window,
+		values = {
+			enabled = true,
+			trigger_list = {
+				{ id = 1, name = "run_sequence", notify_unit_id = 701774, notify_unit_sequence = "destroy", time = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementAreaTrigger",
+		editor_name = trigger_destroy_3rd_room_window_side,
+		id = id_trigger_destroy_3rd_room_window_side,
+		values = {
+			enabled = true,
+			position = Vector3(489, 173, 845),
+			rotation = Rotation(180, 0, 0),
+			interval = 0.1,
+			width = 30,
+			depth = 109,
+			height = 141,
+			trigger_times = 1,
+			on_executed = {
+				{ id = id_destroy_3rd_room_window_side, delay = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementUnitSequence",
+		editor_name = destroy_3rd_room_window_side,
+		id = id_destroy_3rd_room_window_side,
+		values = {
+			enabled = true,
+			trigger_list = {
+				{ id = 1, name = "run_sequence", notify_unit_id = 701215, notify_unit_sequence = "destroy", time = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementAreaTrigger",
+		editor_name = trigger_destroy_3rd_room_window_front,
+		id = id_trigger_destroy_3rd_room_window_front,
+		values = {
+			enabled = true,
+			position = Vector3(-65, -380, 845),
+			rotation = Rotation(90, 0, 0),
+			interval = 0.1,
+			width = 30,
+			depth = 109,
+			height = 141,
+			trigger_times = 1,
+			on_executed = {
+				{ id = id_destroy_3rd_room_window_front, delay = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementUnitSequence",
+		editor_name = destroy_3rd_room_window_front,
+		id = id_destroy_3rd_room_window_front,
+		values = {
+			enabled = true,
+			trigger_list = {
+				{ id = 1, name = "run_sequence", notify_unit_id = 700933, notify_unit_sequence = "destroy", time = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementAreaTrigger",
+		editor_name = trigger_destroy_4th_corridor_window,
+		id = id_trigger_destroy_4th_corridor_window,
+		values = {
+			enabled = true,
+			position = Vector3(-684, -90, 1172),
+			rotation = Rotation(90, 0, 0),
+			interval = 0.1,
+			width = 30,
+			depth = 109,
+			height = 141,
+			trigger_times = 1,
+			on_executed = {
+				{ id = id_destroy_4th_corridor_window, delay = 0, },
+			},
+		},
+	},
+	{
+		class = "ElementUnitSequence",
+		editor_name = destroy_4th_corridor_window,
+		id = id_destroy_4th_corridor_window,
+		values = {
+			enabled = true,
+			trigger_list = {
+				{ id = 1, name = "run_sequence", notify_unit_id = 700429, notify_unit_sequence = "destroy", time = 0, },
+			},
+		},
+	},
+
 	{
 		class = "ElementSpecialObjective",
 		editor_name = so_stairwell_to_ground,
 		id = id_so_stairwell_to_ground,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(408, 1026, 1350),
 			search_position = Vector3(703, 1064, 0),
@@ -144,7 +283,7 @@ return {
 		class = "ElementSpecialObjective",
 		editor_name = so_corner_to_ground,
 		id = id_so_corner_to_ground,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(408, 1338, 1350),
 			search_position = Vector3(703, 1376, 0),
@@ -183,7 +322,7 @@ return {
 		class = "ElementSpecialObjective",
 		editor_name = so_2nd_to_ground,
 		id = id_so_2nd_to_ground,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(390, 180, 377.93),
 			search_position = Vector3(677, 194, 10),
@@ -196,7 +335,7 @@ return {
 		class = "ElementSpecialObjective",
 		editor_name = so_3rd_to_ground,
 		id = id_so_3rd_to_ground,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(397, 170, 700),
 			search_position = Vector3(550, 180, 0),
@@ -407,7 +546,7 @@ return {
 		id = id_link_slam_doors,
 		values = {
 			enabled = true,
-			chance = 50,
+			chance = 100,
 			elements = {
 				id_chance_slam_door_1,
 				id_chance_slam_door_2,
@@ -549,39 +688,10 @@ return {
 	},
 
 	{
-		class = "ElementAreaTrigger",
-		editor_name = trigger_destroy_4th_corridor_window,
-		id = id_trigger_destroy_4th_corridor_window,
-		values = {
-			enabled = true,
-			position = Vector3(-684, -90, 1172),
-			rotation = Rotation(90, 0, 0),
-			interval = 0.1,
-			width = 30,
-			depth = 109,
-			height = 141,
-			trigger_times = 1,
-			on_executed = {
-				{ id = id_destroy_4th_corridor_window, delay = 0, },
-			},
-		},
-	},
-	{
-		class = "ElementUnitSequence",
-		editor_name = destroy_4th_corridor_window,
-		id = id_destroy_4th_corridor_window,
-		values = {
-			enabled = true,
-			trigger_list = {
-				{ id = 1, name = "run_sequence", notify_unit_id = 700429, notify_unit_sequence = "destroy", time = 0, },
-			},
-		},
-	},
-	{
 		class = "ElementSpecialObjective",
 		editor_name = so_4th_corridor_window_out,
 		id = id_so_4th_corridor_window_out,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(-684, 0, 1025),
 			search_position = Vector3(-690, -233, 1025),
@@ -594,7 +704,7 @@ return {
 		class = "ElementSpecialObjective",
 		editor_name = so_4th_corridor_window_in,
 		id = id_so_4th_corridor_window_in,
-		values = managers.mission:moon_generate_preset_values("SO|navlink|law", {
+		values = managers.mission:moon_generate_preset_values("SO|navlink|no_civs", {
 			enabled = true,
 			position = Vector3(-690, -233, 1025),
 			search_position = Vector3(-684, 0, 1025),
@@ -857,6 +967,49 @@ return {
 			elements = {
 				101464,
 			},
+		},
+	},
+
+	{
+		class = "ElementEnemyPreferedAdd",
+		editor_name = add_cloaker_groups,
+		id = id_add_cloaker_groups,
+		values = {
+			enabled = true,
+			spawn_groups = {
+				id_cloaker_group_roof,
+				id_cloaker_group_ground,
+			},
+		},
+	},
+	{
+		class = "ElementSpawnEnemyGroup",
+		editor_name = cloaker_group_roof,
+		id = id_cloaker_group_roof,
+		values = {
+			enabled = true,
+			position = Vector3(325, 200, 1675),  -- near water tower
+			interval = 60,
+			spawn_type = "random",
+			elements = {
+				100289,
+			},
+			preferred_spawn_groups = tweak_data.moon.preferred_groups_list.cloakers,
+		},
+	},
+	{
+		class = "ElementSpawnEnemyGroup",
+		editor_name = cloaker_group_ground,
+		id = id_cloaker_group_ground,
+		values = {
+			enabled = true,
+			position = Vector3(-1018, 2099, 372.157),  -- "random swat" at top of ground to balcony stairs
+			interval = 60,
+			spawn_type = "random",
+			elements = {
+				102844,
+			},
+			preferred_spawn_groups = tweak_data.moon.preferred_groups_list.cloakers,
 		},
 	},
 

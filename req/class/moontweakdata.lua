@@ -807,6 +807,8 @@ end
 function MoonTweakData:init_access_filters()
 	local access_filters = {
 		any = {},
+		no_civs = {},  -- any without civs
+		civs = {},  -- only civs
 		law = {},  -- only police
 		light_law = {},  -- police, no shields/dozers
 		heavy_law = {},  -- police, only shields/dozers
@@ -817,6 +819,12 @@ function MoonTweakData:init_access_filters()
 
 		if access then
 			access_filters.any[access] = true
+
+			if data.experience and data.experience.cable_tie == "tie_civ" then
+				access_filters.civs[access] = true
+			else
+				access_filters.no_civs[access] = true
+			end
 
 			local tags = data.tags and table.list_to_set(data.tags)
 			if tags and tags.law then

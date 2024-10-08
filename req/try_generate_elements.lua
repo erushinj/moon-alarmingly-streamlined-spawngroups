@@ -199,7 +199,7 @@ local element_templates = {
 			interval = 0,
 			amount = 0,
 			elements = {},
-			preferred_spawn_groups = {},
+			preferred_spawn_groups = nil,  -- table, only needed for GroupAI spawns
 		}),
 	},
 	{
@@ -212,7 +212,7 @@ local element_templates = {
 	{
 		class = "ElementEnemyPreferedRemove",
 		values = append_template_values(nil, {
-			elements = {},
+			elements = {},  -- points to ElementEnemyPreferedAdd elements
 		}),
 	},
 	{

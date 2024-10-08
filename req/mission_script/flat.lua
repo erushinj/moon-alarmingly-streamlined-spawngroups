@@ -285,7 +285,8 @@ return {
 	[104542] = disable,
 	[104543] = disable,
 	[104544] = disable,
-
+	[102092] = disable,  -- dont remove ground level spawns at any point
+	[102097] = disable,
 	[101519] = disable,  -- disruptive garbage team ai SOs, checking out winch
 	[101167] = disable,  -- pointing over edge if c4 lands not on the roof
 	[101170] = disable,
@@ -296,6 +297,8 @@ return {
 	[100644] = disable,
 	[101108] = disable,
 	[101112] = disable,
+	[100316] = disable,  -- turn off navlink that rappels through blinds
+	[100202] = disable,  -- and 4th balcony -> 3rd floor navlink, no good use
 	[102690] = {  -- heli chance (vanilla is 50, but its tweaked to loop now)
 		values = {
 			chance = 20,
@@ -317,6 +320,17 @@ return {
 	[104561] = {  -- roof heli group spawn
 		values = {
 			spawn_type = "group_guaranteed",
+		},
+	},
+	[104185] = disable,  -- "passive cloaker spawn" with other enemies, replaced
+	[102087] = {  -- add back spawns
+		on_executed = {
+			{ name = "add_cloaker_groups", delay = 0, },
+		},
+	},
+	[100270] = {
+		values = {
+			elements = { 101669, 103217, 103225, 103226, },  -- remove a nonsense spawn thats now used for a cloaker group
 		},
 	},
 	[102760] = disable,  -- roof doors closed disables mostly unrelated navlinks
@@ -351,7 +365,7 @@ return {
 			{ name = "toggle_ambush_peek", delay = 0, },
 		},
 	},
-	[102720] = ambush_chance,  -- tweak ambush chance (20% -> 25% ovk, 30% -> 25% mh, 30% -> 40% dw/ds)
+	[102720] = ambush_chance,  -- tweak ambush chance (vanilla is 20% ovk, 30% mh+)
 	[101817] = ambush_chance,
 	[102656] = enable,  -- "link to close roof doors"
 	[103611] = enable,
