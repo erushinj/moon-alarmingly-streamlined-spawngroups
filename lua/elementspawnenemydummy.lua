@@ -45,26 +45,28 @@ Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	if self._patched_enemy_name == nil then
 		local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
 		local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
+		local units = tweak_data.moon.units[typ]
 
-		if typ then
-			local units = tweak_data.moon.units[typ]
-
-			if type(units) == "table" then
-				self._possible_enemies = units
-				self._patched_enemy_name = units[1]
-			else
-				self._patched_enemy_name = units
-			end
+		if type(units) == "table" then
+			self._possible_enemies = units
+			self._patched_enemy_name = units[1]
+		else
+			self._patched_enemy_name = units or nil
 		end
 	end
 end )
 
+local ids_unit = Idstring("unit")
 local produce_original = ElementSpawnEnemyDummy.produce
 function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 	local dummy_mapping = tweak_data.moon.dummy_mapping[self._enemy_name:key()]
 
-	if dummy_mapping then
-		ASS:log("error", "Element \"%s\" (%s) tried spawning a dummy unit \"%s\"!", self._editor_name, self._id, dummy_mapping)
+	if dummy_mapping or not PackageManager:has(ids_unit, self._enemy_name) then
+		if dummy_mapping then
+			ASS:log("error", "Element \"%s\" (%s) tried spawning a dummy unit \"%s\"!", self._editor_name, self._id, dummy_mapping)
+		else
+			ASS:log("error", "Element \"%s\" (%s) tried spawning an unloaded unit!", self._editor_name, self._id)
+		end
 
 		self._enemy_name = self._original_enemy_name
 	end
@@ -87,7 +89,6 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 		local logic_data = u_brain and u_brain._logic_data
 		local replace_access = tweak_data.moon.replace_access[logic_data and logic_data.SO_access_str]
 		local converted_access = replace_access and managers.navigation:convert_access_flag(replace_access)
-
 		if converted_access then
 			u_brain._SO_access = converted_access
 			logic_data.SO_access = converted_access
