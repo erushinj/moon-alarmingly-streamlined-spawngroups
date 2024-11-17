@@ -185,6 +185,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		original_swat_ranged = { "ranged_fire", },
 		original_swat_charge = { "charge", "smoke_grenade", "deathguard", },
 		original_swat_flank = { "flank", "flash_grenade", },
+		original_swat_support = { "unit_cover", },
 		original_shield_ranged = { "shield", "ranged_fire", "smoke_grenade", "deathguard", },
 		original_shield_charge = { "shield", "charge", "flash_grenade", "deathguard", },
 		original_shield_support = { "shield_cover", "ranged_fire", "deathguard", },
@@ -225,7 +226,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "CS_hrt_1_2_3",
-				tactics = self._tactics.original_swat_flank,
+				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
 			},
@@ -256,7 +257,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 				rank = 1,
 				unit = "FBI_spooc",
 				random_unit = FBI_spooc_medic,
-				tactics = self._tactics.original_swat_flank,
+				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
 			},
@@ -287,7 +288,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "CS_hrt_2_3",
-				tactics = self._tactics.original_swat_flank,
+				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
 			},
@@ -318,7 +319,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 				rank = 1,
 				unit = "FBI_tazer",
 				random_unit = FBI_tazer_medic,
-				tactics = self._tactics.original_swat_flank,
+				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
 			},
@@ -689,8 +690,10 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		empty = {},
 		streamlined_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
 		streamlined_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
+		streamlined_shotgun_support = { "charge", "unit_cover", "deathguard", },
 		streamlined_rifle_ranged = { "ranged_fire", "smoke_grenade", },
 		streamlined_rifle_flank = { "flank", "flash_grenade", },
+		streamlined_rifle_support = { "unit_cover", },
 		streamlined_shield_ranged = { "shield", "ranged_fire", "deathguard", },
 		streamlined_shield_support_ranged = { "shield_cover", "deathguard", },
 		streamlined_shield_charge = { "shield", "charge", "deathguard", },
@@ -733,6 +736,11 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		return g
 	end
 
+	local FBI_hrt_medic_2 = { "FBI_hrt_3_4", "FBI_medic_2", }
+	local FBI_spooc_medic = { "FBI_spooc", "FBI_medic_2", }
+	local FBI_hrt_medic_1 = { "FBI_hrt_1_2", "FBI_medic_1", }
+	local FBI_tazer_medic = { "FBI_tazer", "FBI_medic_1", }
+
 	self.enemy_spawn_groups.streamlined_shotgun_rush_b = {
 		amount = { 3, 4, },
 		spawn = {
@@ -753,14 +761,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_hrt_3_4",
-				tactics = self._tactics.streamlined_shotgun_rush,
-				amount_max = 1,
-				freq = self._freq.rare,
-			},
-			{
-				rank = 1,
-				unit = "FBI_medic_2",
-				tactics = self._tactics.streamlined_shotgun_rush,
+				random_unit = FBI_hrt_medic_2,
+				tactics = self._tactics.streamlined_shotgun_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
 			},
@@ -788,14 +790,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_spooc",
-				tactics = self._tactics.streamlined_shotgun_flank,
-				amount_max = 1,
-				freq = self._freq.elite,
-			},
-			{
-				rank = 1,
-				unit = "FBI_medic_2",
-				tactics = self._tactics.streamlined_shotgun_flank,
+				random_unit = FBI_spooc_medic,
+				tactics = self._tactics.streamlined_shotgun_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
 			},
@@ -823,14 +819,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_hrt_1_2",
-				tactics = self._tactics.streamlined_rifle_ranged,
-				amount_max = 1,
-				freq = self._freq.rare,
-			},
-			{
-				rank = 1,
-				unit = "FBI_medic_1",
-				tactics = self._tactics.streamlined_rifle_ranged,
+				random_unit = FBI_hrt_medic_1,
+				tactics = self._tactics.streamlined_rifle_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
 			},
@@ -858,14 +848,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_tazer",
-				tactics = self._tactics.streamlined_rifle_flank,
-				amount_max = 1,
-				freq = self._freq.elite,
-			},
-			{
-				rank = 1,
-				unit = "FBI_medic_1",
-				tactics = self._tactics.streamlined_rifle_flank,
+				random_unit = FBI_tazer_medic,
+				tactics = self._tactics.streamlined_rifle_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
 			},
