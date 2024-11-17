@@ -388,7 +388,56 @@ return {
 	[100389] = disable,
 	[100391] = disable,
 	[100392] = disable,
-	[103348] = disable,  -- disable last reenforce point, really not needed on this heist
+	[103348] = disable,  -- disable vanilla reenforce points (they're replaced)
+	[102501] = disable,
+	[103181] = disable,
+	[100290] = {  -- spawn swat
+		reinforce = {
+			{
+				name = "alley1",
+				force = 2,
+				position = Vector3(-2320, 1070, -25),
+			},
+			{
+				name = "alley2",
+				force = 2,
+				position = Vector3(-845, 1990, -25),
+			},
+			{
+				name = "alley3",
+				force = 2,
+				position = Vector3(650, 530, -25),
+			},
+		},
+	},
+	[100045] = {  -- saws placeable
+		reinforce = {
+			{
+				name = "panic1",
+				force = 2,
+				position = Vector3(-1370, 1285, 700),
+			},
+			{
+				name = "panic2",
+				force = 2,
+				position = Vector3(-1275, 1270, 375),
+			},
+		},
+	},
+	[100247] = {  -- saws finished, go to roof
+		reinforce = {
+			{
+				name = "floor2",
+				force = 2,
+				position = Vector3(-825, 620, 375),
+			},
+			{
+				name = "floor4",
+				force = 2,
+				position = Vector3(-485, 585, 1025),
+			},
+		},
+	},
 	[102840] = {  -- diff curve, "start diff" (0.25)
 		values = {
 			difficulty = 0.5,

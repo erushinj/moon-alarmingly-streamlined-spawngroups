@@ -18,11 +18,6 @@
 |--> some already do, but others (even loud-only heists like Green Bridge) don't
 |--> refer to Avalon's Shadow scripting for stealth-possible heists
 |
-|> Panic Room
-|-> finish custom scripting related to anti-cheese navlinks
-|-> reenforce could potentially be useful after all
-|--> still pretty easy to move around even if RNG isn't on your side
-|
 |> Slaughterhouse
 |-> more Murkies
 |
