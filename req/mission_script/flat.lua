@@ -393,6 +393,12 @@ return {
 	[103181] = disable,
 	[100290] = {  -- spawn swat
 		reinforce = {
+			{ name = 104126, },  -- disable automatic sh reenforce
+			{ name = 104903, },
+			{ name = 104125, },
+			{ name = 104904, },
+			{ name = 104835, },
+			{ name = 104899, },
 			{
 				name = "alley1",
 				force = 2,
@@ -406,7 +412,7 @@ return {
 			{
 				name = "alley3",
 				force = 2,
-				position = Vector3(650, 530, -25),
+				position = Vector3(725, 1385, 0),
 			},
 		},
 	},
@@ -428,13 +434,18 @@ return {
 		reinforce = {
 			{
 				name = "floor2",
-				force = 2,
+				force = 3,
 				position = Vector3(-825, 620, 375),
 			},
 			{
-				name = "floor4",
+				name = "floor41",
 				force = 2,
 				position = Vector3(-485, 585, 1025),
+			},
+			{
+				name = "floor42",
+				force = 2,
+				position = Vector3(-75, 490, 1025),
 			},
 		},
 	},
