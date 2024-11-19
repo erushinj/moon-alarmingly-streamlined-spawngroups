@@ -192,7 +192,7 @@ end )
 
 -- ElementRandom clones on_executed on init, need to handle it
 local mission_script_patch_funcs_on_executed_original = MissionManager.mission_script_patch_funcs.on_executed
-function MissionManager.mission_script_patch_funcs.on_executed(self, element, data)
+MissionManager.mission_script_patch_funcs.on_executed = function(self, element, data)
 	for i, v in table.reverse_ipairs(data) do
 		if v.name then
 			local generated_id = custom_element_ids[v.name]

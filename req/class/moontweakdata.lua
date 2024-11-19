@@ -188,7 +188,7 @@ function MoonTweakData:init_replacement_category_names()
 	self.replacement_category_names = {
 		tank_hw = "titan",
 		tank = "tank",
-		taser = "tazer",
+		taser = "taser",
 		shield = "shield",
 		spooc = "spooc",
 		medic = "medic_1_2",
