@@ -715,17 +715,25 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		FBI_swat_3 = "light",
 		FBI_heavy_1 = "heavy",
 		FBI_heavy_2 = "heavy",
+		FBI_heavy_3 = "heavy",
 	}
 	local function no_medic_group(original_group)
 		local g = deep_clone(original_group)
 
+		local unit_type, swap_unit
 		for i, enemy in table.reverse_ipairs(g.spawn) do
-			local unit_type = unit_mapping[enemy.unit]
+			unit_type = unit_mapping[enemy.unit] or nil
 
 			if not unit_type then
 				table.remove(g.spawn, i)
 			else
-				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+				swap_unit = self:moon_get_equivalent_unit_category(enemy.unit) or nil
+
+				if swap_unit then
+					enemy.unit = swap_unit
+				else
+					ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", enemy.unit)
+				end
 
 				if unit_type == "heavy" then
 					enemy.freq = self._freq.common
