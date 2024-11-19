@@ -18,7 +18,7 @@ ModifierHeavies.moon_u_key_mapping = {
 Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
-	for _, continent in pairs(tweak_data.moon:enemy_replacements(true)) do
+	for _, continent in pairs(tweak_data.moon.enemy_replacements) do
 		for _, tier in pairs(continent) do
 			for u_key in pairs(tier) do
 				local new_key = self.moon_u_key_mapping[u_key]

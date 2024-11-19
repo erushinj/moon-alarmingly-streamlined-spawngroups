@@ -123,8 +123,9 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 	end
 
 	local replacement = self.static_tier or managers.groupai:state():moon_get_scripted_tier()
-	local enemy_replacements = tweak_data.moon:enemy_replacements(self.static_continent)
-	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
+	local enemy_replacements = tweak_data.moon.enemy_replacements
+	local replacements = enemy_replacements[self.static_continent] or enemy_replacements[tweak_data.levels:get_ai_group_type()] or enemy_replacements.america
+	local mapped_unit = replacements[replacement][mapped_name]
 	if mapped_unit then
 		self._enemy_name = tweak_data.moon.level_enemy_replacements[mapped_unit:key()] or mapped_unit
 	end

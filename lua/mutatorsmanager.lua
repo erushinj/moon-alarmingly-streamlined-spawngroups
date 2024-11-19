@@ -12,7 +12,9 @@ Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit,
 			local replacement = managers.groupai:state():moon_get_scripted_tier()
 
 			if replacement then
-				local tier = tweak_data.moon:enemy_replacements()[replacement]
+				local enemy_replacements = tweak_data.moon.enemy_replacements
+				local replacements = enemy_replacements[tweak_data.levels:get_ai_group_type()] or enemy_replacements.america
+				local tier = replacements and replacements[replacement]
 
 				if tier then
 					local unit_depth = self:get_hydra_depth(parent_unit)

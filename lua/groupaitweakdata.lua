@@ -40,7 +40,7 @@ local ignore_unit_categories = table.list_to_set({
 function GroupAITweakData:moon_swap_units(tiers)
 	self.moon_last_tiers = tiers or self.moon_last_tiers or {}
 
-	local enemy_replacements = self.tweak_data.moon:enemy_replacements(true)
+	local enemy_replacements = self.tweak_data.moon.enemy_replacements
 	for prefix, tier in pairs(self.moon_last_tiers) do
 		for id, data in pairs(self.unit_categories) do
 			if ignore_unit_categories[id] then
