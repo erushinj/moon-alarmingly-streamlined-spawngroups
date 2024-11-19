@@ -452,7 +452,7 @@ if not ASS then
 		red2 = "CS_normal",  -- first world bank
 		dinner = "FBI_CITY_easy_wish",  -- slaughterhouse
 		nail = "FBI_overkill_145",  -- lab rats
-		cane = "FBI_overkill_145",  -- santas workshop
+		cane = "CS_normal",  -- santas workshop
 		pbr = "CS_normal",  -- beneath the mountain
 		pbr2 = "FBI_overkill_145",  -- birth of sky
 		peta = "CS_FBI_overkill",  -- goat simulator (day 1)
@@ -492,7 +492,7 @@ if not ASS then
 		trai = "FBI_overkill_145",  -- lost in transit
 		corp = "FBI_CITY_easy_wish",  -- hostile takeover
 		deep = "CITY_overkill_290",  -- crude awakening
-		roberts = "FBI_overkill_145",  -- go bank
+		roberts = "CS_normal",  -- go bank
 
 		-- custom heists
 		["branchbank_russia"] = "CS_FBI_overkill",  -- bank heist russia, https://modworkshop.net/mod/30389
