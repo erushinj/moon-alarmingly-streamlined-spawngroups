@@ -6,11 +6,30 @@ Also known as ASS, since it probably is
 
 -----
 
-An enemy spawn group mod, crafted and refined for this one's tastes over the course of a year, with three distinct sets of simple yet alarming groups
+An enemy spawn group mod, crafted and refined for this one's tastes over the course of a good long while, with three distinct sets of simple yet alarming groups
+
+In addition, the mod tweaks mission scripting for loud gameplay across many heists - many tweaks are small, some are much more significant
 
 Requires [Streamlined Heisting](https://github.com/segabl/pd2-streamlined-heisting) - also compatible with [Super Serious Shooter](https://github.com/segabl/pd2-super-serious-shooter)
 
 The mod is more difficult than base Streamlined Heisting, but its difficulty is customizable
+
+-----
+
+### Significantly Tweaked Heists:
+
+This is not a comprehensive list of all tweaked heists
+
+- San Martin Bank: police no longer spawn inside the bank and instead send units to reinforce inside the bank
+- Diamond Heist: significant reinforcement in the atrium
+- Diamond Store: turret is less likely and disables escape points in its line of sight if it spawns
+- Bank Heist/Firestarter day 3: roof helicopter appears multiple times, more snipers spawn on higher difficulties, tear gas appears in more locations when deployed
+- Panic Room: cops arrive some time after masking up even if Chavez is still alive, rooftop snipers continue spawning after the C4 drop, many doors can now be closed for the entire heist, roof helicopter appears multiple times, new Cloaker spawn points, ground-level police spawns remain active for the entire heist
+- Undercover: more snipers and rooftop harassers, Alex is a bit more competent, Taxman is less willing to give up codes, the escape is more difficult
+- Lost in Transit: reinforcement on train cars, snipers respawn
+- Watchdogs: added new snipers across both days; day 1 has ambush tweaks; day 2 restores unused Cloaker spawn points and reinforcement points, and the dock helicopter appears multiple times
+- Big Oil: day 1 has fewer available planks and removes some useless intel depending on difficulty; day 2 allows the helicopter to arrive at the pool on any difficulty
+- Alaskan Deal: tweaked ambush
 
 -----
 
@@ -116,78 +135,6 @@ Custom heists that have been played from start to finish with the mod, in loud, 
     </tr>
     <tr>
         <th>
-            Grace Period
-        </th>
-        <td>
-            Tweak the grace period duration for yourself only. Has no effect in Super Serious Shooter.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Shield Arms
-        </th>
-        <td>
-            Determine the weapon type used by Shield units. Has no effect in Super Serious Shooter.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Taser Dazers
-        </th>
-        <td>
-            Determine the weapon type used by Tasers.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Cloaker Balance
-        </th>
-        <td>
-            Determine the weapon type used by Cloakers.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Medic Ordnance
-        </th>
-        <td>
-            Determine the weapon type used by rifle Medics.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Medical Ordinance
-        </th>
-        <td>
-            Determine the weapon type used by shotgun Medics. Yes, those are two different words.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Shiny Riflemen
-        </th>
-        <td>
-            Allow SMG SWATs for supported factions to spawn in the assault, if available.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Minigun Dozers
-        </th>
-        <td>
-            Allow Minigun Dozers to spawn in the assault on Death Wish difficulty.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Captain Winters
-        </th>
-        <td>
-            Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.
-        </td>
-    </tr>
-    <tr>
-        <th>
             True Patriots
         </th>
         <td>
@@ -202,13 +149,52 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Allow escapes to occur.
         </td>
     </tr>
+    <tr>
+        <th>
+            Captain Winters
+        </th>
+        <td>
+            Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Shiny Riflemen
+        </th>
+        <td>
+            Allow SMG SWATs for supported factions to spawn as part of the assault.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Raging Cops
+        </th>
+        <td>
+            Allow Bronco cops for supported factions to spawn as part of the assault.
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Unit Weapons
+        </th>
+        <td>
+            WIP
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Dozer Rainbow
+        </th>
+        <td>
+            WIP
+        </td>
+    </tr>
 </table>
 
 ### Notes:
-- Majority of features only work as host
+- Only works as host
 - Values (eg, frequency of tougher units) scale with chosen difficulty
 - Some difficulties and Level Mods have a mixed response of two different police factions
-- Minigun Dozers are added to some scripted spawns and will spawn regardless of the Minigun Dozers setting on Death Wish
 - Marshal Marksmen are added to some scripted spawns to compensate for their removal from the assaults
 - Includes a tweaked version of [Give Random Arms to Scripted Spawns](https://modworkshop.net/mod/42111)
 - Certain special enemies are given appropriate weaponry for faction consistency
@@ -299,9 +285,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             <ul>
                 <li>Probably won't hurt.</li>
                 <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
-                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
-                <li>Smoke bombs last up to 15 seconds.</li>
+                <li>Otherwise identical to Hurt Me Plenty.</li>
             </ul>
         </td>
     </tr>
@@ -335,7 +319,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
                 <li>Cooldown between enemy spawns is decreased to 75%.</li>
                 <li>Smoke bombs last up to 20 seconds.</li>
                 <li>Gas grenade chance builds up faster.</li>
-                <li>Special limits are increased by about 25%.</li>
+                <li>Special limits are increased by about 25% (minimum 1 extra for each special type that can normally spawn).</li>
             </ul>
         </td>
     </tr>
@@ -356,7 +340,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
                 <li>Cooldown between enemy spawns is decreased to 25%.</li>
                 <li>Smoke bombs last up to 30 seconds.</li>
                 <li>Gas grenade chance builds up nearly instantly.</li>
-                <li>Special limits are increased by 100%.</li>
+                <li>Special limits are increased by 100% (minimum 1 extra for each special type that can normally spawn).</li>
             </ul>
         </td>
     </tr>
@@ -377,7 +361,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
                 <li>Cooldown between enemy spawns is removed.</li>
                 <li>Smoke bombs last 60 seconds.</li>
                 <li>Gas grenades are always used if available.</li>
-                <li>Special limits are increased by 300%.</li>
+                <li>Special limits are increased by 300% (minimum 1 extra for each special type that can normally spawn).</li>
             </ul>
         </td>
     </tr>
@@ -409,6 +393,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Hotline Miami</li>
                 <li>Art Gallery</li>
                 <li>First World Bank</li>
+                <li>Santa's Workshop</li>
                 <li>Beneath the Mountain</li>
                 <li>Counterfeit</li>
                 <li>Brooklyn 10-10</li>
@@ -419,6 +404,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Brooklyn Bank</li>
                 <li>San Martin Bank</li>
                 <li>Dragon Heist</li>
+                <li>GO Bank</li>
             </ul>
         </td>
     </tr>
@@ -466,10 +452,9 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Golden Grin Casino</li>
                 <li>Aftershock</li>
                 <li>Lab Rats</li>
-                <li>Santa's Workshop</li>
                 <li>Birth of Sky</li>
-                <li>Boiling Point</li>
                 <li>Undercover</li>
+                <li>Boiling Point</li>
                 <li>Biker Heist</li>
                 <li>Safehouse Raid</li>
                 <li>Scarface Mansion</li>
@@ -479,7 +464,6 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Breakfast in Tijuana</li>
                 <li>Black Cat</li>
                 <li>Lost in Transit</li>
-                <li>GO Bank</li>
                 <li>Scorched Earth (custom)</li>
                 <li>Crime and Punishment (custom)</li>
                 <li>Hunter and Hunted (custom)</li>
