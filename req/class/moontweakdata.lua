@@ -53,6 +53,7 @@ function MoonTweakData:init_vanilla_category_translations()
 		CS_swat_R870 = "CS_swat_2",
 		CS_heavy_M4 = "CS_heavy_1",
 		CS_heavy_R870 = "CS_heavy_2",
+		CS_tazer = "FBI_taser",
 		FBI_suit_C45_M4 = "FBI_hrt_1_2",
 		FBI_suit_M4_MP5 = "FBI_hrt_2_3",
 		FBI_suit_stealth_MP5 = "FBI_hrt_3",
@@ -1238,6 +1239,7 @@ function MoonTweakData:init_weapon_mapping()
 
 	local panic_room = { "c45", "raging_bull", "mac11", "ak47", "r870", "mossberg", }
 	local murkywater = { "scar_murky", "spas12", "ump", }
+	local c45_ump = { "c45", "ump", }
 
 	-- level id specific overrides
 	local level_overrides = {
@@ -1272,9 +1274,6 @@ function MoonTweakData:init_weapon_mapping()
 			[("units/payday2/characters/ene_security_5/ene_security_5"):key()] = "mp5",
 			[("units/payday2/characters/ene_security_8/ene_security_8"):key()] = "r870",
 		},
-		short2_stage1 = {
-			[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "c45",  -- loud tutorial cop, old versions reference
-		},
 		constantine_dwtd_level = {
 			[("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"):key()] = "mossberg",
 			[("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"):key()] = "beretta92",
@@ -1294,7 +1293,6 @@ function MoonTweakData:init_weapon_mapping()
 			[("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = get_tweaked_weapon("medic_dozer", "bo_bofa"),
 		},
 	}
-	level_overrides.short2_stage2b = level_overrides.short2_stage1
 	level_overrides.physics_citystreets = level_overrides.thechase
 	level_overrides.physics_tower = level_overrides.thechase
 	level_overrides.physics_core = level_overrides.thechase
@@ -1419,6 +1417,7 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),
 		[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
 		[("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "fbi"),
+		[("units/pd2_dlc_short/characters/ene_cop_2_shr/ene_cop_2_shr"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),  -- loud tutorial cop
 		[("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),
 		[("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
 		[("units/pd2_dlc_chas/characters/ene_male_chas_police_02/ene_male_chas_police_02"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
@@ -1433,8 +1432,6 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_fsb"),  -- constantine scores
 
 		-- assorted law
-		[("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3"):key()] = "r870",
-		[("units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4"):key()] = "mp5",
 		[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = "c45",
 		[("units/payday2/characters/ene_security_2/ene_security_2"):key()] = "mp5",
 		[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = "r870",
@@ -1443,13 +1440,13 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/payday2/characters/ene_security_6/ene_security_6"):key()] = "mp5",
 		[("units/payday2/characters/ene_security_7/ene_security_7"):key()] = "r870",
 		[("units/payday2/characters/ene_security_8/ene_security_8"):key()] = "r870",
-		[("units/payday2/characters/ene_secret_service_1/ene_secret_service_1"):key()] = "mp5",
-		[("units/payday2/characters/ene_secret_service_2/ene_secret_service_2"):key()] = "mp5",
+		[("units/payday2/characters/ene_secret_service_1/ene_secret_service_1"):key()] = c45_ump,
+		[("units/payday2/characters/ene_secret_service_2/ene_secret_service_2"):key()] = c45_ump,
 		[("units/pd2_dlc1/characters/ene_security_gensec_1/ene_security_gensec_1"):key()] = "c45",
 		[("units/pd2_dlc1/characters/ene_security_gensec_2/ene_security_gensec_2"):key()] = "r870",
 		[("units/pd2_dlc_arena/characters/ene_guard_security_heavy_1/ene_guard_security_heavy_1"):key()] = "r870",
-		[("units/pd2_dlc_arena/characters/ene_guard_security_heavy_2/ene_guard_security_heavy_2"):key()] = "mp5",
-		[("units/pd2_dlc_casino/characters/ene_secret_service_1_casino/ene_secret_service_1_casino"):key()] = "mp5",
+		[("units/pd2_dlc_arena/characters/ene_guard_security_heavy_2/ene_guard_security_heavy_2"):key()] = "r870",
+		[("units/pd2_dlc_casino/characters/ene_secret_service_1_casino/ene_secret_service_1_casino"):key()] = c45_ump,
 		[("units/payday2/characters/ene_prisonguard_male_1/ene_prisonguard_male_1"):key()] = "m4",
 		[("units/payday2/characters/ene_prisonguard_female_1/ene_prisonguard_female_1"):key()] = "spas12",
 		[("units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1"):key()] = "spas12",
@@ -1475,27 +1472,26 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_deep/characters/ene_deep_security_3/ene_deep_security_3"):key()] = "benelli",
 		[("units/pd2_dlc_bex/characters/ene_bex_security_01/ene_bex_security_01"):key()] = "raging_bull",
 		[("units/pd2_dlc_bex/characters/ene_bex_security_02/ene_bex_security_02"):key()] = "r870",
-		[("units/pd2_dlc_bex/characters/ene_bex_security_03/ene_bex_security_03"):key()] = "mp5",
+		[("units/pd2_dlc_bex/characters/ene_bex_security_03/ene_bex_security_03"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_bex_security_suit_01/ene_bex_security_suit_01"):key()] = "r870",
-		[("units/pd2_dlc_bex/characters/ene_bex_security_suit_02/ene_bex_security_suit_02"):key()] = "mp5",
+		[("units/pd2_dlc_bex/characters/ene_bex_security_suit_02/ene_bex_security_suit_02"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_bex_security_suit_03/ene_bex_security_suit_03"):key()] = "raging_bull",
 		[("units/pd2_dlc_pex/characters/ene_male_office_cop_01/ene_male_office_cop_01"):key()] = "c45",
 		[("units/pd2_dlc_pex/characters/ene_male_office_cop_02/ene_male_office_cop_02"):key()] = "raging_bull",
-		[("units/pd2_dlc_pex/characters/ene_male_office_cop_03/ene_male_office_cop_03"):key()] = "mp5",
+		[("units/pd2_dlc_pex/characters/ene_male_office_cop_03/ene_male_office_cop_03"):key()] = "ump",
 		[("units/pd2_dlc_pex/characters/ene_male_office_cop_04/ene_male_office_cop_04"):key()] = "r870",
-		[("units/pd2_dlc_fex/characters/ene_secret_service_fex/ene_secret_service_fex"):key()] = "mp5",
-		[("units/pd2_dlc_chca/characters/ene_security_cruise_1/ene_security_cruise_1"):key()] = "mp5",
+		[("units/pd2_dlc_fex/characters/ene_secret_service_fex/ene_secret_service_fex"):key()] = c45_ump,
+		[("units/pd2_dlc_chca/characters/ene_security_cruise_1/ene_security_cruise_1"):key()] = "c45",
 		[("units/pd2_dlc_chca/characters/ene_security_cruise_2/ene_security_cruise_2"):key()] = "r870",
 		[("units/pd2_dlc_chca/characters/ene_security_cruise_3/ene_security_cruise_3"):key()] = "raging_bull",
 		[("units/pd2_dlc_pent/characters/ene_male_security_penthouse_1/ene_male_security_penthouse_1"):key()] = "mac11",
 		[("units/pd2_dlc_pent/characters/ene_male_security_penthouse_2/ene_male_security_penthouse_2"):key()] = "mossberg",
 		[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"):key()] = "spas12",
 		[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_2/ene_male_ranc_security_2"):key()] = "raging_bull",
-		[("units/pd2_dlc_short/characters/ene_cop_2_shr/ene_cop_2_shr"):key()] = "c45",  -- loud tutorial cop, old versions reference
 		[("units/pd2_dlc_short/characters/ene_security_1_undominatable/ene_security_1_undominatable"):key()] = "c45",  -- stealth tutorial
 		[("units/pd2_dlc_short/characters/ene_security_2_undominatable/ene_security_2_undominatable"):key()] = "mp5",  -- stealth tutorial
 		[("units/pd2_dlc_short/characters/ene_security_3_undominatable/ene_security_3_undominatable"):key()] = "r870",  -- stealth tutorial
-		[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = "mp5",  -- stealth tutorial
+		[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = c45_ump,  -- stealth tutorial
 		[("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi"):key()] = "ump",
@@ -1552,8 +1548,8 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_chas/characters/ene_male_triad_gang_5/ene_male_triad_gang_5"):key()] = "r870",
 		[("units/pd2_dlc_chca/characters/ene_triad_cruise_1/ene_triad_cruise_1"):key()] = "raging_bull",
 		[("units/pd2_dlc_chca/characters/ene_triad_cruise_2/ene_triad_cruise_2"):key()] = "r870",
-		[("units/pd2_dlc_chca/characters/ene_triad_cruise_3/ene_triad_cruise_3"):key()] = "mp5",
-		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_1/ene_male_triad_penthouse_1"):key()] = "mp5",
+		[("units/pd2_dlc_chca/characters/ene_triad_cruise_3/ene_triad_cruise_3"):key()] = "mac11",
+		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_1/ene_male_triad_penthouse_1"):key()] = "mac11",
 		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_2/ene_male_triad_penthouse_2"):key()] = "raging_bull",
 		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_3/ene_male_triad_penthouse_3"):key()] = "c45",
 		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_4/ene_male_triad_penthouse_4"):key()] = "r870",
