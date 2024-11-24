@@ -117,10 +117,10 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 				default = "CS_shield",
 			},
 			CS_spooc = {
-				rifle = "CS_hrt_2",
-				shotgun = "CS_hrt_3",
-				default = "CS_hrt_2_3",
-				chicken_plate = "CS_heavy_1_2_3",
+				rifle = "CS_hrt_1_2",
+				shotgun = "CS_hrt_3_4",
+				default = "CS_hrt_1_2_3_4",
+				chicken_plate = "CS_heavy_1_2_3_4",
 			},
 			CS_tank = {
 				default = "CS_heavy_1_2_3",
@@ -245,7 +245,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "CS_hrt_1_2_3",
+				unit = "CS_hrt_1_2_3_4",
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -307,7 +307,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "CS_hrt_2_3",
+				unit = "CS_hrt_1_2_3_4",
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -393,7 +393,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_hrt_2_3_4",
+				unit = "FBI_hrt_1_2_3_4",
 				tactics = self._tactics.original_shield_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -554,7 +554,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_hrt_3",
+				unit = "FBI_hrt_3_4",
 				tactics = self._tactics.original_spooc_camper,
 				random_tactics = spooc_random_tactics,
 				amount_max = 1,
@@ -574,7 +574,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "CS_hrt_2_3_4",
+				unit = "CS_hrt_3_4",
 				tactics = self._tactics.empty,
 				freq = self._freq.common,
 			},
@@ -585,7 +585,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_hrt_2_3_4",
+				unit = "CS_hrt_3_4",
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline,
 			},
@@ -1053,7 +1053,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "FBI_hrt_3",
+				unit = "FBI_hrt_3_4",
 				tactics = self._tactics.streamlined_spooc,
 				amount_max = 1,
 				freq = self._freq.baseline,
@@ -1086,15 +1086,9 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_hrt_2",
+				unit = "CS_hrt_1_2",
 				tactics = self._tactics.empty,
 				freq = self._freq.baseline,
-			},
-			{
-				rank = 1,
-				unit = "CS_hrt_1",
-				tactics = self._tactics.empty,
-				freq = self._freq.common,
 			},
 			{
 				rank = 1,
@@ -1651,9 +1645,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 
 	local access_all = table.set("walk", "acrobatic")
 	local access_walk = table.set("walk")
-	local smg_lights = ASS.smg_units == "lights" or ASS.smg_units == "both"
-	local smg_heavies = ASS.smg_units == "heavies" or ASS.smg_units == "both"
-	local raging_cops = ASS.settings.raging_cops
 	local function dozer_difficulty_threshold(typ)
 		local threshold = ASS.dozer_rainbow[typ] or 1
 
@@ -1712,29 +1703,15 @@ function GroupAITweakData:_moon_init_unit_categories()
 		hrt_3_4 = {
 			u_keys = {
 				hrt_3 = 1,
-				hrt_4 = raging_cops and 1 or 0,
-			},
-		},
-		hrt_1_2_3 = {
-			u_keys = {
-				hrt_1 = 1,
-				hrt_2 = 1,
-				hrt_3 = 1,
-			},
-		},
-		hrt_2_3_4 = {
-			u_keys = {
-				hrt_2 = 1,
-				hrt_3 = raging_cops and 2 or 1,
-				hrt_4 = raging_cops and 1 or 0,
+				hrt_4 = 1,
 			},
 		},
 		hrt_1_2_3_4 = {
 			u_keys = {
 				hrt_1 = 1,
 				hrt_2 = 1,
-				hrt_3 = raging_cops and 2 or 1,
-				hrt_4 = raging_cops and 1 or 0,
+				hrt_3 = 1,
+				hrt_4 = 1,
 			},
 		},
 		swat_1 = {
@@ -1749,8 +1726,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 		},
 		swat_3 = {
 			u_keys = {
-				swat_1 = smg_lights and 0 or 1,
-				swat_3 = smg_lights and 1 or 0,
+				swat_3 = 1,
 			},
 		},
 		swat_1_2 = {
@@ -1761,16 +1737,15 @@ function GroupAITweakData:_moon_init_unit_categories()
 		},
 		swat_1_2_3 = {
 			u_keys = {
-				swat_1 = smg_lights and 1 or 2,
+				swat_1 = 1,
 				swat_2 = 1,
-				swat_3 = smg_lights and 1 or 0,
+				swat_3 = 1,
 			},
 		},
 		swat_2_3 = {
 			u_keys = {
-				swat_1 = smg_lights and 0 or 1,
 				swat_2 = 1,
-				swat_3 = smg_lights and 1 or 0,
+				swat_3 = 1,
 			},
 		},
 		heavy_1 = {
@@ -1785,8 +1760,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 		},
 		heavy_3 = {
 			u_keys = {
-				heavy_1 = smg_heavies and 0 or 1,
-				heavy_3 = smg_heavies and 1 or 0,
+				heavy_3 = 1,
 			},
 		},
 		heavy_1_2 = {
@@ -1797,9 +1771,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 		},
 		heavy_1_2_3 = {
 			u_keys = {
-				heavy_1 = smg_heavies and 1 or 2,
+				heavy_1 = 1,
 				heavy_2 = 1,
-				heavy_3 = smg_heavies and 1 or 0,
+				heavy_3 = 1,
 			},
 		},
 		shield = {

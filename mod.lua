@@ -57,16 +57,15 @@ if not ASS then
 		max_values = false,  -- whether to use death sentence values for scaling
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
-		smg_units = 4,  -- allow smg swats to spawn if applicable
-		raging_cops = true,  -- allow bronco cops/hrt_4 mapped units in assault spawns
 		unit_weapons = {  -- pick weapon type used by certain units
 			shield_arms = 4,  -- pick shield weapon type
-			taser_dazers = 1,  -- pick taser weapon type
-			cloaker_balance = 1,  -- pick cloaker weapon type
-			medic_ordnance = 1,  -- pick rifle medic weapon type
-			medical_ordinance = 1,  -- pick shotgun medic weapon type
-			geneva_suggestion = 1,  -- pick medic dozer weapon type
-			police_funding = 1,  -- when a faction only has two hrts, pick whether a pistol or rifle hrt should exist alongside a shotgun hrt
+			taser_dazers = 4,  -- pick taser weapon type
+			cloaker_balance = 4,  -- pick cloaker weapon type
+			medic_ordnance = 4,  -- pick rifle medic weapon type
+			medical_ordinance = 4,  -- pick shotgun medic weapon type
+			geneva_suggestion = 4,  -- pick medic dozer weapon type
+			police_rifle_funding = 4,  -- when a faction only has two hrts, pick whether a pistol or rifle hrt should exist
+			police_shotgun_funding = 4,  -- when a faction only has two hrts, pick whether a shotgun or revolver hrt should exist
 		},
 		dozer_rainbow = {  -- allow given dozer varieties to spawn on lower difficulties than normal
 			dozer_1 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
@@ -106,12 +105,6 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_skill_5",  -- nightmare
 			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
 		},
-		smg_units = {
-			"alarmingly_streamlined_spawngroups_smg_units_neither",
-			"alarmingly_streamlined_spawngroups_smg_units_lights",
-			"alarmingly_streamlined_spawngroups_smg_units_heavies",
-			"alarmingly_streamlined_spawngroups_smg_units_both",
-		},
 		shield_arms = {
 			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- what the mod normally uses
 			"alarmingly_streamlined_spawngroups_shield_arms_pistols",  -- always pistols
@@ -148,11 +141,17 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- randomize between both
 		},
-		police_funding = {  -- rifle hrts for factions with only 2 hrts
-			"alarmingly_streamlined_spawngroups_police_funding_default",  -- what the mod normally uses
-			"alarmingly_streamlined_spawngroups_police_funding_pistols",  -- always pistols
-			"alarmingly_streamlined_spawngroups_police_funding_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_police_funding_both",  -- randomize between both
+		police_rifle_funding = {  -- rifle hrts
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols",  -- always pistols
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_rifles",  -- always rifles
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_both",  -- randomize between both
+		},
+		police_shotgun_funding = {  -- shotgun hrts
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_shotguns",  -- always shotguns
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_revolvers",  -- always revolvers
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_both",  -- randomize between both
 		},
 	}
 
@@ -199,17 +198,8 @@ if not ASS then
 		},
 
 		gas_grenade_ignore_hostages = { priority = priority(), },
-		escapes = {
-			priority = priority(),
-			divider = divider,
-		},
-
-		captain_winters = { priority = priority(), },
-		smg_units = {
-			priority = priority(),
-			items = ASS.values.smg_units,
-		},
-		raging_cops = {
+		escapes = { priority = priority(), },
+		captain_winters = {
 			priority = priority(),
 			divider = divider,
 		},
@@ -239,9 +229,13 @@ if not ASS then
 			priority = priority(),
 			items = ASS.values.geneva_suggestion,
 		},
-		police_funding = {
+		police_rifle_funding = {
 			priority = priority(),
-			items = ASS.values.police_funding,
+			items = ASS.values.police_rifle_funding,
+		},
+		police_shotgun_funding = {
+			priority = priority(),
+			items = ASS.values.police_shotgun_funding,
 			divider = divider,
 		},
 
@@ -634,7 +628,8 @@ if not ASS then
 		medic_rifle = ass_gsub("default", "unit_weapons", "medic_ordnance"),
 		medic_shotgun = ass_gsub("default", "unit_weapons", "medical_ordinance"),
 		medic_dozer = ass_gsub("default", "unit_weapons", "geneva_suggestion"),
-		pistol_rifle_hrts = ass_gsub("default", "unit_weapons", "police_funding"),
+		pistol_rifle_hrts = ass_gsub("default", "unit_weapons", "police_rifle_funding"),
+		shotgun_revolver_hrts = ass_gsub("default", "unit_weapons", "police_shotgun_funding"),
 	}
 
 	local function get_dozer_rainbow_type(typ, default)
