@@ -120,7 +120,7 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 				rifle = "CS_hrt_1_2",
 				shotgun = "CS_hrt_3_4",
 				default = "CS_hrt_1_2_3_4",
-				chicken_plate = "CS_heavy_1_2_3_4",
+				chicken_plate = "CS_heavy_1_2_3",
 			},
 			CS_tank = {
 				default = "CS_heavy_1_2_3",
@@ -1688,16 +1688,15 @@ function GroupAITweakData:_moon_init_unit_categories()
 				hrt_3 = 1,
 			},
 		},
+		hrt_4 = {
+			u_keys = {
+				hrt_4 = 1,
+			},
+		},
 		hrt_1_2 = {
 			u_keys = {
 				hrt_1 = 1,
 				hrt_2 = 1,
-			},
-		},
-		hrt_2_3 = {
-			u_keys = {
-				hrt_2 = 1,
-				hrt_3 = 1,
 			},
 		},
 		hrt_3_4 = {
@@ -1729,21 +1728,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 				swat_3 = 1,
 			},
 		},
-		swat_1_2 = {
-			u_keys = {
-				swat_1 = 1,
-				swat_2 = 1,
-			},
-		},
 		swat_1_2_3 = {
 			u_keys = {
 				swat_1 = 1,
-				swat_2 = 1,
-				swat_3 = 1,
-			},
-		},
-		swat_2_3 = {
-			u_keys = {
 				swat_2 = 1,
 				swat_3 = 1,
 			},
@@ -1761,12 +1748,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 		heavy_3 = {
 			u_keys = {
 				heavy_3 = 1,
-			},
-		},
-		heavy_1_2 = {
-			u_keys = {
-				heavy_1 = 1,
-				heavy_2 = 1,
 			},
 		},
 		heavy_1_2_3 = {
