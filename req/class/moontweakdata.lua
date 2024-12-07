@@ -1110,6 +1110,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = "deagle",
 				federales = nil,
 				constantine_fsb = "deagle",
+				constantine_cartel_pistol = "beretta92",
+				constantine_cartel_rifle = "ak47",
 				bo_sbz_pistol = "deagle",
 				bo_sbz_rifle = "shepheard",
 				bo_ovk_pistol = nil,
@@ -1123,6 +1125,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = "deagle",
 				federales = nil,
 				constantine_fsb = "deagle",
+				constantine_cartel_pistol = "beretta92",
+				constantine_cartel_rifle = "beretta92",
 				bo_sbz_pistol = "deagle",
 				bo_sbz_rifle = "deagle",
 				bo_ovk_pistol = nil,
@@ -1136,6 +1140,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = "scar_murky",
 				federales = nil,
 				constantine_fsb = "akmsu_smg",
+				constantine_cartel_pistol = "ak47",
+				constantine_cartel_rifle = "ak47",
 				bo_sbz_pistol = "shepheard",
 				bo_sbz_rifle = "shepheard",
 				bo_ovk_pistol = "m4",
@@ -1149,6 +1155,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = { "deagle", "scar_murky", },
 				federales = nil,
 				constantine_fsb = { "deagle", "akmsu_smg", },
+				constantine_cartel_pistol = { "beretta92", "ak47", },
+				constantine_cartel_rifle = { "beretta92", "ak47", },
 				bo_sbz_pistol = { "deagle", "shepheard", },
 				bo_sbz_rifle = { "deagle", "shepheard", },
 				bo_ovk_pistol = { "c45", "m4", },
@@ -1165,6 +1173,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = "spas12",
 				federales = nil,
 				constantine_fsb = nil,
+				constantine_cartel_shotgun = nil,
+				constantine_cartel_bronco = "raging_bull",
 				bo_sbz_shotgun = "ksg",
 				bo_sbz_bronco = "raging_bull",
 				bo_ovk = nil,
@@ -1178,6 +1188,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = "spas12",
 				federales = nil,
 				constantine_fsb = nil,
+				constantine_cartel_shotgun = nil,
+				constantine_cartel_bronco = nil,
 				bo_sbz_shotgun = "ksg",
 				bo_sbz_bronco = "ksg",
 				bo_ovk = nil,
@@ -1191,6 +1203,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = nil,
 				federales = nil,
 				constantine_fsb = nil,
+				constantine_cartel_shotgun = nil,
+				constantine_cartel_bronco = nil,
 				bo_sbz_shotgun = nil,
 				bo_sbz_bronco = nil,
 				bo_ovk = nil,
@@ -1204,6 +1218,8 @@ function MoonTweakData:init_weapon_mapping()
 				murkywater = { "spas12", "raging_bull", },
 				federales = nil,
 				constantine_fsb = nil,
+				constantine_cartel_shotgun = nil,
+				constantine_cartel_bronco = nil,
 				bo_sbz_shotgun = { "ksg", "raging_bull", },
 				bo_sbz_bronco = { "ksg", "raging_bull", },
 				bo_ovk = nil,
@@ -1412,6 +1428,10 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "federales"),
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_fsb"),  -- constantine scores
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_rifle"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_pistol"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_1/ene_cartel_soldier_shotgun_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_rifle"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_2/ene_cartel_soldier_shotgun_2"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_pistol"),
 
 		-- shotgun hrts, for "Shotgun Funding" setting
 		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),
@@ -1430,6 +1450,10 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "federales"),
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_fsb"),  -- constantine scores
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_shotgun"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_bronco"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_shotgun"),
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_4/ene_cartel_soldier_shotgun_4"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_bronco"),
 
 		-- assorted law
 		[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = "c45",
@@ -1575,14 +1599,6 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_mod_ttr/characters/ene_cartel_bathrobe_3/ene_cartel_bathrobe_3"):key()] = "raging_bull",
 		[("units/pd2_mod_ttr/characters/ene_cartel_clubowner/ene_cartel_clubowner"):key()] = { "r870", "saiga", "rpk_lmg", },  -- some buluc guard with armour lol
 		[("units/pd2_mod_ttr/characters/ene_cartel_vip_armor_1/ene_cartel_vip_armor_1"):key()] = "mossberg",  -- who
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"):key()] = "ak47",  -- scripted spawns, treated as hrts in ASS
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"):key()] = "beretta92",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"):key()] = "r870",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"):key()] = "raging_bull",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_1/ene_cartel_soldier_shotgun_1"):key()] = "ak47",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_2/ene_cartel_soldier_shotgun_2"):key()] = "beretta92",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = "r870",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_4/ene_cartel_soldier_shotgun_4"):key()] = "raging_bull",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_1/ene_cartel_soldier_fbi_1"):key()] = "ak47",  -- lights
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_2/ene_cartel_soldier_fbi_2"):key()] = "beretta92",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_3/ene_cartel_soldier_fbi_3"):key()] = "r870",
