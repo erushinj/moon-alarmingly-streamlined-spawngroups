@@ -378,11 +378,11 @@ if not ASS then
 			{ 21, 24, 27, },
 		},
 		reenforce_interval = {  -- delay between enemy groups being dispatched specifically to hold selected locations on the map, this delay is shortened the more groups are needed
-			{ 30, 30, 30, },
-			{ 20, 20, 20, },
-			{ 20, 20, 20, },
-			{ 15, 15, 15, },
-			{ 5, 5, 5, },
+			{ 10, 20, 30, },
+			{ 10, 15, 20, },
+			{ 10, 15, 20, },
+			{ 10, 12.5, 15, },
+			{ 1, 3, 5, },
 			{ 0, 0, 0, },
 		},
 		smoke_grenade_lifetime = {  -- self-explanatory, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
