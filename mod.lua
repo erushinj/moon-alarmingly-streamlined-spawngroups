@@ -58,14 +58,14 @@ if not ASS then
 		max_diff = false,  -- whether to force hardest assaults
 		max_balance_muls = false,  -- whether to force full crew spawns
 		unit_weapons = {  -- pick weapon type used by certain units
-			shield_arms = 4,  -- pick shield weapon type
-			taser_dazers = 4,  -- pick taser weapon type
+			shield_arms = 2,  -- pick shield weapon type
+			taser_dazers = 3,  -- pick taser weapon type
 			cloaker_balance = 4,  -- pick cloaker weapon type
 			medic_ordnance = 4,  -- pick rifle medic weapon type
 			medical_ordinance = 4,  -- pick shotgun medic weapon type
 			geneva_suggestion = 4,  -- pick medic dozer weapon type
-			police_rifle_funding = 4,  -- when a faction only has two hrts, pick whether a pistol or rifle hrt should exist
-			police_shotgun_funding = 4,  -- when a faction only has two hrts, pick whether a shotgun or revolver hrt should exist
+			police_rifle_funding = 2,  -- pick whether a pistol and/or rifle hrt should exist
+			police_shotgun_funding = 2,  -- pick whether a shotgun and/or revolver hrt should exist
 		},
 		dozer_rainbow = {  -- allow given dozer varieties to spawn on lower difficulties than normal
 			dozer_1 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
