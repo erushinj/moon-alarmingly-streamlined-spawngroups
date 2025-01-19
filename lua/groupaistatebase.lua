@@ -50,7 +50,40 @@ if ASS.settings.max_diff then
 end
 
 -- cloaker task fuck off
-Hooks:OverrideFunction( GroupAIStateBase, "_process_recurring_grp_SO", function() end )
+Hooks:OverrideFunction( GroupAIStateBase, "_process_recurring_grp_SO", function(...) end )
+
+-- sorry, the spawn noise is annoying
+-- local _process_recurring_grp_SO_original = GroupAIStateBase._process_recurring_grp_SO
+-- function GroupAIStateBase:_process_recurring_grp_SO(_, data, ...)
+-- 	if data.groups and next(data.groups) then
+-- 		data.delay_t = math.max(data.delay_t or 0, self._t + 1)
+
+-- 		return _process_recurring_grp_SO_original(self, _, data, ...)
+-- 	end
+
+-- 	local network_session = managers.network:session()
+-- 	local send_to_peers_synched_original = network_session.send_to_peers_synched
+-- 	local post_event_original = managers.hud.post_event
+
+-- 	network_session.send_to_peers_synched = function(...)
+-- 		if select(3, ...) ~= self:get_sync_event_id("cloaker_spawned") then
+-- 			return send_to_peers_synched_original(...)
+-- 		end
+-- 	end
+
+-- 	managers.hud.post_event = function(...)
+-- 		if select(2, ...) ~= "cloaker_spawn" then
+-- 			return post_event_original(...)
+-- 		end
+-- 	end
+
+-- 	local result = _process_recurring_grp_SO_original(self, _, data, ...)
+
+-- 	network_session.send_to_peers_synched = send_to_peers_synched_original
+-- 	managers.hud.post_event = post_event_original
+
+-- 	return result
+-- end
 
 -- sigh. u240. also custom maps with incomplete custom factions.
 -- make marshal shields not count as normal shields
