@@ -1201,64 +1201,807 @@ GroupAITweakData._moon_assault_styles.default = function(self, special_weight)
 	})
 end
 
--- pdth-styled spawns
+-- pd3-styled spawns
 GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_weight)
 	self:_moon_add_tactics({
 		empty = {},
-		chicken_plate_hrt_pistol = { "flank", "deathguard", },
-		chicken_plate_hrt_rifle = { "flank", "deathguard", "ranged_fire", },
-		chicken_plate_hrt_shotgun = { "flank", "deathguard", "charge", },
-		chicken_plate_swat_rifle = { "ranged_fire", },
-		chicken_plate_swat_shotgun = { "smoke_grenade", "deathguard", },
-		chicken_plate_swat_smg = { "flank", "flash_grenade", },
-		chicken_plate_heavy_rifle = { "flash_grenade", "deathguard", },
-		chicken_plate_heavy_shotgun = { "charge", "smoke_grenade", },
-		chicken_plate_heavy_smg = { "flank", "deathguard", },
-		chicken_plate_shield = { "murder", "deathguard", "ranged_fire", },
-		chicken_plate_taser = { "murder", "charge", "flank", },
-		chicken_plate_tank = { "murder", "charge", "smoke_grenade", },
-		chicken_plate_spooc = { "murder", "flank", "smoke_grenade", },
-		chicken_plate_medic_rifle = { "flank", "ranged_fire", "no_push", },
-		chicken_plate_medic_shotgun = { "flank", "deathguard", "no_push", },
+		chicken_plate_hrt_pistol = { "shield_cover", "flank", "deathguard", "ranged_fire", },
+		chicken_plate_hrt_shotgun = { "shield_cover", "flank", "deathguard", "charge", },
+		chicken_plate_swat_rifle = { "shield_cover", "ranged_fire", },
+		chicken_plate_swat_shotgun = { "shield_cover", "smoke_grenade", "deathguard", },
+		chicken_plate_swat_smg = { "shield_cover", "murder", "flank", "flash_grenade", },
+		chicken_plate_heavy_rifle = { "shield_cover", "flash_grenade", "deathguard", },
+		chicken_plate_heavy_shotgun = { "shield_cover", "charge", "smoke_grenade", },
+		chicken_plate_heavy_smg = { "shield_cover", "murder", "flank", "deathguard", },
+		chicken_plate_shield = { "shield", "deathguard", "ranged_fire", },
+		chicken_plate_taser = { "unit_cover", "murder", "charge", "flank", },
+		chicken_plate_tank = { "shield", "murder", "charge", "smoke_grenade", },
+		chicken_plate_spooc = { "shield_cover", "murder", "flank", "smoke_grenade", },
+		chicken_plate_medic_rifle = { "unit_cover", "flank", "ranged_fire", "no_push", },
+		chicken_plate_medic_shotgun = { "unit_cover", "flank", "deathguard", "no_push", },
 	})
 
-	local function b_group(original_group)
-		local g = deep_clone(original_group)
+	local meta = {
+		__index = function(t, k)
+			local groups = rawget(t, "groups")
 
-		for i, enemy in pairs(g.spawn) do
-			enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
-		end
+			if groups then
+				local diff
+				local skm = managers.skirmish
 
-		return g
+				if skm and skm:is_skirmish() then
+					local _, max_wave = skm:wave_range()
+
+					diff = math.clamp((skm:current_wave_number() or 0) / (max_wave or 9), 0, 1)
+				else
+					diff = managers.groupai and managers.groupai:state()._difficulty_value
+				end
+
+				diff = diff or 0
+				for i = #groups, 1, -1 do
+					if groups[i][1] <= diff then
+						return groups[i][2][k]
+					end
+				end
+
+				return groups[#groups][2][k]
+			end
+		end,
+	}
+	local function gen_meta(groups)
+		return setmetatable({ groups = groups, }, meta)
 	end
 
 	self.enemy_spawn_groups.chicken_plate_hrt_a = {
-		amount = { 1, 1, },
+		amount = { 2, 2, },
 		spawn = {
-			{
-				rank = 1,
-				unit = "CS_hrt_1",
-				tactics = self._tactics.chicken_plate_hrt_pistol,
-				freq = self._freq.uncommon,
-			},
-			{
-				rank = 1,
-				unit = "CS_hrt_2",
-				tactics = self._tactics.chicken_plate_hrt_rifle,
-				freq = self._freq.baseline,
-			},
 			{
 				rank = 1,
 				unit = "CS_hrt_3_4",
 				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_hrt_3_4",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_hrt_3_4",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_d = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_hrt_3_4",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_e = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_hrt_3_4",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_hrt_3_4",
+				tactics = self._tactics.chicken_plate_hrt_shotgun,
+				amount_min = 2,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_hrt_1_2",
+				tactics = self._tactics.chicken_plate_hrt_pistol,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_hrt = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_hrt_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_hrt_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_hrt_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_hrt_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_hrt_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_hrt_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_a = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_b = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_heavy_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_d = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_heavy_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_e = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 2,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 2,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_ar_smg = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_assault_ar_smg_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_a = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_d = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_e = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 2,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 2,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_assault_smg_sg = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_assault_smg_sg_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_shield_a = {
+		amount = { 2, 2, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_shield_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.elite,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_shield_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.rare,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_2",
+				tactics = self._tactics.chicken_plate_heavy_shotgun,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_shield_d = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.uncommon,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_2",
+				tactics = self._tactics.chicken_plate_heavy_shotgun,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_shield_e = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.common,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_2",
+				tactics = self._tactics.chicken_plate_medic_shotgun,
+				amount_max = 1,
+				freq = self._freq.uncommon,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_shield_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_shield",
+				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_2",
+				tactics = self._tactics.chicken_plate_swat_shotgun,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_2",
+				tactics = self._tactics.chicken_plate_medic_shotgun,
+				amount_max = 1,
 				freq = self._freq.common,
 			},
 		},
 	}
-	self.enemy_spawn_groups.chicken_plate_hrt_b = b_group(self.enemy_spawn_groups.chicken_plate_hrt_a)
-	self.enemy_spawn_groups.chicken_plate_swat_a = {
-		amount = { 1, 1, },
+	self.enemy_spawn_groups.chicken_plate_shield = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_shield_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_shield_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_shield_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_shield_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_shield_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_shield_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_taser_a = {
+		amount = { 2, 2, },
 		spawn = {
+			{
+				rank = 1,
+				unit = "CS_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.elite,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_3",
+				tactics = self._tactics.chicken_plate_heavy_smg,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser_d = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.rare,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_3",
+				tactics = self._tactics.chicken_plate_swat_smg,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_3",
+				tactics = self._tactics.chicken_plate_heavy_smg,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser_e = {
+		amount = { 3, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.uncommon,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_3",
+				tactics = self._tactics.chicken_plate_heavy_smg,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_1",
+				tactics = self._tactics.chicken_plate_medic_rifle,
+				amount_max = 1,
+				freq = self._freq.uncommon,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_taser",
+				tactics = self._tactics.chicken_plate_taser,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.common,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_3",
+				tactics = self._tactics.chicken_plate_heavy_smg,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_1",
+				tactics = self._tactics.chicken_plate_medic_rifle,
+				amount_max = 1,
+				freq = self._freq.common,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_taser = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_taser_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_taser_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_taser_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_taser_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_taser_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_taser_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_tank_a = {
+		amount = { 2, 2, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_tank_b = {
+		amount = { 2, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_tank_c = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_swat_1",
+				tactics = self._tactics.chicken_plate_swat_rifle,
+				amount_min = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "CS_heavy_1",
+				tactics = self._tactics.chicken_plate_heavy_rifle,
+				freq = self._freq.baseline,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_tank_d = {
+		amount = { 3, 3, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
 			{
 				rank = 1,
 				unit = "CS_swat_1",
@@ -1267,77 +2010,89 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 			},
 			{
 				rank = 1,
-				unit = "CS_swat_2",
-				tactics = self._tactics.chicken_plate_swat_shotgun,
-				freq = self._freq.common,
-			},
-			{
-				rank = 1,
-				unit = "CS_swat_3",
-				tactics = self._tactics.chicken_plate_swat_smg,
-				freq = self._freq.common,
-			},
-		},
-	}
-	self.enemy_spawn_groups.chicken_plate_swat_b = b_group(self.enemy_spawn_groups.chicken_plate_swat_a)
-	self.enemy_spawn_groups.chicken_plate_heavy_a = {
-		amount = { 1, 1, },
-		spawn = {
-			{
-				rank = 1,
 				unit = "CS_heavy_1",
 				tactics = self._tactics.chicken_plate_heavy_rifle,
-				freq = self._freq.baseline,
-			},
-			{
-				rank = 1,
-				unit = "CS_heavy_2",
-				tactics = self._tactics.chicken_plate_heavy_shotgun,
-				freq = self._freq.common,
-			},
-			{
-				rank = 1,
-				unit = "CS_heavy_3",
-				tactics = self._tactics.chicken_plate_heavy_smg,
-				freq = self._freq.common,
-			},
-		},
-	}
-	self.enemy_spawn_groups.chicken_plate_heavy_b = b_group(self.enemy_spawn_groups.chicken_plate_heavy_a)
-	self.enemy_spawn_groups.chicken_plate_shield = {
-		amount = { 1, 1, },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_shield",
-				tactics = self._tactics.chicken_plate_shield,
+				amount_min = 1,
 				freq = self._freq.baseline,
 			},
 		},
 	}
-	self.enemy_spawn_groups.chicken_plate_taser = {
-		amount = { 1, 1, },
-		spawn = {
-			{
-				rank = 1,
-				unit = "FBI_taser",
-				tactics = self._tactics.chicken_plate_taser,
-				freq = self._freq.baseline,
-			},
-		},
-	}
-	self.enemy_spawn_groups.chicken_plate_tank = {
-		amount = { 1, 1, },
+	self.enemy_spawn_groups.chicken_plate_tank_e = {
+		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
 				unit = "FBI_tank",
 				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 1,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_1",
+				tactics = self._tactics.chicken_plate_heavy_rifle,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_1",
+				tactics = self._tactics.chicken_plate_medic_rifle,
+				amount_max = 1,
+				freq = self._freq.uncommon,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_tank_f = {
+		amount = { 4, 4, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "FBI_tank",
+				tactics = self._tactics.chicken_plate_tank,
+				amount_min = 1,
+				amount_max = 2,
+				freq = self._freq.elite,
+			},
+			{
+				rank = 1,
+				unit = "FBI_heavy_1",
+				tactics = self._tactics.chicken_plate_heavy_rifle,
+				freq = self._freq.baseline,
+			},
+			{
+				rank = 1,
+				unit = "FBI_medic_1",
+				tactics = self._tactics.chicken_plate_medic_rifle,
+				amount_max = 1,
+				freq = self._freq.common,
+			},
+		},
+	}
+	self.enemy_spawn_groups.chicken_plate_tank = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_tank_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_tank_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_tank_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_tank_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_tank_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_tank_f, },
+	})
+
+	self.enemy_spawn_groups.chicken_plate_spooc_a = {
+		amount = { 1, 1, },
+		spawn = {
+			{
+				rank = 1,
+				unit = "CS_spooc",
+				tactics = self._tactics.chicken_plate_spooc,
 				freq = self._freq.baseline,
 			},
 		},
 	}
-	self.enemy_spawn_groups.chicken_plate_spooc = {
+	self.enemy_spawn_groups.chicken_plate_spooc_b = self.enemy_spawn_groups.chicken_plate_spooc_a
+	self.enemy_spawn_groups.chicken_plate_spooc_c = self.enemy_spawn_groups.chicken_plate_spooc_b
+	self.enemy_spawn_groups.chicken_plate_spooc_d = self.enemy_spawn_groups.chicken_plate_spooc_c
+	self.enemy_spawn_groups.chicken_plate_spooc_e = {
 		amount = { 1, 1, },
 		spawn = {
 			{
@@ -1348,50 +2103,46 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 			},
 		},
 	}
-	self.enemy_spawn_groups.chicken_plate_medic = {
-		amount = { 1, 1, },
+	self.enemy_spawn_groups.chicken_plate_spooc_f = {
+		amount = { 1, 2, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_medic_1",
-				tactics = self._tactics.chicken_plate_medic_rifle,
+				unit = "FBI_spooc",
+				tactics = self._tactics.chicken_plate_spooc,
 				freq = self._freq.baseline,
-			},
-			{
-				rank = 1,
-				unit = "FBI_medic_2",
-				tactics = self._tactics.chicken_plate_medic_shotgun,
-				freq = self._freq.common,
 			},
 		},
 	}
+	self.enemy_spawn_groups.chicken_plate_spooc = gen_meta({
+		{ 0.0, self.enemy_spawn_groups.chicken_plate_spooc_a, },
+		{ 0.2, self.enemy_spawn_groups.chicken_plate_spooc_b, },
+		{ 0.4, self.enemy_spawn_groups.chicken_plate_spooc_c, },
+		{ 0.6, self.enemy_spawn_groups.chicken_plate_spooc_d, },
+		{ 0.8, self.enemy_spawn_groups.chicken_plate_spooc_e, },
+		{ 1.0, self.enemy_spawn_groups.chicken_plate_spooc_f, },
+	})
 
 	self:_moon_set_weights({
 		assault = {
-			chicken_plate_hrt_a = { 0, 0, 0, },
-			chicken_plate_hrt_b = { 15, 1.5, 1.5, },
-			chicken_plate_swat_a = { 0, 0, 0, },
-			chicken_plate_swat_b = { 6, 15, 6, },
-			chicken_plate_heavy_a = { 0, 0, 0, },
-			chicken_plate_heavy_b = { 1.5, 6, 15, },
-			chicken_plate_shield = { 0, special_weight * 0.5, special_weight, },
-			chicken_plate_taser = { 0, special_weight * 0.5, special_weight, },
+			chicken_plate_assault_ar_smg = { 27, 18, 9, },
+			chicken_plate_assault_smg_sg = { 0, 9, 18, },
+			chicken_plate_shield = { special_weight, special_weight, special_weight, },
+			chicken_plate_taser = { special_weight * 0.5, special_weight * 0.75, special_weight, },
+			chicken_plate_spooc = { special_weight * 0.25, special_weight * 0.675, special_weight, },
 			chicken_plate_tank = { 0, special_weight * 0.5, special_weight, },
-			chicken_plate_spooc = { 0, special_weight * 0.5, special_weight, },
-			chicken_plate_medic = { 0, special_weight * 0.5, special_weight, },
 		},
 		recon = {
-			chicken_plate_hrt_a = { 5, 3, 1, },
-			chicken_plate_hrt_b = { 0, 0, 0, },
-			chicken_plate_swat_a = { 1, 1, 1, },
-			chicken_plate_swat_b = { 0, 0, 0, },
+			chicken_plate_hrt = { 27, 27, 27, },
+			chicken_plate_assault_ar_smg = { 0, 0, 0, },
+			chicken_plate_assault_smg_sg = { 0, 0, 0, },
+			chicken_plate_taser = { 0, 0, 0, },
 			chicken_plate_spooc = { 0, 0, 0, },
-			chicken_plate_medic = { 0, 0, 0, },
 		},
 		reenforce = {
-			chicken_plate_hrt_a = { 1, 1, 1, },
-			chicken_plate_swat_a = { 0, 1, 2, },
-			chicken_plate_heavy_a = { 0, 3, 6, },
+			chicken_plate_hrt = { 2, 0, 0, },
+			chicken_plate_assault_ar_smg = { 1, 1, 1, },
+			chicken_plate_assault_smg_sg = { 0, 0, 2, },
 		},
 	})
 end
@@ -1542,6 +2293,7 @@ function GroupAITweakData:_moon_init_task_data()
 	self.spawn_cooldown_mul = math.lerp(ASS.tweaks.spawn_cooldowns[1], ASS.tweaks.spawn_cooldowns[2], f)
 	self.spawn_kill_cooldown = ASS.tweaks.spawn_cooldowns[2] * 10
 
+	self.besiege.assault.force = table.collect(self.besiege.assault.force, function(val) return val * level_assault_tweaks.force_mul end)
 	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
 	self.besiege.assault.sustain_duration_base = clone(self.besiege.assault.sustain_duration_min)
 	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[1] end)

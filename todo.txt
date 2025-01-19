@@ -1,3 +1,6 @@
+|> Assault Style
+|-> further work on Chicken Plate rework
+|
 |> Skill Level
 |-> allow customization of individual tweaks in a custom preset
 |--> this will not replace the existing presets
@@ -8,6 +11,10 @@
 |--> cycle hiding spots instead of leaving the map after some time
 |--> potentially silence spawn noise, and silence idle noise while in hiding
 |---> unsure if this is doable ASS-side, need to check if it syncs
+|
+|> AI
+|-> tweak sniper attack logic to make them stop so they can fire if needed
+|--> would make ground snipers/snipers rotating between locations more reasonable of a concept
 |
 |> Hydras mutator
 |-> tier tracking for Hydras mutator instead of always using lower tier
@@ -38,3 +45,6 @@
 |
 |> Ukrainian Job
 |-> disable sniper spawns on the vantage point area when players are near
+|
+|> Watchdogs day 2
+|-> make container snipers move slightly to expand their sightlines after some time
