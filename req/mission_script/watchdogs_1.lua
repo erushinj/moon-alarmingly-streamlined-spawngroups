@@ -50,9 +50,7 @@ return {
 			},
 		},
 		on_executed = {
-			{ name = "ambush_sniper_filter_normal", delay = 0, },
-			{ name = "ambush_sniper_filter_hard", delay = 0, },
-			{ name = "ambush_sniper_filter_overkill", delay = 0, },
+			{ name = "ambush_sniper_spawn", delay = 0, },
 		}
 	},
 	[102845] = {  -- logic random 029 (spawn fbis)

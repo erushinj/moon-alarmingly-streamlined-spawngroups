@@ -14,12 +14,11 @@ local ambush_sniper_so_3 = "ambush_sniper_so_3"
 local ambush_sniper_so_4 = "ambush_sniper_so_4"
 local ambush_sniper_so_5 = "ambush_sniper_so_5"
 local ambush_sniper_so_6 = "ambush_sniper_so_6"
-local ambush_sniper_filter_normal = "ambush_sniper_filter_normal"
-local ambush_sniper_filter_hard = "ambush_sniper_filter_hard"
+local ambush_sniper_counter = "ambush_sniper_counter"
+local ambush_sniper_counter_add = "ambush_sniper_counter_add"
+local ambush_sniper_filter_hard_above = "ambush_sniper_filter_hard_above"
 local ambush_sniper_filter_overkill = "ambush_sniper_filter_overkill"
-local ambush_sniper_amount_normal = "ambush_sniper_amount_normal"
-local ambush_sniper_amount_hard = "ambush_sniper_amount_hard"
-local ambush_sniper_amount_overkill = "ambush_sniper_amount_overkill"
+local ambush_sniper_spawn = "ambush_sniper_spawn"
 local id_ambush_sniper_1 = managers.mission:moon_generate_custom_id(ambush_sniper_1)
 local id_ambush_sniper_2 = managers.mission:moon_generate_custom_id(ambush_sniper_2)
 local id_ambush_sniper_3 = managers.mission:moon_generate_custom_id(ambush_sniper_3)
@@ -32,67 +31,65 @@ local id_ambush_sniper_so_3 = managers.mission:moon_generate_custom_id(ambush_sn
 local id_ambush_sniper_so_4 = managers.mission:moon_generate_custom_id(ambush_sniper_so_4)
 local id_ambush_sniper_so_5 = managers.mission:moon_generate_custom_id(ambush_sniper_so_5)
 local id_ambush_sniper_so_6 = managers.mission:moon_generate_custom_id(ambush_sniper_so_6)
-local id_ambush_sniper_filter_normal = managers.mission:moon_generate_custom_id(ambush_sniper_filter_normal)
-local id_ambush_sniper_filter_hard = managers.mission:moon_generate_custom_id(ambush_sniper_filter_hard)
+local id_ambush_sniper_counter = managers.mission:moon_generate_custom_id(ambush_sniper_counter)
+local id_ambush_sniper_counter_add = managers.mission:moon_generate_custom_id(ambush_sniper_counter_add)
+local id_ambush_sniper_filter_hard_above = managers.mission:moon_generate_custom_id(ambush_sniper_filter_hard_above)
 local id_ambush_sniper_filter_overkill = managers.mission:moon_generate_custom_id(ambush_sniper_filter_overkill)
-local id_ambush_sniper_amount_normal = managers.mission:moon_generate_custom_id(ambush_sniper_amount_normal)
-local id_ambush_sniper_amount_hard = managers.mission:moon_generate_custom_id(ambush_sniper_amount_hard)
-local id_ambush_sniper_amount_overkill = managers.mission:moon_generate_custom_id(ambush_sniper_amount_overkill)
-
-local ambush_sniper_on_executed = {
-	{ id = id_ambush_sniper_1, delay = 0, },
-	{ id = id_ambush_sniper_2, delay = 0, },
-	{ id = id_ambush_sniper_3, delay = 0, },
-	{ id = id_ambush_sniper_4, delay = 0, },
-	{ id = id_ambush_sniper_5, delay = 0, },
-	{ id = id_ambush_sniper_6, delay = 0, },
-}
+local id_ambush_sniper_spawn = managers.mission:moon_generate_custom_id(ambush_sniper_spawn)
 
 return {
 	{
-		class = "ElementFilter",
-		editor_name = ambush_sniper_filter_normal,
-		id = id_ambush_sniper_filter_normal,
-		values = managers.mission:moon_generate_preset_values("filter|normal", {
+		class = "ElementCounter",
+		editor_name = ambush_sniper_counter,
+		id = id_ambush_sniper_counter,
+		values = {
 			enabled = true,
-			on_executed = {
-				{ id = id_ambush_sniper_amount_normal, delay = 0, delay_rand = 0, },
-			},
-		}),
+			counter_target = 1,
+		},
 	},
 	{
-		class = "ElementRandom",
-		editor_name = ambush_sniper_amount_normal,
-		id = id_ambush_sniper_amount_normal,
+		class = "ElementCounterOperator",
+		editor_name = ambush_sniper_counter_add,
+		id = id_ambush_sniper_counter_add,
 		values = {
 			enabled = true,
 			amount = 1,
-			on_executed = ambush_sniper_on_executed,
+			operation = "add",
+			elements = {
+				id_ambush_sniper_counter,
+			},
+		},
+	},
+	{
+		class = "ElementRandom",
+		editor_name = ambush_sniper_spawn,
+		id = id_ambush_sniper_spawn,
+		values = {
+			enabled = true,
+			amount = 1,
+			counter_id = id_ambush_sniper_counter,
+			on_executed = {
+				{ id = id_ambush_sniper_1, delay = 0, },
+				{ id = id_ambush_sniper_2, delay = 0, },
+				{ id = id_ambush_sniper_3, delay = 0, },
+				{ id = id_ambush_sniper_4, delay = 0, },
+				{ id = id_ambush_sniper_5, delay = 0, },
+				{ id = id_ambush_sniper_6, delay = 0, },
+			},
 		},
 	},
 
 	{
 		class = "ElementFilter",
-		editor_name = ambush_sniper_filter_hard,
-		id = id_ambush_sniper_filter_hard,
-		values = managers.mission:moon_generate_preset_values("filter|hard", {
+		editor_name = ambush_sniper_filter_hard_above,
+		id = id_ambush_sniper_filter_hard_above,
+		values = managers.mission:moon_generate_preset_values("filter|hard_above", {
 			enabled = true,
 			on_executed = {
-				{ id = id_ambush_sniper_amount_hard, delay = 0, delay_rand = 0, },
+				{ id = id_ambush_sniper_counter_add, delay = 0, },
 			},
 		}),
 	},
-	{
-		class = "ElementRandom",
-		editor_name = ambush_sniper_amount_hard,
-		id = id_ambush_sniper_amount_hard,
-		values = {
-			enabled = true,
-			amount = 2,
-			on_executed = ambush_sniper_on_executed,
-		},
-	},
-
 	{
 		class = "ElementFilter",
 		editor_name = ambush_sniper_filter_overkill,
@@ -100,19 +97,9 @@ return {
 		values = managers.mission:moon_generate_preset_values("filter|overkill", {
 			enabled = true,
 			on_executed = {
-				{ id = id_ambush_sniper_amount_overkill, delay = 0, delay_rand = 0, },
+				{ id = id_ambush_sniper_counter_add, delay = 0, },
 			},
 		}),
-	},
-	{
-		class = "ElementRandom",
-		editor_name = ambush_sniper_amount_overkill,
-		id = id_ambush_sniper_amount_overkill,
-		values = {
-			enabled = true,
-			amount = 3,
-			on_executed = ambush_sniper_on_executed,
-		},
 	},
 
 	-- by bridge that gets broken on mh+

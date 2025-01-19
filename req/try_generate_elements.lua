@@ -85,6 +85,50 @@ local element_templates = {
 		}),
 	},
 	{
+		class = "ElementCounter",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			counter_target = 0,
+			digital_gui_unit_ids = nil,  -- table
+		}),
+	},
+	{
+		class = "ElementCounterReset",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			counter_target = 0,
+			elements = {},
+		}),
+	},
+	{
+		class = "ElementCounterOperator",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			operation = "reset",
+		}),
+	},
+	{
+		class = "ElementCounterTrigger",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			trigger_type = "value",
+		}),
+	},
+	{
+		class = "ElementCounterFilter",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			check_type = "equal",
+			needed_to_execute = "all",
+		}),
+	},
+	{
 		class = "ElementTimer",
 		module = "CoreElementTimer",
 		values = append_template_values(nil, {
