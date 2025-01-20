@@ -77,7 +77,7 @@
 	"alarmingly_streamlined_spawngroups_menu_medic_ordnance_desc" : "Determine the weapon type used by rifle Medics.",
 	"alarmingly_streamlined_spawngroups_medic_ordnance_default" : "Apathetic (Default)",
 	"alarmingly_streamlined_spawngroups_medic_ordnance_rifles" : "High Strung (Rifles)",
-	"alarmingly_streamlined_spawngroups_medic_ordnance_revolvers" : "Cracked (Revolvers)",
+	"alarmingly_streamlined_spawngroups_medic_ordnance_deagles" : "Opposed (Deagles)",
 	"alarmingly_streamlined_spawngroups_medic_ordnance_both" : "Marquez Maelstrom (Both)",
 
 	"alarmingly_streamlined_spawngroups_menu_medical_ordinance" : "Medical Ordinance",
@@ -96,8 +96,8 @@
 
 	"alarmingly_streamlined_spawngroups_menu_police_rifle_funding" : "Rifle Funding",
 	"alarmingly_streamlined_spawngroups_menu_police_rifle_funding_desc" : "Determine whether to use pistol and/or rifle HRTs.",
-	"alarmingly_streamlined_spawngroups_police_rifle_funding_default" : "Creative Name (Default)",
-	"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols" : "Respectable (Pistols)",
+	"alarmingly_streamlined_spawngroups_police_rifle_funding_default" : "Educated (Default)",
+	"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols" : "Graduates (Pistols)",
 	"alarmingly_streamlined_spawngroups_police_rifle_funding_rifles" : "Dropouts (Rifles)",
 	"alarmingly_streamlined_spawngroups_police_rifle_funding_both" : "Illiterate (Both)",
 

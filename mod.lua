@@ -61,8 +61,8 @@ if not ASS then
 			shield_arms = 2,  -- pick shield weapon type
 			taser_dazers = 3,  -- pick taser weapon type
 			cloaker_balance = 4,  -- pick cloaker weapon type
-			medic_ordnance = 4,  -- pick rifle medic weapon type
-			medical_ordinance = 4,  -- pick shotgun medic weapon type
+			medic_ordnance = 3,  -- pick rifle medic weapon type
+			medical_ordinance = 3,  -- pick shotgun medic weapon type
 			geneva_suggestion = 4,  -- pick medic dozer weapon type
 			police_rifle_funding = 2,  -- pick whether a pistol and/or rifle hrt should exist
 			police_shotgun_funding = 2,  -- pick whether a shotgun and/or revolver hrt should exist
@@ -95,7 +95,7 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_assault_style_original",  -- pre-housewarming-styled
 			"alarmingly_streamlined_spawngroups_assault_style_streamlined",  -- spicier streamlined groups
 			"alarmingly_streamlined_spawngroups_assault_style_default",  -- default streamlined groups
-			"alarmingly_streamlined_spawngroups_assault_style_chicken_plate",  -- PDTH-styled spawns
+			"alarmingly_streamlined_spawngroups_assault_style_chicken_plate",  -- pd3-styled spawns
 		},
 		skill = {
 			"alarmingly_streamlined_spawngroups_skill_1",  -- im too young to die
@@ -106,49 +106,49 @@ if not ASS then
 			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
 		},
 		shield_arms = {
-			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_shield_arms_pistols",  -- always pistols
 			"alarmingly_streamlined_spawngroups_shield_arms_smgs",  -- always smgs
 			"alarmingly_streamlined_spawngroups_shield_arms_both",  -- randomize between both
 		},
 		taser_dazers = {
-			"alarmingly_streamlined_spawngroups_taser_dazers_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_taser_dazers_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_taser_dazers_rifles",  -- always rifles
 			"alarmingly_streamlined_spawngroups_taser_dazers_sko12s",  -- always sko12s
 			"alarmingly_streamlined_spawngroups_taser_dazers_both",  -- randomize between both
 		},
 		cloaker_balance = {
-			"alarmingly_streamlined_spawngroups_cloaker_balance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_cloaker_balance_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_cloaker_balance_smgs",  -- always smgs
 			"alarmingly_streamlined_spawngroups_cloaker_balance_pistols",  -- always pistols
 			"alarmingly_streamlined_spawngroups_cloaker_balance_both",  -- randomize between both
 		},
 		medic_ordnance = {  -- rifle medics
-			"alarmingly_streamlined_spawngroups_medic_ordnance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_medic_ordnance_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_medic_ordnance_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_medic_ordnance_revolvers",  -- always revolvers
+			"alarmingly_streamlined_spawngroups_medic_ordnance_deagles",  -- always deagles
 			"alarmingly_streamlined_spawngroups_medic_ordnance_both",  -- randomize between both
 		},
 		medical_ordinance = {  -- shotgun medics
-			"alarmingly_streamlined_spawngroups_medical_ordinance_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_medical_ordinance_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_medical_ordinance_shotguns",  -- always pump shotguns
 			"alarmingly_streamlined_spawngroups_medical_ordinance_saigas",  -- always saigas
 			"alarmingly_streamlined_spawngroups_medical_ordinance_both",  -- randomize between both
 		},
 		geneva_suggestion = {  -- medic dozers
-			"alarmingly_streamlined_spawngroups_geneva_suggestion_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_rifles",  -- always rifles
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
 			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- randomize between both
 		},
 		police_rifle_funding = {  -- rifle hrts
-			"alarmingly_streamlined_spawngroups_police_rifle_funding_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols",  -- always pistols
 			"alarmingly_streamlined_spawngroups_police_rifle_funding_rifles",  -- always rifles
 			"alarmingly_streamlined_spawngroups_police_rifle_funding_both",  -- randomize between both
 		},
 		police_shotgun_funding = {  -- shotgun hrts
-			"alarmingly_streamlined_spawngroups_police_shotgun_funding_default",  -- what the mod normally uses
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_default",  -- similar to vanilla/default sh
 			"alarmingly_streamlined_spawngroups_police_shotgun_funding_shotguns",  -- always shotguns
 			"alarmingly_streamlined_spawngroups_police_shotgun_funding_revolvers",  -- always revolvers
 			"alarmingly_streamlined_spawngroups_police_shotgun_funding_both",  -- randomize between both
