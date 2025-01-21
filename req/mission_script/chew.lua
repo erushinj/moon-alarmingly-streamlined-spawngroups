@@ -11,11 +11,6 @@ local bikers_female = {
 }
 
 return {
-	[100136] = {  -- 0.75 diff from the start on this teeny tiny little train is fucked, actually
-		values = {
-			difficulty = 0.375,
-		},
-	},
 	[101136] = { enemy = bikers_male, },  -- bikers, middle wagon
 	[101143] = { enemy = bikers_male, },
 	[101144] = { enemy = bikers_male, },

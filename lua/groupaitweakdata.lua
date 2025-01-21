@@ -2165,7 +2165,7 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 		"Phalanx",
 	})
 
-	for id, data in pairs(self.enemy_spawn_groups) do
+	for id in pairs(self.enemy_spawn_groups) do
 		if not vanilla_groups[id] then
 			self.enemy_spawn_groups[id] = nil
 		end
@@ -2279,6 +2279,32 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 end
 
 function GroupAITweakData:_moon_init_task_data()
+	local level_assault_tweaks = self.tweak_data.moon.level_assault_tweaks
+
+	-- special limits, from easy to death sentence
+	-- identical to sh at base, minus allowing dozers on hard
+	for special, limits in pairs({
+		shield = { 0, 2, 2, 3, 3, 4, 4, 5, },
+		medic = { 0, 0, 0, 0, 1, 2, 3, 4, },
+		taser = { 0, 0, 1, 1, 2, 2, 3, 3, },
+		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
+		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
+	}) do
+		local limit = limits[difficulty_index]
+		local add = level_assault_tweaks.special_limit_add[special] or 0
+
+		-- dont add disabled specials, dont remove enabled specials
+		if limit < 1 then
+			-- nothing
+		elseif limit + add < 1 then
+			limit = math.ceil(1 * ASS.tweaks.special_limit_mul)
+		else
+			limit = math.ceil((limit + add) * ASS.tweaks.special_limit_mul)
+		end
+
+		self.special_unit_spawn_limits[special] = limit
+	end
+
 	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end
 	local break_duration_func = function(val) return val * ASS.tweaks.break_duration_mul end
 
@@ -2287,7 +2313,7 @@ function GroupAITweakData:_moon_init_task_data()
 	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, grenade_cooldown_func)
 	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, grenade_cooldown_func)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
-	self.cs_grenade_chance_times = clone(ASS.tweaks.cs_grenade_chance_times)
+	self.cs_grenade_chance_times = table.collect(ASS.tweaks.cs_grenade_chance_times, function(val) return val * level_assault_tweaks.cs_grenade_chance_times_mul end)
 	self.min_grenade_timeout = ASS.tweaks.min_grenade_timeout
 	self.no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay
 	self.spawn_cooldown_mul = math.lerp(ASS.tweaks.spawn_cooldowns[1], ASS.tweaks.spawn_cooldowns[2], f)
@@ -2295,16 +2321,15 @@ function GroupAITweakData:_moon_init_task_data()
 
 	self.besiege.assault.force = table.collect(self.besiege.assault.force, function(val) return val * level_assault_tweaks.force_mul end)
 	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
-	self.besiege.assault.sustain_duration_base = clone(self.besiege.assault.sustain_duration_min)
+	self.besiege.assault.sustain_duration_base = table.collect(self.besiege.assault.sustain_duration_min, function(val) return val * level_assault_tweaks.sustain_duration_mul end)
 	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[1] end)
 	self.besiege.assault.sustain_duration_max = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[2] end)
 	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
 	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, break_duration_func)
 	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, break_duration_func)
-	self.besiege.reenforce.interval = clone(ASS.tweaks.reenforce_interval)
+	self.besiege.reenforce.interval = table.collect(ASS.tweaks.reenforce_interval, function(val) return val * level_assault_tweaks.reenforce_interval_mul end)
 	self.besiege.recon.force = table.collect(self.besiege.assault.force, function(val) return val * ASS.tweaks.recon_force_mul end)
-	self.besiege.recon.interval = { 0, 0, 0, }
-	self.besiege.recon.interval_variation = 0
+	self.besiege.recon.interval_variation = self.besiege.recon.interval_variation * level_assault_tweaks.recon_interval_variation_mul * ASS.tweaks.recon_interval_variation_mul
 	self.besiege.recurring_group_SO.recurring_cloaker_spawn.interval = { math.huge, math.huge, }
 
 	self:moon_regular_custom_group()
@@ -2372,19 +2397,8 @@ function GroupAITweakData:moon_get_equivalent_unit_category(id, return_data)
 end
 
 function GroupAITweakData:_moon_init_unit_categories()
-	-- special limits, from easy to death sentence
-	-- identical to sh at base, minus allowing dozers on hard
-	for special, limit in pairs({
-		shield = { 0, 2, 2, 3, 3, 4, 4, 5, },
-		medic = { 0, 0, 0, 0, 1, 2, 3, 4, },
-		taser = { 0, 0, 1, 1, 2, 2, 3, 3, },
-		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
-		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
-	}) do
-		self.special_unit_spawn_limits[special] = math.ceil(limit[difficulty_index] * ASS.tweaks.special_limit_mul)
-	end
-
 	local unit_types
+
 	for _, data in pairs(self.unit_categories) do
 		if data.unit_types then
 			unit_types = table.map_keys(data.unit_types)

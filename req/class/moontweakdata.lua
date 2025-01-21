@@ -580,6 +580,70 @@ function MoonTweakData:init_dummy_mapping()
 	end
 end
 
+function MoonTweakData:init_level_assault_tweaks()
+	local level_tweaks = {
+		default = {
+			force_mul = 1,
+			sustain_duration_mul = 1,
+			cs_grenade_chance_times_mul = 1,
+			reenforce_interval_mul = 1,
+			recon_interval_variation_mul = 1,
+			special_limit_add = {
+				shield = 0,
+				medic = 0,
+				taser = 0,
+				tank = 0,
+				spooc = 0,
+			},
+		},
+		chew = {
+			force_mul = 0.5,
+			cs_grenade_chance_times_mul = 0.25,
+			special_limit_add = {
+				shield = -2,
+				tank = -1,
+			},
+		},
+		corp = {
+			cs_grenade_chance_times_mul = 0.35,
+			reenforce_interval_mul = 0.35,
+			recon_interval_variation_mul = 0.5,
+			special_limit_add = {
+				shield = 2,
+				medic = 1,
+				taser = 1,
+				tank = 1,
+				spooc = 1,
+			},
+		},
+		man = {
+			sustain_duration_mul = 1.25,
+			cs_grenade_chance_times_mul = 0.35,
+			reenforce_interval_mul = 0.5,
+			recon_interval_variation_mul = 0.75,
+			special_limit_add = {
+				medic = 1,
+				taser = 1,
+				spooc = 1,
+			},
+		},
+	}
+
+	self.level_assault_tweaks = level_tweaks[level_id] or level_tweaks.default
+
+	local function fill_in(to, from)
+		for k, v in pairs(from) do
+			if type(v) == "table" and to[k] then
+				fill_in(to[k], v)
+			else
+				to[k] = to[k] or v
+			end
+		end
+	end
+
+	fill_in(self.level_assault_tweaks, level_tweaks.default)
+end
+
 -- mapping of preferred groups
 -- used for mission script patches
 function MoonTweakData:init_preferred_groups_map()
