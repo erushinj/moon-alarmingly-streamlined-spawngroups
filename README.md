@@ -16,28 +16,11 @@ The mod is more difficult than base Streamlined Heisting, but its difficulty is 
 
 -----
 
-### Significantly Tweaked Heists:
-
-This is not a comprehensive list of all tweaked heists
-
-- San Martin Bank: police no longer spawn inside the bank and instead send units to reinforce inside the bank
-- Diamond Heist: significant reinforcement in the atrium
-- Diamond Store: turret is less likely and disables escape points in its line of sight if it spawns
-- Bank Heist/Firestarter day 3: roof helicopter appears multiple times, more snipers spawn on higher difficulties, tear gas appears in more locations when deployed
-- Panic Room: cops arrive some time after masking up even if Chavez is still alive, rooftop snipers continue spawning after the C4 drop, many doors can now be closed for the entire heist, roof helicopter appears multiple times, new Cloaker spawn points, ground-level police spawns remain active for the entire heist
-- Undercover: more snipers and rooftop harassers, Alex is a bit more competent, Taxman is less willing to give up codes, the escape is more difficult
-- Lost in Transit: reinforcement on train cars, snipers respawn
-- Watchdogs: added new snipers across both days; day 1 has ambush tweaks; day 2 restores unused Cloaker spawn points and reinforcement points, and the dock helicopter appears multiple times
-- Big Oil: day 1 has fewer available planks and removes some useless intel depending on difficulty; day 2 allows the helicopter to arrive at the pool on any difficulty
-- Alaskan Deal: tweaked ambush
-
------
-
 ### Custom Heist Support:
 
-In version 6, the mod has received improved compatibility with custom heists.
+Starting in version 6, the mod has received improved compatibility with custom heists
 
-Not all may work out of the box, mostly if a given heist uses a custom faction, so leave a comment if needed.
+Not all may work out of the box, mostly if a given heist uses a custom faction, so leave a comment if needed
 
 Custom heists that have been played from start to finish with the mod, in loud, on Death Wish difficulty:
 
@@ -58,7 +41,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Enable the ASS
         </th>
         <td>
-            Make the mod do the thing.
+            Make the mod do the thing
         </td>
     </tr>
     <tr>
@@ -66,7 +49,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Level Mod
         </th>
         <td>
-            Make levels use a fixed response faction on any difficulty. Disabled in Holdout. ZEAL Level Mods activate an additional matchmaking lock.
+            Make levels use a fixed response faction on any difficulty; disabled in Holdout; ZEAL Level Mods activate an additional matchmaking lock
         </td>
     </tr>
     <tr>
@@ -74,7 +57,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Assault Style
         </th>
         <td>
-            Choose which set of spawn groups to face.
+            Choose which set of spawn groups to face
         </td>
     </tr>
     <tr>
@@ -82,7 +65,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Skill Level
         </th>
         <td>
-            Tweaks base values used for scaling.
+            Tweaks base values used for scaling
         </td>
     </tr>
     <tr>
@@ -90,7 +73,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Resistive Responders
         </th>
         <td>
-            All dominatable enemies are better at resisting domination on higher difficulties.
+            All dominatable enemies are better at resisting domination on higher difficulties
         </td>
     </tr>
     <tr>
@@ -98,7 +81,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Difficult Dominations
         </th>
         <td>
-            All dominatable enemies are as adept at resisting domination as a heavy unit.
+            All dominatable enemies are as adept at resisting domination as a heavy unit
         </td>
     </tr>
     <tr>
@@ -106,7 +89,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Super Serious Surrenders
         </th>
         <td>
-            All dominatable enemies will only give up between assault waves. Effectively always active in Super Serious Shooter.
+            All dominatable enemies will only give up between assault waves; effectively always active in Super Serious Shooter
         </td>
     </tr>
     <tr>
@@ -114,7 +97,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Absolute Values
         </th>
         <td>
-            Sets values that scale with chosen difficulty to use Death Sentence values.
+            Sets values that scale with chosen difficulty to use Death Sentence values
         </td>
     </tr>
     <tr>
@@ -122,7 +105,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Maxed Assault Strength
         </th>
         <td>
-            Always uses task data corresponding to 100% heist difficulty progression.
+            Always uses task data corresponding to 100% heist difficulty progression
         </td>
     </tr>
     <tr>
@@ -130,7 +113,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Maxed Law Multipliers
         </th>
         <td>
-            Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are.
+            Always uses enemy spawn limits corresponding to a full crew, regardless of how many players there are
         </td>
     </tr>
     <tr>
@@ -138,7 +121,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             True Patriots
         </th>
         <td>
-            Allow police to deploy gas grenades even when hostages are in the area.
+            Allow police to deploy gas grenades even when hostages are in the area
         </td>
     </tr>
     <tr>
@@ -146,7 +129,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Escapes
         </th>
         <td>
-            Allow escapes to occur.
+            Allow escapes to occur
         </td>
     </tr>
     <tr>
@@ -154,23 +137,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Captain Winters
         </th>
         <td>
-            Allow Captain Winters to spawn. Effectively always inactive in Super Serious Shooter.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Shiny Riflemen
-        </th>
-        <td>
-            Allow SMG SWATs for supported factions to spawn as part of the assault.
-        </td>
-    </tr>
-    <tr>
-        <th>
-            Raging Cops
-        </th>
-        <td>
-            Allow Bronco cops for supported factions to spawn as part of the assault.
+            Allow Captain Winters to spawn; effectively always inactive in Super Serious Shooter
         </td>
     </tr>
     <tr>
@@ -178,7 +145,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Unit Weapons
         </th>
         <td>
-            WIP
+            Change the weapons used by some special enemies
         </td>
     </tr>
     <tr>
@@ -186,7 +153,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             Dozer Rainbow
         </th>
         <td>
-            WIP
+            Allow given Dozer varieties to spawn on lower difficulties than usual
         </td>
     </tr>
 </table>
@@ -213,9 +180,9 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Modernized and tweaked restoration of the game's pre-Crimefest 2016 spawn groups.</li>
-                <li>New enemy combos; riflemen and shotgunners spawn together; light and heavy units spawn separately.</li>
-                <li>Scales up shotgunner and flanker presence with difficulty; light and heavy unit presence is always approximately 1:1.</li>
+                <li>Modernized and tweaked restoration of the game's pre-Crimefest 2016 spawn groups</li>
+                <li>New enemy combos; riflemen and shotgunners spawn together; light and heavy units spawn separately</li>
+                <li>Scales up shotgunner and flanker presence with difficulty; light and heavy unit presence is always approximately 1:1</li>
             </ul>
         </td>
     </tr>
@@ -225,9 +192,9 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Spicier version of Streamlined Heisting's default groups.</li>
-                <li>New enemy combos; more shotgunners.</li>
-                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence - this ratio varies with the chosen Skill Level.</li>
+                <li>Spicier version of Streamlined Heisting's default groups</li>
+                <li>New enemy combos; more shotgunners</li>
+                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence - this ratio varies with the chosen Skill Level</li>
             </ul>
         </td>
     </tr>
@@ -237,8 +204,8 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Tweaks Streamlined Heisting's default groups to work with the Level Mod and Skill Level settings.</li>
-                <li>Does not add new units to the groups; all other aspects of the mod, such as mission script tweaks, still apply.</li>
+                <li>Tweaks Streamlined Heisting's default groups to work with the Level Mod and Skill Level settings</li>
+                <li>Does not add new units to the groups; all other aspects of the mod, such as mission script tweaks, still apply</li>
             </ul>
         </td>
     </tr>
@@ -248,8 +215,8 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Experimental - enemies spawn solo, but faster than normal.</li>
-                <li>Higher heavy unit presence than normal - 5:2 heavy-to-light ratio in the toughest assault waves.</li>
+                <li>Experimental - groups have basic compositions but increase in size in the tougher assault waves</li>
+                <li>No heavy units in the easiest assaults, no light units in the toughest assaults</li>
             </ul>
         </td>
     </tr>
@@ -264,16 +231,16 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Pussy.</li>
-                <li>Tougher units are less likely to spawn.</li>
-                <li>Assaults last up to around 5 minutes.</li>
-                <li>Assault breaks are 10% longer.</li>
-                <li>The cooldown between enemies using the same grenade type again is increased by 15%.</li>
-                <li>The cooldown between enemies using any grenade is 15 seconds.</li>
-                <li>Enemies are more hesitant to push when no grenade is available.</li>
-                <li>Cooldown between enemy spawns is increased to 110%.</li>
-                <li>Smoke bombs last up to 15 seconds.</li>
-                <li>Gas grenade chance builds up more slowly.</li>
+                <li>Pussy</li>
+                <li>Tougher units are less likely to spawn</li>
+                <li>Assaults last up to around 5 minutes</li>
+                <li>Assault breaks are 10% longer</li>
+                <li>The cooldown between enemies using the same grenade type again is increased by 15%</li>
+                <li>The cooldown between enemies using any grenade is 15 seconds</li>
+                <li>Enemies are more hesitant to push when no grenade is available</li>
+                <li>Cooldown between enemy spawns is increased to 110%</li>
+                <li>Smoke bombs last up to 15 seconds</li>
+                <li>Gas grenade chance builds up more slowly</li>
             </ul>
         </td>
     </tr>
@@ -283,9 +250,9 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Probably won't hurt.</li>
-                <li>Tougher units are less likely to spawn.</li>
-                <li>Otherwise identical to Hurt Me Plenty.</li>
+                <li>Probably won't hurt</li>
+                <li>Tougher units are less likely to spawn</li>
+                <li>Otherwise identical to Hurt Me Plenty</li>
             </ul>
         </td>
     </tr>
@@ -295,11 +262,11 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>May hurt.</li>
-                <li>Original values.</li>
-                <li>Assaults last up to around 5.5 minutes. Length varies slightly.</li>
-                <li>The cooldown between enemies using any grenade is 13.5 seconds.</li>
-                <li>Smoke bombs last up to 15 seconds.</li>
+                <li>May hurt</li>
+                <li>Original values</li>
+                <li>Assaults last up to around 5.5 minutes; length varies slightly</li>
+                <li>The cooldown between enemies using any grenade is 13.5 seconds</li>
+                <li>Smoke bombs last up to 15 seconds</li>
             </ul>
         </td>
     </tr>
@@ -309,17 +276,17 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Will hurt.</li>
-                <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 6.5 minutes. Length varies.</li>
-                <li>Assault breaks are 15% shorter.</li>
-                <li>The cooldown between enemies using the same grenade type again is decreased by 25%.</li>
-                <li>The cooldown between enemies using any grenade is 12 seconds.</li>
-                <li>Enemies are less hesitant to push when no grenade is available.</li>
-                <li>Cooldown between enemy spawns is decreased to 75%.</li>
-                <li>Smoke bombs last up to 20 seconds.</li>
-                <li>Gas grenade chance builds up faster.</li>
-                <li>Special limits are increased by about 25% (minimum 1 extra for each special type that can normally spawn).</li>
+                <li>Will hurt</li>
+                <li>Tougher units are more likely to spawn</li>
+                <li>Assaults last up to around 6.5 minutes; length varies</li>
+                <li>Assault breaks are 15% shorter</li>
+                <li>The cooldown between enemies using the same grenade type again is decreased by 25%</li>
+                <li>The cooldown between enemies using any grenade is 12 seconds</li>
+                <li>Enemies are less hesitant to push when no grenade is available</li>
+                <li>Cooldown between enemy spawns is decreased to 75%</li>
+                <li>Smoke bombs last up to 20 seconds</li>
+                <li>Gas grenade chance builds up faster</li>
+                <li>Special limits are increased by about 25% (minimum 1 extra for each special type that can normally spawn)</li>
             </ul>
         </td>
     </tr>
@@ -329,18 +296,18 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Doable bullshit.</li>
-                <li>Not playtested. It's just a "fuck you" thing.</li>
-                <li>Tougher units are more likely to spawn.</li>
-                <li>Assaults last up to around 9 minutes. Length varies a lot.</li>
-                <li>Assault breaks are 15% shorter.</li>
-                <li>The cooldown between enemies using the same grenade type again is decreased by 75%.</li>
-                <li>The cooldown between enemies using any grenade is 6 seconds.</li>
-                <li>Enemies are much less hesitant to push when no grenade is available.</li>
-                <li>Cooldown between enemy spawns is decreased to 25%.</li>
-                <li>Smoke bombs last up to 30 seconds.</li>
-                <li>Gas grenade chance builds up nearly instantly.</li>
-                <li>Special limits are increased by 100% (minimum 1 extra for each special type that can normally spawn).</li>
+                <li>Doable bullshit</li>
+                <li>Not playtested; it's just a "fuck you" thing</li>
+                <li>Tougher units are more likely to spawn</li>
+                <li>Assaults last up to around 9 minutes; length varies a lot</li>
+                <li>Assault breaks are 15% shorter</li>
+                <li>The cooldown between enemies using the same grenade type again is decreased by 75%</li>
+                <li>The cooldown between enemies using any grenade is 6 seconds</li>
+                <li>Enemies are much less hesitant to push when no grenade is available</li>
+                <li>Cooldown between enemy spawns is decreased to 25%</li>
+                <li>Smoke bombs last up to 30 seconds</li>
+                <li>Gas grenade chance builds up nearly instantly</li>
+                <li>Special limits are increased by 100% (minimum 1 extra for each special type that can normally spawn)</li>
             </ul>
         </td>
     </tr>
@@ -350,18 +317,179 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         </th>
         <td>
             <ul>
-                <li>Less doable bullshit.</li>
-                <li>Not playtested. It's just a "fuck you and your mother" thing.</li>
-                <li>Tougher units are exponentially more likely to spawn.</li>
-                <li>Assaults will only end by killing enough cops, or from map scripting.</li>
-                <li>Assault breaks may as well not exist.</li>
-                <li>The cooldown between enemies using the same grenade type again is removed.</li>
-                <li>The cooldown between enemies using any grenade is 3 seconds.</li>
-                <li>Enemies won't wait to use a grenade before pushing.</li>
-                <li>Cooldown between enemy spawns is removed.</li>
-                <li>Smoke bombs last 60 seconds.</li>
-                <li>Gas grenades are always used if available.</li>
-                <li>Special limits are increased by 300% (minimum 1 extra for each special type that can normally spawn).</li>
+                <li>Less doable bullshit</li>
+                <li>Not playtested; it's just a "fuck you and your mother" thing</li>
+                <li>Tougher units are exponentially more likely to spawn</li>
+                <li>Assaults will only end by killing enough cops, or from map scripting</li>
+                <li>Assault breaks may as well not exist</li>
+                <li>The cooldown between enemies using the same grenade type again is removed</li>
+                <li>The cooldown between enemies using any grenade is 3 seconds</li>
+                <li>Enemies won't wait to use a grenade before pushing</li>
+                <li>Cooldown between enemy spawns is removed</li>
+                <li>Smoke bombs last 60 seconds</li>
+                <li>Gas grenades are always used if available</li>
+                <li>Special limits are increased by 300% (minimum 1 extra for each special type that can normally spawn)</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Unit Weapons:
+
+<table>
+    <tr>
+        <th>
+            Shield Arms
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by Shield units; has no effect in Super Serious Shooter</li>
+                <li>Can be set to use pistols, SMGs, or both</li>
+                <li>Defaults to pistols</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Taser Dazers
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by Tasers</li>
+                <li>Can be set to use rifles, concussive auto shotguns, or both</li>
+                <li>Defaults to concussive auto shotguns</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Cloaker Balance
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by Cloakers</li>
+                <li>Can be set to use SMGs, pistols, or both</li>
+                <li>Defaults to both</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medic Ordnance
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by rifle Medics</li>
+                <li>Can be set to use rifles, Deagles, or both</li>
+                <li>Defaults to Deagles</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medical Ordinance
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by shotgun Medics; yes, those are two different words</li>
+                <li>Can be set to use pump shotguns, auto shotguns, or both</li>
+                <li>Defaults to auto shotguns</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Geneva Suggestion
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by Medic Dozers</li>
+                <li>Can be set to use rifles, sawed-off shotguns, or both</li>
+                <li>Defaults to both</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Rifle Funding
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by rifle HRTs</li>
+                <li>Can be set to use pistols, rifles, or both</li>
+                <li>Defaults to pistols</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Shotgun Funding
+        </th>
+        <td>
+            <ul>
+                <li>Determine the weapon type used by shotgun HRTs</li>
+                <li>Can be set to use shotguns, revolvers, or both</li>
+                <li>Defaults to shotguns</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Dozer Rainbow:
+
+<table>
+    <tr>
+        <th>
+            Pump Shotgun Dozers
+        </th>
+        <td>
+            <ul>
+                <li>Always a possibility when a Dozer spawns</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Auto Shotgun Dozers
+        </th>
+        <td>
+            <ul>
+                <li>Can be set to start spawning on Normal, Hard, or Very Hard</li>
+                <li>Default difficulty is Very Hard</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            LMG Dozers
+        </th>
+        <td>
+            <ul>
+                <li>Can be set to start spawning on Normal, Hard, Very Hard, Overkill, or Mayhem</li>
+                <li>Default difficulty is Mayhem</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Minigun Dozers
+        </th>
+        <td>
+            <ul>
+                <li>Minigun Dozers can still appear in scripted spawns on Death Wish regardless of this setting</li>
+                <li>Can be set to start spawning on any difficulty</li>
+                <li>Default difficulty is Death Sentence</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Medic Dozers
+        </th>
+        <td>
+            <ul>
+                <li>Can be set to start spawning on any difficulty</li>
+                <li>Default difficulty is Death Sentence</li>
             </ul>
         </td>
     </tr>
@@ -369,9 +497,11 @@ Custom heists that have been played from start to finish with the mod, in loud, 
 
 ### Level Mod Map:
 
-These are used when the Level Mod setting is set to Per-Level.
-GenSec-ZEAL and ZEAL Level Mods require an additional matchmaking lock to function online, and thus have no associated levels and will not be picked when Level Mod is set to Random.
-For alternate factions like Murkywater, this will use their version of equivalent American units - they may not be visually different without other mods, though.
+These are used when the Level Mod setting is set to Per-Level
+
+GenSec-ZEAL and ZEAL Level Mods require an additional matchmaking lock to function online, and thus have no associated levels and will not be picked when Level Mod is set to Random
+
+For alternate factions like Murkywater, this will use their version of equivalent American units - they may not be visually different without other mods, though
 
 <table>
     <tr>
@@ -405,6 +535,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>San Martin Bank</li>
                 <li>Dragon Heist</li>
                 <li>GO Bank</li>
+                <li>BOWORKS day 1 (custom)</li>
             </ul>
         </td>
     </tr>
@@ -467,6 +598,7 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Scorched Earth (custom)</li>
                 <li>Crime and Punishment (custom)</li>
                 <li>Hunter and Hunted (custom)</li>
+                <li>BOWORKS day 2 (custom)</li>
             </ul>
         </td>
     </tr>
@@ -508,16 +640,198 @@ For alternate factions like Murkywater, this will use their version of equivalen
                 <li>Penthouse Crasher (custom)</li>
                 <li>Scarlett Resort (custom)</li>
                 <li>GenSec H.I.V.E. Heist (custom)</li>
+                <li>BOWORKS day 3 (custom)</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Significantly Tweaked Heists:
+
+This is not a comprehensive list of all tweaked heists
+
+<table>
+    <tr>
+        <th>
+            San Martin Bank
+        </th>
+        <td>
+            <ul>
+                <li>Police no longer spawn inside the bank and instead send units to reinforce inside the bank</li>
             </ul>
         </td>
     </tr>
     <tr>
         <th>
-            Unique
+            Diamond Heist
         </th>
         <td>
             <ul>
-                <li>BOWORKS (custom) rotates from SWAT to FBI to GenSec tiers with each heist day</li>
+                <li>Significant reinforcement in the atrium</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Diamond Store
+        </th>
+        <td>
+            <ul>
+                <li>Turret is less likely</li>
+                <li>Escape points in turret's line of sight are disabled if turret spawns</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Bank Heist/Firestarter day 3
+        </th>
+        <td>
+            <ul>
+                <li>Roof helicopter arrives multiple times and deploys special units</li>
+                <li>More snipers spawn on higher difficulties</li>
+                <li>More tear gas is deployed</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Panic Room
+        </th>
+        <td>
+            <ul>
+                <li>Police arrive some time after masking up, rather than after Chavez dies</li>
+                <li>Rooftop snipers spawn more quickly and continue to spawn after the C4 drop</li>
+                <li>Many more doors can be closed for the entire heist</li>
+                <li>New Cloaker spawn points</li>
+                <li>Ground-level spawn points are never disabled</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Undercover
+        </th>
+        <td>
+            <ul>
+                <li>This edit is not meant to be well-balanced</li>
+                <li>Many more snipers and rooftop harassers</li>
+                <li>Alex is more competent</li>
+                <li>Taxman is more resilient</li>
+                <li>The escape sequence is tougher</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Lost in Transit
+        </th>
+        <td>
+            <ul>
+                <li>Police reinforce and harass from the tops of train cars</li>
+                <li>Snipers can respawn</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Watchdogs day 1
+        </th>
+        <td>
+            <ul>
+                <li>Snipers are part of the ambush</li>
+                <li>Some specials can be part of the ambush</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Watchdogs day 2
+        </th>
+        <td>
+            <ul>
+                <li>Snipers spawn on the ship and on the ground</li>
+                <li>Unused Cloaker spawns and reinforcement points restored</li>
+                <li>Dock helicopter appears multiple times</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Big Oil day 1
+        </th>
+        <td>
+            <ul>
+                <li>Fewer planks</li>
+                <li>Some useless intel removed, less removed on higher difficulties</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Big Oil day 2
+        </th>
+        <td>
+            <ul>
+                <li>Bile can arrive at the pool on any difficulty</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Alaskan Deal
+        </th>
+        <td>
+            <ul>
+                <li>Ambush is tougher</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+### Level-Specific Assault Changes:
+
+Specials not normally active on the current difficulty will not be added and vice versa
+
+Special limit additions are performed before Skill Level's special limit multiplication
+
+<table>
+    <tr>
+        <th>
+            Biker Heist day 2
+        </th>
+        <td>
+            <ul>
+                <li>Simultaneous spawn limit x0.5</li>
+                <li>-2 Shields, -1 Dozer</li>
+                <li>Gas grenade chance buildup times x0.25</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Hostile Takeover
+        </th>
+        <td>
+            <ul>
+                <li>+2 Shields, +1 Medic, +1 Taser, +1 Dozer, +1 Cloaker</li>
+                <li>Gas grenade chance buildup times x0.35</li>
+                <li>Reinforcement spawn delays x0.35</li>
+                <li>Hostage rescue spawn delay variation x0.35</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            Undercover
+        </th>
+        <td>
+            <ul>
+                <li>Sustain phase duration x1.25</li>
+                <li>+1 Medic, +1 Taser, +1 Cloaker</li>
+                <li>Gas grenade chance buildup times x0.35</li>
+                <li>Reinforcement spawn delays x0.5</li>
+                <li>Hostage rescue spawn delay variation x0.75</li>
             </ul>
         </td>
     </tr>
@@ -529,7 +843,8 @@ For alternate factions like Murkywater, this will use their version of equivalen
 
 - Mod has global name `ASS` and uses similar names in added hooks and menu-related things
 - Mods sets field `ASS.been_there_fucked_that = true` once scripts start running - check for this if checking if the mod is doing its thing
-- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawncivilian`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/modifiersmanager`, `lib/managers/mutatorsmanager`, `lib/managers/skirmishmanager`, `lib/network/base/networkmanager`, `lib/setups/gamesetup`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/levelstweakdata`, `lib/tweak_data/mutatortweakdata`, `lib/tweak_data/playertweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/units/enemies/cop/copbase`
+- Mod adds new class `MoonTweakData`, initialized as `tweak_data.moon` in a prehook to `TweakData:_init_pd2()`
+- Hooks into `core/lib/managers/coreworldinstancemanager`, `lib/managers/group_ai_states/groupaistatebase`, `lib/managers/group_ai_states/groupaistatebesiege`, `lib/managers/mission/elementjobstagealternative`, `lib/managers/mission/elementspawncivilian`, `lib/managers/mission/elementspawnenemydummy`, `lib/managers/mission/elementspawnenemygroup`, `lib/managers/missionmanager`, `lib/managers/modifiersmanager`, `lib/managers/mutatorsmanager`, `lib/managers/skirmishmanager`, `lib/network/base/networkmanager`, `lib/setups/gamesetup`, `lib/tweak_data/charactertweakdata`, `lib/tweak_data/groupaitweakdata`, `lib/tweak_data/skirmishtweakdata`, `lib/tweak_data/tweakdatapd2`, `lib/units/enemies/cop/copbase`
 - Has priority 0
 
 -----
