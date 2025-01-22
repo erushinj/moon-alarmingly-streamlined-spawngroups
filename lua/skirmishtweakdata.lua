@@ -4,8 +4,9 @@ end
 
 Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
-		local skm_special_weights = ASS.tweaks.skm_special_weights
-		local w1, w2, w3 = unpack(skm_special_weights)
+		local w1, w2, w3 = unpack(ASS.tweaks.skm_special_weights)
+
+		local skm_special_weights = { w1, w2, w3, }
 
 		local special_weights_original_a = { w1, w2 * 0.5, 0, }
 		local special_weights_original_a_double = table.collect(special_weights_original_a, function(val) return val * 2 end)
@@ -13,11 +14,12 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 		local special_weights_original_b_double = table.collect(special_weights_original_b, function(val) return val * 2 end)
 		local special_weights_original_c = table.collect(skm_special_weights, function(val) return val * 0.1 end)
 
-		local special_weights_streamlined = clone(skm_special_weights)
+		local special_weights_streamlined = skm_special_weights
 
-		local special_weights_default = clone(skm_special_weights)
+		local special_weights_default = skm_special_weights
 
-		local special_weights_chicken_plate = clone(skm_special_weights)
+		local special_weights_chicken_plate = skm_special_weights
+		local special_weights_chicken_plate_double = table.collect(special_weights_chicken_plate, function(val) return val * 2 end)
 
 		local all_skm_groups = {
 			original = {
@@ -67,19 +69,15 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 				tac_bull_rush = special_weights_default,
 				FBI_spoocs = special_weights_default,
 			},
-			-- chicken_plate = {
-			-- 	chicken_plate_hrt_a = { 0, 0, 0, },
-			-- 	chicken_plate_hrt_b = { 15, 1.5, 1.5, },
-			-- 	chicken_plate_swat_a = { 0, 0, 0, },
-			-- 	chicken_plate_swat_b = { 6, 15, 6, },
-			-- 	chicken_plate_heavy_a = { 0, 0, 0, },
-			-- 	chicken_plate_heavy_b = { 1.5, 6, 15, },
-			-- 	chicken_plate_shield = special_weights_chicken_plate,
-			-- 	chicken_plate_taser = special_weights_chicken_plate,
-			-- 	chicken_plate_tank = special_weights_chicken_plate,
-			-- 	chicken_plate_spooc = special_weights_chicken_plate,
-			-- 	chicken_plate_medic = special_weights_chicken_plate,
-			-- },
+			chicken_plate = {
+				chicken_plate_hrt = { 0, 0, 0, },
+				chicken_plate_assault_ar_smg = { 13.5, 13.5, 13.5, },
+				chicken_plate_assault_smg_sg = { 13.5, 13.5, 13.5, },
+				chicken_plate_shield = special_weights_chicken_plate_double,
+				chicken_plate_taser = special_weights_chicken_plate_double,
+				chicken_plate_tank = special_weights_chicken_plate,
+				chicken_plate_spooc = special_weights_chicken_plate,
+			},
 			editor = {
 				tac_swat_shotgun_rush = { 1, 1, 1, },  -- in case of a custom map that supports these
 				tac_swat_shotgun_flank = { 1, 1, 1, },
@@ -96,9 +94,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 		self._moon_skirmish_groups = all_skm_groups[tweak_data.group_ai.moon_assault_style] or all_skm_groups.default
 	end
 
-	for i = 1, #self.special_unit_spawn_limits do
-		local wave_limits = self.special_unit_spawn_limits[i]
-
+	for i, wave_limits in ipairs(self.special_unit_spawn_limits) do
 		for special, limit in pairs(wave_limits) do
 			wave_limits[special] = math.ceil(limit * ASS.tweaks.special_limit_mul)
 		end

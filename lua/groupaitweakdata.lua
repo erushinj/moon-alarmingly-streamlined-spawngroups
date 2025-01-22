@@ -2125,24 +2125,25 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 
 	self:_moon_set_weights({
 		assault = {
-			chicken_plate_assault_ar_smg = { 27, 18, 9, },
-			chicken_plate_assault_smg_sg = { 0, 9, 18, },
-			chicken_plate_shield = { special_weight, special_weight, special_weight, },
-			chicken_plate_taser = { special_weight * 0.5, special_weight * 0.75, special_weight, },
+			chicken_plate_hrt = { 0, 0, 0, },
+			chicken_plate_assault_ar_smg = { 13.5, 13.5, 13.5, },
+			chicken_plate_assault_smg_sg = { 13.5, 13.5, 13.5, },
+			chicken_plate_shield = { special_weight, special_weight * 1.5, special_weight * 2, },
+			chicken_plate_taser = { special_weight * 0.5, special_weight * 1.25, special_weight, },
 			chicken_plate_spooc = { special_weight * 0.25, special_weight * 0.675, special_weight, },
 			chicken_plate_tank = { 0, special_weight * 0.5, special_weight, },
 		},
 		recon = {
-			chicken_plate_hrt = { 27, 27, 27, },
+			chicken_plate_hrt = { 1, 1, 1, },
 			chicken_plate_assault_ar_smg = { 0, 0, 0, },
 			chicken_plate_assault_smg_sg = { 0, 0, 0, },
 			chicken_plate_taser = { 0, 0, 0, },
 			chicken_plate_spooc = { 0, 0, 0, },
 		},
 		reenforce = {
-			chicken_plate_hrt = { 2, 0, 0, },
+			chicken_plate_hrt = { 4, 2, 0, },
 			chicken_plate_assault_ar_smg = { 1, 1, 1, },
-			chicken_plate_assault_smg_sg = { 0, 0, 2, },
+			chicken_plate_assault_smg_sg = { 1, 1, 1, },
 		},
 	})
 end
