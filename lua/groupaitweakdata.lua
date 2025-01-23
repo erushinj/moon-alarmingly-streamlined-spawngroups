@@ -221,6 +221,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 
 	local FBI_spooc_medic = { "FBI_spooc", "FBI_medic_1_2", }
 	local FBI_taser_medic = { "FBI_taser", "FBI_medic_1_2", }
+	local FBI_special = { "FBI_spooc", "FBI_taser", "FBI_medic_1", "FBI_medic_2", }
 
 	self.enemy_spawn_groups.original_swats_a = {
 		amount = { 3, 3, },
@@ -276,7 +277,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "FBI_spooc",
-				random_unit = FBI_spooc_medic,
+				random_unit = FBI_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -338,7 +339,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "FBI_taser",
-				random_unit = FBI_taser_medic,
+				random_unit = FBI_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -670,10 +671,10 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 
 	self:_moon_set_weights({
 		assault = {
-			original_swats_a = { 6.75, 3.375, 0, },
-			original_swats_b = { 6.75, 10.125, 13.5, },
-			original_heavys_a = { 6.75, 3.375, 0, },
-			original_heavys_b = { 6.75, 10.125, 13.5, },
+			original_swats_a = { 18, 13.5, 0, },
+			original_swats_b = { 0, 0, 9, },
+			original_heavys_a = { 9, 13.5, 0, },
+			original_heavys_b = { 0, 0, 18, },
 			original_shields_a = { 0, special_weight, 0, },
 			original_shields_b = { 0, 0, special_weight * 2, },
 			original_tazers_a = { 0, special_weight, 0, },
@@ -2307,7 +2308,6 @@ function GroupAITweakData:_moon_init_task_data()
 	end
 
 	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end
-	local break_duration_func = function(val) return val * ASS.tweaks.break_duration_mul end
 
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, grenade_cooldown_func)
 	self.smoke_grenade_lifetime = math.lerp(ASS.tweaks.smoke_grenade_lifetime[1], ASS.tweaks.smoke_grenade_lifetime[2], f)
@@ -2315,19 +2315,23 @@ function GroupAITweakData:_moon_init_task_data()
 	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, grenade_cooldown_func)
 	self.cs_grenade_lifetime = math.lerp(20, 40, f)
 	self.cs_grenade_chance_times = table.collect(ASS.tweaks.cs_grenade_chance_times, function(val) return val * level_assault_tweaks.cs_grenade_chance_times_mul end)
-	self.min_grenade_timeout = ASS.tweaks.min_grenade_timeout
-	self.no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay
+	self.min_grenade_timeout = ASS.tweaks.min_grenade_timeout * level_assault_tweaks.min_grenade_timeout_mul
+	self.no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay * level_assault_tweaks.no_grenade_push_delay_mul
 	self.spawn_cooldown_mul = math.lerp(ASS.tweaks.spawn_cooldowns[1], ASS.tweaks.spawn_cooldowns[2], f)
 	self.spawn_kill_cooldown = ASS.tweaks.spawn_cooldowns[2] * 10
 
+	local sustain_duration_base = {}
+	for i, val in pairs(self.besiege.assault.sustain_duration_min) do
+		sustain_duration_base[i] = math.lerp(val, self.besiege.assault.sustain_duration_max[i] or val, 0.5) * level_assault_tweaks.sustain_duration_mul
+	end
+
 	self.besiege.assault.force = table.collect(self.besiege.assault.force, function(val) return val * level_assault_tweaks.force_mul end)
 	self.besiege.assault.force_pool = table.collect(self.besiege.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
-	self.besiege.assault.sustain_duration_base = table.collect(self.besiege.assault.sustain_duration_min, function(val) return val * level_assault_tweaks.sustain_duration_mul end)
-	self.besiege.assault.sustain_duration_min = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[1] end)
-	self.besiege.assault.sustain_duration_max = table.collect(self.besiege.assault.sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[2] end)
+	self.besiege.assault.sustain_duration_min = table.collect(sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[1] end)
+	self.besiege.assault.sustain_duration_max = table.collect(sustain_duration_base, function(val) return val * ASS.tweaks.sustain_duration_muls[2] end)
 	self.besiege.assault.sustain_duration_balance_mul = table.collect(self.besiege.assault.sustain_duration_balance_mul, function(val) return 1 end)
-	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, break_duration_func)
-	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, break_duration_func)
+	self.besiege.assault.delay = table.collect(self.besiege.assault.delay, function(val) return val * ASS.tweaks.break_duration_mul end)
+	self.besiege.assault.hostage_hesitation_delay = table.collect(self.besiege.assault.hostage_hesitation_delay, function(val) return val * level_assault_tweaks.hostage_hesitation_delay_mul end)
 	self.besiege.reenforce.interval = table.collect(ASS.tweaks.reenforce_interval, function(val) return val * level_assault_tweaks.reenforce_interval_mul end)
 	self.besiege.recon.force = table.collect(self.besiege.assault.force, function(val) return val * ASS.tweaks.recon_force_mul end)
 	self.besiege.recon.interval_variation = self.besiege.recon.interval_variation * level_assault_tweaks.recon_interval_variation_mul * ASS.tweaks.recon_interval_variation_mul

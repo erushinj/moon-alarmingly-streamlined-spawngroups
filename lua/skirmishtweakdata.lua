@@ -23,10 +23,10 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 
 		local all_skm_groups = {
 			original = {
-				original_swats_a = { 6.75, 3.375, 0, },
-				original_swats_b = { 6.75, 10.125, 13.5, },
-				original_heavys_a = { 6.75, 3.375, 0, },
-				original_heavys_b = { 6.75, 10.125, 13.5, },
+				original_swats_a = { 18, 13.5, 0, },
+				original_swats_b = { 0, 0, 9, },
+				original_heavys_a = { 9, 13.5, 0, },
+				original_heavys_b = { 0, 0, 18, },
 				original_shields_a = special_weights_original_a_double,
 				original_shields_b = special_weights_original_b_double,
 				original_tazers_a = special_weights_original_a_double,

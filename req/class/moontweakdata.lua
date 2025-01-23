@@ -583,6 +583,9 @@ end
 function MoonTweakData:init_level_assault_tweaks()
 	local level_tweaks = {
 		default = {
+			min_grenade_timeout_mul = 1,
+			no_grenade_push_delay_mul = 1,
+			hostage_hesitation_delay_mul = 1,
 			force_mul = 1,
 			sustain_duration_mul = 1,
 			cs_grenade_chance_times_mul = 1,
@@ -596,11 +599,15 @@ function MoonTweakData:init_level_assault_tweaks()
 				spooc = 0,
 			},
 		},
+		born = {
+			sustain_duration_mul = 0.8,
+			cs_grenade_chance_times_mul = 0.5,
+		},
 		chew = {
-			force_mul = 0.5,
+			force_mul = 0.8,
 			cs_grenade_chance_times_mul = 0.25,
 			special_limit_add = {
-				shield = -2,
+				shield = -1,
 				tank = -1,
 			},
 		},

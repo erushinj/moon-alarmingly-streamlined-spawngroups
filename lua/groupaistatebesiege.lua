@@ -20,7 +20,7 @@ if ASS.settings.gas_grenade_ignore_hostages then
 	end
 end
 
--- most vanilla reenforce points have the very weird force value of 1, while reenforce units spawn in groups (except chicken plate assault style)
+-- most vanilla reenforce points have the very weird force value of 1, while reenforce units spawn in groups
 -- ensure reenforce points are populated appropriately between all assault styles
 local set_area_min_police_force_original = GroupAIStateBesiege.set_area_min_police_force
 function GroupAIStateBesiege:set_area_min_police_force(id, force, ...)
@@ -30,7 +30,7 @@ end
 if not ASS.settings.captain_winters then
 	ASS:log("info", "Captain Winters setting disabled, dummying \"GroupAIStateBesiege:_check_spawn_phalanx\"...")
 
-	Hooks:OverrideFunction( GroupAIStateBesiege, "_check_spawn_phalanx", function() end )
+	Hooks:OverrideFunction( GroupAIStateBesiege, "_check_spawn_phalanx", function(...) end )
 end
 
 -- support random tactics/units in spawn_entry

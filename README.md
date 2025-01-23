@@ -182,7 +182,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             <ul>
                 <li>Modernized and tweaked restoration of the game's pre-Crimefest 2016 spawn groups</li>
                 <li>New enemy combos; riflemen and shotgunners spawn together; light and heavy units spawn separately</li>
-                <li>Scales up shotgunner and flanker presence with difficulty; light and heavy unit presence is always approximately 1:1</li>
+                <li>Fewer heavy units in the easiest assaults, fewer light units in the toughest assaults</li>
             </ul>
         </td>
     </tr>
@@ -194,7 +194,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             <ul>
                 <li>Spicier version of Streamlined Heisting's default groups</li>
                 <li>New enemy combos; more shotgunners</li>
-                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence - this ratio varies with the chosen Skill Level</li>
+                <li>Scales up heavy presence with difficulty, to approximately 1:1 with light units on Death Sentence</li>
             </ul>
         </td>
     </tr>
@@ -205,7 +205,8 @@ Custom heists that have been played from start to finish with the mod, in loud, 
         <td>
             <ul>
                 <li>Tweaks Streamlined Heisting's default groups to work with the Level Mod and Skill Level settings</li>
-                <li>Does not add new units to the groups; all other aspects of the mod, such as mission script tweaks, still apply</li>
+                <li>Does not add new units to the groups; keeps Marshals in the assaults</li>
+                <li>All other aspects of the mod, such as unit weapon changes and mission script tweaks, still apply</li>
             </ul>
         </td>
     </tr>
@@ -217,6 +218,7 @@ Custom heists that have been played from start to finish with the mod, in loud, 
             <ul>
                 <li>Experimental - groups have basic compositions but increase in size in the tougher assault waves</li>
                 <li>No heavy units in the easiest assaults, no light units in the toughest assaults</li>
+                <li>Special units are allowed to start spawning sooner than other Assault Styles</li>
             </ul>
         </td>
     </tr>
@@ -798,12 +800,23 @@ Special limit additions are performed before Skill Level's special limit multipl
 <table>
     <tr>
         <th>
+            Biker Heist day 1
+        </th>
+        <td>
+            <ul>
+                <li>Sustain phase duration x0.8</li>
+                <li>Gas grenade chance buildup times x0.5</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>
             Biker Heist day 2
         </th>
         <td>
             <ul>
-                <li>Simultaneous spawn limit x0.5</li>
-                <li>-2 Shields, -1 Dozer</li>
+                <li>Simultaneous spawn limit x0.8</li>
+                <li>-1 Shield, -1 Dozer</li>
                 <li>Gas grenade chance buildup times x0.25</li>
             </ul>
         </td>
