@@ -1,5 +1,5 @@
 -- dance with the devil, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local friends = {  -- vips
 	Idstring("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager"),
 	Idstring("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01"),
@@ -70,10 +70,10 @@ return {
 	[100183] = { enemy = friends, },
 	[100184] = { enemy = friends, },
 	[100185] = { enemy = friends, },
-	[100275] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
-	[100280] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
-	[100274] = { enemy = tweak_data.levels:moon_units("specials_shield_clk"), },
-	[100277] = { enemy = tweak_data.levels:moon_units("specials_shield_clk"), },
-	[100431] = { enemy = tweak_data.levels:moon_units("specials_no_clk"), },
-	[100432] = { enemy = tweak_data.levels:moon_units("specials_no_clk"), },
+	[100275] = { enemy = tweak_data.moon.units.dozers_no_cs, },
+	[100280] = { enemy = tweak_data.moon.units.dozers_no_cs, },
+	[100274] = { enemy = tweak_data.moon.units.specials_shield_clk, },
+	[100277] = { enemy = tweak_data.moon.units.specials_shield_clk, },
+	[100431] = { enemy = tweak_data.moon.units.specials_no_clk, },
+	[100432] = { enemy = tweak_data.moon.units.specials_no_clk, },
 }

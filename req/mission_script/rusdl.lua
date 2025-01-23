@@ -1,26 +1,32 @@
 -- cold stones, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local securitys = {
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"),
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"),
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"),
 }
-local securitys_1 = get_table_index_func(clone(securitys))
-local securitys_2 = get_table_index_func(clone(securitys))
-local securitys_3 = get_table_index_func(securitys)
-local securitys_ids_1 = get_table_index_func({ 100660, 100709, 100710, })
-local securitys_ids_2 = get_table_index_func({ 100711, 100712, })
-local securitys_ids_3 = get_table_index_func({ 100713, 100714, })
-local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
+local securitys_1 = ASS.utils.gen_remove_random_value(clone(securitys))
+local securitys_2 = ASS.utils.gen_remove_random_value(clone(securitys))
+local securitys_3 = ASS.utils.gen_remove_random_value(securitys)
+local securitys_ids_1 = ASS.utils.gen_remove_random_value({ 100660, 100709, 100710, })
+local securitys_ids_2 = ASS.utils.gen_remove_random_value({ 100711, 100712, })
+local securitys_ids_3 = ASS.utils.gen_remove_random_value({ 100713, 100714, })
+local dozers_no_cs = tweak_data.moon.units.dozers_no_cs
 
 local staff_ids = { 100064, 100065, 100062, 100063, 100066, 100089, 100077, 100078, 100083, 100080, 100079, 100081, 100082, 100084, }
 local staff = {
 	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_1/civ_female_bank_assistant_1"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
+	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
 	Idstring("units/pd2_dlc2/characters/civ_female_bank_assistant_2/civ_female_bank_assistant_2"),
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
+	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
+	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 }
 local original_num_staff = #staff
@@ -55,11 +61,11 @@ local function get_civs_function(func)
 		}
 	end
 end
-local civs_left_ids = get_table_index_func({ 100074, 100075, 100088, 100073, 100072, 100076, 100085, })
-local civs_right_ids = get_table_index_func({ 100087, 100067, 100086, 100068, 100069, 100070, 100071, })
-local civs_staff_ids = get_table_index_func(staff_ids)
-local civs_left = get_civs_function(try_pick_bobblehead_bob(nil, clone(civs_any)))
-local civs_right = get_civs_function(try_pick_bobblehead_bob(nil, civs_any))
+local civs_left_ids = ASS.utils.gen_remove_random_value({ 100074, 100075, 100088, 100073, 100072, 100076, 100085, })
+local civs_right_ids = ASS.utils.gen_remove_random_value({ 100087, 100067, 100086, 100068, 100069, 100070, 100071, })
+local civs_staff_ids = ASS.utils.gen_remove_random_value(staff_ids)
+local civs_left = get_civs_function(ASS.utils.try_pick_bobblehead_bob(nil, clone(civs_any)))
+local civs_right = get_civs_function(ASS.utils.try_pick_bobblehead_bob(nil, civs_any))
 local civs_staff = get_civs_function(function() return staff end, true)
 
 return {

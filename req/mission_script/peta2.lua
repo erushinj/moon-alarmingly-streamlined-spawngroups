@@ -5,7 +5,7 @@ local mexican_4 = Idstring("units/payday2/characters/ene_gang_mexican_4/ene_gang
 local mexicans = { mexican_1, mexican_2, mexican_3, mexican_4, }
 local mexicans_light = { mexican_3, mexican_4, }
 local mexicans_heavy = { mexican_1, mexican_2, }
-local specials_any = tweak_data.levels:moon_units("specials_any")
+local specials_any = tweak_data.moon.units.specials_any
 
 return {
 	[100428] = { enemy = mexicans_light, },  -- "sniper" spots

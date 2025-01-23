@@ -1,7 +1,6 @@
-local securitys = tweak_data.levels:moon_units("securitys")
-local cops = tweak_data.levels:moon_units("cops")
+local securitys = tweak_data.moon.units.securitys
+local cops = tweak_data.moon.units.cops
 
--- TODO: add custom area trigger for vantage point snipers
 return {
 	[103342] = {  -- allow one more sniper
 		values = {

@@ -1,10 +1,7 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local filters_normal_above = set_difficulty_groups("normal_above")
-local filters_disable = set_difficulty_groups("disable")
-local civs_casino = try_pick_bobblehead_bob(nil, {
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
+local filters_disable = ASS.utils.set_difficulty_groups("disable")
+local civs_casino = ASS.utils.try_pick_bobblehead_bob(nil, {
 	Idstring("units/pd2_dlc_casino/characters/civ_male_business_casino_2/civ_male_business_casino_2"),
 	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1"),
 	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_2/civ_male_casino_2"),
@@ -106,7 +103,7 @@ return {
 	end,
 	["levels/instances/unique/chca/chca_helicopter_enemies/world/world"] = function(result)
 		local helicopter_enemies = patches.helicopter_enemies
-		local heli_spawns = scripted_swat_squads({  -- 2 choppers come in but half the time half the units disappear because ??? but only half the time
+		local heli_spawns = ASS.utils.scripted_swat_squads({  -- 2 choppers come in but half the time half the units disappear because ??? but only half the time
 			hard_target = overkill and 2 or 1,
 			hard_spawn = "dozers_no_cs",
 			normal_spawn = "specials_any",
@@ -128,12 +125,10 @@ return {
 		end
 	end,
 	["levels/instances/shared/harasser/world/world"] = function(result)
-		local marshals_far = tweak_data.levels:moon_units("marshals_far")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.harasser[element.id] then
 				element.values.moon_data = {
-					enemy = marshals_far,
+					enemy = tweak_data.moon.units.marshals_far,
 				}
 			end
 		end

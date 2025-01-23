@@ -4,7 +4,6 @@ if not custom_script then
 	return
 end
 
-local check_clone = ASS:require("check_clone", true)
 local required_values = {
 	enabled = false,
 	trigger_times = 0,
@@ -24,6 +23,35 @@ local element_templates = {
 		class = "MissionScriptElement",
 		module = "CoreMissionScriptElement",
 		values = append_template_values(nil, {}),
+	},
+	{
+		class = "ElementPlaySound",
+		module = "CoreElementPlaySound",
+		values = append_template_values(true, {
+			interrupt = false,
+			sound_event = nil,  -- string
+			use_instigator = false,
+			use_play_func = false,
+			append_prefix = false,
+			elements = {},
+		}),
+	},
+	{
+		class = "ElementInstanceInputEvent",
+		module = "CoreElementInstance",
+		values = append_template_values(nil, {
+			instance = nil,  -- string (prefer event_list)
+			event = nil,  -- string (prefer event_list)
+			event_list = {},
+		}),
+	},
+	{
+		class = "ElementUnitSequence",
+		module = "CoreElementUnitSequence",
+		values = append_template_values(true, {
+			only_for_local_player = false,
+			trigger_list = {},
+		}),
 	},
 	{
 		class = "ElementGlobalEventTrigger",
@@ -54,6 +82,75 @@ local element_templates = {
 		values = append_template_values(true, {
 			outcome = "success",
 			elements = {},
+		}),
+	},
+	{
+		class = "ElementCounter",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			counter_target = 0,
+			digital_gui_unit_ids = nil,  -- table
+		}),
+	},
+	{
+		class = "ElementCounterReset",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			counter_target = 0,
+			elements = {},
+		}),
+	},
+	{
+		class = "ElementCounterOperator",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			operation = "reset",
+		}),
+	},
+	{
+		class = "ElementCounterTrigger",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			trigger_type = "value",
+		}),
+	},
+	{
+		class = "ElementCounterFilter",
+		module = "CoreElementCounter",
+		values = append_template_values(nil, {
+			amount = 0,
+			elements = {},
+			check_type = "equal",
+			needed_to_execute = "all",
+		}),
+	},
+	{
+		class = "ElementTimer",
+		module = "CoreElementTimer",
+		values = append_template_values(nil, {
+			digital_gui_unit_ids = nil,  -- table
+			timer = 60,  -- can also be a table { min, max, } ?
+		}),
+	},
+	{
+		class = "ElementTimerOperator",
+		module = "CoreElementTimer",
+		values = append_template_values(true, {
+			elements = {},
+			operation = "start",
+			time = 30,  -- can also be a table { min, max, } ?
+		}),
+	},
+	{
+		class = "ElementTimerTrigger",
+		module = "CoreElementTimer",
+		values = append_template_values(true, {
+			elements = {},
+			time = 30,
 		}),
 	},
 	{
@@ -146,7 +243,7 @@ local element_templates = {
 			interval = 0,
 			amount = 0,
 			elements = {},
-			preferred_spawn_groups = {},
+			preferred_spawn_groups = nil,  -- table, only needed for GroupAI spawns
 		}),
 	},
 	{
@@ -159,7 +256,7 @@ local element_templates = {
 	{
 		class = "ElementEnemyPreferedRemove",
 		values = append_template_values(nil, {
-			elements = {},
+			elements = {},  -- points to ElementEnemyPreferedAdd elements
 		}),
 	},
 	{
@@ -176,6 +273,12 @@ local element_templates = {
 		class = "ElementAreaMinPoliceForce",
 		values = append_template_values(true, {
 			amount = 2,
+		}),
+	},
+	{
+		class = "ElementDisableUnit",
+		values = append_template_values(nil, {
+			unit_ids = {},
 		}),
 	},
 	{
@@ -243,31 +346,28 @@ local element_templates = {
 		}),
 	},
 }
-for i = 1, #element_templates do
-	local template = element_templates[i]
-
-	element_templates[template.class] = template
+for i, template in pairs(element_templates) do
 	element_templates[i] = nil
+	element_templates[template.class] = template
 end
 
 return function()
 	local result = {}
 
-	for i = 1, #custom_script do
-		local params = custom_script[i]
-		local new_element = check_clone(element_templates[params.class])
+	for _, params in pairs(custom_script) do
+		local element = ASS.utils.check_clone(element_templates[params.class])
 
-		if not new_element then
-			ASS:log("error", "No template for element class %s", params.class)
+		if not element then
+			ASS:log("error", "No template for element class \"%s\"!", params.class)
 		else
-			new_element.editor_name = params.editor_name
-			new_element.id = params.id
+			element.editor_name = params.editor_name
+			element.id = params.id
 
 			for k, v in pairs(params.values) do
-				new_element.values[k] = v
+				element.values[k] = v
 			end
 
-			result[i] = new_element
+			result[element] = element
 		end
 	end
 

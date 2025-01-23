@@ -5,7 +5,7 @@ local triads = {
 	Idstring("units/pd2_dlc_chas/characters/ene_male_triad_gang_4/ene_male_triad_gang_4"),
 	Idstring("units/pd2_dlc_chas/characters/ene_male_triad_gang_5/ene_male_triad_gang_5"),
 }
-local securitys_light = tweak_data.levels:moon_units("securitys_light")
+local securitys_light = tweak_data.moon.units.securitys_light
 
 -- no security 3. yay.
 return {

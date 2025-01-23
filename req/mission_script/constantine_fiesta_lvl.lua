@@ -1,5 +1,5 @@
 -- fiesta, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local cartel_rebels = {
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_rebel_1/ene_cartel_rebel_1"),
 	Idstring("units/pd2_mod_ttr/characters/ene_cartel_rebel_2/ene_cartel_rebel_2"),
@@ -26,7 +26,7 @@ return {
 			continent = "america",
 			tier = "overkill_290",
 		},
-		enemy = tweak_data.levels:moon_units("marshal_1"),
+		enemy = tweak_data.moon.units.marshal_1,
 	},
 	[100191] = {
 		pre_func = function(self)
@@ -50,8 +50,8 @@ return {
 			values.attitude = table.get_vector_index(self._ATTITUDES, "engage")
 		end,
 	},
-	[100035] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
-	[100036] = { enemy = tweak_data.levels:moon_units("dozers_no_cs"), },
+	[100035] = { enemy = tweak_data.moon.units.dozers_no_cs, },
+	[100036] = { enemy = tweak_data.moon.units.dozers_no_cs, },
 	[100014] = { enemy = cartel_rebels, },
 	[100015] = { enemy = cartel_rebels, },
 	[100016] = { enemy = cartel_rebels, },

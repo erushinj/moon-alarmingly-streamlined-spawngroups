@@ -1,25 +1,21 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local vault_dozer_ids = get_table_index_func({ 104169, 104170, 100763, 104131, 104132, })
-local vault_dozers = scripted_swat_squads({
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local vault_dozer_ids = ASS.utils.gen_remove_random_value({ 104169, 104170, 100763, 104131, 104132, })
+local vault_dozers = ASS.utils.scripted_swat_squads({
 	hard_target = normal and 1 or hard and 2 or 3,
 	hard_spawn = "dozers_any",
 	normal_spawn = "specials_agg",
 })
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 
-local civs_male_ids = get_table_index_func({ 103592, 103594, 102144, 102147, 102159, 102158, 103707, 103703, })
+local civs_male_ids = ASS.utils.gen_remove_random_value({ 103592, 103594, 102144, 102147, 102159, 102158, 103707, 103703, })
 local oops_all_bo = math.random() < 0.01 and Idstring("units/payday2/characters/civ_male_bank_manager_5/civ_male_bank_manager_5") or nil
 local bo_replacement = oops_all_bo and { enemy = Idstring("units/payday2/characters/civ_male_casual_1/civ_male_casual_1"), } or nil
-local civs_male = try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
+local civs_male = ASS.utils.try_pick_bobblehead_bob(oops_all_bo, oops_all_bo or {
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_5/civ_male_casual_5"),
 	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
@@ -50,15 +46,15 @@ if oops_all_bo then
 	tweak_data.character:moon_oops_all_bo(true)
 end
 
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local heavys = tweak_data.levels:moon_units("heavys")
-local specials_any = tweak_data.levels:moon_units("specials_any")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
-local cops = tweak_data.levels:moon_units("cops")
-local cops_heavy = tweak_data.levels:moon_units("cops_heavy")
-local fbis_heavy = tweak_data.levels:moon_units("fbis_heavy")
-local securitys = tweak_data.levels:moon_units("securitys")
-local specials_agg = tweak_data.levels:moon_units("specials_agg")
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local heavys = tweak_data.moon.units.heavys
+local specials_any = tweak_data.moon.units.specials_any
+local securitys_heavy = tweak_data.moon.units.securitys_heavy
+local cops = tweak_data.moon.units.cops
+local cops_heavy = tweak_data.moon.units.cops_heavy
+local fbis_heavy = tweak_data.moon.units.fbis_heavy
+local securitys = tweak_data.moon.units.securitys
+local specials_agg = tweak_data.moon.units.specials_agg
 
 return {
 	[103996] = {  -- cloaker ambush on entering the vault area in loud

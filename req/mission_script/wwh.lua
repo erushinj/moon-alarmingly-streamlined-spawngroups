@@ -1,8 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local filters_disable = set_difficulty_groups("disable")
-local filters_normal_above = set_difficulty_groups("normal_above")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local filters_disable = ASS.utils.set_difficulty_groups("disable")
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
 local participate_to_group_ai = {
 	participate_to_group_ai = true,
 }
@@ -20,13 +18,13 @@ local intro_sniper_so = {
 	so_access_filter = "law",
 }
 local intro_sniper_unit = {
-	enemy = tweak_data.levels:moon_units("marshal_1"),
+	enemy = tweak_data.moon.units.marshal_1,
 	values = no_participate_to_group_ai,
 }
 
 local leo_kate_static_spawn = { continent = "america", tier = "normal", }
-local leo_kate_ids = get_table_index_func({ 101243, 101244, })
-local leo_kate = get_table_index_func(clone(tweak_data.levels:moon_units("cops")))
+local leo_kate_ids = ASS.utils.gen_remove_random_value({ 101243, 101244, })
+local leo_kate = ASS.utils.gen_remove_random_value(clone(tweak_data.moon.units.cops))
 local function get_leo_kate()
 	return {
 		enemy = leo_kate(),
@@ -36,7 +34,7 @@ local function get_leo_kate()
 end
 
 local ambush_shields = { values = no_participate_to_group_ai, }
-local ambush_dozers_close = { enemy = tweak_data.levels:moon_units("dozers_any"), }
+local ambush_dozers_close = { enemy = tweak_data.moon.units.dozers_any, }
 local ambush_dozers_sniper = ambush_dozers_close
 
 return {

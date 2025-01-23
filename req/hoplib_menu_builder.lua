@@ -36,9 +36,8 @@ local MenuBuilder = {}
 ---@param identifier string @unique identifier of the mod the menu is built for
 ---@param settings_table table @settings table to build the menu for
 ---@param settings_params? table @optional parameters to be used for creating the menu
-function MenuBuilder:init(identifier, localization_identifier, settings_table, settings_params)
+function MenuBuilder:init(identifier, settings_table, settings_params)
 	self._id = identifier
-	self._loc_id = localization_identifier
 	self._table = settings_table
 	self._params = settings_params or {}
 	self:load_settings()
@@ -67,6 +66,10 @@ end
 ---@param menu_nodes table @menu nodes as provided by the `MenuManagerBuildCustomMenus` hook
 ---@param parent_menu? string @defaults to blt_options
 function MenuBuilder:create_menu(menu_nodes, parent_menu)
+	if self._created then
+		return
+	end
+
 	parent_menu = parent_menu or "blt_options"
 	if not menu_nodes[parent_menu] then
 		log("[MenuBuilder] ERROR: Parent menu node \"" .. parent_menu .. "\" does not exist (" .. self._id .. ")!")
@@ -104,7 +107,8 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 	MenuCallbackHandler[self._id .. "_save"] = function ()
 		self:save_settings()
 
-		if ASS.values.level_mod[self._table.level_mod]:match("ZEAL") then
+		local level_mod = ASS.values.level_mod[self._table.level_mod]
+		if tostring(level_mod):match("ZEAL") then
 			ASS:message("zeals_enabled")
 		end
 	end
@@ -119,7 +123,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 
 		for k, v in pairs(tbl) do
 			local t = type(v)
-			local name_id = self._loc_id .. "_menu_" .. k
+			local name_id = self._id .. "_menu_" .. k
 			local desc_id = name_id .. "_desc"
 			local desc = loc and loc:exists(desc_id) and desc_id
 			local params = self._params[k] and table_union(clone(inherited_params), self._params[k]) or inherited_params
@@ -138,6 +142,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = self._id .. "_toggle",
+					disabled = params.disabled,
 					value = v,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
@@ -149,6 +154,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 						title = name_id,
 						desc = desc,
 						callback = self._id .. "_value",
+						disabled = params.disabled,
 						value = v,
 						items = params.items,
 						menu_id = menu_id,
@@ -160,11 +166,15 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 						title = name_id,
 						desc = desc,
 						callback = self._id .. "_value",
+						disabled = params.disabled,
 						value = v,
-						min = params.min or 0,
-						max = params.max or 1,
+						min = params.min or math.min(v, 0),
+						max = params.max or math.max(v, 1),
 						step = params.step or 0.1,
-						show_value = true,
+						show_value = Utils:FirstNonNil(params.show_value, true),
+						display_precision = params.display_precision,
+						display_scale = params.display_scale,
+						is_percentage = params.is_percentage,
 						menu_id = menu_id,
 						priority = self._params[k] and self._params[k].priority or element_priority
 					})
@@ -175,6 +185,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = self._id .. "_value",
+					disabled = params.disabled,
 					value = v,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
@@ -187,6 +198,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					title = name_id,
 					desc = desc,
 					callback = callback_name,
+					disabled = params.disabled,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
 				})
@@ -196,6 +208,7 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 					id = hierarchy .. k,
 					title = name_id,
 					desc = desc,
+					disabled = params.disabled,
 					next_node = node_id,
 					menu_id = menu_id,
 					priority = self._params[k] and self._params[k].priority or element_priority
@@ -218,16 +231,27 @@ function MenuBuilder:create_menu(menu_nodes, parent_menu)
 
 	loop_tables(self._table, self._id)
 
-	local name_id = self._loc_id .. "_menu"
+	local name_id = self._id .. "_menu"
 	local desc_id = name_id .. "_desc"
 	if loc then
 		if not loc:exists(name_id) then
-			loc_strings[name_id] = self._loc_id:pretty(true)
+			loc_strings[name_id] = self._id:pretty(true)
 		end
 		loc:add_localized_strings(loc_strings)
 	end
 
 	MenuHelper:AddMenuItem(menu_nodes[parent_menu], self._id, name_id, loc and loc:exists(desc_id) and desc_id)
+
+	self._created = true
 end
+
+---Creates a hook that will automatically build the menu when the game builds its own menus
+---@param parent_menu? string @defaults to blt_options
+function MenuBuilder:create_menu_build_hook(parent_menu)
+	Hooks:Add("MenuManagerBuildCustomMenus", "MenuManagerBuildCustomMenus" .. self._id, function(_, nodes)
+		self:create_menu(nodes, parent_menu)
+	end)
+end
+
 
 return MenuBuilder, MenuBuilder:init(...)

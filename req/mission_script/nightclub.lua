@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local service = {
 	Idstring("units/payday2/characters/civ_female_hostess_apron_1/civ_female_hostess_apron_1"),
@@ -41,10 +41,10 @@ local gangster_spawns = {
 
 return {
 	[104731] = {  -- roof
-		groups = tweak_data.group_ai:moon_preferred_map("no_shields_dozers"),
+		groups = tweak_data.moon.preferred_groups_map.no_shields_dozers,
 	},
 	[103174] = {  -- rappel
-		groups = tweak_data.group_ai:moon_preferred_map("no_shields_dozers"),
+		groups = tweak_data.moon.preferred_groups_map.no_shields_dozers,
 		values = {
 			interval = 15,
 		},

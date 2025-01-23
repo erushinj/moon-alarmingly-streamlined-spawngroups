@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	intro_harasser = table.list_to_set({
 		100000,
@@ -45,7 +45,7 @@ local patches = {
 
 return {
 	["levels/instances/unique/wwh/wwh_intro_harasser/world/world"] = function(result)
-		local enemy = tweak_data.levels:moon_units(overkill and "marshal_1" or "heavy_1")
+		local enemy = tweak_data.moon.units[overkill and "marshal_1" or "heavy_1"]
 
 		for _, element in pairs(result.default.elements) do
 			if patches.intro_harasser[element.id] then
@@ -57,7 +57,7 @@ return {
 	end,
 	["levels/instances/unique/wwh/wwh_hostage_spawn/world/world"] = function(result)
 		local hostage_spawn = patches.hostage_spawn
-		local enemy = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
+		local enemy = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id

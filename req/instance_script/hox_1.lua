@@ -9,39 +9,32 @@ local patches = {
 
 return {
 	["levels/instances/unique/hox_breakout_harasser001/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_units("heavys")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_harasser001[element.id] then
 				element.values.moon_data = {
-					enemy = heavys,
+					enemy = tweak_data.moon.units.heavys,
 				}
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_serverroom001/world/world"] = function(result)
-		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_serverroom001[element.id] then
 				element.values.moon_data = {
-					enemy = dozers_no_med,
+					enemy = tweak_data.moon.units.dozers_no_med,
 				}
 			end
 		end
 	end,
 	["levels/instances/unique/hox_breakout_road001/world/world"] = function(result)
-		local cops = tweak_data.levels:moon_units("cops")
-		local swats = tweak_data.levels:moon_units("swats")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.hox_breakout_road001.cops[element.id] then
 				element.values.moon_data = {
-					enemy = cops,
+					enemy = tweak_data.moon.units.cops,
 				}
 			elseif patches.hox_breakout_road001.swats[element.id] then
 				element.values.moon_data = {
-					enemy = swats,
+					enemy = tweak_data.moon.units.swats,
 				}
 			end
 		end

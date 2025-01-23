@@ -1,10 +1,8 @@
 -- scorched earth, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
-local outside_cops = tweak_data.levels:moon_units("swats_heavys")
-local inside_cops_ids = get_table_index_func({
+local outside_cops = tweak_data.moon.units.swats_heavys
+local inside_cops_ids = ASS.utils.gen_remove_random_value({
 	100821,
 	100822,
 	100825,
@@ -19,7 +17,7 @@ local inside_cops_ids = get_table_index_func({
 	100844,
 	100845,
 })
-local inside_cops = scripted_swat_squads({
+local inside_cops = ASS.utils.scripted_swat_squads({
 	hard_target = overkill and 4 or 2,
 	hard_spawn = "dozers_no_cs",
 	normal_spawn = "heavys",
@@ -32,16 +30,16 @@ local prisoners = {
 	Idstring("units/pd2_dlc_wwh/characters/ene_male_crew_01/ene_male_crew_01"),
 	Idstring("units/pd2_dlc_wwh/characters/ene_male_crew_02/ene_male_crew_02"),
 }
-local prisoners_1 = get_table_index_func(clone(prisoners))
-local prisoners_2 = get_table_index_func(clone(prisoners))
-local prisoners_3 = get_table_index_func(clone(prisoners))
-local prisoners_4 = get_table_index_func(prisoners)
-local prisoners_ids_1 = get_table_index_func({ 101076, 101074, })
-local prisoners_ids_2 = get_table_index_func({ 101077, 101078, })
-local prisoners_ids_3 = get_table_index_func({ 101079, 101080, })
-local prisoners_ids_4 = get_table_index_func({ 101081, 101082, })
+local prisoners_1 = ASS.utils.gen_remove_random_value(clone(prisoners))
+local prisoners_2 = ASS.utils.gen_remove_random_value(clone(prisoners))
+local prisoners_3 = ASS.utils.gen_remove_random_value(clone(prisoners))
+local prisoners_4 = ASS.utils.gen_remove_random_value(prisoners)
+local prisoners_ids_1 = ASS.utils.gen_remove_random_value({ 101076, 101074, })
+local prisoners_ids_2 = ASS.utils.gen_remove_random_value({ 101077, 101078, })
+local prisoners_ids_3 = ASS.utils.gen_remove_random_value({ 101079, 101080, })
+local prisoners_ids_4 = ASS.utils.gen_remove_random_value({ 101081, 101082, })
 local constantine_backup = {
-	enemy = tweak_data.levels:moon_units("heavys"),
+	enemy = tweak_data.moon.units.heavys,
 	static_spawn = {
 		continent = "actual_russia",
 		tier = "normal",

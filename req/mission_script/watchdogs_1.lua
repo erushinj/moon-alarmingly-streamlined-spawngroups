@@ -1,11 +1,8 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
-local cops = tweak_data.levels:moon_units("cops")
-local fbis = tweak_data.levels:moon_units("fbis")
-local shield = tweak_data.levels:moon_units("shield")
-local specials_agg = tweak_data.levels:moon_units("specials_agg")
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
-local cloaker = tweak_data.levels:moon_units("cloaker")
+local cops = tweak_data.moon.units.cops
+local fbis = tweak_data.moon.units.fbis
+local shield = tweak_data.moon.units.shield
 local shield_event = math.random() < 0.5 and {
 	on_executed = {
 		{ id = 102848, remove = true, },
@@ -53,9 +50,7 @@ return {
 			},
 		},
 		on_executed = {
-			{ name = "ambush_sniper_filter_normal", delay = 0, },
-			{ name = "ambush_sniper_filter_hard", delay = 0, },
-			{ name = "ambush_sniper_filter_overkill", delay = 0, },
+			{ name = "ambush_sniper_spawn", delay = 0, },
 		}
 	},
 	[102845] = {  -- logic random 029 (spawn fbis)
@@ -107,13 +102,13 @@ return {
 	[100375] = { enemy = cops, values = no_participate_to_group_ai.values, },
 	[100452] = { enemy = cops, values = no_participate_to_group_ai.values, },
 	[100455] = { enemy = cops, values = no_participate_to_group_ai.values, },
-	[101291] = { enemy = dozers_any, },  -- van swats
-	[101292] = { enemy = dozers_any, },
+	[101291] = { enemy = tweak_data.moon.units.dozers_any, },  -- van swats
+	[101292] = { enemy = tweak_data.moon.units.dozers_any, },
 	[101279] = { enemy = shield, values = no_participate_to_group_ai.values, },  -- unused shield event variation, fix enemy names
 	[101280] = { enemy = shield, values = no_participate_to_group_ai.values, },
-	[101281] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
-	[101282] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
-	[101283] = { enemy = specials_agg, values = no_participate_to_group_ai.values, },
-	[102071] = { enemy = cloaker, },  -- weird scripted fbi swat in the area with bad navlink access
-	[102072] = { enemy = cloaker, },
+	[101281] = { enemy = tweak_data.moon.units.specials_agg, values = no_participate_to_group_ai.values, },
+	[101282] = { enemy = tweak_data.moon.units.specials_agg, values = no_participate_to_group_ai.values, },
+	[101283] = { enemy = tweak_data.moon.units.specials_agg, values = no_participate_to_group_ai.values, },
+	[102071] = { enemy = tweak_data.moon.units.cloaker, },  -- weird scripted fbi swat in the area with bad navlink access
+	[102072] = { enemy = tweak_data.moon.units.cloaker, },
 }

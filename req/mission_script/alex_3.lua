@@ -1,5 +1,5 @@
-local fbis = tweak_data.levels:moon_units("fbis")
-local cops = tweak_data.levels:moon_units("cops")
+local fbis = tweak_data.moon.units.fbis
+local cops = tweak_data.moon.units.cops
 local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1"),
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),

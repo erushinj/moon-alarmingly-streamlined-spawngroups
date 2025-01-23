@@ -1,8 +1,8 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
-local cops_heavy = tweak_data.levels:moon_units("cops_heavy")
-local securitys_light = tweak_data.levels:moon_units("securitys_light")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
+local cops_heavy = tweak_data.moon.units.cops_heavy
+local securitys_light = tweak_data.moon.units.securitys_light
+local securitys_heavy = tweak_data.moon.units.securitys_heavy
 
 return {
 	[100178] = { enemy = cops_heavy, },  -- cops

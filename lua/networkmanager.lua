@@ -1,4 +1,4 @@
-if not ASS:global().zeals_enabled or ASS.appended_mm_keys then
+if not ASS.global.zeals_enabled or ASS.appended_mm_keys then
 	return
 end
 

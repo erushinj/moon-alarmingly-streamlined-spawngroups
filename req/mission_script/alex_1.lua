@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local mexicans = {
 	Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1"),
 	Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2"),
@@ -41,7 +41,7 @@ return {
 			},
 		},
 	},
-	[100952] = { enemy = tweak_data.levels:moon_units("dozers_any"), },  -- chopper dozer
+	[100952] = { enemy = tweak_data.moon.units.dozers_any, },  -- chopper dozer
 	[101525] = { enemy = mexicans, },  -- gangsters
 	[101527] = { enemy = mexicans, },
 	[100825] = { enemy = mexicans, },

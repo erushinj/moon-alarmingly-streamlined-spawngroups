@@ -1,7 +1,5 @@
 -- flatline, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local disable = {
 	values = {
@@ -18,9 +16,6 @@ local securitys = {
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"),
 	Idstring("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"),
 }
-
-local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
-
 local civs_female = {
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_doctor_01/civ_female_doctor_01"),
 	Idstring("units/pd2_dlc_nmh/characters/civ_female_scrubs_01/civ_female_scrubs_01"),
@@ -74,8 +69,8 @@ return {
 			{ id = 100590, delay = 0, },
 		},
 	},
-	[100589] = { enemy = dozers_no_cs, },
-	[100590] = { enemy = dozers_no_cs, },
+	[100589] = { enemy = tweak_data.moon.units.dozers_no_cs, },
+	[100590] = { enemy = tweak_data.moon.units.dozers_no_cs, },
 	[100578] = { enemy = securitys, },
 	[100248] = { enemy = securitys, },
 	[100580] = { enemy = securitys, },

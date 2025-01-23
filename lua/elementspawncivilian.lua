@@ -3,128 +3,59 @@ if ASS.is_spawner then
 	return
 end
 
-local basic_dozer_mappings = table.set("dozer_1", "dozer_2", "dozer_3")
 function ElementSpawnCivilian:moon_init_hook()
 	self._original_enemy_name = self._enemy_name
 
 	local moon_data = self._values.moon_data
-	if moon_data then
-		if type(moon_data.enemy) == "table" then
-			self._possible_enemies = moon_data.enemy
-			self._patched_enemy_name = moon_data.enemy[1]
-		else
-			self._patched_enemy_name = moon_data.enemy
+	local patch_funcs = managers.mission and managers.mission.mission_script_patch_funcs
+	if not patch_funcs then
+		ASS:log("error", "managers.mission.mission_script_patch_funcs unavailable!")
+	elseif moon_data then
+		if moon_data.continent or moon_data.tier then
+			moon_data.static_spawn = {
+				continent = moon_data.continent,
+				tier = moon_data.tier,
+			}
+			moon_data.continent = nil
+			moon_data.tier = nil
 		end
 
-		self.static_continent = moon_data.continent
-		self.static_tier = moon_data.tier
-		self._values.moon_data = nil
-	end
-
-	if self._patched_enemy_name == nil and getmetatable(self) == ElementSpawnEnemyDummy then
-		local mapped = tweak_data.levels:moon_enemy_mapping(self._enemy_name:key())
-
-		if basic_dozer_mappings[mapped] then
-			local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
-
-			self._possible_enemies = dozers_no_cs
-			self._patched_enemy_name = dozers_no_cs[1]
+		for id, data in pairs(moon_data) do
+			if patch_funcs[id] then
+				patch_funcs[id](managers.mission, self, data)
+			else
+				ASS:log("warn", "Mission script patch func \"%s\" does not exist!", id)
+			end
 		end
 	end
+
+	self._values.moon_data = nil
 end
 
-ASS:post_hook( ElementSpawnCivilian, "init", ElementSpawnCivilian.moon_init_hook )
-
-local idles = {
-	female = {
-		{ "cf_sp_stand_idle_var1", 3, },
-		{ "cf_sp_stand_idle_var3", 3, },
-		{ "cf_sp_stand_arms_crossed", 1, },
-	},
-	male = {
-		{ "cm_sp_stand_idle", 2, },
-		{ "cm_sp_standing_idle_var2", 2, },
-		{ "cm_sp_stand_waiting", 2, },
-		{ "cm_sp_stand_arms_crossed", 1, },
-	},
-}
-for key, list in pairs(idles) do
-	local selector = WeightedSelector:new()
-
-	for _, data in pairs(list) do
-		if type(data) == "table" then
-			selector:add(unpack(data))
-		else
-			selector:add(data, 1)
-		end
-	end
-
-	idles[key] = selector
-end
+Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
 
 -- allow randomization of scripted spawns, even when the same element is used multiple times
-ASS:override( ElementSpawnCivilian, "produce", function(self, params, ...)
-	local level_enemy_replacements = tweak_data.levels:moon_level_enemy_replacements()
-
-	if params and params.name then
-		params.name = level_enemy_replacements[params.name:key()] or params.name
-
-		return self:produce_original(params, ...)
-	end
-
+local produce_original = ElementSpawnCivilian.produce
+function ElementSpawnCivilian:produce(params, ...)
 	if self._possible_enemies then
 		self._enemy_name = table.random(self._possible_enemies)
 	elseif self._patched_enemy_name then
 		self._enemy_name = self._patched_enemy_name
 	end
 
-	-- everything coming after this civ check only applies to enemies
-	if getmetatable(self) == ElementSpawnCivilian then
-		if self.moon_needs_state == nil then
-			self.moon_needs_state = not self._values.state or self._values.state == "none" or false
-		end
-
-		if self.moon_needs_state then
-			local idle = idles[tweak_data.character:moon_female_civs_map(self._enemy_name:key())] or idles.male
-			local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idle:select())
-
-			self._values.state = state
-		end
-
-		return self:moon_produce_helper(params, ...)
+	if self.moon_needs_state == nil then
+		self.moon_needs_state = not self._values.state or self._values.state == "none" or false
 	end
 
-	self._enemy_name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", self._enemy_name)
+	if self.moon_needs_state then
+		local anim_set = tweak_data.moon.female_civs_map[self._enemy_name:key()] and "female" or "male"
+		local idles = tweak_data.moon.civ_idles[anim_set]
+		local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idles:select())
 
-	local name_key = self._enemy_name:key()
-	local level_enemy_replacement = level_enemy_replacements[name_key]
-	if level_enemy_replacement then
-		self._enemy_name = level_enemy_replacement
-
-		return self:moon_produce_helper(params, ...)
+		self._values.state = state
 	end
 
-	local static_continent = self.static_continent
-	local mapped_name = tweak_data.levels:moon_enemy_mapping(name_key)
-	if not static_continent then
-		if tweak_data.levels:moon_forbidden_scripted_replacements(mapped_name) then
-			return self:moon_produce_helper(params, ...)
-		end
-	end
-
-	local last_prefixes = tweak_data.group_ai.moon_last_prefixes
-	local replacement = self.static_tier or last_prefixes and last_prefixes.CS
-	local enemy_replacements = tweak_data.levels:moon_enemy_replacements(static_continent)
-	local mapped_unit = enemy_replacements[replacement] and enemy_replacements[replacement][mapped_name]
-	if mapped_unit then
-		self._enemy_name = level_enemy_replacements[mapped_unit:key()] or mapped_unit
-	end
-
-	return self:moon_produce_helper(params, ...)
-end )
-
-function ElementSpawnCivilian:moon_produce_helper(params, ...)
-	local unit = self:produce_original(params, ...)
+	local unit = produce_original(self, params, ...)
 
 	self._enemy_name = self._original_enemy_name
 

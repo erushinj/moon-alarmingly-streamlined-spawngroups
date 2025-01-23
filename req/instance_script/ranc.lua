@@ -1,8 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local filters_disable = set_difficulty_groups("disable")
-local filters_normal_above = set_difficulty_groups("normal_above")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local filters_disable = ASS.utils.set_difficulty_groups("disable")
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
 local patches = {
 	ranc_security_room = table.set(100030),
 	ranc_helicopter_spawn_enemies = table.list_to_set({
@@ -41,7 +39,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/ranc/ranc_helicopter_spawn_enemies/world/world"] = function(result)
-		local spawns = scripted_swat_squads({
+		local spawns = ASS.utils.scripted_swat_squads({
 			hard_target = overkill and 2 or 1,
 			hard_spawn = "dozers_no_cs",
 			normal_spawn = "specials_any",

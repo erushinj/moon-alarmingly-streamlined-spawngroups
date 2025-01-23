@@ -4,21 +4,21 @@ end
 
 local instance_script_patches = ASS:script_patches("instance")
 if not instance_script_patches then
-	return ASS:log("info", "No instance script patches for current level...")
+	return
 end
 
-ASS:post_hook( CoreWorldInstanceManager, "_get_instance_mission_data", function(self, path)
+ASS:log("info", "Current level has instance script patches...")
+
+Hooks:PostHook( CoreWorldInstanceManager, "_get_instance_mission_data", "ass__get_instance_mission_data", function(self, path)
 	local func = instance_script_patches[path]
 
 	if func then
 		local result = Hooks:GetReturn()
 
-		if not result then
-			ASS:log("warn", "Instance \"%s\" unavailable!", path)
-		else
+		if result then
 			func(result)
-
-			return result
+		else
+			ASS:log("warn", "Instance \"%s\" unavailable!", path)
 		end
 	end
 end )

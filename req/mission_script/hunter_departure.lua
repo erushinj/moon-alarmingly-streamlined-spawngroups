@@ -1,24 +1,9 @@
 -- hunter and hunted day 2, https://modworkshop.net/mod/43578
 return {
 	[100175] = {  -- spawn start enemies, remove an instance placed in..the airport
-		pre_func = function(self)  -- hunter_spawn_enemies_008
-			if not self._moon_tweaked then
-				self._moon_tweaked = true
-
-				local event_list = self._values.event_list
-				if not event_list then
-					ASS:log("error", "Element 100175 is missing event list data!")
-				else
-					for i = #event_list, 1, -1 do
-						local data = event_list[i]
-
-						if data and data.instance == "hunter_spawn_enemies_008" then
-							table.remove(event_list, i)
-						end
-					end
-				end
-			end
-		end,
+		event_list = {
+			["hunter_spawn_enemies_008"] = false,
+		},
 	},
 	[100174] = {  -- spawn airport enemies, these instanced spawns are fucking stupid
 		values = {

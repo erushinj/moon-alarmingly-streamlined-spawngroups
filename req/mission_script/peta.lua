@@ -1,5 +1,5 @@
-local cops = tweak_data.levels:moon_units("cops")
-local fbis = tweak_data.levels:moon_units("fbis")
+local cops = tweak_data.moon.units.cops
+local fbis = tweak_data.moon.units.fbis
 
 return {
 	[100426] = { enemy = cops, },  -- cops, immediately on the scene

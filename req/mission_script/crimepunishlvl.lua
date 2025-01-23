@@ -1,13 +1,10 @@
 -- crime and punishment, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 
 local sniper_respawn_delay = overkill and 15 or 30
@@ -35,17 +32,17 @@ local confined_prisoners = {
 	Idstring("units/payday2/characters/civ_rus_prisoner_special_3/civ_rus_prisoner_special_3"),
 	Idstring("units/payday2/characters/civ_rus_prisoner_special_4/civ_rus_prisoner_special_4"),
 }
-local dozers_no_cs = tweak_data.levels:moon_units("dozers_no_cs")
-local specials_med = tweak_data.levels:moon_units("specials_med")
-local last_ambush = tweak_data.levels:moon_units("heavys")
-local top_ambush_ids = get_table_index_func({ 101185, 101192, 101196, 101200, })
-local top_ambush = scripted_swat_squads({
+local dozers_no_cs = tweak_data.moon.units.dozers_no_cs
+local specials_med = tweak_data.moon.units.specials_med
+local last_ambush = tweak_data.moon.units.heavys
+local top_ambush_ids = ASS.utils.gen_remove_random_value({ 101185, 101192, 101196, 101200, })
+local top_ambush = ASS.utils.scripted_swat_squads({
 	hard_target = overkill and 4 or 2,
 	hard_spawn = "specials_shield_clk",
 	normal_spawn = "heavys",
 })
-local bottom_ambush_ids = get_table_index_func({ 101035, 101036, 101037, 101038, })
-local bottom_ambush = scripted_swat_squads({
+local bottom_ambush_ids = ASS.utils.gen_remove_random_value({ 101035, 101036, 101037, 101038, })
+local bottom_ambush = ASS.utils.scripted_swat_squads({
 	hard_target = overkill and 4 or 2,
 	hard_spawn = "specials_no_clk",
 	normal_spawn = "heavys",

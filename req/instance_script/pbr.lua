@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	control_room = {
 		murkies = table.set(100103, 100104),
@@ -90,7 +90,6 @@ local murkies = table.list_add(murkies_far, {
 return {
 	["levels/instances/unique/pbr/pbr_mountain_control_room/world/world"] = function(result)
 		local control_room = patches.control_room
-		local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
 		local dozer_chance = normal and 25 or hard and 45 or 65
 
 		for _, element in pairs(result.default.elements) do
@@ -102,7 +101,7 @@ return {
 				}
 			elseif control_room.dozer[id] then
 				element.values.moon_data = {
-					enemy = dozers_no_med,
+					enemy = tweak_data.moon.units.dozers_no_med,
 				}
 			elseif control_room.dozer_chance[id] then
 				element.values.chance = dozer_chance
@@ -111,21 +110,19 @@ return {
 	end,
 	["levels/instances/unique/pbr/pbr_mountain_surface/world/world"] = function(result)
 		local mountain_surface = patches.mountain_surface
-		local no_shields_dozers = tweak_data.group_ai:moon_preferred_list("no_shields_dozers")
-		local dozers_any = tweak_data.levels:moon_units("dozers_any")
 
 		for _, element in pairs(result.default.elements) do
 			local id = element.id
 
 			if mountain_surface.groups[id] then
-				element.values.preferred_spawn_groups = no_shields_dozers
+				element.values.preferred_spawn_groups = tweak_data.moon.preferred_groups_list.no_shields_dozers
 			elseif mountain_surface.murkies[id] then
 				element.values.moon_data = {
 					enemy = murkies,
 				}
 			elseif mountain_surface.dozers[id] then
 				element.values.moon_data = {
-					enemy = dozers_any,
+					enemy = tweak_data.moon.units.dozers_any,
 				}
 			elseif mountain_surface.snipers[id] then
 				element.values.participate_to_group_ai = false

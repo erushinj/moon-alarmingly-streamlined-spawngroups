@@ -1,8 +1,6 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
-local filters_normal_above = set_difficulty_groups("normal_above")
-local filters_disable = set_difficulty_groups("disable")
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local filters_normal_above = ASS.utils.set_difficulty_groups("normal_above")
+local filters_disable = ASS.utils.set_difficulty_groups("disable")
 local patches = {
 	helicopter_enemies = {
 		filters_disable = table.set(100027, 100028, 100041),
@@ -14,7 +12,7 @@ local patches = {
 return {
 	["levels/instances/unique/chca/chca_helicopter_enemies/world/world"] = function(result)
 		local helicopter_enemies = patches.helicopter_enemies
-		local heli_spawns = scripted_swat_squads({
+		local heli_spawns = ASS.utils.scripted_swat_squads({
 			hard_target = overkill and 4 or 2,
 			hard_spawn = "dozers_no_cs",
 			normal_spawn = "specials_any",

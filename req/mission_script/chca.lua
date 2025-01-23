@@ -1,6 +1,3 @@
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-
 local cruise_triads = {
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_1/ene_triad_cruise_1"),
 	Idstring("units/pd2_dlc_chca/characters/ene_triad_cruise_2/ene_triad_cruise_2"),
@@ -11,21 +8,21 @@ local cruise_securitys = {
 	Idstring("units/pd2_dlc_chca/characters/ene_security_cruise_2/ene_security_cruise_2"),
 	Idstring("units/pd2_dlc_chca/characters/ene_security_cruise_3/ene_security_cruise_3"),
 }
-local casual_male_ids = get_table_index_func({ 102188, 102189, 102174, 103010, 103008, 102173, })
+local casual_male_ids = ASS.utils.gen_remove_random_value({ 102188, 102189, 102174, 103010, 103008, 102173, })
 local casual_male = {
 	Idstring("units/payday2/characters/civ_male_casual_2/civ_male_casual_2"),
 	Idstring("units/payday2/characters/civ_male_casual_3/civ_male_casual_3"),
 	Idstring("units/payday2/characters/civ_male_casual_4/civ_male_casual_4"),
 	Idstring("units/pd2_dlc_chas/characters/civ_male_asian_casual_2/civ_male_asian_casual_2"),
 }
-local suit_male_ids = get_table_index_func({ 102248, 102247, 102250, 102187, })
+local suit_male_ids = ASS.utils.gen_remove_random_value({ 102248, 102247, 102250, 102187, })
 local suit_male = {
 	Idstring("units/pd2_dlc_casino/characters/civ_male_business_casino_2/civ_male_business_casino_2"),
 	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1"),
 	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_2/civ_male_casino_2"),
 	Idstring("units/pd2_dlc_casino/characters/civ_male_casino_3/civ_male_casino_3"),
 }
-local spa_male_ids = get_table_index_func({ 102169, 102171, 103643, 103641, 103644, })
+local spa_male_ids = ASS.utils.gen_remove_random_value({ 102169, 102171, 103643, 103641, 103644, })
 local spa_male = {
 	Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_1/civ_male_bathhouse_1"),
 	Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_2/civ_male_bathhouse_2"),
@@ -45,10 +42,10 @@ local service = {
 	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_2/civ_female_casino_2"),
 	Idstring("units/pd2_dlc_casino/characters/civ_female_casino_3/civ_female_casino_3"),
 }
-local try_pick_bob_spa = try_pick_bobblehead_bob(nil, spa_male, Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_3/civ_male_bathhouse_3"))
-local try_pick_bob_casino = try_pick_bobblehead_bob(nil, suit_male)
-local try_pick_bob_casual = try_pick_bobblehead_bob(nil, casual_male)
-local bikini_female_ids = get_table_index_func({ 102172, 102184, })
+local try_pick_bob_spa = ASS.utils.try_pick_bobblehead_bob(nil, spa_male, Idstring("units/pd2_dlc_chca/characters/civ_male_bathhouse_3/civ_male_bathhouse_3"))
+local try_pick_bob_casino = ASS.utils.try_pick_bobblehead_bob(nil, suit_male)
+local try_pick_bob_casual = ASS.utils.try_pick_bobblehead_bob(nil, casual_male)
+local bikini_female_ids = ASS.utils.gen_remove_random_value({ 102172, 102184, })
 
 return {
 	[101949] = { enemy = cruise_securitys, },  -- enemies, guards

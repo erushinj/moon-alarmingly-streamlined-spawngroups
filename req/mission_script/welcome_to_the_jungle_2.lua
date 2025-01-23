@@ -1,8 +1,6 @@
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
-
 local disable = {
 	values = {
 		enabled = false,

@@ -1,5 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local scripted_swat_squads = ASS:require("scripted_swat_squads", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	sand_spawn_enemies = table.list_to_set({
 		100010,
@@ -45,7 +44,7 @@ local patches = {
 
 return {
 	["levels/instances/unique/sand/sand_spawn_enemies/world/world"] = function(result)
-		local spawns = scripted_swat_squads({
+		local spawns = ASS.utils.scripted_swat_squads({
 			hard_target = normal and 1 or hard and 3 or 5,
 			hard_spawn = "specials_any",
 			normal_spawn = "heavys",
@@ -60,7 +59,7 @@ return {
 		end
 	end,
 	["levels/instances/unique/sand/sand_helicopter_spawn_enemies/world/world"] = function(result)
-		local spawns = scripted_swat_squads({
+		local spawns = ASS.utils.scripted_swat_squads({
 			hard_target = overkill and 2 or 1,
 			hard_spawn = "dozers_any",
 			normal_spawn = "specials_any",

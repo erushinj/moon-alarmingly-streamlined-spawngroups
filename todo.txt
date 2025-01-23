@@ -1,0 +1,50 @@
+|> Assault Style
+|-> further work on Chicken Plate rework
+|
+|> Skill Level
+|-> allow customization of individual tweaks in a custom preset
+|--> this will not replace the existing presets
+|
+|> Assaults
+|-> overhaul and re-enable hiding Cloakers
+|--> the vanilla system is incredibly wasteful for less benefit than an assaulting Cloaker
+|--> cycle hiding spots instead of leaving the map after some time
+|--> potentially silence spawn noise, and silence idle noise while in hiding
+|---> unsure if this is doable ASS-side, need to check if it syncs
+|
+|> AI
+|-> tweak sniper attack logic to make them stop so they can fire if needed
+|--> would make ground snipers/snipers rotating between locations more reasonable of a concept
+|
+|> Hydras mutator
+|-> tier tracking for Hydras mutator instead of always using lower tier
+|--> eg, FBIs won't split into cops with SWAT-FBI Level Mod
+|
+|> Loud heists
+|-> look into making diff progression based on heist progression, not based on survived assault waves
+|--> some already do, but others (even loud-only heists like Green Bridge) don't
+|--> refer to Avalon's Shadow scripting for stealth-possible heists
+|
+|> Slaughterhouse
+|-> more Murkies
+|
+|> Undercover
+|-> redo with custom script
+|-> more inside spawns
+|-> Cloaker spawns for all vents
+|-> look into if saw/hack timers can be changed ASS-side
+|
+|> Bank Heist/Firestarter day 3
+|-> add ambush in the vault
+|
+|> Mountain Master
+|-> set up sniper toggles
+|
+|> Lost in Transit
+|-> set up sniper toggles
+|
+|> Ukrainian Job
+|-> disable sniper spawns on the vantage point area when players are near
+|
+|> Watchdogs day 2
+|-> make container snipers move slightly to expand their sightlines after some time

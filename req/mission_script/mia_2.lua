@@ -7,11 +7,11 @@ local mobsters_light = { mobster_2, mobster_4, }
 local mobsters_medium = { mobster_1, mobster_2, }
 local mobsters_heavy = { mobster_1, mobster_3, }
 
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local swats_close = tweak_data.levels:moon_units("swats_close")
-local specials_def = tweak_data.levels:moon_units("specials_def")
-local specials_any = tweak_data.levels:moon_units("specials_any")
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local swats_close = tweak_data.moon.units.swats_close
+local specials_def = tweak_data.moon.units.specials_def
+local specials_any = tweak_data.moon.units.specials_any
+local dozers_any = tweak_data.moon.units.dozers_any
 
 return {
 	[101407] = { enemy = mobsters, },  -- starting mobsters

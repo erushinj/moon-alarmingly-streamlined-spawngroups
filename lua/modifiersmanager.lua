@@ -2,26 +2,26 @@ if ASS.is_client then
 	return
 end
 
-local try_insert = ASS:require("try_insert", true)
-
 -- add missing vanilla and custom map heavies
-for name_key, mapped in pairs(tweak_data.levels:moon_enemy_mapping()) do
-	ModifierHeavySniper.heavy_units[name_key] = mapped == "heavy_1" or mapped == "heavy_2" or nil
-end
+ModifierHeavySniper.moon_heavy_mappings = table.set("heavy_1", "heavy_2", "heavy_3")
+Hooks:PreHook( ModifierHeavySniper, "init", "moon_init", function(self)
+	for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
+		self.heavy_units[name_key] = self.moon_heavy_mappings[mapped] or nil
+	end
+end )
 
-ModifierHeavies._moon_u_key_mapping = {
+ModifierHeavies.moon_u_key_mapping = {
 	swat_1 = "heavy_1",
 	swat_2 = "heavy_2",
-	swat_3 = "heavy_1",
+	swat_3 = "heavy_3",
 }
-ASS:override( ModifierHeavies, "init", function(self, ...)
+Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
-	local u_key_mapping = self._moon_u_key_mapping
-	for _, continent in pairs(tweak_data.levels:moon_enemy_replacements(tweak_data.levels.moon_all_replacements)) do
+	for _, continent in pairs(tweak_data.moon.enemy_replacements) do
 		for _, tier in pairs(continent) do
 			for u_key in pairs(tier) do
-				local new_key = u_key_mapping[u_key]
+				local new_key = self.moon_u_key_mapping[u_key]
 				local mapped_unit = tier[new_key]
 
 				if mapped_unit then
@@ -31,36 +31,33 @@ ASS:override( ModifierHeavies, "init", function(self, ...)
 		end
 	end
 
-	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_prefixes)
-end, true )
+	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
+end )
 
 -- adjust to support all factions and the CS tank unit category
-local fallback_dozer_add = Idstring("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1")
-local fallback_dozer_tables = {}
 local function dozer_modifier_init(self, ...)
 	self.super.init(self, ...)
 
-	local dozer_add = self._moon_dozer_add or fallback_dozer_add
-	local dozer_tables = self._moon_dozer_tables or fallback_dozer_tables
-	local units = tweak_data.levels:moon_units()
-	for tbl_name in pairs(dozer_tables) do
-		try_insert(units[tbl_name], dozer_add)
+	local units = tweak_data.moon.units
+	local dozer_add = units[self.moon_dozer_key]
+	for tbl_name in pairs(self.moon_dozer_tables) do
+		ASS.utils.try_insert(units[tbl_name], dozer_add)
 	end
 
-	tweak_data.group_ai:moon_add_func( self._type, -10, function(group_ai)
-		try_insert(group_ai.unit_categories.FBI_tank.unit_types.america, dozer_add)
-	end )
-	tweak_data.group_ai:moon_reinit_unit_categories()
+	local FBI_tank_u_keys = tweak_data.group_ai.unit_categories.FBI_tank.moon_u_keys
+	FBI_tank_u_keys[self.moon_dozer_key] = math.max(FBI_tank_u_keys[self.moon_dozer_key] or 0, 1)
+
+	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 end
 
-ModifierSkulldozers._moon_dozer_add = Idstring("units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3")
-ModifierSkulldozers._moon_dozer_tables = table.set("dozers_any", "dozers_no_cs", "dozers_no_med", "dozers_no_mini")
-ASS:override( ModifierSkulldozers, "init", dozer_modifier_init, true )
+ModifierSkulldozers.moon_dozer_key = "dozer_3"
+ModifierSkulldozers.moon_dozer_tables = table.set("dozers_any", "dozers_no_cs", "dozers_no_med", "dozers_no_mini")
+Hooks:OverrideFunction( ModifierSkulldozers, "init", dozer_modifier_init )
 
-ModifierDozerMinigun._moon_dozer_add = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-ModifierDozerMinigun._moon_dozer_tables = table.set("dozers_any", "dozers_no_med")
-ASS:override( ModifierDozerMinigun, "init", dozer_modifier_init, true )
+ModifierDozerMinigun.moon_dozer_key = "dozer_4"
+ModifierDozerMinigun.moon_dozer_tables = table.set("dozers_any", "dozers_no_med")
+Hooks:OverrideFunction( ModifierDozerMinigun, "init", dozer_modifier_init )
 
-ModifierDozerMedic._moon_dozer_add = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-ModifierDozerMedic._moon_dozer_tables = table.set("dozers_any", "dozers_no_mini")
-ASS:override( ModifierDozerMedic, "init", dozer_modifier_init, true )
+ModifierDozerMedic.moon_dozer_key = "dozer_5"
+ModifierDozerMedic.moon_dozer_tables = table.set("dozers_any", "dozers_no_mini")
+Hooks:OverrideFunction( ModifierDozerMedic, "init", dozer_modifier_init )

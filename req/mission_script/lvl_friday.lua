@@ -1,9 +1,7 @@
 -- crashing capitol, version 1.0.2.3, https://modworkshop.net/mod/44630
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
-local event_copdude_ids = get_table_index_func({ 302014, 302015, 302016, })
-local event_copdude = get_table_index_func(clone(tweak_data.levels:moon_units("cops")))
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+local event_copdude_ids = ASS.utils.gen_remove_random_value({ 302014, 302015, 302016, })
+local event_copdude = ASS.utils.gen_remove_random_value(clone(tweak_data.moon.units.cops))
 local event_copdudes_chance = {
 	values = {
 		chance = normal and 10 or hard and 30 or 70,
@@ -23,7 +21,7 @@ local casual_female = {
 	Idstring("units/payday2/characters/civ_female_casual_3/civ_female_casual_3"),
 }
 local casual_any = table.list_add(casual_male, casual_female)
-local casual_male_ids = get_table_index_func({
+local casual_male_ids = ASS.utils.gen_remove_random_value({
 	302362,
 	302365,
 	302866,
@@ -59,7 +57,7 @@ local casual_male_ids = get_table_index_func({
 	300059,
 	300060,
 })
-casual_male = try_pick_bobblehead_bob(nil, casual_male)
+casual_male = ASS.utils.try_pick_bobblehead_bob(nil, casual_male)
 
 local staff_female = {
 	Idstring("units/payday2/characters/civ_female_bank_1/civ_female_bank_1"),
@@ -69,8 +67,8 @@ local staff_male = {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
 	Idstring("units/payday2/characters/civ_male_business_2/civ_male_business_2"),
 }
-local pear_staff_ids = get_table_index_func({ 301344, 301345, })
-local pear_staff = get_table_index_func(clone(staff_male))
+local pear_staff_ids = ASS.utils.gen_remove_random_value({ 301344, 301345, })
+local pear_staff = ASS.utils.gen_remove_random_value(clone(staff_male))
 local bank_female = staff_female
 local bank_male = {
 	Idstring("units/payday2/characters/civ_male_bank_1/civ_male_bank_1"),

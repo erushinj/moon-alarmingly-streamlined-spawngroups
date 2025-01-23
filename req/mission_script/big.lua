@@ -1,4 +1,4 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local securitys = {
 	Idstring("units/payday2/characters/ene_security_4/ene_security_4"),
@@ -6,8 +6,8 @@ local securitys = {
 	Idstring("units/payday2/characters/ene_security_6/ene_security_6"),
 	Idstring("units/payday2/characters/ene_security_7/ene_security_7"),
 }
-local harassers = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "marshals_far")
-local cops = tweak_data.levels:moon_units("cops")
+local harassers = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "marshals_far"]
+local cops = tweak_data.moon.units.cops
 
 return {
 	[100670] = { enemy = securitys },  -- guards, lobby area

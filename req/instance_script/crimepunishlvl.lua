@@ -1,5 +1,5 @@
 -- crime and punishment, https://modworkshop.net/mod/43578
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local patches = {
 	helicopter_backup = table.list_to_set({
 		100010,
@@ -45,18 +45,16 @@ local patches = {
 
 return {
 	["levels/instances/mods/crimepunish_helicopter_backup/world/world"] = function(result)
-		local heavys = tweak_data.levels:moon_units("heavys")
-
 		for _, element in pairs(result.default.elements) do
 			if patches.helicopter_backup[element.id] then
 				element.values.moon_data = {
-					enemy = heavys,
+					enemy = tweak_data.moon.units.heavys,
 				}
 			end
 		end
 	end,
 	["levels/instances/mods/crimepunish_spawn_enemies/world/world"] = function(result)
-		local spawns = tweak_data.levels:moon_units(normal and "swats" or hard and "swats_heavys" or "heavys")
+		local spawns = tweak_data.moon.units[normal and "swats" or hard and "swats_heavys" or "heavys"]
 
 		for _, element in pairs(result.default.elements) do
 			if patches.spawn_enemies[element.id] then

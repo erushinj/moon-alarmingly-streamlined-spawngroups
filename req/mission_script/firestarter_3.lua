@@ -1,15 +1,12 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local try_pick_bobblehead_bob = ASS:require("try_pick_bobblehead_bob", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
-local dog_abuser_ids = get_table_index_func({ 105663, 105664, })
-local male_casual_ids = get_table_index_func({
+local dog_abuser_ids = ASS.utils.gen_remove_random_value({ 105663, 105664, })
+local male_casual_ids = ASS.utils.gen_remove_random_value({
 	103565,
 	100706,
 	100710,
@@ -27,7 +24,7 @@ local male_casual = {
 	Idstring("units/payday2/characters/civ_male_casual_6/civ_male_casual_6"),
 	Idstring("units/payday2/characters/civ_male_trucker_1/civ_male_trucker_1"),
 }
-local get_male_casual = try_pick_bobblehead_bob(nil, male_casual)
+local get_male_casual = ASS.utils.try_pick_bobblehead_bob(nil, male_casual)
 local male_business = {
 	Idstring("units/payday2/characters/civ_male_business_1/civ_male_business_1"),
 	Idstring("units/payday2/characters/civ_male_bank_2/civ_male_bank_2"),
@@ -63,11 +60,10 @@ local street_reenforce = {
 		amount = 3,
 	},
 }
-local securitys = tweak_data.levels:moon_units("securitys")
-local securitys_heavy = tweak_data.levels:moon_units("securitys_heavy")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
-local specials_no_shield = tweak_data.levels:moon_units("specials_no_shield")
-local dozers_any = tweak_data.levels:moon_units("dozers_any")
+local securitys = tweak_data.moon.units.securitys
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local specials_no_shield = tweak_data.moon.units.specials_no_shield
+local dozers_any = tweak_data.moon.units.dozers_any
 
 return {
 	[103072] = {  -- ambush stuff, chance
@@ -110,13 +106,9 @@ return {
 		},
 	},
 	[102297] = {  -- disable gas SO after deployment
-		func = function(self)
-			local element = self:get_mission_element(102296)
-
-			if element then
-				element:set_enabled(false)
-			end
-		end,
+		toggle = {
+			[102296] = { enabled = false, },
+		},
 	},
 	[101200] = {  -- snipers amount
 		values = {
@@ -147,8 +139,8 @@ return {
 	[100296] = { enemy = securitys, },
 	[100297] = { enemy = securitys, },
 	[101063] = { enemy = securitys, },
-	[101219] = { enemy = securitys_heavy, },  -- surv guys
-	[105100] = { enemy = securitys_heavy, },
+	[101219] = { enemy = tweak_data.moon.units.securitys_heavy, },  -- surv guys
+	[105100] = { enemy = tweak_data.moon.units.securitys_heavy, },
 	[105280] = { enemy = dozers_no_med, },  -- ambush dozers
 	[102283] = { enemy = dozers_no_med, },
 	[105606] = { enemy = dozers_no_med, },

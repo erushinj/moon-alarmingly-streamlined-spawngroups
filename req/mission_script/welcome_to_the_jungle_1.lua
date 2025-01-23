@@ -1,11 +1,9 @@
-local normal, hard, overkill, diff_group_name = ASS:difficulty_groups()
-local get_table_index_func = ASS:require("get_table_index_func", true)
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 local filters_disable = {
-	values = set_difficulty_groups("disable"),
+	values = ASS.utils.set_difficulty_groups("disable"),
 }
 local filters_normal_above = {
-	values = set_difficulty_groups("normal_above"),
+	values = ASS.utils.set_difficulty_groups("normal_above"),
 }
 local bikers = {
 	Idstring("units/payday2/characters/ene_biker_1/ene_biker_1"),

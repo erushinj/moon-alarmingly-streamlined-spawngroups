@@ -2,22 +2,25 @@ if ASS.is_editor_or_client then
 	return
 end
 
-if not MissionManager.mission_script_patch_funcs then
-	return ASS:message("sh_outdated")
-end
+local level_id = ASS.level_id
 
-local try_insert = ASS:require("try_insert", true)
-
-ASS:pre_hook( MissionManager, "init", function(self)
-	if ElementAIGroupType then
-		ASS:post_hook( ElementAIGroupType, "on_executed", function(self, instigator)
-			tweak_data.group_ai:moon_reinit_unit_categories()
+Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
+	if ElementAIGroupType then  -- beardlib custom element type
+		Hooks:PostHook( ElementAIGroupType, "on_executed", "ass_on_executed", function()
+			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 		end )
 	end
 end )
 
 local custom_element_ids = {}
 local last_id = 0
+local add_save_state_cb_original = MissionScript.add_save_state_cb
+function MissionScript:add_save_state_cb(id, ...)
+	if not table.contains(custom_element_ids, id) then
+		return add_save_state_cb_original(self, id, ...)
+	end
+end
+
 function MissionManager:moon_generate_custom_id(editor_name)
 	local id = custom_element_ids[editor_name]
 
@@ -35,7 +38,6 @@ function MissionManager:moon_generate_custom_id(editor_name)
 	return id
 end
 
-local set_difficulty_groups = ASS:require("set_difficulty_groups", true)
 function MissionManager:moon_generate_preset_values(to_split, values)
 	local params_list = to_split:split("|")
 	local params = table.map_keys(params_list)
@@ -43,6 +45,8 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 	local result
 
 	if typ == "SO" then
+		local access = params_list[3]
+
 		if preset == "sniper" then
 			result = {
 				so_action = "AI_sniper",
@@ -56,21 +60,28 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 			result = {
 				so_action = "AI_defend",
 			}
+		elseif preset == "navlink" then
+			result = {
+				use_instigator = false,
+				is_navigation_link = true,
+				forced = false,
+				attitude = "none",
+				path_haste = "none",
+				path_stance = "none",
+				pose = "none",
+			}
 		end
 
 		if result then
-			result.SO_access = result.SO_access or tweak_data.character:moon_access_filters("any")
+			result.SO_access = tweak_data.moon.access_filters[access] or tweak_data.moon.access_filters.any
 			result.path_style = result.path_style or "destination"
-
-			table.map_append(result, {
-				attitude = params.avoid and "avoid" or "engage",
-				path_haste = params.walk and "walk" or "run",
-				path_stance = params.cbt and "cbt" or params.ntl and "ntl" or "hos",
-				pose = params.crouch and "crouch" or "stand",
-			})
+			result.attitude = result.attitude or params.avoid and "avoid" or "engage"
+			result.path_haste = result.path_haste or params.walk and "walk" or "run"
+			result.path_stance = result.path_stance or params.cbt and "cbt" or params.ntl and "ntl" or "hos"
+			result.pose = result.pose or params.crouch and "crouch" or "stand"
 		end
 	elseif typ == "filter" then
-		result = set_difficulty_groups(preset)
+		result = ASS.utils.set_difficulty_groups(preset)
 
 		if result then
 			table.map_append(result, {
@@ -86,41 +97,47 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 
 	-- if no result, things will likely go wrong anyway
 	if result then
-		return values and table.map_append(values, result) or result
+		return values and table.map_append(result, values) or result
 	end
 
-	ASS:log("error", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values", to_split)
+	ASS:log("warn", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values!", to_split)
 end
 
-local generated = nil
-ASS:pre_hook( MissionScript, "init", function(self, data)
-	if generated == nil and data and data.name == "default" then
-		generated = false
+local generated
+Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
+	if not generated and data and data.name == "default" then
+		generated = true
 
-		local try_generate_elements = ASS:require("try_generate_elements")
+		local try_generate_elements = ASS:require("req/try_generate_elements")
 		local new_elements = try_generate_elements and try_generate_elements()
 		if new_elements then
-			generated = true
+			ASS:log("info", "Current level has custom script patches...")
 
-			for i = 1, #new_elements do
-				local element = new_elements[i]
-
-				if element then
-					table.insert(data.elements, element)
-				end
+			for element in pairs(new_elements) do
+				table.insert(data.elements, element)
 			end
 		end
 	end
 end )
 
-local merged = nil
-ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
-	if merged == nil then
-		merged = false
+local merged
+Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
+	if not merged then
+		merged = true
+
+		if not self._mission_script_patches then
+			local remap = ({
+				branchbank_russia = "branchbank",
+			})[level_id]
+
+			if remap then
+				self._mission_script_patches = self:require("mission_script/" .. remap) or false
+			end
+		end
 
 		local ass_mission_script_patches = ASS:script_patches("mission")
 		if ass_mission_script_patches then
-			merged = true
+			ASS:log("info", "Current level has mission script patches...")
 
 			if not self._mission_script_patches then
 				self._mission_script_patches = ass_mission_script_patches
@@ -128,6 +145,10 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 				local function merge_patches(base_patch, to_merge)
 					for id, data in pairs(to_merge) do
 						if type(base_patch[id]) == "table" and type(data) == "table" then
+							if base_patch == self._mission_script_patches then
+								base_patch[id] = deep_clone(base_patch[id])
+							end
+
 							if base_patch[id][1] then
 								for _, v in pairs(data) do
 									table.insert(base_patch[id], v)
@@ -146,7 +167,7 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 		end
 
 		if self._mission_script_patches then
-			local spawn_group_mapping = tweak_data.group_ai:moon_spawn_group_mapping()
+			local spawn_group_mapping = tweak_data.moon.spawn_group_mapping
 
 			for _, data in pairs(self._mission_script_patches) do
 				local groups = data.groups
@@ -170,10 +191,9 @@ ASS:post_hook( StreamHeist, "mission_script_patches", function(self)
 end )
 
 -- ElementRandom clones on_executed on init, need to handle it
-ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function(self, element, data)
-	for i = #data, 1, -1 do
-		local v = data[i]
-
+local mission_script_patch_funcs_on_executed_original = MissionManager.mission_script_patch_funcs.on_executed
+MissionManager.mission_script_patch_funcs.on_executed = function(self, element, data)
+	for i, v in table.reverse_ipairs(data) do
 		if v.name then
 			local generated_id = custom_element_ids[v.name]
 
@@ -188,23 +208,28 @@ ASS:override( MissionManager.mission_script_patch_funcs, "on_executed", function
 		end
 	end
 
-	self.mission_script_patch_funcs.on_executed_original(self, element, data)
+	mission_script_patch_funcs_on_executed_original(self, element, data)
 
 	if element._original_on_executed then
 		element._original_on_executed = clone(element._values.on_executed)
 	end
-end )
+end
 
 -- CoreElementLogicChance.ElementLogicChance also needs to be handled
-ASS:override( MissionManager.mission_script_patch_funcs, "values", function(self, element, data)
-	self.mission_script_patch_funcs.values_original(self, element, data)
-
+Hooks:PostHook( MissionManager.mission_script_patch_funcs, "values", "ass_values", function(self, element, data)
 	if data.chance and element._chance then
 		element._chance = data.chance
 	end
 
-	if data.amount and element._group_data then
-		element._group_data.amount = data.amount
+	-- we love spawn group elements
+	local group_data = element._group_data
+	if group_data then
+		group_data.amount = data.amount or group_data.amount
+		group_data.spawn_type = data.spawn_type or group_data.spawn_type
+
+		if data.ignore_disabled ~= nil then
+			group_data.ignore_disabled = data.ignore_disabled
+		end
 	end
 end )
 
@@ -212,9 +237,7 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	element._values.on_executed_original = element._values.on_executed
 	element._values.on_executed = {}
 
-	for i = 1, #data do
-		local id = data[i]
-
+	for _, id in ipairs(data) do
 		for _, v in ipairs(element._values.on_executed_original) do
 			if v.id == id then
 				table.insert(element._values.on_executed, v)
@@ -223,7 +246,7 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	end
 
 	for _, v in ipairs(element._values.on_executed_original) do
-		try_insert(element._values.on_executed, v)
+		ASS.utils.try_insert(element._values.on_executed, v)
 	end
 
 	if element._original_on_executed then
@@ -231,13 +254,45 @@ MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, e
 	end
 end
 
--- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
+MissionManager.mission_script_patch_funcs.toggle = function(self, element, data)
+	StreamHeist:log("%s hooked as toggle trigger for %u element(s)", element:editor_name(), #data)
+
+	Hooks:PostHook( element, "on_executed", "sh_on_executed_toggle_" .. element:id(), function()
+		StreamHeist:log("%s executed, toggled %u element(s)", element:editor_name(), #data)
+
+		for id, toggle_data in pairs(data) do
+			local elmt = element:get_mission_element(id)
+
+			if elmt then
+				local enabled = toggle_data.enabled
+				local trigger_times = toggle_data.trigger_times
+
+				if enabled ~= nil then
+					if enabled == "toggle" then
+						enabled = not elmt:value("enabled")
+					end
+
+					elmt:set_enabled(enabled)
+					elmt:on_toggle(elmt:value("enabled"))
+				end
+
+				if trigger_times and trigger_times > -1 then
+					elmt:set_trigger_times(trigger_times)
+				end
+			end
+		end
+	end )
+end
+
+-- used for elements with lists in their values not containing tables
 MissionManager.mission_script_patch_funcs.modify_list_value = function(self, element, data)
 	for k, v in pairs(data) do
-		if type(element._values[k]) == "table" then
+		if type(element._values[k]) ~= "table" then
+			ASS:log("warn", "Invalid modify list value name \"%s\" on element \"%s\" (%s)!", k, element:editor_name(), element:id())
+		else
 			for id, enabled in pairs(v) do
 				if enabled then
-					try_insert(element._values[k], id)
+					ASS.utils.try_insert(element._values[k], id)
 				else
 					table.delete(element._values[k], id)
 				end
@@ -246,17 +301,42 @@ MissionManager.mission_script_patch_funcs.modify_list_value = function(self, ele
 	end
 end
 
+-- used for CoreElementInstance.ElementInstanceInputEvent, core\lib\managers\mission\coreelementinstance
+MissionManager.mission_script_patch_funcs.event_list = function(self, element, data)
+	local event_list = element._values.event_list
+
+	if not event_list then
+		ASS:log("warn", "No event list on element \"%s\" (%s)!", element:editor_name(), element:id())
+	else
+		StreamHeist:log("Changed %u event(s) in event list of %s", table.size(data), element:editor_name())
+
+		for instance, event in pairs(data) do
+			local val, i = table.find_value(event_list, function(val) return val.instance == instance end)
+
+			if event then
+				if val then
+					val.event = event
+				else
+					table.insert(event_list, { instance = instance, event = event, })
+				end
+			elseif val then
+				table.remove(event_list, i)
+			end
+		end
+	end
+end
+
 -- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
 MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
-	local access_filter = tweak_data.character:moon_access_filters(data)
+	local access_filter = tweak_data.moon.access_filters[data]
 
-	if access_filter then
+	if not access_filter then  -- dont point fingers at sh if i fuck up
+		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
+	else
 		element._values.SO_access_original = element._values.SO_access
 		element._values.SO_access = managers.navigation:convert_access_filter_to_number(access_filter)
 
 		StreamHeist:log("Replaced SO access filter of element %s", element:editor_name())
-	else  -- dont point fingers at sh if i fuck up
-		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
 	end
 end
 
@@ -281,62 +361,42 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	StreamHeist:log("Modified enemy spawn in element %s", element:editor_name())
 end
 
+-- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+MissionManager.mission_script_patch_funcs.run_func_on_unit = function(self, element, data)
+	if not element.produce then
+		ASS:log("warn", "Element %s (%s) has no produce function!", element:editor_name(), element:id())
+	else
+		Hooks:PostHook( element, "produce", "sh_produce_run_func_on_unit_" .. element:id(), function()
+			data(Hooks:GetReturn())
+		end )
+
+		StreamHeist:log("%s hooked as run function on unit trigger", element:editor_name())
+	end
+end
+
 -- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
 		local groupai_state = managers.groupai:state()
-		local function func()
-			local hunt_mode = groupai_state._hunt_mode
-			local wanted_mode = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
+		local hunt_mode = groupai_state._hunt_mode
+		local flag = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
 
-			if wanted_mode then
-				StreamHeist:log("%s executed, set wave mode to %s", element:editor_name(), wanted_mode)
+		if flag then
+			StreamHeist:log("%s executed, setting wave mode to %s", element:editor_name(), flag)
 
-				groupai_state:set_wave_mode(wanted_mode)
-			end
-		end
-
-		if groupai_state:enemy_weapons_hot() then
-			func()
-		else
-			Hooks:PostHook( groupai_state, "on_enemy_weapons_hot", "sh_on_enemy_weapons_hot_" .. element:id(), function()
-				if groupai_state:is_AI_enabled() and groupai_state:enemy_weapons_hot() then
-					func()
-				end
-			end )
-		end
-	end )
-end
-
--- referenced from ElementFleePoint, lib\managers\mission\elementfleepoint
-MissionManager.mission_script_patch_funcs.loot_dropoff = function(self, element, data)
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_loot_dropoff_" .. element:id(), function()
-		StreamHeist:log("%s executed, toggled %u loot dropoff point(s)", element:editor_name(), #data)
-
-		local groupai_state = managers.groupai:state()
-		for _, v in pairs(data) do
-			if v.position then
-				groupai_state:add_enemy_loot_drop_point(v.id, v.position)
+			if groupai_state:enemy_weapons_hot() then
+				groupai_state:set_wave_mode(flag)
 			else
-				groupai_state:remove_enemy_loot_drop_point(v.id)
+				local key = "moon_script_patch_hunt_" .. element:id()
+				local events = { "enemy_weapons_hot", }
+				local function clbk()
+					groupai_state:set_wave_mode(flag)
+					groupai_state:remove_listener(key)
+				end
+
+				groupai_state:add_listener(key, events, clbk)
 			end
-		end
-	end )
-end
-
--- referenced from ElementSmokeGrenade, lib\managers\mission\elementsmokegrenade
-MissionManager.mission_script_patch_funcs.grenade = function(self, element, data)
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_grenade_" .. element:id(), function()
-		StreamHeist:log("%s executed, detonating %u grenade(s)", element:editor_name(), #data)
-
-		local groupai_state = managers.groupai:state()
-		for _, v in pairs(data) do
-			local id = v.id or element:id()
-			local pos = v.position or element:value("position")
-			local duration = tweak_data.group_ai.smoke_grenade_lifetime
-
-			groupai_state:queue_smoke_grenade(id, pos, nil, duration, true, v.flashbang)
-			groupai_state:detonate_world_smoke_grenade(id)
 		end
 	end )
 end

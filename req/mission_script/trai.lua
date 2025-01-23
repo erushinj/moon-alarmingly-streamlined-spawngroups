@@ -1,12 +1,19 @@
-local securitys = tweak_data.levels:moon_units("securitys")
+local securitys = tweak_data.moon.units.securitys
 local snipers = {
 	values = {
 		trigger_times = 0,
 	},
 }
+local fix_stuck_cloakers = {
+	so_access_filter = "law",
+}
 
--- TODO: maybe set up custom toggles for snipers ?
 return {
+	[103092] = fix_stuck_cloakers,
+	[103091] = fix_stuck_cloakers,
+	[103083] = fix_stuck_cloakers,
+	[103125] = fix_stuck_cloakers,
+	[103126] = fix_stuck_cloakers,
 	[100368] = snipers,  -- allow sniper respawns (no toggles are set up)
 	[100369] = snipers,
 	[100370] = snipers,

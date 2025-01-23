@@ -1,7 +1,28 @@
-local harassers = tweak_data.levels:moon_units("marshals_far")
-local dozers_no_med = tweak_data.levels:moon_units("dozers_no_med")
+local harassers = tweak_data.moon.units.marshals_far
+local dozers_no_med = tweak_data.moon.units.dozers_no_med
 
 return {
+	[101357] = {  -- ensure starting diff on entering slaughterhouse is 0.6
+		values = {
+			difficulty = 0.6,
+		},
+	},
+	[102158] = {  -- disable diff increase on first assault end
+		values = {
+			enabled = false,
+		},
+	},
+	[101696] = {  -- diff increase on reaching the yard
+		difficulty = 0.8,
+		on_executed = {
+			{ id = 102804, delay = 0, },
+		},
+	},
+	[104186] = {  -- max diff on sending away the trap container
+		on_executed = {
+			{ id = 102162, delay = 0, },
+		},
+	},
 	[104446] = { enemy = harassers, },  -- container top harassers, swat
 	[104447] = { enemy = harassers, },
 	[104582] = { enemy = harassers, },
