@@ -3,6 +3,8 @@ if ASS.is_spawner then
 	return
 end
 
+local one_down = ASS.one_down
+
 local patched_sh_sss
 Hooks:PreHook( ElementSpawnEnemyDummy, "init", "ass_init", function()
 	if not patched_sh_sss then
@@ -22,7 +24,7 @@ Hooks:PreHook( ElementSpawnEnemyDummy, "init", "ass_init", function()
 		local sss_replacements = ElementSpawnEnemyDummy.sss_replacements
 		if sss_replacements then
 			local tank_replacement = sss_replacements[("units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"):key()] or { "tank", 1, "FBI_heavy_R870", }
-			local sniper_replacement = sss_replacements[("units/payday2/characters/ene_sniper_1/ene_sniper_1"):key()] or { "sniper", 2, "FBI_swat_M4", "sniper", }
+			local sniper_replacement = sss_replacements[("units/payday2/characters/ene_sniper_1/ene_sniper_1"):key()] or { "sniper", one_down and 4 or 2, "FBI_swat_M4", "sniper", }
 			local mapped_replacements = {
 				dozer_1 = tank_replacement,
 				dozer_2 = tank_replacement,
