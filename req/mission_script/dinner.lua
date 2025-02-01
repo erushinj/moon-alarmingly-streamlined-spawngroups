@@ -1,10 +1,99 @@
+local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
+
 local harassers = tweak_data.moon.units.marshals_far
 local dozers_no_med = tweak_data.moon.units.dozers_no_med
+local dozers_no_mini = tweak_data.moon.units.dozers_no_mini
+local dozers_any = tweak_data.moon.units.dozers_any
+local gensec_ids = ASS.utils.gen_remove_random_value({ 103175, 103176 })
+local cloaker_group_interval = {
+	values = {
+		interval = 60,  -- interval 240s -> 60s
+	},
+}
+local chance_all_containers_closed = normal and 0 or hard and 0.0125 or 0.025
+local chance_zero_traversal_covers = overkill and 0.05 or 0
+local chance_zero_top_containers = chance_zero_traversal_covers
+local chance_disable_catwalk_far = overkill and 0.3 or 0  -- reduces likelihood to 0.5 * (1 - chance)
+local chance_no_keycard = normal and 0.1 or hard and 0.2 or 0.3
+local disable = {
+	values = {
+		enabled = false,
+	},
+}
+local zero_traversal_covers = math.random() < chance_zero_traversal_covers
+local zero_top_containers = math.random() < chance_zero_top_containers
+local all_containers_closed = math.random() < chance_all_containers_closed
+local container_open_chance = {
+	values = {
+		chance = all_containers_closed and 0 or overkill and 0.1 or 0.2,
+	},
+}
 
 return {
-	[101357] = {  -- ensure starting diff on entering slaughterhouse is 0.6
+	[102900] = {  -- disabled top container amounts
 		values = {
-			difficulty = 0.6,
+			amount = zero_top_containers and 10 or overkill and 3 or 1,
+			amount_random = 10,  -- same as vanilla
+		},
+	},
+	[100007] = {  -- disabled traversal cover amounts
+		values = {
+			amount = zero_traversal_covers and 13 or overkill and 3 or 1,
+			amount_random = 7,  -- same as vanilla
+		},
+	},
+	[102246] = container_open_chance,
+	[102253] = container_open_chance,
+	[102260] = container_open_chance,
+	[102278] = container_open_chance,
+	[102296] = container_open_chance,
+	[102301] = container_open_chance,
+	[102307] = container_open_chance,
+	[102313] = container_open_chance,
+	[102331] = container_open_chance,
+	[102348] = container_open_chance,
+	[103923] = container_open_chance,
+	[103939] = container_open_chance,
+	[104950] = container_open_chance,
+	[103489] = cloaker_group_interval,
+	[101715] = cloaker_group_interval,
+	[101880] = {  -- opened doors middle
+		values = {
+			amount = overkill and 4 or 1,
+			amount_random = hard and 2 or 0,
+		},
+	},
+	[100770] = {  -- opened doors office
+		values = {
+			amount = normal and 2 or hard and 1 or 0,
+			amount_random = 2,
+		},
+	},
+	[105038] = math.random() < chance_no_keycard and disable or nil,
+	[104143] = disable,  -- disable reenforce on the drill, assault enemies already walk by frequently
+	[104144] = disable,
+	[103563] = math.random() < chance_disable_catwalk_far and disable or nil,
+	[103606] = {  -- activate catwalk behind office
+		reinforce = {
+			{
+				name = "catwalk_far",
+				force = 3,
+				position = Vector3(-8550, 8995, 330),
+			},
+		},
+	},
+	[103607] = {  -- activate catwalk around office
+		reinforce = {
+			{
+				name = "catwalk_near",
+				force = 3,
+				position = Vector3(-8240, 7460, 330),
+			},
+		},
+	},
+	[101357] = {
+		values = {
+			difficulty = 0.5,
 		},
 	},
 	[102158] = {  -- disable diff increase on first assault end
@@ -12,10 +101,10 @@ return {
 			enabled = false,
 		},
 	},
-	[101696] = {  -- diff increase on reaching the yard
-		difficulty = 0.8,
+	[103469] = {  -- diff increase on drill completion
+		difficulty = 0.75,
 		on_executed = {
-			{ id = 102804, delay = 0, },
+			{ id = 102804, delay = 30, },
 		},
 	},
 	[104186] = {  -- max diff on sending away the trap container
@@ -23,6 +112,8 @@ return {
 			{ id = 102162, delay = 0, },
 		},
 	},
+	[gensec_ids()] = { enemy = Idstring("units/pd2_dlc1/characters/ene_security_gensec_1/ene_security_gensec_1"), },
+	[gensec_ids()] = { enemy = Idstring("units/pd2_dlc1/characters/ene_security_gensec_2/ene_security_gensec_2"), },
 	[104446] = { enemy = harassers, },  -- container top harassers, swat
 	[104447] = { enemy = harassers, },
 	[104582] = { enemy = harassers, },
@@ -96,4 +187,19 @@ return {
 	[102406] = { enemy = dozers_no_med, },
 	[102411] = { enemy = dozers_no_med, },
 	[102412] = { enemy = dozers_no_med, },
+	[101241] = { enemy = dozers_no_med, },  -- van dozers
+	[101242] = { enemy = dozers_no_med, },
+	[101243] = { enemy = dozers_no_med, },
+	[103092] = { enemy = dozers_any, },  -- backyard heli dozers
+	[103091] = { enemy = dozers_any, },
+	[103088] = { enemy = dozers_any, },
+	[103090] = { enemy = dozers_any, },
+	[103093] = { enemy = dozers_any, },
+	[103094] = { enemy = dozers_any, },
+	[103087] = { enemy = dozers_no_mini, },  -- starting area heli dozers
+	[103096] = { enemy = dozers_no_mini, },
+	[103095] = { enemy = dozers_no_mini, },
+	[103097] = { enemy = dozers_no_mini, },
+	[102190] = { enemy = dozers_no_mini, },
+	[100621] = { enemy = dozers_no_mini, },
 }
