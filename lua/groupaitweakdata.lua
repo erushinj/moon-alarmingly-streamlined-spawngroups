@@ -2283,6 +2283,16 @@ end
 function GroupAITweakData:_moon_init_task_data()
 	local level_assault_tweaks = self.tweak_data.moon.level_assault_tweaks
 
+	for tactic_name, remove in pairs(level_assault_tweaks.tactics_remove) do
+		if remove then
+			for _, tactics in pairs(self._tactics) do
+				while table.contains(tactics, tactic_name) do
+					table.delete(tactics, tactic_name)
+				end
+			end
+		end
+	end
+
 	-- special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
 	for special, limits in pairs({
@@ -2305,6 +2315,12 @@ function GroupAITweakData:_moon_init_task_data()
 		end
 
 		self.special_unit_spawn_limits[special] = limit
+	end
+
+	if #self.difficulty_curve_points > 1 then
+		ASS:log("warn", "Too many difficulty curve points, the mod may not work properly!")
+	else
+		self.difficulty_curve_points[1] = tonumber(level_assault_tweaks.difficulty_curve_point_replace) or self.difficulty_curve_points[1]
 	end
 
 	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end

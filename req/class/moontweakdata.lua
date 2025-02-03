@@ -583,6 +583,7 @@ end
 function MoonTweakData:init_level_assault_tweaks()
 	local level_tweaks = {
 		default = {
+			difficulty_curve_point_replace = false,
 			min_grenade_timeout_mul = 1,
 			no_grenade_push_delay_mul = 1,
 			hostage_hesitation_delay_mul = 1,
@@ -597,6 +598,14 @@ function MoonTweakData:init_level_assault_tweaks()
 				taser = 0,
 				tank = 0,
 				spooc = 0,
+			},
+			tactics_remove = {
+				charge = false,
+				ranged_fire = false,
+				flank = false,
+				deathguard = false,
+				murder = false,
+				no_push = false,
 			},
 		},
 		born = {
@@ -636,14 +645,16 @@ function MoonTweakData:init_level_assault_tweaks()
 		},
 	}
 
+	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnLevelAssaultTweaksInit", level_tweaks )
+
 	self.level_assault_tweaks = level_tweaks[level_id] or level_tweaks.default
 
 	local function fill_in(to, from)
 		for k, v in pairs(from) do
 			if type(v) == "table" and to[k] then
 				fill_in(to[k], v)
-			else
-				to[k] = to[k] or v
+			elseif to[k] == nil then
+				to[k] = v
 			end
 		end
 	end
@@ -1776,6 +1787,8 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/mainman/characters/ene_bo/ene_bo"):key()] = "deagle",  -- bo
 	}
 
+	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnWeaponMappingInit", weapon_mapping, level_overrides )
+
 	local level_override = level_overrides[level_id]
 	if level_override then
 		for unit, weapon in pairs(level_override) do
@@ -2623,6 +2636,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 			},
 		},
 	}
+
+	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnEnemyReplacementsInit", replacements )
 
 	for _, tbl in ipairs({
 		{

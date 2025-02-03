@@ -10,6 +10,10 @@ local meta = {
 
 return setmetatable({
 	on_init = function(self)
+		Hooks:RegisterHook( "AlarminglyStreamlinedSpawngroupsOnLevelAssaultTweaksInit" )
+		Hooks:RegisterHook( "AlarminglyStreamlinedSpawngroupsOnWeaponMappingInit" )
+		Hooks:RegisterHook( "AlarminglyStreamlinedSpawngroupsOnEnemyReplacementsInit" )
+
 		Hooks:AddHook( "LocalizationManagerPostInit", "LocalizationManagerPostInitAlarminglyStreamlinedSpawngroups", function(loc)
 			loc:load_localization_file(self.path .. "loc/english.json")
 		end )
