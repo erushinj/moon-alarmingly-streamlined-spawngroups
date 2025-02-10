@@ -4,28 +4,34 @@ local harassers = tweak_data.moon.units.marshals_far
 local dozers_no_med = tweak_data.moon.units.dozers_no_med
 local dozers_no_mini = tweak_data.moon.units.dozers_no_mini
 local dozers_any = tweak_data.moon.units.dozers_any
-local gensec_ids = ASS.utils.gen_remove_random_value({ 103175, 103176 })
+local gensec_ids = ASS.utils.gen_remove_random_value({ 103175, 103176, })
 local cloaker_group_interval = {
 	values = {
 		interval = 60,  -- interval 240s -> 60s
 	},
 }
-local chance_all_containers_closed = normal and 0 or hard and 0.0125 or 0.025
-local chance_zero_traversal_covers = overkill and 0.05 or 0
-local chance_zero_top_containers = chance_zero_traversal_covers
-local chance_disable_catwalk_far = overkill and 0.3 or 0  -- reduces likelihood to 0.5 * (1 - chance)
+local chance_all_containers_closed = normal and 0 or hard and 0.05 or 0.1
+local chance_zero_traversal_covers = normal and 0 or hard and 0.05 or 0.1
+local chance_zero_top_containers = normal and 0 or hard and 0.05 or 0.1
+local chance_disable_catwalk_far = normal and 0 or 0.3  -- reduces likelihood to 0.5 * (1 - chance)
 local chance_no_keycard = normal and 0.1 or hard and 0.2 or 0.3
-local disable = {
-	values = {
-		enabled = false,
-	},
-}
+local chance_all_middle_doors_opened = normal and 0.1 or 0.3
+local chance_all_office_doors_closed = overkill and 0.4 or 0.1
 local zero_traversal_covers = math.random() < chance_zero_traversal_covers
 local zero_top_containers = math.random() < chance_zero_top_containers
 local all_containers_closed = math.random() < chance_all_containers_closed
+local disable_catwalk_far = math.random() < chance_disable_catwalk_far
+local no_keycard = math.random() < chance_no_keycard
+local all_middle_doors_opened = math.random() < chance_all_middle_doors_opened
+local all_office_doors_closed = math.random() < chance_all_office_doors_closed
 local container_open_chance = {
 	values = {
 		chance = all_containers_closed and 0 or overkill and 0.1 or 0.2,
+	},
+}
+local disable = {
+	values = {
+		enabled = false,
 	},
 }
 
@@ -59,20 +65,20 @@ return {
 	[101715] = cloaker_group_interval,
 	[101880] = {  -- opened doors middle
 		values = {
-			amount = overkill and 4 or 1,
-			amount_random = hard and 2 or 0,
+			amount = all_middle_doors_opened and 4 or overkill and 2 or 1,
+			amount_random = all_middle_doors_opened and 0 or 1,
 		},
 	},
 	[100770] = {  -- opened doors office
 		values = {
-			amount = normal and 2 or hard and 1 or 0,
-			amount_random = 2,
+			amount = all_office_doors_closed and 0 or normal and 2 or hard and 1 or 0,
+			amount_random = all_office_doors_closed and 0 or 2,
 		},
 	},
-	[105038] = math.random() < chance_no_keycard and disable or nil,
+	[105038] = no_keycard and disable or nil,
 	[104143] = disable,  -- disable reenforce on the drill, assault enemies already walk by frequently
 	[104144] = disable,
-	[103563] = math.random() < chance_disable_catwalk_far and disable or nil,
+	[103563] = disable_catwalk_far and disable or nil,
 	[103606] = {  -- activate catwalk behind office
 		reinforce = {
 			{
@@ -96,11 +102,7 @@ return {
 			difficulty = 0.5,
 		},
 	},
-	[102158] = {  -- disable diff increase on first assault end
-		values = {
-			enabled = false,
-		},
-	},
+	[102158] = disable,  -- disable diff increase on first assault end
 	[103469] = {  -- diff increase on drill completion
 		difficulty = 0.75,
 		on_executed = {

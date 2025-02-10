@@ -162,6 +162,7 @@ function MoonTweakData:init_swap_scripted_prefix_threshold()
 		branchbank_gold_prof = 1,
 		family = 1,
 		flat = 0.75,
+		dinner = 0.5,
 	})[clean_level_id] or 0.9
 end
 
