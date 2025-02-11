@@ -1,7 +1,4 @@
-local policia = {
-	Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
-	Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"),
-}
+local policia_ids = ASS.utils.gen_remove_random_value({ 104687, 104688, })
 local securitys = {
 	Idstring("units/pd2_dlc_bex/characters/ene_bex_security_01/ene_bex_security_01"),
 	Idstring("units/pd2_dlc_bex/characters/ene_bex_security_02/ene_bex_security_02"),
@@ -123,19 +120,9 @@ return {
 			reenforce_office_3,
 		},
 	},
-	[104687] = { enemy = securitys, },  -- pre-spawned policia
-	[104688] = { enemy = securitys, },
-	[100675] = { enemy = securitys, },
-	[100676] = { enemy = securitys, },
+	[policia_ids()] = { enemy = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"), },  -- pre-spawned policia
+	[policia_ids()] = { enemy = Idstring("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"), },
 	[104689] = { enemy = securitys, },  -- securitys
-	[100670] = { enemy = securitys, },
-	[100671] = { enemy = securitys, },
-	[100672] = { enemy = securitys, },
-	[100673] = { enemy = securitys, },
-	[100674] = { enemy = securitys, },
-	[100677] = { enemy = securitys, },
-	[100678] = { enemy = securitys, },
-	[100679] = { enemy = securitys, },
 	[101570] = { enemy = securitys, },
 	[101571] = { enemy = securitys, },
 	[101574] = { enemy = securitys, },
