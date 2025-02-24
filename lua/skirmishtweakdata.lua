@@ -21,7 +21,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 		local special_weights_chicken_plate = skm_special_weights
 		local special_weights_chicken_plate_double = table.collect(special_weights_chicken_plate, function(val) return val * 2 end)
 
-		local all_skm_groups = {
+		self._moon_skirmish_groups = {
 			original = {
 				original_swats_a = { 18, 13.5, 0, },
 				original_swats_b = { 0, 0, 9, },
@@ -91,7 +91,6 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 				FBI_spoocs = { 1, 1, 1, },
 			},
 		}
-		self._moon_skirmish_groups = all_skm_groups[tweak_data.group_ai.moon_assault_style] or all_skm_groups.default
 	end
 
 	for i, wave_limits in ipairs(self.special_unit_spawn_limits) do
@@ -102,6 +101,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 
 	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
 
+	local skm_groups = self._moon_skirmish_groups[tweak_data.group_ai.moon_assault_style] or self._moon_skirmish_groups.default
 	for i = 1, #self.assault.groups do
 		local f = math.min((i - 1) / 8, 1)
 		local w1, w2
@@ -116,9 +116,9 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 			w2 = 3
 		end
 
-		local groups = deep_clone(self._moon_skirmish_groups)
+		local groups = deep_clone(skm_groups)
 		for _, weights in pairs(groups) do
-			local w = math.lerp(weights[w1], weights[w2], f)
+			local w = ASS.utils.lerp(f, unpack(weights))
 
 			for k in pairs(weights) do
 				weights[k] = w
@@ -132,7 +132,7 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 	local __index_original = skirmish_assault_meta.__index
 	function skirmish_assault_meta.__index(t, key)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
-			local sustain_duration_mul = math.lerp(ASS.tweaks.sustain_duration_muls[1], ASS.tweaks.sustain_duration_muls[2], math.random())
+			local sustain_duration_mul = ASS.utils.lerp(math.random(), unpack(ASS.tweaks.sustain_duration_muls))
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
 
 			return { sustain_duration, sustain_duration, sustain_duration, }

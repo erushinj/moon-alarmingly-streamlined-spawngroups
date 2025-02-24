@@ -1,4 +1,13 @@
 return {
+	-- math.lerp with parameters reordered to better work with multiple returns/unpack
+	lerp = function(t, a, b)
+		t = math.clamp(tonumber(t) or 0, 0, 1)
+
+		if type(a) == "number" and type(b) == "number" then
+			return math.lerp(a, b, t)
+		end
+	end,
+
 	-- generates a function that removes and returns a random value from v
 	gen_remove_random_value = function(v)
 		return function()
@@ -35,14 +44,31 @@ return {
 		return result
 	end,
 
+	gen_weighted_selector = function(t)
+		if type(t) ~= "table" then
+			return
+		end
+
+		local selector = WeightedSelector:new()
+		for k, v in pairs(t) do
+			if type(k) == "number" then
+				selector:add(v, 1)
+			else
+				selector:add(k, v)
+			end
+		end
+
+		return selector
+	end,
+
 	-- used to allow one and only one of a given civilian (usually bobblehead bob)
-	try_pick_bobblehead_bob = function(override, civs_table, bob)
+	try_pick_bobblehead_bob = function(override, civs, bob)
 		ASS.picked_bob = override or ASS.picked_bob
 		bob = bob or Idstring("units/payday2/characters/civ_male_casual_1/civ_male_casual_1")
 
 		return function()
 			if ASS.picked_bob or math.random() > 0.2 then
-				return civs_table
+				return civs
 			end
 
 			ASS.picked_bob = true

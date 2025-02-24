@@ -5,7 +5,6 @@ local real_difficulty_index = ASS.real_difficulty_index
 MoonTweakData = MoonTweakData or class()
 
 -- initialize stuff only when accessed
--- WeightedSelector isnt available on class init
 function MoonTweakData:init(tweak_data)
 	self.tweak_data = tweak_data
 
@@ -821,15 +820,6 @@ function MoonTweakData:init_hydra_splits()
 			["medic_2"] = 5,
 		},
 	}
-	for key, units in pairs(splits) do
-		local selector = WeightedSelector:new()
-
-		for k, wgt in pairs(units) do
-			selector:add(k, wgt)
-		end
-
-		splits[key] = selector
-	end
 
 	for id, based_on in pairs({
 		["hrt_2"] = "hrt_1",
@@ -848,7 +838,7 @@ function MoonTweakData:init_hydra_splits()
 		["dozer_5"] = "dozer_1",
 		["dozer_hw"] = "dozer_1",
 	}) do
-		splits[id] = splits[based_on]
+		splits[id] = ASS.utils.check_clone(splits[based_on], true)
 	end
 
 	self.hydra_splits = splits
@@ -870,16 +860,6 @@ function MoonTweakData:init_civ_idles()
 			["cm_sp_stand_arms_crossed"] = 1,
 		},
 	}
-
-	for key, anims in pairs(self.civ_idles) do
-		local selector = WeightedSelector:new()
-
-		for k, wgt in pairs(anims) do
-			selector:add(k, wgt)
-		end
-
-		self.civ_idles[key] = selector
-	end
 end
 
 -- special objective access filters

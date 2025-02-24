@@ -2202,7 +2202,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	local assault_styles = self._moon_assault_styles
 	local wanted_assault_style = assault_styles[ASS.assault_style] and ASS.assault_style or "default"
 	local assault_style_func = assault_styles[wanted_assault_style]
-	local special_weight = math.lerp(ASS.tweaks.special_weight_base[1], ASS.tweaks.special_weight_base[2], f)
+	local special_weight = ASS.utils.lerp(f, unpack(ASS.tweaks.special_weight_base))
 
 	self.moon_assault_style = wanted_assault_style
 
@@ -2254,7 +2254,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 
 	self._freq = {}
 	for typ, val in pairs(ASS.tweaks.freq_base) do
-		self._freq[typ] = math.lerp(val[1], val[2], f)
+		self._freq[typ] = ASS.utils.lerp(f, unpack(val))
 	end
 
 	-- effectively remove preexisting timed groups
@@ -2326,19 +2326,19 @@ function GroupAITweakData:_moon_init_task_data()
 	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end
 
 	self.smoke_grenade_timeout = table.collect(self.smoke_grenade_timeout, grenade_cooldown_func)
-	self.smoke_grenade_lifetime = math.lerp(ASS.tweaks.smoke_grenade_lifetime[1], ASS.tweaks.smoke_grenade_lifetime[2], f)
+	self.smoke_grenade_lifetime = ASS.utils.lerp(f, unpack(ASS.tweaks.smoke_grenade_lifetime))
 	self.flash_grenade_timeout = table.collect(self.flash_grenade_timeout, grenade_cooldown_func)
 	self.cs_grenade_timeout = table.collect(self.cs_grenade_timeout, grenade_cooldown_func)
-	self.cs_grenade_lifetime = math.lerp(20, 40, f)
+	self.cs_grenade_lifetime = ASS.utils.lerp(f, 20, 40)
 	self.cs_grenade_chance_times = table.collect(ASS.tweaks.cs_grenade_chance_times, function(val) return val * level_assault_tweaks.cs_grenade_chance_times_mul end)
 	self.min_grenade_timeout = ASS.tweaks.min_grenade_timeout * level_assault_tweaks.min_grenade_timeout_mul
 	self.no_grenade_push_delay = ASS.tweaks.no_grenade_push_delay * level_assault_tweaks.no_grenade_push_delay_mul
-	self.spawn_cooldown_mul = math.lerp(ASS.tweaks.spawn_cooldowns[1], ASS.tweaks.spawn_cooldowns[2], f)
+	self.spawn_cooldown_mul = ASS.utils.lerp(f, unpack(ASS.tweaks.spawn_cooldowns))
 	self.spawn_kill_cooldown = ASS.tweaks.spawn_cooldowns[2] * 10
 
 	local sustain_duration_base = {}
 	for i, val in pairs(self.besiege.assault.sustain_duration_min) do
-		sustain_duration_base[i] = math.lerp(val, self.besiege.assault.sustain_duration_max[i] or val, 0.5) * level_assault_tweaks.sustain_duration_mul
+		sustain_duration_base[i] = ASS.utils.lerp(0.5, val, self.besiege.assault.sustain_duration_max[i] or val) * level_assault_tweaks.sustain_duration_mul
 	end
 
 	self.besiege.assault.force = table.collect(self.besiege.assault.force, function(val) return val * level_assault_tweaks.force_mul end)

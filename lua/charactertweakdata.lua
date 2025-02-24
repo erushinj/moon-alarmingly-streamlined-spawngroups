@@ -25,9 +25,7 @@ if ASS.settings.doms_scale then
 	Hooks:PostHook( CharacterTweakData, "_presets", "ass__presets", function()
 		for _, preset in pairs(Hooks:GetReturn().surrender) do
 			if preset.reasons and preset.factors and preset.factors.health then
-				local min, max = math.min_max(preset.significant_chance or 0, 0.5)
-
-				preset.significant_chance = math.lerp(min, max, f)
+				preset.significant_chance = ASS.utils.lerp(f, math.min_max(preset.significant_chance or 0, 0.5))
 				preset.base_chance = 0
 				preset.factors_original = preset.factors
 				preset.reasons = table.map_append(preset.reasons, preset.factors)

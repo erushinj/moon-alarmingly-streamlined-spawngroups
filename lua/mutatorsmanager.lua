@@ -6,7 +6,7 @@ Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit,
 	local mapped = tweak_data.moon.enemy_mapping[parent_unit:name():key()]
 
 	if mapped then
-		local split = tweak_data.moon.hydra_splits[mapped]
+		local split = ASS.utils.gen_weighted_selector(tweak_data.moon.hydra_splits[mapped])
 
 		if split then
 			local replacement = managers.groupai:state():moon_get_scripted_tier()
