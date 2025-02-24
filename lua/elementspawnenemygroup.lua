@@ -3,7 +3,7 @@ if ASS.is_editor_or_client then
 end
 
 local added_new_groups
-Hooks:PreHook( ElementSpawnEnemyGroup, "init", "moon_init", function()
+Hooks:PreHook( ElementSpawnEnemyGroup, "init", "ass_init", function()
 	if not added_new_groups then
 		added_new_groups = true
 

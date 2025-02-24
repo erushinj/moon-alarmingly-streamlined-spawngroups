@@ -95,6 +95,11 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 			u_brain._SO_access = converted_access
 			logic_data.SO_access = converted_access
 			logic_data.SO_access_str = replace_access
+
+			local unit_data = managers.enemy:all_enemies()[unit:key()]
+			if unit_data then
+				unit_data.so_access = converted_access
+			end
 		end
 
 		return unit

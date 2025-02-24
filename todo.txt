@@ -1,5 +1,6 @@
 |> Assault Style
 |-> further work on Chicken Plate rework
+|-> experiment with Shields/Medics in reenforce
 |
 |> Skill Level
 |-> allow customization of individual tweaks in a custom preset
@@ -27,12 +28,16 @@
 |
 |> Slaughterhouse
 |-> more Murkies
+|-> more reenforce
+|
+|> Counterfeit
+|-> ground/roof snipers
+|-> more reenforce
 |
 |> Undercover
 |-> redo with custom script
 |-> more inside spawns
 |-> Cloaker spawns for all vents
-|-> look into if saw/hack timers can be changed ASS-side
 |
 |> Bank Heist/Firestarter day 3
 |-> add ambush in the vault

@@ -365,7 +365,7 @@ end
 -- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.run_func_on_unit = function(self, element, data)
 	if not element.produce then
-		ASS:log("warn", "Element %s (%s) has no produce function!", element:editor_name(), element:id())
+		ASS:log("warn", "Element \"%s\" (%s) has no produce function!", element:editor_name(), element:id())
 	else
 		Hooks:PostHook( element, "produce", "sh_produce_run_func_on_unit_" .. element:id(), function()
 			data(Hooks:GetReturn())
