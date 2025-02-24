@@ -17,8 +17,12 @@ Hooks:OverrideFunction( ModifierShieldPhalanx, "init", "ass_init", function(self
 	local copied_tweak = deep_clone(unit_categories.Phalanx_minion)
 	copied_tweak.is_captain = nil
 
-	unit_categories.CS_shield = deep_clone(copied_tweak)
-	unit_categories.FBI_shield = copied_tweak
+	unit_categories.CS_shield_1 = deep_clone(copied_tweak)
+	unit_categories.CS_shield_1_no_limit = deep_clone(copied_tweak)
+	unit_categories.CS_shield_1_no_limit.special_type = nil
+	unit_categories.FBI_shield_1 = deep_clone(copied_tweak)
+	unit_categories.FBI_shield_1_no_limit = copied_tweak
+	unit_categories.FBI_shield_1_no_limit.special_type = nil
 end )
 
 ModifierHeavies.moon_u_key_mapping = {

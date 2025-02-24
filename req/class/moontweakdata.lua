@@ -45,14 +45,16 @@ end
 -- used to replace vanilla unit categories with ASS's own
 function MoonTweakData:init_vanilla_category_translations()
 	self.vanilla_category_translations = {
-		spooc = "FBI_spooc",
+		spooc = "FBI_spooc_1",
 		CS_cop_C45_R870 = "CS_hrt_1_2_3_4",
 		CS_cop_stealth_MP5 = "CS_hrt_3_4",
 		CS_swat_MP5 = "CS_swat_1",
 		CS_swat_R870 = "CS_swat_2",
 		CS_heavy_M4 = "CS_heavy_1",
 		CS_heavy_R870 = "CS_heavy_2",
-		CS_tazer = "FBI_taser",
+		CS_heavy_M4_w = "CS_heavy_1",
+		CS_shield = "CS_shield_1",
+		CS_tazer = "FBI_taser_1",
 		FBI_suit_C45_M4 = "FBI_hrt_1_2",
 		FBI_suit_M4_MP5 = "FBI_hrt_1_2_3_4",
 		FBI_suit_stealth_MP5 = "FBI_hrt_3_4",
@@ -60,6 +62,9 @@ function MoonTweakData:init_vanilla_category_translations()
 		FBI_swat_R870 = "FBI_swat_2",
 		FBI_heavy_G36 = "FBI_heavy_1",
 		FBI_heavy_R870 = "FBI_heavy_2",
+		FBI_heavy_G36_w = "FBI_heavy_1",
+		FBI_shield = "FBI_shield_1",
+		FBI_tank = "FBI_dozer",
 		medic_M4 = "FBI_medic_1",
 		medic_R870 = "FBI_medic_2",
 		marshal_marksman = "FBI_marshal_marksman",
@@ -123,10 +128,10 @@ function MoonTweakData:init_spawn_group_mapping()
 		tac_tazer_flanking = {
 			"tac_tazer_flanking",
 			"tac_tazer_charge",
-			"original_tazers_a",
-			"original_tazers_b",
-			"streamlined_tazer_flank",
-			"streamlined_tazer_charge",
+			"original_tasers_a",
+			"original_tasers_b",
+			"streamlined_taser_flank",
+			"streamlined_taser_charge",
 			"chicken_plate_taser",
 		},
 		tac_bull_rush = {
@@ -183,11 +188,11 @@ end
 -- replacement unit category names for enemy replacer mutators
 function MoonTweakData:init_replacement_category_names()
 	self.replacement_category_names = {
-		tank_hw = "titan",
-		tank = "tank",
-		taser = "taser",
-		shield = "shield",
-		spooc = "spooc",
+		tank_hw = "dozer_headless",
+		tank = "dozer",
+		taser = "taser_1",
+		shield = "shield_1",
+		spooc = "spooc_1",
 		medic = "medic_1_2",
 	}
 end
@@ -765,12 +770,10 @@ end
 function MoonTweakData:init_hydra_splits()
 	local splits = {
 		marshal_1 = {
-			["marshal_1"] = 2,
 			["heavy_1"] = 1,
 			["heavy_3"] = 1,
 		},
 		marshal_2 = {
-			["marshal_2"] = 2,
 			["heavy_2"] = 1,
 			["heavy_3"] = 1,
 		},
@@ -785,39 +788,23 @@ function MoonTweakData:init_hydra_splits()
 			["hrt_2"] = 1,
 			["hrt_3"] = 1,
 			["hrt_4"] = 1,
-			["swat_1"] = 1,
-			["swat_2"] = 1,
-			["swat_3"] = 1,
 		},
 		heavy_1 = {
 			["swat_1"] = 1,
 			["swat_2"] = 1,
 			["swat_3"] = 1,
+		},
+		shield = {
 			["heavy_1"] = 1,
 			["heavy_2"] = 1,
 			["heavy_3"] = 1,
 		},
-		shield = {
+		dozer_1 = {
 			["shield"] = 2,
 			["taser"] = 2,
 			["cloaker"] = 2,
 			["medic_1"] = 1,
 			["medic_2"] = 1,
-			["heavy_1"] = 3,
-			["heavy_2"] = 3,
-			["heavy_3"] = 3,
-		},
-		dozer_1 = {
-			["dozer_1"] = 8,
-			["dozer_2"] = 8,
-			["dozer_3"] = 8,
-			["dozer_4"] = 8,
-			["dozer_5"] = 8,
-			["shield"] = 10,
-			["taser"] = 10,
-			["cloaker"] = 10,
-			["medic_1"] = 5,
-			["medic_2"] = 5,
 		},
 	}
 

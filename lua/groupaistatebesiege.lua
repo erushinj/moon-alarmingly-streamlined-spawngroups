@@ -45,7 +45,7 @@ Hooks:PreHook( GroupAIStateBesiege, "_spawn_in_group", "ass__spawn_in_group", fu
 
 	for _, enemy in pairs(tweak_data.group_ai.enemy_spawn_groups[spawn_group_type].spawn) do
 		if enemy.random_tactics then
-			enemy.tactics = table.random(enemy.random_tactics)
+			enemy.tactics = tweak_data.group_ai._tactics[table.random(enemy.random_tactics)] or enemy.tactics
 		end
 
 		if enemy.random_unit then

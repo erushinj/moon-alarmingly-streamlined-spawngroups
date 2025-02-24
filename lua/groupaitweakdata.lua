@@ -20,6 +20,7 @@ local ignore_unit_categories = table.list_to_set({
 	"CS_heavy_R870",
 	"CS_heavy_M4_w",
 	"CS_tazer",
+	"CS_shield",
 	"FBI_suit_C45_M4",
 	"FBI_suit_M4_MP5",
 	"FBI_suit_stealth_MP5",
@@ -28,6 +29,8 @@ local ignore_unit_categories = table.list_to_set({
 	"FBI_heavy_G36",
 	"FBI_heavy_R870",
 	"FBI_heavy_G36_w",
+	"FBI_shield",
+	"FBI_tank",
 	"medic_M4",
 	"medic_R870",
 	"Phalanx_minion",
@@ -73,9 +76,14 @@ function GroupAITweakData:moon_swap_units(tiers)
 	end
 end
 
-function GroupAITweakData:_moon_add_tactics(tactics)
-	for id, data in pairs(tactics) do
-		self._tactics[id] = data
+function GroupAITweakData:_moon_add_data(new_data)
+	for name, tbl in pairs(new_data) do
+		name = "_" .. name
+
+		self[name] = self[name] or {}
+		for id, data in pairs(tbl) do
+			self[name][id] = data
+		end
 	end
 end
 
@@ -111,20 +119,20 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 		unit_mapping = {}
 	else
 		unit_mapping = {
-			CS_taser = {
+			CS_taser_1 = {
 				rifle = "CS_heavy_1",
 				shotgun = "CS_heavy_2",
-				default = "CS_shield",
+				default = "CS_shield_1",
 			},
-			CS_spooc = {
+			CS_spooc_1 = {
 				rifle = "CS_hrt_1_2",
 				shotgun = "CS_hrt_3_4",
 				default = "CS_hrt_1_2_3_4",
 				chicken_plate = "CS_heavy_1_2_3",
 			},
-			CS_tank = {
+			CS_dozer = {
 				default = "CS_heavy_1_2_3",
-				chicken_plate = "CS_shield",
+				chicken_plate = "CS_shield_1",
 			},
 			CS_medic_1 = {
 				default = "CS_hrt_1_2",
@@ -139,11 +147,17 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 				chicken_plate = "CS_heavy_1_2_3",
 			},
 		}
+		unit_mapping.CS_taser_1_no_limit = unit_mapping.CS_taser_1
+		unit_mapping.CS_spooc_1_no_limit = unit_mapping.CS_spooc_1
+		unit_mapping.CS_dozer_no_limit = unit_mapping.CS_dozer
+		unit_mapping.CS_medic_1_no_limit = unit_mapping.CS_medic_1
+		unit_mapping.CS_medic_2_no_limit = unit_mapping.CS_medic_2
+		unit_mapping.CS_medic_1_2_no_limit = unit_mapping.CS_medic_1_2
 	end
 
 	-- just in case SSS reenables marshals at any point
 	unit_mapping.CS_marshal_marksman = { default = "CS_heavy_1", }
-	unit_mapping.CS_marshal_shield = { default = "CS_shield", }
+	unit_mapping.CS_marshal_shield = { default = "CS_shield_1", }
 
 	for unit, cs_mapping in pairs(unit_mapping) do
 		local fbi_mapping = clone(cs_mapping)
@@ -157,8 +171,8 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 
 	unit_mapping.medic_M4 = unit_mapping.FBI_medic_1
 	unit_mapping.medic_R870 = unit_mapping.FBI_medic_2
-	unit_mapping.spooc = unit_mapping.FBI_spooc
-	unit_mapping.CS_tazer = unit_mapping.FBI_taser
+	unit_mapping.spooc = unit_mapping.FBI_spooc_1
+	unit_mapping.CS_tazer = unit_mapping.FBI_taser_1
 	unit_mapping.marshal_marksman = unit_mapping.FBI_marshal_marksman
 	unit_mapping.marshal_shield = unit_mapping.FBI_marshal_shield
 
@@ -200,30 +214,41 @@ GroupAITweakData._moon_assault_styles = {}
 
 -- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
 GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
-	self:_moon_add_tactics({
-		empty = {},
-		original_swat_ranged = { "ranged_fire", },
-		original_swat_charge = { "charge", "smoke_grenade", "deathguard", },
-		original_swat_flank = { "flank", "flash_grenade", },
-		original_swat_support = { "unit_cover", },
-		original_shield_ranged = { "shield", "ranged_fire", "smoke_grenade", "deathguard", },
-		original_shield_charge = { "shield", "charge", "flash_grenade", "deathguard", },
-		original_shield_support = { "shield_cover", "ranged_fire", "deathguard", },
-		original_tazer_flank = { "shield_cover", "flank", "smoke_grenade", "murder", },
-		original_tazer_charge = { "shield_cover", "charge", "flash_grenade", "murder", },
-		original_tazer_support = { "shield", "ranged_fire", "murder", },
-		original_tank_passive = { "shield", "flash_grenade", "murder", },
-		original_tank_aggressive = { "shield", "charge", "flash_grenade", "murder", },
-		original_tank_support = { "shield_cover", "ranged_fire", "murder", },
-		original_spooc_camper = { "no_push", },
-		original_spooc_assault = { "flank", "smoke_grenade", },
+	self:_moon_add_data({
+		tactics = {
+			empty = {},
+			original_swat_ranged = { "ranged_fire", },
+			original_swat_charge = { "charge", "smoke_grenade", "deathguard", },
+			original_swat_flank = { "flank", "flash_grenade", },
+			original_swat_support = { "unit_cover", },
+			original_shield_ranged = { "shield", "ranged_fire", "smoke_grenade", "deathguard", },
+			original_shield_charge = { "shield", "charge", "flash_grenade", "deathguard", },
+			original_shield_support = { "shield_cover", "ranged_fire", "deathguard", },
+			original_taser_flank = { "shield_cover", "flank", "smoke_grenade", "murder", },
+			original_taser_charge = { "shield_cover", "charge", "flash_grenade", "murder", },
+			original_taser_support = { "shield", "ranged_fire", "murder", },
+			original_tank_passive = { "shield", "flash_grenade", "murder", },
+			original_tank_aggressive = { "shield", "charge", "flash_grenade", "murder", },
+			original_tank_support = { "shield_cover", "ranged_fire", "murder", },
+			original_spooc_camper = { "no_push", },
+			original_spooc_assault = { "flank", "smoke_grenade", },
+		},
+		random_tactics = {
+			original_shield = { "original_shield_ranged", "original_shield_charge", },
+			original_taser = { "original_taser_flank", "original_taser_charge", },
+			original_tank = { "original_tank_passive", "original_tank_aggressive", },
+			original_spooc = { "original_spooc_camper", "original_spooc_assault", },
+		},
+		random_units = {
+			CS_special = { "CS_hrt_1_2_3_4", "CS_medic_1_2", },
+			FBI_cloaker_medic = { "FBI_spooc_1", "FBI_medic_1_2", },
+			FBI_taser_medic = { "FBI_taser_1", "FBI_medic_1_2", },
+			FBI_special = { "FBI_hrt_1_2_3_4", "FBI_spooc_1", "FBI_taser_1", "FBI_medic_1_2", },
+		},
 	})
 
-	local FBI_spooc_medic = { "FBI_spooc", "FBI_medic_1_2", }
-	local FBI_taser_medic = { "FBI_taser", "FBI_medic_1_2", }
-	local FBI_special = { "FBI_spooc", "FBI_taser", "FBI_medic_1", "FBI_medic_2", }
-
 	self.enemy_spawn_groups.original_swats_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -247,6 +272,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "CS_hrt_1_2_3_4",
+				random_unit = self._random_units.CS_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -254,6 +280,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_swats_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -276,8 +303,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_spooc",
-				random_unit = FBI_special,
+				unit = "FBI_spooc_1",
+				random_unit = self._random_units.FBI_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -286,6 +313,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 	}
 
 	self.enemy_spawn_groups.original_heavys_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -309,6 +337,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "CS_hrt_1_2_3_4",
+				random_unit = self._random_units.CS_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -316,6 +345,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_heavys_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -338,8 +368,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
-				random_unit = FBI_special,
+				unit = "FBI_taser_1",
+				random_unit = self._random_units.FBI_special,
 				tactics = self._tactics.original_swat_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -347,15 +377,15 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 
-	local shield_random_tactics = { self._tactics.original_shield_ranged, self._tactics.original_shield_charge, }
 	self.enemy_spawn_groups.original_shields_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "CS_shield",
+				unit = "CS_shield_1",
 				tactics = self._tactics.original_shield_ranged,
-				random_tactics = shield_random_tactics,
+				random_tactics = self._random_tactics.original_shield,
 				amount_min = 1,
 				amount_max = 1,
 				freq = self._freq.baseline,
@@ -369,13 +399,14 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_shields_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 3,
-				unit = "FBI_shield",
+				unit = "FBI_shield_1",
 				tactics = self._tactics.original_shield_ranged,
-				random_tactics = shield_random_tactics,
+				random_tactics = self._random_tactics.original_shield,
 				amount_min = 1,
 				amount_max = 2,
 				freq = self._freq.common,
@@ -401,8 +432,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
-				random_unit = FBI_taser_medic,
+				unit = "FBI_taser_1",
+				random_unit = self._random_units.FBI_taser_medic,
 				tactics = self._tactics.original_shield_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -410,15 +441,15 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 
-	local tazer_random_tactics = { self._tactics.original_tazer_flank, self._tactics.original_tazer_charge, }
-	self.enemy_spawn_groups.original_tazers_a = {
+	self.enemy_spawn_groups.original_tasers_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 1, 3 },
 		spawn = {
 			{
 				rank = 2,
-				unit = "CS_taser",
-				tactics = self._tactics.original_tazer_flank,
-				random_tactics = tazer_random_tactics,
+				unit = "CS_taser_1",
+				tactics = self._tactics.original_taser_flank,
+				random_tactics = self._random_tactics.original_taser,
 				amount_min = 1,
 				amount_max = 1,
 				freq = self._freq.baseline,
@@ -426,19 +457,20 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "CS_swat_1",
-				tactics = self._tactics.original_tazer_support,
+				tactics = self._tactics.original_taser_support,
 				freq = self._freq.baseline,
 			},
 		},
 	}
-	self.enemy_spawn_groups.original_tazers_b = {
+	self.enemy_spawn_groups.original_tasers_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 2, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_taser",
-				tactics = self._tactics.original_tazer_flank,
-				random_tactics = tazer_random_tactics,
+				unit = "FBI_taser_1",
+				tactics = self._tactics.original_taser_flank,
+				random_tactics = self._random_tactics.original_taser,
 				amount_min = 1,
 				amount_max = 2,
 				freq = self._freq.uncommon,
@@ -446,35 +478,35 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			{
 				rank = 1,
 				unit = "FBI_swat_1",
-				tactics = self._tactics.original_tazer_support,
+				tactics = self._tactics.original_taser_support,
 				freq = self._freq.baseline,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_2",
-				tactics = self._tactics.original_tazer_support,
+				tactics = self._tactics.original_taser_support,
 				freq = self._freq.common,
 			},
 			{
 				rank = 1,
-				unit = "FBI_spooc",
-				random_unit = FBI_spooc_medic,
-				tactics = self._tactics.original_tazer_support,
+				unit = "FBI_spooc_1",
+				random_unit = self._random_units.FBI_cloaker_medic,
+				tactics = self._tactics.original_taser_support,
 				amount_max = 1,
 				freq = self._freq.rare,
 			},
 		},
 	}
 
-	local tank_random_tactics = { self._tactics.original_tank_passive, self._tactics.original_tank_aggressive, }
 	self.enemy_spawn_groups.original_tanks_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 1, 3, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "CS_tank",
+				unit = "CS_dozer",
 				tactics = self._tactics.original_tank_passive,
-				random_tactics = tank_random_tactics,
+				random_tactics = self._random_tactics.original_tank,
 				amount_min = 1,
 				amount_max = 1,
 				freq = self._freq.baseline,
@@ -494,13 +526,14 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_tanks_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 2, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_tank",
+				unit = "FBI_dozer",
 				tactics = self._tactics.original_tank_passive,
-				random_tactics = tank_random_tactics,
+				random_tactics = self._random_tactics.original_tank,
 				amount_min = 1,
 				amount_max = 2,
 				freq = self._freq.elite,
@@ -519,8 +552,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
-				random_unit = FBI_taser_medic,
+				unit = "FBI_taser_1",
+				random_unit = self._random_units.FBI_taser_medic,
 				tactics = self._tactics.original_tank_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -528,28 +561,29 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 
-	local spooc_random_tactics = { self._tactics.original_spooc_camper, self._tactics.original_spooc_assault, }
 	self.enemy_spawn_groups.original_spoocs_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_spooc",
+				unit = "CS_spooc_1",
 				tactics = self._tactics.original_spooc_camper,
-				random_tactics = spooc_random_tactics,
+				random_tactics = self._random_tactics.original_spooc,
 				amount_min = 1,
 				freq = self._freq.baseline,
 			},
 		},
 	}
 	self.enemy_spawn_groups.original_spoocs_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 2, 2, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_spooc",
+				unit = "FBI_spooc_1",
 				tactics = self._tactics.original_spooc_camper,
-				random_tactics = spooc_random_tactics,
+				random_tactics = self._random_tactics.original_spooc,
 				amount_min = 1,
 				freq = self._freq.elite,
 			},
@@ -557,7 +591,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 				rank = 1,
 				unit = "FBI_hrt_3_4",
 				tactics = self._tactics.original_spooc_camper,
-				random_tactics = spooc_random_tactics,
+				random_tactics = self._random_tactics.original_spooc,
 				amount_max = 1,
 				freq = self._freq.baseline,
 			},
@@ -565,6 +599,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 	}
 
 	self.enemy_spawn_groups.original_recon_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -582,6 +617,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_recon_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -599,6 +635,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_recon_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -609,7 +646,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.empty,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -617,6 +654,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_recon_d = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -627,7 +665,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
+				unit = "FBI_taser_1",
 				tactics = self._tactics.empty,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -636,6 +674,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 	}
 
 	self.enemy_spawn_groups.original_reenforce_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -647,6 +686,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_reenforce_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -658,6 +698,7 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 		},
 	}
 	self.enemy_spawn_groups.original_reenforce_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -677,8 +718,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 			original_heavys_b = { 0, 0, 18, },
 			original_shields_a = { 0, special_weight, 0, },
 			original_shields_b = { 0, 0, special_weight * 2, },
-			original_tazers_a = { 0, special_weight, 0, },
-			original_tazers_b = { 0, 0, special_weight * 2, },
+			original_tasers_a = { 0, special_weight, 0, },
+			original_tasers_b = { 0, 0, special_weight * 2, },
 			original_tanks_a = { 0, special_weight * 0.5, 0, },
 			original_tanks_b = { 0, 0, special_weight, },
 			original_spoocs_a = { 0, special_weight * 0.5, 0, },
@@ -707,25 +748,33 @@ end
 
 -- spicier version of SH's default groups, featuring more shotgunners
 GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weight)
-	self:_moon_add_tactics({
-		empty = {},
-		streamlined_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
-		streamlined_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
-		streamlined_shotgun_support = { "charge", "unit_cover", "deathguard", },
-		streamlined_rifle_ranged = { "ranged_fire", "smoke_grenade", },
-		streamlined_rifle_flank = { "flank", "flash_grenade", },
-		streamlined_rifle_support = { "unit_cover", },
-		streamlined_shield_ranged = { "shield", "ranged_fire", "deathguard", },
-		streamlined_shield_support_ranged = { "shield_cover", "deathguard", },
-		streamlined_shield_charge = { "shield", "charge", "deathguard", },
-		streamlined_shield_support_charge = { "shield_cover", "deathguard", },
-		streamlined_tazer_flank = { "shield_cover", "flank", "flash_grenade", "murder", },
-		streamlined_tazer_support_flank = { "shield", "murder", },
-		streamlined_tazer_charge = { "shield_cover", "charge", "smoke_grenade", "murder", },
-		streamlined_tazer_support_charge = { "shield", "murder", },
-		streamlined_tank = { "shield", "charge", "murder", },
-		streamlined_tank_support = { "shield_cover", "murder", },
-		streamlined_spooc = { "flank", "smoke_grenade", },
+	self:_moon_add_data({
+		tactics = {
+			empty = {},
+			streamlined_shotgun_rush = { "charge", "smoke_grenade", "deathguard", },
+			streamlined_shotgun_flank = { "charge", "flank", "flash_grenade", "deathguard", },
+			streamlined_shotgun_support = { "charge", "unit_cover", "deathguard", },
+			streamlined_rifle_ranged = { "ranged_fire", "smoke_grenade", },
+			streamlined_rifle_flank = { "flank", "flash_grenade", },
+			streamlined_rifle_support = { "unit_cover", },
+			streamlined_shield_ranged = { "shield", "ranged_fire", "deathguard", },
+			streamlined_shield_support_ranged = { "shield_cover", "deathguard", },
+			streamlined_shield_charge = { "shield", "charge", "deathguard", },
+			streamlined_shield_support_charge = { "shield_cover", "deathguard", },
+			streamlined_taser_flank = { "shield_cover", "flank", "flash_grenade", "murder", },
+			streamlined_taser_support_flank = { "shield", "murder", },
+			streamlined_taser_charge = { "shield_cover", "charge", "smoke_grenade", "murder", },
+			streamlined_taser_support_charge = { "shield", "murder", },
+			streamlined_tank = { "shield", "charge", "murder", },
+			streamlined_tank_support = { "shield_cover", "murder", },
+			streamlined_spooc = { "flank", "smoke_grenade", },
+		},
+		random_units = {
+			FBI_hrt_medic_2 = { "FBI_hrt_3_4", "FBI_medic_2", },
+			FBI_cloaker_medic = { "FBI_spooc_1", "FBI_medic_2", },
+			FBI_hrt_medic_1 = { "FBI_hrt_1_2", "FBI_medic_1", },
+			FBI_taser_medic = { "FBI_taser_1", "FBI_medic_1", },
+		},
 	})
 
 	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
@@ -740,6 +789,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	}
 	local function no_medic_group(original_group)
 		local g = deep_clone(original_group)
+		g.moon_prefixes = { default = "CS", current = "CS", }
 
 		local unit_type, swap_unit
 		for i, enemy in table.reverse_ipairs(g.spawn) do
@@ -765,12 +815,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		return g
 	end
 
-	local FBI_hrt_medic_2 = { "FBI_hrt_3_4", "FBI_medic_2", }
-	local FBI_spooc_medic = { "FBI_spooc", "FBI_medic_2", }
-	local FBI_hrt_medic_1 = { "FBI_hrt_1_2", "FBI_medic_1", }
-	local FBI_taser_medic = { "FBI_taser", "FBI_medic_1", }
-
 	self.enemy_spawn_groups.streamlined_shotgun_rush_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -790,7 +836,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_hrt_3_4",
-				random_unit = FBI_hrt_medic_2,
+				random_unit = self._random_units.FBI_hrt_medic_2,
 				tactics = self._tactics.streamlined_shotgun_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
@@ -800,6 +846,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	self.enemy_spawn_groups.streamlined_shotgun_rush_a = no_medic_group(self.enemy_spawn_groups.streamlined_shotgun_rush_b)
 
 	self.enemy_spawn_groups.streamlined_shotgun_flank_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -818,8 +865,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "FBI_spooc",
-				random_unit = FBI_spooc_medic,
+				unit = "FBI_spooc_1",
+				random_unit = self._random_units.FBI_cloaker_medic,
 				tactics = self._tactics.streamlined_shotgun_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
@@ -829,6 +876,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	self.enemy_spawn_groups.streamlined_shotgun_flank_a = no_medic_group(self.enemy_spawn_groups.streamlined_shotgun_flank_b)
 
 	self.enemy_spawn_groups.streamlined_rifle_ranged_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -848,7 +896,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			{
 				rank = 1,
 				unit = "FBI_hrt_1_2",
-				random_unit = FBI_hrt_medic_1,
+				random_unit = self._random_units.FBI_hrt_medic_1,
 				tactics = self._tactics.streamlined_rifle_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
@@ -858,6 +906,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	self.enemy_spawn_groups.streamlined_rifle_ranged_a = no_medic_group(self.enemy_spawn_groups.streamlined_rifle_ranged_b)
 
 	self.enemy_spawn_groups.streamlined_rifle_flank_b = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -876,8 +925,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
-				random_unit = FBI_taser_medic,
+				unit = "FBI_taser_1",
+				random_unit = self._random_units.FBI_taser_medic,
 				tactics = self._tactics.streamlined_rifle_support,
 				amount_max = 1,
 				freq = self._freq.uncommon,
@@ -887,11 +936,12 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	self.enemy_spawn_groups.streamlined_rifle_flank_a = no_medic_group(self.enemy_spawn_groups.streamlined_rifle_flank_b)
 
 	self.enemy_spawn_groups.streamlined_shield_ranged = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_shield",
+				unit = "FBI_shield_1",
 				tactics = self._tactics.streamlined_shield_ranged,
 				amount_min = 1,
 				amount_max = 2,
@@ -921,11 +971,12 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	}
 
 	self.enemy_spawn_groups.streamlined_shield_charge = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_shield",
+				unit = "FBI_shield_1",
 				tactics = self._tactics.streamlined_shield_charge,
 				amount_min = 1,
 				amount_max = 2,
@@ -954,66 +1005,69 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		},
 	}
 
-	self.enemy_spawn_groups.streamlined_tazer_flank = {
+	self.enemy_spawn_groups.streamlined_taser_flank = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_taser",
-				tactics = self._tactics.streamlined_tazer_flank,
+				unit = "FBI_taser_1",
+				tactics = self._tactics.streamlined_taser_flank,
 				amount_min = 1,
 				amount_max = 2,
 				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
-				unit = "FBI_spooc",
-				tactics = self._tactics.streamlined_tazer_support_flank,
+				unit = "FBI_spooc_1",
+				tactics = self._tactics.streamlined_taser_support_flank,
 				amount_max = 1,
 				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_3",
-				tactics = self._tactics.streamlined_tazer_support_flank,
+				tactics = self._tactics.streamlined_taser_support_flank,
 				freq = self._freq.baseline,
 			},
 		},
 	}
 
-	self.enemy_spawn_groups.streamlined_tazer_charge = {
+	self.enemy_spawn_groups.streamlined_taser_charge = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_taser",
-				tactics = self._tactics.streamlined_tazer_charge,
+				unit = "FBI_taser_1",
+				tactics = self._tactics.streamlined_taser_charge,
 				amount_min = 1,
 				amount_max = 2,
 				freq = self._freq.uncommon,
 			},
 			{
 				rank = 1,
-				unit = "FBI_shield",
-				tactics = self._tactics.streamlined_tazer_support_charge,
+				unit = "FBI_shield_1",
+				tactics = self._tactics.streamlined_taser_support_charge,
 				amount_max = 1,
 				freq = self._freq.elite,
 			},
 			{
 				rank = 1,
 				unit = "FBI_swat_2",
-				tactics = self._tactics.streamlined_tazer_support_charge,
+				tactics = self._tactics.streamlined_taser_support_charge,
 				freq = self._freq.baseline,
 			},
 		},
 	}
 
 	self.enemy_spawn_groups.streamlined_tank = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_tank",
+				unit = "FBI_dozer",
 				tactics = self._tactics.streamlined_tank,
 				amount_min = 1,
 				amount_max = 2,
@@ -1021,7 +1075,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "FBI_taser",
+				unit = "FBI_taser_1",
 				tactics = self._tactics.streamlined_tank_support,
 				amount_max = 1,
 				freq = self._freq.rare,
@@ -1042,11 +1096,12 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	}
 
 	self.enemy_spawn_groups.streamlined_spooc = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 1, 2, },
 		spawn = {
 			{
 				rank = 2,
-				unit = "FBI_spooc",
+				unit = "FBI_spooc_1",
 				tactics = self._tactics.streamlined_spooc,
 				amount_min = 1,
 				amount_max = 2,
@@ -1063,6 +1118,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	}
 
 	self.enemy_spawn_groups.streamlined_hostage_rescue = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1074,7 +1130,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			},
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.streamlined_rifle_flank,
 				amount_max = 1,
 				freq = self._freq.elite,
@@ -1083,6 +1139,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	}
 
 	self.enemy_spawn_groups.streamlined_reenforce_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1100,6 +1157,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		},
 	}
 	self.enemy_spawn_groups.streamlined_reenforce_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1123,6 +1181,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		},
 	}
 	self.enemy_spawn_groups.streamlined_reenforce_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1158,8 +1217,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			streamlined_rifle_flank_b = { 3.5, 5.25, 7, },
 			streamlined_shield_ranged = { 0, special_weight * 0.5, special_weight, },
 			streamlined_shield_charge = { 0, special_weight * 0.5, special_weight, },
-			streamlined_tazer_flank = { 0, special_weight * 0.5, special_weight, },
-			streamlined_tazer_charge = { 0, special_weight * 0.5, special_weight, },
+			streamlined_taser_flank = { 0, special_weight * 0.5, special_weight, },
+			streamlined_taser_charge = { 0, special_weight * 0.5, special_weight, },
 			streamlined_tank = { 0, special_weight * 0.5, special_weight, },
 			streamlined_spooc = { 0, special_weight * 0.5, special_weight, },
 		},
@@ -1169,7 +1228,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 			streamlined_shotgun_flank_b = { 0, 0, 0, },
 			streamlined_rifle_flank_a = { 0, 0, 1, },
 			streamlined_rifle_flank_b = { 0, 0, 0, },
-			streamlined_tazer_flank = { 0, 0, 0, },
+			streamlined_taser_flank = { 0, 0, 0, },
 			streamlined_spooc = { 0, 0, 0, },
 		},
 		reenforce = {
@@ -1204,22 +1263,24 @@ end
 
 -- pd3-styled spawns
 GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_weight)
-	self:_moon_add_tactics({
-		empty = {},
-		chicken_plate_hrt_pistol = { "shield_cover", "flank", "deathguard", "ranged_fire", },
-		chicken_plate_hrt_shotgun = { "shield_cover", "flank", "deathguard", "charge", },
-		chicken_plate_swat_rifle = { "shield_cover", "ranged_fire", },
-		chicken_plate_swat_shotgun = { "shield_cover", "smoke_grenade", "deathguard", },
-		chicken_plate_swat_smg = { "shield_cover", "murder", "flank", "flash_grenade", },
-		chicken_plate_heavy_rifle = { "shield_cover", "flash_grenade", "deathguard", },
-		chicken_plate_heavy_shotgun = { "shield_cover", "charge", "smoke_grenade", },
-		chicken_plate_heavy_smg = { "shield_cover", "murder", "flank", "deathguard", },
-		chicken_plate_shield = { "shield", "deathguard", "ranged_fire", },
-		chicken_plate_taser = { "unit_cover", "murder", "charge", "flank", },
-		chicken_plate_tank = { "shield", "murder", "charge", "smoke_grenade", },
-		chicken_plate_spooc = { "shield_cover", "murder", "flank", "smoke_grenade", },
-		chicken_plate_medic_rifle = { "unit_cover", "flank", "ranged_fire", "no_push", },
-		chicken_plate_medic_shotgun = { "unit_cover", "flank", "deathguard", "no_push", },
+	self:_moon_add_data({
+		tactics = {
+			empty = {},
+			chicken_plate_hrt_pistol = { "shield_cover", "flank", "deathguard", "ranged_fire", },
+			chicken_plate_hrt_shotgun = { "shield_cover", "flank", "deathguard", "charge", },
+			chicken_plate_swat_rifle = { "shield_cover", "ranged_fire", },
+			chicken_plate_swat_shotgun = { "shield_cover", "smoke_grenade", "deathguard", },
+			chicken_plate_swat_smg = { "shield_cover", "murder", "flank", "flash_grenade", },
+			chicken_plate_heavy_rifle = { "shield_cover", "flash_grenade", "deathguard", },
+			chicken_plate_heavy_shotgun = { "shield_cover", "charge", "smoke_grenade", },
+			chicken_plate_heavy_smg = { "shield_cover", "murder", "flank", "deathguard", },
+			chicken_plate_shield = { "shield", "deathguard", "ranged_fire", },
+			chicken_plate_taser = { "unit_cover", "murder", "charge", "flank", },
+			chicken_plate_tank = { "shield", "murder", "charge", "smoke_grenade", },
+			chicken_plate_spooc = { "shield_cover", "murder", "flank", "smoke_grenade", },
+			chicken_plate_medic_rifle = { "unit_cover", "flank", "ranged_fire", "no_push", },
+			chicken_plate_medic_shotgun = { "unit_cover", "flank", "deathguard", "no_push", },
+		},
 	})
 
 	local meta = {
@@ -1254,6 +1315,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	end
 
 	self.enemy_spawn_groups.chicken_plate_hrt_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 2, },
 		spawn = {
 			{
@@ -1273,6 +1335,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1292,6 +1355,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -1311,6 +1375,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1330,6 +1395,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1349,6 +1415,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_hrt_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
@@ -1377,6 +1444,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1396,6 +1464,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -1415,6 +1484,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -1434,6 +1504,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1453,6 +1524,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1472,6 +1544,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_ar_smg_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
@@ -1500,6 +1573,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1519,6 +1593,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
@@ -1538,6 +1613,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
@@ -1557,6 +1633,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1576,6 +1653,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
@@ -1595,6 +1673,7 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_assault_smg_sg_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
@@ -1623,11 +1702,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_shield_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 2, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_shield",
+				unit = "CS_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 1,
@@ -1642,11 +1722,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_shield",
+				unit = "CS_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 2,
@@ -1662,11 +1743,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_shield",
+				unit = "CS_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 2,
@@ -1688,11 +1770,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_shield",
+				unit = "CS_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 2,
@@ -1714,11 +1797,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_shield",
+				unit = "FBI_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 2,
@@ -1741,11 +1825,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_shield_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_shield",
+				unit = "FBI_shield_1",
 				tactics = self._tactics.chicken_plate_shield,
 				amount_min = 1,
 				amount_max = 2,
@@ -1776,11 +1861,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_taser_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 2, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 1,
@@ -1795,11 +1881,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 1,
@@ -1814,11 +1901,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 2,
@@ -1840,11 +1928,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_taser",
+				unit = "CS_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 2,
@@ -1866,11 +1955,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_taser",
+				unit = "FBI_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 2,
@@ -1893,11 +1983,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_taser_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_taser",
+				unit = "FBI_taser_1",
 				tactics = self._tactics.chicken_plate_taser,
 				amount_min = 1,
 				amount_max = 2,
@@ -1929,11 +2020,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_tank_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 2, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_tank",
+				unit = "CS_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 1,
@@ -1948,11 +2040,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank_b = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 2, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_tank",
+				unit = "CS_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 1,
@@ -1967,11 +2060,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank_c = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_tank",
+				unit = "CS_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 1,
@@ -1993,11 +2087,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank_d = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 3, 3, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_tank",
+				unit = "CS_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 1,
@@ -2019,11 +2114,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 3, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_tank",
+				unit = "FBI_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 1,
@@ -2045,11 +2141,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_tank_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 4, 4, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_tank",
+				unit = "FBI_dozer",
 				tactics = self._tactics.chicken_plate_tank,
 				amount_min = 1,
 				amount_max = 2,
@@ -2080,11 +2177,12 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 
 	self.enemy_spawn_groups.chicken_plate_spooc_a = {
+		moon_prefixes = { default = "CS", current = "CS", },
 		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "CS_spooc",
+				unit = "CS_spooc_1",
 				tactics = self._tactics.chicken_plate_spooc,
 				freq = self._freq.baseline,
 			},
@@ -2094,22 +2192,24 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	self.enemy_spawn_groups.chicken_plate_spooc_c = self.enemy_spawn_groups.chicken_plate_spooc_b
 	self.enemy_spawn_groups.chicken_plate_spooc_d = self.enemy_spawn_groups.chicken_plate_spooc_c
 	self.enemy_spawn_groups.chicken_plate_spooc_e = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 1, 1, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_spooc",
+				unit = "FBI_spooc_1",
 				tactics = self._tactics.chicken_plate_spooc,
 				freq = self._freq.baseline,
 			},
 		},
 	}
 	self.enemy_spawn_groups.chicken_plate_spooc_f = {
+		moon_prefixes = { default = "FBI", current = "FBI", },
 		amount = { 1, 2, },
 		spawn = {
 			{
 				rank = 1,
-				unit = "FBI_spooc",
+				unit = "FBI_spooc_1",
 				tactics = self._tactics.chicken_plate_spooc,
 				freq = self._freq.baseline,
 			},
@@ -2152,9 +2252,6 @@ end
 -- groups for BeardLib Editor, clean up spawn group element view
 GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 	local vanilla_groups = table.list_to_set({
-		"tac_swat_shotgun_rush",
-		"tac_swat_shotgun_flank",
-		"tac_swat_rifle",
 		"tac_swat_rifle_flank",
 		"tac_shield_wall_ranged",
 		"tac_shield_wall_charge",
@@ -2175,9 +2272,6 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 
 	self:_moon_set_weights({
 		assault = {
-			tac_swat_shotgun_rush = { 1, 1, 1, },  -- in case of a custom map that supports these
-			tac_swat_shotgun_flank = { 1, 1, 1, },
-			tac_swat_rifle = { 1, 1, 1, },
 			tac_swat_rifle_flank = { 6, 6, 6, },
 			tac_shield_wall_ranged = { 1, 1, 1, },
 			tac_shield_wall_charge = { 1, 1, 1, },
@@ -2187,13 +2281,10 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 			FBI_spoocs = { 1, 1, 1, },
 		},
 		recon = {
-			tac_swat_shotgun_flank = { 1, 1, 1, },
 			tac_swat_rifle_flank = { 1, 1, 1, },
 		},
 		reenforce = {
-			tac_swat_shotgun_rush = { 1, 1, 1, },
-			tac_swat_rifle = { 1, 1, 1, },
-			tac_swat_rifle_flank = { 0.001, 0.001, 0.001, },
+			tac_swat_rifle_flank = { 1, 1, 1, },
 		},
 	})
 end
@@ -2221,26 +2312,36 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 			end
 		end
 	end
-
 	-- swap vanilla units in all preexisting groups to ASS's naming scheme
+	local is_cs
+	local ignore_groups = table.set("Phalanx", "snowman_boss", "piggydozer")
 	local vanilla_category_translations = self.tweak_data.moon.vanilla_category_translations
 	for id, data in pairs(self.enemy_spawn_groups) do
-		for _, enemy in pairs(data.spawn) do
-			enemy.unit = vanilla_category_translations[enemy.unit] or enemy.unit
+		if not ignore_groups[id] then
+			for name in pairs(id_matches) do
+				is_cs = id:match(name)
 
-			local category = self.unit_categories[enemy.unit]
-			local special_type = category and not category.is_captain and category.special_type
-			if special_type == "medic" then
-				enemy.freq = get_medic_freq(id) or default_medic_freq
-			elseif special_type == "shield" then
-				enemy.freq = default_shield_freq
+				if is_cs then
+					break
+				end
 			end
 
-			for name in pairs(id_matches) do
-				if id:match(name) then
-					enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+			if is_cs then
+				data.moon_prefixes = { default = "CS", current = "CS", }
+			else
+				data.moon_prefixes = { default = "FBI", current = "FBI", }
+			end
 
-					break
+			for _, enemy in pairs(data.spawn) do
+				enemy.unit = vanilla_category_translations[enemy.unit] or enemy.unit
+				enemy.unit = is_cs and self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+
+				local category = self.unit_categories[enemy.unit]
+				local special_type = category and not category.is_captain and category.special_type
+				if special_type == "medic" then
+					enemy.freq = get_medic_freq(id) or default_medic_freq
+				elseif special_type == "shield" then
+					enemy.freq = default_shield_freq
 				end
 			end
 		end
@@ -2419,8 +2520,9 @@ end
 
 function GroupAITweakData:_moon_init_unit_categories()
 	local unit_types
+	local unit_categories = self.unit_categories
 
-	for _, data in pairs(self.unit_categories) do
+	for _, data in pairs(unit_categories) do
 		if data.unit_types then
 			unit_types = table.map_keys(data.unit_types)
 
@@ -2453,8 +2555,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 		return category
 	end
 
-	for id, data in pairs({
-		spooc = {
+	local prefixes = table.set("CS", "FBI")
+	local new_categories = {
+		spooc_1 = {
 			special_type = "spooc",
 			u_keys = {
 				cloaker = 1,
@@ -2515,6 +2618,18 @@ function GroupAITweakData:_moon_init_unit_categories()
 				swat_3 = 1,
 			},
 		},
+		swat_1_3 = {
+			u_keys = {
+				swat_1 = 1,
+				swat_3 = 1,
+			},
+		},
+		swat_2_3 = {
+			u_keys = {
+				swat_2 = 1,
+				swat_3 = 1,
+			},
+		},
 		swat_1_2_3 = {
 			u_keys = {
 				swat_1 = 1,
@@ -2537,6 +2652,18 @@ function GroupAITweakData:_moon_init_unit_categories()
 				heavy_3 = 1,
 			},
 		},
+		heavy_1_3 = {
+			u_keys = {
+				heavy_1 = 1,
+				heavy_3 = 1,
+			},
+		},
+		heavy_2_3 = {
+			u_keys = {
+				heavy_2 = 1,
+				heavy_3 = 1,
+			},
+		},
 		heavy_1_2_3 = {
 			u_keys = {
 				heavy_1 = 1,
@@ -2544,20 +2671,20 @@ function GroupAITweakData:_moon_init_unit_categories()
 				heavy_3 = 1,
 			},
 		},
-		shield = {
+		shield_1 = {
 			access = access_walk,
 			special_type = "shield",
 			u_keys = {
 				shield = 1,
 			},
 		},
-		taser = {
+		taser_1 = {
 			special_type = "taser",
 			u_keys = {
 				taser = 1,
 			},
 		},
-		tank = {
+		dozer = {
 			special_type = "tank",
 			u_keys = {
 				dozer_1 = 1,  -- always present
@@ -2567,7 +2694,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 				dozer_5 = dozer_difficulty_threshold("dozer_5"),
 			},
 		},
-		titan = {
+		dozer_headless = {
 			special_type = "tank",
 			u_keys = {
 				dozer_hw = 1,
@@ -2603,13 +2730,25 @@ function GroupAITweakData:_moon_init_unit_categories()
 				marshal_2 = 1,
 			},
 		},
-	}) do
-		self.unit_categories["CS_" .. id] = generate_category(data)
-		self.unit_categories["FBI_" .. id] = generate_category(data)
-	end
+	}
 
-	for id, based_on in pairs(self.tweak_data.moon.vanilla_category_translations) do
-		self.unit_categories[id] = self.unit_categories[based_on]
+	local special_type
+	for id, data in pairs(new_categories) do
+		for prefix in pairs(prefixes) do
+			unit_categories[prefix .. "_" .. id] = generate_category(data)
+
+			-- except for shields, don't allow disabled specials in no limit categories
+			if data.special_type then
+				if data.special_type == "shield" then
+					special_type = nil
+				else
+					special_type = self.special_unit_spawn_limits[data.special_type] == 0 and data.special_type or nil
+				end
+
+				unit_categories[prefix .. "_" .. id .. "_no_limit"] = generate_category(data)
+				unit_categories[prefix .. "_" .. id .. "_no_limit"].special_type = special_type
+			end
+		end
 	end
 
 	local tiers_by_difficulty = {
@@ -2622,7 +2761,6 @@ function GroupAITweakData:_moon_init_unit_categories()
 		awesome_difficulty_name = { CS = "overkill_290", FBI = "sm_wish", },
 		sm_wish = { CS = "sm_wish", FBI = "sm_wish", },
 	}
-
 	self:moon_swap_units(tiers_by_difficulty[ASS.level_mod])
 end
 
