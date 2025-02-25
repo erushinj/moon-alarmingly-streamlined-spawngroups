@@ -151,23 +151,36 @@ function MoonTweakData:init_spawn_group_mapping()
 	}
 end
 
--- difficulty value threshold to use FBI-tier scripted spawns rather than CS-tier
--- 0 means always FBI, 1 means always CS, anything between can change dynamically
-function MoonTweakData:init_swap_scripted_prefix_threshold()
-	self.swap_scripted_prefix_threshold = ({
-		jewelry_store = 1,
-		four_stores = 1,
-		nightclub = 1,
-		mallcrasher = 1,
-		ukrainian_job_prof = 1,
-		branchbank_deposit = 1,
-		branchbank_cash = 1,
-		branchbank_prof = 1,
-		branchbank_gold_prof = 1,
-		family = 1,
-		flat = 0.75,
-		dinner = 0.5,
-	})[clean_level_id] or 0.9
+function MoonTweakData:init_swap_prefix_thresholds()
+	local all_prefix_thresholds = {
+		default = {
+			scripted = {
+				{ 0.9, "FBI", },
+			},
+		},
+		flat = {
+			scripted = {
+				{ 0.75, "FBI", },
+			},
+			assault = {
+				{ 0, "CS", },
+				{ 0.75, "default", },
+				{ 1, "FBI", },
+			},
+		},
+		dinner = {
+			scripted = {
+				{ 0.5, "FBI", },
+			},
+			assault = {
+				{ 0, "CS", },
+				{ 0.5, "default", },
+				{ 0.75, "FBI", },
+			},
+		},
+	}
+
+	self.swap_prefix_thresholds = all_prefix_thresholds[clean_level_id] or all_prefix_thresholds.default
 end
 
 -- level mod data for each wave in holdout up to 9

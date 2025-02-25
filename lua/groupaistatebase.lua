@@ -2,20 +2,27 @@ if ASS.is_client then
 	return
 end
 
-local get_prefix = {
-	[0] = "FBI",  -- threshold is 0
-	[1] = "CS",  -- threshold is 1
-	[true] = "FBI",  -- difficulty greater than threshold
-	[false] = "CS",  -- difficulty less than or equal to threshold
-}
+local function get_prefix(typ, difficulty_value)
+	local thresholds = tweak_data.moon.swap_prefix_thresholds[typ]
+
+	if thresholds and difficulty_value then
+		for _, data in table.reverse_ipairs(thresholds) do
+			if data[1] < difficulty_value then
+				return data[2] or "default"
+			elseif data[1] == difficulty_value and (data[1] == 0 or data[1] == 1) then
+				return data[2] or "default"
+			end
+		end
+	end
+
+	return "default"
+end
+
 function GroupAIStateBase:moon_get_scripted_tier()
 	local last_tiers = tweak_data.group_ai.moon_last_tiers
 
 	if last_tiers then
-		local threshold = tweak_data.moon.swap_scripted_prefix_threshold
-		local wanted_prefix = get_prefix[threshold] or get_prefix[self._difficulty_value > threshold]
-
-		return last_tiers[wanted_prefix] or last_tiers.CS
+		return last_tiers[get_prefix("scripted", self._difficulty_value)] or last_tiers.CS
 	end
 end
 
@@ -39,15 +46,20 @@ if ASS.settings.doms_super_serious then
 end
 
 -- force diff to 1 in loud if the setting is enabled
-if ASS.settings.max_diff then
+local max_diff = ASS.settings.max_diff
+if max_diff then
 	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:_calculate_difficulty_ratio\"...")
+end
 
-	Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)
+Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)
+	if max_diff then
 		self._difficulty_point_index = #tweak_data.group_ai.difficulty_curve_points + 1
 		self._difficulty_value = 1
 		self._difficulty_ramp = 1
-	end )
-end
+	end
+
+	tweak_data.group_ai:moon_swap_prefixes_in_groups(get_prefix("assault", self._difficulty_value))
+end )
 
 -- cloaker task fuck off
 Hooks:OverrideFunction( GroupAIStateBase, "_process_recurring_grp_SO", function(...) end )

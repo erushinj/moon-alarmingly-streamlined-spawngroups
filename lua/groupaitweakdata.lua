@@ -76,6 +76,28 @@ function GroupAITweakData:moon_swap_units(tiers)
 	end
 end
 
+function GroupAITweakData:moon_swap_prefixes_in_groups(prefix)
+	prefix = prefix == "CS" and "CS" or prefix == "FBI" and "FBI" or nil
+
+	if prefix == self.moon_last_prefix then
+		return
+	end
+
+	self.moon_last_prefix = prefix
+	for _, data in pairs(self.enemy_spawn_groups) do
+		local prefix_data = data.moon_prefixes
+		local wanted = prefix or prefix_data and prefix_data.default
+
+		if prefix_data and prefix_data.current ~= wanted then
+			prefix_data.current = wanted
+
+			for _, enemy in pairs(data.spawn) do
+				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+			end
+		end
+	end
+end
+
 function GroupAITweakData:_moon_add_data(new_data)
 	for name, tbl in pairs(new_data) do
 		name = "_" .. name
