@@ -2713,3 +2713,42 @@ function MoonTweakData:init_enemy_replacements(continent)
 
 	self.enemy_replacements = replacements
 end
+
+function MoonTweakData:init_unit_smg_replacements()
+	local unit_smg_replacements = {
+		america = {
+			normal = "ump",
+		},
+		russia = {
+			normal = "asval_smg",
+		},
+	}
+
+	for _, tbl in ipairs({
+		{
+			easy = "normal",
+			hard = "normal",
+			overkill = "normal",
+			overkill_145 = "normal",
+		},
+		{
+			easy_wish = "overkill_145",
+			overkill_290 = "overkill_145",
+		},
+		{
+			sm_wish = "overkill_290",
+		},
+	}) do
+		for diff, based_on in pairs(tbl) do
+			for _, v in pairs(unit_smg_replacements) do
+				v[diff] = v[diff] or v[based_on]
+			end
+		end
+	end
+
+	for faction in pairs(self.enemy_replacements) do
+		unit_smg_replacements[faction] = unit_smg_replacements[faction] or clone(unit_smg_replacements.america)
+	end
+
+	self.unit_smg_replacements = unit_smg_replacements
+end

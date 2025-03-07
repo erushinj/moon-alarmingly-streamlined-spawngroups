@@ -621,16 +621,15 @@ if not ASS then
 	ASS.assault_style = is_editor and "editor" or ass_gsub("default", "assault_style")
 	ASS.skill = ass_gsub(2, "skill")
 	ASS.difficulty_index = ASS.settings.max_values and 8 or real_difficulty_index
-	ASS.smg_units = ass_gsub("both", "smg_units")
 	ASS.wanted_enemy_weapon_tweaks = {
-		shield = ass_gsub("both", "unit_weapons", "shield_arms"),
-		taser = ass_gsub("default", "unit_weapons", "taser_dazers"),
-		cloaker = ass_gsub("default", "unit_weapons", "cloaker_balance"),
-		medic_rifle = ass_gsub("default", "unit_weapons", "medic_ordnance"),
-		medic_shotgun = ass_gsub("default", "unit_weapons", "medical_ordinance"),
-		medic_dozer = ass_gsub("default", "unit_weapons", "geneva_suggestion"),
-		pistol_rifle_hrts = ass_gsub("default", "unit_weapons", "police_rifle_funding"),
-		shotgun_revolver_hrts = ass_gsub("default", "unit_weapons", "police_shotgun_funding"),
+		shield = ass_gsub("pistols", "unit_weapons", "shield_arms"),
+		taser = ass_gsub("sko12s", "unit_weapons", "taser_dazers"),
+		cloaker = ass_gsub("both", "unit_weapons", "cloaker_balance"),
+		medic_rifle = ass_gsub("deagles", "unit_weapons", "medic_ordnance"),
+		medic_shotgun = ass_gsub("saigas", "unit_weapons", "medical_ordinance"),
+		medic_dozer = ass_gsub("both", "unit_weapons", "geneva_suggestion"),
+		pistol_rifle_hrts = ass_gsub("pistols", "unit_weapons", "police_rifle_funding"),
+		shotgun_revolver_hrts = ass_gsub("shotguns", "unit_weapons", "police_shotgun_funding"),
 	}
 
 	local function get_dozer_rainbow_type(typ, default)

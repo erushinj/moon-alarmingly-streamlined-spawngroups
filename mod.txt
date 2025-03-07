@@ -26,6 +26,7 @@
 		{ "hook_id" : "lib/tweak_data/skirmishtweakdata", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/tweak_data/tweakdatapd2", "script_path" : "mod.lua" },
 		{ "hook_id" : "lib/units/enemies/cop/copbase", "script_path" : "mod.lua" }
+		{ "hook_id" : "lib/units/enemies/cop/copbrain", "script_path" : "mod.lua" }
 	],
 	"updates" : [
 		{
