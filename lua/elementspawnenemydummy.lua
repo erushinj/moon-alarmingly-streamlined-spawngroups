@@ -77,6 +77,8 @@ function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 
 	self._enemy_name = self._original_enemy_name
 
+	unit:brain():moon_try_swap_rifle_to_smg(0.5)
+
 	return unit
 end
 
