@@ -12,6 +12,20 @@ Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
 	end
 end )
 
+Hooks:PostHook( MissionManager, "call_global_event", "ass_call_global_event", function(self, event)
+	if event == "end_assault" and tweak_data.group_ai.moon_altered_diff then
+		local state = managers.groupai:state()
+
+		state:set_difficulty(math.min(1, state._difficulty_value + 0.3))
+	end
+end )
+
+Hooks:PreHook( ElementDifficulty, "on_executed", "ass_on_executed", function(self)
+	if tweak_data.group_ai.moon_altered_diff and self._values.difficulty > 0 then
+		self._values.difficulty = 0.1
+	end
+end )
+
 local custom_element_ids = {}
 local last_id = 0
 local add_save_state_cb_original = MissionScript.add_save_state_cb
@@ -189,6 +203,13 @@ Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patch
 		return self._mission_script_patches
 	end
 end )
+
+local mission_script_patch_funcs_difficulty_original = MissionManager.mission_script_patch_funcs.difficulty
+MissionManager.mission_script_patch_funcs.difficulty = function(self, element, data)
+	if data == 0 or not tweak_data.group_ai.moon_altered_diff then
+		mission_script_patch_funcs_difficulty_original(self, element, data)
+	end
+end
 
 -- ElementRandom clones on_executed on init, need to handle it
 local mission_script_patch_funcs_on_executed_original = MissionManager.mission_script_patch_funcs.on_executed

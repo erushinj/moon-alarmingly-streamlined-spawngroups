@@ -26,6 +26,42 @@ function GroupAIStateBase:moon_get_scripted_tier()
 	end
 end
 
+local set_difficulty_original = GroupAIStateBase.set_difficulty
+function GroupAIStateBase:set_difficulty(value, ...)
+	if not tweak_data.group_ai.moon_altered_diff then
+		return set_difficulty_original(self, value, ...)
+	end
+
+	if value == 0 or value > self._difficulty_value then
+		return set_difficulty_original(self, value, ...)
+	end
+end
+
+Hooks:PreHook( GroupAIStateBase, "_update_difficulty_value", "ass__update_difficulty_value", function(self)
+	if tweak_data.group_ai.moon_altered_diff then
+		self._next_difficulty_step_t = -1
+		self._difficulty_step = 1
+	end
+end )
+
+Hooks:PostHook( GroupAIStateBase, "hostage_killed", "ass_hostage_killed", function(self, killer_unit)
+	if not tweak_data.group_ai.moon_altered_diff or not alive(killer_unit) then
+		return
+	end
+
+	if killer_unit:base() and killer_unit:base().thrower_unit then
+		killer_unit = killer_unit:base():thrower_unit()
+
+		if not alive(killer_unit) then
+			return
+		end
+	end
+
+	if self._criminals[killer_unit:key()] then
+		self:set_difficulty(math.min(1, self._difficulty_value + 0.1))
+	end
+end )
+
 if ASS.settings.max_balance_muls then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 

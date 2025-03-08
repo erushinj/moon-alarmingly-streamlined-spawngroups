@@ -2797,4 +2797,6 @@ Hooks:PostHook( GroupAITweakData, "init", "ass_init", function(self, tweak_data)
 	self:_moon_init_unit_categories()
 	self:_moon_init_enemy_spawn_groups()
 	self:_moon_init_task_data()
+
+	self.moon_altered_diff = self.moon_assault_style == "chicken_plate"
 end )
