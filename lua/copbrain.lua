@@ -30,7 +30,13 @@ function CopBrain:moon_try_swap_rifle_to_smg(replacement_chance)
 	local base, inventory = self._unit:base(), self._unit:inventory()
 	if base and inventory then
 		base._default_weapon_id = replace_id
+		local weapon = inventory:get_weapon()
+
 		inventory:add_unit_by_name(replace_weapon, true)
+
+		if alive(weapon) then
+			weapon:set_slot(0)
+		end
 	end
 end
 
