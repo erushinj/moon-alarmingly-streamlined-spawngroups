@@ -376,6 +376,7 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 		element._possible_enemies = data
 		element._patched_enemy_name = data[1]
 	else
+		element._possible_enemies = false
 		element._patched_enemy_name = data
 	end
 

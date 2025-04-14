@@ -48,12 +48,10 @@ Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 		local mapped = tweak_data.moon.enemy_mapping[self._enemy_name:key()]
 		local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
 		local units = tweak_data.moon.units[typ]
+		local patch_funcs = managers.mission and managers.mission.mission_script_patch_funcs
 
-		if type(units) == "table" then
-			self._possible_enemies = units
-			self._patched_enemy_name = units[1]
-		else
-			self._patched_enemy_name = units or nil
+		if units and patch_funcs and patch_funcs.enemy then
+			patch_funcs.enemy(managers.mission, self, units)
 		end
 	end
 end )
