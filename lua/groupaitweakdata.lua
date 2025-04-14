@@ -829,7 +829,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 				end
 
 				if unit_type == "heavy" then
-					enemy.freq = self._freq.common
+					enemy.amount_max = (enemy.amount_min or 0) + 1
 				end
 			end
 		end
