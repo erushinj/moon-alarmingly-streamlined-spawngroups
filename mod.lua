@@ -51,6 +51,7 @@ if not ASS then
 		level_mod = 3,  -- index into ASS.values.level_mod
 		assault_style = 1,  -- index into ASS.values.assault_style
 		skill = 2,  -- index into ASS.values.skill
+		pro_job = false,
 		doms_scale = false,  -- whether to make dominations harder on higher difficulties
 		doms_all_hard = false,  -- whether to make all dominatable enemies use hardest preset
 		doms_super_serious = false,  -- whether to allow dominations during assault
@@ -180,6 +181,9 @@ if not ASS then
 		skill = {
 			priority = priority(),
 			items = ASS.values.skill,
+		},
+		pro_job = {
+			priority = priority(),
 			divider = divider,
 		},
 
