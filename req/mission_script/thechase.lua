@@ -1,14 +1,13 @@
 local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local swats_heavys = {
-	enemy = tweak_data.moon.units.swats_heavys,
-	static_spawn = {
-		continent = "bo_scripted",
+	enemy = {
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
 	},
 }
 local shield = {
-	enemy = tweak_data.moon.units.shield,
-	static_spawn = swats_heavys.static_spawn,
+	enemy = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"),
 }
 local dozers_any = {
 	enemy = tweak_data.moon.units.dozers_any,

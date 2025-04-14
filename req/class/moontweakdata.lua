@@ -347,7 +347,6 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"):key()] = "swat_1",
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_m4/ene_ovk_m4"):key()] = "swat_1",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_g36/ene_bofa_g36"):key()] = "swat_1",
-		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "swat_1",
 
 		[("units/payday2/characters/ene_swat_2/ene_swat_2"):key()] = "swat_2",
 		[("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"):key()] = "swat_2",
@@ -418,7 +417,6 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_m4/ene_sbz_heavy_m4"):key()] = "heavy_1",
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_m4/ene_ovk_heavy_m4"):key()] = "heavy_1",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_g36/ene_bofa_heavy_g36"):key()] = "heavy_1",
-		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "heavy_1",
 
 		[("units/payday2/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"):key()] = "heavy_2",
 		[("units/payday2/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870"):key()] = "heavy_2",
@@ -468,7 +466,6 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = "shield",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = "shield",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = "shield",
-		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = "shield",
 
 		[("units/payday2/characters/ene_sniper_1/ene_sniper_1"):key()] = "sniper",
 		[("units/payday2/characters/ene_sniper_2/ene_sniper_2"):key()] = "sniper",
@@ -2608,23 +2605,6 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
-			},
-		},
-		bo_scripted = {  -- bo-force scripted spawns, not to be used for unit categories
-			normal = {
-				hrt_1 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"),
-				hrt_2 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"),
-				hrt_3 = Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"),
-				hrt_4 = Idstring("units/payday2/characters/ene_cop_2/ene_cop_2"),  -- boworks day 3 friendly unit
-				swat_1 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
-				swat_2 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
-				swat_3 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
-				heavy_1 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
-				heavy_2 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
-				heavy_3 = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
-				shield = Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"),
-				sniper = Idstring("units/payday2/characters/ene_sniper_2/ene_sniper_2"),  -- boworks day 3 friendly unit
-				dozer_4 = Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun"),  -- boworks day 3 friendly unit
 			},
 		},
 	}

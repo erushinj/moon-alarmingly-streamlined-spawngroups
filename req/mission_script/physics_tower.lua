@@ -1,10 +1,12 @@
 -- boworks day 2, https://modworkshop.net/mod/31560
 local bofa_zeal_spawns = {
-	enemy = table.list_add(tweak_data.moon.units.swats, tweak_data.moon.units.heavys, {
-		tweak_data.moon.units.shield,
-	}),
-	static_spawn = {
-		continent = "bo_scripted",
+	enemy = {
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"),
 	},
 }
 

@@ -2,16 +2,20 @@
 local normal, hard, overkill, diff_group_name = ASS.utils.difficulty_groups()
 
 local bofa_zeal_spawns = {
-	enemy = table.list_add(tweak_data.moon.units.swats, tweak_data.moon.units.heavys, {
-		tweak_data.moon.units.shield,
-	}),
-	static_spawn = {
-		continent = "bo_scripted",
+	enemy = {
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"),
+		Idstring("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"),
 	},
 }
 local security_spawns = {
-	enemy = tweak_data.moon.units.fbis_heavy,
-	static_spawn = bofa_zeal_spawns.static_spawn,
+	enemy = {
+		Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"),
+		Idstring("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"),
+	},
 }
 
 return {
