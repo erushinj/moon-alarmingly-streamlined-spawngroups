@@ -46,7 +46,9 @@ return {
 
 	gen_weighted_selector = function(t)
 		if type(t) ~= "table" then
-			return
+			ASS:log("warn", "Function gen_weighted_selector received non-table argument \"%s\"!", tostring(t))
+
+			t = { t, }
 		end
 
 		local selector = WeightedSelector:new()
