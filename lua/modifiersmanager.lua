@@ -4,34 +4,18 @@ end
 
 -- Add missing vanilla and custom map heavies
 ModifierHeavySniper.moon_heavy_mappings = table.set("heavy_1", "heavy_2", "heavy_3")
-Hooks:PreHook(ModifierHeavySniper, "init", "ass_init", function(self)
+Hooks:PreHook(ModifierHeavySniper, "init", "ass_init", function()
 	for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
-		self.heavy_units[name_key] = self.moon_heavy_mappings[mapped] or nil
+		ModifierHeavySniper.heavy_units[name_key] = ModifierHeavySniper.moon_heavy_mappings[mapped] or nil
 	end
 end)
 
-Hooks:OverrideFunction(ModifierShieldPhalanx, "init", "ass_init", function(self, ...)
-	self.super.init(self, ...)  -- Vanilla is incorrect
-
-	local unit_categories = tweak_data.group_ai.unit_categories
-	local copied_tweak = deep_clone(unit_categories.Phalanx_minion)
-	copied_tweak.is_captain = nil
-
-	unit_categories.CS_shield_1 = deep_clone(copied_tweak)
-	unit_categories.CS_shield_1_no_limit = deep_clone(copied_tweak)
-	unit_categories.CS_shield_1_no_limit.special_type = nil
-	unit_categories.FBI_shield_1 = deep_clone(copied_tweak)
-	unit_categories.FBI_shield_1_no_limit = copied_tweak
-	unit_categories.FBI_shield_1_no_limit.special_type = nil
-end)
-
-ModifierHeavies.moon_u_key_mapping = {
-	swat_1 = "heavy_1",
-	swat_2 = "heavy_2",
-	swat_3 = "heavy_3",
-}
-Hooks:OverrideFunction(ModifierHeavies, "init", function(self, ...)
+local function unit_replacer_modifier_init(self, ...)
 	self.super.init(self, ...)
+
+	if not self.moon_u_key_mapping then
+		return
+	end
 
 	for _, continent in pairs(tweak_data.moon.enemy_replacements) do
 		for _, tier in pairs(continent) do
@@ -47,16 +31,34 @@ Hooks:OverrideFunction(ModifierHeavies, "init", function(self, ...)
 	end
 
 	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
-end)
+end
 
--- adjust to support all factions and the CS tank unit category
+ModifierShieldPhalanx.moon_u_key_mapping = {
+	shield = "phalanx",
+}
+Hooks:OverrideFunction(ModifierShieldPhalanx, "init", unit_replacer_modifier_init)
+
+ModifierHeavies.moon_u_key_mapping = {
+	swat_1 = "heavy_1",
+	swat_2 = "heavy_2",
+	swat_3 = "heavy_3",
+}
+Hooks:OverrideFunction(ModifierHeavies, "init", unit_replacer_modifier_init)
+
+-- Adjust to support all factions and the CS tank unit category
 local function dozer_modifier_init(self, ...)
 	self.super.init(self, ...)
 
-	local units = tweak_data.moon.units
-	local dozer_add = units[self.moon_dozer_key]
-	for tbl_name in pairs(self.moon_dozer_tables) do
-		ASS.utils.try_insert(units[tbl_name], dozer_add)
+	if not self.moon_dozer_key then
+		return
+	end
+
+	if self.moon_dozer_tables then
+		local units = tweak_data.moon.units
+		local dozer_add = units[self.moon_dozer_key]
+		for tbl_name in pairs(self.moon_dozer_tables) do
+			ASS.utils.try_insert(units[tbl_name], dozer_add)
+		end
 	end
 
 	local FBI_tank_u_keys = tweak_data.group_ai.unit_categories.FBI_tank.moon_u_keys

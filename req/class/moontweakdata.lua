@@ -67,6 +67,8 @@ function MoonTweakData:init_vanilla_category_translations()
 		FBI_tank = "FBI_dozer",
 		medic_M4 = "FBI_medic_1",
 		medic_R870 = "FBI_medic_2",
+		Phalanx_minion = "FBI_phalanx",
+		Phalanx_vip = "FBI_phalanx_vip",
 		marshal_marksman = "FBI_marshal_marksman",
 		marshal_shield = "FBI_marshal_shield",
 	}
@@ -588,6 +590,8 @@ function MoonTweakData:init_dummy_mapping()
 		"cloaker",
 		"marshal_1",
 		"marshal_2",
+		"phalanx",
+		"phalanx_vip",
 	}
 
 	for i, mapping in pairs(self.dummy_mapping) do
@@ -1844,6 +1848,8 @@ function MoonTweakData:init_units()
 	local cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
 	local marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
 	local marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1")
+	local phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1")
+	local phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1")
 	local units = {
 		security_1 = security_1,
 		security_2 = security_2,
@@ -1922,6 +1928,9 @@ function MoonTweakData:init_units()
 		marshals_close = { marshal_2, heavy_2, },
 		marshals_no_shield = { marshal_1, marshal_1, heavy_1, heavy_2, },
 		marshals_no_marksman = { marshal_2, marshal_2, heavy_1, heavy_2, },
+
+		phalanx = phalanx,
+		phalanx_vip = phalanx_vip,
 	}
 
 	local function dozer_difficulty_threshold(typ)
@@ -1987,6 +1996,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -2013,6 +2024,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -2039,6 +2052,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			sm_wish = {
 				hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -2065,6 +2080,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		russia = {
@@ -2093,6 +2110,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
@@ -2119,6 +2138,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_cop_ak47_ass/ene_akan_cs_cop_ak47_ass"),
@@ -2145,6 +2166,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		zombie = {
@@ -2173,6 +2196,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
@@ -2199,6 +2224,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		murkywater = {
@@ -2227,6 +2254,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_cloaker/ene_murkywater_cloaker"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
@@ -2253,6 +2282,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_cloaker/ene_murkywater_cloaker"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"),
@@ -2279,6 +2310,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bph/characters/ene_murkywater_cloaker/ene_murkywater_cloaker"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		federales = {
@@ -2307,6 +2340,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
@@ -2333,6 +2368,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"),
@@ -2359,6 +2396,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		constantine_cartel = {
@@ -2387,6 +2426,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
 				marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy/ene_cartel_soldier_heavy"),
 				marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
@@ -2413,6 +2454,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
 				marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_fbi/ene_cartel_soldier_heavy_fbi"),
 				marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
@@ -2439,6 +2482,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
 				marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_city/ene_cartel_soldier_heavy_city"),
 				marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			sm_wish = {
 				hrt_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"),
@@ -2465,6 +2510,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"),
 				marshal_1 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_soldier_heavy_zeal/ene_cartel_soldier_heavy_zeal"),
 				marshal_2 = Idstring("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		constantine_fsb = {
@@ -2473,10 +2520,10 @@ function MoonTweakData:init_enemy_replacements(continent)
 				hrt_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
 				hrt_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
 				hrt_4 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"),
-				swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"),  -- apparently this is a light swat.
+				swat_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"),
 				swat_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_r870/ene_rus_cop_3_r870"),
 				swat_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_3_mp5/ene_rus_cop_3_mp5"),
-				heavy_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"),  -- and apparently this is a heavy swat.
+				heavy_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"),
 				heavy_2 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_4_r870/ene_rus_cop_4_r870"),
 				heavy_3 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"),
 				shield = Idstring("units/pd2_dlc_mad/characters/ene_rus_shield_sr2_city/ene_rus_shield_sr2_city"),
@@ -2493,6 +2540,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"),
@@ -2519,6 +2568,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 		bo = {
@@ -2547,6 +2598,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_145 = {
 				hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -2573,6 +2626,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 			overkill_290 = {
 				hrt_1 = Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
@@ -2599,6 +2654,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 				cloaker = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1"),
 				marshal_1 = Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2"),
 				marshal_2 = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
+				phalanx = Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1"),
+				phalanx_vip = Idstring("units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"),
 			},
 		},
 	}

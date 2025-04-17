@@ -2589,6 +2589,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 			moon_u_keys = data.u_keys,
 			special_type = data.special_type or nil,
 			access = data.access or access_all,
+			is_captain = data.is_captain or nil,
 			unit_types = {},
 		}
 
@@ -2772,6 +2773,22 @@ function GroupAITweakData:_moon_init_unit_categories()
 			access = access_walk,
 			u_keys = {
 				marshal_2 = 1,
+			},
+		},
+		phalanx = {
+			access = access_walk,
+			is_captain = true,
+			special_type = "shield",
+			u_keys = {
+				phalanx = 1,
+			},
+		},
+		phalanx_vip = {
+			access = access_walk,
+			is_captain = true,
+			special_type = "shield",
+			u_keys = {
+				phalanx_vip = 1,
 			},
 		},
 	}
