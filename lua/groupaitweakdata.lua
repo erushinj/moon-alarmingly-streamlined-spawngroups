@@ -2418,15 +2418,24 @@ function GroupAITweakData:_moon_init_task_data()
 		end
 	end
 
+	for tactic_name, add in pairs(level_assault_tweaks.tactics_add) do
+		if add then
+			for _, tactics in pairs(self._tactics) do
+				ASS.utils.try_insert(tactics, tactic_name)
+			end
+		end
+	end
+
 	-- special limits, from easy to death sentence
 	-- identical to sh at base, minus allowing dozers on hard
-	for special, limits in pairs({
+	local new_special_limits = {
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5, },
 		medic = { 0, 0, 0, 0, 1, 2, 3, 4, },
 		taser = { 0, 0, 1, 1, 2, 2, 3, 3, },
 		tank = { 0, 0, 1, 1, 1, 2, 2, 3, },
 		spooc = { 0, 0, 0, 1, 1, 2, 2, 3, },
-	}) do
+	}
+	for special, limits in pairs(new_special_limits) do
 		local limit = limits[difficulty_index]
 		local add = level_assault_tweaks.special_limit_add[special] or 0
 
@@ -2442,10 +2451,11 @@ function GroupAITweakData:_moon_init_task_data()
 		self.special_unit_spawn_limits[special] = limit
 	end
 
+	local difficulty_curve_point_replace = tonumber(level_assault_tweaks.difficulty_curve_point_replace)
 	if #self.difficulty_curve_points > 1 then
 		ASS:log("warn", "Too many difficulty curve points, the mod may not work properly!")
-	else
-		self.difficulty_curve_points[1] = tonumber(level_assault_tweaks.difficulty_curve_point_replace) or self.difficulty_curve_points[1]
+	elseif difficulty_curve_point_replace then
+		self.difficulty_curve_points[1] = difficulty_curve_point_replace
 	end
 
 	local grenade_cooldown_func = function(val) return val * ASS.tweaks.grenade_cooldown_mul end
@@ -2464,6 +2474,11 @@ function GroupAITweakData:_moon_init_task_data()
 	local sustain_duration_base = {}
 	for i, val in pairs(self.besiege.assault.sustain_duration_min) do
 		sustain_duration_base[i] = ASS.utils.lerp(0.5, val, self.besiege.assault.sustain_duration_max[i] or val) * level_assault_tweaks.sustain_duration_mul
+	end
+
+	local anticipation_duration_replace = tonumber(level_assault_tweaks.anticipation_duration_replace)
+	if anticipation_duration_replace then
+		self.besiege.assault.anticipation_duration[1][1] = anticipation_duration_replace
 	end
 
 	self.besiege.assault.force = table.collect(self.besiege.assault.force, function(val) return val * level_assault_tweaks.force_mul end)

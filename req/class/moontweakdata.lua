@@ -597,60 +597,49 @@ function MoonTweakData:init_dummy_mapping()
 end
 
 function MoonTweakData:init_level_assault_tweaks()
+	local default = {
+		anticipation_duration_replace = false,
+		difficulty_curve_point_replace = false,
+		min_grenade_timeout_mul = 1,
+		no_grenade_push_delay_mul = 1,
+		hostage_hesitation_delay_mul = 1,
+		force_mul = 1,
+		force_pool_mul = 1,
+		delay_mul = 1,
+		sustain_duration_mul = 1,
+		cs_grenade_chance_times_mul = 1,
+		reenforce_interval_mul = 1,
+		recon_interval_variation_mul = 1,
+		special_limit_add = {
+			shield = 0,
+			medic = 0,
+			taser = 0,
+			tank = 0,
+			spooc = 0,
+		},
+		tactics_remove = {
+			charge = false,
+			ranged_fire = false,
+			flank = false,
+			deathguard = false,
+			murder = false,
+			no_push = false,
+		},
+		tactics_add = {
+			charge = false,
+			ranged_fire = false,
+			flank = false,
+			deathguard = false,
+			murder = false,
+			no_push = false,
+		},
+	}
+
 	local level_tweaks = {
-		default = {
-			difficulty_curve_point_replace = false,
-			min_grenade_timeout_mul = 1,
-			no_grenade_push_delay_mul = 1,
-			hostage_hesitation_delay_mul = 1,
-			force_mul = 1,
-			sustain_duration_mul = 1,
-			cs_grenade_chance_times_mul = 1,
-			reenforce_interval_mul = 1,
-			recon_interval_variation_mul = 1,
-			special_limit_add = {
-				shield = 0,
-				medic = 0,
-				taser = 0,
-				tank = 0,
-				spooc = 0,
-			},
-			tactics_remove = {
-				charge = false,
-				ranged_fire = false,
-				flank = false,
-				deathguard = false,
-				murder = false,
-				no_push = false,
-			},
-		},
-		born = {
-			sustain_duration_mul = 0.8,
-			cs_grenade_chance_times_mul = 0.5,
-		},
-		chew = {
-			force_mul = 0.8,
-			cs_grenade_chance_times_mul = 0.25,
-			special_limit_add = {
-				shield = -1,
-				tank = -1,
-			},
-		},
-		corp = {
-			cs_grenade_chance_times_mul = 0.35,
-			reenforce_interval_mul = 0.35,
-			recon_interval_variation_mul = 0.5,
-			special_limit_add = {
-				shield = 2,
-				medic = 1,
-				taser = 1,
-				tank = 1,
-				spooc = 1,
-			},
-		},
 		man = {
+			hostage_hesitation_delay_mul = 1.25,
 			sustain_duration_mul = 1.25,
-			cs_grenade_chance_times_mul = 0.35,
+			cs_grenade_chance_times_mul = 0.25,
 			reenforce_interval_mul = 0.5,
 			recon_interval_variation_mul = 0.75,
 			special_limit_add = {
@@ -659,23 +648,68 @@ function MoonTweakData:init_level_assault_tweaks()
 				spooc = 1,
 			},
 		},
+		born = {
+			sustain_duration_mul = 0.8,
+			cs_grenade_chance_times_mul = 0.5,
+		},
+		chew = {
+			cs_grenade_chance_times_mul = 0.25,
+			special_limit_add = {
+				shield = -1,
+				tank = -1,
+			},
+			tactics_remove = {
+				ranged_fire = true,
+				deathguard = true,
+			},
+		},
+		run = {
+			anticipation_duration_replace = 40,
+			no_grenade_push_delay_mul = 0.7,
+			sustain_duration_mul = 0.8,
+			cs_grenade_chance_times_mul = 0.25,
+			special_limit_add = {
+				taser = 2,
+			},
+			tactics_remove = {
+				charge = true,
+			},
+		},
+		corp = {
+			sustain_duration_mul = 1.25,
+			cs_grenade_chance_times_mul = 0.25,
+			-- reenforce_interval_mul = 0.35,
+			recon_interval_variation_mul = 0.25,
+			special_limit_add = {
+				shield = 1,
+				medic = 1,
+				taser = 1,
+				tank = 1,
+				spooc = 1,
+			},
+		},
 	}
 
-	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnLevelAssaultTweaksInit", level_tweaks )
+	Hooks:Call("AlarminglyStreamlinedSpawngroupsOnLevelAssaultTweaksInit", level_tweaks)
 
-	self.level_assault_tweaks = level_tweaks[level_id] or level_tweaks.default
+	self.level_assault_tweaks = level_tweaks[level_id] or default
+	if self.level_assault_tweaks == default then
+		return
+	end
 
 	local function fill_in(to, from)
 		for k, v in pairs(from) do
-			if type(v) == "table" and to[k] then
-				fill_in(to[k], v)
-			elseif to[k] == nil then
+			if to[k] == nil then
 				to[k] = v
+			elseif type(v) == "table" then
+				to[k] = type(to[k]) == "table" and to[k] or {}
+
+				fill_in(to[k], v)
 			end
 		end
 	end
 
-	fill_in(self.level_assault_tweaks, level_tweaks.default)
+	fill_in(self.level_assault_tweaks, default)
 end
 
 -- Mapping of preferred groups
