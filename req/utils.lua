@@ -58,6 +58,20 @@ function utils.gen_weighted_selector(t)
 	return selector
 end
 
+function utils.gen_pro_chance(val, pro_val)
+	if ASS.settings.pro_job and pro_val then
+		return math.clamp(val + pro_val, 0, 1)
+	end
+	return val
+end
+
+function utils.gen_pro_amount(val, pro_val)
+	if ASS.settings.pro_job and pro_val then
+		return val + pro_val
+	end
+	return val
+end
+
 -- Used to allow one and only one of a given civilian (usually Bobblehead Bob)
 function utils.try_pick_bobblehead_bob(override, civs, bob)
 	ASS.picked_bob = override or ASS.picked_bob
