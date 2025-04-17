@@ -1776,36 +1776,6 @@ function MoonTweakData:init_weapon_mapping()
 		weapon_mapping[unit] = weapon
 	end
 
-	local valid_ids = table.list_to_set(self.tweak_data.character.weap_ids)
-	local invalid_ids = {}
-	local nil_key = function(t, k) t[k] = nil end
-	for unit, weapon in pairs(weapon_mapping) do
-		if type(weapon) == "table" then
-			local iterator = weapon[1] and table.reverse_ipairs or pairs
-			local t_func = iterator == pairs and nil_key or table.remove
-
-			for k, id in iterator(weapon) do
-				if not valid_ids[id] then
-					invalid_ids[id] = true
-
-					t_func(weapon, k)
-				end
-			end
-
-			if not next(weapon) then
-				weapon_mapping[unit] = nil
-			end
-		elseif not valid_ids[weapon] then
-			invalid_ids[weapon] = true
-
-			weapon_mapping[unit] = nil
-		end
-	end
-
-	for id in pairs(invalid_ids) do
-		ASS:log("warn", "Invalid weapon ID \"%s\" in CharacterTweakData:weapon_mapping!", id)
-	end
-
 	self.weapon_mapping = weapon_mapping
 end
 
