@@ -2,95 +2,97 @@ if ASS.is_client then
 	return
 end
 
+function SkirmishTweakData:_moon_init_skirmish_groups()
+	local w1, w2, w3 = unpack(ASS.tweaks.skm_special_weights)
+
+	local skm_special_weights = { w1, w2, w3, }
+
+	local special_weights_original_a = { w1, w2 * 0.5, 0, }
+	local special_weights_original_a_double = table.collect(special_weights_original_a, function(val) return val * 2 end)
+	local special_weights_original_b = { 0, w2 * 0.5, w3, }
+	local special_weights_original_b_double = table.collect(special_weights_original_b, function(val) return val * 2 end)
+	local special_weights_original_c = table.collect(skm_special_weights, function(val) return val * 0.1 end)
+
+	local special_weights_streamlined = skm_special_weights
+
+	local special_weights_default = skm_special_weights
+
+	local special_weights_chicken_plate = skm_special_weights
+	local special_weights_chicken_plate_double = table.collect(special_weights_chicken_plate, function(val) return val * 2 end)
+
+	self._moon_skirmish_groups = {
+		original = {
+			original_swats_a = { 18, 13.5, 0, },
+			original_swats_b = { 0, 0, 9, },
+			original_heavys_a = { 9, 13.5, 0, },
+			original_heavys_b = { 0, 0, 18, },
+			original_shields_a = special_weights_original_a_double,
+			original_shields_b = special_weights_original_b_double,
+			original_tasers_a = special_weights_original_a_double,
+			original_tasers_b = special_weights_original_b_double,
+			original_tanks_a = special_weights_original_a,
+			original_tanks_b = special_weights_original_b,
+			original_spoocs_a = special_weights_original_a,
+			original_spoocs_b = special_weights_original_b,
+			original_recon_d = special_weights_original_c,
+		},
+		streamlined = {
+			streamlined_shotgun_rush_a = { 2, 1, 0, },
+			streamlined_shotgun_rush_b = { 2, 3, 4, },
+			streamlined_shotgun_flank_a = { 1, 0.5, 0, },
+			streamlined_shotgun_flank_b = { 1, 1.5, 2, },
+			streamlined_rifle_ranged_a = { 7, 3.5, 0, },
+			streamlined_rifle_ranged_b = { 7, 10.5, 14, },
+			streamlined_rifle_flank_a = { 3.5, 1.75, 0, },
+			streamlined_rifle_flank_b = { 3.5, 5.25, 7, },
+			streamlined_shield_ranged = special_weights_streamlined,
+			streamlined_shield_charge = special_weights_streamlined,
+			streamlined_taser_flank = special_weights_streamlined,
+			streamlined_taser_charge = special_weights_streamlined,
+			streamlined_tank = special_weights_streamlined,
+			streamlined_spooc = special_weights_streamlined,
+		},
+		default = {
+			tac_swat_shotgun_rush = { 1, 1.5, 2, },
+			tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0, },
+			tac_swat_shotgun_flank = { 0.5, 0.75, 1, },
+			tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0, },
+			tac_swat_rifle = { 8, 12, 16, },
+			tac_swat_rifle_no_medic = { 8, 4, 0, },
+			tac_swat_rifle_flank = { 4, 6, 8, },
+			tac_swat_rifle_flank_no_medic = { 4, 2, 0, },
+			tac_shield_wall_ranged = special_weights_default,
+			tac_shield_wall_charge = special_weights_default,
+			tac_tazer_flanking = special_weights_default,
+			tac_tazer_charge = special_weights_default,
+			tac_bull_rush = special_weights_default,
+			FBI_spoocs = special_weights_default,
+		},
+		chicken_plate = {
+			chicken_plate_hrt = { 0, 0, 0, },
+			chicken_plate_assault_ar_smg = { 13.5, 13.5, 13.5, },
+			chicken_plate_assault_smg_sg = { 13.5, 13.5, 13.5, },
+			chicken_plate_shield = special_weights_chicken_plate_double,
+			chicken_plate_taser = special_weights_chicken_plate_double,
+			chicken_plate_tank = special_weights_chicken_plate,
+			chicken_plate_spooc = special_weights_chicken_plate,
+		},
+		editor = {
+			tac_swat_rifle_flank = { 6, 6, 6, },
+			tac_shield_wall_ranged = { 1, 1, 1, },
+			tac_shield_wall_charge = { 1, 1, 1, },
+			tac_tazer_flanking = { 1, 1, 1, },
+			tac_tazer_charge = { 1, 1, 1, },
+			tac_bull_rush = { 1, 1, 1, },
+			FBI_spoocs = { 1, 1, 1, },
+		},
+	}
+end
+
 Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
-	if not self._moon_skirmish_groups then
-		local w1, w2, w3 = unpack(ASS.tweaks.skm_special_weights)
+	self:_moon_init_skirmish_groups()
 
-		local skm_special_weights = { w1, w2, w3, }
-
-		local special_weights_original_a = { w1, w2 * 0.5, 0, }
-		local special_weights_original_a_double = table.collect(special_weights_original_a, function(val) return val * 2 end)
-		local special_weights_original_b = { 0, w2 * 0.5, w3, }
-		local special_weights_original_b_double = table.collect(special_weights_original_b, function(val) return val * 2 end)
-		local special_weights_original_c = table.collect(skm_special_weights, function(val) return val * 0.1 end)
-
-		local special_weights_streamlined = skm_special_weights
-
-		local special_weights_default = skm_special_weights
-
-		local special_weights_chicken_plate = skm_special_weights
-		local special_weights_chicken_plate_double = table.collect(special_weights_chicken_plate, function(val) return val * 2 end)
-
-		self._moon_skirmish_groups = {
-			original = {
-				original_swats_a = { 18, 13.5, 0, },
-				original_swats_b = { 0, 0, 9, },
-				original_heavys_a = { 9, 13.5, 0, },
-				original_heavys_b = { 0, 0, 18, },
-				original_shields_a = special_weights_original_a_double,
-				original_shields_b = special_weights_original_b_double,
-				original_tasers_a = special_weights_original_a_double,
-				original_tasers_b = special_weights_original_b_double,
-				original_tanks_a = special_weights_original_a,
-				original_tanks_b = special_weights_original_b,
-				original_spoocs_a = special_weights_original_a,
-				original_spoocs_b = special_weights_original_b,
-				original_recon_d = special_weights_original_c,
-			},
-			streamlined = {
-				streamlined_shotgun_rush_a = { 2, 1, 0, },
-				streamlined_shotgun_rush_b = { 2, 3, 4, },
-				streamlined_shotgun_flank_a = { 1, 0.5, 0, },
-				streamlined_shotgun_flank_b = { 1, 1.5, 2, },
-				streamlined_rifle_ranged_a = { 7, 3.5, 0, },
-				streamlined_rifle_ranged_b = { 7, 10.5, 14, },
-				streamlined_rifle_flank_a = { 3.5, 1.75, 0, },
-				streamlined_rifle_flank_b = { 3.5, 5.25, 7, },
-				streamlined_shield_ranged = special_weights_streamlined,
-				streamlined_shield_charge = special_weights_streamlined,
-				streamlined_taser_flank = special_weights_streamlined,
-				streamlined_taser_charge = special_weights_streamlined,
-				streamlined_tank = special_weights_streamlined,
-				streamlined_spooc = special_weights_streamlined,
-			},
-			default = {
-				tac_swat_shotgun_rush = { 1, 1.5, 2, },
-				tac_swat_shotgun_rush_no_medic = { 1, 0.5, 0, },
-				tac_swat_shotgun_flank = { 0.5, 0.75, 1, },
-				tac_swat_shotgun_flank_no_medic = { 0.5, 0.25, 0, },
-				tac_swat_rifle = { 8, 12, 16, },
-				tac_swat_rifle_no_medic = { 8, 4, 0, },
-				tac_swat_rifle_flank = { 4, 6, 8, },
-				tac_swat_rifle_flank_no_medic = { 4, 2, 0, },
-				tac_shield_wall_ranged = special_weights_default,
-				tac_shield_wall_charge = special_weights_default,
-				tac_tazer_flanking = special_weights_default,
-				tac_tazer_charge = special_weights_default,
-				tac_bull_rush = special_weights_default,
-				FBI_spoocs = special_weights_default,
-			},
-			chicken_plate = {
-				chicken_plate_hrt = { 0, 0, 0, },
-				chicken_plate_assault_ar_smg = { 13.5, 13.5, 13.5, },
-				chicken_plate_assault_smg_sg = { 13.5, 13.5, 13.5, },
-				chicken_plate_shield = special_weights_chicken_plate_double,
-				chicken_plate_taser = special_weights_chicken_plate_double,
-				chicken_plate_tank = special_weights_chicken_plate,
-				chicken_plate_spooc = special_weights_chicken_plate,
-			},
-			editor = {
-				tac_swat_rifle_flank = { 6, 6, 6, },
-				tac_shield_wall_ranged = { 1, 1, 1, },
-				tac_shield_wall_charge = { 1, 1, 1, },
-				tac_tazer_flanking = { 1, 1, 1, },
-				tac_tazer_charge = { 1, 1, 1, },
-				tac_bull_rush = { 1, 1, 1, },
-				FBI_spoocs = { 1, 1, 1, },
-			},
-		}
-	end
-
-	for i, wave_limits in ipairs(self.special_unit_spawn_limits) do
+	for _, wave_limits in ipairs(self.special_unit_spawn_limits) do
 		for special, limit in pairs(wave_limits) do
 			wave_limits[special] = math.ceil(limit * ASS.tweaks.special_limit_mul)
 		end
@@ -102,7 +104,6 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	for i = 1, #self.assault.groups do
 		local f = math.min((i - 1) / 8, 1)
 		local w1, w2
-
 		if f <= 0.5 then
 			f = f * 2
 			w1 = 1
@@ -116,7 +117,6 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 		local groups = deep_clone(skm_groups)
 		for _, weights in pairs(groups) do
 			local w = ASS.utils.lerp(f, unpack(weights))
-
 			for k in pairs(weights) do
 				weights[k] = w
 			end
@@ -131,10 +131,8 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
 			local sustain_duration_mul = ASS.utils.lerp(math.random(), unpack(ASS.tweaks.sustain_duration_muls))
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
-
 			return { sustain_duration, sustain_duration, sustain_duration, }
 		end
-
 		return __index_original(t, key)
 	end
 end)

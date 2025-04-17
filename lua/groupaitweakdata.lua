@@ -47,22 +47,19 @@ function GroupAITweakData:moon_swap_units(tiers)
 	for prefix, tier in pairs(self.moon_last_tiers) do
 		for id, data in pairs(self.unit_categories) do
 			if ignore_unit_categories[id] then
-				-- nothing
+				-- Nothing
 			elseif not data.moon_u_keys then
 				ASS:log("warn", "Unit category \"%s\" has no associated unit keys!", id)
 			elseif id:match(prefix) then
 				for continent in pairs(data.unit_types) do
 					local continent_data = enemy_replacements[continent] or enemy_replacements.america
 					local tier_data = continent_data[tier]
-
 					if not tier_data then
 						ASS:log("error", "Missing data for tier \"%s\" and/or continent \"%s\"!", tier, continent)
 					else
 						data.unit_types[continent] = {}
-
 						for u_key, amount in pairs(data.moon_u_keys) do
 							local replacement = tier_data[u_key]
-
 							if replacement and amount > 0 then
 								for _ = 1, amount do
 									table.insert(data.unit_types[continent], replacement)
@@ -177,12 +174,6 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 				chicken_plate = "CS_heavy_1_2_3",
 			},
 		}
-		unit_mapping.CS_taser_1_no_limit = unit_mapping.CS_taser_1
-		unit_mapping.CS_spooc_1_no_limit = unit_mapping.CS_spooc_1
-		unit_mapping.CS_dozer_no_limit = unit_mapping.CS_dozer
-		unit_mapping.CS_medic_1_no_limit = unit_mapping.CS_medic_1
-		unit_mapping.CS_medic_2_no_limit = unit_mapping.CS_medic_2
-		unit_mapping.CS_medic_1_2_no_limit = unit_mapping.CS_medic_1_2
 	end
 
 	-- just in case SSS reenables marshals at any point
@@ -242,8 +233,8 @@ end
 
 GroupAITweakData._moon_assault_styles = {}
 
--- modernized and tweaked restoration of the pre-crimefest 2016 groups, mostly based around the old OVK difficulty groups
-GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
+-- Modernized and tweaked restoration of the pre-Crimefest 2016 groups, mostly based around the old Overkill difficulty groups
+function GroupAITweakData._moon_assault_styles.original(self, special_weight)
 	self:_moon_add_data({
 		tactics = {
 			empty = {},
@@ -776,8 +767,8 @@ GroupAITweakData._moon_assault_styles.original = function(self, special_weight)
 	})
 end
 
--- spicier version of SH's default groups, featuring more shotgunners
-GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weight)
+-- Spicier version of SH's default groups, featuring more shotgunners
+function GroupAITweakData._moon_assault_styles.streamlined(self, special_weight)
 	self:_moon_add_data({
 		tactics = {
 			empty = {},
@@ -807,8 +798,7 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		},
 	})
 
-	-- copies a group, then removes units that arent lights or heavies, lowers heavy frequency,
-	-- and ensures a spawn point check reference is set
+	-- Copies a group, removes units that aren't lights or heavies, and reduces max heavies
 	local unit_mapping = {
 		FBI_swat_1 = "light",
 		FBI_swat_2 = "light",
@@ -1263,8 +1253,8 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 	})
 end
 
--- dont do anything but make SH's default groups work with level mod and skill level
-GroupAITweakData._moon_assault_styles.default = function(self, special_weight)
+-- Don't do anything but make SH's default groups work with Level Mod and Skill Level
+function GroupAITweakData._moon_assault_styles.default(self, special_weight)
 	self:_moon_set_weights({
 		assault = {
 			tac_swat_shotgun_rush = { 1, 1.5, 2, },
@@ -1285,8 +1275,8 @@ GroupAITweakData._moon_assault_styles.default = function(self, special_weight)
 	})
 end
 
--- pd3-styled spawns
-GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_weight)
+-- PD3-styled spawns
+function GroupAITweakData._moon_assault_styles.chicken_plate(self, special_weight)
 	self:_moon_add_data({
 		tactics = {
 			empty = {},
@@ -2273,8 +2263,8 @@ GroupAITweakData._moon_assault_styles.chicken_plate = function(self, special_wei
 	})
 end
 
--- groups for BeardLib Editor, clean up spawn group element view
-GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
+-- Groups for BeardLib Editor, clean up spawn group element view
+function GroupAITweakData._moon_assault_styles.editor(self, special_weight)
 	local vanilla_groups = table.list_to_set({
 		"tac_swat_rifle_flank",
 		"tac_shield_wall_ranged",
@@ -2287,7 +2277,6 @@ GroupAITweakData._moon_assault_styles.editor = function(self, special_weight)
 		"single_spooc",
 		"Phalanx",
 	})
-
 	for id in pairs(self.enemy_spawn_groups) do
 		if not vanilla_groups[id] then
 			self.enemy_spawn_groups[id] = nil
@@ -2336,7 +2325,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 			end
 		end
 	end
-	-- swap vanilla units in all preexisting groups to ASS's naming scheme
+	-- Swap vanilla units in all pre-existing groups to ASS's naming scheme
 	local is_cs
 	local ignore_groups = table.set("Phalanx", "snowman_boss", "piggydozer")
 	local vanilla_category_translations = self.tweak_data.moon.vanilla_category_translations
@@ -2373,7 +2362,6 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 
 	if assault_style_func == assault_styles.default or assault_style_func == assault_styles.editor then
 		assault_style_func(self, special_weight)
-
 		return
 	end
 
@@ -2382,8 +2370,8 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 		self._freq[typ] = ASS.utils.lerp(f, unpack(val))
 	end
 
-	-- effectively remove preexisting timed groups
-	-- this means no marshals
+	-- Effectively remove pre-existing timed groups
+	-- This means no Marshals
 	local ignore_log_groups = table.set("marshal_squad")
 	for id, data in pairs(self.enemy_spawn_groups) do
 		if data.max_nr_simultaneous_groups then
@@ -2407,7 +2395,6 @@ end
 
 function GroupAITweakData:_moon_init_task_data()
 	local level_assault_tweaks = self.tweak_data.moon.level_assault_tweaks
-
 	for tactic_name, remove in pairs(level_assault_tweaks.tactics_remove) do
 		if remove then
 			for _, tactics in pairs(self._tactics) do
@@ -2426,8 +2413,8 @@ function GroupAITweakData:_moon_init_task_data()
 		end
 	end
 
-	-- special limits, from easy to death sentence
-	-- identical to sh at base, minus allowing dozers on hard
+	-- Special limits, from Easy to Death Sentence
+	-- Identical to SH at base, minus allowing Dozers on Hard
 	local new_special_limits = {
 		shield = { 0, 2, 2, 3, 3, 4, 4, 5, },
 		medic = { 0, 0, 0, 0, 1, 2, 3, 4, },
@@ -2439,9 +2426,9 @@ function GroupAITweakData:_moon_init_task_data()
 		local limit = limits[difficulty_index]
 		local add = level_assault_tweaks.special_limit_add[special] or 0
 
-		-- dont add disabled specials, dont remove enabled specials
+		-- Don't add disabled specials, don't remove enabled specials
 		if limit < 1 then
-			-- nothing
+			-- Nothing
 		elseif limit + add < 1 then
 			limit = math.ceil(1 * ASS.tweaks.special_limit_mul)
 		else
@@ -2499,28 +2486,28 @@ function GroupAITweakData:_moon_init_task_data()
 	self.safehouse = deep_clone(self.besiege)
 end
 
--- make custom_task groups behave like vanilla custom group on certain maps
--- may be expanded to allow switching whether to use this behaviour mid-heist
+-- Make custom_task groups behave like vanilla custom group on certain maps
+-- May be expanded to allow switching whether to use this behaviour mid-heist
 local regular_custom_group = table.list_to_set({
-	"man",  -- dozer spawn loop + all swats
-	"dah",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
-	"hox_3",  -- you get to see all the pretty suited men trying to kill you even if you dont want to :3
-	"flat",  -- all swats
-	"chca",  -- triads onboard
-	"dinner",  -- all murkies/swats
-	"pbr",  -- all murkies
-	"wwh",  -- all swats
-	"born",  -- all cops/swats
-	"chew",  -- all swats
-	"watchdogs_1",  -- all cops/swats
-	"watchdogs_2",  -- all cops/swats
-	"shoutout_raid",  -- all murkies/swats
+	"man",  -- Dozer spawn loop + all SWATs
+	"dah",  -- You get to see all the pretty suited men trying to kill you even if you don't want to :3
+	"hox_3",  -- Ditto
+	"flat",  -- all SWATs
+	"chca",  -- Triads onboard
+	"dinner",  -- All Murkies/SWATs
+	"pbr",  -- All Murkies
+	"wwh",  -- All SWATs
+	"born",  -- All cops/SWATs
+	"chew",  -- All SWATs
+	"watchdogs_1",  -- All cops/SWATs
+	"watchdogs_2",  -- All cops/SWATs
+	"shoutout_raid",  -- All Murkies/SWATs
 
-	-- custom heists
-	"thechase",  -- corporate bullshit
-	"physics_citystreets",  -- corporate bullshit
-	"physics_tower",  -- corporate bullshit
-	"physics_core",  -- corporate bullshit
+	-- Custom heists
+	"thechase",  -- Corporate bullshit
+	"physics_citystreets",  -- Ditto
+	"physics_tower",  -- Ditto
+	"physics_core",  -- Ditto
 })[clean_level_id] or false
 function GroupAITweakData:moon_regular_custom_group(enable)
 	if enable == nil then
@@ -2539,17 +2526,11 @@ end
 function GroupAITweakData:moon_get_equivalent_unit_category(id, wanted_prefix)
 	if not wanted_prefix then
 		ASS:log("warn", "Function moon_get_equivalent_unit_category received no wanted prefix for unit category \"%s\"!", id)
-
-		return
-	end
-
-	if not self.unit_categories[id] then
+		return nil
+	elseif not self.unit_categories[id] then
 		ASS:log("warn", "Unit category \"%s\" does not exist!", id)
-
-		return
-	end
-
-	if id:begins(wanted_prefix) then
+		return nil
+	elseif id:begins(wanted_prefix) then
 		return id
 	end
 
@@ -2560,27 +2541,28 @@ function GroupAITweakData:moon_get_equivalent_unit_category(id, wanted_prefix)
 	end
 
 	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", id)
+	return nil
 end
 
 function GroupAITweakData:_moon_init_unit_categories()
 	local unit_types
 	local unit_categories = self.unit_categories
-
 	for _, data in pairs(unit_categories) do
 		if data.unit_types then
 			unit_types = table.map_keys(data.unit_types)
-
 			break
 		end
 	end
 
-	unit_types = unit_types or { "america", "russia", "zombie", "murkywater", "federales", }
+	local vanilla_unit_types = { "america", "russia", "zombie", "murkywater", "federales", }
+	for _, unit_type in pairs(vanilla_unit_types) do
+		ASS.utils.try_insert(unit_types, unit_type)
+	end
 
 	local access_all = table.set("walk", "acrobatic")
 	local access_walk = table.set("walk")
 	local function dozer_difficulty_threshold(typ)
 		local threshold = ASS.dozer_rainbow[typ] or 1
-
 		return real_difficulty_index >= threshold and 1 or 0
 	end
 
@@ -2592,11 +2574,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 			is_captain = data.is_captain or nil,
 			unit_types = {},
 		}
-
 		for _, continent in pairs(unit_types) do
 			category.unit_types[continent] = {}
 		end
-
 		return category
 	end
 
@@ -2792,23 +2772,9 @@ function GroupAITweakData:_moon_init_unit_categories()
 			},
 		},
 	}
-
-	local special_type
 	for id, data in pairs(new_categories) do
 		for prefix in pairs(prefixes) do
 			unit_categories[prefix .. "_" .. id] = generate_category(data)
-
-			-- except for shields, don't allow disabled specials in no limit categories
-			if data.special_type and not data.is_captain then
-				if data.special_type == "shield" then
-					special_type = nil
-				else
-					special_type = self.special_unit_spawn_limits[data.special_type] == 0 and data.special_type or nil
-				end
-
-				unit_categories[prefix .. "_" .. id .. "_no_limit"] = generate_category(data)
-				unit_categories[prefix .. "_" .. id .. "_no_limit"].special_type = special_type
-			end
 		end
 	end
 
@@ -2825,7 +2791,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 	self:moon_swap_units(tiers_by_difficulty[ASS.level_mod])
 end
 
--- only run ASS hooks during the set difficulty functions
+-- Only run ASS hooks during the set difficulty functions
 Hooks:PostHook( GroupAITweakData, "init", "ass_init", function(self, tweak_data)
 	if not tweak_data.moon then
 		return

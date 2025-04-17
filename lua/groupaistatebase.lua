@@ -69,7 +69,7 @@ if ASS.settings.max_balance_muls then
 	end)
 end
 
--- disable dominations during assault if the setting is enabled
+-- Disable dominations during assault if the setting is enabled
 if ASS.settings.doms_super_serious then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 
@@ -139,59 +139,61 @@ Hooks:OverrideFunction(GroupAIStateBase, "_process_recurring_grp_SO", function(.
 -- 	return result
 -- end
 
--- sigh. u240. also custom maps with incomplete custom factions.
--- make marshal shields not count as normal shields
-GroupAIStateBase._moon_enemy_register_funcs = {
-	marshal_shield = function(self, func, unit, ...)
-		local special_unit_types_shield_original = self._special_unit_types.shield
+-- Tweak special counting for certain units
+GroupAIStateBase._moon_enemy_register_funcs = {}
 
-		self._special_unit_types.shield = nil
+-- Make Marshal Shields not count as normal Shields
+function GroupAIStateBase._moon_enemy_register_funcs.marshal_shield(self, func, unit, ...)
+	local special_unit_types_shield_original = self._special_unit_types.shield
+	self._special_unit_types.shield = nil
 
-		local result = func(self, unit, ...)
+	local result = func(self, unit, ...)
 
-		self._special_unit_types.shield = special_unit_types_shield_original
+	self._special_unit_types.shield = special_unit_types_shield_original
 
-		return result
-	end,
-	cartel_grenadier = function(self, func, unit, ...)
-		local u_base = unit:base()
-		local get_tags_original = u_base.get_tags
+	return result
+end
 
-		u_base.get_tags = function(...)
-			local tags = clone(get_tags_original(...))
+-- Make Valerio cartel Grenadiers count towards the Medic limit
+-- Normally tagged as Dozers
+function GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier(self, func, unit, ...)
+	local u_base = unit:base()
+	local get_tags_original = u_base.get_tags
+	u_base.get_tags = function(...)
+		local tags = clone(get_tags_original(...))
+		tags.tank = nil
+		tags.medic = true
+		return tags
+	end
 
-			tags.tank = nil
-			tags.medic = true
+	local result = func(self, unit, ...)
 
-			return tags
-		end
+	u_base.get_tags = get_tags_original
 
-		local result = func(self, unit, ...)
+	return result
+end
 
-		u_base.get_tags = get_tags_original
+function GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier_fire(self, func, unit, ...)
+	return self._moon_enemy_register_funcs.cartel_grenadier(self, func, unit, ...)
+end
 
-		return result
-	end,
-	cartel_commando = function(self, func, unit, ...)
-		local u_base = unit:base()
-		local get_tags_original = u_base.get_tags
+-- Make Valerio cartel Commandos count towards Medic and Dozer limits
+-- Normally tagged as Medics
+function GroupAIStateBase._moon_enemy_register_funcs.cartel_commando(self, func, unit, ...)
+	local u_base = unit:base()
+	local get_tags_original = u_base.get_tags
+	u_base.get_tags = function(...)
+		local tags = clone(get_tags_original(...))
+		tags.tank = true
+		return tags
+	end
 
-		u_base.get_tags = function(...)
-			local tags = clone(get_tags_original(...))
+	local result = func(self, unit, ...)
 
-			tags.tank = true
+	u_base.get_tags = get_tags_original
 
-			return tags
-		end
-
-		local result = func(self, unit, ...)
-
-		u_base.get_tags = get_tags_original
-
-		return result
-	end,
-}
-GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier_fire = GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier
+	return result
+end
 
 function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 	local char_func = self._moon_enemy_register_funcs[unit:base():char_tweak_name()]

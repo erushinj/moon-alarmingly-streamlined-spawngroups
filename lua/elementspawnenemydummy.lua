@@ -49,7 +49,6 @@ Hooks:PostHook(ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 		local typ = tweak_data.moon.default_scripted_spawn_mappings[mapped]
 		local units = tweak_data.moon.units[typ]
 		local patch_funcs = managers.mission and managers.mission.mission_script_patch_funcs
-
 		if units and patch_funcs and patch_funcs.enemy then
 			patch_funcs.enemy(managers.mission, self, units)
 		end
@@ -67,7 +66,6 @@ function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 		else
 			ASS:log("warn", "Element \"%s\" (%s) tried spawning an unloaded unit!", self._editor_name, self._id)
 		end
-
 		self._enemy_name = self._original_enemy_name
 	end
 
@@ -117,7 +115,6 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 	local level_enemy_replacement = tweak_data.moon.level_enemy_replacements[name_key]
 	if level_enemy_replacement then
 		self._enemy_name = level_enemy_replacement
-
 		return self:moon_produce_helper(params, ...)
 	end
 

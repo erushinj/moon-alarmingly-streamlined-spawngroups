@@ -2,8 +2,8 @@ if ASS.is_client then
 	return
 end
 
--- improved smg unit support
--- if a tier is missing smg units and reuses riflemen, try to give them smgs when appropriate
+-- Improved SMG unit support
+-- If a tier is missing SMG units and reuses riflemen, try to give them SMGs when appropriate
 function CopBrain:moon_try_swap_rifle_to_smg(replacement_chance)
 	if not replacement_chance or replacement_chance == 0 or math.random() > replacement_chance then
 		return
@@ -32,7 +32,6 @@ end
 Hooks:PreHook(CopBrain, "set_spawn_entry", "ass_set_spawn_entry", function(self, spawn_entry)
 	local u_category = tweak_data.group_ai.unit_categories[spawn_entry and spawn_entry.unit]
 	local u_keys = u_category and u_category.moon_u_keys
-
 	if not u_keys then
 		return
 	end
