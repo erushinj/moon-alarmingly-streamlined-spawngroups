@@ -2,30 +2,60 @@ if ASS.is_client then
 	return
 end
 
+-- Does work, but can spawn wrong (or worse, unloaded) units from enemies like Bellmead Marshals
+-- Hooks:OverrideFunction(MutatorHydra, "split_enemy", function(self, parent_unit, ...)
+-- 	local base = parent_unit:base()
+-- 	local continent = base and base.moon_data and base.moon_data.continent
+-- 	if not continent then
+-- 		return
+-- 	end
+
+-- 	local mapped = tweak_data.moon.enemy_mapping[parent_unit:name():key()]
+-- 	local split = tweak_data.moon.hydra_splits[mapped]
+-- 	if split and next(split) then
+-- 		local replacements = tweak_data.moon.enemy_replacements[continent]
+-- 		local tier = replacements and replacements[base.moon_data.tier]
+
+-- 		if tier then
+-- 			local selector = ASS.utils.gen_weighted_selector(split)
+-- 			local unit_depth = self:get_hydra_depth(parent_unit)
+
+-- 			self:_spawn_unit(tier[selector:select()], parent_unit, unit_depth)
+-- 			self:_spawn_unit(tier[selector:select()], parent_unit, unit_depth)
+-- 			self:set_hydra_depth(parent_unit, nil)
+-- 		end
+-- 	end
+-- end)
+
 Hooks:OverrideFunction(MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 	local mapped = tweak_data.moon.enemy_mapping[parent_unit:name():key()]
+	local split = mapped and ASS.utils.gen_weighted_selector(tweak_data.moon.hydra_splits[mapped])
+	if not split then
+		return
+	end
 
-	if mapped then
-		local split = ASS.utils.gen_weighted_selector(tweak_data.moon.hydra_splits[mapped])
+	local replacement = managers.groupai:state():moon_get_scripted_tier()
+	if not replacement then
+		return
+	end
 
-		if split then
-			local replacement = managers.groupai:state():moon_get_scripted_tier()
+	local enemy_replacements = tweak_data.moon.enemy_replacements
+	local replacements = enemy_replacements[tweak_data.levels:get_ai_group_type()] or enemy_replacements.america
+	local tier = replacements and replacements[replacement]
+	if not tier then
+		return
+	end
 
-			if replacement then
-				local enemy_replacements = tweak_data.moon.enemy_replacements
-				local replacements = enemy_replacements[tweak_data.levels:get_ai_group_type()] or enemy_replacements.america
-				local tier = replacements and replacements[replacement]
-
-				if tier then
-					local unit_depth = self:get_hydra_depth(parent_unit)
-
-					self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
-					self:_spawn_unit(tier[split:select()], parent_unit, unit_depth)
-					self:set_hydra_depth(parent_unit, nil)
-				end
-			end
+	local unit_depth = self:get_hydra_depth(parent_unit)
+	for _ = 1, 2 do
+		local selected = tier[split:select()]
+		if selected then
+			self:_spawn_unit(selected, parent_unit, unit_depth)
+		else
+			ASS:log("warn", "Bad Hydra split, not spawning!")
 		end
 	end
+	self:set_hydra_depth(parent_unit, nil)
 end)
 
 Hooks:OverrideFunction(MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)

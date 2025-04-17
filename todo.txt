@@ -20,10 +20,6 @@
 |-> tweak sniper attack logic to make them stop so they can fire if needed
 |--> would make ground snipers/snipers rotating between locations more reasonable of a concept
 |
-|> Hydras mutator
-|-> tier tracking for Hydras mutator instead of always using lower tier
-|--> eg, FBIs won't split into cops with SWAT-FBI Level Mod
-|
 |> Loud heists
 |-> look into making diff progression based on heist progression, not based on survived assault waves
 |--> some already do, but others (even loud-only heists like Green Bridge) don't
