@@ -4,7 +4,7 @@ local real_difficulty_index = ASS.real_difficulty_index
 
 MoonTweakData = MoonTweakData or class()
 
--- initialize stuff only when accessed
+-- Initialize stuff only when accessed
 function MoonTweakData:init(tweak_data)
 	self.tweak_data = tweak_data
 
@@ -29,7 +29,7 @@ function MoonTweakData:init_replace_access()
 	}
 end
 
--- used to give randomization to scripted spawns automatically, even if not patched
+-- Used to give randomization to scripted spawns automatically, even if not patched
 function MoonTweakData:init_default_scripted_spawn_mappings()
 	self.default_scripted_spawn_mappings = {
 		dozer_1 = "dozers_no_cs",
@@ -42,7 +42,7 @@ function MoonTweakData:init_default_scripted_spawn_mappings()
 	}
 end
 
--- used to replace vanilla unit categories with ASS's own
+-- Used to replace vanilla unit categories with ASS's own
 function MoonTweakData:init_vanilla_category_translations()
 	self.vanilla_category_translations = {
 		spooc = "FBI_spooc_1",
@@ -72,7 +72,7 @@ function MoonTweakData:init_vanilla_category_translations()
 	}
 end
 
--- used to add ASS's groups to spawn points, and generate preferred groups presets
+-- Used to add ASS's groups to spawn points, and generate preferred groups presets
 function MoonTweakData:init_spawn_group_mapping()
 	self.spawn_group_mapping = {
 		tac_swat_rifle_flank = {
@@ -183,7 +183,7 @@ function MoonTweakData:init_swap_prefix_thresholds()
 	self.swap_prefix_thresholds = all_prefix_thresholds[clean_level_id] or all_prefix_thresholds.default
 end
 
--- level mod data for each wave in holdout up to 9
+-- Level Mod data for each wave in Holdout, up to wave 9
 function MoonTweakData:init_skirmish_wave_tiers()
 	self.skirmish_wave_tiers = {
 		{ CS = "normal", FBI = "normal", },
@@ -198,7 +198,7 @@ function MoonTweakData:init_skirmish_wave_tiers()
 	}
 end
 
--- replacement unit category names for enemy replacer mutators
+-- Replacement unit category names for enemy replacer mutators
 function MoonTweakData:init_replacement_category_names()
 	self.replacement_category_names = {
 		tank_hw = "dozer_headless",
@@ -210,8 +210,8 @@ function MoonTweakData:init_replacement_category_names()
 	}
 end
 
--- unit names for various female civilians
--- not comprehensive (yet)
+-- Unit names for various female civilians
+-- Not comprehensive yet
 function MoonTweakData:init_female_civs_map()
 	self.female_civs_map = table.list_to_set({
 		("units/payday2/characters/civ_female_bank_1/civ_female_bank_1"):key(),
@@ -273,7 +273,7 @@ function MoonTweakData:init_female_civs_map()
 	})
 end
 
--- unit key mappings for supported enemies
+-- Unit key mappings for supported enemies
 function MoonTweakData:init_enemy_mapping()
 	self.enemy_mapping = {
 		[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = "hrt_1",
@@ -313,7 +313,7 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = "hrt_3",
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = "hrt_3",
 
-		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "hrt_4",  -- for mutators
+		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = "hrt_4",
 		[("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2"):key()] = "hrt_4",
 		[("units/pd2_dlc_mad/characters/ene_akan_cs_cop_asval_smg/ene_akan_cs_cop_asval_smg"):key()] = "hrt_4",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"):key()] = "hrt_4",
@@ -338,7 +338,7 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_1/ene_cartel_soldier_city_1"):key()] = "swat_1",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_1/ene_cartel_soldier_city_shotgun_1"):key()] = "swat_1",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_1/ene_cartel_soldier_zeal_1"):key()] = "swat_1",
-		[("units/pd2_mod_ttr/characters/ene_swat_gensec_1/ene_swat_gensec_1"):key()] = "swat_1",  -- gensecs
+		[("units/pd2_mod_ttr/characters/ene_swat_gensec_1/ene_swat_gensec_1"):key()] = "swat_1",
 		[("units/pd2_mod_ttr/characters/ene_fbi_gensec_1/ene_fbi_gensec_1"):key()] = "swat_1",
 		[("units/pd2_mod_ttr/characters/ene_city_swat_1/ene_city_swat_1"):key()] = "swat_1",
 		[("units/pd2_mod_ttr/characters/ene_zeal_gensec_1/ene_zeal_gensec_1"):key()] = "swat_1",
@@ -387,7 +387,7 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_4/ene_cartel_soldier_city_shotgun_4"):key()] = "swat_3",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_zeal_4/ene_cartel_soldier_zeal_4"):key()] = "swat_3",
 		[("units/pd2_dlc_mad/characters/ene_rus_fsb_r870/ene_rus_fsb_r870"):key()] = "swat_3",
-		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_2/ene_cartel_soldier_fbi_2"):key()] = "swat_3",  -- only tagged as swat 3 for mutator hydra
+		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_2/ene_cartel_soldier_fbi_2"):key()] = "swat_3",  -- Only tagged as swat 3 for Hydras mutator
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_fbi_shotgun_2/ene_cartel_soldier_fbi_shotgun_2"):key()] = "swat_3",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_2/ene_cartel_soldier_city_2"):key()] = "swat_3",
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_city_shotgun_2/ene_cartel_soldier_city_shotgun_2"):key()] = "swat_3",
@@ -542,7 +542,7 @@ function MoonTweakData:init_enemy_mapping()
 		[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = "taser",
 		[("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"):key()] = "taser",
 		[("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"):key()] = "taser",
-		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = "taser",  -- does not appear to be used but eh
+		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = "taser",
 
 		[("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = "cloaker",
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"):key()] = "cloaker",
@@ -567,9 +567,7 @@ function MoonTweakData:init_enemy_mapping()
 end
 
 function MoonTweakData:init_dummy_mapping()
-	self.dummy_mapping = {}
-
-	for _, mapping in pairs({
+	self.dummy_mapping = {
 		"swat_1",
 		"swat_2",
 		"swat_3",
@@ -590,7 +588,10 @@ function MoonTweakData:init_dummy_mapping()
 		"cloaker",
 		"marshal_1",
 		"marshal_2",
-	}) do
+	}
+
+	for i, mapping in pairs(self.dummy_mapping) do
+		self.dummy_mapping[i] = nil
 		self.dummy_mapping[mapping:key()] = mapping
 	end
 end
@@ -677,8 +678,8 @@ function MoonTweakData:init_level_assault_tweaks()
 	fill_in(self.level_assault_tweaks, level_tweaks.default)
 end
 
--- mapping of preferred groups
--- used for mission script patches
+-- Mapping of preferred groups
+-- Used for mission script patches
 function MoonTweakData:init_preferred_groups_map()
 	self.preferred_groups_map = {
 		default = function(v) return true end,
@@ -689,10 +690,8 @@ function MoonTweakData:init_preferred_groups_map()
 		no_dozers = function(v) return v ~= "tac_bull_rush" end,
 		no_shields_dozers = function(v) return v ~= "tac_shield_wall" and v ~= "tac_bull_rush" end,
 	}
-
 	for typ, func in pairs(self.preferred_groups_map) do
 		local map = {}
-
 		for base_name, mapping in pairs(self.spawn_group_mapping) do
 			local enabled = func(base_name)
 
@@ -700,39 +699,34 @@ function MoonTweakData:init_preferred_groups_map()
 				map[name] = enabled
 			end
 		end
-
 		self.preferred_groups_map[typ] = map
 	end
 end
 
--- list of preferred groups
--- used for instance script patches/custom script
+-- List of preferred groups
+-- Used for instance script patches/custom script
 function MoonTweakData:init_preferred_groups_list()
 	self.preferred_groups_list = {}
-
 	for typ, mapping in pairs(self.preferred_groups_map) do
 		local list = {}
-
 		for name, enabled in pairs(mapping) do
 			if enabled then
 				table.insert(list, name)
 			end
 		end
-
 		self.preferred_groups_list[typ] = list
 	end
 end
 
--- mapped unit keys that are not dynamically replaced with the current tier (cops, fbis by default)
+-- Mapped unit keys that are not dynamically replaced with the current tier (cops and FBIs by default)
 function MoonTweakData:init_forbidden_scripted_replacements()
 	local all_forbidden = {
 		default = table.set("hrt_1", "hrt_2", "hrt_3", "hrt_4"),
 	}
-
 	self.forbidden_scripted_replacements = all_forbidden[clean_level_id] or all_forbidden.default
 end
 
--- forced enemy replacements for certain levels, primarily replacing dc beat cops with regional variants where available
+-- Forced enemy replacements for certain levels, primarily replacing DC beat cops with regional variants
 function MoonTweakData:init_level_enemy_replacements()
 	local all_lvl_replacements = {
 		rvd1 = {
@@ -741,7 +735,7 @@ function MoonTweakData:init_level_enemy_replacements()
 			[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3"),
 			[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4"),
 		},
-		vit = {  -- murkywater sniper not loaded
+		vit = {  -- Murkywater sniper not loaded
 			[("units/pd2_dlc_bph/characters/ene_murkywater_sniper/ene_murkywater_sniper"):key()] = Idstring("units/payday2/characters/ene_sniper_2/ene_sniper_2"),
 		},
 		chas = {
@@ -761,8 +755,8 @@ function MoonTweakData:init_level_enemy_replacements()
 			[("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1"):key()] = Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2"),
 		},
 
-		-- custom heists
-		branchbank_russia = {
+		-- Custom heists
+		["branchbank_russia"] = {
 			[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"),
 			[("units/payday2/characters/ene_security_2/ene_security_2"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"),
 			[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = Idstring("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"),
@@ -776,7 +770,7 @@ function MoonTweakData:init_level_enemy_replacements()
 	self.level_enemy_replacements = all_lvl_replacements[clean_level_id] or {}
 end
 
--- hydra splits for hydras mutator
+-- Unit splits for Hydras mutator
 function MoonTweakData:init_hydra_splits()
 	local splits = {
 		marshal_1 = {
@@ -841,8 +835,8 @@ function MoonTweakData:init_hydra_splits()
 	self.hydra_splits = splits
 end
 
--- used to get a random civilian idle if they dont have a spawn state
--- civs spawned without a state seem to behave weirdly
+-- Used to get a random civilian idle if they don't have a spawn state
+-- Civs spawned without a state seem to behave weirdly
 function MoonTweakData:init_civ_idles()
 	self.civ_idles = {
 		female = {
@@ -859,21 +853,20 @@ function MoonTweakData:init_civ_idles()
 	}
 end
 
--- special objective access filters
--- used in script patches
+-- Special objective (SO) access filters
+-- Used in script patches
 function MoonTweakData:init_access_filters()
 	local access_filters = {
 		any = {},
-		no_civs = {},  -- any without civs
-		civs = {},  -- only civs
-		law = {},  -- only police
-		light_law = {},  -- police, no shields/dozers
-		heavy_law = {},  -- police, only shields/dozers
+		no_civs = {},  -- Any without civs
+		civs = {},  -- Only civs
+		law = {},  -- Only police
+		light_law = {},  -- Police, no Shields/Dozers
+		heavy_law = {},  -- Police, only Shields/Dozers
 	}
 
 	for _, data in pairs(self.tweak_data.character) do
 		local access = type(data) == "table" and data.access
-
 		if access then
 			access_filters.any[access] = true
 
@@ -903,8 +896,8 @@ function MoonTweakData:init_access_filters()
 	self.access_filters = access_filters
 end
 
--- weapon swaps for a great many units
--- can be static or random
+-- Weapon swaps for a great many units
+-- Can be static or random
 function MoonTweakData:init_weapon_mapping()
 	local enemy_weapon_tweaks = {
 		shield = {
@@ -1295,7 +1288,7 @@ function MoonTweakData:init_weapon_mapping()
 	local murkywater = { "scar_murky", "spas12", "ump", }
 	local c45_ump = { "c45", "ump", }
 
-	-- level id specific overrides
+	-- Level ID-specific overrides
 	local level_overrides = {
 		pbr = {
 			[("units/payday2/characters/ene_murkywater_1/ene_murkywater_1"):key()] = "ump",
@@ -1336,32 +1329,32 @@ function MoonTweakData:init_weapon_mapping()
 	}
 
 	local weapon_mapping = {
-		-- appropriate weaponry for unique units
-		-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "c45",  -- npc hox (no mask)
-		[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- npc hox (mask)
-		[("units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1"):key()] = "raging_bull",  -- hector (stealth)
-		[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "deagle",  -- locke (beneath the mountain)
-		[("units/pd2_dlc_wwh/characters/ene_locke/ene_locke"):key()] = "deagle",  -- locke (alaskan deal)
-		[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,  -- panic room dealer
-		[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = "saiga",  -- commissar
-		-- [("units/pd2_mcmansion/characters/ene_male_hector_2/ene_male_hector_2"):key()] = "saiga",  -- hector (loud)
-		[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = "spas12",  -- biker boss
-		-- [("units/pd2_dlc_flat/characters/npc_chavez/npc_chavez"):key()] = "x_c45",  -- chavez
-		-- [("units/pd2_dlc_spa/characters/npc_spa/npc_spa"):key()] = "benelli",  -- charon (looks funny)
-		[("units/pd2_dlc_rvd/characters/ene_female_civ_undercover/ene_female_civ_undercover"):key()] = "raging_bull",  -- undercover civilian on reservoir dogs
-		[("units/pd2_dlc_tag/characters/ene_male_commissioner/ene_male_commissioner"):key()] = "raging_bull",  -- commissioner garrett
-		[("units/pd2_dlc_pent/characters/npc_male_yufuwang/npc_male_yufuwang"):key()] = "raging_bull",  -- yufu wang (stealth)
-		[("units/pd2_dlc_ranc/characters/ene_male_ranchmanager_1/ene_male_ranchmanager_1"):key()] = "deagle",  -- esteban santiago
-		[("units/pd2_dlc_deep/characters/ene_gabriel/ene_gabriel"):key()] = "sko12_conc",  -- gabriel santiago (loud)
-		[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = "sko12_conc",  -- gabriel santiago (stealth)
+		-- Appropriate weaponry for unique units
+		-- [("units/payday2/characters/npc_old_hoxton_prisonsuit_1/npc_old_hoxton_prisonsuit_1"):key()] = "c45",  -- Hoxton (no mask)
+		[("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2"):key()] = "spas12",  -- Hoxton (mask)
+		[("units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1"):key()] = "raging_bull",  -- Hector (stealth)
+		[("units/pd2_dlc_berry/characters/npc_locke/npc_locke"):key()] = "deagle",  -- Locke (Beneath the Mountain)
+		[("units/pd2_dlc_wwh/characters/ene_locke/ene_locke"):key()] = "deagle",  -- Locke (Alaskan Deal)
+		[("units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican"):key()] = panic_room,  -- Panic Room dealer
+		[("units/payday2/characters/ene_gang_mobster_boss/ene_gang_mobster_boss"):key()] = "saiga",  -- Commissar
+		-- [("units/pd2_mcmansion/characters/ene_male_hector_2/ene_male_hector_2"):key()] = "saiga",  -- Hector (loud)
+		[("units/pd2_dlc_born/characters/ene_gang_biker_boss/ene_gang_biker_boss"):key()] = "spas12",  -- Biker boss
+		-- [("units/pd2_dlc_flat/characters/npc_chavez/npc_chavez"):key()] = "x_c45",  -- Chavez
+		-- [("units/pd2_dlc_spa/characters/npc_spa/npc_spa"):key()] = "benelli",  -- Charon (looks funny)
+		[("units/pd2_dlc_rvd/characters/ene_female_civ_undercover/ene_female_civ_undercover"):key()] = "raging_bull",  -- Undercover civilian on Reservoir Dogs
+		[("units/pd2_dlc_tag/characters/ene_male_commissioner/ene_male_commissioner"):key()] = "raging_bull",  -- Commissioner Garrett
+		[("units/pd2_dlc_pent/characters/npc_male_yufuwang/npc_male_yufuwang"):key()] = "raging_bull",  -- Yufu Wang (stealth)
+		[("units/pd2_dlc_ranc/characters/ene_male_ranchmanager_1/ene_male_ranchmanager_1"):key()] = "deagle",  -- Esteban Santiago
+		[("units/pd2_dlc_deep/characters/ene_gabriel/ene_gabriel"):key()] = "sko12_conc",  -- Gabriel Santiago (loud)
+		[("units/pd2_dlc_deep/characters/ene_gabriel_nomask/ene_gabriel_nomask"):key()] = "sko12_conc",  -- Gabriel Santiago (stealth)
 
-		-- faction weaponry for r870 dozers
+		-- Faction weaponry for R870 dozers
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"):key()] = "ksg",
 		[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_2/ene_murkywater_bulldozer_2"):key()] = "spas12",
 
-		-- assorted law
 		[("units/payday2/characters/ene_security_1/ene_security_1"):key()] = "c45",
 		[("units/payday2/characters/ene_security_2/ene_security_2"):key()] = "mp5",
+		-- Assorted law
 		[("units/payday2/characters/ene_security_3/ene_security_3"):key()] = "r870",
 		[("units/payday2/characters/ene_security_4/ene_security_4"):key()] = "c45",
 		[("units/payday2/characters/ene_security_5/ene_security_5"):key()] = "raging_bull",
@@ -1416,15 +1409,14 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_pent/characters/ene_male_security_penthouse_2/ene_male_security_penthouse_2"):key()] = "mossberg",
 		[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_1/ene_male_ranc_security_1"):key()] = "spas12",
 		[("units/pd2_dlc_ranc/characters/ene_male_ranc_security_2/ene_male_ranc_security_2"):key()] = "deagle",
-		[("units/pd2_dlc_short/characters/ene_security_1_undominatable/ene_security_1_undominatable"):key()] = "c45",  -- stealth tutorial
-		[("units/pd2_dlc_short/characters/ene_security_2_undominatable/ene_security_2_undominatable"):key()] = "mp5",  -- stealth tutorial
-		[("units/pd2_dlc_short/characters/ene_security_3_undominatable/ene_security_3_undominatable"):key()] = "r870",  -- stealth tutorial
-		[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = c45_ump,  -- stealth tutorial
+		[("units/pd2_dlc_short/characters/ene_security_1_undominatable/ene_security_1_undominatable"):key()] = "c45",  -- Stealth tutorial
+		[("units/pd2_dlc_short/characters/ene_security_2_undominatable/ene_security_2_undominatable"):key()] = "mp5",  -- Stealth tutorial
+		[("units/pd2_dlc_short/characters/ene_security_3_undominatable/ene_security_3_undominatable"):key()] = "r870",  -- Stealth tutorial
+		[("units/pd2_dlc_short/characters/ene_secret_service_1_undominatable/ene_secret_service_1_undominatable"):key()] = c45_ump,  -- Stealth tutorial
 		[("units/pd2_dlc_bph/characters/ene_murkywater_heavy/ene_murkywater_heavy"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_g36/ene_swat_heavy_policia_federale_g36"):key()] = "ump",
 		[("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi/ene_swat_heavy_policia_federale_fbi"):key()] = "ump",
 
-		-- assorted gangsters
 		[("units/payday2/characters/ene_biker_1/ene_biker_1"):key()] = "deagle",
 		[("units/payday2/characters/ene_biker_2/ene_biker_2"):key()] = "spas12",
 		[("units/payday2/characters/ene_biker_3/ene_biker_3"):key()] = "mossberg",
@@ -1458,6 +1450,7 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_friend/characters/ene_thug_indoor_04/ene_thug_indoor_04"):key()] = "mossberg",
 		[("units/pd2_dlc_mex/characters/ene_mex_security_guard_3/ene_mex_security_guard_3"):key()] = { "ak47", "r870", },
 		[("units/pd2_dlc_mex/characters/ene_mex_thug_outdoor_02/ene_mex_thug_outdoor_02"):key()] = { "raging_bull", "mossberg", },
+		-- Assorted gangsters
 		[("units/pd2_dlc_fex/characters/ene_thug_outdoor_fex/ene_thug_outdoor_fex"):key()] = { "raging_bull", "ak47", "mossberg", "r870", },
 		[("units/pd2_dlc_fex/characters/ene_guard_dog_mask/ene_guard_dog_mask"):key()] = "mossberg",
 		[("units/pd2_dlc_fex/characters/ene_guard_dog_mask_no_pager/ene_guard_dog_mask_no_pager"):key()] = "mossberg",
@@ -1480,8 +1473,8 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_3/ene_male_triad_penthouse_3"):key()] = "c45",
 		[("units/pd2_dlc_pent/characters/ene_male_triad_penthouse_4/ene_male_triad_penthouse_4"):key()] = "r870",
 
-		-- constantine scores units
 		[("units/pd2_mod_ttr/characters/ene_friendly_backup_1/ene_friendly_backup_1"):key()] = "raging_bull",  -- friendly backup units
+		-- Constantine Scores units
 		[("units/pd2_mod_ttr/characters/ene_friendly_backup_1_vehicle/ene_friendly_backup_1_vehicle"):key()] = "raging_bull",
 		[("units/pd2_mod_ttr/characters/ene_friendly_backup_2/ene_friendly_backup_2"):key()] = "raging_bull",
 		[("units/pd2_mod_ttr/characters/ene_friendly_backup_2_vehicle/ene_friendly_backup_2_vehicle"):key()] = "raging_bull",
@@ -1547,8 +1540,8 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_mod_ttr/characters/ene_fbi_gensec_heavy_r870/ene_fbi_gensec_heavy_r870"):key()] = "benelli",
 		[("units/pd2_mod_ttr/characters/ene_city_heavy_r870/ene_city_heavy_r870"):key()] = "benelli",
 
-		-- constantine russia campaign units
 		[("units/pd2_dlc_mad/characters/ene_rus_security_1/ene_rus_security_1"):key()] = "c45",  -- general, security
+		-- Constantine Russia campaign units
 		[("units/pd2_dlc_mad/characters/ene_rus_security_2/ene_rus_security_2"):key()] = "r870",
 		[("units/pd2_dlc_mad/characters/ene_rus_security_3/ene_rus_security_3"):key()] = "deagle",
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = "r870",  -- cops/hrts
@@ -1559,7 +1552,7 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_g36/ene_rus_fsbcity_g36"):key()] = "r870",
 		[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_r870/ene_rus_fsbcity_r870"):key()] = "r870",
 		[("units/pd2_dlc_mad/characters/ene_rus_fsbzeal_akmsu/ene_rus_fsbzeal_akmsu"):key()] = "r870",
-		[("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"):key()] = "akmsu_smg",  -- heavies
+		[("units/pd2_dlc_mad/characters/ene_rus_cop_4_m4/ene_rus_cop_4_m4"):key()] = "akmsu_smg",  -- Heavies
 		[("units/pd2_dlc_mad/characters/ene_rus_cop_4_r870/ene_rus_cop_4_r870"):key()] = "r870",
 		[("units/pd2_dlc_mad/characters/ene_rus_fsb_heavy_m4/ene_rus_fsb_heavy_m4"):key()] = "ak47_ass",
 		[("units/pd2_dlc_mad/characters/ene_rus_fsbcity_heavy_g36/ene_rus_fsbcity_heavy_g36"):key()] = "r870",
@@ -1584,8 +1577,8 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/payday2/characters/npc_nikolai_security/npc_nikolai_security"):key()] = "deagle",  -- hunter and hunted, nikolai guards
 		[("units/payday2/characters/ene_rus_aleksandr/ene_rus_aleksandr"):key()] = "r870",  -- aleksandr
 
-		-- boworks units
-		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"):key()] = "shepheard",  -- swats
+		-- BOWORKS units
+		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_mp5/ene_sbz_mp5"):key()] = "shepheard",  -- Lights
 		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_r870/ene_sbz_r870"):key()] = "ksg",
 		-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_m4/ene_ovk_m4"):key()] = "m4",
 		-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_r870/ene_ovk_r870"):key()] = "r870",
@@ -1594,40 +1587,38 @@ function MoonTweakData:init_weapon_mapping()
 		-- [("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_ump/ene_bofa_ump"):key()] = "ump",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_r870/ene_bofa_r870"):key()] = "benelli",
 
-		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_m4/ene_sbz_heavy_m4"):key()] = "shepheard",  -- heavies
+		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_m4/ene_sbz_heavy_m4"):key()] = "shepheard",  -- Heavies
 		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_heavy_r870/ene_sbz_heavy_r870"):key()] = "ksg",
 		-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_m4/ene_ovk_heavy_m4"):key()] = "m4",
 		-- [("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_heavy_r870/ene_ovk_heavy_r870"):key()] = "r870",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_g36/ene_bofa_heavy_g36"):key()] = "s552",
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_heavy_r870/ene_bofa_heavy_r870"):key()] = "benelli",
 
-		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "mini",  -- zeal tier, scripted spawn exclusive in ASS, they get to be mean
+		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal/ene_bofa_zeal"):key()] = "mini",  -- ZEAL tier, scripted spawn exclusive in ASS, they get to be mean
 		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_heavy/ene_bofa_zeal_heavy"):key()] = "mini",
 		[("units/pd2_mod_bofa/characters/bofa_zeal_units/ene_bofa_zeal_shield/ene_bofa_zeal_shield"):key()] = "mini",
 
-		[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"):key()] = "deagle",  -- security
+		[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security/ene_stockos_security"):key()] = "deagle",  -- Security
 		[("units/pd2_mod_bofa/characters/misc_units/ene_stockos_security_head/ene_stockos_security_head"):key()] = "ksg",
 
-		[("units/matthelzor/characters/ford/ford"):key()] = "shepheard",  -- cocke
-		-- [("units/mainman/characters/ene_the_boss/ene_the_boss"):key()] = "mini",  -- bo boss
-		[("units/mainman/characters/ene_bo/ene_bo"):key()] = "deagle",  -- bo
+		[("units/matthelzor/characters/ford/ford"):key()] = "shepheard",  -- Cocke
+		-- [("units/mainman/characters/ene_the_boss/ene_the_boss"):key()] = "mini",  -- Bo boss
+		[("units/mainman/characters/ene_bo/ene_bo"):key()] = "deagle",  -- Bo
 	}
 
-	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnWeaponMappingInit", weapon_mapping, level_overrides, enemy_weapon_tweaks )
+	Hooks:Call("AlarminglyStreamlinedSpawngroupsOnWeaponMappingInit", weapon_mapping, level_overrides, enemy_weapon_tweaks)
 
 	for unit_name, settings in pairs(enemy_weapon_tweaks) do
 		local reference = ASS.wanted_enemy_weapon_tweaks[unit_name]
-
 		for name in pairs(settings) do
 			if name == reference then
 				reference = nil
 				enemy_weapon_tweaks[unit_name] = settings[name]
-
 				break
 			end
 		end
 
-		-- didnt find weapons, fallback on default
+		-- Didn't find weapons, fall back on default
 		if reference or not enemy_weapon_tweaks[unit_name] then
 			enemy_weapon_tweaks[unit_name] = settings.default
 		end
@@ -1635,14 +1626,13 @@ function MoonTweakData:init_weapon_mapping()
 
 	local function get_tweaked_weapon(name, typ)
 		local weapons = enemy_weapon_tweaks[name]
-
 		if weapons then
 			return weapons[typ] or weapons.swat
 		end
 	end
 
-	for unit, weapon in pairs({
-		-- shields, for "Shield Arms" setting
+	local special_weapon_mapping = {
+		-- Shields, for "Shield Arms" setting
 		[("units/payday2/characters/ene_shield_2/ene_shield_2"):key()] = get_tweaked_weapon("shield", "swat"),
 		[("units/payday2/characters/ene_shield_1/ene_shield_1"):key()] = get_tweaked_weapon("shield", "fbi"),
 		[("units/payday2/characters/ene_city_shield/ene_city_shield"):key()] = get_tweaked_weapon("shield", "city"),
@@ -1655,67 +1645,67 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"):key()] = get_tweaked_weapon("shield", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45"):key()] = get_tweaked_weapon("shield", "federales_c45"),
 		[("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9"):key()] = get_tweaked_weapon("shield", "federales_mp9"),
-		[("units/pd2_mod_ttr/characters/ene_swat_gensec_shield/ene_swat_gensec_shield"):key()] = get_tweaked_weapon("shield", "swat"),  -- constantine scores
+		[("units/pd2_mod_ttr/characters/ene_swat_gensec_shield/ene_swat_gensec_shield"):key()] = get_tweaked_weapon("shield", "swat"),  -- Constantine Scores
 		[("units/pd2_mod_ttr/characters/ene_fbi_gensec_shield/ene_fbi_gensec_shield"):key()] = get_tweaked_weapon("shield", "fbi"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_shield/ene_cartel_shield"):key()] = get_tweaked_weapon("shield", "constantine_cartel"),
-		[("units/pd2_dlc_mad/characters/ene_rus_shield_c45/ene_rus_shield_c45"):key()] = get_tweaked_weapon("shield", "russia_c45"),  -- constantine fsb
+		[("units/pd2_dlc_mad/characters/ene_rus_shield_c45/ene_rus_shield_c45"):key()] = get_tweaked_weapon("shield", "russia_c45"),  -- Constantine FSB
 		[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2/ene_rus_shield_sr2"):key()] = get_tweaked_weapon("shield", "russia_sr2"),
 		[("units/pd2_dlc_mad/characters/ene_rus_shield_sr2_city/ene_rus_shield_sr2_city"):key()] = get_tweaked_weapon("shield", "russia_sr2"),
-		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_c45/ene_sbz_shield_c45"):key()] = get_tweaked_weapon("shield", "bo_sbz"),  -- boworks
+		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_c45/ene_sbz_shield_c45"):key()] = get_tweaked_weapon("shield", "bo_sbz"),  -- BOWORKS
 		[("units/pd2_mod_bofa/characters/sbz_units/ene_sbz_shield_mp9/ene_sbz_shield_mp9"):key()] = get_tweaked_weapon("shield", "bo_sbz"),
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_c45/ene_ovk_shield_c45"):key()] = get_tweaked_weapon("shield", "bo_ovk"),
 		[("units/pd2_mod_bofa/characters/ovk_units/ene_ovk_shield_mp9/ene_ovk_shield_mp9"):key()] = get_tweaked_weapon("shield", "bo_ovk"),
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_c45/ene_bofa_shield_c45"):key()] = get_tweaked_weapon("shield", "bo_bofa"),
 		[("units/pd2_mod_bofa/characters/bofa_units/ene_bofa_shield_mp9/ene_bofa_shield_mp9"):key()] = get_tweaked_weapon("shield", "bo_bofa"),
 
-		-- tasers, for "Taser Dazers" setting
+		-- Tasers, for "Taser Dazers" setting
 		[("units/payday2/characters/ene_tazer_1/ene_tazer_1"):key()] = get_tweaked_weapon("taser", "swat"),
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"):key()] = get_tweaked_weapon("taser", "zeal"),
 		[("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass"):key()] = get_tweaked_weapon("taser", "russia"),
-		[("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"):key()] = get_tweaked_weapon("taser", "russia"),  -- constantine russia campaign
+		[("units/pd2_dlc_mad/characters/ene_rus_tazer/ene_rus_tazer"):key()] = get_tweaked_weapon("taser", "russia"),  -- Constantine Russia campaign
 		[("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1"):key()] = get_tweaked_weapon("taser", "swat"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_tazer/ene_murkywater_tazer"):key()] = get_tweaked_weapon("taser", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"):key()] = get_tweaked_weapon("taser", "federales"),
-		[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = get_tweaked_weapon("taser", "constantine_cartel"),  -- constantine scores
+		[("units/pd2_mod_ttr/characters/ene_cartel_tazer_normal/ene_cartel_tazer_normal"):key()] = get_tweaked_weapon("taser", "constantine_cartel"),  -- Constantine Scores
 		[("units/pd2_mod_ttr/characters/ene_cartel_tazer/ene_cartel_tazer"):key()] = get_tweaked_weapon("taser", "constantine_cartel"),
-		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = get_tweaked_weapon("taser", "bo_sbz"),  -- boworks
+		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_taser/ene_bofa_taser"):key()] = get_tweaked_weapon("taser", "bo_sbz"),  -- BOWORKS
 
-		-- cloakers, for "Cloaker Balance" setting
+		-- Cloakers, for "Cloaker Balance" setting
 		[("units/payday2/characters/ene_spook_1/ene_spook_1"):key()] = get_tweaked_weapon("cloaker", "fbi"),
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/ene_zeal_cloaker"):key()] = get_tweaked_weapon("cloaker", "zeal"),
 		[("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg"):key()] = get_tweaked_weapon("cloaker", "russia"),
 		[("units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1"):key()] = get_tweaked_weapon("cloaker", "fbi"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_cloaker/ene_murkywater_cloaker"):key()] = get_tweaked_weapon("cloaker", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale/ene_swat_cloaker_policia_federale"):key()] = get_tweaked_weapon("cloaker", "federales"),
-		[("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"):key()] = get_tweaked_weapon("cloaker", "constantine_cartel"),  -- constantine scores
+		[("units/pd2_mod_ttr/characters/ene_cartel_scout/ene_cartel_scout"):key()] = get_tweaked_weapon("cloaker", "constantine_cartel"),  -- Constantine Scores
 
-		-- rifle medics, for "Medic Ordnance" setting
+		-- Rifle Nedics, for "Medic Ordnance" setting
 		[("units/payday2/characters/ene_medic_m4/ene_medic_m4"):key()] = get_tweaked_weapon("medic_rifle", "fbi"),
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_m4/ene_zeal_medic_m4"):key()] = get_tweaked_weapon("medic_rifle", "zeal"),
 		[("units/pd2_dlc_mad/characters/ene_akan_medic_ak47_ass/ene_akan_medic_ak47_ass"):key()] = get_tweaked_weapon("medic_rifle", "russia"),
 		[("units/pd2_dlc_hvh/characters/ene_medic_hvh_m4/ene_medic_hvh_m4"):key()] = get_tweaked_weapon("medic_rifle", "fbi"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_medic/ene_murkywater_medic"):key()] = get_tweaked_weapon("medic_rifle", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale"):key()] = get_tweaked_weapon("medic_rifle", "federales"),
-		[("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"):key()] = get_tweaked_weapon("medic_rifle", "constantine_cartel"),  -- constantine scores, not actually a medic but eh
-		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_m4/ene_bofa_medic_m4"):key()] = get_tweaked_weapon("medic_rifle", "bo_ovk"),  -- boworks
+		[("units/pd2_mod_ttr/characters/ene_cartel_grenadier/ene_cartel_grenadier"):key()] = get_tweaked_weapon("medic_rifle", "constantine_cartel"),  -- Constantine Scores, not actually a Medic
+		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_m4/ene_bofa_medic_m4"):key()] = get_tweaked_weapon("medic_rifle", "bo_ovk"),  -- BOWORKS
 
-		-- shotgun medics, for "Medical Ordinance" setting
+		-- Shotgun Medics, for "Medical Ordinance" setting
 		[("units/payday2/characters/ene_medic_r870/ene_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "fbi"),
 		[("units/pd2_dlc_gitgud/characters/ene_zeal_medic_r870/ene_zeal_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "zeal"),
 		[("units/pd2_dlc_mad/characters/ene_akan_medic_r870/ene_akan_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "russia"),
 		[("units/pd2_dlc_hvh/characters/ene_medic_hvh_r870/ene_medic_hvh_r870"):key()] = get_tweaked_weapon("medic_shotgun", "fbi"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_medic_r870/ene_murkywater_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale_r870/ene_swat_medic_policia_federale_r870"):key()] = get_tweaked_weapon("medic_shotgun", "federales"),
-		[("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"):key()] = get_tweaked_weapon("medic_shotgun", "constantine_cartel"),  -- constantine scores, not actually a medic but eh
-		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_r870/ene_bofa_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "bo_ovk"),  -- boworks
+		[("units/pd2_mod_ttr/characters/ene_cartel_grenadier_2/ene_cartel_grenadier_2"):key()] = get_tweaked_weapon("medic_shotgun", "constantine_cartel"),  -- Constantine Scores, not actually a Medic
+		[("units/pd2_mod_bofa/characters/special_units/ene_bofa_medic_r870/ene_bofa_medic_r870"):key()] = get_tweaked_weapon("medic_shotgun", "bo_ovk"),  -- BOWORKS
 
-		-- medic dozers, for "Geneva Suggestion" setting
+		-- Medicdozers, for "Geneva Suggestion" setting
 		[("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"):key()] = get_tweaked_weapon("medic_dozer", "zeal"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_bulldozer_medic/ene_murkywater_bulldozer_medic"):key()] = get_tweaked_weapon("medic_dozer", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"):key()] = get_tweaked_weapon("medic_dozer", "federales"),
-		[("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"):key()] = get_tweaked_weapon("medic_dozer", "constantine_cartel"),  -- constantine scores, rough medicdozer equivalent
+		[("units/pd2_mod_ttr/characters/ene_cartel_commando/ene_cartel_commando"):key()] = get_tweaked_weapon("medic_dozer", "constantine_cartel"),  -- Constantine Scores, rough Medicdozer equivalent
 
-		-- rifle hrts, for "Rifle Funding" setting
+		-- Rifle HRTs, for "Rifle Funding" setting
 		[("units/payday2/characters/ene_cop_1/ene_cop_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "swat"),
 		[("units/payday2/characters/ene_cop_4/ene_cop_4"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "swat_rifle"),
 		[("units/payday2/characters/ene_fbi_1/ene_fbi_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "fbi"),
@@ -1732,17 +1722,17 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_hvh/ene_fbi_hvh_2/ene_fbi_hvh_2"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "fbi_rifle"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_light/ene_murkywater_light"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_policia_01/ene_policia_01"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "federales"),
-		[("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_fsb"),  -- constantine scores
+		[("units/pd2_dlc_mad/characters/ene_rus_cop_1/ene_rus_cop_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_fsb"),  -- Constantine Scores
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier/ene_cartel_soldier"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_rifle"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_2/ene_cartel_soldier_2"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_pistol"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_1/ene_cartel_soldier_shotgun_1"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_rifle"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_2/ene_cartel_soldier_shotgun_2"):key()] = get_tweaked_weapon("pistol_rifle_hrts", "constantine_cartel_pistol"),
 
-		-- shotgun hrts, for "Shotgun Funding" setting
+		-- Shotgun HRTs, for "Shotgun Funding" setting
 		[("units/payday2/characters/ene_cop_2/ene_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),
 		[("units/payday2/characters/ene_cop_3/ene_cop_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
 		[("units/payday2/characters/ene_fbi_3/ene_fbi_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "fbi"),
-		[("units/pd2_dlc_short/characters/ene_cop_2_shr/ene_cop_2_shr"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),  -- loud tutorial cop
+		[("units/pd2_dlc_short/characters/ene_cop_2_shr/ene_cop_2_shr"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),  -- Loud tutorial cop
 		[("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat_bronco"),
 		[("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
 		[("units/pd2_dlc_chas/characters/ene_male_chas_police_02/ene_male_chas_police_02"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "swat"),
@@ -1754,12 +1744,13 @@ function MoonTweakData:init_weapon_mapping()
 		[("units/pd2_dlc_hvh/ene_fbi_hvh_3/ene_fbi_hvh_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "fbi"),
 		[("units/pd2_dlc_bph/characters/ene_murkywater_light_r870/ene_murkywater_light_r870"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "murkywater"),
 		[("units/pd2_dlc_bex/characters/ene_policia_02/ene_policia_02"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "federales"),
-		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_fsb"),  -- constantine scores
+		[("units/pd2_dlc_mad/characters/ene_rus_cop_2/ene_rus_cop_2"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_fsb"),  -- Constantine Scores
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_3/ene_cartel_soldier_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_shotgun"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_4/ene_cartel_soldier_4"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_bronco"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_3/ene_cartel_soldier_shotgun_3"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_shotgun"),
 		[("units/pd2_mod_ttr/characters/ene_cartel_soldier_shotgun_4/ene_cartel_soldier_shotgun_4"):key()] = get_tweaked_weapon("shotgun_revolver_hrts", "constantine_cartel_bronco"),
-	}) do
+	}
+	for unit, weapon in pairs(special_weapon_mapping) do
 		weapon_mapping[unit] = weapon
 	end
 
@@ -1933,7 +1924,7 @@ function MoonTweakData:init_units()
 	local function dozer_difficulty_threshold(typ)
 		local threshold = tonumber(ASS.dozer_rainbow[typ]) or 1
 
-		-- minidozers can start appearing in scripted spawns on dw even if set not to appear until ds
+		-- Minidozers can start appearing in scripted spawns on DW regardless of setting
 		if typ == "dozer_4" then
 			threshold = math.min(threshold, 7)
 		end
@@ -1964,7 +1955,7 @@ function MoonTweakData:init_units()
 	self.units = units
 end
 
--- replacements based on mapped enemy key
+-- Replacements based on mapped enemy key
 function MoonTweakData:init_enemy_replacements(continent)
 	local replacements = {
 		america = {
@@ -2609,9 +2600,9 @@ function MoonTweakData:init_enemy_replacements(continent)
 		},
 	}
 
-	Hooks:Call( "AlarminglyStreamlinedSpawngroupsOnEnemyReplacementsInit", replacements )
+	Hooks:Call("AlarminglyStreamlinedSpawngroupsOnEnemyReplacementsInit", replacements)
 
-	for _, tbl in ipairs({
+	local ordered_based_on_difficulties = {
 		{
 			easy = "normal",
 			hard = "normal",
@@ -2625,7 +2616,8 @@ function MoonTweakData:init_enemy_replacements(continent)
 		{
 			sm_wish = "overkill_290",
 		},
-	}) do
+	}
+	for _, tbl in ipairs(ordered_based_on_difficulties) do
 		for diff, based_on in pairs(tbl) do
 			for _, v in pairs(replacements) do
 				v[diff] = v[diff] or v[based_on]
@@ -2633,13 +2625,12 @@ function MoonTweakData:init_enemy_replacements(continent)
 		end
 	end
 
-	-- check for levels that need some faction mappings swapped
+	-- Check for levels that need some faction mappings swapped
 	local constantine_fsb = { "russia", "constantine_fsb", }
 	local constantine_cartel = { "federales", "constantine_cartel", }
-	local fucked, use
-	for _, func in ipairs({
-		function()  -- check level ids where package auto-detect is known not to work
-			return unpack(({
+	local ordered_check_funcs = {
+		function()  -- Check level IDs where package auto-detect is known not to work
+			local data_by_level_id = {
 				branchbank_russia = constantine_fsb,
 				ruswl = constantine_fsb,
 				rusdl = constantine_fsb,
@@ -2649,16 +2640,17 @@ function MoonTweakData:init_enemy_replacements(continent)
 				hunter_party = constantine_fsb,
 				hunter_departure = constantine_fsb,
 				hunter_fall = constantine_fsb,
-			})[level_id] or {})
+			}
+			return data_by_level_id[level_id] and unpack(data_by_level_id[level_id])
 		end,
-		function()  -- then check packages if not found
-			local level = self.tweak_data.levels[level_id] or {}
+		function()  -- Then check packages if not found
 			local packages = {}
-
-			for _, data in pairs({
+			local level = self.tweak_data.levels[level_id] or {}
+			local level_packages = {
 				level.package or nil,
 				level.custom_packages or nil,
-			}) do
+			}
+			for _, data in pairs(level_packages) do
 				if type(data) == "table" then
 					table.list_append(packages, data)
 				else
@@ -2667,20 +2659,23 @@ function MoonTweakData:init_enemy_replacements(continent)
 			end
 
 			packages = table.list_to_set(packages)
+			if not next(packages) then
+				return
+			end
 
-			if next(packages) then
-				for pkg, data in pairs({
-					["packages/levels/constantine_cartel_faction/world/world"] = constantine_cartel,
-				}) do
-					if packages[pkg] then
-						return unpack(data)
-					end
+			local data_by_package = {
+				["packages/levels/constantine_cartel_faction/world/world"] = constantine_cartel,
+			}
+			for pkg, data in pairs(data_by_package) do
+				if packages[pkg] then
+					return unpack(data)
 				end
 			end
 		end,
-	}) do
+	}
+	local fucked, use
+	for _, func in ipairs(ordered_check_funcs) do
 		fucked, use = func()
-
 		if fucked and use then
 			break
 		end
@@ -2704,7 +2699,7 @@ function MoonTweakData:init_unit_smg_replacements()
 		},
 	}
 
-	for _, tbl in ipairs({
+	local ordered_based_on_difficulties = {
 		{
 			easy = "normal",
 			hard = "normal",
@@ -2718,7 +2713,8 @@ function MoonTweakData:init_unit_smg_replacements()
 		{
 			sm_wish = "overkill_290",
 		},
-	}) do
+	}
+	for _, tbl in ipairs(ordered_based_on_difficulties) do
 		for diff, based_on in pairs(tbl) do
 			for _, v in pairs(unit_smg_replacements) do
 				v[diff] = v[diff] or v[based_on]

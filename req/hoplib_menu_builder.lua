@@ -1,6 +1,6 @@
 -- https://github.com/segabl/pd2-hoplib/blob/master/req/TableUtils.lua
 -- https://github.com/segabl/pd2-hoplib/blob/master/req/MenuBuilder.lua
--- slightly tweaked. use hoplib's menu builder if you need one. i would but i dont want to add a dependency post-release.
+-- Slightly tweaked, use HopLib's menu builder if you need one
 
 local function table_replace(tbl1, tbl2, match_type)
 	for k, v in pairs(tbl2) do

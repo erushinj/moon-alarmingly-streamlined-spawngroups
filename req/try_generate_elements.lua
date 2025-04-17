@@ -1,5 +1,4 @@
 local custom_script = ASS:script_patches("custom")
-
 if not custom_script then
 	return
 end
@@ -133,7 +132,7 @@ local element_templates = {
 		module = "CoreElementTimer",
 		values = append_template_values(nil, {
 			digital_gui_unit_ids = nil,  -- table
-			timer = 60,  -- can also be a table { min, max, } ?
+			timer = 60,  -- Can also be a table { min, max, } ?
 		}),
 	},
 	{
@@ -142,7 +141,7 @@ local element_templates = {
 		values = append_template_values(true, {
 			elements = {},
 			operation = "start",
-			time = 30,  -- can also be a table { min, max, } ?
+			time = 30,  -- Can also be a table { min, max, } ?
 		}),
 	},
 	{
@@ -187,7 +186,7 @@ local element_templates = {
 			trigger_on = "on_enter",
 			interval = 0.5,
 			shape_type = "box",
-			amount = 1,  -- can also be a string "all"
+			amount = 1,  -- Can also be a string "all"
 			depth = 0,
 			height = 0,
 			width = 0,
@@ -256,7 +255,7 @@ local element_templates = {
 	{
 		class = "ElementEnemyPreferedRemove",
 		values = append_template_values(nil, {
-			elements = {},  -- points to ElementEnemyPreferedAdd elements
+			elements = {},  -- Points to ElementEnemyPreferedAdd elements
 		}),
 	},
 	{
@@ -353,23 +352,18 @@ end
 
 return function()
 	local result = {}
-
 	for _, params in pairs(custom_script) do
 		local element = ASS.utils.check_clone(element_templates[params.class])
-
 		if not element then
 			ASS:log("error", "No template for element class \"%s\"!", params.class)
 		else
 			element.editor_name = params.editor_name
 			element.id = params.id
-
 			for k, v in pairs(params.values) do
 				element.values[k] = v
 			end
-
 			result[element] = element
 		end
 	end
-
 	return result
 end

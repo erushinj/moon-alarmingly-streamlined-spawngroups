@@ -25,10 +25,10 @@ if not ASS then
 		clean_level_id = clean_level_id:gsub(end_pattern, "")
 	end
 
-	-- create persistent table used for SH checks and ZEAL Level Mod checks
+	-- Create persistent table used for SH checks and ZEAL Level Mod checks
 	Global.alarmingly_streamlined_spawngroups = Global.alarmingly_streamlined_spawngroups or {}
 
-	-- extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
+	-- Extends the BLTMod instance, check PAYDAY 2\mods\base\req\BLTMod for base variables and methods
 	ASS = ModInstance
 	ASS.global = Global.alarmingly_streamlined_spawngroups
 	ASS.is_host = is_host
@@ -47,112 +47,112 @@ if not ASS then
 	ASS.job_id = job_id
 	ASS.required = {}
 	ASS.settings = {
-		is_massive = true,  -- whether the mod is enabled or not
-		level_mod = 3,  -- index into ASS.values.level_mod
-		assault_style = 1,  -- index into ASS.values.assault_style
-		skill = 2,  -- index into ASS.values.skill
+		is_massive = true,  -- Whether the mod is enabled or not
+		level_mod = 3,  -- Index into ASS.values.level_mod
+		assault_style = 1,  -- Index into ASS.values.assault_style
+		skill = 2,  -- Index into ASS.values.skill
 		pro_job = false,
-		doms_scale = false,  -- whether to make dominations harder on higher difficulties
-		doms_all_hard = false,  -- whether to make all dominatable enemies use hardest preset
-		doms_super_serious = false,  -- whether to allow dominations during assault
-		max_values = false,  -- whether to use death sentence values for scaling
-		max_diff = false,  -- whether to force hardest assaults
-		max_balance_muls = false,  -- whether to force full crew spawns
-		unit_weapons = {  -- pick weapon type used by certain units
-			shield_arms = 2,  -- pick shield weapon type
-			taser_dazers = 3,  -- pick taser weapon type
-			cloaker_balance = 4,  -- pick cloaker weapon type
-			medic_ordnance = 3,  -- pick rifle medic weapon type
-			medical_ordinance = 3,  -- pick shotgun medic weapon type
-			geneva_suggestion = 4,  -- pick medic dozer weapon type
-			police_rifle_funding = 2,  -- pick whether a pistol and/or rifle hrt should exist
-			police_shotgun_funding = 2,  -- pick whether a shotgun and/or revolver hrt should exist
+		doms_scale = false,  -- Whether to make dominations harder on higher difficulties
+		doms_all_hard = false,  -- Whether to make all dominatable enemies use hardest preset
+		doms_super_serious = false,  -- Whether to allow dominations during assault
+		max_values = false,  -- Whether to use death sentence values for scaling
+		max_diff = false,  -- Whether to force hardest assaults
+		max_balance_muls = false,  -- Whether to force full crew spawns
+		unit_weapons = {  -- Pick weapon type used by certain units
+			shield_arms = 2,  -- Pick Shield weapon type
+			taser_dazers = 3,  -- Pick Taser weapon type
+			cloaker_balance = 4,  -- Pick Cloaker weapon type
+			medic_ordnance = 3,  -- Pick rifle Medic weapon type
+			medical_ordinance = 3,  -- Pick shotgun Medic weapon type
+			geneva_suggestion = 4,  -- Pick Medicdozer weapon type
+			police_rifle_funding = 2,  -- Pick rifle HRT weapon type
+			police_shotgun_funding = 2,  -- Pick shotgun HRT weapon type
 		},
-		dozer_rainbow = {  -- allow given dozer varieties to spawn on lower difficulties than normal
-			dozer_1 = 1,  -- for each of these, add 1 to find the default difficulty index (easy is missing)
+		dozer_rainbow = {  -- Allow given Dozer varieties to spawn on lower difficulties than normal
+			dozer_1 = 1,  -- For each of these, add 1 to find the default difficulty index (Easy is missing)
 			dozer_2 = 3,
 			dozer_3 = 5,
 			dozer_4 = 7,
 			dozer_5 = 7,
 		},
-		captain_winters = false,  -- allow captain winters to spawn on maps that have him
-		gas_grenade_ignore_hostages = false,  -- whether hostages should be ignored for gas grenade eligiblity
-		escapes = false,  -- allow escapes to occur on maps that have them
+		captain_winters = false,  -- Allow Captain Winters to spawn on maps that have him
+		gas_grenade_ignore_hostages = false,  -- Whether hostages should be ignored for gas grenade eligiblity
+		escapes = false,  -- Allow escapes to occur on maps that have them
 	}
 	ASS.values = {
 		level_mod = {
-			"alarmingly_streamlined_spawngroups_level_mod_disable",  -- dont change units
-			"alarmingly_streamlined_spawngroups_level_mod_random",  -- pick any available level mod value (besides zeal)
-			"alarmingly_streamlined_spawngroups_level_mod_per_level",  -- depends on level/full job id
-			"alarmingly_streamlined_spawngroups_level_mod_CS_normal",  -- swat
-			"alarmingly_streamlined_spawngroups_level_mod_CS_FBI_overkill",  -- swat-fbi
-			"alarmingly_streamlined_spawngroups_level_mod_FBI_overkill_145",  -- fbi
-			"alarmingly_streamlined_spawngroups_level_mod_FBI_CITY_easy_wish",  -- fbi-gensec
-			"alarmingly_streamlined_spawngroups_level_mod_CITY_overkill_290",  -- gensec
-			"alarmingly_streamlined_spawngroups_level_mod_CITY_ZEAL_awesome_difficulty_name",  -- gensec-zeal
-			"alarmingly_streamlined_spawngroups_level_mod_ZEAL_sm_wish",  -- zeal
+			"alarmingly_streamlined_spawngroups_level_mod_disable",  -- Use difficulty scaling like vanilla
+			"alarmingly_streamlined_spawngroups_level_mod_random",  -- Pick any available Level Mod value (besides zeal)
+			"alarmingly_streamlined_spawngroups_level_mod_per_level",  -- Depends on level/full job ID
+			"alarmingly_streamlined_spawngroups_level_mod_CS_normal",  -- SWAT
+			"alarmingly_streamlined_spawngroups_level_mod_CS_FBI_overkill",  -- SWAT-FBI
+			"alarmingly_streamlined_spawngroups_level_mod_FBI_overkill_145",  -- FBI
+			"alarmingly_streamlined_spawngroups_level_mod_FBI_CITY_easy_wish",  -- FBI-GenSec
+			"alarmingly_streamlined_spawngroups_level_mod_CITY_overkill_290",  -- GenSec
+			"alarmingly_streamlined_spawngroups_level_mod_CITY_ZEAL_awesome_difficulty_name",  -- GenSec-ZEAL
+			"alarmingly_streamlined_spawngroups_level_mod_ZEAL_sm_wish",  -- ZEAL
 		},
 		assault_style = {
-			"alarmingly_streamlined_spawngroups_assault_style_original",  -- pre-housewarming-styled
-			"alarmingly_streamlined_spawngroups_assault_style_streamlined",  -- spicier streamlined groups
-			"alarmingly_streamlined_spawngroups_assault_style_default",  -- default streamlined groups
-			"alarmingly_streamlined_spawngroups_assault_style_chicken_plate",  -- pd3-styled spawns
+			"alarmingly_streamlined_spawngroups_assault_style_original",  -- Pre-Housewarming style
+			"alarmingly_streamlined_spawngroups_assault_style_streamlined",  -- Spicier SH groups
+			"alarmingly_streamlined_spawngroups_assault_style_default",  -- Default SH groups
+			"alarmingly_streamlined_spawngroups_assault_style_chicken_plate",  -- PD3 style, somewhat
 		},
 		skill = {
-			"alarmingly_streamlined_spawngroups_skill_1",  -- im too young to die
-			"alarmingly_streamlined_spawngroups_skill_2",  -- hey, not too rough
-			"alarmingly_streamlined_spawngroups_skill_3",  -- hurt me plenty
-			"alarmingly_streamlined_spawngroups_skill_4",  -- ultra-violence
-			"alarmingly_streamlined_spawngroups_skill_5",  -- nightmare
-			"alarmingly_streamlined_spawngroups_skill_6",  -- ultra-nightmare
+			"alarmingly_streamlined_spawngroups_skill_1",  -- I'm Too Young To Die
+			"alarmingly_streamlined_spawngroups_skill_2",  -- Hey, Not Too Rough
+			"alarmingly_streamlined_spawngroups_skill_3",  -- Hurt Me Plenty
+			"alarmingly_streamlined_spawngroups_skill_4",  -- Ultra-Violence
+			"alarmingly_streamlined_spawngroups_skill_5",  -- Nightmare!
+			"alarmingly_streamlined_spawngroups_skill_6",  -- Ultra-Nightmare!!
 		},
 		shield_arms = {
-			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_shield_arms_pistols",  -- always pistols
-			"alarmingly_streamlined_spawngroups_shield_arms_smgs",  -- always smgs
-			"alarmingly_streamlined_spawngroups_shield_arms_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_shield_arms_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_shield_arms_pistols",  -- Always pistols
+			"alarmingly_streamlined_spawngroups_shield_arms_smgs",  -- Always SMGs
+			"alarmingly_streamlined_spawngroups_shield_arms_both",  -- Randomize between both pistols and SMGs
 		},
 		taser_dazers = {
-			"alarmingly_streamlined_spawngroups_taser_dazers_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_taser_dazers_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_taser_dazers_sko12s",  -- always sko12s
-			"alarmingly_streamlined_spawngroups_taser_dazers_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_taser_dazers_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_taser_dazers_rifles",  -- Always rifles
+			"alarmingly_streamlined_spawngroups_taser_dazers_sko12s",  -- Always concussive VD-12s
+			"alarmingly_streamlined_spawngroups_taser_dazers_both",  -- Randomize between both rifles and concussive VD-12s
 		},
 		cloaker_balance = {
-			"alarmingly_streamlined_spawngroups_cloaker_balance_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_cloaker_balance_smgs",  -- always smgs
-			"alarmingly_streamlined_spawngroups_cloaker_balance_pistols",  -- always pistols
-			"alarmingly_streamlined_spawngroups_cloaker_balance_both",  -- randomize between both
+			"alarmingly_streamlined_spawngroups_cloaker_balance_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_cloaker_balance_smgs",  -- Always SMGs
+			"alarmingly_streamlined_spawngroups_cloaker_balance_pistols",  -- Always pistols
+			"alarmingly_streamlined_spawngroups_cloaker_balance_both",  -- Randomize between both SMGs and pistols
 		},
-		medic_ordnance = {  -- rifle medics
-			"alarmingly_streamlined_spawngroups_medic_ordnance_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_medic_ordnance_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_medic_ordnance_deagles",  -- always deagles
-			"alarmingly_streamlined_spawngroups_medic_ordnance_both",  -- randomize between both
+		medic_ordnance = {  -- Rifle Medics
+			"alarmingly_streamlined_spawngroups_medic_ordnance_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_medic_ordnance_rifles",  -- Always rifles
+			"alarmingly_streamlined_spawngroups_medic_ordnance_deagles",  -- Always Deagles
+			"alarmingly_streamlined_spawngroups_medic_ordnance_both",  -- Randomize between both rifles and Deagles
 		},
-		medical_ordinance = {  -- shotgun medics
-			"alarmingly_streamlined_spawngroups_medical_ordinance_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_medical_ordinance_shotguns",  -- always pump shotguns
-			"alarmingly_streamlined_spawngroups_medical_ordinance_saigas",  -- always saigas
-			"alarmingly_streamlined_spawngroups_medical_ordinance_both",  -- randomize between both
+		medical_ordinance = {  -- Shotgun Medics
+			"alarmingly_streamlined_spawngroups_medical_ordinance_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_medical_ordinance_shotguns",  -- Always pump shotguns
+			"alarmingly_streamlined_spawngroups_medical_ordinance_saigas",  -- Always IZHMAs
+			"alarmingly_streamlined_spawngroups_medical_ordinance_both",  -- Randomize between both pump shotguns and IZHMAs
 		},
-		geneva_suggestion = {  -- medic dozers
-			"alarmingly_streamlined_spawngroups_geneva_suggestion_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_geneva_suggestion_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- always sawed-off shotguns
-			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- randomize between both
+		geneva_suggestion = {  -- Medicdozers
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_rifles",  -- Always rifles
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_sawed_offs",  -- Always sawed-off shotguns
+			"alarmingly_streamlined_spawngroups_geneva_suggestion_both",  -- Randomize between both rifles and sawed-off shotguns
 		},
-		police_rifle_funding = {  -- rifle hrts
-			"alarmingly_streamlined_spawngroups_police_rifle_funding_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols",  -- always pistols
-			"alarmingly_streamlined_spawngroups_police_rifle_funding_rifles",  -- always rifles
-			"alarmingly_streamlined_spawngroups_police_rifle_funding_both",  -- randomize between both
+		police_rifle_funding = {  -- Rifle HRTs
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_pistols",  -- Always pistols
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_rifles",  -- Always rifles
+			"alarmingly_streamlined_spawngroups_police_rifle_funding_both",  -- Randomize between both pistols and rifles
 		},
-		police_shotgun_funding = {  -- shotgun hrts
-			"alarmingly_streamlined_spawngroups_police_shotgun_funding_default",  -- similar to vanilla/default sh
-			"alarmingly_streamlined_spawngroups_police_shotgun_funding_shotguns",  -- always shotguns
-			"alarmingly_streamlined_spawngroups_police_shotgun_funding_revolvers",  -- always revolvers
-			"alarmingly_streamlined_spawngroups_police_shotgun_funding_both",  -- randomize between both
+		police_shotgun_funding = {  -- Shotgun HRTs
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_default",  -- Similar to vanilla/default SH
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_shotguns",  -- Always shotguns
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_revolvers",  -- Always revolvers
+			"alarmingly_streamlined_spawngroups_police_shotgun_funding_both",  -- Randomize between both shotguns and revolvers
 		},
 	}
 
@@ -160,7 +160,6 @@ if not ASS then
 	local last_priority = 696970
 	local function priority()
 		last_priority = last_priority - 1
-
 		return last_priority
 	end
 
@@ -297,16 +296,16 @@ if not ASS then
 			},
 		},
 	}
-	ASS.tweaks = {  -- skill-level dependent tweaks, appropriate value is fetched based on the number at the end of the current skill value (eg, hurt me plenty retrieves the 3rd value)
-		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- multiplier on the amount of cops that can spawn in a single assault
-		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- multiplier on the length of assault delays and hostage hesitation delays
-		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },  -- multiplier on special limits, final limits are rounded up
-		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },  -- multiplier on delays between uses of the same grenade type
-		min_grenade_timeout = { 15, 13.5, 13.5, 12, 6, 3, },  -- delay between uses of any grenade
-		no_grenade_push_delay = { 10, 8, 8, 6, 3, 0, },  -- delay before most groups will push when no grenade is available
-		recon_force_mul = { 0.6, 0.8, 0.8, 1, 1, 1, },  -- recon force is expanded to assault force * recon_force_mul
+	ASS.tweaks = {  -- Skill Level-dependent tweaks, appropriate value is fetched based on the number at the end of the current skill value (eg, Hurt Me Plenty retrieves the 3rd value)
+		force_pool_mul = { 1, 1, 1, 1.1, 1.5, 2, },  -- Multiplier on the amount of cops that can spawn in a single assault
+		break_duration_mul = { 1.1, 1, 1, 0.85, 0.85, 0, },  -- Multiplier on the length of assault delays and hostage hesitation delays
+		special_limit_mul = { 1, 1, 1, 1.25, 2, 4, },  -- Multiplier on special limits, final limits are rounded up
+		grenade_cooldown_mul = { 1.15, 1, 1, 0.75, 0.25, 0, },  -- Multiplier on delays between uses of the same grenade type
+		min_grenade_timeout = { 15, 13.5, 13.5, 12, 6, 3, },  -- Delay between uses of any grenade
+		no_grenade_push_delay = { 10, 8, 8, 6, 3, 0, },  -- Delay before most groups will push when no grenade is available
+		recon_force_mul = { 0.6, 0.8, 0.8, 1, 1, 1, },  -- Recon force is expanded to assault force * recon_force_mul
 		recon_interval_variation_mul = { 1, 1, 1, 0.75, 0.25, 0, },
-		freq_base = {  -- enemy frequencies in spawn groups, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
+		freq_base = {  -- Enemy frequencies in spawn groups, format { X, Y, }, interpolates from X on Normal to Y on DS
 			{
 				baseline = { 1, 1, },
 				common = { 0.2, 0.5, },
@@ -350,7 +349,7 @@ if not ASS then
 				elite = { 4, 4, },
 			},
 		},
-		sustain_duration_muls = {  -- multipliers on the minimum and maximum durations of the "sustain" assault phase
+		sustain_duration_muls = {  -- Multipliers on the minimum and maximum durations of the "sustain" assault phase
 			{ 1, 1, },
 			{ 1, 1.15, },
 			{ 1, 1.15, },
@@ -358,7 +357,7 @@ if not ASS then
 			{ 1.7, 2.3, },
 			{ 1250, 1250, },
 		},
-		spawn_cooldowns = {  -- multipliers on cooldowns between spawns, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
+		spawn_cooldowns = {  -- Multipliers on cooldowns between spawns, format { X, Y, }, interpolates from X on Normal to Y on DS
 			{ 2.2, 1.1, },
 			{ 2, 1, },
 			{ 2, 1, },
@@ -366,7 +365,7 @@ if not ASS then
 			{ 0.5, 0.25, },
 			{ 0, 0, },
 		},
-		special_weight_base = {  -- used to calculate special group weights in normal play, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
+		special_weight_base = {  -- Used to calculate special group weights in normal play, format { X, Y, }, interpolates from X on Normal to Y on DS
 			{ 2, 5, },
 			{ 3, 5, },
 			{ 3, 5, },
@@ -374,7 +373,7 @@ if not ASS then
 			{ 8, 12, },
 			{ 27, 27, },
 		},
-		skm_special_weights = {  -- special group weights in holdout, format { X, Y, Z, }, interpolates from X to Y to Z based on wave number
+		skm_special_weights = {  -- Special group weights in Holdout, format { X, Y, Z, }, interpolates from X to Y to Z based on wave number
 			{ 2, 4, 6, },
 			{ 4, 5, 6, },
 			{ 4, 5, 6, },
@@ -382,7 +381,7 @@ if not ASS then
 			{ 9, 12, 15, },
 			{ 21, 24, 27, },
 		},
-		reenforce_interval = {  -- delay between enemy groups being dispatched specifically to hold selected locations on the map, this delay is shortened the more groups are needed
+		reenforce_interval = {  -- Delay between enemy groups being dispatched specifically to hold selected locations on the map, this delay is shortened the more groups are needed
 			{ 10, 20, 30, },
 			{ 10, 15, 20, },
 			{ 10, 15, 20, },
@@ -390,7 +389,7 @@ if not ASS then
 			{ 1, 3, 5, },
 			{ 0, 0, 0, },
 		},
-		smoke_grenade_lifetime = {  -- self-explanatory, format { X, Y, }, interpolates from X on Normal to Y on DS/with max values
+		smoke_grenade_lifetime = {  -- Self-explanatory, format { X, Y, }, interpolates from X on Normal to Y on DS
 			{ 9, 12, },
 			{ 9, 15, },
 			{ 9, 15, },
@@ -398,7 +397,7 @@ if not ASS then
 			{ 20, 30, },
 			{ 60, 60, },
 		},
-		cs_grenade_chance_times = {  -- times for gas grenades to be allowed to replace smoke bombs under certain conditions, format { X, Y, }, interpolates from X (allowed) to Y (guaranteed) based on time spent in the same area
+		cs_grenade_chance_times = {  -- Times for gas grenades to be allowed to replace smoke bombs under certain conditions, format { X, Y, }, interpolates from X (allowed) to Y (guaranteed) based on time spent in the same area
 			{ 45, 90, },
 			{ 30, 60, },
 			{ 30, 60, },
@@ -407,114 +406,114 @@ if not ASS then
 			{ 0, 0, },
 		},
 	}
-	ASS.level_mod_map = {  -- which Level Mods are assigned to which levels/jobs, level ids are checked first, then the job id (used for multi-day heists)
-		jewelry_store = "CS_normal",  -- jewelry store
-		four_stores = "CS_normal",  -- four stores
-		nightclub = "CS_normal",  -- nightclub
-		mallcrasher = "CS_normal",  -- mallcrasher
-		ukrainian_job_prof = "CS_normal",  -- ukrainian job
-		branchbank_deposit = "CS_normal",  -- bank heist deposit
-		branchbank_cash = "CS_normal",  -- bank heist cash
-		branchbank_prof = "CS_normal",  -- bank heist random
-		branchbank_gold_prof = "CS_normal",  -- bank heist gold
-		firestarter = "FBI_overkill_145",  -- firestarter
-		alex = "FBI_overkill_145",  -- rats
-		watchdogs = "FBI_overkill_145",  -- watchdogs
-		watchdogs_night = "FBI_overkill_145",  -- watchdogs
-		framing_frame = "FBI_overkill_145",  -- framing frame
-		welcome_to_the_jungle_prof = "FBI_overkill_145",  -- big oil
-		welcome_to_the_jungle_night_prof = "FBI_overkill_145",  -- big oil
-		family = "CS_normal",  -- diamond store
-		election_day = "FBI_overkill_145",  -- election day (day 2 and plan c)
-		election_day_1 = "CS_FBI_overkill",  -- election day day 1 override
-		arm_fac = "CITY_overkill_290",  -- transport harbor
-		arm_par = "CITY_overkill_290",  -- transport park
-		arm_hcm = "CITY_overkill_290",  -- transport downtown
-		arm_und = "CITY_overkill_290",  -- transport underpass
-		arm_cro = "CITY_overkill_290",  -- transport crossroads
-		arm_for = "CITY_overkill_290",  -- transport train
-		big = "CS_FBI_overkill",  -- big bank
-		mia = "CS_normal",  -- hotline miami
-		gallery = "CS_normal",  -- art gallery
-		hox = "FBI_overkill_145",  -- hoxton breakout
-		hox_3 = "FBI_overkill_145",  -- hoxton revenge
-		pines = "FBI_overkill_145",  -- white xmas
-		mus = "CS_FBI_overkill",  -- the diamond
-		crojob1 = "FBI_overkill_145",  -- bomb dockyard
-		crojob2 = "FBI_overkill_145",  -- bomb forest
-		crojob2_night = "FBI_overkill_145",  -- bomb forest
-		rat = "FBI_overkill_145",  -- cook off
-		shoutout_raid = "FBI_overkill_145",  -- meltdown
-		arena = "CITY_overkill_290",  -- alesso heist
-		kenaz = "FBI_overkill_145",  -- golden grin casino
-		jolly = "FBI_overkill_145",  -- aftershock
-		red2 = "CS_normal",  -- first world bank
-		dinner = "FBI_CITY_easy_wish",  -- slaughterhouse
-		nail = "FBI_overkill_145",  -- lab rats
-		cane = "CS_normal",  -- santas workshop
-		pbr = "CS_normal",  -- beneath the mountain
-		pbr2 = "FBI_overkill_145",  -- birth of sky
-		peta = "CS_FBI_overkill",  -- goat simulator (day 1)
-		peta2 = "FBI_overkill_145",  -- goat simulator day 2 override
-		pal = "CS_normal",  -- counterfeit
-		man = "FBI_overkill_145",  -- undercover
-		mad = "FBI_overkill_145",  -- boiling point
-		born = "FBI_overkill_145",  -- biker heist
-		chill_combat = "FBI_overkill_145",  -- safehouse raid
-		friend = "FBI_overkill_145",  -- scarface mansion
-		flat = "CS_FBI_overkill",  -- panic room
-		help = "FBI_overkill_145",  -- prison nightmare
-		spa = "CS_normal",  -- brooklyn 10-10
-		moon = "CS_normal",  -- stealing xmas
-		run = "CS_normal",  -- heat street
-		glace = "CS_FBI_overkill",  -- green bridge
-		dah = "CITY_overkill_290",  -- diamond heist
-		rvd = "CS_normal",  -- reservoir dogs
-		hvh = "CS_FBI_overkill",  -- cursed kill room
-		wwh = "CS_normal",  -- alaskan deal
-		brb = "CS_normal",  -- brooklyn bank
-		des = "FBI_overkill_145",  -- henry's rock
-		nmh = "CITY_overkill_290",  -- no mercy
-		sah = "FBI_overkill_145",  -- shacklethorne auction
-		vit = "CITY_overkill_290",  -- the white house
-		bph = "CITY_overkill_290",  -- hell's island
-		mex = "CITY_overkill_290",  -- border crossing
-		mex_cooking = "CITY_overkill_290",  -- border crystals
-		bex = "CS_normal",  -- san martin bank
-		pex = "FBI_overkill_145",  -- breakfast in tijuana
-		fex = "CITY_overkill_290",  -- buluc's mansion
-		chas = "CS_normal",  -- dragon heist
-		sand = "CS_FBI_overkill",  -- ukrainian prisoner
-		chca = "FBI_overkill_145",  -- black cat
-		pent = "FBI_CITY_easy_wish",  -- mountain master
-		ranc = "CS_FBI_overkill",  -- midland ranch
-		trai = "FBI_overkill_145",  -- lost in transit
-		corp = "FBI_CITY_easy_wish",  -- hostile takeover
-		deep = "CITY_overkill_290",  -- crude awakening
-		roberts = "CS_normal",  -- go bank
+	ASS.level_mod_map = {  -- Which Level Mods are assigned to which levels/jobs, level IDs are checked first, then the job ID (used for multi-day heists)
+		jewelry_store = "CS_normal",  -- Jewelry Store
+		four_stores = "CS_normal",  -- Four Stores
+		nightclub = "CS_normal",  -- Nightclub
+		mallcrasher = "CS_normal",  -- Mallcrasher
+		ukrainian_job_prof = "CS_normal",  -- Ukrainian Job
+		branchbank_deposit = "CS_normal",  -- Bank Heist: Deposit
+		branchbank_cash = "CS_normal",  -- Bank Heist: Cash
+		branchbank_prof = "CS_normal",  -- Bank Heist: Random
+		branchbank_gold_prof = "CS_normal",  -- Bank Heist: Gold
+		firestarter = "FBI_overkill_145",  -- Firestarter
+		alex = "FBI_overkill_145",  -- Rats
+		watchdogs = "FBI_overkill_145",  -- Watchdogs
+		watchdogs_night = "FBI_overkill_145",  -- Watchdogs (night)
+		framing_frame = "FBI_overkill_145",  -- Framing Frame
+		welcome_to_the_jungle_prof = "FBI_overkill_145",  -- Big Oil
+		welcome_to_the_jungle_night_prof = "FBI_overkill_145",  -- Big Oil (night)
+		family = "CS_normal",  -- Diamond Store
+		election_day = "FBI_overkill_145",  -- Election Day
+		election_day_1 = "CS_FBI_overkill",  -- Election Day (day 1 override)
+		arm_fac = "CITY_overkill_290",  -- Transport: Harbor
+		arm_par = "CITY_overkill_290",  -- Transport: Park
+		arm_hcm = "CITY_overkill_290",  -- Transport: Downtown
+		arm_und = "CITY_overkill_290",  -- Transport: Underpass
+		arm_cro = "CITY_overkill_290",  -- Transport: Crossroads
+		arm_for = "CITY_overkill_290",  -- Transport: Train
+		big = "CS_FBI_overkill",  -- Big Bank
+		mia = "CS_normal",  -- Hotline Miami
+		gallery = "CS_normal",  -- Art Gallery
+		hox = "FBI_overkill_145",  -- Hoxton Breakout
+		hox_3 = "FBI_overkill_145",  -- Hoxton Revenge
+		pines = "FBI_overkill_145",  -- White Xmas
+		mus = "CS_FBI_overkill",  -- The Diamond
+		crojob1 = "FBI_overkill_145",  -- The Bomb: Dockyard
+		crojob2 = "FBI_overkill_145",  -- The Bomb: Forest
+		crojob2_night = "FBI_overkill_145",  -- The Bomb: Forest (night)
+		rat = "FBI_overkill_145",  -- Cook Off
+		shoutout_raid = "FBI_overkill_145",  -- Meltdown
+		arena = "CITY_overkill_290",  -- The Alesso Heist
+		kenaz = "FBI_overkill_145",  -- Golden Grin Casino
+		jolly = "FBI_overkill_145",  -- Aftershock
+		red2 = "CS_normal",  -- First World Bank
+		dinner = "FBI_CITY_easy_wish",  -- Slaughterhouse
+		nail = "FBI_overkill_145",  -- Lab Rats
+		cane = "CS_normal",  -- Santa's Workshop
+		pbr = "CS_normal",  -- Beneath the Mountain
+		pbr2 = "FBI_overkill_145",  -- Birth of Sky
+		peta = "FBI_overkill_145",  -- Goat Simulator
+		peta1 = "CS_FBI_overkill",  -- Goat Simulator (day 1 override)
+		pal = "CS_normal",  -- Counterfeit
+		man = "FBI_overkill_145",  -- Undercover
+		mad = "FBI_overkill_145",  -- Boiling Point
+		born = "FBI_overkill_145",  -- Biker Heist
+		chill_combat = "FBI_overkill_145",  -- Safehouse Raid
+		friend = "FBI_overkill_145",  -- Scarface Mansion
+		flat = "CS_FBI_overkill",  -- Panic Room
+		help = "FBI_overkill_145",  -- Prison Nightmare
+		spa = "CS_normal",  -- Brooklyn 10-10
+		moon = "CS_normal",  -- Stealing Xmas
+		run = "CS_normal",  -- Heat Street
+		glace = "CS_FBI_overkill",  -- Green Bridge
+		dah = "CITY_overkill_290",  -- Diamond Heist
+		rvd = "CS_normal",  -- Reservoir Dogs
+		hvh = "CS_FBI_overkill",  -- Cursed Kill Room
+		wwh = "CS_normal",  -- Alaskan Deal
+		brb = "CS_normal",  -- Brooklyn Bank
+		des = "FBI_overkill_145",  -- Henry's Rock
+		nmh = "CITY_overkill_290",  -- No Mercy
+		sah = "FBI_overkill_145",  -- Shacklethorne Auction
+		vit = "CITY_overkill_290",  -- The White House
+		bph = "CITY_overkill_290",  -- Hell's Island
+		mex = "CITY_overkill_290",  -- Border Crossing
+		mex_cooking = "CITY_overkill_290",  -- Border Crystals
+		bex = "CS_normal",  -- San Martin Bank
+		pex = "FBI_overkill_145",  -- Breakfast in Tijuana
+		fex = "CITY_overkill_290",  -- Buluc's Mansion
+		chas = "CS_normal",  -- Dragon Heist
+		sand = "CS_FBI_overkill",  -- The Ukrainian Prisoner
+		chca = "FBI_overkill_145",  -- Black Cat
+		pent = "FBI_CITY_easy_wish",  -- Mountain Master
+		ranc = "CS_FBI_overkill",  -- Midland Ranch
+		trai = "FBI_overkill_145",  -- Lost in Transit
+		corp = "FBI_CITY_easy_wish",  -- Hostile Takeover
+		deep = "CITY_overkill_290",  -- Crude Awakening
+		roberts = "CS_normal",  -- GO Bank
 
-		-- custom heists
-		["branchbank_russia"] = "CS_FBI_overkill",  -- bank heist russia, https://modworkshop.net/mod/30389
-		["rusw"] = "FBI_overkill_145",  -- scorched earth, this and below are at https://modworkshop.net/mod/43578
-		["rusd"] = "CS_FBI_overkill",  -- cold stones
-		["ahop"] = "CS_FBI_overkill",  -- a house of pleasure
-		["crimepunish"] = "FBI_overkill_145",  -- crime and punishment
-		["flatline_nar"] = "CS_FBI_overkill",  -- flatline
-		["Hunter_narrative"] = "FBI_overkill_145",  -- hunter and hunted
-		["constantine_penthouse_nar"] = "CITY_overkill_290",  -- penthouse crasher
-		["constantine_resort_nar"] = "CITY_overkill_290",  -- scarlett resort
-		["Avalon's Shadow"] = "CITY_overkill_290",  -- avalon's shadow, https://modworkshop.net/mod/34760
-		["thechase"] = "CS_FBI_overkill",  -- stalk fraud, https://modworkshop.net/mod/24638
-		["physics"] = "CITY_overkill_290",  -- boworks, https://modworkshop.net/mod/31560
-		["physics_citystreets"] = "CS_normal",  -- boworks day 1
-		["physics_tower"] = "FBI_overkill_145",  -- boworks day 2
-		["physics_core"] = "CITY_overkill_290",  -- boworks day 3
-		["narr_friday"] = "FBI_CITY_easy_wish",  -- crashing capitol, https://modworkshop.net/mod/44630
-		["bnktower"] = "CITY_overkill_290",  -- gensec hive, https://modworkshop.net/mod/36368
+		-- Custom heists
+		["branchbank_russia"] = "CS_FBI_overkill",  -- Bank Heist: Russia, https://modworkshop.net/mod/30389
+		["rusw"] = "FBI_overkill_145",  -- Scorched Earth, https://modworkshop.net/mod/43578
+		["rusd"] = "CS_FBI_overkill",  -- Cold Stones, https://modworkshop.net/mod/43578
+		["ahop"] = "CS_FBI_overkill",  -- A House of Pleasure, https://modworkshop.net/mod/43578
+		["crimepunish"] = "FBI_overkill_145",  -- Crime and Punishment, https://modworkshop.net/mod/43578
+		["flatline_nar"] = "CS_FBI_overkill",  -- Flatline, https://modworkshop.net/mod/43578
+		["Hunter_narrative"] = "FBI_overkill_145",  -- Hunter and Hunted, https://modworkshop.net/mod/43578
+		["constantine_penthouse_nar"] = "CITY_overkill_290",  -- Penthouse Crasher, https://modworkshop.net/mod/43578
+		["constantine_resort_nar"] = "CITY_overkill_290",  -- Scarlett Resort, https://modworkshop.net/mod/43578
+		["Avalon's Shadow"] = "CITY_overkill_290",  -- Avalon's Shadow, https://modworkshop.net/mod/34760
+		["thechase"] = "CS_FBI_overkill",  -- Stalk Fraud, https://modworkshop.net/mod/24638
+		["physics"] = "CITY_overkill_290",  -- BOWORKS, https://modworkshop.net/mod/31560
+		["physics_citystreets"] = "CS_normal",  -- BOWORKS (day 1)
+		["physics_tower"] = "FBI_overkill_145",  -- BOWORKS (day 2)
+		["physics_core"] = "CITY_overkill_290",  -- BOWORKS (day 3)
+		["narr_friday"] = "FBI_CITY_easy_wish",  -- Crashing Capitol, https://modworkshop.net/mod/44630
+		["bnktower"] = "CITY_overkill_290",  -- GenSec H.I.V.E, https://modworkshop.net/mod/36368
 	}
 
-	-- versatile script loader
-	-- loads + caches file at specified path as a function and executes it
+	-- Script loader
+	-- Loads and caches file at specified path as a function, and executes it
 	function ASS:require(path, ...)
 		if self.required[path] == nil then
 			self.required[path] = blt.vm.loadfile(self.path .. path .. ".lua") or false
@@ -533,7 +532,7 @@ if not ASS then
 		log(base_str .. tostring(str):format(...))
 	end
 
-	-- fetches scripting tweaks for the current level and instances (reusable miniature levels) within it if applicable
+	-- Fetches scripting tweaks for the current level and instances (reusable miniature levels) within it, if applicable
 	local patch_redirect = {
 		mission = {
 			branchbank = "firestarter_3",
@@ -553,7 +552,7 @@ if not ASS then
 		return self:require("req/" .. typ .. "_script/" .. file_name)
 	end
 
-	-- blocks scripts from running if no streamlined heisting - must be installed, enabled, and from game start
+	-- Blocks scripts from running if no Streamlined Heisting - must be installed, enabled, and from game start
 	local sh = BLT.Mods:GetModByName("Streamlined Heisting")
 	if not sh then
 		ASS:message("sh_not_found")
@@ -612,7 +611,7 @@ if not ASS then
 	local redirect = {
 		per_level = ASS.level_mod_map[level_id] or ASS.level_mod_map[job_id] or difficulty,
 		disable = difficulty,
-		random = table.random({  -- no zeal for random below ds, not going to randomly activate a matchmaking lock
+		random = table.random({  -- No ZEAL for random below DS, not going to randomly activate a matchmaking lock
 			"CS_normal",
 			"CS_FBI_overkill",
 			"FBI_overkill_145",
@@ -640,13 +639,13 @@ if not ASS then
 		local val = ASS.settings.dozer_rainbow[typ]
 
 		if tonumber(val) then
-			return val + 1  -- account for easy being missing
+			return val + 1  -- Account for easy being missing
 		end
 
 		return default
 	end
 	ASS.dozer_rainbow = {
-		dozer_1 = get_dozer_rainbow_type("dozer_1", 2),  -- not actually used, always present
+		dozer_1 = get_dozer_rainbow_type("dozer_1", 2),  -- Not actually used, always present
 		dozer_2 = get_dozer_rainbow_type("dozer_2", 4),
 		dozer_3 = get_dozer_rainbow_type("dozer_3", 6),
 		dozer_4 = get_dozer_rainbow_type("dozer_4", 8),
