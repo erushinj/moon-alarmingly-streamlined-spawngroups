@@ -63,9 +63,9 @@ function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 
 	if dummy_mapping or not PackageManager:has(ids_unit, self._enemy_name) then
 		if dummy_mapping then
-			ASS:log("error", "Element \"%s\" (%s) tried spawning a dummy unit \"%s\"!", self._editor_name, self._id, dummy_mapping)
+			ASS:log("warn", "Element \"%s\" (%s) tried spawning a dummy unit \"%s\"!", self._editor_name, self._id, dummy_mapping)
 		else
-			ASS:log("error", "Element \"%s\" (%s) tried spawning an unloaded unit!", self._editor_name, self._id)
+			ASS:log("warn", "Element \"%s\" (%s) tried spawning an unloaded unit!", self._editor_name, self._id)
 		end
 
 		self._enemy_name = self._original_enemy_name

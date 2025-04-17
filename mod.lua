@@ -526,6 +526,10 @@ if not ASS then
 	ASS.menu_builder = ASS:require("req/hoplib_menu_builder", "alarmingly_streamlined_spawngroups", ASS.settings, ASS.menu_builder_params)
 	ASS.message = ASS:require("req/message")
 
+	-- ASS uses 3 prefixes
+	-- "info" -> everything is fine, this is just an informative log
+	-- "warn" -> something funky happened, but it can be reasonably handled
+	-- "error" -> something funky happened, cannot be reasonably handled, may crash
 	function ASS:log(prefix, str, ...)
 		local base_str = ("[ASS:%s|%s:%s] "):format(tostring(prefix):upper(), level_id, difficulty)
 

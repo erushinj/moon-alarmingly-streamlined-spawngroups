@@ -9,7 +9,7 @@ function ElementSpawnCivilian:moon_init_hook()
 	local moon_data = self._values.moon_data
 	local patch_funcs = managers.mission and managers.mission.mission_script_patch_funcs
 	if not patch_funcs then
-		ASS:log("error", "managers.mission.mission_script_patch_funcs unavailable!")
+		ASS:log("warn", "managers.mission.mission_script_patch_funcs unavailable!")
 	elseif moon_data then
 		if moon_data.continent or moon_data.tier then
 			moon_data.static_spawn = {

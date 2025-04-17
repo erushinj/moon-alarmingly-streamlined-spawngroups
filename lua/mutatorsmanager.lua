@@ -63,7 +63,7 @@ Hooks:OverrideFunction(MutatorEnemyReplacer, "modify_unit_categories", function(
 	local replacement_name = tweak_data.moon.replacement_category_names[override_enemy]
 
 	if not replacement_name then
-		ASS:log("error", "MutatorEnemyReplacer is missing replacer group \"%s\"!", override_enemy)
+		ASS:log("warn", "MutatorEnemyReplacer is missing replacer group \"%s\"!", override_enemy)
 	else
 		group_ai.special_unit_spawn_limits[override_enemy] = math.huge
 
@@ -89,7 +89,7 @@ Hooks:OverrideFunction(MutatorMediDozer, "modify_unit_categories", function(self
 	local medic_name = tweak_data.moon.replacement_category_names.medic
 
 	if not tank_name or not medic_name then
-		ASS:log("error", "MutatorMediDozer is missing replacer groups!")
+		ASS:log("warn", "MutatorMediDozer is missing replacer groups!")
 	else
 		group_ai.special_unit_spawn_limits.tank = math.huge
 		group_ai.special_unit_spawn_limits.medic = math.huge
@@ -116,7 +116,7 @@ Hooks:OverrideFunction(MutatorTitandozers, "modify_unit_categories", function(se
 	local replacement_name = tweak_data.moon.replacement_category_names.tank_hw
 
 	if not replacement_name then
-		ASS:log("error", "MutatorTitandozers is missing replacer groups!")
+		ASS:log("warn", "MutatorTitandozers is missing replacer groups!")
 	else
 		group_ai.special_unit_spawn_limits.tank = math.huge
 

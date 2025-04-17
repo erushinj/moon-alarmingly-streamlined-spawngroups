@@ -113,7 +113,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		return values and table.map_append(result, values) or result
 	end
 
-	ASS:log("warn", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values!", to_split)
+	ASS:log("error", "Invalid params \"%s\" in MissionManager:moon_generate_preset_values!", to_split)
 end
 
 local generated

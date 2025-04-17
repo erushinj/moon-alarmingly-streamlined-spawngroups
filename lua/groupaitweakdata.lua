@@ -56,7 +56,7 @@ function GroupAITweakData:moon_swap_units(tiers)
 					local tier_data = continent_data[tier]
 
 					if not tier_data then
-						ASS:log("warn", "Missing data for tier \"%s\" and/or continent \"%s\"!", tier, continent)
+						ASS:log("error", "Missing data for tier \"%s\" and/or continent \"%s\"!", tier, continent)
 					else
 						data.unit_types[continent] = {}
 
@@ -124,7 +124,7 @@ function GroupAITweakData:_moon_set_weights(new_weights)
 		local groups = task_data and task_data.groups
 
 		if not groups then
-			ASS:log("error", "Task name \"%s\" is invalid in GroupAITweakData:_moon_set_weights!", task)
+			ASS:log("warn", "Task name \"%s\" is invalid in GroupAITweakData:_moon_set_weights!", task)
 		else
 			for group in pairs(groups) do
 				groups[group] = { 0, 0, 0, }
@@ -2453,7 +2453,7 @@ function GroupAITweakData:_moon_init_task_data()
 
 	local difficulty_curve_point_replace = tonumber(level_assault_tweaks.difficulty_curve_point_replace)
 	if #self.difficulty_curve_points > 1 then
-		ASS:log("warn", "Too many difficulty curve points, the mod may not work properly!")
+		ASS:log("error", "Too many difficulty curve points, the mod may not work properly!")
 	elseif difficulty_curve_point_replace then
 		self.difficulty_curve_points[1] = difficulty_curve_point_replace
 	end
@@ -2799,7 +2799,7 @@ function GroupAITweakData:_moon_init_unit_categories()
 			unit_categories[prefix .. "_" .. id] = generate_category(data)
 
 			-- except for shields, don't allow disabled specials in no limit categories
-			if data.special_type then
+			if data.special_type and not data.is_captain then
 				if data.special_type == "shield" then
 					special_type = nil
 				else
