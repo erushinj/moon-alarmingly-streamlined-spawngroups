@@ -66,6 +66,7 @@ if ASS.settings.max_balance_muls then
 
 	Hooks:OverrideFunction(GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
+	end)
 end
 
 -- disable dominations during assault if the setting is enabled
@@ -98,7 +99,7 @@ end)
 -- Cloaker task fuck off
 Hooks:OverrideFunction(GroupAIStateBase, "_process_recurring_grp_SO", function(...) end)
 
--- sorry, the spawn noise is annoying
+-- Sorry, the spawn noise is annoying
 -- local _process_recurring_grp_SO_original = GroupAIStateBase._process_recurring_grp_SO
 -- function GroupAIStateBase:_process_recurring_grp_SO(_, data, ...)
 -- 	if data.groups and next(data.groups) then
