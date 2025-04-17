@@ -2,16 +2,16 @@ if ASS.is_client then
 	return
 end
 
--- add missing vanilla and custom map heavies
+-- Add missing vanilla and custom map heavies
 ModifierHeavySniper.moon_heavy_mappings = table.set("heavy_1", "heavy_2", "heavy_3")
-Hooks:PreHook( ModifierHeavySniper, "init", "ass_init", function(self)
+Hooks:PreHook(ModifierHeavySniper, "init", "ass_init", function(self)
 	for name_key, mapped in pairs(tweak_data.moon.enemy_mapping) do
 		self.heavy_units[name_key] = self.moon_heavy_mappings[mapped] or nil
 	end
-end )
+end)
 
-Hooks:OverrideFunction( ModifierShieldPhalanx, "init", "ass_init", function(self, ...)
-	self.super.init(self, ...)  -- vanilla is incorrect
+Hooks:OverrideFunction(ModifierShieldPhalanx, "init", "ass_init", function(self, ...)
+	self.super.init(self, ...)  -- Vanilla is incorrect
 
 	local unit_categories = tweak_data.group_ai.unit_categories
 	local copied_tweak = deep_clone(unit_categories.Phalanx_minion)
@@ -23,14 +23,14 @@ Hooks:OverrideFunction( ModifierShieldPhalanx, "init", "ass_init", function(self
 	unit_categories.FBI_shield_1 = deep_clone(copied_tweak)
 	unit_categories.FBI_shield_1_no_limit = copied_tweak
 	unit_categories.FBI_shield_1_no_limit.special_type = nil
-end )
+end)
 
 ModifierHeavies.moon_u_key_mapping = {
 	swat_1 = "heavy_1",
 	swat_2 = "heavy_2",
 	swat_3 = "heavy_3",
 }
-Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
+Hooks:OverrideFunction(ModifierHeavies, "init", function(self, ...)
 	self.super.init(self, ...)
 
 	for _, continent in pairs(tweak_data.moon.enemy_replacements) do
@@ -47,7 +47,7 @@ Hooks:OverrideFunction( ModifierHeavies, "init", function(self, ...)
 	end
 
 	tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
-end )
+end)
 
 -- adjust to support all factions and the CS tank unit category
 local function dozer_modifier_init(self, ...)
@@ -67,12 +67,12 @@ end
 
 ModifierSkulldozers.moon_dozer_key = "dozer_3"
 ModifierSkulldozers.moon_dozer_tables = table.set("dozers_any", "dozers_no_cs", "dozers_no_med", "dozers_no_mini")
-Hooks:OverrideFunction( ModifierSkulldozers, "init", dozer_modifier_init )
+Hooks:OverrideFunction(ModifierSkulldozers, "init", dozer_modifier_init)
 
 ModifierDozerMinigun.moon_dozer_key = "dozer_4"
 ModifierDozerMinigun.moon_dozer_tables = table.set("dozers_any", "dozers_no_med")
-Hooks:OverrideFunction( ModifierDozerMinigun, "init", dozer_modifier_init )
+Hooks:OverrideFunction(ModifierDozerMinigun, "init", dozer_modifier_init)
 
 ModifierDozerMedic.moon_dozer_key = "dozer_5"
 ModifierDozerMedic.moon_dozer_tables = table.set("dozers_any", "dozers_no_mini")
-Hooks:OverrideFunction( ModifierDozerMedic, "init", dozer_modifier_init )
+Hooks:OverrideFunction(ModifierDozerMedic, "init", dozer_modifier_init)

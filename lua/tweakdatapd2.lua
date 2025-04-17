@@ -4,6 +4,6 @@ end
 
 ASS:require("req/class/moontweakdata")
 
-Hooks:PreHook( TweakData, "_init_pd2", "ass__init_pd2", function(self)
+Hooks:PreHook(TweakData, "_init_pd2", "ass__init_pd2", function(self)
 	self.moon = MoonTweakData:new(self)
-end )
+end)

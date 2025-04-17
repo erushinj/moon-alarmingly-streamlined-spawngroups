@@ -20,7 +20,6 @@ end
 
 function GroupAIStateBase:moon_get_scripted_tier()
 	local last_tiers = tweak_data.group_ai.moon_last_tiers
-
 	if last_tiers then
 		return last_tiers[get_prefix("scripted", self._difficulty_value)] or last_tiers.CS
 	end
@@ -37,14 +36,14 @@ function GroupAIStateBase:set_difficulty(value, ...)
 	end
 end
 
-Hooks:PreHook( GroupAIStateBase, "_update_difficulty_value", "ass__update_difficulty_value", function(self)
+Hooks:PreHook(GroupAIStateBase, "_update_difficulty_value", "ass__update_difficulty_value", function(self)
 	if tweak_data.group_ai.moon_altered_diff then
 		self._next_difficulty_step_t = -1
 		self._difficulty_step = 1
 	end
-end )
+end)
 
-Hooks:PostHook( GroupAIStateBase, "hostage_killed", "ass_hostage_killed", function(self, killer_unit)
+Hooks:PostHook(GroupAIStateBase, "hostage_killed", "ass_hostage_killed", function(self, killer_unit)
 	if not tweak_data.group_ai.moon_altered_diff or not alive(killer_unit) then
 		return
 	end
@@ -60,34 +59,33 @@ Hooks:PostHook( GroupAIStateBase, "hostage_killed", "ass_hostage_killed", functi
 	if self._criminals[killer_unit:key()] then
 		self:set_difficulty(math.min(1, self._difficulty_value + 0.1))
 	end
-end )
+end)
 
 if ASS.settings.max_balance_muls then
 	ASS:log("info", "Adding Maxed Law Multipliers to \"GroupAIStateBase:_get_balancing_multiplier\"...")
 
-	Hooks:OverrideFunction( GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
+	Hooks:OverrideFunction(GroupAIStateBase, "_get_balancing_multiplier", function(self, balance_multipliers, ...)
 		return balance_multipliers[#balance_multipliers]
-	end )
 end
 
 -- disable dominations during assault if the setting is enabled
 if ASS.settings.doms_super_serious then
 	ASS:log("info", "Adding Super Serious Surrenders to \"GroupAIStateBase:has_room_for_police_hostage\"...")
 
-	Hooks:PostHook( GroupAIStateBase, "has_room_for_police_hostage", "ass_has_room_for_police_hostage", function(self)
+	Hooks:PostHook(GroupAIStateBase, "has_room_for_police_hostage", "ass_has_room_for_police_hostage", function(self)
 		if not self._rescue_allowed then
 			return false
 		end
-	end )
+	end)
 end
 
--- force diff to 1 in loud if the setting is enabled
+-- Force diff to 1 if the setting is enabled
 local max_diff = ASS.settings.max_diff
 if max_diff then
 	ASS:log("info", "Adding Maxed Assault Strength to \"GroupAIStateBase:_calculate_difficulty_ratio\"...")
 end
 
-Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)
+Hooks:PostHook(GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate_difficulty_ratio", function(self)
 	if max_diff then
 		self._difficulty_point_index = #tweak_data.group_ai.difficulty_curve_points + 1
 		self._difficulty_value = 1
@@ -95,10 +93,10 @@ Hooks:PostHook( GroupAIStateBase, "_calculate_difficulty_ratio", "ass__calculate
 	end
 
 	tweak_data.group_ai:moon_swap_prefixes_in_groups(get_prefix("assault", self._difficulty_value))
-end )
+end)
 
--- cloaker task fuck off
-Hooks:OverrideFunction( GroupAIStateBase, "_process_recurring_grp_SO", function(...) end )
+-- Cloaker task fuck off
+Hooks:OverrideFunction(GroupAIStateBase, "_process_recurring_grp_SO", function(...) end)
 
 -- sorry, the spawn noise is annoying
 -- local _process_recurring_grp_SO_original = GroupAIStateBase._process_recurring_grp_SO
@@ -189,7 +187,6 @@ GroupAIStateBase._moon_enemy_register_funcs.cartel_grenadier_fire = GroupAIState
 
 function GroupAIStateBase:_moon_enemy_register_helper(func, unit, ...)
 	local char_func = self._moon_enemy_register_funcs[unit:base():char_tweak_name()]
-
 	if char_func then
 		return char_func(self, func, unit, ...)
 	end

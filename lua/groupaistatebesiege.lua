@@ -2,7 +2,7 @@ if ASS.is_client then
 	return
 end
 
--- remove "no nearby hostages" requirement to use gas grenades if the setting is on
+-- Remove "no nearby hostages" requirement to use gas grenades if the setting is on
 if ASS.settings.gas_grenade_ignore_hostages then
 	ASS:log("info", "True Patriots setting enabled, removing no hostages check from \"GroupAIStateBesiege:_chk_group_use_grenade\"...")
 
@@ -20,8 +20,9 @@ if ASS.settings.gas_grenade_ignore_hostages then
 	end
 end
 
--- most vanilla reenforce points have the very weird force value of 1, while reenforce units spawn in groups
--- ensure reenforce points are populated appropriately between all assault styles
+-- Most vanilla reenforce points have the very weird force value of 1
+-- A force value of 1 causes a reenforce point to never repopulate until all cops on that point are wiped out
+-- This may have made sense in 2013, but it doesn't in the environment of ASS
 local set_area_min_police_force_original = GroupAIStateBesiege.set_area_min_police_force
 function GroupAIStateBesiege:set_area_min_police_force(id, force, ...)
 	return set_area_min_police_force_original(self, id, force and math.max(force, 2), ...)
@@ -30,12 +31,12 @@ end
 if not ASS.settings.captain_winters then
 	ASS:log("info", "Captain Winters setting disabled, dummying \"GroupAIStateBesiege:_check_spawn_phalanx\"...")
 
-	Hooks:OverrideFunction( GroupAIStateBesiege, "_check_spawn_phalanx", function(...) end )
+	Hooks:OverrideFunction(GroupAIStateBesiege, "_check_spawn_phalanx", function(...) end)
 end
 
--- support random tactics/units in spawn_entry
--- if a special that cant be spawned is chosen for a random unit, try to pick the first valid one instead
-Hooks:PreHook( GroupAIStateBesiege, "_spawn_in_group", "ass__spawn_in_group", function(self, spawn_group, spawn_group_type)
+-- Support random tactics/units in spawn_entry
+-- If a special that can't be spawned is chosen for a random unit, try to pick the first valid random unit instead
+Hooks:PreHook(GroupAIStateBesiege, "_spawn_in_group", "ass__spawn_in_group", function(self, spawn_group, spawn_group_type)
 	local function check_special_limit_reached(unit)
 		local category = tweak_data.group_ai.unit_categories[unit]
 		local special_type = category and category.special_type
@@ -62,4 +63,4 @@ Hooks:PreHook( GroupAIStateBesiege, "_spawn_in_group", "ass__spawn_in_group", fu
 			end
 		end
 	end
-end )
+end)

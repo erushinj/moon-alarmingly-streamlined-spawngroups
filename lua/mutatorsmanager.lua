@@ -2,7 +2,7 @@ if ASS.is_client then
 	return
 end
 
-Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit, ...)
+Hooks:OverrideFunction(MutatorHydra, "split_enemy", function(self, parent_unit, ...)
 	local mapped = tweak_data.moon.enemy_mapping[parent_unit:name():key()]
 
 	if mapped then
@@ -26,9 +26,9 @@ Hooks:OverrideFunction( MutatorHydra, "split_enemy", function(self, parent_unit,
 			end
 		end
 	end
-end )
+end)
 
-Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction(MutatorEnemyReplacer, "modify_unit_categories", function(self, group_ai, ...)
 	local override_enemy = self:get_override_enemy()
 	local replacement_name = tweak_data.moon.replacement_category_names[override_enemy]
 
@@ -52,9 +52,9 @@ Hooks:OverrideFunction( MutatorEnemyReplacer, "modify_unit_categories", function
 			end
 		end
 	end
-end )
+end)
 
-Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction(MutatorMediDozer, "modify_unit_categories", function(self, group_ai, ...)
 	local tank_name = tweak_data.moon.replacement_category_names.tank
 	local medic_name = tweak_data.moon.replacement_category_names.medic
 
@@ -80,9 +80,9 @@ Hooks:OverrideFunction( MutatorMediDozer, "modify_unit_categories", function(sel
 			end
 		end
 	end
-end )
+end)
 
-Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
+Hooks:OverrideFunction(MutatorTitandozers, "modify_unit_categories", function(self, group_ai, ...)
 	local replacement_name = tweak_data.moon.replacement_category_names.tank_hw
 
 	if not replacement_name then
@@ -105,4 +105,4 @@ Hooks:OverrideFunction( MutatorTitandozers, "modify_unit_categories", function(s
 			end
 		end
 	end
-end )
+end)

@@ -32,9 +32,9 @@ function ElementSpawnCivilian:moon_init_hook()
 	self._values.moon_data = nil
 end
 
-Hooks:PostHook( ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook )
+Hooks:PostHook(ElementSpawnCivilian, "init", "ass_init", ElementSpawnCivilian.moon_init_hook)
 
--- allow randomization of scripted spawns, even when the same element is used multiple times
+-- Allow randomization of scripted spawns, even when the same element is used multiple times
 local produce_original = ElementSpawnCivilian.produce
 function ElementSpawnCivilian:produce(params, ...)
 	if self._possible_enemies then

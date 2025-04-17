@@ -4,27 +4,27 @@ end
 
 local level_id = ASS.level_id
 
-Hooks:PreHook( MissionManager, "init", "ass_init", function(self)
-	if ElementAIGroupType then  -- beardlib custom element type
-		Hooks:PostHook( ElementAIGroupType, "on_executed", "ass_on_executed", function()
+Hooks:PreHook(MissionManager, "init", "ass_init", function(self)
+	if ElementAIGroupType then  -- BeardLib custom element type
+		Hooks:PostHook(ElementAIGroupType, "on_executed", "ass_on_executed", function()
 			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
-		end )
+		end)
 	end
-end )
+end)
 
-Hooks:PostHook( MissionManager, "call_global_event", "ass_call_global_event", function(self, event)
+Hooks:PostHook(MissionManager, "call_global_event", "ass_call_global_event", function(self, event)
 	if event == "end_assault" and tweak_data.group_ai.moon_altered_diff then
 		local state = managers.groupai:state()
 
 		state:set_difficulty(math.min(1, state._difficulty_value + 0.3))
 	end
-end )
+end)
 
-Hooks:PreHook( ElementDifficulty, "on_executed", "ass_on_executed", function(self)
+Hooks:PreHook(ElementDifficulty, "on_executed", "ass_on_executed", function(self)
 	if tweak_data.group_ai.moon_altered_diff and self._values.difficulty > 0 then
 		self._values.difficulty = 0.1
 	end
-end )
+end)
 
 local custom_element_ids = {}
 local last_id = 0
@@ -37,7 +37,6 @@ end
 
 function MissionManager:moon_generate_custom_id(editor_name)
 	local id = custom_element_ids[editor_name]
-
 	if not id then
 		id = last_id + 1
 
@@ -109,7 +108,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		end
 	end
 
-	-- if no result, things will likely go wrong anyway
+	-- If no result, things will likely go wrong anyway
 	if result then
 		return values and table.map_append(result, values) or result
 	end
@@ -118,7 +117,7 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 end
 
 local generated
-Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
+Hooks:PreHook(MissionScript, "init", "ass_init", function(self, data)
 	if not generated and data and data.name == "default" then
 		generated = true
 
@@ -132,10 +131,10 @@ Hooks:PreHook( MissionScript, "init", "ass_init", function(self, data)
 			end
 		end
 	end
-end )
+end)
 
 local merged
-Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
+Hooks:PostHook(StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
 	if not merged then
 		merged = true
 
@@ -202,7 +201,7 @@ Hooks:PostHook( StreamHeist, "mission_script_patches", "ass_mission_script_patch
 
 		return self._mission_script_patches
 	end
-end )
+end)
 
 local mission_script_patch_funcs_difficulty_original = MissionManager.mission_script_patch_funcs.difficulty
 MissionManager.mission_script_patch_funcs.difficulty = function(self, element, data)
@@ -236,8 +235,8 @@ MissionManager.mission_script_patch_funcs.on_executed = function(self, element, 
 	end
 end
 
--- CoreElementLogicChance.ElementLogicChance also needs to be handled
-Hooks:PostHook( MissionManager.mission_script_patch_funcs, "values", "ass_values", function(self, element, data)
+-- ElementLogicChance also needs to be handled
+Hooks:PostHook(MissionManager.mission_script_patch_funcs, "values", "ass_values", function(self, element, data)
 	if data.chance and element._chance then
 		element._chance = data.chance
 	end
@@ -252,7 +251,7 @@ Hooks:PostHook( MissionManager.mission_script_patch_funcs, "values", "ass_values
 			group_data.ignore_disabled = data.ignore_disabled
 		end
 	end
-end )
+end)
 
 MissionManager.mission_script_patch_funcs.on_executed_reorder = function(self, element, data)
 	element._values.on_executed_original = element._values.on_executed
@@ -278,7 +277,7 @@ end
 MissionManager.mission_script_patch_funcs.toggle = function(self, element, data)
 	StreamHeist:log("%s hooked as toggle trigger for %u element(s)", element:editor_name(), #data)
 
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_toggle_" .. element:id(), function()
+	Hooks:PostHook(element, "on_executed", "sh_on_executed_toggle_" .. element:id(), function()
 		StreamHeist:log("%s executed, toggled %u element(s)", element:editor_name(), #data)
 
 		for id, toggle_data in pairs(data) do
@@ -302,10 +301,10 @@ MissionManager.mission_script_patch_funcs.toggle = function(self, element, data)
 				end
 			end
 		end
-	end )
+	end)
 end
 
--- used for elements with lists in their values not containing tables
+-- Used for elements with lists in their values not containing tables
 MissionManager.mission_script_patch_funcs.modify_list_value = function(self, element, data)
 	for k, v in pairs(data) do
 		if type(element._values[k]) ~= "table" then
@@ -322,7 +321,7 @@ MissionManager.mission_script_patch_funcs.modify_list_value = function(self, ele
 	end
 end
 
--- used for CoreElementInstance.ElementInstanceInputEvent, core\lib\managers\mission\coreelementinstance
+-- Used for ElementInstanceInputEvent, core\lib\managers\mission\coreelementinstance
 MissionManager.mission_script_patch_funcs.event_list = function(self, element, data)
 	local event_list = element._values.event_list
 
@@ -347,7 +346,7 @@ MissionManager.mission_script_patch_funcs.event_list = function(self, element, d
 	end
 end
 
--- used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
+-- Used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
 MissionManager.mission_script_patch_funcs.so_access_filter = function(self, element, data)
 	local access_filter = tweak_data.moon.access_filters[data]
 
@@ -361,7 +360,7 @@ MissionManager.mission_script_patch_funcs.so_access_filter = function(self, elem
 	end
 end
 
--- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+-- Used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.static_spawn = function(self, element, data)
 	element.static_continent = data.continent
 	element.static_tier = data.tier
@@ -369,8 +368,8 @@ MissionManager.mission_script_patch_funcs.static_spawn = function(self, element,
 	StreamHeist:log("Set static spawn data for element %s", element:editor_name())
 end
 
--- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
--- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+-- Used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- Used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	if type(data) == "table" then
 		element._possible_enemies = data
@@ -383,23 +382,23 @@ MissionManager.mission_script_patch_funcs.enemy = function(self, element, data)
 	StreamHeist:log("Modified enemy spawn in element %s", element:editor_name())
 end
 
--- used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
--- used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
+-- Used for ElementSpawnCivilian, lib\managers\mission\elementspawncivilian
+-- Used for ElementSpawnEnemyDummy, lib\managers\mission\elementspawnenemydummy
 MissionManager.mission_script_patch_funcs.run_func_on_unit = function(self, element, data)
 	if not element.produce then
 		ASS:log("warn", "Element \"%s\" (%s) has no produce function!", element:editor_name(), element:id())
 	else
-		Hooks:PostHook( element, "produce", "sh_produce_run_func_on_unit_" .. element:id(), function()
+		Hooks:PostHook(element, "produce", "sh_produce_run_func_on_unit_" .. element:id(), function()
 			data(Hooks:GetReturn())
-		end )
+		end)
 
 		StreamHeist:log("%s hooked as run function on unit trigger", element:editor_name())
 	end
 end
 
--- referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
+-- Referenced from ElementAiGlobalEvent, lib\managers\mission\elementaiglobalevent
 MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
-	Hooks:PostHook( element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
+	Hooks:PostHook(element, "on_executed", "sh_on_executed_hunt_" .. element:id(), function()
 		local groupai_state = managers.groupai:state()
 		local hunt_mode = groupai_state._hunt_mode
 		local flag = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
@@ -420,5 +419,5 @@ MissionManager.mission_script_patch_funcs.hunt = function(self, element, data)
 				groupai_state:add_listener(key, events, clbk)
 			end
 		end
-	end )
+	end)
 end

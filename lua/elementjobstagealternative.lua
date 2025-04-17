@@ -2,7 +2,7 @@ if ASS.is_editor_or_client then
 	return
 end
 
--- disable escapes based on settings, but still allow alternate days
+-- Disable escapes based on settings, but still allow alternate days like Breaking Ballot on Election Day
 if not ASS.settings.escapes then
 	ASS:log("info", "Disabling escapes in \"ElementJobStageAlternative:on_executed\"...")
 

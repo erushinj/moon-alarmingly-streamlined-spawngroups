@@ -2,7 +2,7 @@ if ASS.is_client then
 	return
 end
 
-Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
+Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	if not self._moon_skirmish_groups then
 		local w1, w2, w3 = unpack(ASS.tweaks.skm_special_weights)
 
@@ -140,4 +140,4 @@ Hooks:PostHook( SkirmishTweakData, "init", "ass_init", function(self, tweak_data
 
 		return __index_original(t, key)
 	end
-end )
+end)

@@ -6,7 +6,7 @@ end
 local one_down = ASS.one_down
 
 local patched_sh_sss
-Hooks:PreHook( ElementSpawnEnemyDummy, "init", "ass_init", function()
+Hooks:PreHook(ElementSpawnEnemyDummy, "init", "ass_init", function()
 	if not patched_sh_sss then
 		patched_sh_sss = true
 
@@ -39,9 +39,9 @@ Hooks:PreHook( ElementSpawnEnemyDummy, "init", "ass_init", function()
 			end
 		end
 	end
-end )
+end)
 
-Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
+Hooks:PostHook(ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 	ElementSpawnCivilian.moon_init_hook(self)
 
 	if self._patched_enemy_name == nil then
@@ -54,7 +54,7 @@ Hooks:PostHook( ElementSpawnEnemyDummy, "init", "ass_init", function(self)
 			patch_funcs.enemy(managers.mission, self, units)
 		end
 	end
-end )
+end)
 
 local ids_unit = Idstring("unit")
 local produce_original = ElementSpawnEnemyDummy.produce
@@ -80,12 +80,12 @@ function ElementSpawnEnemyDummy:moon_produce_helper(params, ...)
 	return unit
 end
 
--- allow randomization of scripted spawns, even when the same element is used multiple times
+-- Allow randomization of scripted spawns, even when the same element is used multiple times
 function ElementSpawnEnemyDummy:produce(params, ...)
-	if params and params.name then  -- params.name means groupai spawn
+	if params and params.name then  -- params.name means this is a GroupAI spawn
 		params.name = tweak_data.moon.level_enemy_replacements[params.name:key()] or params.name
 
-		-- give assault-spawned cops and fbis the same access as swat
+		-- Give assault-spawned cops and FBIs the same access as SWAT
 		local unit = produce_original(self, params, ...)
 		local u_brain = alive(unit) and unit:brain()
 		local logic_data = u_brain and u_brain._logic_data
@@ -121,7 +121,7 @@ function ElementSpawnEnemyDummy:produce(params, ...)
 		return self:moon_produce_helper(params, ...)
 	end
 
-	-- static_tier = false means scripted cops/fbis can be replaced depending on level mod
+	-- If static_tier == false, mapped names (like hrt_x) typically forbidden from tier swaps can be swapped
 	local mapped_name = tweak_data.moon.enemy_mapping[name_key]
 	if not self.static_continent and self.static_tier == nil then
 		if tweak_data.moon.forbidden_scripted_replacements[mapped_name] then

@@ -3,7 +3,7 @@ if ASS.is_editor_or_client then
 end
 
 local added_new_groups
-Hooks:PreHook( ElementSpawnEnemyGroup, "init", "ass_init", function()
+Hooks:PreHook(ElementSpawnEnemyGroup, "init", "ass_init", function()
 	if not added_new_groups then
 		added_new_groups = true
 
@@ -16,8 +16,8 @@ Hooks:PreHook( ElementSpawnEnemyGroup, "init", "ass_init", function()
 			end
 		end
 
-		-- allow regular cloaker groups to spawn from manholes/vents/etc, since the cloaker task has been turned off
+		-- Allow regular Cloaker groups to spawn from manholes/vents/etc, since the Cloaker task has been turned off
 		group_mapping.single_spooc = ASS.utils.check_clone(group_mapping.FBI_spoocs, true)
 	end
-end )
+end)
 
