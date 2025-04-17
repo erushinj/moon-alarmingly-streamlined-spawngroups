@@ -49,8 +49,7 @@ function ElementSpawnCivilian:produce(params, ...)
 
 	if self.moon_needs_state then
 		local anim_set = tweak_data.moon.female_civs_map[self._enemy_name:key()] and "female" or "male"
-		local idles = ASS.utils.gen_weighted_selector(tweak_data.moon.civ_idles[anim_set])
-		local idle = idles and idles:select()
+		local idle = ASS.utils.gen_weighted_selector(tweak_data.moon.civ_idles[anim_set]):select()
 		local state = table.get_vector_index(CopActionAct._act_redirects.civilian_spawn, idle)
 
 		self._values.state = state or self._values.state

@@ -79,9 +79,6 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 				chicken_plate_spooc = special_weights_chicken_plate,
 			},
 			editor = {
-				tac_swat_shotgun_rush = { 1, 1, 1, },  -- in case of a custom map that supports these
-				tac_swat_shotgun_flank = { 1, 1, 1, },
-				tac_swat_rifle = { 1, 1, 1, },
 				tac_swat_rifle_flank = { 6, 6, 6, },
 				tac_shield_wall_ranged = { 1, 1, 1, },
 				tac_shield_wall_charge = { 1, 1, 1, },

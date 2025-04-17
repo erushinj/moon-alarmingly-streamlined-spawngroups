@@ -92,7 +92,15 @@ function GroupAITweakData:moon_swap_prefixes_in_groups(prefix)
 			prefix_data.current = wanted
 
 			for _, enemy in pairs(data.spawn) do
-				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit, wanted) or enemy.unit
+
+				if enemy.random_unit then
+					enemy.random_unit = clone(enemy.random_unit)
+
+					for i, v in pairs(enemy.random_unit) do
+						enemy.random_unit[i] = self:moon_get_equivalent_unit_category(v, wanted) or v
+					end
+				end
 			end
 		end
 	end
@@ -185,10 +193,10 @@ function GroupAITweakData:_moon_super_serious_tweaks()
 		local fbi_mapping = clone(cs_mapping)
 
 		for name, mapped in pairs(fbi_mapping) do
-			fbi_mapping[name] = self:moon_get_equivalent_unit_category(mapped) or nil
+			fbi_mapping[name] = self:moon_get_equivalent_unit_category(mapped, "FBI") or nil
 		end
 
-		unit_mapping[self:moon_get_equivalent_unit_category(unit) or false] = fbi_mapping
+		unit_mapping[self:moon_get_equivalent_unit_category(unit, "FBI") or false] = fbi_mapping
 	end
 
 	unit_mapping.medic_M4 = unit_mapping.FBI_medic_1
@@ -813,20 +821,14 @@ GroupAITweakData._moon_assault_styles.streamlined = function(self, special_weigh
 		local g = deep_clone(original_group)
 		g.moon_prefixes = { default = "CS", current = "CS", }
 
-		local unit_type, swap_unit
+		local unit_type
 		for i, enemy in table.reverse_ipairs(g.spawn) do
 			unit_type = unit_mapping[enemy.unit] or nil
 
 			if not unit_type then
 				table.remove(g.spawn, i)
 			else
-				swap_unit = self:moon_get_equivalent_unit_category(enemy.unit) or nil
-
-				if swap_unit then
-					enemy.unit = swap_unit
-				else
-					ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", enemy.unit)
-				end
+				enemy.unit = self:moon_get_equivalent_unit_category(enemy.unit, "CS") or enemy.unit
 
 				if unit_type == "heavy" then
 					enemy.amount_max = (enemy.amount_min or 0) + 1
@@ -2356,7 +2358,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 
 			for _, enemy in pairs(data.spawn) do
 				enemy.unit = vanilla_category_translations[enemy.unit] or enemy.unit
-				enemy.unit = is_cs and self:moon_get_equivalent_unit_category(enemy.unit) or enemy.unit
+				enemy.unit = is_cs and self:moon_get_equivalent_unit_category(enemy.unit, "CS") or enemy.unit
 
 				local category = self.unit_categories[enemy.unit]
 				local special_type = category and not category.is_captain and category.special_type
@@ -2519,22 +2521,27 @@ function GroupAITweakData:moon_regular_custom_group(enable)
 	end
 end
 
-function GroupAITweakData:moon_get_equivalent_unit_category(id, return_data)
+function GroupAITweakData:moon_get_equivalent_unit_category(id, wanted_prefix)
+	if not wanted_prefix then
+		ASS:log("warn", "Function moon_get_equivalent_unit_category received no wanted prefix for unit category \"%s\"!", id)
+
+		return
+	end
+
 	if not self.unit_categories[id] then
 		ASS:log("warn", "Unit category \"%s\" does not exist!", id)
 
 		return
 	end
 
-	local equivalent_id
-	if id:match("CS_") then
-		equivalent_id = id:gsub("CS_", "FBI_")
-	else
-		equivalent_id = id:gsub("FBI_", "CS_")
+	if id:begins(wanted_prefix) then
+		return id
 	end
 
+	local swap_prefix = wanted_prefix == "CS" and "FBI" or "CS"
+	local equivalent_id = id:gsub(swap_prefix, wanted_prefix)
 	if self.unit_categories[equivalent_id] then
-		return return_data and self.unit_categories[equivalent_id] or equivalent_id
+		return equivalent_id
 	end
 
 	ASS:log("warn", "No equivalent unit category found for unit category \"%s\"!", id)

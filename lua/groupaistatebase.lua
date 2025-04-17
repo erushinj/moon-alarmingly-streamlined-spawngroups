@@ -99,6 +99,13 @@ end)
 -- Cloaker task fuck off
 Hooks:OverrideFunction(GroupAIStateBase, "_process_recurring_grp_SO", function(...) end)
 
+-- local sync_event_original = GroupAIStateBase.sync_event
+-- function GroupAIStateBase:sync_event(event_id, ...)
+-- 	if self.EVENT_SYNC[event_id] ~= "cloaker_spawned" then
+-- 		return sync_event_original(self, event_id, ...)
+-- 	end
+-- end
+
 -- Sorry, the spawn noise is annoying
 -- local _process_recurring_grp_SO_original = GroupAIStateBase._process_recurring_grp_SO
 -- function GroupAIStateBase:_process_recurring_grp_SO(_, data, ...)

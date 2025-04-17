@@ -44,23 +44,26 @@ Hooks:PreHook(GroupAIStateBesiege, "_spawn_in_group", "ass__spawn_in_group", fun
 		return special_type and managers.job:current_spawn_limit(special_type) <= self:_get_special_unit_type_count(special_type)
 	end
 
+	local tactic_str, unit
 	for _, enemy in pairs(tweak_data.group_ai.enemy_spawn_groups[spawn_group_type].spawn) do
 		if enemy.random_tactics then
-			enemy.tactics = tweak_data.group_ai._tactics[table.random(enemy.random_tactics)] or enemy.tactics
+			tactic_str = ASS.utils.gen_weighted_selector(enemy.random_tactics):select()
+			enemy.tactics = tweak_data.group_ai._tactics[tactic_str] or enemy.tactics
 		end
 
 		if enemy.random_unit then
-			enemy.unit = table.random(enemy.random_unit)
-
-			if check_special_limit_reached(enemy.unit) then
-				for _, unit in pairs(enemy.random_unit) do
-					if unit ~= enemy.unit and not check_special_limit_reached(unit) then
-						enemy.unit = unit
-
+			unit = ASS.utils.gen_weighted_selector(enemy.random_unit):select()
+			if check_special_limit_reached(unit) then
+				local u
+				for k, v in pairs(enemy.random_unit) do
+					u = type(k) == "number" and v or k
+					if u ~= unit and not check_special_limit_reached(u) then
+						unit = u
 						break
 					end
 				end
 			end
+			enemy.unit = unit or enemy.unit
 		end
 	end
 end)
