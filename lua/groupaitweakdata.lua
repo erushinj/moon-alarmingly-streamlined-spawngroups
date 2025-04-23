@@ -2327,7 +2327,7 @@ function GroupAITweakData:_moon_init_enemy_spawn_groups()
 	end
 	-- Swap vanilla units in all pre-existing groups to ASS's naming scheme
 	local is_cs
-	local ignore_groups = table.set("Phalanx", "snowman_boss", "piggydozer")
+	local ignore_groups = table.set("snowman_boss", "piggydozer")
 	local vanilla_category_translations = self.tweak_data.moon.vanilla_category_translations
 	for id, data in pairs(self.enemy_spawn_groups) do
 		if not ignore_groups[id] then

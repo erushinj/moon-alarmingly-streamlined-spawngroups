@@ -447,7 +447,7 @@ function MissionManager.mission_script_patch_funcs.grenade(self, element, data)
 		local id = groupai_state._smoke_grenades and #groupai_state._smoke_grenades or 0
 		local pos, duration
 		for _, v in pairs(data) do
-			id = smoke_id + 1
+			id = id + 1
 			pos = v.position or element:value("position")
 			duration = v.duration or tweak_data.group_ai.smoke_grenade_lifetime
 

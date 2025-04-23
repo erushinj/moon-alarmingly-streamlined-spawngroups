@@ -23,7 +23,7 @@ function utils.try_insert(v, e)
 end
 
 -- clone/deep_clone, with check that v is a table
-function utils.check_clone(v, e)
+function utils.check_clone(v, shallow)
 	if type(v) == "table" then
 		return shallow and clone(v) or deep_clone(v)
 	end
