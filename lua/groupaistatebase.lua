@@ -23,6 +23,7 @@ function GroupAIStateBase:moon_get_scripted_tier()
 	if last_tiers then
 		return last_tiers[get_prefix("scripted", self._difficulty_value)] or last_tiers.CS
 	end
+	return "normal"
 end
 
 local set_difficulty_original = GroupAIStateBase.set_difficulty
