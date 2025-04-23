@@ -157,4 +157,10 @@ function utils.set_difficulty_groups(group)
 	}
 end
 
+function utils.get_script_patch_path(typ)
+	local path = string.format("req/%s_script/%s", tostring(typ), tostring(ASS.clean_level_id))
+	local full_path = ASS.path .. path .. ".lua"
+	return io.file_is_readable(full_path) and path or false
+end
+
 return utils

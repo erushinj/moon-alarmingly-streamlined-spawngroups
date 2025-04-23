@@ -2,7 +2,8 @@ if ASS.is_editor_or_client then
 	return
 end
 
-local instance_script_patches = ASS:script_patches("instance")
+local instance_script_patch_path = ASS.utils.get_script_patch_path("instance")
+local instance_script_patches = instance_script_patch_path and ASS:require(instance_script_patch_path)
 if not instance_script_patches then
 	return
 end

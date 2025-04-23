@@ -5,7 +5,8 @@ end
 local level_id = ASS.level_id
 
 Hooks:PreHook(MissionManager, "init", "ass_init", function(self)
-	if ElementAIGroupType then  -- BeardLib custom element type
+	-- BeardLib custom element type
+	if ElementAIGroupType then
 		Hooks:PostHook(ElementAIGroupType, "on_executed", "ass_on_executed", function()
 			tweak_data.group_ai:moon_swap_units(tweak_data.group_ai.moon_last_tiers)
 		end)
@@ -14,9 +15,8 @@ end)
 
 Hooks:PostHook(MissionManager, "call_global_event", "ass_call_global_event", function(self, event)
 	if event == "end_assault" and tweak_data.group_ai.moon_altered_diff then
-		local state = managers.groupai:state()
-
-		state:set_difficulty(math.min(1, state._difficulty_value + 0.3))
+		local groupai_state = managers.groupai:state()
+		groupai_state:set_difficulty(math.min(1, groupai_state._difficulty_value + 0.3))
 	end
 end)
 
@@ -39,7 +39,6 @@ function MissionManager:moon_generate_custom_id(editor_name)
 	local id = custom_element_ids[editor_name]
 	if not id then
 		id = last_id + 1
-
 		while self:get_element_by_id(id) do
 			id = id + 1
 		end
@@ -52,14 +51,12 @@ function MissionManager:moon_generate_custom_id(editor_name)
 end
 
 function MissionManager:moon_generate_preset_values(to_split, values)
-	local params_list = to_split:split("|")
+	local params_list = string.split(to_split, "|")
 	local params = table.map_keys(params_list)
 	local typ, preset = params_list[1], params_list[2]
 	local result
-
 	if typ == "SO" then
 		local access = params_list[3]
-
 		if preset == "sniper" then
 			result = {
 				so_action = "AI_sniper",
@@ -95,7 +92,6 @@ function MissionManager:moon_generate_preset_values(to_split, values)
 		end
 	elseif typ == "filter" then
 		result = ASS.utils.set_difficulty_groups(preset)
-
 		if result then
 			table.map_append(result, {
 				player_1 = not params.no_p1,
@@ -118,89 +114,86 @@ end
 
 local generated
 Hooks:PreHook(MissionScript, "init", "ass_init", function(self, data)
-	if not generated and data and data.name == "default" then
-		generated = true
+	if generated or not data or data.name ~= "default" then
+		return
+	end
 
-		local try_generate_elements = ASS:require("req/try_generate_elements")
-		local new_elements = try_generate_elements and try_generate_elements()
-		if new_elements then
-			ASS:log("info", "Current level has custom script patches...")
-
-			for element in pairs(new_elements) do
-				table.insert(data.elements, element)
-			end
+	generated = true
+	local try_generate_elements = ASS:require("req/try_generate_elements")
+	local new_elements = try_generate_elements and try_generate_elements()
+	if new_elements then
+		ASS:log("info", "Current level has custom script patches...")
+		for element in pairs(new_elements) do
+			table.insert(data.elements, element)
 		end
 	end
 end)
 
 local merged
 Hooks:PostHook(StreamHeist, "mission_script_patches", "ass_mission_script_patches", function(self)
-	if not merged then
-		merged = true
+	if merged then
+		return
+	end
+
+	merged = true
+	if not self._mission_script_patches then
+		local remap = {
+			branchbank_russia = "branchbank",
+		}
+		if remap[level_id] then
+			self._mission_script_patches = self:require("mission_script/" .. remap[level_id]) or false
+		end
+	end
+
+	local ass_mission_script_patch_path = ASS.utils.get_script_patch_path("mission")
+	local ass_mission_script_patches = ass_mission_script_patch_path and ASS:require(ass_mission_script_patch_path)
+	if ass_mission_script_patches then
+		ASS:log("info", "Current level has mission script patches...")
 
 		if not self._mission_script_patches then
-			local remap = ({
-				branchbank_russia = "branchbank",
-			})[level_id]
+			self._mission_script_patches = ass_mission_script_patches
+		else
+			local function merge_patches(base_patch, to_merge)
+				for id, data in pairs(to_merge) do
+					if type(base_patch[id]) == "table" and type(data) == "table" then
+						if base_patch == self._mission_script_patches then
+							base_patch[id] = deep_clone(base_patch[id])
+						end
 
-			if remap then
-				self._mission_script_patches = self:require("mission_script/" .. remap) or false
-			end
-		end
-
-		local ass_mission_script_patches = ASS:script_patches("mission")
-		if ass_mission_script_patches then
-			ASS:log("info", "Current level has mission script patches...")
-
-			if not self._mission_script_patches then
-				self._mission_script_patches = ass_mission_script_patches
-			else
-				local function merge_patches(base_patch, to_merge)
-					for id, data in pairs(to_merge) do
-						if type(base_patch[id]) == "table" and type(data) == "table" then
-							if base_patch == self._mission_script_patches then
-								base_patch[id] = deep_clone(base_patch[id])
-							end
-
-							if base_patch[id][1] then
-								for _, v in pairs(data) do
-									table.insert(base_patch[id], v)
-								end
-							else
-								merge_patches(base_patch[id], data)
+						if base_patch[id][1] then
+							for _, v in pairs(data) do
+								table.insert(base_patch[id], v)
 							end
 						else
-							base_patch[id] = data
+							merge_patches(base_patch[id], data)
 						end
-					end
-				end
-
-				merge_patches(self._mission_script_patches, ass_mission_script_patches)
-			end
-		end
-
-		if self._mission_script_patches then
-			local spawn_group_mapping = tweak_data.moon.spawn_group_mapping
-
-			for _, data in pairs(self._mission_script_patches) do
-				local groups = data.groups
-
-				if groups then
-					for name, enabled in pairs(groups) do
-						local mapped = spawn_group_mapping[name]
-
-						if mapped then
-							for _, v in pairs(mapped) do
-								groups[v] = enabled
-							end
-						end
+					else
+						base_patch[id] = data
 					end
 				end
 			end
+			merge_patches(self._mission_script_patches, ass_mission_script_patches)
 		end
-
-		return self._mission_script_patches
 	end
+
+	if self._mission_script_patches then
+		local spawn_group_mapping = tweak_data.moon.spawn_group_mapping
+		for _, data in pairs(self._mission_script_patches) do
+			local groups = data.groups
+			if groups then
+				for name, enabled in pairs(groups) do
+					local mapped = spawn_group_mapping[name]
+					if mapped then
+						for _, v in pairs(mapped) do
+							groups[v] = enabled
+						end
+					end
+				end
+			end
+		end
+	end
+
+	return self._mission_script_patches
 end)
 
 local mission_script_patch_funcs_difficulty_original = MissionManager.mission_script_patch_funcs.difficulty
@@ -216,13 +209,11 @@ function MissionManager.mission_script_patch_funcs.on_executed(self, element, da
 	for i, v in table.reverse_ipairs(data) do
 		if v.name then
 			local generated_id = custom_element_ids[v.name]
-
 			if generated_id then
 				v.id = generated_id
 				v.name = nil
 			else
 				ASS:log("warn", "No ID for custom element \"%s\" in on_executed patch on \"%s\" (%s)!", v.name, element:editor_name(), element:id())
-
 				table.remove(data, i)
 			end
 		end
@@ -246,7 +237,6 @@ Hooks:PostHook(MissionManager.mission_script_patch_funcs, "values", "ass_values"
 	if group_data then
 		group_data.amount = data.amount or group_data.amount
 		group_data.spawn_type = data.spawn_type or group_data.spawn_type
-
 		if data.ignore_disabled ~= nil then
 			group_data.ignore_disabled = data.ignore_disabled
 		end
@@ -256,7 +246,6 @@ end)
 function MissionManager.mission_script_patch_funcs.on_executed_reorder(self, element, data)
 	element._values.on_executed_original = element._values.on_executed
 	element._values.on_executed = {}
-
 	for _, id in ipairs(data) do
 		for _, v in ipairs(element._values.on_executed_original) do
 			if v.id == id then
@@ -282,16 +271,13 @@ function MissionManager.mission_script_patch_funcs.toggle(self, element, data)
 
 		for id, toggle_data in pairs(data) do
 			local elmt = element:get_mission_element(id)
-
 			if elmt then
 				local enabled = toggle_data.enabled
 				local trigger_times = toggle_data.trigger_times
-
 				if enabled ~= nil then
 					if enabled == "toggle" then
 						enabled = not elmt:value("enabled")
 					end
-
 					elmt:set_enabled(enabled)
 					elmt:on_toggle(elmt:value("enabled"))
 				end
@@ -332,7 +318,6 @@ function MissionManager.mission_script_patch_funcs.event_list(self, element, dat
 
 		for instance, event in pairs(data) do
 			local val, i = table.find_value(event_list, function(val) return val.instance == instance end)
-
 			if event then
 				if val then
 					val.event = event
@@ -349,7 +334,6 @@ end
 -- Used for ElementSpecialObjective, lib\managers\mission\elementspecialobjective
 function MissionManager.mission_script_patch_funcs.so_access_filter(self, element, data)
 	local access_filter = tweak_data.moon.access_filters[data]
-
 	if not access_filter then  -- dont point fingers at sh if i fuck up
 		ASS:log("warn", "Invalid SO access filter preset \"%s\" for element \"%s\" (%s)!", data, element:editor_name(), element:id())
 	else
@@ -420,7 +404,6 @@ function MissionManager.mission_script_patch_funcs.hunt(self, element, data)
 		local flag = (data and not hunt_mode and "hunt") or (hunt_mode and not data and "besiege") or nil
 		if flag then
 			StreamHeist:log("%s executed, setting wave mode to %s", element:editor_name(), flag)
-
 			if groupai_state:enemy_weapons_hot() then
 				groupai_state:set_wave_mode(flag)
 			else
@@ -430,7 +413,6 @@ function MissionManager.mission_script_patch_funcs.hunt(self, element, data)
 					groupai_state:set_wave_mode(flag)
 					groupai_state:remove_listener(key)
 				end
-
 				groupai_state:add_listener(key, events, clbk)
 			end
 		end
@@ -450,7 +432,6 @@ function MissionManager.mission_script_patch_funcs.grenade(self, element, data)
 			id = id + 1
 			pos = v.position or element:value("position")
 			duration = v.duration or tweak_data.group_ai.smoke_grenade_lifetime
-
 			groupai_state:queue_smoke_grenade(id, pos, nil, duration, true, v.flashbang)
 			if v.immediate and (assault_mode or v.ignore_control) then
 				groupai_state:detonate_world_smoke_grenade(id)

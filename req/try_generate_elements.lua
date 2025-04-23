@@ -1,4 +1,5 @@
-local custom_script = ASS:script_patches("custom")
+local custom_script_path = ASS.utils.get_script_patch_path("custom")
+local custom_script = custom_script_path and ASS:require(custom_script_path)
 if not custom_script then
 	return
 end

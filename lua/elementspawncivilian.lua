@@ -1,5 +1,5 @@
 -- Don't replace spawns on custom enemy spawner map
-if ASS.is_spawner then
+if ASS.is_editor_or_client or ASS.is_spawner then
 	return
 end
 

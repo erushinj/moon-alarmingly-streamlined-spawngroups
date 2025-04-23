@@ -3,7 +3,7 @@ if ASS.is_client then
 end
 
 function SkirmishTweakData:_moon_init_skirmish_groups()
-	local w1, w2, w3 = unpack(ASS.tweaks.skm_special_weights)
+	local w1, w2, w3 = unpack(ASS.skill_level_tweaks.skm_special_weights)
 
 	local skm_special_weights = { w1, w2, w3, }
 
@@ -94,11 +94,11 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 
 	for _, wave_limits in ipairs(self.special_unit_spawn_limits) do
 		for special, limit in pairs(wave_limits) do
-			wave_limits[special] = math.ceil(limit * ASS.tweaks.special_limit_mul)
+			wave_limits[special] = math.ceil(limit * ASS.skill_level_tweaks.special_limit_mul)
 		end
 	end
 
-	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * ASS.tweaks.force_pool_mul end)
+	tweak_data.group_ai.skirmish.assault.force_pool = table.collect(tweak_data.group_ai.skirmish.assault.force_pool, function(val) return val * ASS.skill_level_tweaks.force_pool_mul end)
 
 	local skm_groups = self._moon_skirmish_groups[tweak_data.group_ai.moon_assault_style] or self._moon_skirmish_groups.default
 	for i = 1, #self.assault.groups do
@@ -129,7 +129,7 @@ Hooks:PostHook(SkirmishTweakData, "init", "ass_init", function(self, tweak_data)
 	local __index_original = skirmish_assault_meta.__index
 	function skirmish_assault_meta.__index(t, key)
 		if key == "sustain_duration_min" or key == "sustain_duration_max" then
-			local sustain_duration_mul = ASS.utils.lerp(math.random(), unpack(ASS.tweaks.sustain_duration_muls))
+			local sustain_duration_mul = ASS.utils.lerp(math.random(), unpack(ASS.skill_level_tweaks.sustain_duration_muls))
 			local sustain_duration = (60 + 7.5 * (managers.skirmish:current_wave_number() - 1)) * sustain_duration_mul
 			return { sustain_duration, sustain_duration, sustain_duration, }
 		end
